@@ -1,5 +1,6 @@
 {
   "expo": {
+    "owner": "tehidea",
     "name": "body-fat-calculator",
     "slug": "body-fat-calculator",
     "version": "1.0.0",
@@ -23,6 +24,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9f81ba56-4efb-41b5-8cb7-a310221df724"
+      }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }

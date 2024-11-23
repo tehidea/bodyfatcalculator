@@ -1,0 +1,58 @@
+import React from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Text } from "@rneui/themed";
+import { useCalculatorStore } from "../../store/calculatorStore";
+import { MeasurementSystem } from "../../types/calculator";
+import { COLORS } from "../../constants/theme";
+
+export const MeasurementSelector = () => {
+  const { measurementSystem, setMeasurementSystem } = useCalculatorStore();
+
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={[styles.toggle, measurementSystem === "metric" && styles.activeToggle]}
+        onPress={() => setMeasurementSystem("metric")}
+      >
+        <Text style={[styles.text, measurementSystem === "metric" && styles.activeText]}>
+          kg/cm
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.toggle, measurementSystem === "imperial" && styles.activeToggle]}
+        onPress={() => setMeasurementSystem("imperial")}
+      >
+        <Text style={[styles.text, measurementSystem === "imperial" && styles.activeText]}>
+          lb/in
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    backgroundColor: "#444",
+    borderRadius: 10,
+    padding: 2,
+    alignSelf: "center",
+    marginBottom: 16,
+  },
+  toggle: {
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+    borderRadius: 10,
+  },
+  activeToggle: {
+    backgroundColor: COLORS.primary,
+  },
+  text: {
+    color: "#fff",
+    fontSize: 14,
+  },
+  activeText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+});

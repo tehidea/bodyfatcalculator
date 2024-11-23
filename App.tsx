@@ -1,20 +1,61 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { ThemeProvider, createTheme } from "@rneui/themed";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+import { CalculatorScreen } from "./src/screens/CalculatorScreen";
+import { COLORS } from "./src/constants/theme";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+SplashScreen.preventAutoHideAsync();
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+const Stack = createNativeStackNavigator();
+
+const theme = createTheme({
+  components: {
+    Button: {
+      // raised: true,
+      color: COLORS.primary,
+    },
+  },
+  lightColors: {
+    primary: COLORS.primary,
+  },
+  darkColors: {
+    primary: COLORS.primary,
   },
 });
+
+export default function App() {
+  const [loaded, error] = useFonts({
+    "Montserrat-ExtraLight": require("./assets/fonts/Montserrat-ExtraLight.ttf"),
+    "Montserrat-Light": require("./assets/fonts/Montserrat-Light.ttf"),
+  });
+
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+
+  if (!loaded && !error) {
+    return null;
+  }
+
+  return (
+    <SafeAreaProvider>
+      <ThemeProvider theme={theme}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Calculator"
+              component={CalculatorScreen}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ThemeProvider>
+    </SafeAreaProvider>
+  );
+}
