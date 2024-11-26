@@ -1,12 +1,14 @@
 import { Gender, CalculatorInputs, Formula } from "../types/calculator";
 import { useMemo } from "react";
 
-export const convertToImperial = (value: number, unit: "kg" | "cm"): number => {
+export const convertToImperial = (value: number, unit: "kg" | "cm" | "mm"): number => {
   switch (unit) {
     case "kg":
       return value * 2.20462; // to pounds
     case "cm":
       return value * 0.393701; // to inches
+    case "mm":
+      return value * 0.0393701; // to inches (mm to inches)
     default:
       return value;
   }
@@ -33,7 +35,8 @@ function calculateBodyDensity(sumOfSkinfolds: number, age: number, gender: Gende
 export const calculateBodyFat = (
   formula: Formula,
   gender: Gender,
-  inputs: CalculatorInputs
+  inputs: CalculatorInputs,
+  measurementSystem: MeasurementSystem
 ): number => {
   const {
     age = 0,
@@ -59,12 +62,17 @@ export const calculateBodyFat = (
     originalNeckCircumference = neckCircumference,
   } = inputs;
 
-  // Convert measurements to imperial
-  const weightLbs = convertToImperial(weight, "kg");
-  const waistInch = convertToImperial(waistCircumference, "cm");
-  const hipsInch = convertToImperial(hipsCircumference, "cm");
-  const heightInch = convertToImperial(height, "cm");
-  const neckInch = convertToImperial(neckCircumference, "cm");
+  // Only convert if we're in metric system
+  const weightLbs = measurementSystem === "metric" ? convertToImperial(weight, "kg") : weight;
+  const waistInch =
+    measurementSystem === "metric"
+      ? convertToImperial(waistCircumference, "cm")
+      : waistCircumference;
+  const hipsInch =
+    measurementSystem === "metric" ? convertToImperial(hipsCircumference, "cm") : hipsCircumference;
+  const heightInch = measurementSystem === "metric" ? convertToImperial(height, "cm") : height;
+  const neckInch =
+    measurementSystem === "metric" ? convertToImperial(neckCircumference, "cm") : neckCircumference;
 
   switch (formula) {
     case "ymca": {

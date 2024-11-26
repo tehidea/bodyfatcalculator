@@ -1,7 +1,11 @@
-import { calculateBodyFat, getClassification } from "../utils/calculations";
+import { calculateBodyFat, convertToImperial, getClassification } from "../utils/calculations";
 import { Formula, Gender, CalculatorInputs } from "../types/calculator";
 
 describe("Body Fat Calculator Formulas", () => {
+  const defaultParams = {
+    measurementSystem: "metric" as const,
+  };
+
   // YMCA Formula Tests
   describe("YMCA Formula", () => {
     const formula: Formula = "ymca";
@@ -12,7 +16,7 @@ describe("Body Fat Calculator Formulas", () => {
         waistCircumference: 85, // cm
       };
 
-      const result = calculateBodyFat(formula, "male", inputs);
+      const result = calculateBodyFat(formula, "male", inputs, defaultParams.measurementSystem);
       expect(result).toBeCloseTo(14.74, 0.01);
     });
 
@@ -22,7 +26,7 @@ describe("Body Fat Calculator Formulas", () => {
         waistCircumference: 75, // cm
       };
 
-      const result = calculateBodyFat(formula, "female", inputs);
+      const result = calculateBodyFat(formula, "female", inputs, defaultParams.measurementSystem);
       expect(result).toBeCloseTo(26.41, 0.01);
     });
   });
@@ -37,7 +41,7 @@ describe("Body Fat Calculator Formulas", () => {
         waistCircumference: 85, // cm
       };
 
-      const result = calculateBodyFat(formula, "male", inputs);
+      const result = calculateBodyFat(formula, "male", inputs, defaultParams.measurementSystem);
       expect(result).toBeCloseTo(17.01, 0.01);
     });
 
@@ -50,28 +54,29 @@ describe("Body Fat Calculator Formulas", () => {
         hipsCircumference: 90, // cm
       };
 
-      const result = calculateBodyFat(formula, "female", inputs);
+      const result = calculateBodyFat(formula, "female", inputs, defaultParams.measurementSystem);
       expect(result).toBeCloseTo(25.68, 0.01);
     });
   });
 
   // Unit Conversion Tests
   describe("Unit Conversions", () => {
-    test("converts measurements correctly between systems", () => {
-      const metricInputs: CalculatorInputs = {
-        weight: 80, // kg
-        height: 178, // cm
-        waistCircumference: 85, // cm
-      };
+    test("converts measurements correctly", () => {
+      // Test kg to lbs
+      expect(convertToImperial(1, "kg")).toBeCloseTo(2.20462, 5);
 
-      const imperialInputs: CalculatorInputs = {
-        weight: 176.37, // lbs
-        height: 70.08, // inches
-        waistCircumference: 33.46, // inches
-      };
+      // Test cm to inches
+      expect(convertToImperial(1, "cm")).toBeCloseTo(0.393701, 5);
 
-      // Reference the store conversion function
-      // See src/store/calculatorStore.ts lines 27-54
+      // Test mm to inches
+      expect(convertToImperial(1, "mm")).toBeCloseTo(0.0393701, 5);
+
+      // Ensure that the conversion from mm to inches is consistent with cm to inches
+      expect(convertToImperial(10, "mm")).toBeCloseTo(convertToImperial(1, "cm"), 5);
+
+      // Test multiple values
+      expect(convertToImperial(10, "mm")).toBeCloseTo(0.393701, 5);
+      expect(convertToImperial(100, "kg")).toBeCloseTo(220.462, 3);
     });
   });
 

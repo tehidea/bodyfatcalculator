@@ -26,6 +26,7 @@ export const CalculatorScreen = () => {
     setResults,
     setError,
     reset,
+    measurementSystem,
   } = useCalculatorStore();
 
   // Local state for field-specific errors
@@ -59,7 +60,7 @@ export const CalculatorScreen = () => {
       }
 
       // Calculate results
-      const bodyFat = calculateBodyFat(formula, gender, inputs);
+      const bodyFat = calculateBodyFat(formula, gender, inputs, measurementSystem);
       const classification = getClassification(bodyFat, gender);
       const fatMass = (inputs.weight || 0) * (bodyFat / 100);
       const leanMass = (inputs.weight || 0) - fatMass;
