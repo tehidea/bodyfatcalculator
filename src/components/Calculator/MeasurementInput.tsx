@@ -28,13 +28,6 @@ export const MeasurementInput: React.FC<Props> = ({ field, error }) => {
       if (text.match(/^\d*\.?\d*$/)) {
         const numValue = parseFloat(text);
 
-        // Store original values for specific circumference measurements
-        if (["weight", "abdomenCircumference", "neckCircumference"].includes(field.key)) {
-          const originalKey =
-            `original${field.key.charAt(0).toUpperCase() + field.key.slice(1)}` as keyof CalculatorInputs;
-          setInput(originalKey, numValue);
-        }
-
         setInput(field.key, numValue);
       }
     },
