@@ -1,4 +1,4 @@
-import { CalculatorInputs, Formula } from "../types/calculator";
+import { Formula, CalculatorInputs } from "../types/calculator";
 import { FORMULA_REQUIREMENTS } from "../constants/formulas";
 
 export interface ValidationError {
@@ -13,7 +13,8 @@ export const validateInputs = (formula: Formula, inputs: CalculatorInputs): Vali
   requirements.fields.forEach(field => {
     const value = inputs[field.key];
 
-    if (field.required && (value === undefined || value === null)) {
+    // Required field validation
+    if (field.required && (value === undefined || value === null || isNaN(value))) {
       errors.push({
         field: field.key,
         message: `${field.label} is required`,
@@ -21,6 +22,7 @@ export const validateInputs = (formula: Formula, inputs: CalculatorInputs): Vali
       return;
     }
 
+    // Range validation for numeric values
     if (value !== undefined && value !== null) {
       switch (field.unit) {
         case "kg":

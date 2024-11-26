@@ -100,13 +100,17 @@ export const CalculatorScreen = () => {
           <View style={styles.selectors}>
             <FormulaSelector />
             <View style={styles.selectorRow}>
-              <GenderSelector style={styles.halfWidth} />
-              <MeasurementSelector style={styles.halfWidth} />
+              <GenderSelector />
+              <MeasurementSelector />
             </View>
           </View>
 
           {formulaFields.map(field => (
-            <MeasurementInput key={field.key} field={field} error={getFieldError(field.key)} />
+            <MeasurementInput
+              key={field.key}
+              field={field}
+              error={getFieldError(field.key) ?? ""}
+            />
           ))}
 
           <View style={styles.buttonRow}>

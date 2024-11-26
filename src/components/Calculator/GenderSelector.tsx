@@ -1,24 +1,33 @@
-import React from "react";
+import React, { StyleProp, ViewStyle } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Text } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { Gender } from "../../types/calculator";
 import { COLORS } from "../../constants/theme";
 
-export const GenderSelector = () => {
-  const { gender, setGender } = useCalculatorStore();
+interface GenderSelectorProps {
+  style?: ViewStyle;
+}
+
+export const GenderSelector = ({ style }: GenderSelectorProps) => {
+  const { gender, setGender, calculate } = useCalculatorStore();
+
+  const handleGenderChange = (newGender: Gender) => {
+    setGender(newGender);
+    calculate(); // Trigger calculation after gender change
+  };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <TouchableOpacity
         style={[styles.toggle, gender === "male" && styles.activeToggle]}
-        onPress={() => setGender("male")}
+        onPress={() => handleGenderChange("male")}
       >
         <Text style={[styles.text, gender === "male" && styles.activeText]}>♂️ Male</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.toggle, gender === "female" && styles.activeToggle]}
-        onPress={() => setGender("female")}
+        onPress={() => handleGenderChange("female")}
       >
         <Text style={[styles.text, gender === "female" && styles.activeText]}>♀️ Female</Text>
       </TouchableOpacity>

@@ -9,6 +9,7 @@ import {
   CalculatorResults,
 } from "../types/calculator";
 import { FORMULA_REQUIREMENTS } from "../constants/formulas";
+import { validateInputs } from "../utils/validation";
 
 interface CalculatorState {
   formula: Formula;

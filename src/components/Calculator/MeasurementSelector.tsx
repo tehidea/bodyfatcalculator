@@ -1,15 +1,19 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 import { Text } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { MeasurementSystem } from "../../types/calculator";
 import { COLORS } from "../../constants/theme";
 
-export const MeasurementSelector = () => {
+interface MeasurementSelectorProps {
+  style?: ViewStyle;
+}
+
+export const MeasurementSelector: React.FC<MeasurementSelectorProps> = ({ style, ...props }) => {
   const { measurementSystem, setMeasurementSystem } = useCalculatorStore();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <TouchableOpacity
         style={[styles.toggle, measurementSystem === "metric" && styles.activeToggle]}
         onPress={() => setMeasurementSystem("metric")}
