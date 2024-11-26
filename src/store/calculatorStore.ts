@@ -47,6 +47,8 @@ const convertValue = (
     switch (unit) {
       case "kg":
         return Number((value * 2.20462).toFixed(2));
+      case "cm":
+        return Number((value * 0.393701).toFixed(2));
       case "mm":
         return Number((value * 0.0393701).toFixed(2));
       default:
@@ -56,6 +58,8 @@ const convertValue = (
     switch (unit) {
       case "kg":
         return Number((value / 2.20462).toFixed(2));
+      case "cm":
+        return Number((value / 0.393701).toFixed(2));
       case "mm":
         return Number((value / 0.0393701).toFixed(2));
       default:
