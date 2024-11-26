@@ -10,13 +10,18 @@ interface MeasurementSelectorProps {
 }
 
 export const MeasurementSelector: React.FC<MeasurementSelectorProps> = ({ style, ...props }) => {
-  const { measurementSystem, setMeasurementSystem } = useCalculatorStore();
+  const { measurementSystem, setMeasurementSystem, setResults } = useCalculatorStore();
+
+  const handleSystemChange = (newSystem: MeasurementSystem) => {
+    setMeasurementSystem(newSystem);
+    setResults(null);
+  };
 
   return (
     <View style={[styles.container, style]}>
       <TouchableOpacity
         style={[styles.toggle, measurementSystem === "metric" && styles.activeToggle]}
-        onPress={() => setMeasurementSystem("metric")}
+        onPress={() => handleSystemChange("metric")}
       >
         <Text style={[styles.text, measurementSystem === "metric" && styles.activeText]}>
           kg/cm
@@ -24,7 +29,7 @@ export const MeasurementSelector: React.FC<MeasurementSelectorProps> = ({ style,
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.toggle, measurementSystem === "imperial" && styles.activeToggle]}
-        onPress={() => setMeasurementSystem("imperial")}
+        onPress={() => handleSystemChange("imperial")}
       >
         <Text style={[styles.text, measurementSystem === "imperial" && styles.activeText]}>
           lb/in

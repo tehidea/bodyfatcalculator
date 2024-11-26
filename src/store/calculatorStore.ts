@@ -20,6 +20,7 @@ interface CalculatorState {
   results: CalculatorResults | null;
   error: string | null;
   isCalculating: boolean;
+  isResultsStale: boolean;
 }
 
 interface CalculatorActions {
@@ -31,6 +32,7 @@ interface CalculatorActions {
   setError: (error: string | null) => void;
   calculate: () => Promise<void>;
   reset: () => void;
+  setResultsStale: (isStale: boolean) => void;
 }
 
 const convertValue = (
@@ -72,9 +74,10 @@ export const useCalculatorStore = create<CalculatorState & CalculatorActions>()(
       results: null,
       isCalculating: false,
       error: null,
+      isResultsStale: false,
       _hasHydrated: false,
-      setFormula: formula => set({ formula }),
-      setGender: gender => set({ gender }),
+      setFormula: formula => set({ formula, results: null, isResultsStale: false }),
+      setGender: gender => set({ gender, results: null, isResultsStale: false }),
       setMeasurementSystem: newSystem => {
         const { measurementSystem: oldSystem, inputs } = get();
         const { fields } = FORMULA_REQUIREMENTS[get().formula];
@@ -95,14 +98,16 @@ export const useCalculatorStore = create<CalculatorState & CalculatorActions>()(
         set({
           measurementSystem: newSystem,
           inputs: convertedInputs,
-          results: null, // Clear results when changing system
+          results: null,
+          isResultsStale: true,
         });
       },
       setInput: (key, value) =>
         set(state => ({
           inputs: { ...state.inputs, [key]: value },
+          isResultsStale: true,
         })),
-      setResults: results => set({ results }),
+      setResults: results => set({ results, isResultsStale: false }),
       setError: error => set({ error }),
       calculate: async () => {
         const { formula, gender, inputs } = get();
@@ -144,8 +149,10 @@ export const useCalculatorStore = create<CalculatorState & CalculatorActions>()(
           inputs: {},
           results: null,
           error: null,
+          isResultsStale: false,
         }),
       setHasHydrated: (state: boolean) => set({ _hasHydrated: state }),
+      setResultsStale: isStale => set({ isResultsStale: isStale }),
     }),
     {
       name: "calculator-storage",

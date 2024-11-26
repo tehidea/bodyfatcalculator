@@ -10,11 +10,11 @@ interface GenderSelectorProps {
 }
 
 export const GenderSelector = ({ style }: GenderSelectorProps) => {
-  const { gender, setGender, calculate } = useCalculatorStore();
+  const { gender, setGender, setResults } = useCalculatorStore();
 
   const handleGenderChange = (newGender: Gender) => {
     setGender(newGender);
-    calculate(); // Trigger calculation after gender change
+    setResults(null); // Clear results instead of calculating
   };
 
   return (

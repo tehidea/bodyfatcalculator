@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Text, Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -21,6 +21,8 @@ export const CalculatorScreen = () => {
     inputs,
     error: globalError,
     isCalculating,
+    isResultsStale,
+    results,
     setResults,
     setError,
     reset,
@@ -79,6 +81,12 @@ export const CalculatorScreen = () => {
     reset();
   };
 
+  const buttonTitle = useMemo(() => {
+    if (isCalculating) return "Calculating...";
+    if (results && isResultsStale) return "Recalculate";
+    return "Calculate";
+  }, [isCalculating, results, isResultsStale]);
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
@@ -115,7 +123,7 @@ export const CalculatorScreen = () => {
 
           <View style={styles.buttonRow}>
             <Button
-              title={isCalculating ? "Calculating..." : "Calculate"}
+              title={buttonTitle}
               onPress={handleCalculate}
               disabled={isCalculating}
               loading={isCalculating}

@@ -16,22 +16,23 @@ interface Props {
 }
 
 export const MeasurementInput: React.FC<Props> = ({ field, error }) => {
-  const { inputs, setInput, measurementSystem } = useCalculatorStore();
+  const { inputs, setInput, measurementSystem, setResults } = useCalculatorStore();
 
   const handleChange = useCallback(
     (text: string) => {
       if (text === "") {
         setInput(field.key, undefined);
+        setResults(null);
         return;
       }
 
       if (text.match(/^\d*\.?\d*$/)) {
         const numValue = parseFloat(text);
-
         setInput(field.key, numValue);
+        setResults(null);
       }
     },
-    [setInput, field.key]
+    [setInput, setResults, field.key]
   );
 
   const displayUnit = getUnitLabel(field.unit, measurementSystem);

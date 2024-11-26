@@ -6,9 +6,9 @@ import { getUnitLabel } from "../../constants/formulas";
 import { COLORS } from "../../constants/theme";
 
 export const ResultsDisplay = () => {
-  const { results, measurementSystem } = useCalculatorStore();
+  const { results, measurementSystem, isResultsStale } = useCalculatorStore();
 
-  if (!results) return null;
+  if (!results || isResultsStale) return null;
 
   const weightUnit = getUnitLabel("kg", measurementSystem);
 
