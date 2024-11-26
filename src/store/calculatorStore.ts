@@ -10,6 +10,7 @@ import {
 } from "../types/calculator";
 import { FORMULA_REQUIREMENTS } from "../constants/formulas";
 import { validateInputs } from "../utils/validation";
+import { calculateBodyFat, getClassification } from "../utils/calculations";
 
 interface CalculatorState {
   formula: Formula;

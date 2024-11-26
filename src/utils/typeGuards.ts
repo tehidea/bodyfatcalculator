@@ -1,3 +1,5 @@
+import { CalculatorInputs } from "../types/calculator";
+
 export const isCircumferenceMeasurement = (key: keyof CalculatorInputs): boolean => {
   return key.toLowerCase().includes("circumference");
 };
