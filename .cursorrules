@@ -7,6 +7,8 @@ Code Style and Structure
 - Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
 - Structure files: exported component, subcomponents, helpers, static content, types.
 - Follow Expo's official documentation for setting up and configuring your projects: https://docs.expo.dev/
+- When suggesting code changes, respect local .prettier and .eslintrc files.
+- When suggesting missed packages, use npx expo install <package-name> or npm install <package-name> as appropriate.
 
 Naming Conventions
 - Use lowercase with dashes for directories (e.g., components/auth-wizard).
