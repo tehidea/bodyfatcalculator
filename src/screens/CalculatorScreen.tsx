@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Text, Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FormulaSelector } from "../components/Calculator/FormulaSelector";
@@ -8,12 +8,13 @@ import { MeasurementSelector } from "../components/Calculator/MeasurementSelecto
 import { MeasurementInput } from "../components/Calculator/MeasurementInput";
 import { ResultsDisplay } from "../components/Calculator/ResultsDisplay";
 import { useCalculatorStore } from "../store/calculatorStore";
-import { validateInputs, ValidationError } from "../utils/validation";
+import { validateInputs } from "../utils/validation";
 import { FORMULA_REQUIREMENTS } from "../constants/formulas";
 import Logo from "../images/logo";
 import { memo } from "react";
 import { calculateResults } from "../utils/calculations";
 import { styles } from "./CalculatorScreen.styles";
+import { CalculatorInputs } from "../types/calculator";
 
 // Extract Header into a separate component
 const Header = memo(() => (
@@ -132,13 +133,10 @@ export const CalculatorScreen = () => {
     setError(null);
 
     try {
-      const validationErrors = validateInputs(formula, inputs);
-      if (validationErrors.length > 0) {
-        const newErrors: Record<string, string> = {};
-        validationErrors.forEach((error: ValidationError) => {
-          newErrors[error.field] = error.message;
-        });
-        setFieldErrors(newErrors);
+      const validation = validateInputs(formula, inputs);
+      if (!validation.success) {
+        setFieldErrors(validation.errors);
+        setError("Please correct the input errors");
         return;
       }
 

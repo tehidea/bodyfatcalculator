@@ -1,30 +1,79 @@
 import { z } from "zod";
 
+// Unit-specific schemas
+const weightSchema = z
+  .number()
+  .min(20, "Weight must be at least 20 kg")
+  .max(300, "Weight cannot exceed 300 kg")
+  .nullable();
+
+const circumferenceSchema = z
+  .number()
+  .min(1, "Circumference must be at least 1 cm") // Adjusted to ensure a minimum of 1 cm for circumference measurements
+  .max(200, "Circumference cannot exceed 200 cm")
+  .nullable();
+
+const skinfoldSchema = z
+  .number()
+  .min(1, "Skinfold must be at least 1 mm") // Adjusted to ensure a minimum of 1 mm for skinfold measurements
+  .max(100, "Skinfold cannot exceed 100 mm")
+  .nullable();
+
+const wristSchema = circumferenceSchema.refine(
+  val => !val || val <= 50,
+  "Wrist circumference cannot exceed 50 cm"
+);
+
+// Main calculator input schema
 export const calculatorInputSchema = z.object({
-  weight: z.number().min(20).max(300).optional(),
+  weight: weightSchema,
+  height: z.number().min(100).max(250).nullable(),
+  age: z.number().min(0).max(120).nullable(),
 
-  // Circumference measurements (cm)
-  waistCircumference: z.number().min(0).max(200).optional(),
-  hipsCircumference: z.number().min(0).max(200).optional(),
-  neckCircumference: z.number().min(0).max(100).optional(),
-  chestCircumference: z.number().min(0).max(200).optional(),
-  abdomenCircumference: z.number().min(0).max(200).optional(),
-  thighCircumference: z.number().min(0).max(100).optional(),
-  calfCircumference: z.number().min(0).max(100).optional(),
-  bicepCircumference: z.number().min(0).max(100).optional(),
-  tricepCircumference: z.number().min(0).max(100).optional(),
-  forearmCircumference: z.number().min(0).max(100).optional(),
-  wristCircumference: z.number().min(0).max(50).optional(),
+  // Circumferences
+  waistCircumference: circumferenceSchema,
+  hipsCircumference: circumferenceSchema,
+  neckCircumference: circumferenceSchema,
+  wristCircumference: wristSchema,
+  forearmCircumference: circumferenceSchema,
 
-  // Skinfold measurements (mm)
-  chestSkinfold: z.number().min(0).max(100).optional(),
-  abdomenSkinfold: z.number().min(0).max(100).optional(),
-  thighSkinfold: z.number().min(0).max(100).optional(),
-  tricepSkinfold: z.number().min(0).max(100).optional(),
-  bicepSkinfold: z.number().min(0).max(100).optional(),
-  subscapularSkinfold: z.number().min(0).max(100).optional(),
-  suprailiacSkinfold: z.number().min(0).max(100).optional(),
-  midaxillarySkinfold: z.number().min(0).max(100).optional(),
-  lowerBackSkinfold: z.number().min(0).max(100).optional(),
-  calfSkinfold: z.number().min(0).max(100).optional(),
+  // Skinfolds
+  chestSkinfold: skinfoldSchema,
+  abdomenSkinfold: skinfoldSchema,
+  thighSkinfold: skinfoldSchema,
+  tricepSkinfold: skinfoldSchema,
+  bicepSkinfold: skinfoldSchema,
+  subscapularSkinfold: skinfoldSchema,
+  suprailiacSkinfold: skinfoldSchema,
+  midaxillarySkinfold: skinfoldSchema,
+  lowerBackSkinfold: skinfoldSchema,
+  calfSkinfold: skinfoldSchema,
 });
+
+// Formula-specific validation schemas
+export const formulaSchemas = {
+  ymca: calculatorInputSchema
+    .pick({
+      weight: true,
+      waistCircumference: true,
+    })
+    .required(),
+
+  mymca: calculatorInputSchema
+    .pick({
+      weight: true,
+      waistCircumference: true,
+      wristCircumference: true,
+      hipsCircumference: true,
+      forearmCircumference: true,
+    })
+    .required(),
+
+  // TODO: Add other formula schemas...
+} as const;
+
+// Type for validation results
+export type ValidationResult = {
+  success: boolean;
+  errors: Record<string, string>;
+};

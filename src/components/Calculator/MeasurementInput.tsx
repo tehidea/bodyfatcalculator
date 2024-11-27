@@ -21,13 +21,23 @@ export const MeasurementInput: React.FC<Props> = ({ field, error }) => {
   const handleChange = useCallback(
     (text: string) => {
       if (text === "") {
-        setInput(field.key, undefined);
+        setInput(field.key, null);
         setResults(null);
         return;
       }
 
-      if (text.match(/^\d*\.?\d*$/)) {
-        const numValue = parseFloat(text);
+      if (text.match(/^-?\d*\.?\d*$/) || text === ".") {
+        let numValue: number | null = null;
+        
+        if (text === ".") {
+          numValue = 0;
+        } else if (text.match(/^-?\d*\.?\d*$/)) {
+          numValue = parseFloat(text);
+          if (isNaN(numValue) && text.endsWith(".")) {
+            numValue = parseFloat(text.slice(0, -1));
+          }
+        }
+
         setInput(field.key, numValue);
         setResults(null);
       }

@@ -21,6 +21,7 @@ interface CalculatorState {
   error: string | null;
   isCalculating: boolean;
   isResultsStale: boolean;
+  fieldErrors: Record<string, string>;
 }
 
 interface CalculatorActions {
@@ -81,6 +82,7 @@ export const useCalculatorStore = create<CalculatorStore>()(
       isCalculating: false,
       error: null,
       isResultsStale: false,
+      fieldErrors: {},
       _hasHydrated: false,
       setFormula: formula => set({ formula, results: null, isResultsStale: false }),
       setGender: gender => set({ gender, results: null, isResultsStale: false }),
@@ -121,11 +123,22 @@ export const useCalculatorStore = create<CalculatorStore>()(
         set({ isCalculating: true, error: null });
 
         try {
+          const validation = validateInputs(formula, inputs);
+          if (!validation.success) {
+            set({
+              error: "Please correct the input errors",
+              fieldErrors: validation.errors,
+              isCalculating: false,
+            });
+            return;
+          }
+
           const results = await calculateResults(formula, gender, inputs, measurementSystem);
           set({
             results,
             isCalculating: false,
             isResultsStale: false,
+            fieldErrors: {},
           });
         } catch (error) {
           set({
