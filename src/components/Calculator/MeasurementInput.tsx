@@ -28,7 +28,7 @@ export const MeasurementInput: React.FC<Props> = ({ field, error }) => {
 
       if (text.match(/^-?\d*\.?\d*$/) || text === ".") {
         let numValue: number | null = null;
-        
+
         if (text === ".") {
           numValue = 0;
         } else if (text.match(/^-?\d*\.?\d*$/)) {

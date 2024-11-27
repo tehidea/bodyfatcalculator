@@ -1,6 +1,6 @@
 const createIconSet = () => {
   const Icon = () => null;
-  Icon.getFontFamily = () => 'mock-font';
+  Icon.getFontFamily = () => "mock-font";
   Icon.getRawGlyphMap = () => ({});
   Icon.loadFont = () => Promise.resolve();
   return Icon;
@@ -11,7 +11,7 @@ const createMultiStyleIconSet = createIconSet;
 
 const Font = {
   isLoaded: jest.fn().mockReturnValue(true),
-  loadAsync: jest.fn().mockResolvedValue()
+  loadAsync: jest.fn().mockResolvedValue(),
 };
 
 module.exports = {
@@ -24,5 +24,5 @@ module.exports = {
   Ionicons: createIconSet(),
   FontAwesome: createIconSet(),
   FontAwesome5: createIconSet(),
-  Feather: createIconSet()
+  Feather: createIconSet(),
 };
