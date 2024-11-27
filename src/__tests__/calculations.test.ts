@@ -1,9 +1,9 @@
 import { calculateBodyFat, convertToImperial, getClassification } from "../utils/calculations";
-import { Formula, Gender, CalculatorInputs } from "../types/calculator";
+import { Formula, Gender, CalculatorInputs, MeasurementSystem } from "../types/calculator";
 
 describe("Body Fat Calculator Formulas", () => {
   const defaultParams = {
-    measurementSystem: "metric" as const,
+    measurementSystem: "metric" as MeasurementSystem,
   };
 
   // YMCA Formula Tests

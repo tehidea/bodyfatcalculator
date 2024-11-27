@@ -68,7 +68,9 @@ const convertValue = (
   }
 };
 
-export const useCalculatorStore = create<CalculatorState & CalculatorActions>()(
+interface CalculatorStore extends CalculatorState, CalculatorActions {}
+
+export const useCalculatorStore = create<CalculatorStore>()(
   persist(
     (set, get) => ({
       formula: "durnin",
@@ -114,31 +116,16 @@ export const useCalculatorStore = create<CalculatorState & CalculatorActions>()(
       setResults: results => set({ results, isResultsStale: false }),
       setError: error => set({ error }),
       calculate: async () => {
-        const { formula, gender, inputs } = get();
+        const { formula, gender, inputs, measurementSystem } = get();
 
         set({ isCalculating: true, error: null });
 
         try {
-          // Validate inputs
-          const validationErrors = validateInputs(formula, inputs);
-          if (validationErrors.length > 0) {
-            throw new Error(validationErrors[0].message);
-          }
-
-          // Calculate results
-          const bodyFat = calculateBodyFat(formula, gender, inputs);
-          const classification = getClassification(bodyFat, gender);
-          const fatMass = (inputs.weight || 0) * (bodyFat / 100);
-          const leanMass = (inputs.weight || 0) - fatMass;
-
+          const results = await calculateResults(formula, gender, inputs, measurementSystem);
           set({
-            results: {
-              bodyFatPercentage: bodyFat,
-              fatMass,
-              leanMass,
-              classification,
-            },
+            results,
             isCalculating: false,
+            isResultsStale: false,
           });
         } catch (error) {
           set({

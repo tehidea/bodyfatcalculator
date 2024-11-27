@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Text, Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -8,11 +8,98 @@ import { MeasurementSelector } from "../components/Calculator/MeasurementSelecto
 import { MeasurementInput } from "../components/Calculator/MeasurementInput";
 import { ResultsDisplay } from "../components/Calculator/ResultsDisplay";
 import { useCalculatorStore } from "../store/calculatorStore";
-import { calculateBodyFat, getClassification } from "../utils/calculations";
 import { validateInputs, ValidationError } from "../utils/validation";
 import { FORMULA_REQUIREMENTS } from "../constants/formulas";
-import { COLORS } from "../constants/theme";
 import Logo from "../images/logo";
+import { memo } from "react";
+import { calculateResults } from "../utils/calculations";
+import { styles } from "./CalculatorScreen.styles";
+
+// Extract Header into a separate component
+const Header = memo(() => (
+  <View style={styles.header}>
+    <Logo style={styles.logo} accessibilityLabel="Calculator logo" />
+    <View style={styles.headerTextContainer}>
+      <View style={styles.titleContainer}>
+        <Text style={[styles.headerTitle, { fontFamily: "Montserrat-ExtraLight" }]}>Body</Text>
+        <Text style={[styles.headerTitle, { fontFamily: "Montserrat-Light" }]}>Fat</Text>
+      </View>
+      <Text style={styles.strapline}>Body fat Calculator for skinfold calipers</Text>
+    </View>
+  </View>
+));
+
+// Add proper types for the CalculatorForm props
+interface CalculatorFormProps {
+  formulaFields: Array<{
+    key: keyof CalculatorInputs;
+    label: string;
+    unit: string;
+  }>;
+  getFieldError: (fieldKey: string) => string | undefined;
+  handleCalculate: () => Promise<void>;
+  handleReset: () => void;
+  buttonTitle: string;
+  isCalculating: boolean;
+  globalError?: string | null;
+}
+
+// Extract form section into a separate component
+const CalculatorForm = memo(
+  ({
+    formulaFields,
+    getFieldError,
+    handleCalculate,
+    handleReset,
+    buttonTitle,
+    isCalculating,
+    globalError,
+  }: CalculatorFormProps) => (
+    <View style={styles.content}>
+      <View style={styles.selectors}>
+        <FormulaSelector />
+        <View style={styles.selectorRow}>
+          <GenderSelector />
+          <MeasurementSelector />
+        </View>
+      </View>
+
+      {formulaFields.map(field => (
+        <MeasurementInput key={field.key} field={field} error={getFieldError(field.key) ?? ""} />
+      ))}
+
+      <View style={styles.buttonRow}>
+        <Button
+          title={buttonTitle}
+          onPress={handleCalculate}
+          disabled={isCalculating}
+          loading={isCalculating}
+          buttonStyle={styles.primaryButton}
+          disabledStyle={styles.disabledButton}
+          containerStyle={styles.buttonWrapperFlex}
+          titleStyle={styles.buttonTitle}
+        />
+        <Button
+          title="Reset"
+          onPress={handleReset}
+          disabled={isCalculating}
+          type="outline"
+          buttonStyle={styles.button}
+          titleStyle={styles.outlineButtonTitle}
+          containerStyle={styles.buttonWrapperFlex}
+        />
+      </View>
+
+      {globalError && (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{globalError}</Text>
+        </View>
+      )}
+
+      <ResultsDisplay />
+    </View>
+  )
+);
 
 export const CalculatorScreen = () => {
   const {
@@ -39,18 +126,14 @@ export const CalculatorScreen = () => {
     return fieldErrors[fieldKey];
   };
 
-  // Validate fields before calculation
-  const handleCalculate = async () => {
-    // Clear previous errors
+  // Memoize callbacks
+  const handleCalculate = useCallback(async () => {
     setFieldErrors({});
     setError(null);
 
     try {
-      // Validate inputs
       const validationErrors = validateInputs(formula, inputs);
-
       if (validationErrors.length > 0) {
-        // Convert validation errors to field errors
         const newErrors: Record<string, string> = {};
         validationErrors.forEach((error: ValidationError) => {
           newErrors[error.field] = error.message;
@@ -59,28 +142,18 @@ export const CalculatorScreen = () => {
         return;
       }
 
-      // Calculate results
-      const bodyFat = calculateBodyFat(formula, gender, inputs, measurementSystem);
-      const classification = getClassification(bodyFat, gender);
-      const fatMass = (inputs.weight || 0) * (bodyFat / 100);
-      const leanMass = (inputs.weight || 0) - fatMass;
-
-      setResults({
-        bodyFatPercentage: bodyFat,
-        fatMass,
-        leanMass,
-        classification,
-      });
+      const results = await calculateResults(formula, gender, inputs, measurementSystem);
+      setResults(results);
     } catch (error) {
       setError(error instanceof Error ? error.message : "An unexpected error occurred");
     }
-  };
+  }, [formula, gender, inputs, measurementSystem]);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setFieldErrors({});
     setError(null);
     reset();
-  };
+  }, [reset]);
 
   const buttonTitle = useMemo(() => {
     if (isCalculating) return "Calculating...";
@@ -89,193 +162,24 @@ export const CalculatorScreen = () => {
   }, [isCalculating, results, isResultsStale]);
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.header}>
-        <Logo style={styles.logo} />
-        <View style={styles.headerTextContainer}>
-          <View style={styles.titleContainer}>
-            <Text style={[styles.headerTitle, { fontFamily: "Montserrat-ExtraLight" }]}>Body</Text>
-            <Text style={[styles.headerTitle, { fontFamily: "Montserrat-Light" }]}>Fat</Text>
-          </View>
-          <Text style={styles.strapline}>Body fat Calculator for skinfold calipers</Text>
-        </View>
-      </View>
+    <SafeAreaView style={styles.safeArea} accessibilityRole="main">
+      <Header />
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.scrollContent}
         keyboardShouldPersistTaps="handled"
+        accessibilityLabel="Calculator form"
       >
-        <View style={styles.content}>
-          <View style={styles.selectors}>
-            <FormulaSelector />
-            <View style={styles.selectorRow}>
-              <GenderSelector />
-              <MeasurementSelector />
-            </View>
-          </View>
-
-          {formulaFields.map(field => (
-            <MeasurementInput
-              key={field.key}
-              field={field}
-              error={getFieldError(field.key) ?? ""}
-            />
-          ))}
-
-          <View style={styles.buttonRow}>
-            <Button
-              title={buttonTitle}
-              onPress={handleCalculate}
-              disabled={isCalculating}
-              loading={isCalculating}
-              buttonStyle={styles.primaryButton}
-              disabledStyle={styles.disabledButton}
-              containerStyle={styles.buttonWrapperFlex}
-              titleStyle={styles.buttonTitle}
-            />
-            <Button
-              title="Reset"
-              onPress={handleReset}
-              disabled={isCalculating}
-              type="outline"
-              buttonStyle={styles.button}
-              titleStyle={styles.outlineButtonTitle}
-              containerStyle={styles.buttonWrapperFlex}
-            />
-          </View>
-
-          {globalError && (
-            <View style={styles.errorContainer}>
-              <Text style={styles.errorText}>{globalError}</Text>
-            </View>
-          )}
-
-          <ResultsDisplay />
-        </View>
+        <CalculatorForm
+          formulaFields={formulaFields}
+          getFieldError={getFieldError}
+          handleCalculate={handleCalculate}
+          handleReset={handleReset}
+          buttonTitle={buttonTitle}
+          isCalculating={isCalculating}
+          globalError={globalError}
+        />
       </ScrollView>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: COLORS.white,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: COLORS.white,
-    padding: 16,
-    borderBottomWidth: 2,
-    borderBottomColor: COLORS.primary,
-  },
-  headerTextContainer: {
-    flex: 1,
-  },
-  titleContainer: {
-    flexDirection: "row",
-  },
-  headerTitle: {
-    fontSize: 42,
-    color: COLORS.black,
-    textTransform: "uppercase",
-    marginTop: -6,
-  },
-  strapline: {
-    fontSize: 10,
-    color: COLORS.black,
-    marginTop: -6,
-    marginLeft: 4,
-    fontFamily: "Montserrat-Light",
-    textTransform: "uppercase",
-  },
-  logo: {
-    width: 60,
-    aspectRatio: 1,
-    marginRight: 8,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background,
-  },
-  scrollContent: {
-    padding: 16,
-  },
-  selectors: {
-    marginBottom: 24,
-  },
-  description: {
-    marginBottom: 16,
-    padding: 12,
-    backgroundColor: "#f5f5f5",
-    borderRadius: 10,
-  },
-  buttonContainer: {
-    marginTop: 24,
-    marginBottom: 16,
-  },
-  resetButton: {
-    marginTop: 12,
-  },
-  content: {
-    flex: 1,
-  },
-  selectorRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    gap: 8,
-  },
-  halfWidth: {
-    flex: 1,
-  },
-  buttonWrapper: {
-    borderRadius: 10,
-    overflow: "hidden",
-  },
-  buttonWrapperFlex: {
-    borderRadius: 10,
-    overflow: "hidden",
-    flex: 1,
-  },
-  button: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 10,
-  },
-  buttonRow: {
-    flexDirection: "row",
-    gap: 8,
-    marginTop: 24,
-    marginBottom: 16,
-  },
-  primaryButton: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 10,
-    backgroundColor: COLORS.primary,
-  },
-  disabledButton: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 10,
-    backgroundColor: COLORS.primary + "80",
-  },
-  buttonTitle: {
-    fontWeight: "bold",
-  },
-  outlineButtonTitle: {
-    color: COLORS.primary,
-    fontWeight: "bold",
-  },
-  errorContainer: {
-    backgroundColor: "#ffebee",
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 16,
-  },
-  errorText: {
-    color: "#c62828",
-    fontSize: 14,
-  },
-});

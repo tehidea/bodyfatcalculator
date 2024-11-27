@@ -1,4 +1,4 @@
-import { Gender, CalculatorInputs, Formula } from "../types/calculator";
+import { Gender, CalculatorInputs, Formula, MeasurementSystem } from "../types/calculator";
 import { useMemo } from "react";
 
 export const convertToImperial = (value: number, unit: "kg" | "cm" | "mm"): number => {
@@ -203,3 +203,23 @@ export const getClassification = (bodyFat: number, gender: Gender): string => {
   }
   return "Unknown";
 };
+
+export async function calculateResults(
+  formula: Formula,
+  gender: Gender,
+  inputs: CalculatorInputs,
+  measurementSystem: MeasurementSystem
+): Promise<CalculatorResults> {
+  const bodyFat = calculateBodyFat(formula as Formula, gender, inputs, measurementSystem);
+  const classification = getClassification(bodyFat, gender);
+  const weight = inputs.weight || 0;
+  const fatMass = weight * (bodyFat / 100);
+  const leanMass = weight - fatMass;
+
+  return {
+    bodyFatPercentage: bodyFat,
+    fatMass,
+    leanMass,
+    classification,
+  };
+}
