@@ -55,51 +55,60 @@ const CalculatorForm = memo(
     buttonTitle,
     isCalculating,
     globalError,
-  }: CalculatorFormProps) => (
-    <View style={styles.content}>
-      <View style={styles.selectors}>
-        <FormulaSelector />
-        <View style={styles.selectorRow}>
-          <GenderSelector />
-          <MeasurementSelector />
+  }: CalculatorFormProps) => {
+    const gender = useCalculatorStore(state => state.gender);
+
+    const visibleFields = useMemo(
+      () => formulaFields.filter(field => !field.genderSpecific || field.genderSpecific === gender),
+      [formulaFields, gender]
+    );
+
+    return (
+      <View style={styles.content}>
+        <View style={styles.selectors}>
+          <FormulaSelector />
+          <View style={styles.selectorRow}>
+            <GenderSelector />
+            <MeasurementSelector />
+          </View>
         </View>
-      </View>
 
-      {formulaFields.map(field => (
-        <MeasurementInput key={field.key} field={field} error={getFieldError(field.key) ?? ""} />
-      ))}
+        {visibleFields.map(field => (
+          <MeasurementInput key={field.key} field={field} error={getFieldError(field.key) ?? ""} />
+        ))}
 
-      <View style={styles.buttonRow}>
-        <Button
-          title={buttonTitle}
-          onPress={handleCalculate}
-          disabled={isCalculating}
-          loading={isCalculating}
-          buttonStyle={styles.primaryButton}
-          disabledStyle={styles.disabledButton}
-          containerStyle={styles.buttonWrapperFlex}
-          titleStyle={styles.buttonTitle}
-        />
-        <Button
-          title="Reset"
-          onPress={handleReset}
-          disabled={isCalculating}
-          type="outline"
-          buttonStyle={styles.button}
-          titleStyle={styles.outlineButtonTitle}
-          containerStyle={styles.buttonWrapperFlex}
-        />
-      </View>
-
-      {globalError && (
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{globalError}</Text>
+        <View style={styles.buttonRow}>
+          <Button
+            title={buttonTitle}
+            onPress={handleCalculate}
+            disabled={isCalculating}
+            loading={isCalculating}
+            buttonStyle={styles.primaryButton}
+            disabledStyle={styles.disabledButton}
+            containerStyle={styles.buttonWrapperFlex}
+            titleStyle={styles.buttonTitle}
+          />
+          <Button
+            title="Reset"
+            onPress={handleReset}
+            disabled={isCalculating}
+            type="outline"
+            buttonStyle={styles.button}
+            titleStyle={styles.outlineButtonTitle}
+            containerStyle={styles.buttonWrapperFlex}
+          />
         </View>
-      )}
 
-      <ResultsDisplay />
-    </View>
-  )
+        {globalError && (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>{globalError}</Text>
+          </View>
+        )}
+
+        <ResultsDisplay />
+      </View>
+    );
+  }
 );
 
 export const CalculatorScreen = () => {
@@ -133,7 +142,7 @@ export const CalculatorScreen = () => {
     setError(null);
 
     try {
-      const validation = validateInputs(formula, inputs);
+      const validation = validateInputs(formula, inputs, gender);
       if (!validation.success) {
         setFieldErrors(validation.errors);
         setError("Please correct the input errors");

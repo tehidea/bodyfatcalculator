@@ -10,7 +10,7 @@ import {
 } from "../types/calculator";
 import { FORMULA_REQUIREMENTS } from "../constants/formulas";
 import { validateInputs } from "../utils/validation";
-import { calculateBodyFat, getClassification } from "../utils/calculations";
+import { calculateBodyFat, calculateResults, getClassification } from "../utils/calculations";
 
 interface CalculatorStore {
   // State
@@ -123,7 +123,7 @@ export const useCalculatorStore = create<CalculatorStore>()(
         set({ isCalculating: true, error: null });
 
         try {
-          const validation = validateInputs(formula, inputs);
+          const validation = validateInputs(formula, inputs, gender);
           if (!validation.success) {
             set({
               error: "Please correct the input errors",

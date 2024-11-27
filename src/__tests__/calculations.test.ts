@@ -35,26 +35,24 @@ describe("Body Fat Calculator Formulas", () => {
   describe("Modified YMCA Formula", () => {
     const formula: Formula = "mymca";
 
-    test("calculates male body fat correctly", () => {
+    test("calculates male body fat correctly with minimal inputs", () => {
       const inputs: CalculatorInputs = {
-        weight: 80, // kg
-        waistCircumference: 85, // cm
+        weight: 80,
+        waistCircumference: 85,
       };
-
-      const result = calculateBodyFat(formula, "male", inputs, defaultParams.measurementSystem);
+      const result = calculateBodyFat("mymca", "male", inputs, "metric");
       expect(result).toBeCloseTo(17.01, 0.01);
     });
 
-    test("calculates female body fat correctly", () => {
+    test("requires all measurements for female calculations", () => {
       const inputs: CalculatorInputs = {
-        weight: 60, // kg
-        waistCircumference: 75, // cm
-        wristCircumference: 15, // cm
-        forearmCircumference: 23, // cm
-        hipsCircumference: 90, // cm
+        weight: 60,
+        waistCircumference: 75,
+        wristCircumference: 15,
+        forearmCircumference: 23,
+        hipsCircumference: 90,
       };
-
-      const result = calculateBodyFat(formula, "female", inputs, defaultParams.measurementSystem);
+      const result = calculateBodyFat("mymca", "female", inputs, "metric");
       expect(result).toBeCloseTo(25.68, 0.01);
     });
   });

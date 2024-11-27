@@ -59,17 +59,22 @@ export const formulaSchemas = {
     })
     .required(),
 
-  mymca: calculatorInputSchema
-    .pick({
-      weight: true,
-      waistCircumference: true,
-      wristCircumference: true,
-      hipsCircumference: true,
-      forearmCircumference: true,
-    })
-    .required(),
+  mymca: (gender: Gender) =>
+    calculatorInputSchema
+      .pick({
+        weight: true,
+        waistCircumference: true,
+        ...(gender === "female"
+          ? {
+              wristCircumference: true,
+              hipsCircumference: true,
+              forearmCircumference: true,
+            }
+          : {}),
+      })
+      .required(),
 
-  // TODO: Add other formula schemas...
+  // ... other formula schemas
 } as const;
 
 // Type for validation results

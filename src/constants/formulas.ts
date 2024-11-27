@@ -1,4 +1,4 @@
-import { Formula, CalculatorInputs, MeasurementSystem } from "../types/calculator";
+import { Formula, CalculatorInputs, MeasurementSystem, Gender } from "../types/calculator";
 
 interface FormulaField {
   key: keyof CalculatorInputs;
@@ -6,6 +6,7 @@ interface FormulaField {
   unit: string;
   required: boolean;
   imperialUnit?: string;
+  genderSpecific?: Gender;
 }
 
 export const getUnitLabel = (unit: string, system: MeasurementSystem): string => {
@@ -40,13 +41,31 @@ export const FORMULA_REQUIREMENTS: Record<
   },
   mymca: {
     name: "Modified YMCA",
-    description: "Enhanced YMCA method with additional circumference measurements",
+    description: "Enhanced YMCA method with gender-specific measurements",
     fields: [
       { key: "weight", label: "Weight", unit: "kg", required: true },
       { key: "waistCircumference", label: "Waist Circumference", unit: "cm", required: true },
-      { key: "wristCircumference", label: "Wrist Circumference", unit: "cm", required: true },
-      { key: "hipsCircumference", label: "Hips Circumference", unit: "cm", required: true },
-      { key: "forearmCircumference", label: "Forearm Circumference", unit: "cm", required: true },
+      {
+        key: "wristCircumference",
+        label: "Wrist Circumference",
+        unit: "cm",
+        required: true,
+        genderSpecific: "female",
+      },
+      {
+        key: "hipsCircumference",
+        label: "Hips Circumference",
+        unit: "cm",
+        required: true,
+        genderSpecific: "female",
+      },
+      {
+        key: "forearmCircumference",
+        label: "Forearm Circumference",
+        unit: "cm",
+        required: true,
+        genderSpecific: "female",
+      },
     ],
   },
   jack7: {
