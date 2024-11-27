@@ -7,6 +7,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { CalculatorScreen } from "./src/screens/CalculatorScreen";
 import { COLORS } from "./src/constants/theme";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { HydrationWrapper } from "./src/components/HydrationWrapper";
 
 SplashScreen.preventAutoHideAsync();
 

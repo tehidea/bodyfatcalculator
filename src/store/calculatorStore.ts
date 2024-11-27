@@ -69,7 +69,9 @@ const convertValue = (
   }
 };
 
-interface CalculatorStore extends CalculatorState, CalculatorActions {}
+interface CalculatorStore extends CalculatorState, CalculatorActions {
+  _hasHydrated: boolean;
+}
 
 export const useCalculatorStore = create<CalculatorStore>()(
   persist(
