@@ -12,28 +12,30 @@ import { FORMULA_REQUIREMENTS } from "../constants/formulas";
 import { validateInputs } from "../utils/validation";
 import { calculateBodyFat, getClassification } from "../utils/calculations";
 
-interface CalculatorState {
+interface CalculatorStore {
+  // State
   formula: Formula;
   gender: Gender;
-  measurementSystem: MeasurementSystem;
   inputs: CalculatorInputs;
-  results: CalculatorResults | null;
   error: string | null;
   isCalculating: boolean;
   isResultsStale: boolean;
+  results: CalculatorResults | null;
+  measurementSystem: MeasurementSystem;
   fieldErrors: Record<string, string>;
-}
+  _hasHydrated: boolean;
 
-interface CalculatorActions {
+  // Actions
   setFormula: (formula: Formula) => void;
   setGender: (gender: Gender) => void;
   setMeasurementSystem: (system: MeasurementSystem) => void;
-  setInput: <K extends keyof CalculatorInputs>(key: K, value: CalculatorInputs[K]) => void;
+  setInput: (key: keyof CalculatorInputs, value: number | null) => void;
   setResults: (results: CalculatorResults | null) => void;
   setError: (error: string | null) => void;
+  setHasHydrated: (state: boolean) => void;
+  setResultsStale: (isStale: boolean) => void;
   calculate: () => Promise<void>;
   reset: () => void;
-  setResultsStale: (isStale: boolean) => void;
 }
 
 const convertValue = (
@@ -68,10 +70,6 @@ const convertValue = (
     }
   }
 };
-
-interface CalculatorStore extends CalculatorState, CalculatorActions {
-  _hasHydrated: boolean;
-}
 
 export const useCalculatorStore = create<CalculatorStore>()(
   persist(
@@ -163,7 +161,12 @@ export const useCalculatorStore = create<CalculatorStore>()(
     {
       name: "calculator-storage",
       storage: createJSONStorage(() => AsyncStorage),
-      onRehydrateStorage: () => state => {
+      onRehydrateStorage: () => (state, error) => {
+        if (error) {
+          console.error("Hydration failed:", error);
+          // Set default values if hydration fails
+          state?.setError("Failed to load saved data");
+        }
         state?.setHasHydrated(true);
       },
     }
