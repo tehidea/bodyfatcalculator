@@ -29,6 +29,7 @@ export const FORMULA_REQUIREMENTS: Record<
     name: string;
     description: string;
     fields: FormulaField[];
+    premium?: boolean;
   }
 > = {
   ymca: {
@@ -81,6 +82,7 @@ export const FORMULA_REQUIREMENTS: Record<
       { key: "suprailiacSkinfold", label: "Suprailiac Skinfold", unit: "mm", required: true },
       { key: "midaxillarySkinfold", label: "Midaxillary Skinfold", unit: "mm", required: true },
     ],
+    premium: true,
   },
   jack4: {
     name: "Jackson & Pollock 4-Site",
@@ -92,6 +94,7 @@ export const FORMULA_REQUIREMENTS: Record<
       { key: "tricepSkinfold", label: "Tricep Skinfold", unit: "mm", required: true },
       { key: "suprailiacSkinfold", label: "Suprailiac Skinfold", unit: "mm", required: true },
     ],
+    premium: true,
   },
   jack3: {
     name: "Jackson & Pollock 3-Site",
@@ -122,6 +125,7 @@ export const FORMULA_REQUIREMENTS: Record<
         genderSpecific: "female",
       },
     ],
+    premium: true,
   },
   parrillo: {
     name: "Parrillo",
@@ -138,6 +142,7 @@ export const FORMULA_REQUIREMENTS: Record<
       { key: "lowerBackSkinfold", label: "Lower Back Skinfold", unit: "mm", required: true },
       { key: "calfSkinfold", label: "Calf Skinfold", unit: "mm", required: true },
     ],
+    premium: true,
   },
   durnin: {
     name: "Durnin & Womersley",
@@ -149,6 +154,7 @@ export const FORMULA_REQUIREMENTS: Record<
       { key: "subscapularSkinfold", label: "Subscapular Skinfold", unit: "mm", required: true },
       { key: "suprailiacSkinfold", label: "Suprailiac Skinfold", unit: "mm", required: true },
     ],
+    premium: true,
   },
   navy: {
     name: "U.S. Navy",
@@ -180,5 +186,6 @@ export const FORMULA_REQUIREMENTS: Record<
         genderSpecific: "female",
       },
     ],
+    premium: true,
   },
 };

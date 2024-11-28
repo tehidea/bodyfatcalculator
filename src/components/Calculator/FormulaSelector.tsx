@@ -14,9 +14,18 @@ export const FormulaSelector = () => {
     key: key as Formula,
     name: value.name,
     description: value.description,
+    premium: value.premium,
   }));
 
   const selectedFormula = FORMULA_REQUIREMENTS[formula];
+
+  const handleFormulaSelect = (selectedKey: Formula, isPremium: boolean | undefined) => {
+    if (!isPremium) {
+      setFormula(selectedKey);
+      setIsModalVisible(false);
+    }
+    // TODO: Add premium feature prompt here
+  };
 
   return (
     <View style={styles.container}>
@@ -49,21 +58,35 @@ export const FormulaSelector = () => {
               keyExtractor={item => item.key}
               renderItem={({ item }) => (
                 <TouchableOpacity
-                  style={[styles.formulaItem, item.key === formula && styles.activeFormula]}
-                  onPress={() => {
-                    setFormula(item.key);
-                    setIsModalVisible(false);
-                  }}
+                  style={[
+                    styles.formulaItem,
+                    item.key === formula && styles.activeFormula,
+                    item.premium && styles.premiumFormula,
+                  ]}
+                  onPress={() => handleFormulaSelect(item.key, item.premium)}
                 >
+                  <View style={styles.formulaItemHeader}>
+                    <Text
+                      style={[
+                        styles.formulaItemName,
+                        item.key === formula && styles.activeFormulaText,
+                        item.premium && styles.premiumFormulaText,
+                      ]}
+                    >
+                      {item.name}
+                    </Text>
+                    {item.premium && (
+                      <Icon name="lock" type="feather" color={COLORS.textDark} size={16} />
+                    )}
+                  </View>
                   <Text
                     style={[
-                      styles.formulaItemName,
-                      item.key === formula && styles.activeFormulaText,
+                      styles.formulaItemDescription,
+                      item.premium && styles.premiumFormulaText,
                     ]}
+                    numberOfLines={2}
                   >
-                    {item.name}
-                  </Text>
-                  <Text style={styles.formulaItemDescription} numberOfLines={2}>
+                    {item.premium ? "Premium Feature - " : ""}
                     {item.description}
                   </Text>
                 </TouchableOpacity>
@@ -130,17 +153,29 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
   },
+  formulaItemHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 4,
+  },
   activeFormula: {
     backgroundColor: COLORS.primary + "10",
+  },
+  premiumFormula: {
+    backgroundColor: "#f8f8f8",
+    opacity: 0.8,
   },
   formulaItemName: {
     fontSize: 16,
     color: COLORS.textDark,
-    marginBottom: 4,
   },
   activeFormulaText: {
     color: COLORS.primary,
     fontWeight: "bold",
+  },
+  premiumFormulaText: {
+    color: "#999",
   },
   formulaItemDescription: {
     fontSize: 12,
