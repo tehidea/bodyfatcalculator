@@ -2,6 +2,78 @@
 
 This calculator implements various methods for estimating body fat percentage.
 
+## Features by Tier
+
+### Free Tier
+
+- [x] Basic Formulas (YMCA, Modified YMCA, and U.S. Navy methods)
+- [x] Unit Conversion (metric/imperial)
+- [x] Basic Results (body fat percentage and classification)
+
+### PRO Tier (£10)
+
+- [ ] Advanced Formulas (Jackson & Pollock, Durnin & Womersley, and more)
+- [ ] Unlimited Local Storage
+- [ ] Detailed Analysis
+- [ ] Basic Export
+- [ ] Offline Access
+
+### Premium Tier (£3/month or £18/year)
+
+- [ ] Cloud Sync
+- [ ] Progress Tracking
+- [ ] Progress Photos
+- [ ] Advanced Export
+- [ ] Custom Presets
+- [ ] Priority Support
+- [ ] Early Access
+
+## Development Roadmap
+
+### Q4 2024
+
+- [ ] Professional Features
+  - [ ] Client management
+  - [ ] Batch measurements
+  - [ ] Professional reports
+- [ ] Advanced Export & Sharing
+  - [ ] Customizable PDF reports
+  - [ ] Data visualization export
+  - [ ] Secure sharing options
+- [ ] Smart Device Integration
+  - [ ] Smart scale support
+  - [ ] Bluetooth caliper support
+
+### Q1 2025
+
+- [ ] AI & Machine Learning
+  - [ ] Body composition predictions
+  - [ ] Personalized recommendations
+  - [ ] Trend forecasting
+- [ ] Community Features
+  - [ ] Anonymous comparisons
+  - [ ] Progress challenges
+  - [ ] Achievement system
+- [ ] Nutrition Integration
+  - [ ] Macro tracking
+  - [ ] Meal planning
+  - [ ] Body composition impact
+
+### Q2 2025
+
+- [ ] Advanced Health Integration
+  - [ ] Workout tracking
+  - [ ] Sleep analysis
+  - [ ] Recovery metrics
+- [ ] Team Features
+  - [ ] Trainer-client relationships
+  - [ ] Group challenges
+  - [ ] Team analytics
+- [ ] Advanced AI Features
+  - [ ] Custom recommendations
+  - [ ] Progress predictions
+  - [ ] Automated insights
+
 ## Formulas
 
 ### YMCA Body Fat Formula
