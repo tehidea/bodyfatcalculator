@@ -34,22 +34,120 @@ An improved version of the YMCA formula that includes additional measurements fo
 
 $$\left(\frac{4.15 \times Waist_{in} - 0.082 \times Weight_{lb} - 94.42}{Weight_{lb}}\right) \times 100$$
 
-Where:
-
-- Waist<sub>in</sub> = waist circumference in inches
-- Weight<sub>lb</sub> = body weight in pounds
-
 **For Women:**
 
 $$\left(\frac{0.268 \times Weight_{lb} - 0.318 \times Wrist_{in} + 0.157 \times Waist_{in} + 0.245 \times Hips_{in} - 0.434 \times Forearm_{in} - 8.987}{Weight_{lb}}\right) \times 100$$
 
-Where:
+### Covert Bailey Formula
 
-- Wrist<sub>in</sub> = wrist circumference in inches
-- Waist<sub>in</sub> = waist circumference in inches
-- Hips<sub>in</sub> = hip circumference in inches
-- Forearm<sub>in</sub> = forearm circumference in inches
-- Weight<sub>lb</sub> = body weight in pounds
+A method that accounts for body frame size using wrist measurements.
+
+**For Men:**
+
+$$\left(\frac{Weight_{lb} \times 1.082 + 94.42 - Wrist_{in} \times 4.15}{Weight_{lb}}\right) \times 100$$
+
+**For Women:**
+
+$$\left(\frac{Weight_{lb} \times 0.732 + 8.987 + Wrist_{in} \times 3.786}{Weight_{lb}}\right) \times 100$$
+
+### Jackson & Pollock 7-Site Formula
+
+Uses seven skinfold measurements. First calculates body density, then converts to body fat percentage.
+
+**Body Density Formula for Men:**
+
+$$1.112 - 0.00043499(X) + 0.00000055(X^2) - 0.00028826(Age)$$
+
+**Body Density Formula for Women:**
+
+$$1.097 - 0.00046971(X) + 0.00000056(X^2) - 0.00012828(Age)$$
+
+Where X = Sum of chest, abdomen, thigh, tricep, subscapular, suprailiac, and midaxillary skinfolds (mm)
+
+### Jackson & Pollock 4-Site Formula
+
+Uses four skinfold measurements for a simplified version of the 7-site method.
+
+**Body Density Formula for Men:**
+
+$$1.10938 - 0.0008267(X) + 0.0000016(X^2) - 0.0002574(Age)$$
+
+**Body Density Formula for Women:**
+
+$$1.096095 - 0.0006952(X) + 0.0000011(X^2) - 0.0000714(Age)$$
+
+Where X = Sum of abdomen, thigh, tricep, and suprailiac skinfolds (mm)
+
+### U.S. Navy Formula
+
+Uses circumference measurements to estimate body fat percentage.
+
+**For Men:**
+
+$$86.010 \times \log_{10}(Waist_{in} - Neck_{in}) - 70.041 \times \log_{10}(Height_{in}) + 36.76$$
+
+**For Women:**
+
+$$163.205 \times \log_{10}(Waist_{in} + Hip_{in} - Neck_{in}) - 97.684 \times \log_{10}(Height_{in}) - 78.387$$
+
+### Durnin & Womersley Formula
+
+Uses four skinfold measurements with age and gender-specific coefficients.
+
+First calculate body density:
+
+$$Density = c - m \times \log_{10}(X)$$
+
+Where X = Sum of bicep, tricep, subscapular, and suprailiac skinfolds (mm)
+
+The coefficients c and m vary by age and gender:
+
+| Age   | Men (c, m)     | Women (c, m)   |
+| ----- | -------------- | -------------- |
+| 17-19 | 1.1620, 0.0630 | 1.1549, 0.0678 |
+| 20-29 | 1.1631, 0.0632 | 1.1599, 0.0717 |
+| 30-39 | 1.1422, 0.0544 | 1.1423, 0.0632 |
+| 40-49 | 1.1620, 0.0700 | 1.1333, 0.0612 |
+| 50+   | 1.1715, 0.0779 | 1.1339, 0.0645 |
+
+### Converting Body Density to Body Fat Percentage
+
+For all formulas that calculate body density, convert to body fat percentage using Siri's equation:
+
+$$Body Fat\% = \left(\frac{495}{Body Density} - 450\right)$$
+
+## Unit Conversions
+
+### Weight
+
+- 1 kg = 2.20462 lbs
+
+### Length
+
+- 1 cm = 0.393701 inches
+
+## Notes
+
+- All measurements should be taken in a relaxed state
+- For most accurate results, take measurements in the morning before eating
+- Consistency in measurement technique is crucial for tracking progress
+- These formulas provide estimates and may not be as accurate as other methods like DEXA scans or hydrostatic weighing
+
+## References
+
+1. Jackson, A.S., & Pollock, M.L. (1978). Generalized equations for predicting body density of men. British Journal of Nutrition, 40(3), 497-504.
+2. Jackson, A.S., Pollock, M.L., & Ward, A. (1980). Generalized equations for predicting body density of women. Medicine and Science in Sports and Exercise, 12(3), 175-181.
+3. Durnin, J.V.G.A., & Womersley, J. (1974). Body fat assessed from total body density and its estimation from skinfold thickness. British Journal of Nutrition, 32(1), 77-97.
+4. Hodgdon, J.A., & Beckett, M.B. (1984). Prediction of percent body fat for U.S. Navy men and women from body circumferences and height. Naval Health Research Center Report No. 84-29.
+
+## Implementation Details
+
+The calculator supports multiple measurement systems:
+
+- Metric (kg, cm, mm)
+- Imperial (lbs, inches)
+
+All calculations are performed in imperial units, with automatic conversion from metric inputs.
 
 ### Body Fat Classification
 
@@ -72,35 +170,3 @@ Where:
 | Fitness        | 21-24%              |
 | Acceptable     | 25-31%              |
 | Obese          | > 31%               |
-
-## Unit Conversions
-
-### Weight
-
-- 1 kg = 2.20462 lbs
-
-### Length
-
-- 1 cm = 0.393701 inches
-
-## Notes
-
-- All measurements should be taken in a relaxed state
-- For most accurate results, take measurements in the morning before eating
-- Consistency in measurement technique is crucial for tracking progress
-- These formulas provide estimates and may not be as accurate as other methods like DEXA scans or hydrostatic weighing
-
-## References
-
-1. Source: [OwlCalculator Body Fat Calculator](https://owlcalculator.com/health/body-fat-calculator)
-2. YMCA formula validation studies
-3. Modified YMCA formula improvements and validation
-
-## Implementation Details
-
-The calculator supports multiple measurement systems:
-
-- Metric (kg, cm, mm)
-- Imperial (lbs, inches)
-
-All calculations are performed in imperial units, with automatic conversion from metric inputs.

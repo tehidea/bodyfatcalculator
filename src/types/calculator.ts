@@ -13,6 +13,8 @@ export type Formula =
   | "navy";
 
 export interface CalculatorInputs {
+  gender?: Gender;
+  measurementSystem?: MeasurementSystem;
   age?: number;
   weight?: number;
   height?: number;

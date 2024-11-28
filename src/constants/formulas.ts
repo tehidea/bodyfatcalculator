@@ -70,7 +70,7 @@ export const FORMULA_REQUIREMENTS: Record<
   },
   jack7: {
     name: "Jackson & Pollock 7-Site",
-    description: "Seven-site skinfold method",
+    description: "Seven-site skinfold method, highly accurate for both genders",
     fields: [
       { key: "age", label: "Age", unit: "years", required: true },
       { key: "chestSkinfold", label: "Chest Skinfold", unit: "mm", required: true },
@@ -84,7 +84,7 @@ export const FORMULA_REQUIREMENTS: Record<
   },
   jack4: {
     name: "Jackson & Pollock 4-Site",
-    description: "Four-site skinfold method",
+    description: "Four-site skinfold method, good balance of accuracy and practicality",
     fields: [
       { key: "age", label: "Age", unit: "years", required: true },
       { key: "abdomenSkinfold", label: "Abdomen Skinfold", unit: "mm", required: true },
@@ -95,17 +95,37 @@ export const FORMULA_REQUIREMENTS: Record<
   },
   jack3: {
     name: "Jackson & Pollock 3-Site",
-    description: "Three-site skinfold method",
+    description: "Three-site skinfold method optimized for each gender",
     fields: [
       { key: "age", label: "Age", unit: "years", required: true },
-      { key: "chestSkinfold", label: "Chest Skinfold", unit: "mm", required: true },
+      {
+        key: "chestSkinfold",
+        label: "Chest Skinfold",
+        unit: "mm",
+        required: true,
+        genderSpecific: "male",
+      },
+      {
+        key: "tricepSkinfold",
+        label: "Tricep Skinfold",
+        unit: "mm",
+        required: true,
+        genderSpecific: "female",
+      },
       { key: "abdomenSkinfold", label: "Abdomen Skinfold", unit: "mm", required: true },
       { key: "thighSkinfold", label: "Thigh Skinfold", unit: "mm", required: true },
+      {
+        key: "suprailiacSkinfold",
+        label: "Suprailiac Skinfold",
+        unit: "mm",
+        required: true,
+        genderSpecific: "female",
+      },
     ],
   },
   parrillo: {
     name: "Parrillo",
-    description: "Nine-site skinfold method",
+    description: "Nine-site skinfold method, popular in bodybuilding",
     fields: [
       { key: "weight", label: "Weight", unit: "kg", required: true },
       { key: "chestSkinfold", label: "Chest Skinfold", unit: "mm", required: true },
@@ -121,7 +141,7 @@ export const FORMULA_REQUIREMENTS: Record<
   },
   durnin: {
     name: "Durnin & Womersley",
-    description: "Four-site skinfold method with age and gender groups",
+    description: "Four-site skinfold method with age and gender-specific equations",
     fields: [
       { key: "age", label: "Age", unit: "years", required: true },
       { key: "bicepSkinfold", label: "Bicep Skinfold", unit: "mm", required: true },
@@ -132,12 +152,33 @@ export const FORMULA_REQUIREMENTS: Record<
   },
   navy: {
     name: "U.S. Navy",
-    description: "Military circumference method",
+    description: "Military circumference method with gender-specific calculations",
     fields: [
       { key: "height", label: "Height", unit: "cm", required: true },
       { key: "neckCircumference", label: "Neck Circumference", unit: "cm", required: true },
       { key: "waistCircumference", label: "Waist Circumference", unit: "cm", required: true },
-      { key: "hipsCircumference", label: "Hips Circumference", unit: "cm", required: true },
+      {
+        key: "hipsCircumference",
+        label: "Hips Circumference",
+        unit: "cm",
+        required: true,
+        genderSpecific: "female",
+      },
+    ],
+  },
+  covert: {
+    name: "Covert Bailey",
+    description: "Simple method using basic body measurements and gender-specific calculations",
+    fields: [
+      { key: "weight", label: "Weight", unit: "kg", required: true },
+      { key: "wristCircumference", label: "Wrist Circumference", unit: "cm", required: true },
+      {
+        key: "hipsCircumference",
+        label: "Hips Circumference",
+        unit: "cm",
+        required: true,
+        genderSpecific: "female",
+      },
     ],
   },
 };
