@@ -1,8 +1,17 @@
 {
   "expo": {
-    "owner": "tehidea",
     "name": "body-fat-calculator",
     "slug": "body-fat-calculator",
+    "owner": "tehidea",
+    "extra": {
+      "eas": {
+        "projectId": "9f81ba56-4efb-41b5-8cb7-a310221df724"
+      },
+      "revenuecat": {
+        "ios": "YOUR_IOS_KEY",
+        "android": "YOUR_ANDROID_KEY"
+      }
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,13 +36,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "extra": {
-      "eas": {
-        "projectId": "9f81ba56-4efb-41b5-8cb7-a310221df724"
-      }
-    },
-    "plugins": [
-      "expo-font"
-    ]
+    "plugins": ["expo-font"]
   }
 }
