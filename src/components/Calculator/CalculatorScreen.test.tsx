@@ -4,6 +4,8 @@ import { CalculatorScreen } from "../../screens/CalculatorScreen";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { calculateResults } from "../../utils/calculations";
 import { validateInputs } from "../../utils/validation";
+import * as FormulaSelector from "../Calculator/FormulaSelector";
+import { usePremiumStore } from "../../store/premiumStore";
 
 jest.mock("../../store/calculatorStore");
 jest.mock("@expo/vector-icons");
@@ -13,10 +15,16 @@ jest.mock("@rneui/themed", () => ({
 }));
 jest.mock("../../utils/calculations");
 jest.mock("../../utils/validation");
+jest.mock("react-native-purchases");
+jest.mock("../Calculator/FormulaSelector", () => ({
+  FormulaSelector: () => null,
+}));
+jest.mock("../../store/premiumStore");
 
 const mockUseCalculatorStore = useCalculatorStore as jest.MockedFunction<typeof useCalculatorStore>;
 const mockCalculateResults = calculateResults as jest.MockedFunction<typeof calculateResults>;
 const mockValidateInputs = validateInputs as jest.MockedFunction<typeof validateInputs>;
+const mockUsePremiumStore = usePremiumStore as jest.MockedFunction<typeof usePremiumStore>;
 
 describe("CalculatorScreen", () => {
   beforeEach(() => {
@@ -41,6 +49,16 @@ describe("CalculatorScreen", () => {
       setError: jest.fn(),
       setResults: jest.fn(),
       reset: jest.fn(),
+    });
+
+    mockUsePremiumStore.mockReturnValue({
+      isPremium: false,
+      isLoading: false,
+      checkPremiumStatus: jest.fn(),
+      setPremiumStatus: jest.fn(),
+      setEntitlements: jest.fn(),
+      pro: false,
+      premium: false,
     });
   });
 

@@ -1,32 +1,19 @@
 import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ThemeProvider, createTheme } from "@rneui/themed";
+import { ThemeProvider } from "@rneui/themed";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { CalculatorScreen } from "./src/screens/CalculatorScreen";
-import { COLORS } from "./src/constants/theme";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { HydrationWrapper } from "./src/components/HydrationWrapper";
+import { CalculatorScreen } from "./src/screens/CalculatorScreen";
+import { theme } from "./src/constants/theme";
+import { initializeStore } from "./src/config/store";
 
+// Prevent splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
 
+// Create the navigator
 const Stack = createNativeStackNavigator();
-
-const theme = createTheme({
-  components: {
-    Button: {
-      // raised: true,
-      color: COLORS.primary,
-    },
-  },
-  lightColors: {
-    primary: COLORS.primary,
-  },
-  darkColors: {
-    primary: COLORS.primary,
-  },
-});
 
 export default function App() {
   const [loaded, error] = useFonts({
@@ -40,6 +27,10 @@ export default function App() {
     }
   }, [loaded, error]);
 
+  useEffect(() => {
+    initializeStore().catch(console.error);
+  }, []);
+
   if (!loaded && !error) {
     return null;
   }
@@ -48,12 +39,13 @@ export default function App() {
     <SafeAreaProvider>
       <ThemeProvider theme={theme}>
         <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Calculator"
-              component={CalculatorScreen}
-              options={{ headerShown: false }}
-            />
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+              animation: "slide_from_right",
+            }}
+          >
+            <Stack.Screen name="Calculator" component={CalculatorScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </ThemeProvider>

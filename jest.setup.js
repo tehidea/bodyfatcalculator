@@ -15,3 +15,15 @@ jest.mock("@react-native-async-storage/async-storage", () => ({
   getItem: jest.fn(),
   removeItem: jest.fn(),
 }));
+
+// Mock RevenueCat configuration
+jest.mock("./src/config/store", () => ({
+  API_KEYS: {
+    apple: "mock-apple-key",
+    google: "mock-google-key",
+  },
+  ENTITLEMENTS: {
+    pro: "pro",
+    premium: "premium",
+  },
+}));

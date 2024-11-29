@@ -169,7 +169,7 @@ export const CalculatorScreen = () => {
   }, [isCalculating, results, isResultsStale]);
 
   return (
-    <SafeAreaView style={styles.safeArea} accessibilityRole="main">
+    <SafeAreaView style={styles.safeArea} accessibilityRole="none">
       <Header />
       <ScrollView
         style={styles.container}
