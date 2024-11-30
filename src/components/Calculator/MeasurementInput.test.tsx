@@ -207,4 +207,54 @@ describe("MeasurementInput", () => {
     expect(input.props.value).toBe("80.5");
     expect(mockSetInput).toHaveBeenCalledWith("weight", 80.5);
   });
+
+  describe("reset handling", () => {
+    it("clears input when store value becomes null", async () => {
+      const { getByAccessibilityHint, rerender } = render(<MeasurementInput {...defaultProps} />);
+      const input = getByAccessibilityHint("Enter weight");
+
+      // First set a value
+      act(() => {
+        fireEvent.changeText(input, "80.5");
+      });
+      expect(input.props.value).toBe("80.5");
+
+      // Simulate store reset
+      act(() => {
+        mockUseCalculatorStore.mockReturnValue({
+          inputs: { weight: null },
+          setInput: mockSetInput,
+          measurementSystem: "metric",
+        });
+      });
+      rerender(<MeasurementInput {...defaultProps} />);
+
+      // Input should be cleared
+      expect(input.props.value).toBe("");
+    });
+
+    it("clears input when store value becomes undefined", async () => {
+      const { getByAccessibilityHint, rerender } = render(<MeasurementInput {...defaultProps} />);
+      const input = getByAccessibilityHint("Enter weight");
+
+      // First set a value
+      act(() => {
+        fireEvent.changeText(input, "80.5");
+      });
+      expect(input.props.value).toBe("80.5");
+
+      // Simulate store reset
+      act(() => {
+        mockUseCalculatorStore.mockReturnValue({
+          inputs: {},
+          setInput: mockSetInput,
+          measurementSystem: "metric",
+        });
+      });
+      rerender(<MeasurementInput {...defaultProps} />);
+
+      // Input should be cleared
+      expect(input.props.value).toBe("");
+    });
+  });
 });

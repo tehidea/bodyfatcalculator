@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useState, useEffect } from "react";
 import { Input, InputRef } from "../common/Input";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { CalculatorInputs } from "../../types/calculator";
@@ -19,8 +19,22 @@ export const MeasurementInput = forwardRef<InputRef, MeasurementInputProps>(
   ({ field, error, returnKeyType, onSubmitEditing, ...props }, ref) => {
     const { inputs, setInput } = useCalculatorStore();
     const [rawValue, setRawValue] = useState("");
+    const [isEditing, setIsEditing] = useState(false);
+
+    // Sync with store and handle reset
+    useEffect(() => {
+      const storeValue = inputs[field.key];
+      if (storeValue === undefined || storeValue === null) {
+        setRawValue("");
+        setIsEditing(false); // Force editing to false on reset
+      } else if (!isEditing) {
+        setRawValue(storeValue.toString());
+      }
+    }, [inputs, field.key, isEditing]);
 
     const handleChangeText = (value: string) => {
+      setIsEditing(true);
+
       // Handle empty input
       if (value === "") {
         setRawValue("");
@@ -47,13 +61,18 @@ export const MeasurementInput = forwardRef<InputRef, MeasurementInputProps>(
       }
     };
 
+    const handleBlur = () => {
+      setIsEditing(false);
+    };
+
     return (
       <Input
         ref={ref}
         label={field.label}
         unit={field.unit}
-        value={rawValue || inputs[field.key]?.toString() || ""}
+        value={rawValue}
         onChangeText={handleChangeText}
+        onBlur={handleBlur}
         error={error}
         returnKeyType={returnKeyType}
         onSubmitEditing={onSubmitEditing}
