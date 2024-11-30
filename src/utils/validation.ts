@@ -1,13 +1,14 @@
 import { formulaSchemas, ValidationResult } from "../schemas/calculator";
-import { Formula, CalculatorInputs, Gender } from "../types/calculator";
+import { Formula, CalculatorInputs, Gender, MeasurementSystem } from "../types/calculator";
 import { z } from "zod";
 
 export const validateInputs = (
   formula: Formula,
   inputs: CalculatorInputs,
-  gender: Gender
+  gender: Gender,
+  measurementSystem: MeasurementSystem
 ): ValidationResult => {
-  const schemaDefinition = formulaSchemas[formula];
+  const schemaDefinition = formulaSchemas[formula](measurementSystem);
   const activeSchema =
     typeof schemaDefinition === "function" ? schemaDefinition(gender) : schemaDefinition;
 

@@ -129,7 +129,7 @@ export const useCalculatorStore = create<CalculatorStore>()(
 
         try {
           console.log("Starting validation for:", formula);
-          const validation = validateInputs(formula, inputs, gender);
+          const validation = validateInputs(formula, inputs, gender, measurementSystem);
           console.log("Validation result:", validation);
 
           if (!validation.success) {

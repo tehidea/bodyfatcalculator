@@ -189,7 +189,7 @@ export const CalculatorScreen = () => {
     setError(null);
 
     try {
-      const validation = validateInputs(formula, inputs, gender);
+      const validation = validateInputs(formula, inputs, gender, measurementSystem);
       if (!validation.success) {
         setError("Please correct the input errors", validation.errors);
         return;
