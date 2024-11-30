@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback, useRef, useEffect } from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, View, KeyboardAvoidingView, Platform } from "react-native";
 import { Text, Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FormulaSelector } from "../components/Calculator/FormulaSelector";
@@ -225,22 +225,29 @@ export const CalculatorScreen = () => {
   return (
     <SafeAreaView style={styles.safeArea} accessibilityRole="none">
       <Header />
-      <ScrollView
+      <KeyboardAvoidingView
         style={styles.container}
-        contentContainerStyle={styles.scrollContent}
-        keyboardShouldPersistTaps="handled"
-        accessibilityLabel="Calculator form"
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 20 : 0}
       >
-        <CalculatorForm
-          formulaFields={formulaFields}
-          getFieldError={getFieldError}
-          handleCalculate={handleCalculate}
-          handleReset={handleReset}
-          buttonTitle={buttonTitle}
-          isCalculating={isCalculating}
-          globalError={globalError}
-        />
-      </ScrollView>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+          accessibilityLabel="Calculator form"
+          showsVerticalScrollIndicator={false}
+        >
+          <CalculatorForm
+            formulaFields={formulaFields}
+            getFieldError={getFieldError}
+            handleCalculate={handleCalculate}
+            handleReset={handleReset}
+            buttonTitle={buttonTitle}
+            isCalculating={isCalculating}
+            globalError={globalError}
+          />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

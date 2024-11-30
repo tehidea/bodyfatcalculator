@@ -44,6 +44,7 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   scrollContent: {
+    flexGrow: 1,
     padding: 16,
   },
   selectors: {
