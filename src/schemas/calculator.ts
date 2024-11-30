@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Gender } from "../types/calculator";
+import { Gender, Formula } from "../types/calculator";
 
 // Unit-specific schemas
 const weightSchema = z
@@ -10,13 +10,13 @@ const weightSchema = z
 
 const circumferenceSchema = z
   .number()
-  .min(1, "Circumference must be at least 1 cm") // Adjusted to ensure a minimum of 1 cm for circumference measurements
+  .min(1, "Circumference must be at least 1 cm")
   .max(200, "Circumference cannot exceed 200 cm")
   .nullable();
 
 const skinfoldSchema = z
   .number()
-  .min(1, "Skinfold must be at least 1 mm") // Adjusted to ensure a minimum of 1 mm for skinfold measurements
+  .min(1, "Skinfold must be at least 1 mm")
   .max(100, "Skinfold cannot exceed 100 mm")
   .nullable();
 
@@ -27,6 +27,7 @@ const wristSchema = circumferenceSchema.refine(
 
 // Main calculator input schema
 export const calculatorInputSchema = z.object({
+  // Basic measurements
   weight: weightSchema,
   height: z.number().min(100).max(250).nullable(),
   age: z.number().min(0).max(120).nullable(),
@@ -53,8 +54,10 @@ export const calculatorInputSchema = z.object({
   calfSkinfold: skinfoldSchema,
 });
 
+type SchemaDefinition = z.ZodObject<any> | ((gender: Gender) => z.ZodObject<any>);
+
 // Formula-specific validation schemas
-export const formulaSchemas = {
+export const formulaSchemas: Record<Formula, SchemaDefinition> = {
   ymca: calculatorInputSchema
     .pick({
       weight: true,
@@ -67,19 +70,16 @@ export const formulaSchemas = {
       .pick({
         weight: true,
         waistCircumference: true,
-        ...(gender === "female"
-          ? {
-              wristCircumference: true,
-              hipsCircumference: true,
-              forearmCircumference: true,
-            }
-          : {}),
+        ...(gender === "female" && {
+          wristCircumference: true,
+          hipsCircumference: true,
+          forearmCircumference: true,
+        }),
       })
       .required(),
 
-  covert: (gender: Gender) => {
-    console.log("Creating Covert schema for gender:", gender);
-    const schema = calculatorInputSchema
+  covert: (gender: Gender) =>
+    calculatorInputSchema
       .pick({
         age: true,
         hipsCircumference: true,
@@ -94,15 +94,9 @@ export const formulaSchemas = {
               calfCircumference: true,
             }),
       })
-      .required();
-    console.log("Created schema shape:", schema._def.shape());
-    return schema;
-  },
+      .required(),
+};
 
-  // ... other formula schemas
-} as const;
-
-// Type for validation results
 export type ValidationResult = {
   success: boolean;
   errors: Record<string, string>;

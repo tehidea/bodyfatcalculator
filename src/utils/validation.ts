@@ -7,13 +7,9 @@ export const validateInputs = (
   inputs: CalculatorInputs,
   gender: Gender
 ): ValidationResult => {
-  console.log("Starting validation:", { formula, gender, inputs });
-
   const schemaDefinition = formulaSchemas[formula];
   const activeSchema =
     typeof schemaDefinition === "function" ? schemaDefinition(gender) : schemaDefinition;
-
-  console.log("Schema shape:", activeSchema._def.shape());
 
   try {
     activeSchema.parse(inputs);
@@ -27,7 +23,6 @@ export const validateInputs = (
         }),
         {}
       );
-      console.log("Validation errors:", errors);
       return { success: false, errors };
     }
     return { success: false, errors: { general: "Invalid input" } };
