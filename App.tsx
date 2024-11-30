@@ -41,22 +41,21 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider>
-      <ThemeProvider theme={theme}>
-        <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{
-              headerShown: false,
-              animation: "slide_from_right",
-            }}
-          >
-            <Stack.Screen name="Calculator" component={CalculatorScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </ThemeProvider>
-      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-        {/* Your existing app content */}
-      </View>
-    </SafeAreaProvider>
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <SafeAreaProvider>
+        <ThemeProvider theme={theme}>
+          <NavigationContainer>
+            <Stack.Navigator
+              screenOptions={{
+                headerShown: false,
+                animation: "slide_from_right",
+              }}
+            >
+              <Stack.Screen name="Calculator" component={CalculatorScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </View>
   );
 }
