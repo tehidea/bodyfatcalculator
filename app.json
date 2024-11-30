@@ -37,12 +37,15 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      ["expo-font", {
-        "fonts": [
-          "node_modules/@expo-google-fonts/Montserrat_200ExtraLight/Montserrat_200ExtraLight.ttf",
-          "node_modules/@expo-google-fonts/Montserrat_300Light/Montserrat_300Light.ttf"
-        ]
-      }]
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "node_modules/@expo-google-fonts/Montserrat_200ExtraLight/Montserrat_200ExtraLight.ttf",
+            "node_modules/@expo-google-fonts/Montserrat_300Light/Montserrat_300Light.ttf"
+          ]
+        }
+      ]
     ]
   }
 }

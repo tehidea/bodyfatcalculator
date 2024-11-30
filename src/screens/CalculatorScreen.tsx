@@ -2,6 +2,7 @@ import React, { useState, useMemo, useCallback, useRef, useEffect } from "react"
 import { ScrollView, View, KeyboardAvoidingView, Platform, Keyboard } from "react-native";
 import { Text, Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Constants from "expo-constants";
 import { FormulaSelector } from "../components/calculator/FormulaSelector";
 import { GenderSelector } from "../components/calculator/GenderSelector";
 import { MeasurementSelector } from "../components/calculator/MeasurementSelector";
@@ -31,6 +32,17 @@ const Header = memo(() => (
     </View>
   </View>
 ));
+
+// Add Version Display component
+const VersionDisplay = memo(() => {
+  const version = Constants.expoConfig?.version || "1.0.0";
+  console.log("Version info:", {
+    configVersion: version,
+    fullConfig: Constants.expoConfig,
+    defaultVersion: "1.0.0",
+  });
+  return <Text style={styles.versionText}>v{version}</Text>;
+});
 
 // Add proper types for the CalculatorForm props
 interface CalculatorFormProps {
@@ -237,6 +249,7 @@ export const CalculatorScreen = () => {
             isCalculating={isCalculating}
             globalError={globalError}
           />
+          <VersionDisplay />
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
