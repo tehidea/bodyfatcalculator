@@ -122,34 +122,53 @@ describe("MeasurementInput", () => {
     expect(mockSetInput).toHaveBeenCalledWith("weight", 0.5);
   });
 
-  describe("MeasurementInput decimal handling", () => {
-    it("allows typing decimal numbers", () => {
+  describe("decimal point handling", () => {
+    it("handles single decimal point", () => {
       const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
       const input = getByAccessibilityHint("Enter weight");
 
-      // Test sequence of typing "85.5"
       act(() => {
-        fireEvent.changeText(input, "8");
+        fireEvent.changeText(input, ".");
       });
-      expect(mockSetInput).toHaveBeenCalledWith("weight", 8);
 
-      act(() => {
-        fireEvent.changeText(input, "85");
-      });
-      expect(mockSetInput).toHaveBeenCalledWith("weight", 85);
-
-      act(() => {
-        fireEvent.changeText(input, "85.");
-      });
-      expect(mockSetInput).toHaveBeenCalledWith("weight", 85);
-
-      act(() => {
-        fireEvent.changeText(input, "85.5");
-      });
-      expect(mockSetInput).toHaveBeenCalledWith("weight", 85.5);
+      expect(mockSetInput).toHaveBeenCalledWith("weight", 0);
     });
 
-    it("handles decimal point at start", () => {
+    it("handles decimal numbers correctly", () => {
+      const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+      const input = getByAccessibilityHint("Enter weight");
+
+      act(() => {
+        fireEvent.changeText(input, "80.5");
+      });
+
+      expect(mockSetInput).toHaveBeenCalledWith("weight", 80.5);
+    });
+
+    it("handles typing decimal numbers in sequence", () => {
+      const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+      const input = getByAccessibilityHint("Enter weight");
+
+      // Type "80" first
+      act(() => {
+        fireEvent.changeText(input, "80");
+      });
+      expect(mockSetInput).toHaveBeenCalledWith("weight", 80);
+
+      // Add decimal point
+      act(() => {
+        fireEvent.changeText(input, "80.");
+      });
+      expect(mockSetInput).toHaveBeenCalledWith("weight", 80);
+
+      // Complete the decimal number
+      act(() => {
+        fireEvent.changeText(input, "80.5");
+      });
+      expect(mockSetInput).toHaveBeenCalledWith("weight", 80.5);
+    });
+
+    it("handles starting with decimal point", () => {
       const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
       const input = getByAccessibilityHint("Enter weight");
 
@@ -163,16 +182,27 @@ describe("MeasurementInput", () => {
       });
       expect(mockSetInput).toHaveBeenCalledWith("weight", 0.5);
     });
+  });
 
-    it("handles multiple decimal points correctly", () => {
-      const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
-      const input = getByAccessibilityHint("Enter weight");
+  it("displays raw input value while typing decimal numbers", () => {
+    const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+    const input = getByAccessibilityHint("Enter weight");
 
-      act(() => {
-        fireEvent.changeText(input, "85.5.5");
-      });
-      // Should not update the value as it's invalid
-      expect(mockSetInput).not.toHaveBeenCalledWith("weight", 85.55);
+    // Type "80."
+    act(() => {
+      fireEvent.changeText(input, "80.");
     });
+
+    // Check that the raw value "80." is displayed
+    expect(input.props.value).toBe("80.");
+
+    // Complete the decimal number
+    act(() => {
+      fireEvent.changeText(input, "80.5");
+    });
+
+    // Check both the display and the stored value
+    expect(input.props.value).toBe("80.5");
+    expect(mockSetInput).toHaveBeenCalledWith("weight", 80.5);
   });
 });
