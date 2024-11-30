@@ -2,11 +2,11 @@ import React, { useState, useMemo, useCallback, useRef, useEffect } from "react"
 import { ScrollView, View, KeyboardAvoidingView, Platform, Keyboard } from "react-native";
 import { Text, Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FormulaSelector } from "../components/Calculator/FormulaSelector";
-import { GenderSelector } from "../components/Calculator/GenderSelector";
-import { MeasurementSelector } from "../components/Calculator/MeasurementSelector";
-import { MeasurementInput } from "../components/Calculator/MeasurementInput";
-import { ResultsDisplay } from "../components/Calculator/ResultsDisplay";
+import { FormulaSelector } from "../components/calculator/FormulaSelector";
+import { GenderSelector } from "../components/calculator/GenderSelector";
+import { MeasurementSelector } from "../components/calculator/MeasurementSelector";
+import { MeasurementInput } from "../components/calculator/MeasurementInput";
+import { ResultsDisplay } from "../components/calculator/ResultsDisplay";
 import { useCalculatorStore } from "../store/calculatorStore";
 import { validateInputs } from "../utils/validation";
 import { FORMULA_REQUIREMENTS } from "../constants/formulas";
