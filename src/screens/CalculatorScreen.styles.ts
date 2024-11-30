@@ -4,7 +4,7 @@ import { COLORS } from "../constants/theme";
 export const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.background,
   },
   header: {
     flexDirection: "row",
