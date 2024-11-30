@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback, useRef, useEffect } from "react";
-import { ScrollView, View, KeyboardAvoidingView, Platform } from "react-native";
+import { ScrollView, View, KeyboardAvoidingView, Platform, Keyboard } from "react-native";
 import { Text, Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FormulaSelector } from "../components/Calculator/FormulaSelector";
@@ -82,10 +82,10 @@ const CalculatorForm = memo(
             nextRef.focus();
           }
         } else {
-          handleCalculate();
+          Keyboard.dismiss();
         }
       },
-      [visibleFields.length, handleCalculate]
+      [visibleFields.length]
     );
 
     const setInputRef = useCallback((index: number, ref: InputRef | null) => {
