@@ -16,6 +16,7 @@ import { calculateResults } from "../utils/calculations";
 import { styles } from "./CalculatorScreen.styles";
 import { CalculatorInputs } from "../types/calculator";
 import { InputRef } from "../components/common/Input";
+import { getUnitLabel } from "../constants/formulas";
 
 // Extract Header into a separate component
 const Header = memo(() => (
@@ -59,6 +60,7 @@ const CalculatorForm = memo(
     globalError,
   }: CalculatorFormProps) => {
     const gender = useCalculatorStore(state => state.gender);
+    const measurementSystem = useCalculatorStore(state => state.measurementSystem);
     const inputRefs = useRef<(InputRef | null)[]>([]);
 
     const visibleFields = useMemo(
@@ -66,9 +68,18 @@ const CalculatorForm = memo(
       [formulaFields, gender]
     );
 
+    const fieldsWithConvertedUnits = useMemo(
+      () =>
+        visibleFields.map(field => ({
+          ...field,
+          unit: getUnitLabel(field.unit, measurementSystem),
+        })),
+      [visibleFields, measurementSystem]
+    );
+
     // Initialize refs array when component mounts
     useEffect(() => {
-      inputRefs.current = new Array(visibleFields.length).fill(null);
+      inputRefs.current = new Array(fieldsWithConvertedUnits.length).fill(null);
       return () => {
         inputRefs.current = [];
       };
@@ -76,7 +87,7 @@ const CalculatorForm = memo(
 
     const handleInputSubmit = useCallback(
       (currentIndex: number) => {
-        if (currentIndex < visibleFields.length - 1) {
+        if (currentIndex < fieldsWithConvertedUnits.length - 1) {
           const nextRef = inputRefs.current[currentIndex + 1];
           if (nextRef) {
             nextRef.focus();
@@ -85,7 +96,7 @@ const CalculatorForm = memo(
           Keyboard.dismiss();
         }
       },
-      [visibleFields.length]
+      [fieldsWithConvertedUnits.length]
     );
 
     const setInputRef = useCallback((index: number, ref: InputRef | null) => {
@@ -104,13 +115,13 @@ const CalculatorForm = memo(
           </View>
         </View>
 
-        {visibleFields.map((field, index) => (
+        {fieldsWithConvertedUnits.map((field, index) => (
           <MeasurementInput
             key={field.key}
             field={field}
             error={getFieldError(field.key) ?? ""}
             ref={ref => setInputRef(index, ref)}
-            returnKeyType={index === visibleFields.length - 1 ? "done" : "next"}
+            returnKeyType={index === fieldsWithConvertedUnits.length - 1 ? "done" : "next"}
             onSubmitEditing={() => {
               handleInputSubmit(index);
             }}
