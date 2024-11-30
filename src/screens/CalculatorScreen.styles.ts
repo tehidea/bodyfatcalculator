@@ -53,14 +53,22 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
     padding: 12,
     backgroundColor: "#f5f5f5",
-    borderRadius: 10,
+    borderRadius: 12,
   },
   buttonContainer: {
     marginTop: 24,
     marginBottom: 16,
   },
   resetButton: {
-    marginTop: 12,
+    borderRadius: 12,
+    overflow: "hidden",
+    backgroundColor: "#444",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+  },
+  resetButtonText: {
+    color: COLORS.white,
+    fontWeight: "bold",
   },
   content: {
     flex: 1,
@@ -74,18 +82,18 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   buttonWrapper: {
-    borderRadius: 10,
+    borderRadius: 12,
     overflow: "hidden",
   },
   buttonWrapperFlex: {
-    borderRadius: 10,
+    borderRadius: 12,
     overflow: "hidden",
     flex: 1,
   },
   button: {
     paddingVertical: 12,
     paddingHorizontal: 24,
-    borderRadius: 10,
+    borderRadius: 14,
   },
   buttonRow: {
     flexDirection: "row",
@@ -115,7 +123,7 @@ export const styles = StyleSheet.create({
   errorContainer: {
     backgroundColor: "#ffebee",
     padding: 12,
-    borderRadius: 8,
+    borderRadius: 12,
     marginBottom: 16,
   },
   errorText: {

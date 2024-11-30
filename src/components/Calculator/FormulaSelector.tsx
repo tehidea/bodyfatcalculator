@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   },
   selector: {
     backgroundColor: "#444",
-    borderRadius: 10,
+    borderRadius: 12,
     padding: 12,
   },
   selectedFormula: {
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
   },
   upgradeButton: {
     backgroundColor: COLORS.primary,
-    borderRadius: 8,
+    borderRadius: 12,
     paddingHorizontal: 32,
     paddingVertical: 12,
     marginBottom: 8,

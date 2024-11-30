@@ -92,9 +92,8 @@ const CalculatorForm = memo(
             title="Reset"
             onPress={handleReset}
             disabled={isCalculating}
-            type="outline"
-            buttonStyle={styles.button}
-            titleStyle={styles.outlineButtonTitle}
+            buttonStyle={styles.resetButton}
+            titleStyle={styles.resetButtonText}
             containerStyle={styles.buttonWrapperFlex}
           />
         </View>
