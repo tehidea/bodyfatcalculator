@@ -3,6 +3,7 @@ import { Input, InputRef } from "../common/Input";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { CalculatorInputs } from "../../types/calculator";
 import { ReturnKeyTypeOptions } from "react-native";
+import { getUnitLabel } from "../../constants/formulas";
 
 interface MeasurementInputProps {
   field: {
@@ -17,11 +18,11 @@ interface MeasurementInputProps {
 
 export const MeasurementInput = forwardRef<InputRef, MeasurementInputProps>(
   ({ field, error, returnKeyType, onSubmitEditing, ...props }, ref) => {
-    const { inputs, setInput } = useCalculatorStore();
+    const { inputs, setInput, measurementSystem } = useCalculatorStore();
     const [rawValue, setRawValue] = useState("");
     const [isEditing, setIsEditing] = useState(false);
 
-    // Sync with store and handle reset
+    // Sync with store and handle reset or measurement system change
     useEffect(() => {
       const storeValue = inputs[field.key];
       if (storeValue === undefined || storeValue === null) {
@@ -30,7 +31,7 @@ export const MeasurementInput = forwardRef<InputRef, MeasurementInputProps>(
       } else if (!isEditing) {
         setRawValue(storeValue.toString());
       }
-    }, [inputs, field.key, isEditing]);
+    }, [inputs, field.key, isEditing, measurementSystem]);
 
     const handleChangeText = (value: string) => {
       setIsEditing(true);
@@ -69,7 +70,7 @@ export const MeasurementInput = forwardRef<InputRef, MeasurementInputProps>(
       <Input
         ref={ref}
         label={field.label}
-        unit={field.unit}
+        unit={getUnitLabel(field.unit, measurementSystem)}
         value={rawValue}
         onChangeText={handleChangeText}
         onBlur={handleBlur}

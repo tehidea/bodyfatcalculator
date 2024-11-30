@@ -108,6 +108,8 @@ export const useCalculatorStore = create<CalculatorStore>()(
           inputs: convertedInputs,
           results: null,
           isResultsStale: true,
+          error: null,
+          fieldErrors: {},
         });
       },
       setInput: (key, value) =>
