@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
-    maxHeight: "80%",
+    maxHeight: "85%",
   },
   modalHeader: {
     flexDirection: "row",
@@ -222,7 +222,8 @@ const styles = StyleSheet.create({
     color: COLORS.textDark,
   },
   formulaItem: {
-    padding: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
   },
