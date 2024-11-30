@@ -46,6 +46,7 @@ export const Input = forwardRef<InputRef, Props>(
       console.log(`[Input] Toolbar button pressed for: ${label}`);
       if (returnKeyType === "done") {
         Keyboard.dismiss();
+        return;
       }
       if (onSubmitEditing) {
         onSubmitEditing();
