@@ -32,21 +32,15 @@ export const Input = forwardRef<InputRef, Props>(
 
     useImperativeHandle(ref, () => ({
       focus: () => {
-        console.log(`[Input] Attempting to focus input: ${label}`);
         if (inputRef.current) {
           inputRef.current.focus();
-          console.log(`[Input] Focus called on input: ${label}`);
-        } else {
-          console.log(`[Input] Input ref is null for: ${label}`);
         }
       },
     }));
 
     const handleToolbarPress = () => {
-      console.log(`[Input] Toolbar button pressed for: ${label}`);
       if (returnKeyType === "done") {
         Keyboard.dismiss();
-        return;
       }
       if (onSubmitEditing) {
         onSubmitEditing();
@@ -78,8 +72,7 @@ export const Input = forwardRef<InputRef, Props>(
               accessibilityRole="spinbutton"
               inputAccessoryViewID={inputAccessoryViewID}
               keyboardType="decimal-pad"
-              onFocus={() => console.log(`[Input] Input focused: ${label}`)}
-              onBlur={() => console.log(`[Input] Input blurred: ${label}`)}
+              {...props}
             />
             <Text style={styles.unit}>{unit}</Text>
           </View>
