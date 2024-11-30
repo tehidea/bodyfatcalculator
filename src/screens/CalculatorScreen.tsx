@@ -163,10 +163,8 @@ export const CalculatorScreen = () => {
     setError,
     reset,
     measurementSystem,
+    fieldErrors,
   } = useCalculatorStore();
-
-  // Local state for field-specific errors
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const formulaFields = FORMULA_REQUIREMENTS[formula].fields;
 
@@ -177,14 +175,12 @@ export const CalculatorScreen = () => {
 
   // Memoize callbacks
   const handleCalculate = useCallback(async () => {
-    setFieldErrors({});
     setError(null);
 
     try {
       const validation = validateInputs(formula, inputs, gender);
       if (!validation.success) {
-        setFieldErrors(validation.errors);
-        setError("Please correct the input errors");
+        setError("Please correct the input errors", validation.errors);
         return;
       }
 
@@ -196,7 +192,6 @@ export const CalculatorScreen = () => {
   }, [formula, gender, inputs, measurementSystem]);
 
   const handleReset = useCallback(() => {
-    setFieldErrors({});
     setError(null);
     reset();
   }, [reset]);

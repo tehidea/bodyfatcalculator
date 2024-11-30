@@ -37,6 +37,8 @@ export const calculatorInputSchema = z.object({
   neckCircumference: circumferenceSchema,
   wristCircumference: wristSchema,
   forearmCircumference: circumferenceSchema,
+  thighCircumference: circumferenceSchema,
+  calfCircumference: circumferenceSchema,
 
   // Skinfolds
   chestSkinfold: skinfoldSchema,
@@ -75,8 +77,9 @@ export const formulaSchemas = {
       })
       .required(),
 
-  covert: (gender: Gender) =>
-    calculatorInputSchema
+  covert: (gender: Gender) => {
+    console.log("Creating Covert schema for gender:", gender);
+    const schema = calculatorInputSchema
       .pick({
         age: true,
         hipsCircumference: true,
@@ -91,7 +94,10 @@ export const formulaSchemas = {
               calfCircumference: true,
             }),
       })
-      .required(),
+      .required();
+    console.log("Created schema shape:", schema._def.shape());
+    return schema;
+  },
 
   // ... other formula schemas
 } as const;

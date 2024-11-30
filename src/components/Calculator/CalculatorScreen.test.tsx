@@ -47,6 +47,7 @@ describe("CalculatorScreen", () => {
         weight: 80,
       },
       error: null,
+      fieldErrors: {},
       isCalculating: false,
       isResultsStale: false,
       results: null,

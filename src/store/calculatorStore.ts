@@ -31,7 +31,7 @@ export interface CalculatorStore {
   setMeasurementSystem: (system: MeasurementSystem) => void;
   setInput: (key: keyof CalculatorInputs, value: number | null) => void;
   setResults: (results: CalculatorResults | null) => void;
-  setError: (error: string | null) => void;
+  setError: (error: string | null, fieldErrors?: Record<string, string>) => void;
   setHasHydrated: (state: boolean) => void;
   setResultsStale: (isStale: boolean) => void;
   calculate: () => Promise<void>;
@@ -116,15 +116,24 @@ export const useCalculatorStore = create<CalculatorStore>()(
           isResultsStale: true,
         })),
       setResults: results => set({ results, isResultsStale: false }),
-      setError: error => set({ error }),
+      setError: (error, fieldErrors = {}) =>
+        set({
+          error,
+          fieldErrors,
+          isCalculating: false,
+        }),
       calculate: async () => {
         const { formula, gender, inputs, measurementSystem } = get();
 
         set({ isCalculating: true, error: null });
 
         try {
+          console.log("Starting validation for:", formula);
           const validation = validateInputs(formula, inputs, gender);
+          console.log("Validation result:", validation);
+
           if (!validation.success) {
+            console.log("Setting validation errors:", validation.errors);
             set({
               error: "Please correct the input errors",
               fieldErrors: validation.errors,
@@ -141,6 +150,7 @@ export const useCalculatorStore = create<CalculatorStore>()(
             fieldErrors: {},
           });
         } catch (error) {
+          console.error("Calculation error:", error);
           set({
             error: error instanceof Error ? error.message : "An unexpected error occurred",
             isCalculating: false,
