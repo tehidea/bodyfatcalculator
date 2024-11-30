@@ -9,11 +9,13 @@ jest.mock("../../store/calculatorStore", () => ({
   useCalculatorStore: jest.fn(),
 }));
 
+const mockUseCalculatorStore = useCalculatorStore as jest.MockedFunction<typeof useCalculatorStore>;
+
 describe("MeasurementInput", () => {
   const mockSetInput = jest.fn();
 
   beforeEach(() => {
-    (useCalculatorStore as jest.Mock).mockReturnValue({
+    mockUseCalculatorStore.mockReturnValue({
       inputs: {},
       setInput: mockSetInput,
       measurementSystem: "metric",
