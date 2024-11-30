@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { Gender } from "../types/calculator";
 
 // Unit-specific schemas
 const weightSchema = z
@@ -71,6 +72,24 @@ export const formulaSchemas = {
               forearmCircumference: true,
             }
           : {}),
+      })
+      .required(),
+
+  covert: (gender: Gender) =>
+    calculatorInputSchema
+      .pick({
+        age: true,
+        hipsCircumference: true,
+        wristCircumference: true,
+        ...(gender === "male"
+          ? {
+              waistCircumference: true,
+              forearmCircumference: true,
+            }
+          : {
+              thighCircumference: true,
+              calfCircumference: true,
+            }),
       })
       .required(),
 

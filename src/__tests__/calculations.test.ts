@@ -102,4 +102,65 @@ describe("Body Fat Calculator Formulas", () => {
     test("throws error for missing required inputs", () => {});
     test("validates input ranges", () => {});
   });
+
+  // Covert Bailey Formula Tests
+  describe("Covert Bailey Formula", () => {
+    const formula: Formula = "covert";
+
+    test("calculates male body fat correctly for age ≤ 30", () => {
+      const inputs: CalculatorInputs = {
+        age: 25,
+        hipsCircumference: 100, // cm
+        waistCircumference: 85, // cm
+        forearmCircumference: 30, // cm
+        wristCircumference: 17, // cm
+      };
+      const result = calculateBodyFat(formula, "male", inputs, "metric");
+      // B + 0.5A – 3C – D
+      const expected = 85 * 0.393701 + 0.5 * 100 * 0.393701 - 3 * 30 * 0.393701 - 17 * 0.393701;
+      expect(result).toBeCloseTo(expected, 1);
+    });
+
+    test("calculates male body fat correctly for age > 30", () => {
+      const inputs: CalculatorInputs = {
+        age: 35,
+        hipsCircumference: 100, // cm
+        waistCircumference: 85, // cm
+        forearmCircumference: 30, // cm
+        wristCircumference: 17, // cm
+      };
+      const result = calculateBodyFat(formula, "male", inputs, "metric");
+      // B + 0.5A – 2.7C – D
+      const expected = 85 * 0.393701 + 0.5 * 100 * 0.393701 - 2.7 * 30 * 0.393701 - 17 * 0.393701;
+      expect(result).toBeCloseTo(expected, 1);
+    });
+
+    test("calculates female body fat correctly for age ≤ 30", () => {
+      const inputs: CalculatorInputs = {
+        age: 25,
+        hipsCircumference: 100, // cm
+        thighCircumference: 60, // cm
+        calfCircumference: 38, // cm
+        wristCircumference: 15, // cm
+      };
+      const result = calculateBodyFat(formula, "female", inputs, "metric");
+      // A + 0.8B – 2C – D
+      const expected = 100 * 0.393701 + 0.8 * 60 * 0.393701 - 2 * 38 * 0.393701 - 15 * 0.393701;
+      expect(result).toBeCloseTo(expected, 1);
+    });
+
+    test("calculates female body fat correctly for age > 30", () => {
+      const inputs: CalculatorInputs = {
+        age: 35,
+        hipsCircumference: 100, // cm
+        thighCircumference: 60, // cm
+        calfCircumference: 38, // cm
+        wristCircumference: 15, // cm
+      };
+      const result = calculateBodyFat(formula, "female", inputs, "metric");
+      // A + B – 2C – D
+      const expected = 100 * 0.393701 + 60 * 0.393701 - 2 * 38 * 0.393701 - 15 * 0.393701;
+      expect(result).toBeCloseTo(expected, 1);
+    });
+  });
 });

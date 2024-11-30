@@ -112,15 +112,35 @@ $$\left(\frac{0.268 \times Weight_{lb} - 0.318 \times Wrist_{in} + 0.157 \times 
 
 ### Covert Bailey Formula
 
-A method that accounts for body frame size using wrist measurements.
+An age-specific method that uses multiple body measurements to estimate body fat percentage. The formula varies by both gender and age group.
 
 **For Men:**
 
-$$\left(\frac{Weight_{lb} \times 1.082 + 94.42 - Wrist_{in} \times 4.15}{Weight_{lb}}\right) \times 100$$
+- Age ≤ 30: Body Fat% = B + 0.5A - 3C - D
+- Age > 30: Body Fat% = B + 0.5A - 2.7C - D
+
+Where:
+
+- A = Hips circumference (widest point)
+- B = Waist circumference (at navel)
+- C = Forearm circumference (widest point)
+- D = Wrist circumference (smallest point)
 
 **For Women:**
 
-$$\left(\frac{Weight_{lb} \times 0.732 + 8.987 + Wrist_{in} \times 3.786}{Weight_{lb}}\right) \times 100$$
+- Age ≤ 30: Body Fat% = A + 0.8B - 2C - D
+- Age > 30: Body Fat% = A + B - 2C - D
+
+Where:
+
+- A = Hips circumference (widest point)
+- B = Thigh circumference (widest point)
+- C = Calf circumference (widest point)
+- D = Wrist circumference (smallest point)
+
+All measurements should be taken in inches. The calculator automatically converts metric measurements.
+
+Reference: Bailey, Covert. Fit or Fat. Houghton Mifflin Harcourt.
 
 ### Jackson & Pollock 7-Site Formula
 

@@ -182,6 +182,54 @@ export const calculateBodyFat = (
       );
     }
 
+    case "covert": {
+      if (gender === "male") {
+        const hips =
+          measurementSystem === "metric"
+            ? convertToImperial(hipsCircumference, "cm")
+            : hipsCircumference;
+        const waist =
+          measurementSystem === "metric"
+            ? convertToImperial(waistCircumference, "cm")
+            : waistCircumference;
+        const forearm =
+          measurementSystem === "metric"
+            ? convertToImperial(forearmCircumference, "cm")
+            : forearmCircumference;
+        const wrist =
+          measurementSystem === "metric"
+            ? convertToImperial(wristCircumference, "cm")
+            : wristCircumference;
+
+        // B + 0.5A – 3C – D (age ≤ 30)
+        // B + 0.5A – 2.7C – D (age > 30)
+        const forearmMultiplier = age <= 30 ? 3 : 2.7;
+        return waist + 0.5 * hips - forearmMultiplier * forearm - wrist;
+      } else {
+        const hips =
+          measurementSystem === "metric"
+            ? convertToImperial(hipsCircumference, "cm")
+            : hipsCircumference;
+        const thigh =
+          measurementSystem === "metric"
+            ? convertToImperial(thighCircumference, "cm")
+            : thighCircumference;
+        const calf =
+          measurementSystem === "metric"
+            ? convertToImperial(calfCircumference, "cm")
+            : calfCircumference;
+        const wrist =
+          measurementSystem === "metric"
+            ? convertToImperial(wristCircumference, "cm")
+            : wristCircumference;
+
+        // A + 0.8B – 2C – D (age ≤ 30)
+        // A + B – 2C – D (age > 30)
+        const thighMultiplier = age <= 30 ? 0.8 : 1;
+        return hips + thighMultiplier * thigh - 2 * calf - wrist;
+      }
+    }
+
     default:
       return 0;
   }
