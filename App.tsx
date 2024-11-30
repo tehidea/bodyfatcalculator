@@ -1,37 +1,42 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ThemeProvider } from "@rneui/themed";
-import { useFonts } from "expo-font";
+import {
+  useFonts,
+  Montserrat_200ExtraLight,
+  Montserrat_300Light,
+} from "@expo-google-fonts/montserrat";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { CalculatorScreen } from "./src/screens/CalculatorScreen";
 import { theme } from "./src/constants/theme";
 import { initializeStore } from "./src/config/store";
+import { View } from "react-native";
 
-// Prevent splash screen from auto-hiding
+// Keep splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
 // Create the navigator
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [loaded, error] = useFonts({
-    "Montserrat-ExtraLight": require("./assets/fonts/Montserrat-ExtraLight.ttf"),
-    "Montserrat-Light": require("./assets/fonts/Montserrat-Light.ttf"),
+  const [fontsLoaded, fontError] = useFonts({
+    "Montserrat-ExtraLight": Montserrat_200ExtraLight,
+    "Montserrat-Light": Montserrat_300Light,
   });
 
-  useEffect(() => {
-    if (loaded || error) {
-      SplashScreen.hideAsync();
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded || fontError) {
+      await SplashScreen.hideAsync();
     }
-  }, [loaded, error]);
+  }, [fontsLoaded, fontError]);
 
   useEffect(() => {
     initializeStore().catch(console.error);
   }, []);
 
-  if (!loaded && !error) {
+  if (!fontsLoaded && !fontError) {
     return null;
   }
 
@@ -49,6 +54,9 @@ export default function App() {
           </Stack.Navigator>
         </NavigationContainer>
       </ThemeProvider>
+      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        {/* Your existing app content */}
+      </View>
     </SafeAreaProvider>
   );
 }

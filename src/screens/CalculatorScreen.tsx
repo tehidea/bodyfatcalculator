@@ -26,7 +26,7 @@ const Header = memo(() => (
         <Text style={[styles.headerTitle, { fontFamily: "Montserrat-ExtraLight" }]}>Body</Text>
         <Text style={[styles.headerTitle, { fontFamily: "Montserrat-Light" }]}>Fat</Text>
       </View>
-      <Text style={styles.strapline}>Body fat Calculator for skinfold calipers</Text>
+      <Text style={styles.strapline}>Body Fat Calculator for skinfold calipers</Text>
     </View>
   </View>
 ));
@@ -37,6 +37,7 @@ interface CalculatorFormProps {
     key: keyof CalculatorInputs;
     label: string;
     unit: string;
+    genderSpecific?: string;
   }>;
   getFieldError: (fieldKey: string) => string | undefined;
   handleCalculate: () => Promise<void>;
