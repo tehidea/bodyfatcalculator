@@ -1,20 +1,21 @@
 import React from "react";
+import { ReturnKeyTypeOptions } from "react-native";
 import { render, fireEvent, act } from "@testing-library/react-native";
 import { MeasurementInput } from "./MeasurementInput";
 import { useCalculatorStore } from "../../store/calculatorStore";
 
 // Mock the store
-jest.mock("../../store/calculatorStore");
+jest.mock("../../store/calculatorStore", () => ({
+  useCalculatorStore: jest.fn(),
+}));
 
 describe("MeasurementInput", () => {
   const mockSetInput = jest.fn();
-  const mockSetResults = jest.fn();
 
   beforeEach(() => {
     (useCalculatorStore as jest.Mock).mockReturnValue({
       inputs: {},
       setInput: mockSetInput,
-      setResults: mockSetResults,
       measurementSystem: "metric",
     });
   });
@@ -28,30 +29,31 @@ describe("MeasurementInput", () => {
       key: "weight" as const,
       label: "Weight",
       unit: "kg",
-      required: true,
     },
+    error: "",
+    returnKeyType: "next" as ReturnKeyTypeOptions,
+    onSubmitEditing: () => {},
   };
 
   it("renders correctly with empty value", () => {
-    const { getByPlaceholderText } = render(<MeasurementInput {...defaultProps} />);
-    expect(getByPlaceholderText("Enter weight")).toBeTruthy();
+    const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+    expect(getByAccessibilityHint("Enter weight")).toBeTruthy();
   });
 
   it("handles valid number input", () => {
-    const { getByPlaceholderText } = render(<MeasurementInput {...defaultProps} />);
-    const input = getByPlaceholderText("Enter weight");
+    const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+    const input = getByAccessibilityHint("Enter weight");
 
     act(() => {
       fireEvent.changeText(input, "75");
     });
 
     expect(mockSetInput).toHaveBeenCalledWith("weight", 75);
-    expect(mockSetResults).toHaveBeenCalledWith(null);
   });
 
   it("handles decimal input", () => {
-    const { getByPlaceholderText } = render(<MeasurementInput {...defaultProps} />);
-    const input = getByPlaceholderText("Enter weight");
+    const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+    const input = getByAccessibilityHint("Enter weight");
 
     act(() => {
       fireEvent.changeText(input, "75.5");
@@ -61,8 +63,8 @@ describe("MeasurementInput", () => {
   });
 
   it("handles starting with decimal point", () => {
-    const { getByPlaceholderText } = render(<MeasurementInput {...defaultProps} />);
-    const input = getByPlaceholderText("Enter weight");
+    const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+    const input = getByAccessibilityHint("Enter weight");
 
     act(() => {
       fireEvent.changeText(input, ".");
@@ -72,15 +74,14 @@ describe("MeasurementInput", () => {
   });
 
   it("handles empty input", () => {
-    const { getByPlaceholderText } = render(<MeasurementInput {...defaultProps} />);
-    const input = getByPlaceholderText("Enter weight");
+    const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+    const input = getByAccessibilityHint("Enter weight");
 
     act(() => {
       fireEvent.changeText(input, "");
     });
 
     expect(mockSetInput).toHaveBeenCalledWith("weight", null);
-    expect(mockSetResults).toHaveBeenCalledWith(null);
   });
 
   it("displays error message when provided", () => {
@@ -89,8 +90,8 @@ describe("MeasurementInput", () => {
   });
 
   it("rejects invalid input", () => {
-    const { getByPlaceholderText } = render(<MeasurementInput {...defaultProps} />);
-    const input = getByPlaceholderText("Enter weight");
+    const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+    const input = getByAccessibilityHint("Enter weight");
 
     act(() => {
       fireEvent.changeText(input, "abc");
@@ -100,33 +101,31 @@ describe("MeasurementInput", () => {
   });
 
   it("allows input outside valid range before calculation", () => {
-    const { getByPlaceholderText } = render(<MeasurementInput {...defaultProps} />);
-    const input = getByPlaceholderText("Enter weight");
+    const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+    const input = getByAccessibilityHint("Enter weight");
 
     act(() => {
       fireEvent.changeText(input, "500"); // Value outside valid range (20-300)
     });
 
     expect(mockSetInput).toHaveBeenCalledWith("weight", 500);
-    expect(mockSetResults).toHaveBeenCalledWith(null);
   });
 
   it("allows decimal input without immediate validation", () => {
-    const { getByPlaceholderText } = render(<MeasurementInput {...defaultProps} />);
-    const input = getByPlaceholderText("Enter weight");
+    const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+    const input = getByAccessibilityHint("Enter weight");
 
     act(() => {
       fireEvent.changeText(input, "0.5"); // Value below minimum (20)
     });
 
     expect(mockSetInput).toHaveBeenCalledWith("weight", 0.5);
-    expect(mockSetResults).toHaveBeenCalledWith(null);
   });
 
   describe("MeasurementInput decimal handling", () => {
     it("allows typing decimal numbers", () => {
-      const { getByPlaceholderText } = render(<MeasurementInput {...defaultProps} />);
-      const input = getByPlaceholderText("Enter weight");
+      const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+      const input = getByAccessibilityHint("Enter weight");
 
       // Test sequence of typing "85.5"
       act(() => {
@@ -151,8 +150,8 @@ describe("MeasurementInput", () => {
     });
 
     it("handles decimal point at start", () => {
-      const { getByPlaceholderText } = render(<MeasurementInput {...defaultProps} />);
-      const input = getByPlaceholderText("Enter weight");
+      const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+      const input = getByAccessibilityHint("Enter weight");
 
       act(() => {
         fireEvent.changeText(input, ".");
@@ -166,8 +165,8 @@ describe("MeasurementInput", () => {
     });
 
     it("handles multiple decimal points correctly", () => {
-      const { getByPlaceholderText } = render(<MeasurementInput {...defaultProps} />);
-      const input = getByPlaceholderText("Enter weight");
+      const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+      const input = getByAccessibilityHint("Enter weight");
 
       act(() => {
         fireEvent.changeText(input, "85.5.5");

@@ -12,7 +12,7 @@ import { FORMULA_REQUIREMENTS } from "../constants/formulas";
 import { validateInputs } from "../utils/validation";
 import { calculateBodyFat, calculateResults, getClassification } from "../utils/calculations";
 
-interface CalculatorStore {
+export interface CalculatorStore {
   // State
   formula: Formula;
   gender: Gender;

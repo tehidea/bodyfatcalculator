@@ -31,8 +31,13 @@ describe("CalculatorScreen", () => {
     mockCalculateResults.mockClear();
     mockValidateInputs.mockClear();
 
-    mockValidateInputs.mockReturnValue({ success: true });
-    mockCalculateResults.mockResolvedValue({ bodyFat: 20, leanMass: 60 });
+    mockValidateInputs.mockReturnValue({ success: true, errors: {} });
+    mockCalculateResults.mockResolvedValue({
+      bodyFatPercentage: 20,
+      fatMass: 16,
+      leanMass: 64,
+      classification: "Fitness (14-17%)",
+    });
 
     mockUseCalculatorStore.mockReturnValue({
       formula: "ymca",
@@ -47,7 +52,6 @@ describe("CalculatorScreen", () => {
       results: null,
       measurementSystem: "metric",
       setError: jest.fn(),
-      setResults: jest.fn(),
       reset: jest.fn(),
     });
 

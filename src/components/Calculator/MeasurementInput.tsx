@@ -20,8 +20,15 @@ export const MeasurementInput = forwardRef<InputRef, MeasurementInputProps>(
     const { inputs, setInput } = useCalculatorStore();
 
     const handleChangeText = (value: string) => {
-      const numValue = value === "" ? null : parseFloat(value);
-      setInput(field.key, numValue);
+      if (value === ".") {
+        setInput(field.key, 0);
+        return;
+      }
+
+      const numValue = value === "" ? null : Number(value);
+      if (!isNaN(numValue)) {
+        setInput(field.key, numValue);
+      }
     };
 
     return (
