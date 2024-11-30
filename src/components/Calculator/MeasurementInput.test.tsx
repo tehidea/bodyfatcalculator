@@ -186,21 +186,52 @@ describe("MeasurementInput", () => {
     });
   });
 
-  it("displays raw input value while typing decimal numbers", () => {
-    const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
-    const input = getByAccessibilityHint("Enter weight");
-
-    // Type "80."
-    act(() => {
-      fireEvent.changeText(input, "80.");
+  it("displays raw input value while typing decimal numbers", async () => {
+    mockUseCalculatorStore.mockReturnValue({
+      inputs: {},
+      setInput: mockSetInput,
+      measurementSystem: "metric",
     });
 
-    // Check that the raw value "80." is displayed
+    const { getByAccessibilityHint, rerender } = render(<MeasurementInput {...defaultProps} />);
+    const input = getByAccessibilityHint("Enter weight");
+
+    // Type "80" first
+    await act(async () => {
+      fireEvent.changeText(input, "80");
+      // Update store to simulate the state change
+      mockUseCalculatorStore.mockReturnValue({
+        inputs: { weight: 80 },
+        setInput: mockSetInput,
+        measurementSystem: "metric",
+      });
+      rerender(<MeasurementInput {...defaultProps} />);
+    });
+    expect(input.props.value).toBe("80");
+
+    // Add decimal point
+    await act(async () => {
+      fireEvent.changeText(input, "80.");
+      // Update store to simulate the state change
+      mockUseCalculatorStore.mockReturnValue({
+        inputs: { weight: 80 },
+        setInput: mockSetInput,
+        measurementSystem: "metric",
+      });
+      rerender(<MeasurementInput {...defaultProps} />);
+    });
     expect(input.props.value).toBe("80.");
 
     // Complete the decimal number
-    act(() => {
+    await act(async () => {
       fireEvent.changeText(input, "80.5");
+      // Update store to simulate the state change
+      mockUseCalculatorStore.mockReturnValue({
+        inputs: { weight: 80.5 },
+        setInput: mockSetInput,
+        measurementSystem: "metric",
+      });
+      rerender(<MeasurementInput {...defaultProps} />);
     });
 
     // Check both the display and the stored value
@@ -210,48 +241,60 @@ describe("MeasurementInput", () => {
 
   describe("reset handling", () => {
     it("clears input when store value becomes null", async () => {
+      mockUseCalculatorStore.mockReturnValue({
+        inputs: { weight: 80.5 },
+        setInput: mockSetInput,
+        measurementSystem: "metric",
+      });
+
       const { getByAccessibilityHint, rerender } = render(<MeasurementInput {...defaultProps} />);
       const input = getByAccessibilityHint("Enter weight");
 
       // First set a value
-      act(() => {
+      await act(async () => {
         fireEvent.changeText(input, "80.5");
       });
       expect(input.props.value).toBe("80.5");
 
       // Simulate store reset
-      act(() => {
+      await act(async () => {
         mockUseCalculatorStore.mockReturnValue({
           inputs: { weight: null },
           setInput: mockSetInput,
           measurementSystem: "metric",
         });
+        rerender(<MeasurementInput {...defaultProps} />);
       });
-      rerender(<MeasurementInput {...defaultProps} />);
 
       // Input should be cleared
       expect(input.props.value).toBe("");
     });
 
     it("clears input when store value becomes undefined", async () => {
+      mockUseCalculatorStore.mockReturnValue({
+        inputs: { weight: 80.5 },
+        setInput: mockSetInput,
+        measurementSystem: "metric",
+      });
+
       const { getByAccessibilityHint, rerender } = render(<MeasurementInput {...defaultProps} />);
       const input = getByAccessibilityHint("Enter weight");
 
       // First set a value
-      act(() => {
+      await act(async () => {
         fireEvent.changeText(input, "80.5");
       });
       expect(input.props.value).toBe("80.5");
 
       // Simulate store reset
-      act(() => {
+      await act(async () => {
         mockUseCalculatorStore.mockReturnValue({
           inputs: {},
           setInput: mockSetInput,
           measurementSystem: "metric",
         });
+        rerender(<MeasurementInput {...defaultProps} />);
       });
-      rerender(<MeasurementInput {...defaultProps} />);
 
       // Input should be cleared
       expect(input.props.value).toBe("");
