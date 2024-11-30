@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { ScrollView, View } from "react-native";
 import { Text, Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -15,6 +15,7 @@ import { memo } from "react";
 import { calculateResults } from "../utils/calculations";
 import { styles } from "./CalculatorScreen.styles";
 import { CalculatorInputs } from "../types/calculator";
+import { InputRef } from "../components/common/Input";
 
 // Extract Header into a separate component
 const Header = memo(() => (
@@ -57,11 +58,55 @@ const CalculatorForm = memo(
     globalError,
   }: CalculatorFormProps) => {
     const gender = useCalculatorStore(state => state.gender);
+    const inputRefs = useRef<(InputRef | null)[]>([]);
 
     const visibleFields = useMemo(
       () => formulaFields.filter(field => !field.genderSpecific || field.genderSpecific === gender),
       [formulaFields, gender]
     );
+
+    // Initialize refs array when component mounts
+    useEffect(() => {
+      console.log(`[Form] Initializing ${visibleFields.length} input refs`);
+      inputRefs.current = new Array(visibleFields.length).fill(null);
+      return () => {
+        inputRefs.current = [];
+      };
+    }, []);
+
+    const handleInputSubmit = useCallback(
+      (currentIndex: number) => {
+        console.log(`[Form] Handling submit for index ${currentIndex}`);
+        if (currentIndex < visibleFields.length - 1) {
+          console.log(`[Form] Attempting to focus next input at index ${currentIndex + 1}`);
+          const nextRef = inputRefs.current[currentIndex + 1];
+          if (nextRef) {
+            nextRef.focus();
+          } else {
+            console.log(`[Form] No ref found for index ${currentIndex + 1}`);
+            console.log(
+              "[Form] Current refs:",
+              inputRefs.current.map(r => !!r)
+            );
+          }
+        } else {
+          console.log(`[Form] Last input submitted, triggering calculation`);
+          handleCalculate();
+        }
+      },
+      [visibleFields.length, handleCalculate]
+    );
+
+    const setInputRef = useCallback((index: number, ref: InputRef | null) => {
+      console.log(`[Form] Setting ref for index ${index}: ${!!ref}`);
+      if (ref) {
+        inputRefs.current[index] = ref;
+        console.log(
+          `[Form] Current refs after setting ${index}:`,
+          inputRefs.current.map(r => !!r)
+        );
+      }
+    }, []);
 
     return (
       <View style={styles.content}>
@@ -73,8 +118,18 @@ const CalculatorForm = memo(
           </View>
         </View>
 
-        {visibleFields.map(field => (
-          <MeasurementInput key={field.key} field={field} error={getFieldError(field.key) ?? ""} />
+        {visibleFields.map((field, index) => (
+          <MeasurementInput
+            key={field.key}
+            field={field}
+            error={getFieldError(field.key) ?? ""}
+            ref={ref => setInputRef(index, ref)}
+            returnKeyType={index === visibleFields.length - 1 ? "done" : "next"}
+            onSubmitEditing={() => {
+              console.log(`[Form] MeasurementInput onSubmitEditing called for index ${index}`);
+              handleInputSubmit(index);
+            }}
+          />
         ))}
 
         <View style={styles.buttonRow}>
