@@ -12,7 +12,8 @@
     "test": "jest",
     "test:watch": "jest --watchAll",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "check-versions": "node scripts/check-versions.js"
   },
   "dependencies": {
     "@expo-google-fonts/montserrat": "^0.2.3",
@@ -43,6 +44,7 @@
     "@types/react": "~18.3.12",
     "@typescript-eslint/eslint-plugin": "^8.16.0",
     "@typescript-eslint/parser": "^8.16.0",
+    "chalk": "^4.1.2",
     "eslint": "^9.15.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
