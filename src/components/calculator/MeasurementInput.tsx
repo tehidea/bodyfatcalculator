@@ -84,11 +84,9 @@ const Input = forwardRef<InputRef, InputProps>(
           </InputAccessoryView>
         )}
         <View style={[styles.container, style]}>
-          <View style={styles.labelContainer}>
-            {measurementType && <MeasurementIcon type={measurementType} color={COLORS.text} />}
-            <Text style={styles.label}>{label}</Text>
-          </View>
+          <Text style={styles.label}>{label}</Text>
           <View style={styles.inputContainer}>
+            {measurementType && <MeasurementIcon type={measurementType} color={COLORS.textDark} />}
             <TextInput
               {...props}
               ref={inputRef}
@@ -271,13 +269,8 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: 16,
   },
-  labelContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    marginBottom: 8,
-  },
   label: {
+    marginBottom: 8,
     color: COLORS.text,
   },
   inputContainer: {
@@ -286,6 +279,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderRadius: 12,
     paddingHorizontal: 12,
+    gap: 8,
   },
   input: {
     flex: 1,
@@ -294,6 +288,7 @@ const styles = StyleSheet.create({
   },
   inputError: {
     borderColor: "red",
+    borderWidth: 1,
   },
   unit: {
     color: COLORS.primary,
@@ -304,6 +299,7 @@ const styles = StyleSheet.create({
     color: "red",
     fontSize: 12,
     marginTop: 4,
+    marginLeft: 12,
   },
   toolbar: {
     backgroundColor: "#f8f8f8",

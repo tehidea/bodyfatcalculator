@@ -1,9 +1,11 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
-import { Text } from "@rneui/themed";
+import { Text, Icon } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { Gender } from "../../types/calculator";
 import { COLORS } from "../../constants/theme";
+import MaleIcon from "../icons/MaleIcon";
+import FemaleIcon from "../icons/FemaleIcon";
 
 interface GenderSelectorProps {
   style?: ViewStyle;
@@ -23,13 +25,19 @@ export const GenderSelector = ({ style }: GenderSelectorProps) => {
         style={[styles.toggle, gender === "male" && styles.activeToggle]}
         onPress={() => handleGenderChange("male")}
       >
-        <Text style={[styles.text, gender === "male" && styles.activeText]}>♂️ Male</Text>
+        <View style={styles.iconTextContainer}>
+          <MaleIcon size={12} color="#fff" style={styles.icon} />
+          <Text style={[styles.text, gender === "male" && styles.activeText]}>Male</Text>
+        </View>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.toggle, gender === "female" && styles.activeToggle]}
         onPress={() => handleGenderChange("female")}
       >
-        <Text style={[styles.text, gender === "female" && styles.activeText]}>♀️ Female</Text>
+        <View style={styles.iconTextContainer}>
+          <FemaleIcon size={12} color="#fff" />
+          <Text style={[styles.text, gender === "female" && styles.activeText]}> Female</Text>
+        </View>
       </TouchableOpacity>
     </View>
   );
@@ -48,6 +56,8 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     paddingHorizontal: 16,
     borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
   },
   activeToggle: {
     backgroundColor: COLORS.primary,
@@ -59,5 +69,13 @@ const styles = StyleSheet.create({
   activeText: {
     color: "#fff",
     fontWeight: "bold",
+  },
+  iconTextContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  icon: {
+    marginTop: 2,
   },
 });

@@ -269,4 +269,6 @@ All calculations are performed in imperial units, with automatic conversion from
 - [Calendar](https://uxwing.com/calendar-line-icon/)
 - [Measurement Vertical](https://uxwing.com/measurement-vertical-icon/)
 - [Measuring Tape](https://uxwing.com/measuring-tape-icon/)
+- [Male Icon](https://uxwing.com/male-symbol-icon/)
+- [Female Icon](https://uxwing.com/woman-symbol-icon/)
 - Body Calipers (custom made SVG)
