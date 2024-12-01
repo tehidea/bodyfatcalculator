@@ -4,6 +4,8 @@ import { useCalculatorStore } from "../../store/calculatorStore";
 import { CalculatorInputs } from "../../types/calculator";
 import { ReturnKeyTypeOptions } from "react-native";
 import { getUnitLabel } from "../../constants/formulas";
+import { convertMeasurement } from "../../utils/conversions";
+import { isCircumferenceMeasurement, isSkinfoldMeasurement } from "../../utils/typeGuards";
 
 interface MeasurementInputProps {
   field: {
@@ -21,6 +23,15 @@ export const MeasurementInput = forwardRef<InputRef, MeasurementInputProps>(
     const { inputs, setInput, measurementSystem } = useCalculatorStore();
     const [rawValue, setRawValue] = useState("");
     const [isEditing, setIsEditing] = useState(false);
+
+    // Get measurement type for conversion
+    const getMeasurementType = () => {
+      if (isCircumferenceMeasurement(field.key)) return "circumference";
+      if (isSkinfoldMeasurement(field.key)) return "skinfold";
+      if (field.key === "weight") return "weight";
+      if (field.key === "height") return "height";
+      return null;
+    };
 
     // Sync with store and handle reset or measurement system change
     useEffect(() => {
@@ -64,6 +75,22 @@ export const MeasurementInput = forwardRef<InputRef, MeasurementInputProps>(
 
     const handleBlur = () => {
       setIsEditing(false);
+
+      // Convert the value if needed
+      const numValue = parseFloat(rawValue);
+      if (!isNaN(numValue)) {
+        const measurementType = getMeasurementType();
+        if (measurementType) {
+          const convertedValue = convertMeasurement(
+            numValue,
+            field.unit,
+            getUnitLabel(field.unit, measurementSystem),
+            measurementType
+          );
+          setRawValue(convertedValue.toString());
+          setInput(field.key, convertedValue);
+        }
+      }
     };
 
     return (
