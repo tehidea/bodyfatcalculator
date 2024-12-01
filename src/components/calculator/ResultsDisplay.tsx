@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { View, StyleSheet, Dimensions, ScrollView } from "react-native";
-import { Text, Card, LinearProgress, Button } from "@rneui/themed";
+import { Text, Card, LinearProgress, Button, Icon } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { usePremiumStore } from "../../store/premiumStore";
 import { getUnitLabel } from "../../constants/formulas";
@@ -56,19 +56,16 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
       {/* Body Fat Percentage with Progress Bar */}
       <View style={styles.mainResult}>
         <View style={styles.mainValueContainer}>
-          <Text style={styles.mainValue}>{wholeNumber}</Text>
-          {pro ? (
-            <Text style={styles.mainValue}>{decimal}%</Text>
-          ) : (
-            <View style={styles.decimalContainer}>
-              <Text style={[styles.mainValue, styles.obfuscatedText]}>.#%</Text>
-              <View style={styles.proPill}>
-                <Text style={styles.proPillText}>PRO</Text>
-              </View>
-            </View>
-          )}
+          <Text style={styles.mainValue}>{pro ? `${wholeNumber}` : `~${wholeNumber}%`}</Text>
+          {pro && <Text style={styles.mainValue}>{decimal}%</Text>}
         </View>
         <Text style={styles.mainLabel}>Body Fat</Text>
+        {!pro && (
+          <View style={styles.premiumBadge}>
+            <Icon name="lock" type="feather" color="#666" size={14} />
+            <Text style={styles.premiumBadgeText}>Unlock decimal values with PRO</Text>
+          </View>
+        )}
         <LinearProgress
           style={styles.progressBar}
           value={bodyFatProgress}
@@ -150,25 +147,21 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: COLORS.textDark,
   },
-  decimalContainer: {
+  premiumBadge: {
     flexDirection: "row",
-    alignItems: "flex-start",
-  },
-  obfuscatedText: {
-    opacity: 0.5,
-  },
-  proPill: {
-    backgroundColor: COLORS.primary + "15",
+    alignItems: "center",
+    backgroundColor: "#f0f0f0",
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 12,
-    marginLeft: 8,
-    alignSelf: "center",
+    marginTop: 8,
+    marginBottom: 12,
   },
-  proPillText: {
-    color: COLORS.primary,
-    fontSize: 12,
+  premiumBadgeText: {
+    fontSize: 10,
     fontWeight: "bold",
+    color: "#666",
+    marginLeft: 4,
   },
   mainLabel: {
     fontSize: 16,

@@ -17,11 +17,9 @@ export const theme = createTheme({
     },
   },
   lightColors: {
-    primary: COLORS.primary,
-    background: COLORS.white,
+    ...COLORS,
   },
   darkColors: {
-    primary: COLORS.primary,
-    background: COLORS.background,
+    ...COLORS,
   },
 });
