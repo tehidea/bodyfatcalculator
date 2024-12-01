@@ -165,18 +165,11 @@ export const calculateBodyFat = (
     }
 
     case "navy": {
-      const originalAbdomenInch = convertToImperial(originalAbdomenCircumference, "cm");
-      const originalNeckInch = convertToImperial(originalNeckCircumference, "cm");
-
       if (gender === "male") {
-        return (
-          86.01 * Math.log10(originalAbdomenInch - originalNeckInch) -
-          70.041 * Math.log10(heightInch) +
-          36.76
-        );
+        return 86.01 * Math.log10(waistInch - neckInch) - 70.041 * Math.log10(heightInch) + 36.76;
       }
       return (
-        163.205 * Math.log10(waistInch + hipsInch - originalNeckInch) -
+        163.205 * Math.log10(waistInch + hipsInch - neckInch) -
         97.684 * Math.log10(heightInch) -
         78.387
       );
