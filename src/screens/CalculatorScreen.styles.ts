@@ -138,7 +138,7 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     color: "rgba(255, 255, 255, 0.4)",
     fontSize: 12,
-    marginTop: 16,
+    marginTop: 32,
     marginBottom: 8,
     fontFamily: "Montserrat-Light",
   },
