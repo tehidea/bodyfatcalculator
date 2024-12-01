@@ -142,6 +142,18 @@ All measurements should be taken in inches. The calculator automatically convert
 
 Reference: Bailey, Covert. Fit or Fat. Houghton Mifflin Harcourt.
 
+### U.S. Navy Formula
+
+Uses circumference measurements to estimate body fat percentage.
+
+**For Men:**
+
+$$86.010 \times \log_{10}(Waist_{in} - Neck_{in}) - 70.041 \times \log_{10}(Height_{in}) + 36.76$$
+
+**For Women:**
+
+$$163.205 \times \log_{10}(Waist_{in} + Hip_{in} - Neck_{in}) - 97.684 \times \log_{10}(Height_{in}) - 78.387$$
+
 ### Jackson & Pollock 7-Site Formula
 
 Uses seven skinfold measurements. First calculates body density, then converts to body fat percentage.
@@ -169,18 +181,6 @@ $$1.10938 - 0.0008267(X) + 0.0000016(X^2) - 0.0002574(Age)$$
 $$1.096095 - 0.0006952(X) + 0.0000011(X^2) - 0.0000714(Age)$$
 
 Where X = Sum of abdomen, thigh, tricep, and suprailiac skinfolds (mm)
-
-### U.S. Navy Formula
-
-Uses circumference measurements to estimate body fat percentage.
-
-**For Men:**
-
-$$86.010 \times \log_{10}(Waist_{in} - Neck_{in}) - 70.041 \times \log_{10}(Height_{in}) + 36.76$$
-
-**For Women:**
-
-$$163.205 \times \log_{10}(Waist_{in} + Hip_{in} - Neck_{in}) - 97.684 \times \log_{10}(Height_{in}) - 78.387$$
 
 ### Durnin & Womersley Formula
 
