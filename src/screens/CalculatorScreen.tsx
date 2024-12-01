@@ -94,13 +94,13 @@ const CalculatorForm = memo(
       [visibleFields, measurementSystem]
     );
 
-    // Initialize refs array when component mounts
+    // Initialize refs array when component mounts or formula changes
     useEffect(() => {
       inputRefs.current = new Array(fieldsWithConvertedUnits.length).fill(null);
       return () => {
         inputRefs.current = [];
       };
-    }, []);
+    }, [fieldsWithConvertedUnits.length]);
 
     const handleInputSubmit = useCallback(
       (currentIndex: number) => {
