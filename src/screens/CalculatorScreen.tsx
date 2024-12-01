@@ -35,13 +35,18 @@ const Header = memo(() => (
 
 // Add Version Display component
 const VersionDisplay = memo(() => {
-  const version = Constants.expoConfig?.version || "1.0.0";
-  console.log("Version info:", {
-    configVersion: version,
-    fullConfig: Constants.expoConfig,
-    defaultVersion: "1.0.0",
-  });
-  return <Text style={styles.versionText}>v{version}</Text>;
+  const version = Constants.expoConfig?.version || "?.?.?";
+  const buildNumber =
+    Platform.select({
+      ios: Constants.expoConfig?.ios?.buildNumber,
+      android: Constants.expoConfig?.android?.versionCode?.toString(),
+    }) || null;
+  return (
+    <Text style={styles.versionText}>
+      v{version}
+      {buildNumber ? ` (${buildNumber})` : ""}
+    </Text>
+  );
 });
 
 // Add proper types for the CalculatorForm props
