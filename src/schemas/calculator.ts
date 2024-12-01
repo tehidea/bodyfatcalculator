@@ -5,32 +5,56 @@ import { Gender, Formula, MeasurementSystem } from "../types/calculator";
 function createWeightSchema(system: MeasurementSystem) {
   return z
     .number()
-    .min(system === "metric" ? 20 : 44, `Weight must be at least ${system === "metric" ? "20 kg" : "44 lbs"}`)
-    .max(system === "metric" ? 300 : 661, `Weight cannot exceed ${system === "metric" ? "300 kg" : "661 lbs"}`)
+    .min(
+      system === "metric" ? 20 : 44,
+      `Weight must be at least ${system === "metric" ? "20 kg" : "44 lbs"}`
+    )
+    .max(
+      system === "metric" ? 300 : 661,
+      `Weight cannot exceed ${system === "metric" ? "300 kg" : "661 lbs"}`
+    )
     .nullable();
 }
 
 function createHeightSchema(system: MeasurementSystem) {
   return z
     .number()
-    .min(system === "metric" ? 100 : 39.4, `Height must be at least ${system === "metric" ? "100 cm" : "39.4 in"}`)
-    .max(system === "metric" ? 250 : 98.4, `Height cannot exceed ${system === "metric" ? "250 cm" : "98.4 in"}`)
+    .min(
+      system === "metric" ? 100 : 39.4,
+      `Height must be at least ${system === "metric" ? "100 cm" : "39.4 in"}`
+    )
+    .max(
+      system === "metric" ? 250 : 98.4,
+      `Height cannot exceed ${system === "metric" ? "250 cm" : "98.4 in"}`
+    )
     .nullable();
 }
 
 function createCircumferenceSchema(system: MeasurementSystem) {
   return z
     .number()
-    .min(system === "metric" ? 1 : 0.4, `Circumference must be at least ${system === "metric" ? "1 cm" : "0.4 in"}`)
-    .max(system === "metric" ? 200 : 78.7, `Circumference cannot exceed ${system === "metric" ? "200 cm" : "78.7 in"}`)
+    .min(
+      system === "metric" ? 1 : 0.4,
+      `Circumference must be at least ${system === "metric" ? "1 cm" : "0.4 in"}`
+    )
+    .max(
+      system === "metric" ? 200 : 78.7,
+      `Circumference cannot exceed ${system === "metric" ? "200 cm" : "78.7 in"}`
+    )
     .nullable();
 }
 
 function createSkinfoldSchema(system: MeasurementSystem) {
   return z
     .number()
-    .min(system === "metric" ? 1 : 0.04, `Skinfold must be at least ${system === "metric" ? "1 mm" : "0.04 in"}`)
-    .max(system === "metric" ? 100 : 3.94, `Skinfold cannot exceed ${system === "metric" ? "100 mm" : "3.94 in"}`)
+    .min(
+      system === "metric" ? 1 : 0.04,
+      `Skinfold must be at least ${system === "metric" ? "1 mm" : "0.04 in"}`
+    )
+    .max(
+      system === "metric" ? 100 : 3.94,
+      `Skinfold cannot exceed ${system === "metric" ? "100 mm" : "3.94 in"}`
+    )
     .nullable();
 }
 
@@ -76,7 +100,9 @@ function createCalculatorInputSchema(system: MeasurementSystem) {
   });
 }
 
-type SchemaDefinition = (system: MeasurementSystem) => z.ZodObject<any> | ((gender: Gender) => z.ZodObject<any>);
+type SchemaDefinition = (
+  system: MeasurementSystem
+) => z.ZodObject<any> | ((gender: Gender) => z.ZodObject<any>);
 
 // Formula-specific validation schema factories
 export const formulaSchemas: Record<Formula, SchemaDefinition> = {
@@ -116,6 +142,75 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
               thighCircumference: true,
               calfCircumference: true,
             }),
+      })
+      .required(),
+
+  navy: (system: MeasurementSystem) => (gender: Gender) =>
+    createCalculatorInputSchema(system)
+      .pick({
+        height: true,
+        neckCircumference: true,
+        waistCircumference: true,
+        ...(gender === "female" && {
+          hipsCircumference: true,
+        }),
+      })
+      .required(),
+
+  durnin: (system: MeasurementSystem) =>
+    createCalculatorInputSchema(system)
+      .pick({
+        bicepSkinfold: true,
+        tricepSkinfold: true,
+        subscapularSkinfold: true,
+        suprailiacSkinfold: true,
+      })
+      .required(),
+
+  jack7: (system: MeasurementSystem) =>
+    createCalculatorInputSchema(system)
+      .pick({
+        chestSkinfold: true,
+        abdomenSkinfold: true,
+        thighSkinfold: true,
+        tricepSkinfold: true,
+        subscapularSkinfold: true,
+        suprailiacSkinfold: true,
+        midaxillarySkinfold: true,
+      })
+      .required(),
+
+  jack4: (system: MeasurementSystem) =>
+    createCalculatorInputSchema(system)
+      .pick({
+        abdomenSkinfold: true,
+        thighSkinfold: true,
+        tricepSkinfold: true,
+        suprailiacSkinfold: true,
+      })
+      .required(),
+
+  jack3: (system: MeasurementSystem) =>
+    createCalculatorInputSchema(system)
+      .pick({
+        chestSkinfold: true,
+        abdomenSkinfold: true,
+        thighSkinfold: true,
+      })
+      .required(),
+
+  parrillo: (system: MeasurementSystem) =>
+    createCalculatorInputSchema(system)
+      .pick({
+        chestSkinfold: true,
+        abdomenSkinfold: true,
+        thighSkinfold: true,
+        bicepSkinfold: true,
+        tricepSkinfold: true,
+        subscapularSkinfold: true,
+        suprailiacSkinfold: true,
+        lowerBackSkinfold: true,
+        calfSkinfold: true,
       })
       .required(),
 };
