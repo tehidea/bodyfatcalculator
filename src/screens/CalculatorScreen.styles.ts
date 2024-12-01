@@ -27,6 +27,8 @@ export const styles = StyleSheet.create({
     fontSize: 42,
     color: COLORS.black,
     textTransform: "uppercase",
+    letterSpacing: -2,
+    paddingRight: 2,
     marginTop: -6,
   },
   strapline: {
