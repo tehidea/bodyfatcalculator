@@ -58,13 +58,6 @@ function createSkinfoldSchema(system: MeasurementSystem) {
     .nullable();
 }
 
-function createWristSchema(system: MeasurementSystem) {
-  return createCircumferenceSchema(system).refine(
-    val => !val || (system === "metric" ? val <= 50 : val <= 19.7),
-    `Wrist circumference cannot exceed ${system === "metric" ? "50 cm" : "19.7 in"}`
-  );
-}
-
 // Main calculator input schema factory
 function createCalculatorInputSchema(system: MeasurementSystem) {
   return z.object({
@@ -84,7 +77,7 @@ function createCalculatorInputSchema(system: MeasurementSystem) {
     bicepCircumference: createCircumferenceSchema(system),
     tricepCircumference: createCircumferenceSchema(system),
     forearmCircumference: createCircumferenceSchema(system),
-    wristCircumference: createWristSchema(system),
+    wristCircumference: createCircumferenceSchema(system),
 
     // Skinfolds
     chestSkinfold: createSkinfoldSchema(system),
