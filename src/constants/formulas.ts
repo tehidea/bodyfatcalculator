@@ -34,7 +34,7 @@ export const FORMULA_REQUIREMENTS: Record<
 > = {
   ymca: {
     name: "YMCA",
-    description: "Simple method using waist circumference and weight",
+    description: "A simple method that uses your weight and waist size to estimate body fat",
     fields: [
       { key: "weight", label: "Weight", unit: "kg", required: true },
       { key: "waistCircumference", label: "Waist Circumference", unit: "cm", required: true },
@@ -42,7 +42,8 @@ export const FORMULA_REQUIREMENTS: Record<
   },
   mymca: {
     name: "Modified YMCA",
-    description: "Enhanced YMCA method with gender-specific measurements",
+    description:
+      "An enhanced version of YMCA that adds wrist, hip, and forearm measurements for women",
     fields: [
       { key: "weight", label: "Weight", unit: "kg", required: true },
       { key: "waistCircumference", label: "Waist Circumference", unit: "cm", required: true },
@@ -71,7 +72,8 @@ export const FORMULA_REQUIREMENTS: Record<
   },
   covert: {
     name: "Covert Bailey",
-    description: "Age-specific method using multiple body measurements",
+    description:
+      "A comprehensive method using your weight, age, and several body measurements for accuracy",
     fields: [
       { key: "weight", label: "Weight", unit: "kg", required: true },
       { key: "age", label: "Age", unit: "years", required: true },
@@ -109,7 +111,7 @@ export const FORMULA_REQUIREMENTS: Record<
   },
   navy: {
     name: "U.S. Navy",
-    description: "Military circumference method with gender-specific calculations",
+    description: "The military's method using your weight, height, and key body measurements",
     fields: [
       { key: "weight", label: "Weight", unit: "kg", required: true },
       { key: "height", label: "Height", unit: "cm", required: true },
@@ -126,7 +128,8 @@ export const FORMULA_REQUIREMENTS: Record<
   },
   durnin: {
     name: "Durnin & Womersley",
-    description: "Four-site skinfold method with age and gender-specific equations",
+    description:
+      "A scientific method using your age and skinfold measurements from four body sites",
     fields: [
       { key: "age", label: "Age", unit: "years", required: true },
       { key: "bicepSkinfold", label: "Bicep Skinfold", unit: "mm", required: true },
@@ -138,7 +141,7 @@ export const FORMULA_REQUIREMENTS: Record<
   },
   jack3: {
     name: "Jackson & Pollock 3-Site",
-    description: "Three-site skinfold method optimized for each gender",
+    description: "A quick but accurate method using your age and three key skinfold measurements",
     fields: [
       { key: "age", label: "Age", unit: "years", required: true },
       {
@@ -169,7 +172,8 @@ export const FORMULA_REQUIREMENTS: Record<
   },
   jack4: {
     name: "Jackson & Pollock 4-Site",
-    description: "Four-site skinfold method, good balance of accuracy and practicality",
+    description:
+      "A balanced approach using your age and skinfold measurements from four strategic sites",
     fields: [
       { key: "age", label: "Age", unit: "years", required: true },
       { key: "abdomenSkinfold", label: "Abdomen Skinfold", unit: "mm", required: true },
@@ -181,7 +185,7 @@ export const FORMULA_REQUIREMENTS: Record<
   },
   jack7: {
     name: "Jackson & Pollock 7-Site",
-    description: "Seven-site skinfold method, highly accurate for both genders",
+    description: "The most thorough method using your age and seven different skinfold sites",
     fields: [
       { key: "age", label: "Age", unit: "years", required: true },
       { key: "chestSkinfold", label: "Chest Skinfold", unit: "mm", required: true },
@@ -196,7 +200,8 @@ export const FORMULA_REQUIREMENTS: Record<
   },
   parrillo: {
     name: "Parrillo",
-    description: "Nine-site skinfold method, popular in bodybuilding",
+    description:
+      "A bodybuilding-focused method using your weight and nine precise skinfold measurements",
     fields: [
       { key: "weight", label: "Weight", unit: "kg", required: true },
       { key: "chestSkinfold", label: "Chest Skinfold", unit: "mm", required: true },
