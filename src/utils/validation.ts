@@ -18,7 +18,7 @@ export const validateInputs = (
       const errors = error.errors.reduce(
         (acc, err) => ({
           ...acc,
-          [err.path[0]]: err.message,
+          [err.path[0] as string]: err.message,
         }),
         {}
       );
