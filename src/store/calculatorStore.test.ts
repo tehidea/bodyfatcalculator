@@ -122,4 +122,31 @@ describe("calculatorStore", () => {
       expect(updatedState.isResultsStale).toBe(false);
     });
   });
+
+  describe("setFormula", () => {
+    it("resets validation errors when changing formula", () => {
+      // Set initial values and trigger validation error
+      useCalculatorStore.setState(state => ({
+        ...state,
+        formula: "ymca",
+        error: "Invalid measurement",
+        fieldErrors: { waistCircumference: "Waist circumference is required" },
+      }));
+
+      // Verify error is set
+      const initialState = useCalculatorStore.getState();
+      expect(initialState.error).toBe("Invalid measurement");
+      expect(initialState.fieldErrors.waistCircumference).toBe("Waist circumference is required");
+
+      // Change formula
+      useCalculatorStore.getState().setFormula("navy");
+
+      // Verify errors are reset
+      const updatedState = useCalculatorStore.getState();
+      expect(updatedState.error).toBeNull();
+      expect(updatedState.fieldErrors).toEqual({});
+      expect(updatedState.results).toBeNull();
+      expect(updatedState.isResultsStale).toBe(false);
+    });
+  });
 });
