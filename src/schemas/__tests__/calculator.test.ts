@@ -152,4 +152,49 @@ describe("Calculator Schemas", () => {
       ).not.toThrow();
     });
   });
+
+  describe("Navy formula", () => {
+    test("validates male-specific fields in metric", () => {
+      const schema = formulaSchemas.navy("metric")("male");
+
+      // Valid male measurements
+      expect(() =>
+        schema.parse({
+          weight: 80,
+          height: 180,
+          neckCircumference: 38,
+          waistCircumference: 85,
+        })
+      ).not.toThrow();
+    });
+
+    test("validates female-specific fields in metric", () => {
+      const schema = formulaSchemas.navy("metric")("female");
+
+      // Valid female measurements
+      expect(() =>
+        schema.parse({
+          weight: 60,
+          height: 165,
+          neckCircumference: 32,
+          waistCircumference: 70,
+          hipsCircumference: 90,
+        })
+      ).not.toThrow();
+    });
+
+    test("requires hips circumference for females", () => {
+      const schema = formulaSchemas.navy("metric")("female");
+
+      // Missing hips circumference
+      expect(() =>
+        schema.parse({
+          weight: 60,
+          height: 165,
+          neckCircumference: 32,
+          waistCircumference: 70,
+        })
+      ).toThrow();
+    });
+  });
 });

@@ -140,6 +140,7 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
   navy: (system: MeasurementSystem) => (gender: Gender) =>
     createCalculatorInputSchema(system)
       .pick({
+        weight: true,
         height: true,
         neckCircumference: true,
         waistCircumference: true,

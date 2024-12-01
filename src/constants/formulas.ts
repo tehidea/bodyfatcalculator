@@ -111,6 +111,7 @@ export const FORMULA_REQUIREMENTS: Record<
     name: "U.S. Navy",
     description: "Military circumference method with gender-specific calculations",
     fields: [
+      { key: "weight", label: "Weight", unit: "kg", required: true },
       { key: "height", label: "Height", unit: "cm", required: true },
       { key: "neckCircumference", label: "Neck Circumference", unit: "cm", required: true },
       { key: "waistCircumference", label: "Waist Circumference", unit: "cm", required: true },

@@ -159,6 +159,49 @@ describe("validateInputs", () => {
       },
       shouldPass: true,
     },
+
+    // Navy Tests - Metric
+    {
+      name: "Navy valid metric inputs - male",
+      formula: "navy",
+      gender: "male",
+      system: "metric",
+      inputs: {
+        weight: 80,
+        height: 180,
+        neckCircumference: 38,
+        waistCircumference: 85,
+      },
+      shouldPass: true,
+    },
+    {
+      name: "Navy valid metric inputs - female",
+      formula: "navy",
+      gender: "female",
+      system: "metric",
+      inputs: {
+        weight: 60,
+        height: 165,
+        neckCircumference: 32,
+        waistCircumference: 70,
+        hipsCircumference: 90,
+      },
+      shouldPass: true,
+    },
+    {
+      name: "Navy invalid metric inputs - missing required field",
+      formula: "navy",
+      gender: "male",
+      system: "metric",
+      inputs: {
+        weight: 80,
+        height: 180,
+        waistCircumference: 85,
+        // missing neckCircumference
+      },
+      shouldPass: false,
+      expectedErrors: ["Required"],
+    },
   ];
 
   test.each(testCases)(
