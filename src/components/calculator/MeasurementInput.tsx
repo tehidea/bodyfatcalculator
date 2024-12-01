@@ -1,17 +1,98 @@
-import React, { forwardRef, useState, useEffect } from "react";
-import { Modal, View, StyleSheet } from "react-native";
-import { Input, InputRef } from "../common/Input";
+import React, { forwardRef, useState, useEffect, useRef, useImperativeHandle } from "react";
+import {
+  Modal,
+  View,
+  StyleSheet,
+  TextInput,
+  TextInputProps,
+  ReturnKeyTypeOptions,
+  InputAccessoryView,
+  Keyboard,
+  Button as RNButton,
+  Platform,
+} from "react-native";
 import { Text, Button, Icon } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { usePremiumStore } from "../../store/premiumStore";
 import { CalculatorInputs } from "../../types/calculator";
-import { ReturnKeyTypeOptions } from "react-native";
 import { getUnitLabel } from "../../constants/formulas";
 import { convertMeasurement } from "../../utils/conversions";
 import { isCircumferenceMeasurement, isSkinfoldMeasurement } from "../../utils/typeGuards";
 import { COLORS } from "../../constants/theme";
 import { useNavigation } from "@react-navigation/native";
 
+// Private Input component interfaces
+interface InputProps extends TextInputProps {
+  label: string;
+  unit: string;
+  error?: string;
+  onSubmitEditing?: () => void;
+  returnKeyType?: ReturnKeyTypeOptions;
+}
+
+export interface InputRef {
+  focus: () => void;
+}
+
+// Private Input component
+const Input = forwardRef<InputRef, InputProps>(
+  ({ label, unit, error, style, onSubmitEditing, returnKeyType = "next", ...props }, ref) => {
+    const inputRef = useRef<TextInput>(null);
+    const inputAccessoryViewID = `${label.replace(/\s/g, "")}_input`;
+
+    useImperativeHandle(ref, () => ({
+      focus: () => {
+        if (inputRef.current) {
+          inputRef.current.focus();
+        }
+      },
+    }));
+
+    const handleToolbarPress = () => {
+      if (returnKeyType === "done") {
+        Keyboard.dismiss();
+      }
+      if (onSubmitEditing) {
+        onSubmitEditing();
+      }
+    };
+
+    return (
+      <>
+        {Platform.OS === "ios" && (
+          <InputAccessoryView nativeID={inputAccessoryViewID}>
+            <View style={styles.toolbar}>
+              <RNButton
+                onPress={handleToolbarPress}
+                title={returnKeyType === "next" ? "Next" : "Done"}
+              />
+            </View>
+          </InputAccessoryView>
+        )}
+        <View style={[styles.container, style]}>
+          <Text style={styles.label}>{label}</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              {...props}
+              ref={inputRef}
+              style={[styles.input, error && styles.inputError]}
+              placeholderTextColor="#999"
+              accessibilityLabel={label}
+              accessibilityHint={`Enter ${label.toLowerCase()}`}
+              accessibilityRole="spinbutton"
+              inputAccessoryViewID={inputAccessoryViewID}
+              keyboardType="decimal-pad"
+            />
+            <Text style={styles.unit}>{unit}</Text>
+          </View>
+          {error && <Text style={styles.error}>{error}</Text>}
+        </View>
+      </>
+    );
+  }
+);
+
+// MeasurementInput interfaces and component
 interface MeasurementInputProps {
   field: {
     key: keyof CalculatorInputs;
@@ -166,6 +247,46 @@ export const MeasurementInput = forwardRef<InputRef, MeasurementInputProps>(
 );
 
 const styles = StyleSheet.create({
+  container: {
+    marginBottom: 16,
+  },
+  label: {
+    marginBottom: 8,
+    color: COLORS.text,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: COLORS.white,
+    borderRadius: 12,
+    paddingHorizontal: 12,
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    color: COLORS.textDark,
+  },
+  inputError: {
+    borderColor: "red",
+  },
+  unit: {
+    color: COLORS.primary,
+    marginLeft: 8,
+    fontWeight: "bold",
+  },
+  error: {
+    color: "red",
+    fontSize: 12,
+    marginTop: 4,
+  },
+  toolbar: {
+    backgroundColor: "#f8f8f8",
+    padding: 8,
+    borderTopWidth: 1,
+    borderTopColor: "#dedede",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
