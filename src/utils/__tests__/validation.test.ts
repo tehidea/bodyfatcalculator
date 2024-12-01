@@ -135,6 +135,7 @@ describe("validateInputs", () => {
       gender: "male",
       system: "metric",
       inputs: {
+        weight: 80,
         age: 30,
         hipsCircumference: 95,
         wristCircumference: 17,
@@ -149,6 +150,7 @@ describe("validateInputs", () => {
       gender: "female",
       system: "metric",
       inputs: {
+        weight: 60,
         age: 25,
         hipsCircumference: 90,
         wristCircumference: 15,
@@ -178,7 +180,12 @@ describe("validateInputs", () => {
 
   // Edge cases
   test("handles undefined inputs correctly", () => {
-    const result = validateInputs("ymca", { weight: undefined, waistCircumference: undefined }, "male", "metric");
+    const result = validateInputs(
+      "ymca",
+      { weight: undefined, waistCircumference: undefined },
+      "male",
+      "metric"
+    );
     expect(result.success).toBe(false);
     expect(Object.keys(result.errors)).toContain("weight");
     expect(Object.keys(result.errors)).toContain("waistCircumference");
@@ -201,4 +208,4 @@ describe("validateInputs", () => {
     expect(result.success).toBe(false);
     expect(Object.values(result.errors)).toContain("Expected number, received string");
   });
-}); 
+});

@@ -126,6 +126,7 @@ describe("Calculator Schemas", () => {
       // Valid male measurements
       expect(() =>
         schema.parse({
+          weight: 80,
           age: 30,
           hipsCircumference: 95,
           wristCircumference: 17,
@@ -141,6 +142,7 @@ describe("Calculator Schemas", () => {
       // Valid female measurements
       expect(() =>
         schema.parse({
+          weight: 60,
           age: 25,
           hipsCircumference: 90,
           wristCircumference: 15,
