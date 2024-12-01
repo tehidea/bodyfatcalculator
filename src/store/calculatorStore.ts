@@ -29,7 +29,11 @@ export interface CalculatorStore {
   setFormula: (formula: Formula) => void;
   setGender: (gender: Gender) => void;
   setMeasurementSystem: (system: MeasurementSystem) => void;
-  setInput: (key: keyof CalculatorInputs, value: number | null) => void;
+  setInput: (
+    key: keyof CalculatorInputs,
+    value: number | null,
+    options?: { keepResults?: boolean }
+  ) => void;
   setResults: (results: CalculatorResults | null) => void;
   setError: (error: string | null, fieldErrors?: Record<string, string>) => void;
   setHasHydrated: (state: boolean) => void;
@@ -127,10 +131,10 @@ export const useCalculatorStore = create<CalculatorStore>()(
           fieldErrors: {},
         });
       },
-      setInput: (key, value) =>
+      setInput: (key, value, options?: { keepResults?: boolean }) =>
         set(state => ({
           inputs: { ...state.inputs, [key]: value },
-          isResultsStale: true,
+          isResultsStale: options?.keepResults ? state.isResultsStale : true,
         })),
       setResults: results => set({ results, isResultsStale: false }),
       setError: (error, fieldErrors = {}) =>

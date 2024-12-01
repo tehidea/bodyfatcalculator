@@ -192,6 +192,7 @@ export const CalculatorScreen = () => {
 
   // Memoize callbacks
   const handleCalculate = useCallback(async () => {
+    Keyboard.dismiss();
     setError(null);
 
     try {
@@ -203,6 +204,11 @@ export const CalculatorScreen = () => {
 
       const results = await calculateResults(formula, gender, inputs, measurementSystem);
       setResults(results);
+
+      // Scroll to show results if needed
+      setTimeout(() => {
+        scrollViewRef.current?.scrollToEnd({ animated: true });
+      }, 100);
     } catch (error) {
       setError(error instanceof Error ? error.message : "An unexpected error occurred");
     }
@@ -229,12 +235,14 @@ export const CalculatorScreen = () => {
           style={styles.container}
           behavior={Platform.OS === "ios" ? "padding" : undefined}
           keyboardVerticalOffset={Platform.OS === "ios" ? 20 : 0}
+          enabled={Platform.OS === "ios"}
         >
           <ScrollView
             ref={scrollViewRef}
             style={styles.container}
             contentContainerStyle={styles.scrollContent}
             keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="none"
             accessibilityLabel="Calculator form"
             showsVerticalScrollIndicator={false}
           >
