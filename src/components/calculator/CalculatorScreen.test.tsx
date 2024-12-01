@@ -4,20 +4,17 @@ import { CalculatorScreen } from "../../screens/CalculatorScreen";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { calculateResults } from "../../utils/calculations";
 import { validateInputs } from "../../utils/validation";
-import * as FormulaSelector from "../Calculator/FormulaSelector";
+import * as FormulaSelector from "../calculator/FormulaSelector";
 import { usePremiumStore } from "../../store/premiumStore";
 
 jest.mock("../../store/calculatorStore");
 jest.mock("@expo/vector-icons");
-jest.mock("@rneui/themed", () => ({
-  ...jest.requireActual("@rneui/themed"),
-  Icon: () => null,
-}));
 jest.mock("../../utils/calculations");
 jest.mock("../../utils/validation");
 jest.mock("react-native-purchases");
-jest.mock("../Calculator/FormulaSelector", () => ({
+jest.mock("../calculator/FormulaSelector", () => ({
   FormulaSelector: () => null,
+  MeasurementIcon: () => null,
 }));
 jest.mock("../../store/premiumStore");
 
@@ -54,6 +51,11 @@ describe("CalculatorScreen", () => {
       measurementSystem: "metric",
       setError: jest.fn(),
       reset: jest.fn(),
+      setInput: jest.fn(),
+      setFormula: jest.fn(),
+      setGender: jest.fn(),
+      setMeasurementSystem: jest.fn(),
+      calculate: jest.fn(),
     });
 
     mockUsePremiumStore.mockReturnValue({
@@ -68,10 +70,10 @@ describe("CalculatorScreen", () => {
   });
 
   it("allows calculation with valid inputs", async () => {
-    const { getByText } = render(<CalculatorScreen />);
+    const { getByTestId } = render(<CalculatorScreen />);
 
     await act(async () => {
-      fireEvent.press(getByText("Calculate"));
+      fireEvent.press(getByTestId("calculate-button"));
       await Promise.resolve();
     });
 

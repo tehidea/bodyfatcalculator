@@ -11,9 +11,10 @@ jest.mock("expo-splash-screen", () => ({
 
 // Mock AsyncStorage
 jest.mock("@react-native-async-storage/async-storage", () => ({
-  setItem: jest.fn(),
-  getItem: jest.fn(),
-  removeItem: jest.fn(),
+  setItem: jest.fn(() => Promise.resolve()),
+  getItem: jest.fn(() => Promise.resolve(null)),
+  removeItem: jest.fn(() => Promise.resolve()),
+  clear: jest.fn(() => Promise.resolve()),
 }));
 
 // Mock RevenueCat configuration
@@ -26,4 +27,37 @@ jest.mock("./src/config/store", () => ({
     pro: "pro",
     premium: "premium",
   },
+}));
+
+// Mock navigation
+jest.mock("@react-navigation/native", () => ({
+  useNavigation: () => ({
+    navigate: jest.fn(),
+    goBack: jest.fn(),
+  }),
+}));
+
+// Mock @rneui/themed
+jest.mock("@rneui/themed", () => {
+  const React = require("react");
+  const { Text: RNText, Pressable } = require("react-native");
+
+  return {
+    Icon: () => null,
+    Text: ({ children, style }) => React.createElement(RNText, { style }, children),
+    Button: ({ title, onPress, testID }) =>
+      React.createElement(Pressable, { onPress, testID }, React.createElement(RNText, null, title)),
+    createTheme: () => ({
+      theme: {
+        colors: {
+          primary: "#000000",
+        },
+      },
+    }),
+  };
+});
+
+// Mock @expo/vector-icons
+jest.mock("@expo/vector-icons", () => ({
+  Feather: "Feather",
 }));

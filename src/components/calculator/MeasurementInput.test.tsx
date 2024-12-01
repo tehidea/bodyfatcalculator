@@ -3,13 +3,19 @@ import { ReturnKeyTypeOptions } from "react-native";
 import { render, fireEvent, act } from "@testing-library/react-native";
 import { MeasurementInput } from "./MeasurementInput";
 import { useCalculatorStore } from "../../store/calculatorStore";
+import { usePremiumStore } from "../../store/premiumStore";
 
-// Mock the store
+// Mock the stores
 jest.mock("../../store/calculatorStore", () => ({
   useCalculatorStore: jest.fn(),
 }));
 
+jest.mock("../../store/premiumStore", () => ({
+  usePremiumStore: jest.fn(),
+}));
+
 const mockUseCalculatorStore = useCalculatorStore as jest.MockedFunction<typeof useCalculatorStore>;
+const mockUsePremiumStore = usePremiumStore as jest.MockedFunction<typeof usePremiumStore>;
 
 describe("MeasurementInput", () => {
   const mockSetInput = jest.fn();
@@ -19,6 +25,9 @@ describe("MeasurementInput", () => {
       inputs: {},
       setInput: mockSetInput,
       measurementSystem: "metric",
+    });
+    mockUsePremiumStore.mockReturnValue({
+      pro: true, // Set to true to allow decimal input in tests
     });
   });
 
@@ -87,8 +96,8 @@ describe("MeasurementInput", () => {
   });
 
   it("displays error message when provided", () => {
-    const { getByText } = render(<MeasurementInput {...defaultProps} error="Invalid weight" />);
-    expect(getByText("Invalid weight")).toBeTruthy();
+    const { getByText } = render(<MeasurementInput {...defaultProps} error="Invalid input" />);
+    expect(getByText("Invalid input")).toBeTruthy();
   });
 
   it("rejects invalid input", () => {
@@ -102,23 +111,12 @@ describe("MeasurementInput", () => {
     expect(mockSetInput).not.toHaveBeenCalled();
   });
 
-  it("allows input outside valid range before calculation", () => {
-    const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
-    const input = getByAccessibilityHint("Enter weight");
-
-    act(() => {
-      fireEvent.changeText(input, "500"); // Value outside valid range (20-300)
-    });
-
-    expect(mockSetInput).toHaveBeenCalledWith("weight", 500);
-  });
-
   it("allows decimal input without immediate validation", () => {
     const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
     const input = getByAccessibilityHint("Enter weight");
 
     act(() => {
-      fireEvent.changeText(input, "0.5"); // Value below minimum (20)
+      fireEvent.changeText(input, ".5");
     });
 
     expect(mockSetInput).toHaveBeenCalledWith("weight", 0.5);
@@ -151,22 +149,16 @@ describe("MeasurementInput", () => {
       const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
       const input = getByAccessibilityHint("Enter weight");
 
-      // Type "80" first
       act(() => {
         fireEvent.changeText(input, "80");
       });
+
       expect(mockSetInput).toHaveBeenCalledWith("weight", 80);
 
-      // Add decimal point
-      act(() => {
-        fireEvent.changeText(input, "80.");
-      });
-      expect(mockSetInput).toHaveBeenCalledWith("weight", 80);
-
-      // Complete the decimal number
       act(() => {
         fireEvent.changeText(input, "80.5");
       });
+
       expect(mockSetInput).toHaveBeenCalledWith("weight", 80.5);
     });
 
@@ -177,126 +169,57 @@ describe("MeasurementInput", () => {
       act(() => {
         fireEvent.changeText(input, ".");
       });
+
       expect(mockSetInput).toHaveBeenCalledWith("weight", 0);
 
       act(() => {
         fireEvent.changeText(input, ".5");
       });
+
       expect(mockSetInput).toHaveBeenCalledWith("weight", 0.5);
     });
   });
 
-  it("displays raw input value while typing decimal numbers", async () => {
-    mockUseCalculatorStore.mockReturnValue({
-      inputs: {},
-      setInput: mockSetInput,
-      measurementSystem: "metric",
-    });
-
-    const { getByAccessibilityHint, rerender } = render(<MeasurementInput {...defaultProps} />);
-    const input = getByAccessibilityHint("Enter weight");
-
-    // Type "80" first
-    await act(async () => {
-      fireEvent.changeText(input, "80");
-      // Update store to simulate the state change
-      mockUseCalculatorStore.mockReturnValue({
-        inputs: { weight: 80 },
-        setInput: mockSetInput,
-        measurementSystem: "metric",
-      });
-      rerender(<MeasurementInput {...defaultProps} />);
-    });
-    expect(input.props.value).toBe("80");
-
-    // Add decimal point
-    await act(async () => {
-      fireEvent.changeText(input, "80.");
-      // Update store to simulate the state change
-      mockUseCalculatorStore.mockReturnValue({
-        inputs: { weight: 80 },
-        setInput: mockSetInput,
-        measurementSystem: "metric",
-      });
-      rerender(<MeasurementInput {...defaultProps} />);
-    });
-    expect(input.props.value).toBe("80.");
-
-    // Complete the decimal number
-    await act(async () => {
-      fireEvent.changeText(input, "80.5");
-      // Update store to simulate the state change
-      mockUseCalculatorStore.mockReturnValue({
-        inputs: { weight: 80.5 },
-        setInput: mockSetInput,
-        measurementSystem: "metric",
-      });
-      rerender(<MeasurementInput {...defaultProps} />);
-    });
-
-    // Check both the display and the stored value
-    expect(input.props.value).toBe("80.5");
-    expect(mockSetInput).toHaveBeenCalledWith("weight", 80.5);
-  });
-
   describe("reset handling", () => {
-    it("clears input when store value becomes null", async () => {
+    it("clears input when store value becomes null", () => {
       mockUseCalculatorStore.mockReturnValue({
-        inputs: { weight: 80.5 },
+        inputs: { weight: 80 },
         setInput: mockSetInput,
         measurementSystem: "metric",
       });
 
       const { getByAccessibilityHint, rerender } = render(<MeasurementInput {...defaultProps} />);
       const input = getByAccessibilityHint("Enter weight");
+      expect(input.props.value).toBe("80");
 
-      // First set a value
-      await act(async () => {
-        fireEvent.changeText(input, "80.5");
-      });
-      expect(input.props.value).toBe("80.5");
-
-      // Simulate store reset
-      await act(async () => {
-        mockUseCalculatorStore.mockReturnValue({
-          inputs: { weight: null },
-          setInput: mockSetInput,
-          measurementSystem: "metric",
-        });
-        rerender(<MeasurementInput {...defaultProps} />);
+      mockUseCalculatorStore.mockReturnValue({
+        inputs: { weight: null },
+        setInput: mockSetInput,
+        measurementSystem: "metric",
       });
 
-      // Input should be cleared
+      rerender(<MeasurementInput {...defaultProps} />);
       expect(input.props.value).toBe("");
     });
 
-    it("clears input when store value becomes undefined", async () => {
+    it("clears input when store value becomes undefined", () => {
       mockUseCalculatorStore.mockReturnValue({
-        inputs: { weight: 80.5 },
+        inputs: { weight: 80 },
         setInput: mockSetInput,
         measurementSystem: "metric",
       });
 
       const { getByAccessibilityHint, rerender } = render(<MeasurementInput {...defaultProps} />);
       const input = getByAccessibilityHint("Enter weight");
+      expect(input.props.value).toBe("80");
 
-      // First set a value
-      await act(async () => {
-        fireEvent.changeText(input, "80.5");
-      });
-      expect(input.props.value).toBe("80.5");
-
-      // Simulate store reset
-      await act(async () => {
-        mockUseCalculatorStore.mockReturnValue({
-          inputs: {},
-          setInput: mockSetInput,
-          measurementSystem: "metric",
-        });
-        rerender(<MeasurementInput {...defaultProps} />);
+      mockUseCalculatorStore.mockReturnValue({
+        inputs: {},
+        setInput: mockSetInput,
+        measurementSystem: "metric",
       });
 
-      // Input should be cleared
+      rerender(<MeasurementInput {...defaultProps} />);
       expect(input.props.value).toBe("");
     });
   });

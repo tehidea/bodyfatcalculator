@@ -143,6 +143,7 @@ const CalculatorForm = memo(
             disabledStyle={styles.disabledButton}
             containerStyle={styles.buttonWrapperFlex}
             titleStyle={styles.buttonTitle}
+            testID="calculate-button"
           />
           <Button
             title="Reset"
@@ -151,6 +152,7 @@ const CalculatorForm = memo(
             buttonStyle={styles.resetButton}
             titleStyle={styles.resetButtonText}
             containerStyle={styles.buttonWrapperFlex}
+            testID="reset-button"
           />
         </View>
 
