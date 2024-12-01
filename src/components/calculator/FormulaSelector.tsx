@@ -13,18 +13,18 @@ import { CalendarIcon } from "../icons/CalendarIcon";
 import { MeasurementVerticalIcon } from "../icons/MeasurementVerticalIcon";
 import { MeasuringTapeIcon } from "../icons/MeasuringTapeIcon";
 
-const MeasurementIcon = ({ type }: { type: string }) => {
+const MeasurementIcon = ({ type, color }: { type: string; color: string }) => {
   switch (type) {
     case "weight":
-      return <BodyWeightScalesIcon size={12} color="#666" />;
+      return <BodyWeightScalesIcon size={12} color={color} />;
     case "circumference":
-      return <MeasuringTapeIcon size={12} color="#666" />;
+      return <MeasuringTapeIcon size={12} color={color} />;
     case "skinfold":
-      return <SkinfoldIcon size={12} color="#666" />;
+      return <SkinfoldIcon size={12} color={color} />;
     case "height":
-      return <MeasurementVerticalIcon size={12} color="#666" />;
+      return <MeasurementVerticalIcon size={12} color={color} />;
     case "age":
-      return <CalendarIcon size={12} color="#666" />;
+      return <CalendarIcon size={12} color={color} />;
     default:
       return null;
   }
@@ -84,7 +84,7 @@ export const FormulaSelector = () => {
         setIsModalVisible(false);
         Alert.alert(
           "Success!",
-          "Thank you for upgrading! You now have access to all premium formulas.",
+          "Thank you for upgrading! You now have access to all PRO formulas.",
           [{ text: "OK" }]
         );
       }
@@ -117,7 +117,7 @@ export const FormulaSelector = () => {
         </Text>
         <View style={styles.measurementIcons}>
           {getMeasurementTypes(selectedFormula.fields).map(type => (
-            <MeasurementIcon key={type} type={type} />
+            <MeasurementIcon key={type} type={type} color="#fff" />
           ))}
         </View>
       </TouchableOpacity>
@@ -177,7 +177,7 @@ export const FormulaSelector = () => {
                   </Text>
                   <View style={styles.measurementIcons}>
                     {getMeasurementTypes(FORMULA_REQUIREMENTS[item.key].fields).map(type => (
-                      <MeasurementIcon key={type} type={type} />
+                      <MeasurementIcon key={type} type={type} color="#666" />
                     ))}
                   </View>
                 </TouchableOpacity>
