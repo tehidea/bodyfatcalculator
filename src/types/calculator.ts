@@ -5,12 +5,12 @@ export type Formula =
   | "ymca"
   | "mymca"
   | "covert"
+  | "navy"
+  | "durnin"
   | "jack7"
   | "jack4"
   | "jack3"
-  | "parrillo"
-  | "durnin"
-  | "navy";
+  | "parrillo";
 
 export interface CalculatorInputs {
   gender?: Gender;
@@ -39,9 +39,6 @@ export interface CalculatorInputs {
   midaxillarySkinfold?: number;
   lowerBackSkinfold?: number;
   calfSkinfold?: number;
-  originalWeight?: number;
-  originalAbdomenCircumference?: number;
-  originalNeckCircumference?: number;
 }
 
 export interface CalculatorResults {
