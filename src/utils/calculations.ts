@@ -1,4 +1,10 @@
-import { Gender, CalculatorInputs, Formula, MeasurementSystem } from "../types/calculator";
+import {
+  Gender,
+  CalculatorInputs,
+  Formula,
+  MeasurementSystem,
+  CalculatorResults,
+} from "../types/calculator";
 import { useMemo } from "react";
 
 export const convertToImperial = (value: number, unit: "kg" | "cm" | "mm"): number => {
@@ -57,9 +63,6 @@ export const calculateBodyFat = (
     midaxillarySkinfold = 0,
     neckCircumference = 0,
     lowerBackSkinfold = 0,
-    originalWeight = weight,
-    originalAbdomenCircumference = abdomenSkinfold,
-    originalNeckCircumference = neckCircumference,
   } = inputs;
 
   // Only convert if we're in metric system
@@ -95,83 +98,6 @@ export const calculateBodyFat = (
           8.987) /
           weightLbs) *
         100
-      );
-    }
-
-    case "jack7": {
-      const sumOfSkinfolds =
-        chestSkinfold +
-        abdomenSkinfold +
-        thighSkinfold +
-        tricepSkinfold +
-        subscapularSkinfold +
-        suprailiacSkinfold +
-        midaxillarySkinfold;
-      const bodyDensity = calculateBodyDensity(sumOfSkinfolds, age, gender);
-      return 495 / bodyDensity - 450;
-    }
-
-    case "jack4": {
-      const sumOfSkinfolds = abdomenSkinfold + thighSkinfold + tricepSkinfold + suprailiacSkinfold;
-      const bodyDensity = calculateBodyDensity(sumOfSkinfolds, age, gender);
-      return 495 / bodyDensity - 450;
-    }
-
-    case "jack3": {
-      const sumOfSkinfolds = chestSkinfold + abdomenSkinfold + thighSkinfold;
-      const bodyDensity = calculateBodyDensity(sumOfSkinfolds, age, gender);
-      return 495 / bodyDensity - 450;
-    }
-
-    case "parrillo": {
-      const weightVal = convertToImperial(originalWeight, "kg");
-      return (
-        ((chestSkinfold +
-          abdomenSkinfold +
-          thighSkinfold +
-          bicepSkinfold +
-          tricepSkinfold +
-          subscapularSkinfold +
-          suprailiacSkinfold +
-          lowerBackSkinfold +
-          calfSkinfold) *
-          27) /
-        weightVal
-      );
-    }
-
-    case "durnin": {
-      const sumOfSkinfolds = Math.log10(
-        bicepSkinfold + tricepSkinfold + subscapularSkinfold + suprailiacSkinfold
-      );
-      let bodyDensity: number;
-
-      if (gender === "male") {
-        if (age < 17) bodyDensity = 1.1533 - 0.0643 * sumOfSkinfolds;
-        else if (age <= 19) bodyDensity = 1.162 - 0.063 * sumOfSkinfolds;
-        else if (age <= 29) bodyDensity = 1.1631 - 0.0632 * sumOfSkinfolds;
-        else if (age <= 39) bodyDensity = 1.1422 - 0.0544 * sumOfSkinfolds;
-        else if (age <= 49) bodyDensity = 1.162 - 0.07 * sumOfSkinfolds;
-        else bodyDensity = 1.1715 - 0.0779 * sumOfSkinfolds;
-      } else {
-        if (age < 17) bodyDensity = 1.1369 - 0.0598 * sumOfSkinfolds;
-        else if (age <= 19) bodyDensity = 1.1549 - 0.0678 * sumOfSkinfolds;
-        else if (age <= 29) bodyDensity = 1.1599 - 0.0717 * sumOfSkinfolds;
-        else if (age <= 39) bodyDensity = 1.1423 - 0.0632 * sumOfSkinfolds;
-        else if (age <= 49) bodyDensity = 1.1333 - 0.0612 * sumOfSkinfolds;
-        else bodyDensity = 1.1339 - 0.0645 * sumOfSkinfolds;
-      }
-      return 495 / bodyDensity - 450;
-    }
-
-    case "navy": {
-      if (gender === "male") {
-        return 86.01 * Math.log10(waistInch - neckInch) - 70.041 * Math.log10(heightInch) + 36.76;
-      }
-      return (
-        163.205 * Math.log10(waistInch + hipsInch - neckInch) -
-        97.684 * Math.log10(heightInch) -
-        78.387
       );
     }
 
@@ -222,6 +148,83 @@ export const calculateBodyFat = (
         return hips + thighMultiplier * thigh - 2 * calf - wrist;
       }
     }
+
+    case "navy": {
+      if (gender === "male") {
+        return 86.01 * Math.log10(waistInch - neckInch) - 70.041 * Math.log10(heightInch) + 36.76;
+      }
+      return (
+        163.205 * Math.log10(waistInch + hipsInch - neckInch) -
+        97.684 * Math.log10(heightInch) -
+        78.387
+      );
+    }
+
+    // case "jack7": {
+    //   const sumOfSkinfolds =
+    //     chestSkinfold +
+    //     abdomenSkinfold +
+    //     thighSkinfold +
+    //     tricepSkinfold +
+    //     subscapularSkinfold +
+    //     suprailiacSkinfold +
+    //     midaxillarySkinfold;
+    //   const bodyDensity = calculateBodyDensity(sumOfSkinfolds, age, gender);
+    //   return 495 / bodyDensity - 450;
+    // }
+
+    // case "jack4": {
+    //   const sumOfSkinfolds = abdomenSkinfold + thighSkinfold + tricepSkinfold + suprailiacSkinfold;
+    //   const bodyDensity = calculateBodyDensity(sumOfSkinfolds, age, gender);
+    //   return 495 / bodyDensity - 450;
+    // }
+
+    // case "jack3": {
+    //   const sumOfSkinfolds = chestSkinfold + abdomenSkinfold + thighSkinfold;
+    //   const bodyDensity = calculateBodyDensity(sumOfSkinfolds, age, gender);
+    //   return 495 / bodyDensity - 450;
+    // }
+
+    // case "parrillo": {
+    //   const weightVal = convertToImperial(weight, "kg");
+    //   return (
+    //     ((chestSkinfold +
+    //       abdomenSkinfold +
+    //       thighSkinfold +
+    //       bicepSkinfold +
+    //       tricepSkinfold +
+    //       subscapularSkinfold +
+    //       suprailiacSkinfold +
+    //       lowerBackSkinfold +
+    //       calfSkinfold) *
+    //       27) /
+    //     weightVal
+    //   );
+    // }
+
+    // case "durnin": {
+    //   const sumOfSkinfolds = Math.log10(
+    //     bicepSkinfold + tricepSkinfold + subscapularSkinfold + suprailiacSkinfold
+    //   );
+    //   let bodyDensity: number;
+
+    //   if (gender === "male") {
+    //     if (age < 17) bodyDensity = 1.1533 - 0.0643 * sumOfSkinfolds;
+    //     else if (age <= 19) bodyDensity = 1.162 - 0.063 * sumOfSkinfolds;
+    //     else if (age <= 29) bodyDensity = 1.1631 - 0.0632 * sumOfSkinfolds;
+    //     else if (age <= 39) bodyDensity = 1.1422 - 0.0544 * sumOfSkinfolds;
+    //     else if (age <= 49) bodyDensity = 1.162 - 0.07 * sumOfSkinfolds;
+    //     else bodyDensity = 1.1715 - 0.0779 * sumOfSkinfolds;
+    //   } else {
+    //     if (age < 17) bodyDensity = 1.1369 - 0.0598 * sumOfSkinfolds;
+    //     else if (age <= 19) bodyDensity = 1.1549 - 0.0678 * sumOfSkinfolds;
+    //     else if (age <= 29) bodyDensity = 1.1599 - 0.0717 * sumOfSkinfolds;
+    //     else if (age <= 39) bodyDensity = 1.1423 - 0.0632 * sumOfSkinfolds;
+    //     else if (age <= 49) bodyDensity = 1.1333 - 0.0612 * sumOfSkinfolds;
+    //     else bodyDensity = 1.1339 - 0.0645 * sumOfSkinfolds;
+    //   }
+    //   return 495 / bodyDensity - 450;
+    // }
 
     default:
       return 0;
