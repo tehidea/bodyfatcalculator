@@ -93,13 +93,11 @@ function createCalculatorInputSchema(system: MeasurementSystem) {
   });
 }
 
-type SchemaDefinition = (
-  system: MeasurementSystem
-) => z.ZodObject<any> | ((gender: Gender) => z.ZodObject<any>);
+type SchemaDefinition = (system: MeasurementSystem) => (gender: Gender) => z.ZodObject<any>;
 
 // Formula-specific validation schema factories
 export const formulaSchemas: Record<Formula, SchemaDefinition> = {
-  ymca: (system: MeasurementSystem) =>
+  ymca: (system: MeasurementSystem) => (_gender: Gender) =>
     createCalculatorInputSchema(system)
       .pick({
         weight: true,
@@ -150,7 +148,7 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
       })
       .required(),
 
-  durnin: (system: MeasurementSystem) =>
+  durnin: (system: MeasurementSystem) => (_gender: Gender) =>
     createCalculatorInputSchema(system)
       .pick({
         bicepSkinfold: true,
@@ -160,7 +158,7 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
       })
       .required(),
 
-  jack7: (system: MeasurementSystem) =>
+  jack7: (system: MeasurementSystem) => (_gender: Gender) =>
     createCalculatorInputSchema(system)
       .pick({
         chestSkinfold: true,
@@ -173,7 +171,7 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
       })
       .required(),
 
-  jack4: (system: MeasurementSystem) =>
+  jack4: (system: MeasurementSystem) => (_gender: Gender) =>
     createCalculatorInputSchema(system)
       .pick({
         abdomenSkinfold: true,
@@ -183,7 +181,7 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
       })
       .required(),
 
-  jack3: (system: MeasurementSystem) =>
+  jack3: (system: MeasurementSystem) => (_gender: Gender) =>
     createCalculatorInputSchema(system)
       .pick({
         chestSkinfold: true,
@@ -192,7 +190,7 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
       })
       .required(),
 
-  parrillo: (system: MeasurementSystem) =>
+  parrillo: (system: MeasurementSystem) => (_gender: Gender) =>
     createCalculatorInputSchema(system)
       .pick({
         chestSkinfold: true,

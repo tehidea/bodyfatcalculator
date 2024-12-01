@@ -8,12 +8,10 @@ export const validateInputs = (
   gender: Gender,
   measurementSystem: MeasurementSystem
 ): ValidationResult => {
-  const schemaDefinition = formulaSchemas[formula](measurementSystem);
-  const activeSchema =
-    typeof schemaDefinition === "function" ? schemaDefinition(gender) : schemaDefinition;
+  const schema = formulaSchemas[formula](measurementSystem)(gender);
 
   try {
-    activeSchema.parse(inputs);
+    schema.parse(inputs);
     return { success: true, errors: {} };
   } catch (error) {
     if (error instanceof z.ZodError) {
