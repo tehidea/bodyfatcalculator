@@ -187,6 +187,7 @@ const styles = StyleSheet.create({
     color: COLORS.textDark,
     marginTop: 16,
     marginBottom: 8,
+    textAlign: "center",
   },
   modalDescription: {
     fontSize: 14,
