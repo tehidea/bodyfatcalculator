@@ -7,6 +7,42 @@ import { Formula } from "../../types/calculator";
 import { FORMULA_REQUIREMENTS } from "../../constants/formulas";
 import { COLORS } from "../../constants/theme";
 import { purchasePremium } from "../../config/store";
+import { SkinfoldIcon } from "../icons/SkinfoldIcon";
+import { BodyWeightScalesIcon } from "../icons/BodyWeightScalesIcon";
+import { CalendarIcon } from "../icons/CalendarIcon";
+import { MeasurementVerticalIcon } from "../icons/MeasurementVerticalIcon";
+import { MeasuringTapeIcon } from "../icons/MeasuringTapeIcon";
+
+const MeasurementIcon = ({ type }: { type: string }) => {
+  switch (type) {
+    case "weight":
+      return <BodyWeightScalesIcon size={12} color="#666" />;
+    case "circumference":
+      return <MeasuringTapeIcon size={12} color="#666" />;
+    case "skinfold":
+      return <SkinfoldIcon size={12} color="#666" />;
+    case "height":
+      return <MeasurementVerticalIcon size={12} color="#666" />;
+    case "age":
+      return <CalendarIcon size={12} color="#666" />;
+    default:
+      return null;
+  }
+};
+
+const getMeasurementTypes = (fields: (typeof FORMULA_REQUIREMENTS)[Formula]["fields"]) => {
+  const types = new Set<string>();
+
+  fields.forEach(field => {
+    if (field.key.includes("Skinfold")) types.add("skinfold");
+    else if (field.key.includes("Circumference")) types.add("circumference");
+    else if (field.key === "weight") types.add("weight");
+    else if (field.key === "height") types.add("height");
+    else if (field.key === "age") types.add("age");
+  });
+
+  return Array.from(types);
+};
 
 export const FormulaSelector = () => {
   const { formula, setFormula } = useCalculatorStore();
@@ -68,11 +104,22 @@ export const FormulaSelector = () => {
       <TouchableOpacity style={styles.selector} onPress={() => setIsModalVisible(true)}>
         <View style={styles.selectedFormula}>
           <Text style={styles.formulaName}>{selectedFormula.name}</Text>
+          {selectedFormula.premium && !isPremium && (
+            <View style={styles.premiumBadge}>
+              <Icon name="lock" type="feather" color="#666" size={14} />
+              <Text style={styles.premiumBadgeText}>PRO</Text>
+            </View>
+          )}
           <Icon name="chevron-down" type="feather" color={COLORS.text} size={20} />
         </View>
         <Text style={styles.description} numberOfLines={2}>
           {selectedFormula.description}
         </Text>
+        <View style={styles.measurementIcons}>
+          {getMeasurementTypes(selectedFormula.fields).map(type => (
+            <MeasurementIcon key={type} type={type} />
+          ))}
+        </View>
       </TouchableOpacity>
 
       {/* Formula Selection Modal */}
@@ -128,6 +175,11 @@ export const FormulaSelector = () => {
                   >
                     {item.description}
                   </Text>
+                  <View style={styles.measurementIcons}>
+                    {getMeasurementTypes(FORMULA_REQUIREMENTS[item.key].fields).map(type => (
+                      <MeasurementIcon key={type} type={type} />
+                    ))}
+                  </View>
                 </TouchableOpacity>
               )}
             />
@@ -239,10 +291,12 @@ const styles = StyleSheet.create({
   premiumFormula: {
     backgroundColor: "#f8f8f8",
   },
-  formulaItemName: {
+  formulaItemNameContainer: {
+    flex: 1,
+  },
+  formulaItemNameText: {
     fontSize: 16,
     color: COLORS.textDark,
-    flex: 1,
   },
   activeFormulaText: {
     color: COLORS.primary,
@@ -308,5 +362,17 @@ const styles = StyleSheet.create({
   },
   cancelButtonText: {
     color: "#666",
+  },
+  measurementIcons: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginTop: 8,
+    opacity: 0.6,
+  },
+  formulaItemName: {
+    fontSize: 16,
+    color: COLORS.textDark,
+    flex: 1,
   },
 });

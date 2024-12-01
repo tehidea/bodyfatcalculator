@@ -262,3 +262,11 @@ All calculations are performed in imperial units, with automatic conversion from
 | Fitness        | 21-24%              |
 | Acceptable     | 25-31%              |
 | Obese          | > 31%               |
+
+## Icons used:
+
+- [Body Weight Scales](https://uxwing.com/body-weight-scales-icon/)
+- [Calendar](https://uxwing.com/calendar-line-icon/)
+- [Measurement Vertical](https://uxwing.com/measurement-vertical-icon/)
+- [Measuring Tape](https://uxwing.com/measuring-tape-icon/)
+- Body Calipers (custom made SVG)
