@@ -248,7 +248,7 @@ All calculations are performed in imperial units, with automatic conversion from
 | Classification | Body Fat Percentage |
 | -------------- | ------------------- |
 | Essential Fat  | 2-5%                |
-| Athletes       | 6-13%               |
+| Athletic       | 6-13%               |
 | Fitness        | 14-17%              |
 | Acceptable     | 18-25%              |
 | Obese          | > 25%               |
@@ -258,7 +258,7 @@ All calculations are performed in imperial units, with automatic conversion from
 | Classification | Body Fat Percentage |
 | -------------- | ------------------- |
 | Essential Fat  | 10-13%              |
-| Athletes       | 14-20%              |
+| Athletic       | 14-20%              |
 | Fitness        | 21-24%              |
 | Acceptable     | 25-31%              |
 | Obese          | > 31%               |

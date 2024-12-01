@@ -82,7 +82,7 @@ describe("Body Fat Calculator Formulas", () => {
   describe("Body Fat Classifications", () => {
     test("correctly classifies male body fat percentages", () => {
       expect(getClassification(4, "male")).toBe("Essential fat (2-5%)");
-      expect(getClassification(10, "male")).toBe("Athletes (6-13%)");
+      expect(getClassification(10, "male")).toBe("Athletic (6-13%)");
       expect(getClassification(16, "male")).toBe("Fitness (14-17%)");
       expect(getClassification(22, "male")).toBe("Acceptable (18-25%)");
       expect(getClassification(30, "male")).toBe("Obese (> 25%)");
@@ -90,7 +90,7 @@ describe("Body Fat Calculator Formulas", () => {
 
     test("correctly classifies female body fat percentages", () => {
       expect(getClassification(12, "female")).toBe("Essential fat (10-13%)");
-      expect(getClassification(18, "female")).toBe("Athletes (14-20%)");
+      expect(getClassification(18, "female")).toBe("Athletic (14-20%)");
       expect(getClassification(23, "female")).toBe("Fitness (21-24%)");
       expect(getClassification(28, "female")).toBe("Acceptable (25-31%)");
       expect(getClassification(35, "female")).toBe("Obese (> 31%)");

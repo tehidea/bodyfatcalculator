@@ -21,7 +21,7 @@ export const ResultsDisplay = () => {
 
   // Get color based on classification
   const getClassificationColor = (classification: string) => {
-    if (classification.includes("Athletes")) return "#4CAF50";
+    if (classification.includes("Athletic")) return "#4CAF50";
     if (classification.includes("Fitness")) return "#8BC34A";
     if (classification.includes("Acceptable")) return "#FFC107";
     if (classification.includes("Essential")) return "#2196F3";
