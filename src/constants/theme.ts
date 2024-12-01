@@ -6,6 +6,7 @@ export const COLORS = {
   white: "#FFFFFF",
   black: "#000000",
   text: "#FFFFFF", // White text for dark background
+  textLight: "#333333", // Dark grey text
   textDark: "#000000", // Black text for light backgrounds
 } as const;
 

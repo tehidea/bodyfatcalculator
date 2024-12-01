@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { View, StyleSheet, Dimensions, ScrollView } from "react-native";
-import { Text, Card, LinearProgress } from "@rneui/themed";
+import { Text, Card, LinearProgress, Button } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
+import { usePremiumStore } from "../../store/premiumStore";
 import { getUnitLabel } from "../../constants/formulas";
 import { COLORS } from "../../constants/theme";
 
@@ -13,6 +14,7 @@ interface ResultsDisplayProps {
 
 export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
   const { results, measurementSystem, isResultsStale, gender, formula } = useCalculatorStore();
+  const { pro } = usePremiumStore();
 
   useEffect(() => {
     if (results && !isResultsStale) {
@@ -43,13 +45,29 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
 
   const classificationColor = getClassificationColor(results.classification);
 
+  // Split body fat into whole and decimal parts
+  const wholeNumber = Math.floor(results.bodyFatPercentage);
+  const decimal = (results.bodyFatPercentage % 1).toFixed(1).substring(1);
+
   return (
     <Card containerStyle={styles.container}>
       <Card.Title style={styles.title}>Your Body Composition</Card.Title>
 
       {/* Body Fat Percentage with Progress Bar */}
       <View style={styles.mainResult}>
-        <Text style={styles.mainValue}>{results.bodyFatPercentage.toFixed(1)}%</Text>
+        <View style={styles.mainValueContainer}>
+          <Text style={styles.mainValue}>{wholeNumber}</Text>
+          {pro ? (
+            <Text style={styles.mainValue}>{decimal}%</Text>
+          ) : (
+            <View style={styles.decimalContainer}>
+              <Text style={[styles.mainValue, styles.obfuscatedText]}>.#%</Text>
+              <View style={styles.proPill}>
+                <Text style={styles.proPillText}>PRO</Text>
+              </View>
+            </View>
+          )}
+        </View>
         <Text style={styles.mainLabel}>Body Fat</Text>
         <LinearProgress
           style={styles.progressBar}
@@ -72,20 +90,24 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
       <View style={styles.breakdownContainer}>
         <View style={styles.breakdownItem}>
           <Text style={styles.breakdownValue}>
-            {results.fatMass.toFixed(1)} {weightUnit}
+            {pro ? results.fatMass.toFixed(1) : Math.round(results.fatMass)} {weightUnit}
           </Text>
           <Text style={styles.breakdownLabel}>Fat Mass</Text>
-          <Text style={styles.breakdownPercentage}>{results.bodyFatPercentage.toFixed(1)}%</Text>
+          <Text style={styles.breakdownPercentage}>
+            {pro ? results.bodyFatPercentage.toFixed(1) : Math.round(results.bodyFatPercentage)}%
+          </Text>
         </View>
 
         <View style={styles.divider} />
 
         <View style={styles.breakdownItem}>
           <Text style={styles.breakdownValue}>
-            {results.leanMass.toFixed(1)} {weightUnit}
+            {pro ? results.leanMass.toFixed(1) : Math.round(results.leanMass)} {weightUnit}
           </Text>
           <Text style={styles.breakdownLabel}>Lean Mass</Text>
-          <Text style={styles.breakdownPercentage}>{leanMassPercentage.toFixed(1)}%</Text>
+          <Text style={styles.breakdownPercentage}>
+            {pro ? leanMassPercentage.toFixed(1) : Math.round(leanMassPercentage)}%
+          </Text>
         </View>
       </View>
 
@@ -118,10 +140,35 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
   },
+  mainValueContainer: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
   mainValue: {
     fontSize: 48,
     fontWeight: "bold",
     color: COLORS.textDark,
+  },
+  decimalContainer: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+  },
+  obfuscatedText: {
+    opacity: 0.5,
+  },
+  proPill: {
+    backgroundColor: COLORS.primary + "15",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+    marginLeft: 8,
+    alignSelf: "center",
+  },
+  proPillText: {
+    color: COLORS.primary,
+    fontSize: 12,
+    fontWeight: "bold",
   },
   mainLabel: {
     fontSize: 16,
