@@ -197,14 +197,15 @@ export const FormulaSelector = () => {
         <View style={styles.premiumModalContainer}>
           <View style={styles.premiumModalContent}>
             <Icon name="lock" type="feather" color={COLORS.primary} size={48} />
-            <Text style={styles.premiumModalTitle}>Premium Feature</Text>
+            <Text style={styles.premiumModalTitle}>PRO Feature</Text>
             <Text style={styles.premiumModalDescription}>
-              Upgrade to Premium to unlock all formulas and get more accurate body fat calculations:
-              {"\n\n"}• All skinfold measurement methods{"\n"}• Advanced calculation formulas{"\n"}•
-              More precise results{"\n"}• Regular updates with new methods
+              Upgrade to PRO to unlock all formulas and get more accurate body fat calculations:
+              {"\n\n"}• All skinfold measurement methods
+              {"\n"}• Advanced calculation formulas
+              {"\n"}• More precise results
             </Text>
             <Button
-              title={purchaseLoading ? "Processing..." : "Upgrade to Premium"}
+              title={purchaseLoading ? "Processing..." : "Upgrade to PRO"}
               buttonStyle={styles.upgradeButton}
               loading={purchaseLoading}
               disabled={purchaseLoading}

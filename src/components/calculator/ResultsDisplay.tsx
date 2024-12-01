@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet, Dimensions, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Dimensions, ScrollView, TouchableOpacity, Modal } from "react-native";
 import { Text, Card, LinearProgress, Button, Icon } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { usePremiumStore } from "../../store/premiumStore";
 import { getUnitLabel } from "../../constants/formulas";
 import { COLORS } from "../../constants/theme";
+import { useNavigation } from "@react-navigation/native";
 
 const { width } = Dimensions.get("window");
 
@@ -15,6 +16,8 @@ interface ResultsDisplayProps {
 export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
   const { results, measurementSystem, isResultsStale, gender, formula } = useCalculatorStore();
   const { pro } = usePremiumStore();
+  const [showProModal, setShowProModal] = useState(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (results && !isResultsStale) {
@@ -49,68 +52,109 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
   const wholeNumber = Math.floor(results.bodyFatPercentage);
   const decimal = (results.bodyFatPercentage % 1).toFixed(1).substring(1);
 
+  const handleUpgrade = () => {
+    setShowProModal(false);
+    // @ts-ignore - we know this screen exists
+    navigation.navigate("FeatureComparison");
+  };
+
   return (
-    <Card containerStyle={styles.container}>
-      <Card.Title style={styles.title}>Your Body Composition</Card.Title>
+    <>
+      <Card containerStyle={styles.container}>
+        <Card.Title style={styles.title}>Your Body Composition</Card.Title>
 
-      {/* Body Fat Percentage with Progress Bar */}
-      <View style={styles.mainResult}>
-        <View style={styles.mainValueContainer}>
-          <Text style={styles.mainValue}>{pro ? `${wholeNumber}` : `~${wholeNumber}%`}</Text>
-          {pro && <Text style={styles.mainValue}>{decimal}%</Text>}
-        </View>
-        <Text style={styles.mainLabel}>Body Fat</Text>
-        {!pro && (
-          <View style={styles.premiumBadge}>
-            <Icon name="lock" type="feather" color="#666" size={14} />
-            <Text style={styles.premiumBadgeText}>Unlock decimal values with PRO</Text>
+        {/* Body Fat Percentage with Progress Bar */}
+        <View style={styles.mainResult}>
+          <View style={styles.mainValueContainer}>
+            <Text style={styles.mainValue}>{pro ? `${wholeNumber}` : `~${wholeNumber}%`}</Text>
+            {pro && <Text style={styles.mainValue}>{decimal}%</Text>}
           </View>
-        )}
-        <LinearProgress
-          style={styles.progressBar}
-          value={bodyFatProgress}
-          color={classificationColor}
-          variant="determinate"
-        />
-      </View>
+          {!pro && (
+            <TouchableOpacity style={styles.premiumBadge} onPress={() => setShowProModal(true)}>
+              <Icon name="lock" type="feather" color="#666" size={14} />
+              <Text style={styles.premiumBadgeText}>Unlock decimal values with PRO</Text>
+            </TouchableOpacity>
+          )}
+          <Text style={styles.mainLabel}>Body Fat</Text>
+          <LinearProgress
+            style={styles.progressBar}
+            value={bodyFatProgress}
+            color={classificationColor}
+            variant="determinate"
+          />
+        </View>
 
-      {/* Classification */}
-      <View
-        style={[styles.classificationContainer, { backgroundColor: `${classificationColor}15` }]}
+        {/* Classification */}
+        <View
+          style={[styles.classificationContainer, { backgroundColor: `${classificationColor}15` }]}
+        >
+          <Text style={[styles.classification, { color: classificationColor }]}>
+            {results.classification}
+          </Text>
+        </View>
+
+        {/* Detailed Breakdown */}
+        <View style={styles.breakdownContainer}>
+          <View style={styles.breakdownItem}>
+            <Text style={styles.breakdownValue}>
+              {pro ? results.fatMass.toFixed(1) : Math.round(results.fatMass)} {weightUnit}
+            </Text>
+            <Text style={styles.breakdownLabel}>Fat Mass</Text>
+            <Text style={styles.breakdownPercentage}>
+              {pro ? results.bodyFatPercentage.toFixed(1) : Math.round(results.bodyFatPercentage)}%
+            </Text>
+          </View>
+
+          <View style={styles.divider} />
+
+          <View style={styles.breakdownItem}>
+            <Text style={styles.breakdownValue}>
+              {pro ? results.leanMass.toFixed(1) : Math.round(results.leanMass)} {weightUnit}
+            </Text>
+            <Text style={styles.breakdownLabel}>Lean Mass</Text>
+            <Text style={styles.breakdownPercentage}>
+              {pro ? leanMassPercentage.toFixed(1) : Math.round(leanMassPercentage)}%
+            </Text>
+          </View>
+        </View>
+
+        {/* Formula Name */}
+        <Text style={styles.formulaName}>{formula.toUpperCase()} Formula</Text>
+      </Card>
+
+      <Modal
+        visible={showProModal}
+        animationType="fade"
+        transparent={true}
+        onRequestClose={() => setShowProModal(false)}
       >
-        <Text style={[styles.classification, { color: classificationColor }]}>
-          {results.classification}
-        </Text>
-      </View>
-
-      {/* Detailed Breakdown */}
-      <View style={styles.breakdownContainer}>
-        <View style={styles.breakdownItem}>
-          <Text style={styles.breakdownValue}>
-            {pro ? results.fatMass.toFixed(1) : Math.round(results.fatMass)} {weightUnit}
-          </Text>
-          <Text style={styles.breakdownLabel}>Fat Mass</Text>
-          <Text style={styles.breakdownPercentage}>
-            {pro ? results.bodyFatPercentage.toFixed(1) : Math.round(results.bodyFatPercentage)}%
-          </Text>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Icon name="lock" type="feather" color={COLORS.primary} size={48} />
+            <Text style={styles.modalTitle}>Unlock Decimal Precision</Text>
+            <Text style={styles.modalDescription}>
+              Upgrade to PRO to access decimal precision and get more accurate body fat
+              calculations:
+              {"\n\n"}• Decimal precision for all measurements
+              {"\n"}• Advanced calculation formulas
+              {"\n"}• More accurate results
+              {"\n"}• Skinfold measurement methods
+            </Text>
+            <Button
+              title="Upgrade to PRO"
+              buttonStyle={styles.upgradeButton}
+              onPress={handleUpgrade}
+            />
+            <Button
+              title="Maybe Later"
+              type="clear"
+              titleStyle={styles.cancelButtonText}
+              onPress={() => setShowProModal(false)}
+            />
+          </View>
         </View>
-
-        <View style={styles.divider} />
-
-        <View style={styles.breakdownItem}>
-          <Text style={styles.breakdownValue}>
-            {pro ? results.leanMass.toFixed(1) : Math.round(results.leanMass)} {weightUnit}
-          </Text>
-          <Text style={styles.breakdownLabel}>Lean Mass</Text>
-          <Text style={styles.breakdownPercentage}>
-            {pro ? leanMassPercentage.toFixed(1) : Math.round(leanMassPercentage)}%
-          </Text>
-        </View>
-      </View>
-
-      {/* Formula Name */}
-      <Text style={styles.formulaName}>{formula.toUpperCase()} Formula</Text>
-    </Card>
+      </Modal>
+    </>
   );
 };
 
@@ -221,5 +265,45 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 20,
     fontFamily: "Montserrat-Light",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+    padding: 20,
+  },
+  modalContent: {
+    backgroundColor: COLORS.white,
+    borderRadius: 16,
+    padding: 24,
+    alignItems: "center",
+    width: "100%",
+    maxWidth: 320,
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: COLORS.textDark,
+    marginTop: 16,
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  modalDescription: {
+    fontSize: 14,
+    color: "#666",
+    textAlign: "center",
+    marginBottom: 24,
+    lineHeight: 20,
+  },
+  upgradeButton: {
+    backgroundColor: COLORS.primary,
+    borderRadius: 12,
+    paddingHorizontal: 32,
+    paddingVertical: 12,
+    marginBottom: 8,
+  },
+  cancelButtonText: {
+    color: "#666",
   },
 });
