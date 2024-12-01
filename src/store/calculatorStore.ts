@@ -85,7 +85,14 @@ export const useCalculatorStore = create<CalculatorStore>()(
       fieldErrors: {},
       _hasHydrated: false,
       setFormula: formula => set({ formula, results: null, isResultsStale: false }),
-      setGender: gender => set({ gender, results: null, isResultsStale: false }),
+      setGender: gender =>
+        set({
+          gender,
+          results: null,
+          isResultsStale: false,
+          error: null,
+          fieldErrors: {},
+        }),
       setMeasurementSystem: newSystem => {
         const { measurementSystem: oldSystem, inputs } = get();
         const { fields } = FORMULA_REQUIREMENTS[get().formula];

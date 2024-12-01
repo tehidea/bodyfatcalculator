@@ -95,4 +95,31 @@ describe("calculatorStore", () => {
       expect(updatedState.isResultsStale).toBe(true);
     });
   });
-}); 
+
+  describe("setGender", () => {
+    it("resets validation errors when changing gender", () => {
+      // Set initial values and trigger validation error
+      useCalculatorStore.setState(state => ({
+        ...state,
+        gender: "male",
+        error: "Invalid measurement",
+        fieldErrors: { waistCircumference: "Waist circumference is required" },
+      }));
+
+      // Verify error is set
+      const initialState = useCalculatorStore.getState();
+      expect(initialState.error).toBe("Invalid measurement");
+      expect(initialState.fieldErrors.waistCircumference).toBe("Waist circumference is required");
+
+      // Change gender
+      useCalculatorStore.getState().setGender("female");
+
+      // Verify errors are reset
+      const updatedState = useCalculatorStore.getState();
+      expect(updatedState.error).toBeNull();
+      expect(updatedState.fieldErrors).toEqual({});
+      expect(updatedState.results).toBeNull();
+      expect(updatedState.isResultsStale).toBe(false);
+    });
+  });
+});
