@@ -63,6 +63,7 @@ interface CalculatorFormProps {
   buttonTitle: string;
   isCalculating: boolean;
   globalError?: string | null;
+  scrollViewRef: React.RefObject<ScrollView>;
 }
 
 // Extract form section into a separate component
@@ -75,6 +76,7 @@ const CalculatorForm = memo(
     buttonTitle,
     isCalculating,
     globalError,
+    scrollViewRef,
   }: CalculatorFormProps) => {
     const gender = useCalculatorStore(state => state.gender);
     const measurementSystem = useCalculatorStore(state => state.measurementSystem);
@@ -172,7 +174,7 @@ const CalculatorForm = memo(
           </View>
         )}
 
-        <ResultsDisplay />
+        <ResultsDisplay scrollViewRef={scrollViewRef} />
       </View>
     );
   }
@@ -194,6 +196,7 @@ export const CalculatorScreen = () => {
     fieldErrors,
   } = useCalculatorStore();
 
+  const scrollViewRef = useRef<ScrollView>(null);
   const formulaFields = FORMULA_REQUIREMENTS[formula].fields;
 
   // Helper function to get field-specific error
@@ -242,6 +245,7 @@ export const CalculatorScreen = () => {
           keyboardVerticalOffset={Platform.OS === "ios" ? 20 : 0}
         >
           <ScrollView
+            ref={scrollViewRef}
             style={styles.container}
             contentContainerStyle={styles.scrollContent}
             keyboardShouldPersistTaps="handled"
@@ -256,6 +260,7 @@ export const CalculatorScreen = () => {
               buttonTitle={buttonTitle}
               isCalculating={isCalculating}
               globalError={globalError}
+              scrollViewRef={scrollViewRef}
             />
             <VersionDisplay />
           </ScrollView>

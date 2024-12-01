@@ -1,5 +1,5 @@
-import React from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import React, { useEffect } from "react";
+import { View, StyleSheet, Dimensions, ScrollView } from "react-native";
 import { Text, Card, LinearProgress } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { getUnitLabel } from "../../constants/formulas";
@@ -7,8 +7,21 @@ import { COLORS } from "../../constants/theme";
 
 const { width } = Dimensions.get("window");
 
-export const ResultsDisplay = () => {
-  const { results, measurementSystem, isResultsStale, gender } = useCalculatorStore();
+interface ResultsDisplayProps {
+  scrollViewRef: React.RefObject<ScrollView>;
+}
+
+export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
+  const { results, measurementSystem, isResultsStale, gender, formula } = useCalculatorStore();
+
+  useEffect(() => {
+    if (results && !isResultsStale) {
+      // Give a small delay to ensure the results are rendered
+      setTimeout(() => {
+        scrollViewRef.current?.scrollToEnd({ animated: true });
+      }, 100);
+    }
+  }, [results, isResultsStale, scrollViewRef]);
 
   if (!results || isResultsStale) return null;
 
@@ -75,6 +88,9 @@ export const ResultsDisplay = () => {
           <Text style={styles.breakdownPercentage}>{leanMassPercentage.toFixed(1)}%</Text>
         </View>
       </View>
+
+      {/* Formula Name */}
+      <Text style={styles.formulaName}>{formula.toUpperCase()} Formula</Text>
     </Card>
   );
 };
@@ -139,7 +155,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     width: 1,
-    backgroundColor: COLORS.border,
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
     marginHorizontal: 16,
   },
   breakdownValue: {
@@ -157,5 +173,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.textDark,
     opacity: 0.8,
+  },
+  formulaName: {
+    fontSize: 12,
+    color: COLORS.textDark,
+    opacity: 0.4,
+    textAlign: "center",
+    marginTop: 20,
+    fontFamily: "Montserrat-Light",
   },
 });
