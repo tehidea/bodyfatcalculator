@@ -76,9 +76,17 @@ export const FORMULA_REQUIREMENTS: Record<
       { key: "weight", label: "Weight", unit: "kg", required: true },
       { key: "age", label: "Age", unit: "years", required: true },
       { key: "hipsCircumference", label: "Hips (widest point)", unit: "cm", required: true },
+      { key: "wristCircumference", label: "Wrist (smallest point)", unit: "cm", required: true },
       {
         key: "waistCircumference",
         label: "Waist (at navel)",
+        unit: "cm",
+        required: true,
+        genderSpecific: "male",
+      },
+      {
+        key: "forearmCircumference",
+        label: "Forearm (widest point)",
         unit: "cm",
         required: true,
         genderSpecific: "male",
@@ -97,14 +105,6 @@ export const FORMULA_REQUIREMENTS: Record<
         required: true,
         genderSpecific: "female",
       },
-      {
-        key: "forearmCircumference",
-        label: "Forearm (widest point)",
-        unit: "cm",
-        required: true,
-        genderSpecific: "male",
-      },
-      { key: "wristCircumference", label: "Wrist (smallest point)", unit: "cm", required: true },
     ],
   },
   navy: {

@@ -87,6 +87,7 @@ export const useCalculatorStore = create<CalculatorStore>()(
       setFormula: formula =>
         set({
           formula,
+          inputs: {},
           results: null,
           isResultsStale: false,
           error: null,

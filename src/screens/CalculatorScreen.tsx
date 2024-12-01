@@ -96,14 +96,6 @@ const CalculatorForm = memo(
       [visibleFields, measurementSystem]
     );
 
-    // Initialize refs array when component mounts or formula changes
-    useEffect(() => {
-      inputRefs.current = new Array(fieldsWithConvertedUnits.length).fill(null);
-      return () => {
-        inputRefs.current = [];
-      };
-    }, [fieldsWithConvertedUnits.length]);
-
     const handleInputSubmit = useCallback(
       (currentIndex: number) => {
         if (currentIndex < fieldsWithConvertedUnits.length - 1) {
@@ -117,12 +109,6 @@ const CalculatorForm = memo(
       },
       [fieldsWithConvertedUnits.length]
     );
-
-    const setInputRef = useCallback((index: number, ref: InputRef | null) => {
-      if (ref) {
-        inputRefs.current[index] = ref;
-      }
-    }, []);
 
     return (
       <View style={styles.content}>
@@ -139,11 +125,11 @@ const CalculatorForm = memo(
             key={field.key}
             field={field}
             error={getFieldError(field.key) ?? ""}
-            ref={ref => setInputRef(index, ref)}
-            returnKeyType={index === fieldsWithConvertedUnits.length - 1 ? "done" : "next"}
-            onSubmitEditing={() => {
-              handleInputSubmit(index);
+            ref={ref => {
+              inputRefs.current[index] = ref;
             }}
+            returnKeyType={index === fieldsWithConvertedUnits.length - 1 ? "done" : "next"}
+            onSubmitEditing={() => handleInputSubmit(index)}
           />
         ))}
 
