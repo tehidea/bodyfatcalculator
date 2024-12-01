@@ -121,6 +121,7 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
   covert: (system: MeasurementSystem) => (gender: Gender) =>
     createCalculatorInputSchema(system)
       .pick({
+        weight: true,
         age: true,
         hipsCircumference: true,
         wristCircumference: true,

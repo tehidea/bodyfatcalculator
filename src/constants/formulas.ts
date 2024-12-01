@@ -73,6 +73,7 @@ export const FORMULA_REQUIREMENTS: Record<
     name: "Covert Bailey",
     description: "Age-specific method using multiple body measurements",
     fields: [
+      { key: "weight", label: "Weight", unit: "kg", required: true },
       { key: "age", label: "Age", unit: "years", required: true },
       { key: "hipsCircumference", label: "Hips (widest point)", unit: "cm", required: true },
       {
