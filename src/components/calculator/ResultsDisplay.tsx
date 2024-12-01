@@ -1,39 +1,79 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
-import { Text, Card } from "@rneui/themed";
+import { View, StyleSheet, Dimensions } from "react-native";
+import { Text, Card, LinearProgress } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { getUnitLabel } from "../../constants/formulas";
 import { COLORS } from "../../constants/theme";
 
+const { width } = Dimensions.get("window");
+
 export const ResultsDisplay = () => {
-  const { results, measurementSystem, isResultsStale } = useCalculatorStore();
+  const { results, measurementSystem, isResultsStale, gender } = useCalculatorStore();
 
   if (!results || isResultsStale) return null;
 
   const weightUnit = getUnitLabel("kg", measurementSystem);
 
+  // Calculate progress values
+  const maxBodyFat = gender === "male" ? 35 : 45;
+  const bodyFatProgress = Math.min(results.bodyFatPercentage / maxBodyFat, 1);
+  const leanMassPercentage = 100 - results.bodyFatPercentage;
+
+  // Get color based on classification
+  const getClassificationColor = (classification: string) => {
+    if (classification.includes("Athletes")) return "#4CAF50";
+    if (classification.includes("Fitness")) return "#8BC34A";
+    if (classification.includes("Acceptable")) return "#FFC107";
+    if (classification.includes("Essential")) return "#2196F3";
+    return "#FF5722"; // Obese
+  };
+
+  const classificationColor = getClassificationColor(results.classification);
+
   return (
     <Card containerStyle={styles.container}>
-      <Card.Title style={styles.title}>Results</Card.Title>
-      <View style={styles.resultRow}>
-        <Text style={styles.label}>Body Fat Percentage:</Text>
-        <Text style={styles.value}>{results.bodyFatPercentage.toFixed(2)}%</Text>
+      <Card.Title style={styles.title}>Your Body Composition</Card.Title>
+
+      {/* Body Fat Percentage with Progress Bar */}
+      <View style={styles.mainResult}>
+        <Text style={styles.mainValue}>{results.bodyFatPercentage.toFixed(1)}%</Text>
+        <Text style={styles.mainLabel}>Body Fat</Text>
+        <LinearProgress
+          style={styles.progressBar}
+          value={bodyFatProgress}
+          color={classificationColor}
+          variant="determinate"
+        />
       </View>
-      <View style={styles.resultRow}>
-        <Text style={styles.label}>Fat Mass:</Text>
-        <Text style={styles.value}>
-          {results.fatMass.toFixed(2)} {weightUnit}
+
+      {/* Classification */}
+      <View
+        style={[styles.classificationContainer, { backgroundColor: `${classificationColor}15` }]}
+      >
+        <Text style={[styles.classification, { color: classificationColor }]}>
+          {results.classification}
         </Text>
       </View>
-      <View style={styles.resultRow}>
-        <Text style={styles.label}>Lean Mass:</Text>
-        <Text style={styles.value}>
-          {results.leanMass.toFixed(2)} {weightUnit}
-        </Text>
-      </View>
-      <View style={styles.resultRow}>
-        <Text style={styles.label}>Classification:</Text>
-        <Text style={[styles.value, styles.classification]}>{results.classification}</Text>
+
+      {/* Detailed Breakdown */}
+      <View style={styles.breakdownContainer}>
+        <View style={styles.breakdownItem}>
+          <Text style={styles.breakdownValue}>
+            {results.fatMass.toFixed(1)} {weightUnit}
+          </Text>
+          <Text style={styles.breakdownLabel}>Fat Mass</Text>
+          <Text style={styles.breakdownPercentage}>{results.bodyFatPercentage.toFixed(1)}%</Text>
+        </View>
+
+        <View style={styles.divider} />
+
+        <View style={styles.breakdownItem}>
+          <Text style={styles.breakdownValue}>
+            {results.leanMass.toFixed(1)} {weightUnit}
+          </Text>
+          <Text style={styles.breakdownLabel}>Lean Mass</Text>
+          <Text style={styles.breakdownPercentage}>{leanMassPercentage.toFixed(1)}%</Text>
+        </View>
       </View>
     </Card>
   );
@@ -43,25 +83,79 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 20,
     backgroundColor: COLORS.white,
-    borderRadius: 12,
+    borderRadius: 16,
+    padding: 20,
+    width: width - 32,
+    alignSelf: "center",
+    elevation: 4,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   title: {
     color: COLORS.textDark,
+    fontSize: 20,
+    marginBottom: 16,
   },
-  resultRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  mainResult: {
     alignItems: "center",
-    paddingVertical: 8,
+    marginBottom: 20,
   },
-  label: {
-    color: COLORS.textDark,
-  },
-  value: {
+  mainValue: {
+    fontSize: 48,
     fontWeight: "bold",
     color: COLORS.textDark,
   },
+  mainLabel: {
+    fontSize: 16,
+    color: COLORS.textLight,
+    marginBottom: 8,
+  },
+  progressBar: {
+    width: "100%",
+    height: 8,
+    borderRadius: 4,
+    marginTop: 8,
+  },
+  classificationContainer: {
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 20,
+    alignItems: "center",
+  },
   classification: {
-    color: COLORS.primary,
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  breakdownContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "stretch",
+  },
+  breakdownItem: {
+    flex: 1,
+    alignItems: "center",
+  },
+  divider: {
+    width: 1,
+    backgroundColor: COLORS.border,
+    marginHorizontal: 16,
+  },
+  breakdownValue: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: COLORS.textDark,
+    marginBottom: 4,
+  },
+  breakdownLabel: {
+    fontSize: 14,
+    color: COLORS.textLight,
+    marginBottom: 4,
+  },
+  breakdownPercentage: {
+    fontSize: 16,
+    color: COLORS.textDark,
+    opacity: 0.8,
   },
 });
