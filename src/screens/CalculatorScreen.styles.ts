@@ -2,7 +2,10 @@ import { StyleSheet } from "react-native";
 import { COLORS } from "../constants/theme";
 
 export const styles = StyleSheet.create({
-  safeArea: {
+  safeAreaTop: {
+    backgroundColor: COLORS.white,
+  },
+  safeAreaBottom: {
     flex: 1,
     backgroundColor: COLORS.background,
   },

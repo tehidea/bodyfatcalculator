@@ -231,32 +231,36 @@ export const CalculatorScreen = () => {
   }, [isCalculating, results, isResultsStale]);
 
   return (
-    <SafeAreaView style={styles.safeArea} accessibilityRole="none">
-      <Header />
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 20 : 0}
-      >
-        <ScrollView
+    <>
+      <SafeAreaView style={styles.safeAreaTop} edges={["top"]}>
+        <Header />
+      </SafeAreaView>
+      <SafeAreaView style={styles.safeAreaBottom} edges={["bottom"]}>
+        <KeyboardAvoidingView
           style={styles.container}
-          contentContainerStyle={styles.scrollContent}
-          keyboardShouldPersistTaps="handled"
-          accessibilityLabel="Calculator form"
-          showsVerticalScrollIndicator={false}
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 20 : 0}
         >
-          <CalculatorForm
-            formulaFields={formulaFields}
-            getFieldError={getFieldError}
-            handleCalculate={handleCalculate}
-            handleReset={handleReset}
-            buttonTitle={buttonTitle}
-            isCalculating={isCalculating}
-            globalError={globalError}
-          />
-          <VersionDisplay />
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+          <ScrollView
+            style={styles.container}
+            contentContainerStyle={styles.scrollContent}
+            keyboardShouldPersistTaps="handled"
+            accessibilityLabel="Calculator form"
+            showsVerticalScrollIndicator={false}
+          >
+            <CalculatorForm
+              formulaFields={formulaFields}
+              getFieldError={getFieldError}
+              handleCalculate={handleCalculate}
+              handleReset={handleReset}
+              buttonTitle={buttonTitle}
+              isCalculating={isCalculating}
+              globalError={globalError}
+            />
+            <VersionDisplay />
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </>
   );
 };
