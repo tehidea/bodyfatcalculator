@@ -20,6 +20,7 @@ import { convertMeasurement } from "../../utils/conversions";
 import { isCircumferenceMeasurement, isSkinfoldMeasurement } from "../../utils/typeGuards";
 import { COLORS } from "../../constants/theme";
 import { useNavigation } from "@react-navigation/native";
+import { MeasurementIcon } from "./FormulaSelector";
 
 // Private Input component interfaces
 interface InputProps extends TextInputProps {
@@ -28,6 +29,7 @@ interface InputProps extends TextInputProps {
   error?: string;
   onSubmitEditing?: () => void;
   returnKeyType?: ReturnKeyTypeOptions;
+  measurementType?: string;
 }
 
 export interface InputRef {
@@ -36,7 +38,19 @@ export interface InputRef {
 
 // Private Input component
 const Input = forwardRef<InputRef, InputProps>(
-  ({ label, unit, error, style, onSubmitEditing, returnKeyType = "next", ...props }, ref) => {
+  (
+    {
+      label,
+      unit,
+      error,
+      style,
+      onSubmitEditing,
+      returnKeyType = "next",
+      measurementType,
+      ...props
+    },
+    ref
+  ) => {
     const inputRef = useRef<TextInput>(null);
     const inputAccessoryViewID = `${label.replace(/\s/g, "")}_input`;
 
@@ -70,7 +84,10 @@ const Input = forwardRef<InputRef, InputProps>(
           </InputAccessoryView>
         )}
         <View style={[styles.container, style]}>
-          <Text style={styles.label}>{label}</Text>
+          <View style={styles.labelContainer}>
+            {measurementType && <MeasurementIcon type={measurementType} color={COLORS.text} />}
+            <Text style={styles.label}>{label}</Text>
+          </View>
           <View style={styles.inputContainer}>
             <TextInput
               {...props}
@@ -113,13 +130,14 @@ export const MeasurementInput = forwardRef<InputRef, MeasurementInputProps>(
     const [showProModal, setShowProModal] = useState(false);
     const navigation = useNavigation();
 
-    // Get measurement type for conversion
+    // Get measurement type
     const getMeasurementType = () => {
       if (isCircumferenceMeasurement(field.key)) return "circumference";
       if (isSkinfoldMeasurement(field.key)) return "skinfold";
       if (field.key === "weight") return "weight";
       if (field.key === "height") return "height";
-      return null;
+      if (field.key === "age") return "age";
+      return undefined;
     };
 
     // Sync with store and handle reset or measurement system change
@@ -206,6 +224,7 @@ export const MeasurementInput = forwardRef<InputRef, MeasurementInputProps>(
           error={error}
           returnKeyType={returnKeyType}
           onSubmitEditing={onSubmitEditing}
+          measurementType={getMeasurementType()}
           {...props}
         />
 
@@ -250,8 +269,13 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: 16,
   },
-  label: {
+  labelContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
     marginBottom: 8,
+  },
+  label: {
     color: COLORS.text,
   },
   inputContainer: {

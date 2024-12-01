@@ -13,7 +13,7 @@ import { CalendarIcon } from "../icons/CalendarIcon";
 import { MeasurementVerticalIcon } from "../icons/MeasurementVerticalIcon";
 import { MeasuringTapeIcon } from "../icons/MeasuringTapeIcon";
 
-const MeasurementIcon = ({ type, color }: { type: string; color: string }) => {
+export const MeasurementIcon = ({ type, color }: { type: string; color: string }) => {
   switch (type) {
     case "weight":
       return <BodyWeightScalesIcon size={12} color={color} />;
