@@ -193,7 +193,7 @@ export const MeasurementInput = forwardRef<InputRef, MeasurementInputProps>(
       const numValue = parseFloat(rawValue);
       if (!isNaN(numValue)) {
         const measurementType = getMeasurementType();
-        if (measurementType) {
+        if (measurementType && measurementType !== "age") {
           const convertedValue = convertMeasurement(
             numValue,
             field.unit,
@@ -202,6 +202,8 @@ export const MeasurementInput = forwardRef<InputRef, MeasurementInputProps>(
           );
           setRawValue(convertedValue.toString());
           setInput(field.key, convertedValue);
+        } else {
+          setInput(field.key, numValue);
         }
       }
     };
