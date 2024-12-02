@@ -12,6 +12,7 @@ import { BodyWeightScalesIcon } from "../icons/BodyWeightScalesIcon";
 import { CalendarIcon } from "../icons/CalendarIcon";
 import { MeasurementVerticalIcon } from "../icons/MeasurementVerticalIcon";
 import { MeasuringTapeIcon } from "../icons/MeasuringTapeIcon";
+import { getMarginOfError } from "../../utils/accuracy";
 
 export const MeasurementIcon = ({ type, color }: { type: string; color: string }) => {
   switch (type) {
@@ -226,31 +227,6 @@ export const FormulaSelector = () => {
       </Modal>
     </View>
   );
-};
-
-const getMarginOfError = (formula: Formula): string => {
-  switch (formula) {
-    case "ymca":
-      return "4-6%";
-    case "mymca":
-      return "3.5-5.5%";
-    case "navy":
-      return "3-4%";
-    case "covert":
-      return "3.5-4.5%";
-    case "durnin":
-      return "3-4%";
-    case "jack3":
-      return "3.5-4%";
-    case "jack4":
-      return "3-3.5%";
-    case "jack7":
-      return "2.5-3%";
-    case "parrillo":
-      return "2.5-3%";
-    default:
-      return "3-5%";
-  }
 };
 
 const styles = StyleSheet.create({

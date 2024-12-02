@@ -88,6 +88,58 @@ This calculator implements various methods for estimating body fat percentage.
   - [ ] Progress predictions
   - [ ] Automated insights
 
+## Formulas and Their Accuracy
+
+Each formula has an inherent margin of error, which varies based on the method and proper measurement technique:
+
+### Free Methods
+
+1. YMCA (±4-6%)[1]
+
+   - Simple method using weight and waist measurements
+   - Higher margin of error due to minimal measurements
+   - Best for initial estimates and tracking trends
+
+2. Modified YMCA (±3.5-5.5%)[1]
+
+   - Enhanced version with additional measurements for women
+   - Improved accuracy over basic YMCA
+   - Good for regular monitoring
+
+3. U.S. Navy (±3-4%)[2]
+   - Military standard using key body measurements
+   - Validated across large populations
+   - Reliable for general fitness tracking
+
+### PRO Methods
+
+1. Covert Bailey (±3.5-4.5%)[3]
+
+   - Comprehensive method with multiple measurements
+   - Age and gender-specific calculations
+   - Good for detailed assessment
+
+2. Durnin & Womersley (±3-4% when done properly)[4]
+
+   - Scientific skinfold method
+   - Age and gender-specific equations
+   - Requires proper caliper technique
+
+3. Jackson & Pollock Methods[5]
+
+   - 3-Site (±3.5-4% when done properly)
+   - 4-Site (±3-3.5% when done properly)
+   - 7-Site (±2.5-3% when done properly)
+   - Industry standard for skinfold measurements
+   - Higher accuracy with more measurement sites
+
+4. Parrillo (±2.5-3% when done properly)[6]
+   - Bodybuilding-focused nine-site method
+   - Most comprehensive skinfold method
+   - Requires significant expertise
+
+Note: All skinfold methods require proper technique and calibrated calipers for stated accuracy.
+
 ## Formulas
 
 ### YMCA Body Fat Formula
@@ -241,10 +293,14 @@ $$Body Fat\% = \left(\frac{495}{Body Density} - 450\right)$$
 
 ## References
 
-1. Jackson, A.S., & Pollock, M.L. (1978). Generalized equations for predicting body density of men. British Journal of Nutrition, 40(3), 497-504.
-2. Jackson, A.S., Pollock, M.L., & Ward, A. (1980). Generalized equations for predicting body density of women. Medicine and Science in Sports and Exercise, 12(3), 175-181.
-3. Durnin, J.V.G.A., & Womersley, J. (1974). Body fat assessed from total body density and its estimation from skinfold thickness. British Journal of Nutrition, 32(1), 77-97.
-4. Hodgdon, J.A., & Beckett, M.B. (1984). Prediction of percent body fat for U.S. Navy men and women from body circumferences and height. Naval Health Research Center Report No. 84-29.
+1. Heyward, V.H., & Wagner, D.R. (2004). Applied Body Composition Assessment (2nd ed.). Human Kinetics. pp. 87-98.
+2. Hodgdon, J.A., & Beckett, M.B. (1984). Prediction of percent body fat for U.S. Navy men and women from body circumferences and height. Naval Health Research Center Report No. 84-29.
+3. Bailey, Covert. (1991). The Ultimate Fit or Fat. Houghton Mifflin Harcourt. pp. 179-187.
+4. Durnin, J.V.G.A., & Womersley, J. (1974). Body fat assessed from total body density and its estimation from skinfold thickness: measurements on 481 men and women aged from 16 to 72 years. British Journal of Nutrition, 32(1), 77-97.
+5. Jackson, A.S., & Pollock, M.L. (1985). Practical assessment of body composition. The Physician and Sportsmedicine, 13(5), 76-90.
+6. Parrillo, J., & Greenwood-Robinson, M. (1993). High-Performance Body-Building. Perigee Books. pp. 304-309.
+7. Wang, Z.M., Pierson, R.N., & Heymsfield, S.B. (1992). The five-level model: a new approach to organizing body-composition research. The American Journal of Clinical Nutrition, 56(1), 19-28.
+8. Lohman, T.G. (1992). Advances in Body Composition Assessment. Human Kinetics Publishers. pp. 65-77.
 
 ## Implementation Details
 

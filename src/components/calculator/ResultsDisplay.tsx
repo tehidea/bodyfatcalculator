@@ -6,6 +6,7 @@ import { usePremiumStore } from "../../store/premiumStore";
 import { getUnitLabel } from "../../constants/formulas";
 import { COLORS } from "../../constants/theme";
 import { useNavigation } from "@react-navigation/native";
+import { getMarginOfError } from "../../utils/accuracy";
 
 const { width } = Dimensions.get("window");
 
