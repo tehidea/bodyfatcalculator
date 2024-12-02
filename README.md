@@ -90,55 +90,76 @@ This calculator implements various methods for estimating body fat percentage.
 
 ## Formulas and Their Accuracy
 
-Each formula has an inherent margin of error, which varies based on the method and proper measurement technique:
+Each formula has an inherent margin of error, which varies based on multiple factors including measurement technique, individual body composition, and population specifics. The following accuracy ranges are based on recent meta-analyses and validation studies:
 
 ### Free Methods
 
-1. YMCA (±4-6%)[1]
+1. YMCA (±5-7%)[1]
 
    - Simple method using weight and waist measurements
    - Higher margin of error due to minimal measurements
-   - Best for initial estimates and tracking trends
+   - Best for tracking personal trends rather than absolute values
+   - Less accurate for athletic or non-standard body types
 
-2. Modified YMCA (±3.5-5.5%)[1]
+2. Modified YMCA (±4-6%)[1]
 
    - Enhanced version with additional measurements for women
    - Improved accuracy over basic YMCA
-   - Good for regular monitoring
+   - More reliable for women due to gender-specific calculations
+   - Still affected by non-standard fat distribution
 
-3. U.S. Navy (±3-4%)[2]
+3. U.S. Navy (±4-6%)[2]
    - Military standard using key body measurements
-   - Validated across large populations
-   - Reliable for general fitness tracking
+   - Most accurate for individuals near population averages
+   - Less reliable for very lean (<8%) or obese (>30%) individuals
+   - Accuracy depends heavily on measurement technique
 
 ### PRO Methods
 
-1. Covert Bailey (±3.5-4.5%)[3]
+1. Covert Bailey (±4-5%)[3]
 
    - Comprehensive method with multiple measurements
    - Age and gender-specific calculations
-   - Good for detailed assessment
+   - More reliable across different body types
+   - Requires precise measurement technique
 
-2. Durnin & Womersley (±3-4% when done properly)[4]
+2. Durnin & Womersley (±3.5-5%)[4]
 
    - Scientific skinfold method
    - Age and gender-specific equations
-   - Requires proper caliper technique
+   - Accuracy heavily dependent on technician skill
+   - Requires proper caliper technique and calibration
 
 3. Jackson & Pollock Methods[5]
 
-   - 3-Site (±3.5-4% when done properly)
-   - 4-Site (±3-3.5% when done properly)
-   - 7-Site (±2.5-3% when done properly)
+   - 3-Site (±4-5% when done properly)
+   - 4-Site (±3.5-4.5% when done properly)
+   - 7-Site (±3-4% when done properly)
    - Industry standard for skinfold measurements
-   - Higher accuracy with more measurement sites
+   - Accuracy improves with more measurement sites
+   - Requires significant technical expertise
 
-4. Parrillo (±2.5-3% when done properly)[6]
+4. Parrillo (±3-4% when done properly)[6]
    - Bodybuilding-focused nine-site method
    - Most comprehensive skinfold method
-   - Requires significant expertise
+   - Requires significant expertise and consistent technique
+   - Best for tracking changes in trained individuals
 
-Note: All skinfold methods require proper technique and calibrated calipers for stated accuracy.
+### Important Notes on Accuracy
+
+- All methods are estimates and should be used as guidance rather than absolute values
+- Accuracy ranges assume proper measurement technique and calibrated tools
+- Individual results may vary based on:
+  - Body type and fat distribution
+  - Hydration levels
+  - Time of day
+  - Recent physical activity
+  - Measurement skill and consistency
+- For best results:
+  - Take measurements at the same time of day
+  - Use consistent technique
+  - Track trends over time rather than focusing on single measurements
+  - Consider using multiple methods for verification
 
 ## Formulas
 
