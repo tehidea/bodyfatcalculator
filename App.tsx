@@ -10,6 +10,7 @@ import {
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { CalculatorScreen } from "./src/screens/CalculatorScreen";
+// import { FeatureComparisonScreen } from "./src/screens/FeatureComparisonScreen";
 import { theme } from "./src/constants/theme";
 import { initializeStore } from "./src/config/store";
 import { View } from "react-native";
@@ -52,6 +53,7 @@ export default function App() {
               }}
             >
               <Stack.Screen name="Calculator" component={CalculatorScreen} />
+              {/* <Stack.Screen name="FeatureComparison" component={FeatureComparisonScreen} /> */}
             </Stack.Navigator>
           </NavigationContainer>
         </ThemeProvider>
