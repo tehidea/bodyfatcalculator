@@ -13,6 +13,7 @@ import { CalendarIcon } from "../icons/CalendarIcon";
 import { MeasurementVerticalIcon } from "../icons/MeasurementVerticalIcon";
 import { MeasuringTapeIcon } from "../icons/MeasuringTapeIcon";
 import { getMarginOfError } from "../../utils/accuracy";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export const MeasurementIcon = ({ type, color }: { type: string; color: string }) => {
   switch (type) {
@@ -132,7 +133,7 @@ export const FormulaSelector = () => {
         onRequestClose={() => setIsModalVisible(false)}
       >
         <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
+          <SafeAreaView edges={["top"]} style={styles.modalContent}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Select Formula</Text>
               <TouchableOpacity onPress={() => setIsModalVisible(false)}>
@@ -142,6 +143,7 @@ export const FormulaSelector = () => {
             <FlatList
               data={formulas}
               keyExtractor={item => item.key}
+              style={styles.formulaList}
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={[
@@ -152,7 +154,7 @@ export const FormulaSelector = () => {
                   onPress={() => handleFormulaSelect(item.key, item.premium && !isPremium)}
                 >
                   <View style={styles.formulaItemHeader}>
-                    <View style={styles.formulaNameContainer}>
+                    <View style={styles.formulaItemNameContainer}>
                       <Text
                         style={[
                           styles.formulaItemName,
@@ -195,33 +197,32 @@ export const FormulaSelector = () => {
                   </View>
                 </TouchableOpacity>
               )}
-              ListFooterComponent={() => (
-                <View style={styles.accuracyInfo}>
-                  <Text style={styles.accuracyInfoTitle}>About Accuracy</Text>
-                  <View style={styles.accuracyLevels}>
-                    <View style={styles.accuracyLevel}>
-                      <View style={[styles.accuracyDot, { backgroundColor: COLORS.error }]} />
-                      <Text style={styles.accuracyText}>±4.5-6%</Text>
-                    </View>
-                    <Icon name="arrow-right" type="feather" color="#666" size={16} />
-                    <View style={styles.accuracyLevel}>
-                      <View style={[styles.accuracyDot, { backgroundColor: COLORS.warning }]} />
-                      <Text style={styles.accuracyText}>±3.5-4.5%</Text>
-                    </View>
-                    <Icon name="arrow-right" type="feather" color="#666" size={16} />
-                    <View style={styles.accuracyLevel}>
-                      <View style={[styles.accuracyDot, { backgroundColor: COLORS.success }]} />
-                      <Text style={styles.accuracyText}>±2.5-3.5%</Text>
-                    </View>
-                  </View>
-                  <Text style={styles.accuracyNote}>
-                    Lower % means more accurate results. PRO formulas typically offer better
-                    accuracy.
-                  </Text>
-                </View>
-              )}
             />
-          </View>
+            <SafeAreaView edges={["bottom"]} style={styles.accuracyInfoWrapper}>
+              <View style={styles.accuracyInfo}>
+                <Text style={styles.accuracyInfoTitle}>About Accuracy</Text>
+                <View style={styles.accuracyLevels}>
+                  <View style={styles.accuracyLevel}>
+                    <View style={[styles.accuracyDot, { backgroundColor: COLORS.error }]} />
+                    <Text style={styles.accuracyText}>±4.5-6%</Text>
+                  </View>
+                  <Icon name="arrow-right" type="feather" color="#666" size={16} />
+                  <View style={styles.accuracyLevel}>
+                    <View style={[styles.accuracyDot, { backgroundColor: COLORS.warning }]} />
+                    <Text style={styles.accuracyText}>±3.5-4.5%</Text>
+                  </View>
+                  <Icon name="arrow-right" type="feather" color="#666" size={16} />
+                  <View style={styles.accuracyLevel}>
+                    <View style={[styles.accuracyDot, { backgroundColor: COLORS.success }]} />
+                    <Text style={styles.accuracyText}>±2.5-3.5%</Text>
+                  </View>
+                </View>
+                <Text style={styles.accuracyNote}>
+                  Lower % means more accurate results. PRO formulas typically offer better accuracy.
+                </Text>
+              </View>
+            </SafeAreaView>
+          </SafeAreaView>
         </View>
       </Modal>
 
@@ -307,6 +308,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     maxHeight: "85%",
+    flex: 1,
   },
   modalHeader: {
     flexDirection: "row",
@@ -341,6 +343,9 @@ const styles = StyleSheet.create({
   },
   formulaItemNameContainer: {
     flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   formulaItemNameText: {
     fontSize: 16,
@@ -423,13 +428,18 @@ const styles = StyleSheet.create({
     color: COLORS.textDark,
     flex: 1,
   },
-  accuracyInfo: {
-    padding: 16,
-    backgroundColor: "#f8f8f8",
-    marginTop: 16,
+  accuracyInfoWrapper: {
+    backgroundColor: COLORS.white,
     borderTopWidth: 1,
     borderTopColor: "#eee",
   },
+  accuracyInfo: {
+    padding: 16,
+    paddingTop: 20,
+    paddingBottom: 0,
+    backgroundColor: COLORS.white,
+  },
+
   accuracyInfoTitle: {
     fontSize: 14,
     fontWeight: "bold",
@@ -467,12 +477,14 @@ const styles = StyleSheet.create({
   formulaMetadata: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 4,
   },
   accuracyIndicator: {
     width: 8,
     height: 8,
     borderRadius: 4,
     marginRight: 6,
+  },
+  formulaList: {
+    flex: 1,
   },
 });
