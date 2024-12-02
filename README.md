@@ -1,6 +1,42 @@
 # Body Fat Calculator
 
-This calculator implements various methods for estimating body fat percentage.
+This calculator implements various methods for estimating body fat percentage, providing accurate measurements using both caliper and circumference-based methods.
+
+## Methods Overview
+
+### Caliper Methods
+
+Skinfold caliper measurements are considered one of the most accurate field methods for body fat estimation, with accuracy rates comparable to hydrostatic weighing when performed correctly. The method involves measuring skinfold thickness at specific body sites using calipers.
+
+Key advantages:
+
+- High accuracy (±3-4% when done properly)
+- Non-invasive
+- Quick and portable
+- Cost-effective compared to advanced methods
+
+Limitations:
+
+- Requires proper technique
+- Accuracy depends on tester's skill
+- May be less accurate for very lean or obese individuals
+
+### Circumference Methods (US Navy)
+
+The US Navy method uses body circumference measurements to estimate body fat percentage. While not as precise as caliper measurements, it's a reliable method when proper caliper measurements aren't possible.
+
+Key advantages:
+
+- No special equipment needed beyond a tape measure
+- Easy to perform
+- Good for tracking changes over time
+- More consistent between different testers
+
+Limitations:
+
+- Less accurate than caliper methods
+- May not account for different body types well
+- Can be affected by recent meals or hydration
 
 ## Features by Tier
 
@@ -372,3 +408,10 @@ Note: These classifications are general guidelines. Athletes in different sports
 - [Male Icon](https://uxwing.com/male-symbol-icon/)
 - [Female Icon](https://uxwing.com/woman-symbol-icon/)
 - Body Calipers (custom made SVG)
+
+## Sources
+
+1. Original research papers and military documentation
+2. [FitLifeRegime's comprehensive guide](https://fitliferegime.com/body-fat-percentage-calculator-based-on-caliper-and-us-navy/) on body fat measurement methods
+3. Clinical studies on measurement accuracy
+4. Professional fitness industry standards
