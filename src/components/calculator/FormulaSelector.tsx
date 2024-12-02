@@ -142,23 +142,6 @@ export const FormulaSelector = () => {
             <FlatList
               data={formulas}
               keyExtractor={item => item.key}
-              ListHeaderComponent={() => (
-                <View style={styles.accuracyLegend}>
-                  <Text style={styles.accuracyLegendTitle}>Accuracy Levels</Text>
-                  <View style={styles.accuracyLegendItem}>
-                    <View style={[styles.accuracyDot, { backgroundColor: COLORS.success }]} />
-                    <Text style={styles.accuracyLegendText}>Research-grade (±2.5-3.5%)</Text>
-                  </View>
-                  <View style={styles.accuracyLegendItem}>
-                    <View style={[styles.accuracyDot, { backgroundColor: COLORS.warning }]} />
-                    <Text style={styles.accuracyLegendText}>Professional (±3.5-4.5%)</Text>
-                  </View>
-                  <View style={styles.accuracyLegendItem}>
-                    <View style={[styles.accuracyDot, { backgroundColor: COLORS.error }]} />
-                    <Text style={styles.accuracyLegendText}>Standard (±4.5-6%)</Text>
-                  </View>
-                </View>
-              )}
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={[
@@ -211,6 +194,31 @@ export const FormulaSelector = () => {
                     ))}
                   </View>
                 </TouchableOpacity>
+              )}
+              ListFooterComponent={() => (
+                <View style={styles.accuracyInfo}>
+                  <Text style={styles.accuracyInfoTitle}>About Accuracy</Text>
+                  <View style={styles.accuracyLevels}>
+                    <View style={styles.accuracyLevel}>
+                      <View style={[styles.accuracyDot, { backgroundColor: COLORS.error }]} />
+                      <Text style={styles.accuracyText}>±4.5-6%</Text>
+                    </View>
+                    <Icon name="arrow-right" type="feather" color="#666" size={16} />
+                    <View style={styles.accuracyLevel}>
+                      <View style={[styles.accuracyDot, { backgroundColor: COLORS.warning }]} />
+                      <Text style={styles.accuracyText}>±3.5-4.5%</Text>
+                    </View>
+                    <Icon name="arrow-right" type="feather" color="#666" size={16} />
+                    <View style={styles.accuracyLevel}>
+                      <View style={[styles.accuracyDot, { backgroundColor: COLORS.success }]} />
+                      <Text style={styles.accuracyText}>±2.5-3.5%</Text>
+                    </View>
+                  </View>
+                  <Text style={styles.accuracyNote}>
+                    Lower % means more accurate results. PRO formulas typically offer better
+                    accuracy.
+                  </Text>
+                </View>
               )}
             />
           </View>
@@ -415,31 +423,46 @@ const styles = StyleSheet.create({
     color: COLORS.textDark,
     flex: 1,
   },
-  accuracyLegend: {
+  accuracyInfo: {
     padding: 16,
     backgroundColor: "#f8f8f8",
-    marginBottom: 8,
+    marginTop: 16,
+    borderTopWidth: 1,
+    borderTopColor: "#eee",
   },
-  accuracyLegendTitle: {
+  accuracyInfoTitle: {
     fontSize: 14,
     fontWeight: "bold",
     color: COLORS.textDark,
-    marginBottom: 8,
+    marginBottom: 12,
+    textAlign: "center",
   },
-  accuracyLegendItem: {
+  accuracyLevels: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 12,
+  },
+  accuracyLevel: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 4,
-  },
-  accuracyLegendText: {
-    fontSize: 12,
-    color: "#666",
-    marginLeft: 8,
+    gap: 4,
   },
   accuracyDot: {
     width: 8,
     height: 8,
     borderRadius: 4,
+  },
+  accuracyText: {
+    fontSize: 12,
+    color: "#666",
+  },
+  accuracyNote: {
+    fontSize: 12,
+    color: "#666",
+    textAlign: "center",
+    fontStyle: "italic",
   },
   formulaMetadata: {
     flexDirection: "row",
@@ -451,12 +474,5 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
     marginRight: 6,
-  },
-  accuracyText: {
-    fontSize: 12,
-    color: "#666",
-  },
-  formulaNameContainer: {
-    flex: 1,
   },
 });
