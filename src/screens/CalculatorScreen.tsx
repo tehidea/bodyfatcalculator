@@ -82,6 +82,11 @@ const CalculatorForm = memo(
     const measurementSystem = useCalculatorStore(state => state.measurementSystem);
     const inputRefs = useRef<(InputRef | null)[]>([]);
 
+    // Clear input refs when formula changes
+    useEffect(() => {
+      inputRefs.current = [];
+    }, [formulaFields]);
+
     const visibleFields = useMemo(
       () => formulaFields.filter(field => !field.genderSpecific || field.genderSpecific === gender),
       [formulaFields, gender]
