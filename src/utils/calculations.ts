@@ -142,46 +142,10 @@ export const calculateBodyFat = (
       );
     }
 
-    // case "jack7": {
-    //   const sumOfSkinfolds =
-    //     chestSkinfold +
-    //     abdomenSkinfold +
-    //     thighSkinfold +
-    //     tricepSkinfold +
-    //     subscapularSkinfold +
-    //     suprailiacSkinfold +
-    //     midaxillarySkinfold;
-    //   const bodyDensity = calculateBodyDensity(sumOfSkinfolds, age, gender);
-    //   return 495 / bodyDensity - 450;
-    // }
-
-    // case "jack4": {
-    //   const sumOfSkinfolds = abdomenSkinfold + thighSkinfold + tricepSkinfold + suprailiacSkinfold;
-    //   const bodyDensity = calculateBodyDensity(sumOfSkinfolds, age, gender);
-    //   return 495 / bodyDensity - 450;
-    // }
-
     // case "jack3": {
     //   const sumOfSkinfolds = chestSkinfold + abdomenSkinfold + thighSkinfold;
     //   const bodyDensity = calculateBodyDensity(sumOfSkinfolds, age, gender);
     //   return 495 / bodyDensity - 450;
-    // }
-
-    // case "parrillo": {
-    //   const weightVal = convertToImperial(weight, "kg");
-    //   return (
-    //     ((chestSkinfold +
-    //       abdomenSkinfold +
-    //       thighSkinfold +
-    //       bicepSkinfold +
-    //       tricepSkinfold +
-    //       subscapularSkinfold +
-    //       suprailiacSkinfold +
-    //       lowerBackSkinfold +
-    //       calfSkinfold) *
-    //       27) /
-    //     weightVal
-    //   );
     // }
 
     // case "durnin": {
@@ -206,6 +170,42 @@ export const calculateBodyFat = (
     //     else bodyDensity = 1.1339 - 0.0645 * sumOfSkinfolds;
     //   }
     //   return 495 / bodyDensity - 450;
+    // }
+
+    // case "jack4": {
+    //   const sumOfSkinfolds = abdomenSkinfold + thighSkinfold + tricepSkinfold + suprailiacSkinfold;
+    //   const bodyDensity = calculateBodyDensity(sumOfSkinfolds, age, gender);
+    //   return 495 / bodyDensity - 450;
+    // }
+
+    // case "jack7": {
+    //   const sumOfSkinfolds =
+    //     chestSkinfold +
+    //     abdomenSkinfold +
+    //     thighSkinfold +
+    //     tricepSkinfold +
+    //     subscapularSkinfold +
+    //     suprailiacSkinfold +
+    //     midaxillarySkinfold;
+    //   const bodyDensity = calculateBodyDensity(sumOfSkinfolds, age, gender);
+    //   return 495 / bodyDensity - 450;
+    // }
+
+    // case "parrillo": {
+    //   const weightVal = convertToImperial(weight, "kg");
+    //   return (
+    //     ((chestSkinfold +
+    //       abdomenSkinfold +
+    //       thighSkinfold +
+    //       bicepSkinfold +
+    //       tricepSkinfold +
+    //       subscapularSkinfold +
+    //       suprailiacSkinfold +
+    //       lowerBackSkinfold +
+    //       calfSkinfold) *
+    //       27) /
+    //     weightVal
+    //   );
     // }
 
     default:

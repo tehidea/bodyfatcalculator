@@ -14,10 +14,10 @@ export function getMarginOfError(formula: Formula): string {
       return "4-6%";
     case "covert":
       return "4-5%";
-    case "durnin":
-      return "3.5-5%";
     case "jack3":
       return "4-5%";
+    case "durnin":
+      return "3.5-5%";
     case "jack4":
       return "3.5-4.5%";
     case "jack7":

@@ -149,6 +149,14 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
         }),
       })
       .required(),
+  jack3: (system: MeasurementSystem) => (_gender: Gender) =>
+    createCalculatorInputSchema(system)
+      .pick({
+        chestSkinfold: true,
+        abdomenSkinfold: true,
+        thighSkinfold: true,
+      })
+      .required(),
 
   durnin: (system: MeasurementSystem) => (_gender: Gender) =>
     createCalculatorInputSchema(system)
@@ -156,6 +164,16 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
         bicepSkinfold: true,
         tricepSkinfold: true,
         subscapularSkinfold: true,
+        suprailiacSkinfold: true,
+      })
+      .required(),
+
+  jack4: (system: MeasurementSystem) => (_gender: Gender) =>
+    createCalculatorInputSchema(system)
+      .pick({
+        abdomenSkinfold: true,
+        thighSkinfold: true,
+        tricepSkinfold: true,
         suprailiacSkinfold: true,
       })
       .required(),
@@ -170,25 +188,6 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
         subscapularSkinfold: true,
         suprailiacSkinfold: true,
         midaxillarySkinfold: true,
-      })
-      .required(),
-
-  jack4: (system: MeasurementSystem) => (_gender: Gender) =>
-    createCalculatorInputSchema(system)
-      .pick({
-        abdomenSkinfold: true,
-        thighSkinfold: true,
-        tricepSkinfold: true,
-        suprailiacSkinfold: true,
-      })
-      .required(),
-
-  jack3: (system: MeasurementSystem) => (_gender: Gender) =>
-    createCalculatorInputSchema(system)
-      .pick({
-        chestSkinfold: true,
-        abdomenSkinfold: true,
-        thighSkinfold: true,
       })
       .required(),
 

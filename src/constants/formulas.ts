@@ -127,19 +127,6 @@ export const FORMULA_REQUIREMENTS: Record<
     ],
     premium: true,
   },
-  durnin: {
-    name: "Durnin & Womersley",
-    description:
-      "A scientific method using your age and skinfold measurements from four body sites",
-    fields: [
-      { key: "age", label: "Age", unit: "years", required: true },
-      { key: "bicepSkinfold", label: "Bicep Skinfold", unit: "mm", required: true },
-      { key: "tricepSkinfold", label: "Tricep Skinfold", unit: "mm", required: true },
-      { key: "subscapularSkinfold", label: "Subscapular Skinfold", unit: "mm", required: true },
-      { key: "suprailiacSkinfold", label: "Suprailiac Skinfold", unit: "mm", required: true },
-    ],
-    premium: true,
-  },
   jack3: {
     name: "Jackson & Pollock 3-Site",
     description: "A quick but accurate method using your age and three key skinfold measurements",
@@ -168,6 +155,19 @@ export const FORMULA_REQUIREMENTS: Record<
         required: true,
         genderSpecific: "female",
       },
+    ],
+    premium: true,
+  },
+  durnin: {
+    name: "Durnin & Womersley",
+    description:
+      "A scientific method using your age and skinfold measurements from four body sites",
+    fields: [
+      { key: "age", label: "Age", unit: "years", required: true },
+      { key: "bicepSkinfold", label: "Bicep Skinfold", unit: "mm", required: true },
+      { key: "tricepSkinfold", label: "Tricep Skinfold", unit: "mm", required: true },
+      { key: "subscapularSkinfold", label: "Subscapular Skinfold", unit: "mm", required: true },
+      { key: "suprailiacSkinfold", label: "Suprailiac Skinfold", unit: "mm", required: true },
     ],
     premium: true,
   },
