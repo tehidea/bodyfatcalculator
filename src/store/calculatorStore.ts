@@ -131,11 +131,18 @@ export const useCalculatorStore = create<CalculatorStore>()(
           fieldErrors: {},
         });
       },
-      setInput: (key, value, options?: { keepResults?: boolean }) =>
+      setInput: (key, value, options?: { keepResults?: boolean }) => {
+        const state = get();
+        const currentValue = state.inputs[key];
+
+        // Only mark results as stale if the value actually changed
+        const shouldMarkStale = !options?.keepResults && value !== currentValue;
+
         set(state => ({
           inputs: { ...state.inputs, [key]: value },
-          isResultsStale: options?.keepResults ? state.isResultsStale : true,
-        })),
+          isResultsStale: shouldMarkStale ? true : state.isResultsStale,
+        }));
+      },
       setResults: results => set({ results, isResultsStale: false }),
       setError: (error, fieldErrors = {}) =>
         set({
@@ -149,12 +156,9 @@ export const useCalculatorStore = create<CalculatorStore>()(
         set({ isCalculating: true, error: null });
 
         try {
-          console.log("Starting validation for:", formula);
           const validation = validateInputs(formula, inputs, gender, measurementSystem);
-          console.log("Validation result:", validation);
 
           if (!validation.success) {
-            console.log("Setting validation errors:", validation.errors);
             set({
               error: "Please correct the input errors",
               fieldErrors: validation.errors,

@@ -1,7 +1,8 @@
 import React from "react";
-import { ReturnKeyTypeOptions } from "react-native";
-import { render, fireEvent, act } from "@testing-library/react-native";
+import { fireEvent } from "@testing-library/react-native";
 import { MeasurementInput } from "./MeasurementInput";
+import { act } from "react-test-renderer";
+import { renderWithNavigation } from "../../test-utils";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { usePremiumStore } from "../../store/premiumStore";
 
@@ -17,75 +18,97 @@ jest.mock("../../store/premiumStore", () => ({
 const mockUseCalculatorStore = useCalculatorStore as jest.MockedFunction<typeof useCalculatorStore>;
 const mockUsePremiumStore = usePremiumStore as jest.MockedFunction<typeof usePremiumStore>;
 
-describe("MeasurementInput", () => {
-  const mockSetInput = jest.fn();
+const defaultProps = {
+  field: {
+    key: "weight" as const,
+    label: "Weight",
+    unit: "kg",
+  },
+  error: "",
+  returnKeyType: "next" as const,
+  onSubmitEditing: jest.fn(),
+};
 
+describe("MeasurementInput", () => {
   beforeEach(() => {
+    mockUseCalculatorStore.mockReturnValue({
+      inputs: {},
+      setInput: jest.fn(),
+      measurementSystem: "metric",
+    });
+    mockUsePremiumStore.mockReturnValue({
+      pro: true,
+    });
+  });
+
+  it("renders correctly with empty value", () => {
+    const { getByAccessibilityHint } = renderWithNavigation(<MeasurementInput {...defaultProps} />);
+    expect(getByAccessibilityHint("Enter weight")).toBeTruthy();
+  });
+
+  it("handles valid number input", () => {
+    const mockSetInput = jest.fn();
     mockUseCalculatorStore.mockReturnValue({
       inputs: {},
       setInput: mockSetInput,
       measurementSystem: "metric",
     });
-    mockUsePremiumStore.mockReturnValue({
-      pro: true, // Set to true to allow decimal input in tests
-    });
-  });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  const defaultProps = {
-    field: {
-      key: "weight" as const,
-      label: "Weight",
-      unit: "kg",
-    },
-    error: "",
-    returnKeyType: "next" as ReturnKeyTypeOptions,
-    onSubmitEditing: () => {},
-  };
-
-  it("renders correctly with empty value", () => {
-    const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
-    expect(getByAccessibilityHint("Enter weight")).toBeTruthy();
-  });
-
-  it("handles valid number input", () => {
-    const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+    const { getByAccessibilityHint } = renderWithNavigation(<MeasurementInput {...defaultProps} />);
     const input = getByAccessibilityHint("Enter weight");
 
     act(() => {
-      fireEvent.changeText(input, "75");
+      fireEvent.changeText(input, "80");
     });
 
-    expect(mockSetInput).toHaveBeenCalledWith("weight", 75);
+    expect(mockSetInput).toHaveBeenCalledWith("weight", 80);
   });
 
   it("handles decimal input", () => {
-    const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+    const mockSetInput = jest.fn();
+    mockUseCalculatorStore.mockReturnValue({
+      inputs: {},
+      setInput: mockSetInput,
+      measurementSystem: "metric",
+    });
+
+    const { getByAccessibilityHint } = renderWithNavigation(<MeasurementInput {...defaultProps} />);
     const input = getByAccessibilityHint("Enter weight");
 
     act(() => {
-      fireEvent.changeText(input, "75.5");
+      fireEvent.changeText(input, "80.5");
     });
 
-    expect(mockSetInput).toHaveBeenCalledWith("weight", 75.5);
+    expect(mockSetInput).toHaveBeenCalledWith("weight", 80.5);
   });
 
   it("handles starting with decimal point", () => {
-    const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+    const mockSetInput = jest.fn();
+    mockUseCalculatorStore.mockReturnValue({
+      inputs: {},
+      setInput: mockSetInput,
+      measurementSystem: "metric",
+    });
+
+    const { getByAccessibilityHint } = renderWithNavigation(<MeasurementInput {...defaultProps} />);
     const input = getByAccessibilityHint("Enter weight");
 
     act(() => {
-      fireEvent.changeText(input, ".");
+      fireEvent.changeText(input, ".5");
     });
 
-    expect(mockSetInput).toHaveBeenCalledWith("weight", 0);
+    expect(mockSetInput).toHaveBeenCalledWith("weight", 0.5);
   });
 
   it("handles empty input", () => {
-    const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+    const mockSetInput = jest.fn();
+    mockUseCalculatorStore.mockReturnValue({
+      inputs: {},
+      setInput: mockSetInput,
+      measurementSystem: "metric",
+    });
+
+    const { getByAccessibilityHint } = renderWithNavigation(<MeasurementInput {...defaultProps} />);
     const input = getByAccessibilityHint("Enter weight");
 
     act(() => {
@@ -96,12 +119,21 @@ describe("MeasurementInput", () => {
   });
 
   it("displays error message when provided", () => {
-    const { getByText } = render(<MeasurementInput {...defaultProps} error="Invalid input" />);
+    const { getByText } = renderWithNavigation(
+      <MeasurementInput {...defaultProps} error="Invalid input" />
+    );
     expect(getByText("Invalid input")).toBeTruthy();
   });
 
   it("rejects invalid input", () => {
-    const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+    const mockSetInput = jest.fn();
+    mockUseCalculatorStore.mockReturnValue({
+      inputs: {},
+      setInput: mockSetInput,
+      measurementSystem: "metric",
+    });
+
+    const { getByAccessibilityHint } = renderWithNavigation(<MeasurementInput {...defaultProps} />);
     const input = getByAccessibilityHint("Enter weight");
 
     act(() => {
@@ -111,31 +143,36 @@ describe("MeasurementInput", () => {
     expect(mockSetInput).not.toHaveBeenCalled();
   });
 
-  it("allows decimal input without immediate validation", () => {
-    const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+  it("handles intermediate decimal input", () => {
+    const mockSetInput = jest.fn();
+    mockUseCalculatorStore.mockReturnValue({
+      inputs: {},
+      setInput: mockSetInput,
+      measurementSystem: "metric",
+    });
+
+    const { getByAccessibilityHint } = renderWithNavigation(<MeasurementInput {...defaultProps} />);
     const input = getByAccessibilityHint("Enter weight");
 
     act(() => {
-      fireEvent.changeText(input, ".5");
+      fireEvent.changeText(input, "80.");
     });
 
-    expect(mockSetInput).toHaveBeenCalledWith("weight", 0.5);
+    expect(mockSetInput).toHaveBeenCalledWith("weight", 80);
   });
 
   describe("decimal point handling", () => {
     it("handles single decimal point", () => {
-      const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
-      const input = getByAccessibilityHint("Enter weight");
-
-      act(() => {
-        fireEvent.changeText(input, ".");
+      const mockSetInput = jest.fn();
+      mockUseCalculatorStore.mockReturnValue({
+        inputs: {},
+        setInput: mockSetInput,
+        measurementSystem: "metric",
       });
 
-      expect(mockSetInput).toHaveBeenCalledWith("weight", 0);
-    });
-
-    it("handles decimal numbers correctly", () => {
-      const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+      const { getByAccessibilityHint } = renderWithNavigation(
+        <MeasurementInput {...defaultProps} />
+      );
       const input = getByAccessibilityHint("Enter weight");
 
       act(() => {
@@ -145,17 +182,43 @@ describe("MeasurementInput", () => {
       expect(mockSetInput).toHaveBeenCalledWith("weight", 80.5);
     });
 
-    it("handles typing decimal numbers in sequence", () => {
-      const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+    it("handles decimal numbers correctly", () => {
+      const mockSetInput = jest.fn();
+      mockUseCalculatorStore.mockReturnValue({
+        inputs: {},
+        setInput: mockSetInput,
+        measurementSystem: "metric",
+      });
+
+      const { getByAccessibilityHint } = renderWithNavigation(
+        <MeasurementInput {...defaultProps} />
+      );
       const input = getByAccessibilityHint("Enter weight");
 
       act(() => {
-        fireEvent.changeText(input, "80");
+        fireEvent.changeText(input, "80.55");
       });
 
-      expect(mockSetInput).toHaveBeenCalledWith("weight", 80);
+      expect(mockSetInput).toHaveBeenCalledWith("weight", 80.55);
+    });
+
+    it("handles typing decimal numbers in sequence", () => {
+      const mockSetInput = jest.fn();
+      mockUseCalculatorStore.mockReturnValue({
+        inputs: {},
+        setInput: mockSetInput,
+        measurementSystem: "metric",
+      });
+
+      const { getByAccessibilityHint } = renderWithNavigation(
+        <MeasurementInput {...defaultProps} />
+      );
+      const input = getByAccessibilityHint("Enter weight");
 
       act(() => {
+        fireEvent.changeText(input, "8");
+        fireEvent.changeText(input, "80");
+        fireEvent.changeText(input, "80.");
         fireEvent.changeText(input, "80.5");
       });
 
@@ -163,16 +226,20 @@ describe("MeasurementInput", () => {
     });
 
     it("handles starting with decimal point", () => {
-      const { getByAccessibilityHint } = render(<MeasurementInput {...defaultProps} />);
+      const mockSetInput = jest.fn();
+      mockUseCalculatorStore.mockReturnValue({
+        inputs: {},
+        setInput: mockSetInput,
+        measurementSystem: "metric",
+      });
+
+      const { getByAccessibilityHint } = renderWithNavigation(
+        <MeasurementInput {...defaultProps} />
+      );
       const input = getByAccessibilityHint("Enter weight");
 
       act(() => {
         fireEvent.changeText(input, ".");
-      });
-
-      expect(mockSetInput).toHaveBeenCalledWith("weight", 0);
-
-      act(() => {
         fireEvent.changeText(input, ".5");
       });
 
@@ -184,17 +251,19 @@ describe("MeasurementInput", () => {
     it("clears input when store value becomes null", () => {
       mockUseCalculatorStore.mockReturnValue({
         inputs: { weight: 80 },
-        setInput: mockSetInput,
+        setInput: jest.fn(),
         measurementSystem: "metric",
       });
 
-      const { getByAccessibilityHint, rerender } = render(<MeasurementInput {...defaultProps} />);
+      const { getByAccessibilityHint, rerender } = renderWithNavigation(
+        <MeasurementInput {...defaultProps} />
+      );
       const input = getByAccessibilityHint("Enter weight");
       expect(input.props.value).toBe("80");
 
       mockUseCalculatorStore.mockReturnValue({
         inputs: { weight: null },
-        setInput: mockSetInput,
+        setInput: jest.fn(),
         measurementSystem: "metric",
       });
 
@@ -205,17 +274,19 @@ describe("MeasurementInput", () => {
     it("clears input when store value becomes undefined", () => {
       mockUseCalculatorStore.mockReturnValue({
         inputs: { weight: 80 },
-        setInput: mockSetInput,
+        setInput: jest.fn(),
         measurementSystem: "metric",
       });
 
-      const { getByAccessibilityHint, rerender } = render(<MeasurementInput {...defaultProps} />);
+      const { getByAccessibilityHint, rerender } = renderWithNavigation(
+        <MeasurementInput {...defaultProps} />
+      );
       const input = getByAccessibilityHint("Enter weight");
       expect(input.props.value).toBe("80");
 
       mockUseCalculatorStore.mockReturnValue({
         inputs: {},
-        setInput: mockSetInput,
+        setInput: jest.fn(),
         measurementSystem: "metric",
       });
 

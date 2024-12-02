@@ -52,7 +52,7 @@ Limitations:
 
 ### PRO Tier (£10)
 
-- [x] Advanced Methods
+- [ ] Advanced Methods
   - Covert Bailey: Comprehensive method with multiple measurements (±3.5-4.5% margin of error)
   - Durnin & Womersley: Scientific skinfold method (±3-4% when done properly)
   - Jackson & Pollock (3-site): Quick but accurate skinfold method (±3.5-4% when done properly)
@@ -63,66 +63,9 @@ Limitations:
   - 2 decimal places for all measurements
   - Access to research-grade formulas
   - Detailed measurement guides
-- [x] Unlimited Local Storage
-- [x] Detailed Analysis
-- [x] Basic Export
-- [x] Offline Access
-
-### Premium Tier (£3/month or £18/year)
-
-- [ ] Cloud Sync
-- [ ] Progress Tracking
-- [ ] Progress Photos
-- [ ] Advanced Export
-- [ ] Custom Presets
-- [ ] Priority Support
-- [ ] Early Access
-
-## Development Roadmap
-
-### Q4 2024
-
-- [ ] Professional Features
-  - [ ] Client management
-  - [ ] Batch measurements
-  - [ ] Professional reports
-- [ ] Advanced Export & Sharing
-  - [ ] Customizable PDF reports
-  - [ ] Data visualization export
-  - [ ] Secure sharing options
-- [ ] Smart Device Integration
-  - [ ] Smart scale support
-  - [ ] Bluetooth caliper support
-
-### Q1 2025
-
-- [ ] AI & Machine Learning
-  - [ ] Body composition predictions
-  - [ ] Personalized recommendations
-  - [ ] Trend forecasting
-- [ ] Community Features
-  - [ ] Anonymous comparisons
-  - [ ] Progress challenges
-  - [ ] Achievement system
-- [ ] Nutrition Integration
-  - [ ] Macro tracking
-  - [ ] Meal planning
-  - [ ] Body composition impact
-
-### Q2 2025
-
-- [ ] Advanced Health Integration
-  - [ ] Workout tracking
-  - [ ] Sleep analysis
-  - [ ] Recovery metrics
-- [ ] Team Features
-  - [ ] Trainer-client relationships
-  - [ ] Group challenges
-  - [ ] Team analytics
-- [ ] Advanced AI Features
-  - [ ] Custom recommendations
-  - [ ] Progress predictions
-  - [ ] Automated insights
+- [ ] Unlimited Local Storage
+- [ ] Detailed Analysis
+- [ ] Basic Export
 
 ## Formulas and Their Accuracy
 

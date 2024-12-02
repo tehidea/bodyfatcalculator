@@ -61,3 +61,39 @@ jest.mock("@rneui/themed", () => {
 jest.mock("@expo/vector-icons", () => ({
   Feather: "Feather",
 }));
+
+// Mock React Native's Alert
+jest.mock("react-native/Libraries/Alert/Alert", () => ({
+  alert: jest.fn(),
+}));
+
+// Mock React Native's Platform
+jest.mock("react-native/Libraries/Utilities/Platform", () => ({
+  OS: "ios",
+  select: jest.fn(obj => obj.ios),
+}));
+
+// Mock Expo's Constants
+jest.mock("expo-constants", () => ({
+  default: {
+    expoConfig: {
+      extra: {
+        REVENUECAT_IOS_KEY: "test_key",
+      },
+    },
+  },
+}));
+
+// Mock RevenueCat's Purchases
+jest.mock("react-native-purchases", () => ({
+  default: {
+    configure: jest.fn(),
+    setLogLevel: jest.fn(),
+    getCustomerInfo: jest.fn(),
+    getOfferings: jest.fn(),
+    purchasePackage: jest.fn(),
+  },
+  LOG_LEVEL: {
+    DEBUG: "DEBUG",
+  },
+}));

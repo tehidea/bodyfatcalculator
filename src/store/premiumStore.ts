@@ -39,10 +39,10 @@ export const usePremiumStore = create<PremiumStore>(set => ({
     set({ ...entitlements, premium: false });
   },
   purchasePro: async () => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true, error: null, pro: false });
     try {
       const offerings = await getOfferings();
-      const proPackage = offerings[0]; // We only have one package now
+      const proPackage = offerings[0];
 
       if (!proPackage) {
         throw new Error("PRO package not available");
@@ -52,11 +52,30 @@ export const usePremiumStore = create<PremiumStore>(set => ({
       set({ ...entitlements, isLoading: false });
       return true;
     } catch (error) {
-      if (error instanceof Error && error.message === "User cancelled") {
-        set({ isLoading: false });
-        return false;
+      if (error instanceof Error) {
+        // Handle user cancellation
+        if (error.message === "User cancelled") {
+          set({ isLoading: false, pro: false });
+          return false;
+        }
+
+        // Handle authentication issues
+        if (
+          error.message.includes("Authentication Failed") ||
+          error.message.includes("No active account")
+        ) {
+          set({ isLoading: false, pro: false });
+          Alert.alert(
+            "Sign In Required",
+            "Please sign in with your Sandbox Tester account in Settings > App Store.",
+            [{ text: "OK" }]
+          );
+          return false;
+        }
       }
-      set({ error: "Purchase failed", isLoading: false });
+
+      // Handle other errors
+      set({ error: "Purchase failed", isLoading: false, pro: false });
       Alert.alert(
         "Purchase Failed",
         "There was an error processing your purchase. Please try again.",
