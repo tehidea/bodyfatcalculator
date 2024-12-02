@@ -75,8 +75,24 @@ export const FeatureComparisonScreen = () => {
         <View style={styles.header}>
           <Text style={styles.title}>Choose Your Plan</Text>
           <Text style={styles.subtitle}>
-            Unlock advanced features and get more accurate body fat calculations
+            Get more accurate body fat calculations with advanced formulas
           </Text>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Formula Accuracy</Text>
+          <View style={styles.accuracyComparison}>
+            <View style={styles.accuracyColumn}>
+              <Text style={styles.planLabel}>FREE</Text>
+              <Text style={styles.accuracyRange}>±4-6%</Text>
+              <Text style={styles.accuracyNote}>Basic formulas</Text>
+            </View>
+            <View style={styles.accuracyColumn}>
+              <Text style={styles.planLabel}>PRO</Text>
+              <Text style={styles.accuracyRange}>±2.5-4%</Text>
+              <Text style={styles.accuracyNote}>Research-grade formulas</Text>
+            </View>
+          </View>
         </View>
 
         <View style={styles.pricingCards}>
@@ -259,5 +275,35 @@ const styles = StyleSheet.create({
   },
   availabilityIndicator: {
     marginLeft: 16,
+  },
+  section: {
+    padding: 16,
+    marginBottom: 16,
+  },
+  accuracyComparison: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    backgroundColor: "#f8f8f8",
+    borderRadius: 12,
+    padding: 16,
+  },
+  accuracyColumn: {
+    alignItems: "center",
+  },
+  planLabel: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: COLORS.textDark,
+    marginBottom: 4,
+  },
+  accuracyRange: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: COLORS.primary,
+    marginBottom: 4,
+  },
+  accuracyNote: {
+    fontSize: 12,
+    color: "#666",
   },
 });

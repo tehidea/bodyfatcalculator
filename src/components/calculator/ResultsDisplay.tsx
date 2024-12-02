@@ -72,10 +72,12 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
           {!pro && (
             <TouchableOpacity style={styles.premiumBadge} onPress={() => setShowProModal(true)}>
               <Icon name="lock" type="feather" color="#666" size={14} />
-              <Text style={styles.premiumBadgeText}>Unlock decimal values with PRO</Text>
+              <Text style={styles.premiumBadgeText}>Get more accurate results with PRO</Text>
             </TouchableOpacity>
           )}
-          <Text style={styles.mainLabel}>Body Fat</Text>
+          <Text style={styles.mainLabel}>
+            Body Fat {pro ? `(±${getMarginOfError(formula)})` : "(estimated)"}
+          </Text>
           <LinearProgress
             style={styles.progressBar}
             value={bodyFatProgress}
@@ -133,12 +135,11 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
             <Icon name="lock" type="feather" color={COLORS.primary} size={48} />
             <Text style={styles.modalTitle}>Unlock Decimal Precision</Text>
             <Text style={styles.modalDescription}>
-              Upgrade to PRO to access decimal precision and get more accurate body fat
-              calculations:
-              {"\n\n"}• Decimal precision for all measurements
-              {"\n"}• Advanced calculation formulas
-              {"\n"}• More accurate results
-              {"\n"}• Skinfold measurement methods
+              Upgrade to PRO to access advanced formulas and get more accurate results:
+              {"\n\n"}• Higher accuracy formulas (±2.5-4% vs ±4-6%)
+              {"\n"}• Sport-specific body fat ranges
+              {"\n"}• Decimal precision for all measurements
+              {"\n"}• Detailed measurement guides
             </Text>
             <Button
               title="Upgrade to PRO"

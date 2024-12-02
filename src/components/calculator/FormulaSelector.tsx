@@ -174,6 +174,7 @@ export const FormulaSelector = () => {
                     numberOfLines={2}
                   >
                     {item.description}
+                    {item.premium && !isPremium ? "" : ` (±${getMarginOfError(item.key)})`}
                   </Text>
                   <View style={styles.measurementIcons}>
                     {getMeasurementTypes(FORMULA_REQUIREMENTS[item.key].fields).map(type => (
@@ -199,10 +200,12 @@ export const FormulaSelector = () => {
             <Icon name="lock" type="feather" color={COLORS.primary} size={48} />
             <Text style={styles.premiumModalTitle}>PRO Feature</Text>
             <Text style={styles.premiumModalDescription}>
-              Upgrade to PRO to unlock all formulas and get more accurate body fat calculations:
-              {"\n\n"}• All skinfold measurement methods
-              {"\n"}• Advanced calculation formulas
-              {"\n"}• More precise results
+              Upgrade to PRO to unlock advanced formulas with higher accuracy:
+              {"\n\n"}• Research-grade formulas (±2.5-4% margin of error)
+              {"\n"}• Skinfold measurement methods for precision
+              {"\n"}• Detailed measurement guides
+              {"\n"}• 2 decimal places for all measurements
+              {"\n"}• Sport-specific body fat ranges
             </Text>
             <Button
               title={purchaseLoading ? "Processing..." : "Upgrade to PRO"}
@@ -223,6 +226,31 @@ export const FormulaSelector = () => {
       </Modal>
     </View>
   );
+};
+
+const getMarginOfError = (formula: Formula): string => {
+  switch (formula) {
+    case "ymca":
+      return "4-6%";
+    case "mymca":
+      return "3.5-5.5%";
+    case "navy":
+      return "3-4%";
+    case "covert":
+      return "3.5-4.5%";
+    case "durnin":
+      return "3-4%";
+    case "jack3":
+      return "3.5-4%";
+    case "jack4":
+      return "3-3.5%";
+    case "jack7":
+      return "2.5-3%";
+    case "parrillo":
+      return "2.5-3%";
+    default:
+      return "3-5%";
+  }
 };
 
 const styles = StyleSheet.create({

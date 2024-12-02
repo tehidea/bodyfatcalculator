@@ -7,9 +7,9 @@ This calculator implements various methods for estimating body fat percentage.
 ### Free Tier
 
 - [x] Basic Methods
-  - YMCA: A simple method using weight and waist measurements
-  - Modified YMCA: Enhanced version with additional measurements for women
-  - U.S. Navy: Military standard using key body measurements
+  - YMCA: A simple method using weight and waist measurements (±4-6% margin of error)
+  - Modified YMCA: Enhanced version with additional measurements for women (±3.5-5.5% margin of error)
+  - U.S. Navy: Military standard using key body measurements (±3-4% margin of error)
 - [x] Unit Conversion (metric/imperial)
 - [x] Basic Results (body fat percentage and classification)
 - [x] Standard Precision (1 decimal place)
@@ -17,12 +17,12 @@ This calculator implements various methods for estimating body fat percentage.
 ### PRO Tier (£10)
 
 - [x] Advanced Methods
-  - Covert Bailey: Comprehensive method with multiple measurements
-  - Durnin & Womersley: Scientific skinfold method
-  - Jackson & Pollock (3-site): Quick but accurate skinfold method
-  - Jackson & Pollock (4-site): Balanced skinfold approach
-  - Jackson & Pollock (7-site): Most thorough skinfold method
-  - Parrillo: Bodybuilding-focused nine-site method
+  - Covert Bailey: Comprehensive method with multiple measurements (±3.5-4.5% margin of error)
+  - Durnin & Womersley: Scientific skinfold method (±3-4% when done properly)
+  - Jackson & Pollock (3-site): Quick but accurate skinfold method (±3.5-4% when done properly)
+  - Jackson & Pollock (4-site): Balanced skinfold approach (±3-3.5% when done properly)
+  - Jackson & Pollock (7-site): Most thorough skinfold method (±2.5-3% when done properly)
+  - Parrillo: Bodybuilding-focused nine-site method (±2.5-3% when done properly)
 - [x] Enhanced Precision
   - 2 decimal places for all measurements
   - Access to research-grade formulas
@@ -257,25 +257,34 @@ All calculations are performed in imperial units, with automatic conversion from
 
 ### Body Fat Classification
 
+These ranges are based on research by the American Council on Exercise (ACE) and other scientific bodies. Note that individual factors like age, genetics, and athletic background can influence what's optimal for you.
+
 #### Men
 
-| Classification | Body Fat Percentage |
-| -------------- | ------------------- |
-| Essential Fat  | 2-5%                |
-| Athletic       | 6-13%               |
-| Fitness        | 14-17%              |
-| Acceptable     | 18-25%              |
-| Obese          | > 25%               |
+| Classification | Body Fat % | Notes                                                      |
+| -------------- | ---------- | ---------------------------------------------------------- |
+| Essential Fat  | 2-5%       | Rarely sustainable, typically only during peak competition |
+| Athletic       | 6-13%      | Common among competitive athletes                          |
+| Fitness        | 14-17%     | Generally achievable with consistent training              |
+| Acceptable     | 18-24%     | Typical healthy range                                      |
+| Obese          | 25%+       | Increased health risk                                      |
 
 #### Women
 
-| Classification | Body Fat Percentage |
-| -------------- | ------------------- |
-| Essential Fat  | 10-13%              |
-| Athletic       | 14-20%              |
-| Fitness        | 21-24%              |
-| Acceptable     | 25-31%              |
-| Obese          | > 31%               |
+| Classification | Body Fat % | Notes                                                      |
+| -------------- | ---------- | ---------------------------------------------------------- |
+| Essential Fat  | 10-13%     | Rarely sustainable, typically only during peak competition |
+| Athletic       | 14-20%     | Common among competitive athletes                          |
+| Fitness        | 21-24%     | Generally achievable with consistent training              |
+| Acceptable     | 25-31%     | Typical healthy range                                      |
+| Obese          | 32%+       | Increased health risk                                      |
+
+Note: These classifications are general guidelines. Athletes in different sports may have different optimal ranges:
+
+- Bodybuilders: 3-7% (men), 8-12% (women) during competition
+- Distance Runners: 5-12% (men), 10-15% (women)
+- Swimmers: 9-12% (men), 14-19% (women)
+- Team Sports: 11-14% (men), 16-20% (women)
 
 ## Icons used:
 
