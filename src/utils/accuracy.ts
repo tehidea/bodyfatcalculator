@@ -28,33 +28,3 @@ export function getMarginOfError(formula: Formula): string {
       return "3-5%";
   }
 }
-
-/**
- * Returns whether a formula is considered high accuracy (margin of error ≤ 3.5%)
- */
-export function isHighAccuracyFormula(formula: Formula): boolean {
-  switch (formula) {
-    case "jack4":
-    case "jack7":
-    case "parrillo":
-      return true;
-    default:
-      return false;
-  }
-}
-
-/**
- * Returns whether a formula requires special equipment or training
- */
-export function requiresSpecialEquipment(formula: Formula): boolean {
-  switch (formula) {
-    case "durnin":
-    case "jack3":
-    case "jack4":
-    case "jack7":
-    case "parrillo":
-      return true; // Requires skinfold calipers
-    default:
-      return false;
-  }
-}
