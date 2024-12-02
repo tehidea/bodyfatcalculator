@@ -115,6 +115,7 @@ export const FormulaSelector = () => {
         </View>
         <Text style={styles.description} numberOfLines={2}>
           {selectedFormula.description}
+          {!selectedFormula.premium && ` (±${getMarginOfError(formula)})`}
         </Text>
         <View style={styles.measurementIcons}>
           {getMeasurementTypes(selectedFormula.fields).map(type => (
@@ -141,6 +142,23 @@ export const FormulaSelector = () => {
             <FlatList
               data={formulas}
               keyExtractor={item => item.key}
+              ListHeaderComponent={() => (
+                <View style={styles.accuracyLegend}>
+                  <Text style={styles.accuracyLegendTitle}>Accuracy Levels</Text>
+                  <View style={styles.accuracyLegendItem}>
+                    <View style={[styles.accuracyDot, { backgroundColor: COLORS.success }]} />
+                    <Text style={styles.accuracyLegendText}>Research-grade (±2.5-3.5%)</Text>
+                  </View>
+                  <View style={styles.accuracyLegendItem}>
+                    <View style={[styles.accuracyDot, { backgroundColor: COLORS.warning }]} />
+                    <Text style={styles.accuracyLegendText}>Professional (±3.5-4.5%)</Text>
+                  </View>
+                  <View style={styles.accuracyLegendItem}>
+                    <View style={[styles.accuracyDot, { backgroundColor: COLORS.error }]} />
+                    <Text style={styles.accuracyLegendText}>Standard (±4.5-6%)</Text>
+                  </View>
+                </View>
+              )}
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={[
@@ -151,15 +169,26 @@ export const FormulaSelector = () => {
                   onPress={() => handleFormulaSelect(item.key, item.premium && !isPremium)}
                 >
                   <View style={styles.formulaItemHeader}>
-                    <Text
-                      style={[
-                        styles.formulaItemName,
-                        item.key === formula && styles.activeFormulaText,
-                        item.premium && !isPremium && styles.premiumFormulaText,
-                      ]}
-                    >
-                      {item.name}
-                    </Text>
+                    <View style={styles.formulaNameContainer}>
+                      <Text
+                        style={[
+                          styles.formulaItemName,
+                          item.key === formula && styles.activeFormulaText,
+                          item.premium && !isPremium && styles.premiumFormulaText,
+                        ]}
+                      >
+                        {item.name}
+                      </Text>
+                      <View style={styles.formulaMetadata}>
+                        <View
+                          style={[
+                            styles.accuracyIndicator,
+                            { backgroundColor: getAccuracyColor(item.key) },
+                          ]}
+                        />
+                        <Text style={styles.accuracyText}>±{getMarginOfError(item.key)}</Text>
+                      </View>
+                    </View>
                     {item.premium && !isPremium && (
                       <View style={styles.premiumBadge}>
                         <Icon name="lock" type="feather" color="#666" size={14} />
@@ -175,7 +204,6 @@ export const FormulaSelector = () => {
                     numberOfLines={2}
                   >
                     {item.description}
-                    {item.premium && !isPremium ? "" : ` (±${getMarginOfError(item.key)})`}
                   </Text>
                   <View style={styles.measurementIcons}>
                     {getMeasurementTypes(FORMULA_REQUIREMENTS[item.key].fields).map(type => (
@@ -228,6 +256,13 @@ export const FormulaSelector = () => {
     </View>
   );
 };
+
+function getAccuracyColor(formula: Formula): string {
+  const error = parseFloat(getMarginOfError(formula).split("-")[1]);
+  if (error <= 3.5) return COLORS.success;
+  if (error <= 4.5) return COLORS.warning;
+  return COLORS.error;
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -378,6 +413,50 @@ const styles = StyleSheet.create({
   formulaItemName: {
     fontSize: 16,
     color: COLORS.textDark,
+    flex: 1,
+  },
+  accuracyLegend: {
+    padding: 16,
+    backgroundColor: "#f8f8f8",
+    marginBottom: 8,
+  },
+  accuracyLegendTitle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: COLORS.textDark,
+    marginBottom: 8,
+  },
+  accuracyLegendItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 4,
+  },
+  accuracyLegendText: {
+    fontSize: 12,
+    color: "#666",
+    marginLeft: 8,
+  },
+  accuracyDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  formulaMetadata: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 4,
+  },
+  accuracyIndicator: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginRight: 6,
+  },
+  accuracyText: {
+    fontSize: 12,
+    color: "#666",
+  },
+  formulaNameContainer: {
     flex: 1,
   },
 });
