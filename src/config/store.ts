@@ -19,12 +19,12 @@ export const ENTITLEMENTS = {
 
 export type Entitlement = keyof typeof ENTITLEMENTS;
 
-// Product IDs - we use RevenueCat's recommended "current" offering
-// This automatically handles test vs production products
+// Product IDs
 export const PRODUCTS = {
   pro: {
-    // Package identifier in the "current" offering
-    lifetime: isDevelopment ? "pro_lifetime_test" : "pro_lifetime",
+    // Same ID for both development and production
+    // RevenueCat automatically handles sandbox vs production environment
+    lifetime: "pro_lifetime",
   },
 } as const;
 

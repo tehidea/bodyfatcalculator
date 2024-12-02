@@ -426,39 +426,68 @@ Note: These classifications are general guidelines. Athletes in different sports
    EXPO_PUBLIC_REVENUECAT_IOS_KEY=your_ios_key_here
    ```
 
-2. Set up StoreKit Testing:
-
-   - Open `Products.storekit` in Xcode
-   - Replace `YOUR_TEAM_ID` with your Apple Developer Team ID
-   - In Xcode, go to Product > Scheme > Edit Scheme
-   - Select "Run" and under Options, set StoreKit Configuration to `Products.storekit`
-
-3. Configure RevenueCat Dashboard:
+2. Configure RevenueCat Dashboard:
    - Create entitlement `pro_features`
-   - Create product `pro_lifetime_test` matching the StoreKit configuration
-   - Create an offering named "current" (RevenueCat's recommended default)
-   - Add product to the "current" offering with package ID "lifetime"
+   - Create product `pro_lifetime`
+   - Create an offering named "current"
+   - Add product to the offering with package ID "lifetime"
 
 ### Testing In-App Purchases
 
-The app uses RevenueCat's sandbox environment in development:
+The app uses RevenueCat's sandbox environment for testing:
 
-1. **Development Mode**
+1. **Create Sandbox Tester Account**
 
-   - All purchases are free and use test products
-   - Debug logs are enabled
-   - No real payments are processed
+   - Go to App Store Connect > Users and Access > Sandbox > Testers
+   - Create new tester with unused email
+   - Save the credentials
 
-2. **Test Products**
+2. **Development Testing**
 
-   - Product ID: `pro_lifetime_test`
-   - Entitlement: `pro_features`
-   - Price: £10 (same as production)
+   ```
+   # Testing Flow
+   1. Run app: npx expo start
+   2. Sign in with Sandbox Account:
+      - Simulator: Features > Game Center > Sign In
+      - Real Device: Settings > App Store > Sign In
+   3. When making a purchase:
+      - Simulator: Purchase flow is automated
+      - Real device: Use sandbox account
+   4. RevenueCat automatically detects sandbox environment
+   5. All purchases are free in sandbox
+   ```
 
-3. **Testing on iOS**
-   - Create a Sandbox Tester account in App Store Connect
-   - Use this account when testing purchases
-   - No real charges will be made
+3. **Common Sign-in Issues**
+
+   - "No active account" error means no Apple ID is signed in
+   - Make sure to sign out of regular Apple ID first
+   - For Simulator: Can also sign in via Settings > Sign in to your iPhone
+   - For Real Device: Sign in specifically in App Store settings
+   - If issues persist, try:
+     1. Force quit Simulator/app
+     2. Clear App Store cache
+     3. Restart Simulator/device
+
+4. **Sandbox Behavior**
+
+   - Purchases complete instantly
+   - Subscription time is accelerated:
+     - 1 minute = 1 hour
+     - 5 minutes = 1 day
+     - 15 minutes = 1 week
+     - 1 hour = 1 month
+     - 5 hours = 1 year
+   - Billing retry happens every 5 minutes
+   - Introductory offers reset every 6 hours
+
+5. **Common Issues**
+   - Sign out of regular Apple ID before testing
+   - Use sandbox account when prompted
+   - If purchase fails:
+     1. Check RevenueCat logs
+     2. Verify you're signed in with sandbox account
+     3. Try force-quitting and reopening the app
+     4. Clear App Store cache if needed
 
 ### Production Setup
 
