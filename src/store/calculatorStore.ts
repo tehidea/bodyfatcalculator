@@ -78,7 +78,7 @@ const convertValue = (
 export const useCalculatorStore = create<CalculatorStore>()(
   persist(
     (set, get) => ({
-      formula: "durnin",
+      formula: "ymca",
       gender: "male",
       measurementSystem: "metric",
       inputs: {},
