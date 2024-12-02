@@ -78,7 +78,7 @@ jest.mock("expo-constants", () => ({
   default: {
     expoConfig: {
       extra: {
-        REVENUECAT_IOS_KEY: "test_key",
+        EXPO_PUBLIC_REVENUECAT_IOS_KEY: "test_key",
       },
     },
   },
