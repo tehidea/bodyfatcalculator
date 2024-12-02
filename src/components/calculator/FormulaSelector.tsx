@@ -65,6 +65,33 @@ export const FormulaSelector = () => {
     premium: value.premium,
   }));
 
+  const renderAccuracyInfo = () => (
+    <View style={styles.accuracyInfoWrapper}>
+      <View style={styles.accuracyInfo}>
+        <Text style={styles.accuracyInfoTitle}>About Accuracy</Text>
+        <View style={styles.accuracyLevels}>
+          <View style={styles.accuracyLevel}>
+            <View style={[styles.accuracyDot, { backgroundColor: COLORS.error }]} />
+            <Text style={styles.accuracyText}>±4.5-6%</Text>
+          </View>
+          <Icon name="arrow-right" type="feather" color="#666" size={16} />
+          <View style={styles.accuracyLevel}>
+            <View style={[styles.accuracyDot, { backgroundColor: COLORS.warning }]} />
+            <Text style={styles.accuracyText}>±3.5-4.5%</Text>
+          </View>
+          <Icon name="arrow-right" type="feather" color="#666" size={16} />
+          <View style={styles.accuracyLevel}>
+            <View style={[styles.accuracyDot, { backgroundColor: COLORS.success }]} />
+            <Text style={styles.accuracyText}>±2.5-3.5%</Text>
+          </View>
+        </View>
+        <Text style={styles.accuracyNote}>
+          Lower % means more accurate results. PRO formulas typically offer better accuracy.
+        </Text>
+      </View>
+    </View>
+  );
+
   const selectedFormula = FORMULA_REQUIREMENTS[formula];
 
   const handleFormulaSelect = (selectedKey: Formula, isPremiumFormula: boolean | undefined) => {
@@ -125,7 +152,6 @@ export const FormulaSelector = () => {
         </View>
       </TouchableOpacity>
 
-      {/* Formula Selection Modal */}
       <Modal
         visible={isModalVisible}
         animationType="slide"
@@ -141,92 +167,81 @@ export const FormulaSelector = () => {
               </TouchableOpacity>
             </View>
             <FlatList
-              data={formulas}
+              data={[
+                ...formulas,
+                { key: "accuracy_info", name: "", description: "", premium: false },
+              ]}
               keyExtractor={item => item.key}
               style={styles.formulaList}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={[
-                    styles.formulaItem,
-                    item.key === formula && styles.activeFormula,
-                    item.premium && !isPremium && styles.premiumFormula,
-                  ]}
-                  onPress={() => handleFormulaSelect(item.key, item.premium && !isPremium)}
-                >
-                  <View style={styles.formulaItemHeader}>
-                    <View style={styles.formulaItemNameContainer}>
-                      <Text
-                        style={[
-                          styles.formulaItemName,
-                          item.key === formula && styles.activeFormulaText,
-                          item.premium && !isPremium && styles.premiumFormulaText,
-                        ]}
-                      >
-                        {item.name}
-                      </Text>
-                      <View style={styles.formulaMetadata}>
-                        <View
-                          style={[
-                            styles.accuracyIndicator,
-                            { backgroundColor: getAccuracyColor(item.key) },
-                          ]}
-                        />
-                        <Text style={styles.accuracyText}>±{getMarginOfError(item.key)}</Text>
-                      </View>
-                    </View>
-                    {item.premium && !isPremium && (
-                      <View style={styles.premiumBadge}>
-                        <Icon name="lock" type="feather" color="#666" size={14} />
-                        <Text style={styles.premiumBadgeText}>PRO</Text>
-                      </View>
-                    )}
-                  </View>
-                  <Text
+              renderItem={({ item }) => {
+                if (item.key === "accuracy_info") {
+                  return renderAccuracyInfo();
+                }
+                return (
+                  <TouchableOpacity
                     style={[
-                      styles.formulaItemDescription,
-                      item.premium && !isPremium && styles.premiumFormulaText,
+                      styles.formulaItem,
+                      item.key === formula && styles.activeFormula,
+                      item.premium && !isPremium && styles.premiumFormula,
                     ]}
-                    numberOfLines={2}
+                    onPress={() =>
+                      handleFormulaSelect(item.key as Formula, item.premium && !isPremium)
+                    }
                   >
-                    {item.description}
-                  </Text>
-                  <View style={styles.measurementIcons}>
-                    {getMeasurementTypes(FORMULA_REQUIREMENTS[item.key].fields).map(type => (
-                      <MeasurementIcon key={type} type={type} color="#666" />
-                    ))}
-                  </View>
-                </TouchableOpacity>
-              )}
+                    <View style={styles.formulaItemHeader}>
+                      <View style={styles.formulaItemNameContainer}>
+                        <Text
+                          style={[
+                            styles.formulaItemName,
+                            item.key === formula && styles.activeFormulaText,
+                            item.premium && !isPremium && styles.premiumFormulaText,
+                          ]}
+                        >
+                          {item.name}
+                        </Text>
+                        <View style={styles.formulaMetadata}>
+                          <View
+                            style={[
+                              styles.accuracyIndicator,
+                              { backgroundColor: getAccuracyColor(item.key as Formula) },
+                            ]}
+                          />
+                          <Text style={styles.accuracyText}>
+                            ±{getMarginOfError(item.key as Formula)}
+                          </Text>
+                        </View>
+                      </View>
+                      {item.premium && !isPremium && (
+                        <View style={styles.premiumBadge}>
+                          <Icon name="lock" type="feather" color="#666" size={14} />
+                          <Text style={styles.premiumBadgeText}>PRO</Text>
+                        </View>
+                      )}
+                    </View>
+                    <Text
+                      style={[
+                        styles.formulaItemDescription,
+                        item.premium && !isPremium && styles.premiumFormulaText,
+                      ]}
+                      numberOfLines={2}
+                    >
+                      {item.description}
+                    </Text>
+                    <View style={styles.measurementIcons}>
+                      {getMeasurementTypes(FORMULA_REQUIREMENTS[item.key as Formula].fields).map(
+                        type => (
+                          <MeasurementIcon key={type} type={type} color="#666" />
+                        )
+                      )}
+                    </View>
+                  </TouchableOpacity>
+                );
+              }}
             />
-            <SafeAreaView edges={["bottom"]} style={styles.accuracyInfoWrapper}>
-              <View style={styles.accuracyInfo}>
-                <Text style={styles.accuracyInfoTitle}>About Accuracy</Text>
-                <View style={styles.accuracyLevels}>
-                  <View style={styles.accuracyLevel}>
-                    <View style={[styles.accuracyDot, { backgroundColor: COLORS.error }]} />
-                    <Text style={styles.accuracyText}>±4.5-6%</Text>
-                  </View>
-                  <Icon name="arrow-right" type="feather" color="#666" size={16} />
-                  <View style={styles.accuracyLevel}>
-                    <View style={[styles.accuracyDot, { backgroundColor: COLORS.warning }]} />
-                    <Text style={styles.accuracyText}>±3.5-4.5%</Text>
-                  </View>
-                  <Icon name="arrow-right" type="feather" color="#666" size={16} />
-                  <View style={styles.accuracyLevel}>
-                    <View style={[styles.accuracyDot, { backgroundColor: COLORS.success }]} />
-                    <Text style={styles.accuracyText}>±2.5-3.5%</Text>
-                  </View>
-                </View>
-                <Text style={styles.accuracyNote}>
-                  Lower % means more accurate results. PRO formulas typically offer better accuracy.
-                </Text>
-              </View>
-            </SafeAreaView>
           </SafeAreaView>
         </View>
       </Modal>
 
-      {/* Premium Feature Modal */}
       <Modal
         visible={isPremiumModalVisible}
         animationType="fade"
@@ -430,16 +445,14 @@ const styles = StyleSheet.create({
   },
   accuracyInfoWrapper: {
     backgroundColor: COLORS.white,
-    borderTopWidth: 1,
-    borderTopColor: "#eee",
+    marginTop: 16,
+    marginBottom: 16,
   },
   accuracyInfo: {
     padding: 16,
     paddingTop: 20,
-    paddingBottom: 0,
     backgroundColor: COLORS.white,
   },
-
   accuracyInfoTitle: {
     fontSize: 14,
     fontWeight: "bold",
