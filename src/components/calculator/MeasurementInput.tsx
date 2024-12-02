@@ -85,12 +85,12 @@ const Input = forwardRef<InputRef, InputProps>(
         )}
         <View style={[styles.container, style]}>
           <Text style={styles.label}>{label}</Text>
-          <View style={styles.inputContainer}>
+          <View style={[styles.inputContainer, error && styles.inputError]}>
             {measurementType && <MeasurementIcon type={measurementType} color={COLORS.textDark} />}
             <TextInput
               {...props}
               ref={inputRef}
-              style={[styles.input, error && styles.inputError]}
+              style={styles.input}
               placeholderTextColor="#999"
               accessibilityLabel={label}
               accessibilityHint={`Enter ${label.toLowerCase()}`}
