@@ -48,15 +48,9 @@ const getMeasurementTypes = (fields: (typeof FORMULA_REQUIREMENTS)[Formula]["fie
 
 export const FormulaSelector = () => {
   const { formula, setFormula } = useCalculatorStore();
-  const { isPremium, isLoading, checkPremiumStatus, setPremiumStatus } = usePremiumStore();
+  const { pro, isLoading, purchasePro } = usePremiumStore();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isPremiumModalVisible, setIsPremiumModalVisible] = useState(false);
-  const [purchaseLoading, setPurchaseLoading] = useState(false);
-
-  useEffect(() => {
-    // TODO: Re-enable when premium features are ready
-    // checkPremiumStatus();
-  }, []);
 
   const formulas = Object.entries(FORMULA_REQUIREMENTS).map(([key, value]) => ({
     key: key as Formula,
@@ -108,7 +102,7 @@ export const FormulaSelector = () => {
   const selectedFormula = FORMULA_REQUIREMENTS[formula];
 
   const handleFormulaSelect = (selectedKey: Formula, isPremiumFormula: boolean | undefined) => {
-    if (!isPremiumFormula || isPremium) {
+    if (!isPremiumFormula || pro) {
       setFormula(selectedKey);
       setIsModalVisible(false);
     } else {
@@ -117,27 +111,13 @@ export const FormulaSelector = () => {
   };
 
   const handlePurchase = async () => {
-    setPurchaseLoading(true);
-    try {
-      const success = await purchasePremium();
-      if (success) {
-        setPremiumStatus(true);
-        setIsPremiumModalVisible(false);
-        setIsModalVisible(false);
-        Alert.alert(
-          "Success!",
-          "Thank you for upgrading! You now have access to all PRO formulas.",
-          [{ text: "OK" }]
-        );
-      }
-    } catch (error) {
-      Alert.alert(
-        "Purchase Failed",
-        "There was an error processing your purchase. Please try again.",
-        [{ text: "OK" }]
-      );
-    } finally {
-      setPurchaseLoading(false);
+    const success = await purchasePro();
+    if (success) {
+      setIsPremiumModalVisible(false);
+      setIsModalVisible(false);
+      Alert.alert("Success!", "Thank you for upgrading! You now have access to all PRO formulas.", [
+        { text: "OK" },
+      ]);
     }
   };
 
@@ -146,7 +126,7 @@ export const FormulaSelector = () => {
       <TouchableOpacity style={styles.selector} onPress={() => setIsModalVisible(true)}>
         <View style={styles.selectedFormula}>
           <Text style={styles.formulaName}>{selectedFormula.name}</Text>
-          {selectedFormula.premium && !isPremium && (
+          {selectedFormula.premium && !pro && (
             <View style={styles.premiumBadge}>
               <Icon name="lock" type="feather" color="#666" size={14} />
               <Text style={styles.premiumBadgeText}>PRO</Text>
@@ -195,11 +175,9 @@ export const FormulaSelector = () => {
                     style={[
                       styles.formulaItem,
                       item.key === formula && styles.activeFormula,
-                      item.premium && !isPremium && styles.premiumFormula,
+                      item.premium && !pro && styles.premiumFormula,
                     ]}
-                    onPress={() =>
-                      handleFormulaSelect(item.key as Formula, item.premium && !isPremium)
-                    }
+                    onPress={() => handleFormulaSelect(item.key as Formula, item.premium && !pro)}
                   >
                     <View style={styles.formulaItemHeader}>
                       <View style={styles.formulaItemNameContainer}>
@@ -207,7 +185,7 @@ export const FormulaSelector = () => {
                           style={[
                             styles.formulaItemName,
                             item.key === formula && styles.activeFormulaText,
-                            item.premium && !isPremium && styles.premiumFormulaText,
+                            item.premium && !pro && styles.premiumFormulaText,
                           ]}
                         >
                           {item.name}
@@ -224,7 +202,7 @@ export const FormulaSelector = () => {
                           </Text>
                         </View>
                       </View>
-                      {item.premium && !isPremium && (
+                      {item.premium && !pro && (
                         <View style={styles.premiumBadge}>
                           <Icon name="lock" type="feather" color="#666" size={14} />
                           <Text style={styles.premiumBadgeText}>PRO</Text>
@@ -234,7 +212,7 @@ export const FormulaSelector = () => {
                     <Text
                       style={[
                         styles.formulaItemDescription,
-                        item.premium && !isPremium && styles.premiumFormulaText,
+                        item.premium && !pro && styles.premiumFormulaText,
                       ]}
                       numberOfLines={2}
                     >
@@ -275,10 +253,8 @@ export const FormulaSelector = () => {
               {"\n"}• Share with family (up to 5 members)
             </Text>
             <Button
-              title={purchaseLoading ? "Processing..." : "Upgrade to PRO"}
+              title="Upgrade to PRO"
               buttonStyle={styles.upgradeButton}
-              loading={purchaseLoading}
-              disabled={purchaseLoading}
               onPress={handlePurchase}
             />
             <Button
@@ -286,7 +262,6 @@ export const FormulaSelector = () => {
               type="clear"
               titleStyle={styles.cancelButtonText}
               onPress={() => setIsPremiumModalVisible(false)}
-              disabled={purchaseLoading}
             />
           </View>
         </View>
