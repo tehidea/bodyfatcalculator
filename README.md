@@ -6,17 +6,31 @@ This calculator implements various methods for estimating body fat percentage.
 
 ### Free Tier
 
-- [x] Basic Formulas (YMCA, Modified YMCA, and U.S. Navy methods)
+- [x] Basic Methods
+  - YMCA: A simple method using weight and waist measurements
+  - Modified YMCA: Enhanced version with additional measurements for women
+  - U.S. Navy: Military standard using key body measurements
 - [x] Unit Conversion (metric/imperial)
 - [x] Basic Results (body fat percentage and classification)
+- [x] Standard Precision (1 decimal place)
 
 ### PRO Tier (£10)
 
-- [ ] Advanced Formulas (Jackson & Pollock, Durnin & Womersley, and more)
-- [ ] Unlimited Local Storage
-- [ ] Detailed Analysis
-- [ ] Basic Export
-- [ ] Offline Access
+- [x] Advanced Methods
+  - Covert Bailey: Comprehensive method with multiple measurements
+  - Durnin & Womersley: Scientific skinfold method
+  - Jackson & Pollock (3-site): Quick but accurate skinfold method
+  - Jackson & Pollock (4-site): Balanced skinfold approach
+  - Jackson & Pollock (7-site): Most thorough skinfold method
+  - Parrillo: Bodybuilding-focused nine-site method
+- [x] Enhanced Precision
+  - 2 decimal places for all measurements
+  - Access to research-grade formulas
+  - Detailed measurement guides
+- [x] Unlimited Local Storage
+- [x] Detailed Analysis
+- [x] Basic Export
+- [x] Offline Access
 
 ### Premium Tier (£3/month or £18/year)
 

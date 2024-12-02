@@ -70,6 +70,23 @@ export const FORMULA_REQUIREMENTS: Record<
       },
     ],
   },
+  navy: {
+    name: "U.S. Navy",
+    description: "The military's method using your weight, height, and key body measurements",
+    fields: [
+      { key: "weight", label: "Weight", unit: "kg", required: true },
+      { key: "height", label: "Height", unit: "cm", required: true },
+      { key: "neckCircumference", label: "Neck Circumference", unit: "cm", required: true },
+      { key: "waistCircumference", label: "Waist Circumference", unit: "cm", required: true },
+      {
+        key: "hipsCircumference",
+        label: "Hips Circumference",
+        unit: "cm",
+        required: true,
+        genderSpecific: "female",
+      },
+    ],
+  },
   covert: {
     name: "Covert Bailey",
     description:
@@ -108,23 +125,7 @@ export const FORMULA_REQUIREMENTS: Record<
         genderSpecific: "female",
       },
     ],
-  },
-  navy: {
-    name: "U.S. Navy",
-    description: "The military's method using your weight, height, and key body measurements",
-    fields: [
-      { key: "weight", label: "Weight", unit: "kg", required: true },
-      { key: "height", label: "Height", unit: "cm", required: true },
-      { key: "neckCircumference", label: "Neck Circumference", unit: "cm", required: true },
-      { key: "waistCircumference", label: "Waist Circumference", unit: "cm", required: true },
-      {
-        key: "hipsCircumference",
-        label: "Hips Circumference",
-        unit: "cm",
-        required: true,
-        genderSpecific: "female",
-      },
-    ],
+    premium: true,
   },
   durnin: {
     name: "Durnin & Womersley",
