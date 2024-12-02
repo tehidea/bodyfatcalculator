@@ -415,3 +415,68 @@ Note: These classifications are general guidelines. Athletes in different sports
 2. [FitLifeRegime's comprehensive guide](https://fitliferegime.com/body-fat-percentage-calculator-based-on-caliper-and-us-navy/) on body fat measurement methods
 3. Clinical studies on measurement accuracy
 4. Professional fitness industry standards
+
+## RevenueCat Setup
+
+### Development Environment
+
+1. Create `.env` in the root directory:
+
+   ```
+   EXPO_PUBLIC_REVENUECAT_IOS_KEY=your_ios_key_here
+   ```
+
+2. Set up StoreKit Testing:
+
+   - Open `Products.storekit` in Xcode
+   - Replace `YOUR_TEAM_ID` with your Apple Developer Team ID
+   - In Xcode, go to Product > Scheme > Edit Scheme
+   - Select "Run" and under Options, set StoreKit Configuration to `Products.storekit`
+
+3. Configure RevenueCat Dashboard:
+   - Create entitlement `pro_features`
+   - Create product `pro_lifetime_test` matching the StoreKit configuration
+   - Create an offering named "current" (RevenueCat's recommended default)
+   - Add product to the "current" offering with package ID "lifetime"
+
+### Testing In-App Purchases
+
+The app uses RevenueCat's sandbox environment in development:
+
+1. **Development Mode**
+
+   - All purchases are free and use test products
+   - Debug logs are enabled
+   - No real payments are processed
+
+2. **Test Products**
+
+   - Product ID: `pro_lifetime_test`
+   - Entitlement: `pro_features`
+   - Price: £10 (same as production)
+
+3. **Testing on iOS**
+   - Create a Sandbox Tester account in App Store Connect
+   - Use this account when testing purchases
+   - No real charges will be made
+
+### Production Setup
+
+1. Create `.env.production` with production API key
+2. Set up production products in RevenueCat:
+
+   - Product ID: `pro_lifetime`
+   - Entitlement: `pro_features`
+   - Price: £10
+
+3. For TestFlight Testing:
+   - Use sandbox accounts
+   - Verify receipt validation
+   - Test the complete purchase flow
+
+### Troubleshooting
+
+- Check RevenueCat dashboard for purchase logs
+- Enable debug mode in development for detailed logs
+- Verify API key is correctly set in environment files
+- Ensure products and entitlements match the configured IDs

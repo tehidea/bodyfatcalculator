@@ -1,36 +1,30 @@
 import Purchases, { PurchasesPackage } from "react-native-purchases";
-import { Platform } from "react-native";
-import Constants from "expo-constants";
 
-const API_KEYS = {
-  apple: Constants.expoConfig?.extra?.revenuecat?.ios || "default_ios_key",
-  google: Constants.expoConfig?.extra?.revenuecat?.android || "default_android_key",
-} as const;
+// In development, use sandbox environment
+const isDevelopment = __DEV__;
 
-// Log warning for missing API keys in development
-if (__DEV__) {
-  if (API_KEYS.apple === "default_ios_key" || API_KEYS.google === "default_android_key") {
-    console.warn("RevenueCat API keys are not configured. Using default keys for development.");
+const API_KEY = process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY || "default_ios_key";
+
+if (isDevelopment) {
+  console.log("🛠️ Running in development mode - using sandbox environment");
+  if (API_KEY === "default_ios_key") {
+    console.warn("⚠️ RevenueCat API key is not configured in .env");
   }
 }
 
+// Single source of truth for entitlement IDs
 export const ENTITLEMENTS = {
   pro: "pro_features",
-  premium: "premium_subscription",
 } as const;
 
 export type Entitlement = keyof typeof ENTITLEMENTS;
 
-export const OFFERINGS = {
+// Product IDs - we use RevenueCat's recommended "current" offering
+// This automatically handles test vs production products
+export const PRODUCTS = {
   pro: {
-    lifetime: "pro_lifetime",
-  },
-  premium: {
-    monthly: "premium_monthly",
-    annual: "premium_annual",
-  },
-  bundles: {
-    proWithPremium: "pro_premium_bundle",
+    // Package identifier in the "current" offering
+    lifetime: isDevelopment ? "pro_lifetime_test" : "pro_lifetime",
   },
 } as const;
 
@@ -40,13 +34,12 @@ export interface UserEntitlements {
 }
 
 export async function initializeStore() {
-  Purchases.setLogLevel(Purchases.LOG_LEVEL.DEBUG); // Remove this in production
+  if (isDevelopment) {
+    Purchases.setLogLevel(Purchases.LOG_LEVEL.DEBUG);
+  }
 
   await Purchases.configure({
-    apiKey: Platform.select({
-      ios: API_KEYS.apple,
-      android: API_KEYS.google,
-    }) as string,
+    apiKey: API_KEY,
   });
 }
 
@@ -55,7 +48,7 @@ export async function getUserEntitlements(): Promise<UserEntitlements> {
     const customerInfo = await Purchases.getCustomerInfo();
     return {
       pro: customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined,
-      premium: customerInfo.entitlements.active[ENTITLEMENTS.premium] !== undefined,
+      premium: false,
     };
   } catch (error) {
     console.error("Failed to get user entitlements:", error);
@@ -66,7 +59,11 @@ export async function getUserEntitlements(): Promise<UserEntitlements> {
 export async function getOfferings() {
   try {
     const offerings = await Purchases.getOfferings();
-    return offerings.current?.availablePackages ?? [];
+    return (
+      offerings.current?.availablePackages.filter(
+        pkg => pkg.identifier === PRODUCTS.pro.lifetime
+      ) ?? []
+    );
   } catch (error) {
     console.error("Failed to get offerings:", error);
     return [];
@@ -78,7 +75,7 @@ export async function purchasePackage(package_: PurchasesPackage): Promise<UserE
     const { customerInfo } = await Purchases.purchasePackage(package_);
     return {
       pro: customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined,
-      premium: customerInfo.entitlements.active[ENTITLEMENTS.premium] !== undefined,
+      premium: false,
     };
   } catch (error) {
     if (error instanceof Error && error.message === "User cancelled") {

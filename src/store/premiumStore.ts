@@ -22,5 +22,7 @@ export const usePremiumStore = create<PremiumStore>(set => ({
       set({ error: "Failed to check entitlements", isLoading: false });
     }
   },
-  setEntitlements: (entitlements: UserEntitlements) => set(entitlements),
+  setEntitlements: (entitlements: UserEntitlements) => {
+    set({ ...entitlements, premium: false });
+  },
 }));
