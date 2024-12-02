@@ -57,6 +57,12 @@ export const FEATURES: Feature[] = [
     description: "Export your measurements in simple format",
     availability: "pro",
   },
+  {
+    id: "family_sharing",
+    name: "Family Sharing",
+    description: "Share PRO access with up to 5 family members",
+    availability: "pro",
+  },
 
   // Premium Features
   {

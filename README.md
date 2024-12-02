@@ -468,6 +468,7 @@ The app uses RevenueCat's sandbox environment in development:
    - Product ID: `pro_lifetime`
    - Entitlement: `pro_features`
    - Price: £10
+   - Family Sharing: Enabled (up to 5 family members)
 
 3. For TestFlight Testing:
    - Use sandbox accounts

@@ -245,6 +245,7 @@ export const MeasurementInput = forwardRef<InputRef, MeasurementInputProps>(
                 {"\n"}• Advanced calculation formulas
                 {"\n"}• Skinfold measurement methods
                 {"\n"}• More accurate results
+                {"\n"}• Family Sharing enabled
               </Text>
               <Button
                 title="Upgrade to PRO"

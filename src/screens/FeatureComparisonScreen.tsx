@@ -127,6 +127,7 @@ export const FeatureComparisonScreen = () => {
               <Text style={styles.keyFeature}>• Decimal precision</Text>
               <Text style={styles.keyFeature}>• Detailed measurement guides</Text>
               <Text style={styles.keyFeature}>• Sport-specific ranges</Text>
+              <Text style={styles.keyFeature}>• Family Sharing enabled</Text>
             </View>
             <Button
               title={pro ? "Purchased" : "Buy Now"}

@@ -141,6 +141,7 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
               {"\n"}• Sport-specific body fat ranges
               {"\n"}• Decimal precision for all measurements
               {"\n"}• Detailed measurement guides
+              {"\n"}• Share with family (up to 5 members)
             </Text>
             <Button
               title="Upgrade to PRO"

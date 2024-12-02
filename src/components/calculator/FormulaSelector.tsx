@@ -272,6 +272,7 @@ export const FormulaSelector = () => {
               {"\n"}• Detailed measurement guides
               {"\n"}• 2 decimal places for all measurements
               {"\n"}• Sport-specific body fat ranges
+              {"\n"}• Share with family (up to 5 members)
             </Text>
             <Button
               title={purchaseLoading ? "Processing..." : "Upgrade to PRO"}
