@@ -65,6 +65,19 @@ export const FormulaSelector = () => {
     premium: value.premium,
   }));
 
+  const getAccuracyColor = (formula: Formula) => {
+    const error = getMarginOfError(formula);
+    const lowerBound = parseFloat(error.split("-")[0]);
+
+    if (lowerBound >= 5) {
+      return COLORS.error;
+    } else if (lowerBound >= 4) {
+      return COLORS.warning;
+    } else {
+      return COLORS.success;
+    }
+  };
+
   const renderAccuracyInfo = () => (
     <View style={styles.accuracyInfoWrapper}>
       <View style={styles.accuracyInfo}>
@@ -72,21 +85,21 @@ export const FormulaSelector = () => {
         <View style={styles.accuracyLevels}>
           <View style={styles.accuracyLevel}>
             <View style={[styles.accuracyDot, { backgroundColor: COLORS.error }]} />
-            <Text style={styles.accuracyText}>±4.5-6%</Text>
+            <Text style={styles.accuracyText}>±5-7%</Text>
           </View>
           <Icon name="arrow-right" type="feather" color="#666" size={16} />
           <View style={styles.accuracyLevel}>
             <View style={[styles.accuracyDot, { backgroundColor: COLORS.warning }]} />
-            <Text style={styles.accuracyText}>±3.5-4.5%</Text>
+            <Text style={styles.accuracyText}>±4-5%</Text>
           </View>
           <Icon name="arrow-right" type="feather" color="#666" size={16} />
           <View style={styles.accuracyLevel}>
             <View style={[styles.accuracyDot, { backgroundColor: COLORS.success }]} />
-            <Text style={styles.accuracyText}>±2.5-3.5%</Text>
+            <Text style={styles.accuracyText}>±3-4%</Text>
           </View>
         </View>
         <Text style={styles.accuracyNote}>
-          Lower % means more accurate results. PRO formulas typically offer better accuracy.
+          Lower % means more accurate results.{"\n"}PRO formulas typically offer better accuracy.
         </Text>
       </View>
     </View>
@@ -281,13 +294,6 @@ export const FormulaSelector = () => {
   );
 };
 
-function getAccuracyColor(formula: Formula): string {
-  const error = parseFloat(getMarginOfError(formula).split("-")[1]);
-  if (error <= 3.5) return COLORS.success;
-  if (error <= 4.5) return COLORS.warning;
-  return COLORS.error;
-}
-
 const styles = StyleSheet.create({
   container: {
     marginBottom: 16,
@@ -445,7 +451,6 @@ const styles = StyleSheet.create({
   },
   accuracyInfoWrapper: {
     backgroundColor: COLORS.white,
-    marginTop: 16,
     marginBottom: 16,
   },
   accuracyInfo: {
