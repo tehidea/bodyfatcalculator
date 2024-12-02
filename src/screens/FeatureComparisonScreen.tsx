@@ -39,7 +39,6 @@ export const FeatureComparisonScreen = () => {
       const entitlements = await purchasePackage(targetPackage);
       setEntitlements(entitlements);
     } catch (error) {
-      // Purchase cancelled or failed
       console.error("Purchase failed:", error);
     } finally {
       setLoading(false);
@@ -86,13 +85,30 @@ export const FeatureComparisonScreen = () => {
               <Text style={styles.planLabel}>FREE</Text>
               <Text style={styles.accuracyRange}>±4-6%</Text>
               <Text style={styles.accuracyNote}>Basic formulas</Text>
+              <View style={styles.methodList}>
+                <Text style={styles.methodItem}>• YMCA (±5-7%)</Text>
+                <Text style={styles.methodItem}>• Modified YMCA (±4-6%)</Text>
+                <Text style={styles.methodItem}>• U.S. Navy (±4-6%)</Text>
+              </View>
             </View>
             <View style={styles.accuracyColumn}>
               <Text style={styles.planLabel}>PRO</Text>
-              <Text style={styles.accuracyRange}>±2.5-4%</Text>
+              <Text style={styles.accuracyRange}>±3-5%</Text>
               <Text style={styles.accuracyNote}>Research-grade formulas</Text>
+              <View style={styles.methodList}>
+                <Text style={styles.methodItem}>• Covert Bailey (±4-5%)</Text>
+                <Text style={styles.methodItem}>• Durnin & Womersley (±3.5-5%)</Text>
+                <Text style={styles.methodItem}>• Jackson & Pollock 3-Site (±4-5%)</Text>
+                <Text style={styles.methodItem}>• Jackson & Pollock 4-Site (±3.5-4.5%)</Text>
+                <Text style={styles.methodItem}>• Jackson & Pollock 7-Site (±3-4%)</Text>
+                <Text style={styles.methodItem}>• Parrillo 9-Site (±3-4%)</Text>
+              </View>
             </View>
           </View>
+          <Text style={styles.accuracyDisclaimer}>
+            * Accuracy ranges assume proper measurement technique and calibrated tools. Individual
+            results may vary based on body type, hydration levels, and measurement skill.
+          </Text>
         </View>
 
         <View style={styles.pricingCards}>
@@ -105,6 +121,13 @@ export const FeatureComparisonScreen = () => {
             <Text style={styles.planName}>PRO</Text>
             <Text style={styles.planPrice}>{PRICING.pro.price}</Text>
             <Text style={styles.planType}>One-time purchase</Text>
+            <View style={styles.keyFeatures}>
+              <Text style={styles.keyFeature}>• Advanced formulas (±3-5%)</Text>
+              <Text style={styles.keyFeature}>• Skinfold measurement methods</Text>
+              <Text style={styles.keyFeature}>• Decimal precision</Text>
+              <Text style={styles.keyFeature}>• Detailed measurement guides</Text>
+              <Text style={styles.keyFeature}>• Sport-specific ranges</Text>
+            </View>
             <Button
               title={pro ? "Purchased" : "Buy Now"}
               disabled={pro || loading}
@@ -124,6 +147,13 @@ export const FeatureComparisonScreen = () => {
             <Text style={styles.planPrice}>{PRICING.premium.annual.price}</Text>
             <Text style={styles.planType}>Per year (save 50%)</Text>
             <Text style={styles.monthlyPrice}>or {PRICING.premium.monthly.price}/month</Text>
+            <View style={styles.keyFeatures}>
+              <Text style={styles.keyFeature}>• Everything in PRO</Text>
+              <Text style={styles.keyFeature}>• Cloud sync across devices</Text>
+              <Text style={styles.keyFeature}>• Progress tracking & photos</Text>
+              <Text style={styles.keyFeature}>• Advanced export (CSV/PDF)</Text>
+              <Text style={styles.keyFeature}>• Priority support</Text>
+            </View>
             <Button
               title={premium ? "Subscribed" : "Subscribe"}
               disabled={premium || loading}
@@ -146,6 +176,13 @@ export const FeatureComparisonScreen = () => {
               <Text style={styles.planName}>PRO + 1 YEAR PREMIUM</Text>
               <Text style={styles.planPrice}>{PRICING.bundles.proWithPremium.price}</Text>
               <Text style={styles.planType}>Save {PRICING.bundles.proWithPremium.savings}</Text>
+              <View style={styles.keyFeatures}>
+                <Text style={styles.keyFeature}>• Lifetime PRO access</Text>
+                <Text style={styles.keyFeature}>• 1 year of Premium features</Text>
+                <Text style={styles.keyFeature}>• All advanced formulas</Text>
+                <Text style={styles.keyFeature}>• All premium features</Text>
+                <Text style={styles.keyFeature}>• Best value for serious users</Text>
+              </View>
               <Button
                 title="Get Bundle"
                 loading={loading}
@@ -184,6 +221,69 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#666",
     textAlign: "center",
+  },
+  section: {
+    padding: 16,
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: COLORS.textDark,
+    marginBottom: 16,
+  },
+  accuracyComparison: {
+    flexDirection: "row",
+    backgroundColor: "#f8f8f8",
+    borderRadius: 12,
+    padding: 16,
+    gap: 16,
+  },
+  accuracyColumn: {
+    flex: 1,
+    alignItems: "center",
+    padding: 12,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    elevation: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+  planLabel: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: COLORS.textDark,
+    marginBottom: 4,
+  },
+  accuracyRange: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: COLORS.primary,
+    marginBottom: 4,
+  },
+  accuracyNote: {
+    fontSize: 12,
+    color: "#666",
+    marginBottom: 12,
+  },
+  methodList: {
+    width: "100%",
+    alignItems: "flex-start",
+  },
+  methodItem: {
+    fontSize: 11,
+    color: "#666",
+    marginBottom: 4,
+  },
+  accuracyDisclaimer: {
+    fontSize: 11,
+    color: "#666",
+    fontStyle: "italic",
+    marginTop: 12,
+    textAlign: "center",
+    paddingHorizontal: 16,
   },
   pricingCards: {
     padding: 20,
@@ -225,6 +325,15 @@ const styles = StyleSheet.create({
     color: "#666",
     marginBottom: 16,
   },
+  keyFeatures: {
+    width: "100%",
+    marginBottom: 16,
+  },
+  keyFeature: {
+    fontSize: 14,
+    color: "#444",
+    marginBottom: 4,
+  },
   buyButton: {
     paddingHorizontal: 32,
     borderRadius: 8,
@@ -248,12 +357,6 @@ const styles = StyleSheet.create({
   featuresSection: {
     padding: 20,
   },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: COLORS.textDark,
-    marginBottom: 16,
-  },
   featureRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -275,35 +378,5 @@ const styles = StyleSheet.create({
   },
   availabilityIndicator: {
     marginLeft: 16,
-  },
-  section: {
-    padding: 16,
-    marginBottom: 16,
-  },
-  accuracyComparison: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    backgroundColor: "#f8f8f8",
-    borderRadius: 12,
-    padding: 16,
-  },
-  accuracyColumn: {
-    alignItems: "center",
-  },
-  planLabel: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: COLORS.textDark,
-    marginBottom: 4,
-  },
-  accuracyRange: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: COLORS.primary,
-    marginBottom: 4,
-  },
-  accuracyNote: {
-    fontSize: 12,
-    color: "#666",
   },
 });
