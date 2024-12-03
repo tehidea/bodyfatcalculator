@@ -137,7 +137,6 @@ const CalculatorForm = ({
           isLastInput={index === fieldsWithConvertedUnits.length - 1}
         />
       ))}
-      {globalError && <Text style={styles.errorText}>{globalError}</Text>}
       <View style={styles.buttonRow}>
         <Button
           title={buttonTitle}
@@ -158,6 +157,11 @@ const CalculatorForm = ({
           buttonStyle={styles.resetButton}
         />
       </View>
+      {globalError && (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{globalError}</Text>
+        </View>
+      )}
     </View>
   );
 };
