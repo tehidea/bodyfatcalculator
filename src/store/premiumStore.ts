@@ -48,7 +48,7 @@ export const usePremiumStore = create<PremiumStore>(set => ({
 
       if (!proPackage) {
         console.log("purchasePro - No PRO package available");
-        set({ isLoading: false, error: null });
+        set({ isLoading: false, error: null, pro: false });
         throw new Error("PRO package not available");
       }
 
@@ -63,7 +63,7 @@ export const usePremiumStore = create<PremiumStore>(set => ({
       if (error instanceof Error) {
         if (error.message === "User cancelled") {
           console.log("purchasePro - User cancelled");
-          set({ isLoading: false, error: null });
+          set({ isLoading: false, error: null, pro: false });
           return false;
         }
 
@@ -72,7 +72,7 @@ export const usePremiumStore = create<PremiumStore>(set => ({
           error.message.includes("No active account")
         ) {
           console.log("purchasePro - Authentication failed");
-          set({ isLoading: false, error: null });
+          set({ isLoading: false, error: null, pro: false });
           Alert.alert(
             "Sign In Required",
             "Please sign in with your Sandbox Tester account in Settings > App Store.",
@@ -83,7 +83,7 @@ export const usePremiumStore = create<PremiumStore>(set => ({
       }
 
       console.log("purchasePro - Other error occurred");
-      set({ error: "Purchase failed", isLoading: false });
+      set({ error: "Purchase failed", isLoading: false, pro: false });
       throw error;
     }
   },
