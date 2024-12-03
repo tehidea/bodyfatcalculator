@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef } from "react";
+import React, { useState, useEffect, forwardRef, useRef } from "react";
 import {
   View,
   StyleSheet,
@@ -7,6 +7,8 @@ import {
   Alert,
   TextInput,
   ReturnKeyType,
+  Platform,
+  Keyboard,
 } from "react-native";
 import { Text, Button, Icon } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
@@ -27,15 +29,39 @@ interface MeasurementInputProps {
   onSubmitEditing?: () => void;
   returnKeyType?: ReturnKeyType;
   isLastInput?: boolean;
+  onFocusChange?: (focused: boolean) => void;
 }
 
 export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
-  ({ field, error, onSubmitEditing, returnKeyType = "next", isLastInput }, ref) => {
+  ({ field, error, onSubmitEditing, returnKeyType = "next", isLastInput, onFocusChange }, ref) => {
     const { inputs, setInput, measurementSystem } = useCalculatorStore();
     const { pro, purchasePro } = usePremiumStore();
     const [rawValue, setRawValue] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const [showProModal, setShowProModal] = useState(false);
+    const inputRef = useRef<TextInput>(null);
+
+    // Forward the ref
+    useEffect(() => {
+      if (typeof ref === "function") {
+        ref(inputRef.current);
+      } else if (ref) {
+        ref.current = inputRef.current;
+      }
+    }, [ref]);
+
+    const handleSubmitEditing = () => {
+      console.log(`[${field.label}] Submit editing:`, {
+        isLastInput,
+        hasOnSubmitEditing: !!onSubmitEditing,
+      });
+
+      if (isLastInput) {
+        console.log(`[${field.label}] Last input, dismissing keyboard`);
+        Keyboard.dismiss();
+      }
+      onSubmitEditing?.();
+    };
 
     // Sync with store and handle reset or measurement system change
     useEffect(() => {
@@ -83,8 +109,14 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       }
     };
 
+    const handleFocus = () => {
+      setIsEditing(true);
+      onFocusChange?.(true);
+    };
+
     const handleBlur = () => {
       setIsEditing(false);
+      onFocusChange?.(false);
 
       // Convert the value if needed
       const numValue = parseFloat(rawValue);
@@ -139,16 +171,14 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
               <MeasurementIcon type={getIconType(field.key)} size={18} color={COLORS.textDark} />
             </View>
             <TextInput
-              ref={ref}
+              ref={inputRef}
               style={styles.input}
               value={rawValue}
               onChangeText={handleChangeText}
+              onFocus={handleFocus}
               onBlur={handleBlur}
-              keyboardType="number-pad"
-              returnKeyType={isLastInput ? "done" : "next"}
-              onSubmitEditing={onSubmitEditing}
-              blurOnSubmit={isLastInput}
-              enablesReturnKeyAutomatically
+              keyboardType="decimal-pad"
+              enablesReturnKeyAutomatically={true}
               placeholderTextColor="#999"
               accessibilityLabel={field.label}
               accessibilityHint={`Enter ${field.label.toLowerCase()}`}

@@ -147,4 +147,13 @@ export const styles = StyleSheet.create({
     marginBottom: 8,
     fontFamily: "Montserrat-Light",
   },
+  toolbarContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "#f8f8f8",
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: "#d8d8d8",
+  },
 });

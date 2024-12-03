@@ -1,8 +1,12 @@
-import React, { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import React, { useState, useMemo, useCallback, useRef } from "react";
 import { View, Platform, Keyboard, TextInput, ScrollView } from "react-native";
 import { Text, Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { KeyboardProvider, KeyboardAvoidingView } from "react-native-keyboard-controller";
+import {
+  KeyboardAwareScrollView,
+  KeyboardToolbar,
+  useKeyboardController,
+} from "react-native-keyboard-controller";
 import Constants from "expo-constants";
 import { COLORS } from "../constants/theme";
 import { FormulaSelector } from "../components/calculator/FormulaSelector";
@@ -67,6 +71,7 @@ interface CalculatorFormProps {
   isCalculating: boolean;
   globalError?: string | null;
   scrollViewRef: React.RefObject<ScrollView>;
+  onFocusChange: (focused: boolean) => void;
 }
 
 // Extract form section into a separate component
@@ -79,15 +84,11 @@ const CalculatorForm = ({
   isCalculating,
   globalError,
   scrollViewRef,
+  onFocusChange,
 }: CalculatorFormProps) => {
   const gender = useCalculatorStore(state => state.gender);
   const measurementSystem = useCalculatorStore(state => state.measurementSystem);
   const inputRefs = useRef<(TextInput | null)[]>([]);
-
-  // Clear input refs when formula changes
-  useEffect(() => {
-    inputRefs.current = [];
-  }, [formulaFields]);
 
   const visibleFields = useMemo(
     () => formulaFields.filter(field => !field.genderSpecific || field.genderSpecific === gender),
@@ -103,26 +104,6 @@ const CalculatorForm = ({
     [visibleFields, measurementSystem]
   );
 
-  const handleInputSubmit = useCallback(
-    (currentIndex: number) => {
-      if (currentIndex < fieldsWithConvertedUnits.length - 1) {
-        const nextRef = inputRefs.current[currentIndex + 1];
-        if (nextRef) {
-          nextRef.focus();
-          // Scroll to the input
-          scrollViewRef.current?.scrollTo({
-            y: currentIndex * 80, // Approximate height of each input
-            animated: true,
-          });
-        }
-      } else {
-        Keyboard.dismiss();
-        handleCalculate();
-      }
-    },
-    [fieldsWithConvertedUnits.length, handleCalculate]
-  );
-
   return (
     <View style={styles.content}>
       {fieldsWithConvertedUnits.map((field, index) => (
@@ -133,8 +114,8 @@ const CalculatorForm = ({
           ref={ref => {
             inputRefs.current[index] = ref;
           }}
-          onSubmitEditing={() => handleInputSubmit(index)}
           isLastInput={index === fieldsWithConvertedUnits.length - 1}
+          onFocusChange={onFocusChange}
         />
       ))}
       <View style={styles.buttonRow}>
@@ -183,7 +164,33 @@ export const CalculatorScreen = () => {
   } = useCalculatorStore();
 
   const scrollViewRef = useRef<ScrollView>(null);
+  const [isFocused, setIsFocused] = useState(false);
+  const [currentInputIndex, setCurrentInputIndex] = useState<number | null>(null);
+  const inputRefs = useRef<(TextInput | null)[]>([]);
   const formulaFields = FORMULA_REQUIREMENTS[formula].fields;
+
+  const handleFocusChange = useCallback((focused: boolean, index: number) => {
+    setIsFocused(focused);
+    if (focused) {
+      setCurrentInputIndex(index);
+    }
+  }, []);
+
+  const keyboard = useKeyboardController();
+
+  const handlePrevious = useCallback(() => {
+    if (currentInputIndex !== null && currentInputIndex > 0) {
+      const prevRef = inputRefs.current[currentInputIndex - 1];
+      prevRef?.focus();
+    }
+  }, [currentInputIndex]);
+
+  const handleNext = useCallback(() => {
+    if (currentInputIndex !== null && currentInputIndex < inputRefs.current.length - 1) {
+      const nextRef = inputRefs.current[currentInputIndex + 1];
+      nextRef?.focus();
+    }
+  }, [currentInputIndex]);
 
   const getFieldError = (fieldKey: string): string | undefined => {
     return fieldErrors[fieldKey];
@@ -224,44 +231,82 @@ export const CalculatorScreen = () => {
   }, [isCalculating, results, isResultsStale]);
 
   return (
-    <KeyboardProvider statusBarTranslucent>
+    <View style={styles.container}>
       <SafeAreaView style={styles.safeAreaTop} edges={["top"]}>
         <Header />
       </SafeAreaView>
-      <SafeAreaView style={styles.safeAreaBottom} edges={["bottom"]}>
-        <KeyboardAvoidingView
-          style={styles.container}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+      <View style={{ flex: 1, backgroundColor: COLORS.background }}>
+        <KeyboardAwareScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          keyboardDismissMode="interactive"
+          bottomOffset={35}
         >
-          <ScrollView
-            ref={scrollViewRef}
-            style={styles.content}
-            contentContainerStyle={styles.scrollContent}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}
-          >
-            <View style={styles.selectors}>
-              <FormulaSelector />
-              <View style={styles.selectorRow}>
-                <GenderSelector />
-                <MeasurementSelector />
-              </View>
+          <View style={styles.selectors}>
+            <FormulaSelector />
+            <View style={styles.selectorRow}>
+              <GenderSelector />
+              <MeasurementSelector />
             </View>
-            <CalculatorForm
-              formulaFields={formulaFields}
-              getFieldError={getFieldError}
-              handleCalculate={handleCalculate}
-              handleReset={handleReset}
-              buttonTitle={buttonTitle}
-              isCalculating={isCalculating}
-              globalError={globalError}
-              scrollViewRef={scrollViewRef}
+          </View>
+          {formulaFields.map((field, index) => (
+            <MeasurementInput
+              key={field.key}
+              field={field}
+              error={getFieldError(field.key) ?? ""}
+              ref={ref => {
+                inputRefs.current[index] = ref;
+              }}
+              onFocusChange={focused => handleFocusChange(focused, index)}
+              isLastInput={index === formulaFields.length - 1}
             />
-            <ResultsDisplay scrollViewRef={scrollViewRef} />
-            <VersionDisplay />
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    </KeyboardProvider>
+          ))}
+          <View style={styles.buttonRow}>
+            <Button
+              title={buttonTitle}
+              onPress={handleCalculate}
+              loading={isCalculating}
+              disabled={isCalculating}
+              buttonStyle={styles.primaryButton}
+              containerStyle={styles.buttonWrapperFlex}
+              titleStyle={{ fontWeight: "bold" }}
+            />
+            <Button
+              title="Reset"
+              type="outline"
+              onPress={handleReset}
+              disabled={isCalculating}
+              titleStyle={styles.resetButtonText}
+              containerStyle={styles.buttonWrapperFlex}
+              buttonStyle={styles.resetButton}
+            />
+          </View>
+          <ResultsDisplay scrollViewRef={scrollViewRef} />
+          <VersionDisplay />
+        </KeyboardAwareScrollView>
+        {Platform.OS === "ios" && isFocused && (
+          <KeyboardToolbar
+            leading={[
+              {
+                title: "Previous",
+                disabled: currentInputIndex === 0,
+                onPress: handlePrevious,
+              },
+            ]}
+            trailing={[
+              {
+                title: currentInputIndex === inputRefs.current.length - 1 ? "Done" : "Next",
+                onPress:
+                  currentInputIndex === inputRefs.current.length - 1
+                    ? () => Keyboard.dismiss()
+                    : handleNext,
+              },
+            ]}
+          />
+        )}
+      </View>
+    </View>
   );
 };
