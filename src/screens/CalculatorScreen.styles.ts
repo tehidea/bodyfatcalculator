@@ -67,6 +67,7 @@ export const styles = StyleSheet.create({
   },
   resetButton: {
     borderRadius: 12,
+    borderWidth: 0,
     overflow: "hidden",
     backgroundColor: "#444",
     paddingVertical: 12,
@@ -74,7 +75,7 @@ export const styles = StyleSheet.create({
   },
   resetButtonText: {
     color: COLORS.white,
-    fontWeight: "bold",
+    // fontWeight: "bold",
   },
   content: {
     flex: 1,

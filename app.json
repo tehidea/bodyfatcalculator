@@ -19,8 +19,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.tehidea.bodyfatcalculator",
-      "buildNumber": "1"
+      "bundleIdentifier": "com.tehidea.bodyfatcalculator"
     },
     "android": {
       "adaptiveIcon": {

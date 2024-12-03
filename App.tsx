@@ -14,6 +14,7 @@ import { FeatureComparisonScreen } from "./src/screens/FeatureComparisonScreen";
 import { theme } from "./src/constants/theme";
 import { initializeStore } from "./src/config/store";
 import { View } from "react-native";
+import { registerRootComponent } from "expo";
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync().catch(() => {
@@ -23,7 +24,7 @@ SplashScreen.preventAutoHideAsync().catch(() => {
 // Create the navigator
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+function App() {
   const [appIsReady, setAppIsReady] = useState(false);
   const [fontsLoaded, fontError] = useFonts({
     "Montserrat-ExtraLight": Montserrat_200ExtraLight,
@@ -81,3 +82,5 @@ export default function App() {
     </View>
   );
 }
+
+registerRootComponent(App);

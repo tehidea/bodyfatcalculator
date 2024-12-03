@@ -1,9 +1,10 @@
 import React, { useState, useMemo, useCallback, useRef, useEffect } from "react";
-import { View, KeyboardAvoidingView, Platform, Keyboard } from "react-native";
+import { View, Platform, Keyboard, TextInput, ScrollView } from "react-native";
 import { Text, Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { KeyboardProvider, KeyboardAvoidingView } from "react-native-keyboard-controller";
 import Constants from "expo-constants";
+import { COLORS } from "../constants/theme";
 import { FormulaSelector } from "../components/calculator/FormulaSelector";
 import { GenderSelector } from "../components/calculator/GenderSelector";
 import { MeasurementSelector } from "../components/calculator/MeasurementSelector";
@@ -65,7 +66,7 @@ interface CalculatorFormProps {
   buttonTitle: string;
   isCalculating: boolean;
   globalError?: string | null;
-  scrollViewRef: React.RefObject<KeyboardAwareScrollView>;
+  scrollViewRef: React.RefObject<ScrollView>;
 }
 
 // Extract form section into a separate component
@@ -81,7 +82,7 @@ const CalculatorForm = ({
 }: CalculatorFormProps) => {
   const gender = useCalculatorStore(state => state.gender);
   const measurementSystem = useCalculatorStore(state => state.measurementSystem);
-  const inputRefs = useRef<(InputRef | null)[]>([]);
+  const inputRefs = useRef<(TextInput | null)[]>([]);
 
   // Clear input refs when formula changes
   useEffect(() => {
@@ -108,24 +109,22 @@ const CalculatorForm = ({
         const nextRef = inputRefs.current[currentIndex + 1];
         if (nextRef) {
           nextRef.focus();
+          // Scroll to the input
+          scrollViewRef.current?.scrollTo({
+            y: currentIndex * 80, // Approximate height of each input
+            animated: true,
+          });
         }
       } else {
         Keyboard.dismiss();
+        handleCalculate();
       }
     },
-    [fieldsWithConvertedUnits.length]
+    [fieldsWithConvertedUnits.length, handleCalculate]
   );
 
   return (
     <View style={styles.content}>
-      <View style={styles.selectors}>
-        <FormulaSelector />
-        <View style={styles.selectorRow}>
-          <GenderSelector />
-          <MeasurementSelector />
-        </View>
-      </View>
-
       {fieldsWithConvertedUnits.map((field, index) => (
         <MeasurementInput
           key={field.key}
@@ -134,39 +133,31 @@ const CalculatorForm = ({
           ref={ref => {
             inputRefs.current[index] = ref;
           }}
+          onSubmitEditing={() => handleInputSubmit(index)}
+          isLastInput={index === fieldsWithConvertedUnits.length - 1}
         />
       ))}
-
+      {globalError && <Text style={styles.errorText}>{globalError}</Text>}
       <View style={styles.buttonRow}>
         <Button
           title={buttonTitle}
           onPress={handleCalculate}
-          disabled={isCalculating}
           loading={isCalculating}
+          disabled={isCalculating}
           buttonStyle={styles.primaryButton}
-          disabledStyle={styles.disabledButton}
           containerStyle={styles.buttonWrapperFlex}
-          titleStyle={styles.buttonTitle}
-          testID="calculate-button"
+          titleStyle={{ fontWeight: "bold" }}
         />
         <Button
           title="Reset"
+          type="outline"
           onPress={handleReset}
           disabled={isCalculating}
-          buttonStyle={styles.resetButton}
           titleStyle={styles.resetButtonText}
           containerStyle={styles.buttonWrapperFlex}
-          testID="reset-button"
+          buttonStyle={styles.resetButton}
         />
       </View>
-
-      {globalError && (
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{globalError}</Text>
-        </View>
-      )}
-
-      <ResultsDisplay scrollViewRef={scrollViewRef} />
     </View>
   );
 };
@@ -187,15 +178,13 @@ export const CalculatorScreen = () => {
     fieldErrors,
   } = useCalculatorStore();
 
-  const scrollViewRef = useRef<KeyboardAwareScrollView>(null);
+  const scrollViewRef = useRef<ScrollView>(null);
   const formulaFields = FORMULA_REQUIREMENTS[formula].fields;
 
-  // Helper function to get field-specific error
   const getFieldError = (fieldKey: string): string | undefined => {
     return fieldErrors[fieldKey];
   };
 
-  // Memoize callbacks
   const handleCalculate = useCallback(async () => {
     Keyboard.dismiss();
     setError(null);
@@ -231,29 +220,29 @@ export const CalculatorScreen = () => {
   }, [isCalculating, results, isResultsStale]);
 
   return (
-    <>
+    <KeyboardProvider statusBarTranslucent>
       <SafeAreaView style={styles.safeAreaTop} edges={["top"]}>
         <Header />
       </SafeAreaView>
       <SafeAreaView style={styles.safeAreaBottom} edges={["bottom"]}>
         <KeyboardAvoidingView
           style={styles.container}
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          keyboardVerticalOffset={Platform.OS === "ios" ? 20 : 0}
-          enabled={Platform.OS === "ios"}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <KeyboardAwareScrollView
+          <ScrollView
             ref={scrollViewRef}
-            style={styles.container}
+            style={styles.content}
             contentContainerStyle={styles.scrollContent}
             keyboardShouldPersistTaps="handled"
-            keyboardDismissMode="none"
-            enableOnAndroid={true}
-            enableAutomaticScroll={true}
-            // extraScrollHeight={10}
-            accessibilityLabel="Calculator form"
             showsVerticalScrollIndicator={false}
           >
+            <View style={styles.selectors}>
+              <FormulaSelector />
+              <View style={styles.selectorRow}>
+                <GenderSelector />
+                <MeasurementSelector />
+              </View>
+            </View>
             <CalculatorForm
               formulaFields={formulaFields}
               getFieldError={getFieldError}
@@ -264,10 +253,11 @@ export const CalculatorScreen = () => {
               globalError={globalError}
               scrollViewRef={scrollViewRef}
             />
+            <ResultsDisplay scrollViewRef={scrollViewRef} />
             <VersionDisplay />
-          </KeyboardAwareScrollView>
+          </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>
-    </>
+    </KeyboardProvider>
   );
 };

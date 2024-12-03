@@ -12,13 +12,20 @@
         "simulator": true
       }
     },
+    "development-simulator": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      }
+    },
     "preview": {
       "node": "22.11.0",
       "distribution": "internal"
     },
     "production": {
-      "node": "22.11.0",
-      "autoIncrement": true
+      "node": "22.11.0"
+      // "autoIncrement": true
     }
   },
   "submit": {

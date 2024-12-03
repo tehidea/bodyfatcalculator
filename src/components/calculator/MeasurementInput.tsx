@@ -1,5 +1,13 @@
 import React, { useState, useEffect, forwardRef } from "react";
-import { View, StyleSheet, TouchableOpacity, Modal, Alert, TextInput } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+  Alert,
+  TextInput,
+  ReturnKeyType,
+} from "react-native";
 import { Text, Button, Icon } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { usePremiumStore } from "../../store/premiumStore";
@@ -16,10 +24,13 @@ interface MeasurementInputProps {
     unit: string;
   };
   error: string;
+  onSubmitEditing?: () => void;
+  returnKeyType?: ReturnKeyType;
+  isLastInput?: boolean;
 }
 
 export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
-  ({ field, error }, ref) => {
+  ({ field, error, onSubmitEditing, returnKeyType = "next", isLastInput }, ref) => {
     const { inputs, setInput, measurementSystem } = useCalculatorStore();
     const { pro, purchasePro } = usePremiumStore();
     const [rawValue, setRawValue] = useState("");
@@ -133,7 +144,11 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
               value={rawValue}
               onChangeText={handleChangeText}
               onBlur={handleBlur}
-              keyboardType="decimal-pad"
+              keyboardType="number-pad"
+              returnKeyType={isLastInput ? "done" : "next"}
+              onSubmitEditing={onSubmitEditing}
+              blurOnSubmit={isLastInput}
+              enablesReturnKeyAutomatically
               placeholderTextColor="#999"
               accessibilityLabel={field.label}
               accessibilityHint={`Enter ${field.label.toLowerCase()}`}
