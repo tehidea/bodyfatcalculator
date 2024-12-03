@@ -27,35 +27,67 @@ export const usePremiumStore = create<PremiumStore>(set => ({
   isLoading: false,
   error: null,
   checkEntitlements: async () => {
+    console.log("checkEntitlements - Starting check");
     set({ isLoading: true, error: null });
     try {
       const entitlements = await getUserEntitlements();
+      console.log("checkEntitlements - Retrieved entitlements:", entitlements);
       set({ ...entitlements, isLoading: false });
     } catch (error) {
+      console.error("checkEntitlements - Error:", error);
       set({ error: "Failed to check entitlements", isLoading: false });
     }
   },
   setEntitlements: (entitlements: UserEntitlements) => {
+    console.log("setEntitlements - Setting new entitlements:", entitlements);
     set({ ...entitlements, premium: false });
   },
   purchasePro: async () => {
-    set({ isLoading: true, error: null, pro: false });
+    console.log("purchasePro - Starting with current state:", { isLoading: false, error: null });
+    set({ isLoading: true, error: null });
+
     try {
       const offerings = await getOfferings();
+      console.log("purchasePro - Got offerings:", offerings);
       const proPackage = offerings[0];
 
       if (!proPackage) {
+        console.log("purchasePro - No PRO package available");
+        set({ isLoading: false, error: null });
         throw new Error("PRO package not available");
       }
 
+      console.log("purchasePro - Attempting to purchase package");
       const entitlements = await purchasePackage(proPackage);
-      set({ ...entitlements, isLoading: false });
-      return true;
+      console.log("purchasePro - Purchase successful, entitlements:", entitlements);
+
+      // Double check entitlements after purchase
+      const verifiedEntitlements = await getUserEntitlements();
+      console.log("purchasePro - Verified entitlements:", verifiedEntitlements);
+
+      set(state => {
+        console.log("purchasePro - Setting new state:", {
+          ...state,
+          ...verifiedEntitlements,
+          isLoading: false,
+          error: null,
+        });
+        return {
+          ...state,
+          ...verifiedEntitlements,
+          isLoading: false,
+          error: null,
+        };
+      });
+
+      return verifiedEntitlements.pro;
     } catch (error) {
+      console.error("purchasePro - Error:", error);
       if (error instanceof Error) {
         // Handle user cancellation
         if (error.message === "User cancelled") {
-          set({ isLoading: false, pro: false, error: null });
+          console.log("purchasePro - User cancelled");
+          set({ isLoading: false, error: null });
           return false;
         }
 
@@ -64,7 +96,8 @@ export const usePremiumStore = create<PremiumStore>(set => ({
           error.message.includes("Authentication Failed") ||
           error.message.includes("No active account")
         ) {
-          set({ isLoading: false, pro: false, error: null });
+          console.log("purchasePro - Authentication failed");
+          set({ isLoading: false, error: null });
           Alert.alert(
             "Sign In Required",
             "Please sign in with your Sandbox Tester account in Settings > App Store.",
@@ -75,7 +108,8 @@ export const usePremiumStore = create<PremiumStore>(set => ({
       }
 
       // Handle other errors
-      set({ error: "Purchase failed", isLoading: false, pro: false });
+      console.log("purchasePro - Other error occurred");
+      set({ error: "Purchase failed", isLoading: false });
       Alert.alert(
         "Purchase Failed",
         "There was an error processing your purchase. Please try again.",

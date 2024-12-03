@@ -34,6 +34,7 @@ export interface UserEntitlements {
 }
 
 export async function initializeStore() {
+  console.log("initializeStore - Starting initialization");
   if (isDevelopment) {
     Purchases.setLogLevel(Purchases.LOG_LEVEL.DEBUG);
   }
@@ -41,17 +42,25 @@ export async function initializeStore() {
   await Purchases.configure({
     apiKey: API_KEY,
   });
+
+  // Check entitlements immediately after initialization
+  const entitlements = await getUserEntitlements();
+  console.log("initializeStore - Initial entitlements:", entitlements);
+  return entitlements;
 }
 
 export async function getUserEntitlements(): Promise<UserEntitlements> {
+  console.log("getUserEntitlements - Checking entitlements");
   try {
     const customerInfo = await Purchases.getCustomerInfo();
-    return {
+    const entitlements = {
       pro: customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined,
       premium: false,
     };
+    console.log("getUserEntitlements - Retrieved entitlements:", entitlements);
+    return entitlements;
   } catch (error) {
-    console.error("Failed to get user entitlements:", error);
+    console.error("getUserEntitlements - Error:", error);
     return { pro: false, premium: false };
   }
 }

@@ -53,6 +53,20 @@ export const FormulaSelector = () => {
   const [isPremiumModalVisible, setIsPremiumModalVisible] = useState(false);
   const [pendingFormula, setPendingFormula] = useState<Formula | null>(null);
 
+  useEffect(() => {
+    const isCurrentFormulaPremium = FORMULA_REQUIREMENTS[formula].premium;
+    console.log("FormulaSelector - PRO status:", pro);
+    console.log("FormulaSelector - Current formula:", formula);
+    console.log("FormulaSelector - Selected formula premium:", isCurrentFormulaPremium);
+
+    if (!pro && isCurrentFormulaPremium) {
+      console.log(
+        "FormulaSelector - Non-PRO user detected with premium formula, resetting to YMCA"
+      );
+      setFormula("ymca");
+    }
+  }, [pro, formula, setFormula]);
+
   const formulas = Object.entries(FORMULA_REQUIREMENTS).map(([key, value]) => ({
     key: key as Formula,
     name: value.name,
@@ -103,6 +117,10 @@ export const FormulaSelector = () => {
   const selectedFormula = FORMULA_REQUIREMENTS[formula];
 
   const handleFormulaSelect = (selectedKey: Formula, isPremiumFormula: boolean | undefined) => {
+    console.log("handleFormulaSelect - Selected formula:", selectedKey);
+    console.log("handleFormulaSelect - Is premium formula:", isPremiumFormula);
+    console.log("handleFormulaSelect - Current PRO status:", pro);
+
     if (!isPremiumFormula || pro) {
       setFormula(selectedKey);
       setIsModalVisible(false);
@@ -113,17 +131,33 @@ export const FormulaSelector = () => {
   };
 
   const handlePurchase = async () => {
-    const success = await purchasePro();
-    if (success) {
-      setIsPremiumModalVisible(false);
-      setIsModalVisible(false);
-      if (pendingFormula) {
-        setFormula(pendingFormula);
-        setPendingFormula(null);
+    try {
+      console.log("handlePurchase - Starting purchase flow");
+      const success = await purchasePro();
+      console.log("handlePurchase - Purchase success:", success);
+
+      if (success) {
+        if (pendingFormula) {
+          console.log("handlePurchase - Setting pending formula:", pendingFormula);
+          setFormula(pendingFormula);
+          setPendingFormula(null);
+        }
+        Alert.alert(
+          "Success!",
+          "Thank you for upgrading! You now have access to all PRO formulas.",
+          [
+            {
+              text: "OK",
+              onPress: () => {
+                setIsPremiumModalVisible(false);
+                setIsModalVisible(false);
+              },
+            },
+          ]
+        );
       }
-      Alert.alert("Success!", "Thank you for upgrading! You now have access to all PRO formulas.", [
-        { text: "OK" },
-      ]);
+    } catch (error) {
+      console.error("handlePurchase - Error:", error);
     }
   };
 
