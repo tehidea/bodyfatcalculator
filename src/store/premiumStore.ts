@@ -55,7 +55,7 @@ export const usePremiumStore = create<PremiumStore>(set => ({
       if (error instanceof Error) {
         // Handle user cancellation
         if (error.message === "User cancelled") {
-          set({ isLoading: false, pro: false });
+          set({ isLoading: false, pro: false, error: null });
           return false;
         }
 
@@ -64,7 +64,7 @@ export const usePremiumStore = create<PremiumStore>(set => ({
           error.message.includes("Authentication Failed") ||
           error.message.includes("No active account")
         ) {
-          set({ isLoading: false, pro: false });
+          set({ isLoading: false, pro: false, error: null });
           Alert.alert(
             "Sign In Required",
             "Please sign in with your Sandbox Tester account in Settings > App Store.",

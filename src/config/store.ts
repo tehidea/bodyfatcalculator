@@ -78,10 +78,14 @@ export async function purchasePackage(package_: PurchasesPackage): Promise<UserE
       premium: false,
     };
   } catch (error) {
-    if (error instanceof Error && error.message === "User cancelled") {
-      return getUserEntitlements();
+    if (error instanceof Error) {
+      if (error.message === "User cancelled") {
+        const currentEntitlements = await getUserEntitlements();
+        return currentEntitlements;
+      }
+      console.error("Failed to purchase package:", error);
+      throw error;
     }
-    console.error("Failed to purchase package:", error);
     throw error;
   }
 }

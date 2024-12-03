@@ -51,6 +51,7 @@ export const FormulaSelector = () => {
   const { pro, isLoading, purchasePro } = usePremiumStore();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isPremiumModalVisible, setIsPremiumModalVisible] = useState(false);
+  const [pendingFormula, setPendingFormula] = useState<Formula | null>(null);
 
   const formulas = Object.entries(FORMULA_REQUIREMENTS).map(([key, value]) => ({
     key: key as Formula,
@@ -106,6 +107,7 @@ export const FormulaSelector = () => {
       setFormula(selectedKey);
       setIsModalVisible(false);
     } else {
+      setPendingFormula(selectedKey);
       setIsPremiumModalVisible(true);
     }
   };
@@ -115,6 +117,10 @@ export const FormulaSelector = () => {
     if (success) {
       setIsPremiumModalVisible(false);
       setIsModalVisible(false);
+      if (pendingFormula) {
+        setFormula(pendingFormula);
+        setPendingFormula(null);
+      }
       Alert.alert("Success!", "Thank you for upgrading! You now have access to all PRO formulas.", [
         { text: "OK" },
       ]);
