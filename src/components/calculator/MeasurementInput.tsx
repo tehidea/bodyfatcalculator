@@ -33,7 +33,7 @@ interface MeasurementInputProps {
 }
 
 export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
-  ({ field, error, onSubmitEditing, returnKeyType = "next", isLastInput, onFocusChange }, ref) => {
+  ({ field, error, onSubmitEditing, isLastInput, onFocusChange }, ref) => {
     const { inputs, setInput, measurementSystem } = useCalculatorStore();
     const { pro, purchasePro } = usePremiumStore();
     const [rawValue, setRawValue] = useState("");
@@ -51,14 +51,11 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
     }, [ref]);
 
     const handleSubmitEditing = () => {
-      console.log(`[${field.label}] Submit editing:`, {
-        isLastInput,
-        hasOnSubmitEditing: !!onSubmitEditing,
-      });
-
       if (isLastInput) {
-        console.log(`[${field.label}] Last input, dismissing keyboard`);
-        Keyboard.dismiss();
+        // Add a small delay to ensure smooth keyboard dismissal
+        setTimeout(() => {
+          Keyboard.dismiss();
+        }, 100);
       }
       onSubmitEditing?.();
     };
@@ -178,7 +175,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
               onFocus={handleFocus}
               onBlur={handleBlur}
               keyboardType="decimal-pad"
-              enablesReturnKeyAutomatically={true}
+              enablesReturnKeyAutomatically={false}
               placeholderTextColor="#999"
               accessibilityLabel={field.label}
               accessibilityHint={`Enter ${field.label.toLowerCase()}`}

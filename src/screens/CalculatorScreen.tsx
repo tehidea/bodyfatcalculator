@@ -4,6 +4,7 @@ import { Text, Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   KeyboardAwareScrollView,
+  KeyboardProvider,
   KeyboardToolbar,
   useKeyboardController,
 } from "react-native-keyboard-controller";
@@ -231,82 +232,65 @@ export const CalculatorScreen = () => {
   }, [isCalculating, results, isResultsStale]);
 
   return (
-    <View style={styles.container}>
-      <SafeAreaView style={styles.safeAreaTop} edges={["top"]}>
-        <Header />
-      </SafeAreaView>
-      <View style={{ flex: 1, backgroundColor: COLORS.background }}>
-        <KeyboardAwareScrollView
-          style={{ flex: 1 }}
-          contentContainerStyle={styles.scrollContent}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-          keyboardDismissMode="interactive"
-          bottomOffset={35}
-        >
-          <View style={styles.selectors}>
-            <FormulaSelector />
-            <View style={styles.selectorRow}>
-              <GenderSelector />
-              <MeasurementSelector />
+    <KeyboardProvider statusBarTranslucent>
+      <View style={styles.container}>
+        <SafeAreaView style={styles.safeAreaTop} edges={["top"]}>
+          <Header />
+        </SafeAreaView>
+        <View style={{ flex: 1, backgroundColor: COLORS.background }}>
+          <KeyboardAwareScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={styles.scrollContent}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+            keyboardDismissMode="interactive"
+            bottomOffset={35}
+          >
+            <View style={styles.selectors}>
+              <FormulaSelector />
+              <View style={styles.selectorRow}>
+                <GenderSelector />
+                <MeasurementSelector />
+              </View>
             </View>
-          </View>
-          {formulaFields.map((field, index) => (
-            <MeasurementInput
-              key={field.key}
-              field={field}
-              error={getFieldError(field.key) ?? ""}
-              ref={ref => {
-                inputRefs.current[index] = ref;
-              }}
-              onFocusChange={focused => handleFocusChange(focused, index)}
-              isLastInput={index === formulaFields.length - 1}
-            />
-          ))}
-          <View style={styles.buttonRow}>
-            <Button
-              title={buttonTitle}
-              onPress={handleCalculate}
-              loading={isCalculating}
-              disabled={isCalculating}
-              buttonStyle={styles.primaryButton}
-              containerStyle={styles.buttonWrapperFlex}
-              titleStyle={{ fontWeight: "bold" }}
-            />
-            <Button
-              title="Reset"
-              type="outline"
-              onPress={handleReset}
-              disabled={isCalculating}
-              titleStyle={styles.resetButtonText}
-              containerStyle={styles.buttonWrapperFlex}
-              buttonStyle={styles.resetButton}
-            />
-          </View>
-          <ResultsDisplay scrollViewRef={scrollViewRef} />
-          <VersionDisplay />
-        </KeyboardAwareScrollView>
-        {Platform.OS === "ios" && isFocused && (
-          <KeyboardToolbar
-            leading={[
-              {
-                title: "Previous",
-                disabled: currentInputIndex === 0,
-                onPress: handlePrevious,
-              },
-            ]}
-            trailing={[
-              {
-                title: currentInputIndex === inputRefs.current.length - 1 ? "Done" : "Next",
-                onPress:
-                  currentInputIndex === inputRefs.current.length - 1
-                    ? () => Keyboard.dismiss()
-                    : handleNext,
-              },
-            ]}
-          />
-        )}
+            {formulaFields.map((field, index) => (
+              <MeasurementInput
+                key={field.key}
+                field={field}
+                error={getFieldError(field.key) ?? ""}
+                ref={ref => {
+                  inputRefs.current[index] = ref;
+                }}
+                onFocusChange={focused => handleFocusChange(focused, index)}
+                isLastInput={index === formulaFields.length - 1}
+              />
+            ))}
+            <View style={styles.buttonRow}>
+              <Button
+                title={buttonTitle}
+                onPress={handleCalculate}
+                loading={isCalculating}
+                disabled={isCalculating}
+                buttonStyle={styles.primaryButton}
+                containerStyle={styles.buttonWrapperFlex}
+                titleStyle={{ fontWeight: "bold" }}
+              />
+              <Button
+                title="Reset"
+                type="outline"
+                onPress={handleReset}
+                disabled={isCalculating}
+                titleStyle={styles.resetButtonText}
+                containerStyle={styles.buttonWrapperFlex}
+                buttonStyle={styles.resetButton}
+              />
+            </View>
+            <ResultsDisplay scrollViewRef={scrollViewRef} />
+            <VersionDisplay />
+          </KeyboardAwareScrollView>
+        </View>
       </View>
-    </View>
+      <KeyboardToolbar />
+    </KeyboardProvider>
   );
 };
