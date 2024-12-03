@@ -18,6 +18,7 @@ import { CalculatorInputs } from "../../types/calculator";
 import { getUnitLabel } from "../../constants/formulas";
 import { convertMeasurement } from "../../utils/conversions";
 import { MeasurementIcon } from "./FormulaSelector";
+import { usePurchase } from "../../hooks/usePurchase";
 
 interface MeasurementInputProps {
   field: {
@@ -40,6 +41,13 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
     const [isEditing, setIsEditing] = useState(false);
     const [showProModal, setShowProModal] = useState(false);
     const inputRef = useRef<TextInput>(null);
+    const { handlePurchase } = usePurchase({
+      successMessage:
+        "Thank you for upgrading! You now have access to decimal precision and all the PRO Formulas!",
+      onSuccess: () => setShowProModal(false),
+      onCancel: () => setShowProModal(false),
+      onError: () => setShowProModal(false),
+    });
 
     // Forward the ref
     useEffect(() => {
@@ -129,25 +137,9 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       }
     };
 
-    const handleUpgrade = async () => {
+    const handleUpgrade = () => {
       setShowProModal(false);
-      try {
-        const success = await purchasePro();
-        if (success) {
-          Alert.alert(
-            "Success!",
-            "Thank you for upgrading! You now have access to decimal precision.",
-            [{ text: "OK" }]
-          );
-        }
-      } catch (error) {
-        console.error("Purchase failed:", error);
-        if (error instanceof Error && error.message !== "Purchase was cancelled.") {
-          Alert.alert("Error", "Something went wrong. Please try again or contact support.", [
-            { text: "OK" },
-          ]);
-        }
-      }
+      handlePurchase();
     };
 
     const getIconType = (key: keyof CalculatorInputs) => {

@@ -23,7 +23,8 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
   const navigation = useNavigation();
 
   const { handlePurchase, isProcessing } = usePurchase({
-    successMessage: "Thank you for upgrading! You now have access to decimal precision.",
+    successMessage:
+      "Thank you for upgrading! You now have access to decimal precision and PRO formulas!",
     onSuccess: () => {
       setTimeout(() => {
         setShowProModal(false);
