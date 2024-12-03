@@ -136,7 +136,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
           <Text style={styles.label}>{field.label}</Text>
           <View style={[styles.inputContainer, error && styles.inputError]}>
             <View style={styles.iconContainer}>
-              <MeasurementIcon type={getIconType(field.key)} color={COLORS.textDark} />
+              <MeasurementIcon type={getIconType(field.key)} size={18} color={COLORS.textDark} />
             </View>
             <TextInput
               ref={ref}
@@ -214,8 +214,8 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   iconContainer: {
-    width: 12,
-    height: 12,
+    width: 18,
+    height: 18,
     justifyContent: "center",
     alignItems: "flex-start",
   },

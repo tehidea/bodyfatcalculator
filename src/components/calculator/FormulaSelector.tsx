@@ -14,18 +14,26 @@ import { MeasuringTapeIcon } from "../icons/MeasuringTapeIcon";
 import { getMarginOfError } from "../../utils/accuracy";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export const MeasurementIcon = ({ type, color }: { type: string; color: string }) => {
+export const MeasurementIcon = ({
+  type,
+  size,
+  color,
+}: {
+  type: string;
+  size: number;
+  color: string;
+}) => {
   switch (type) {
     case "weight":
-      return <BodyWeightScalesIcon size={12} color={color} />;
+      return <BodyWeightScalesIcon size={size} color={color} />;
     case "circumference":
-      return <MeasuringTapeIcon size={12} color={color} />;
+      return <MeasuringTapeIcon size={size} color={color} />;
     case "skinfold":
-      return <SkinfoldIcon size={12} color={color} />;
+      return <SkinfoldIcon size={size} color={color} />;
     case "height":
-      return <MeasurementVerticalIcon size={12} color={color} />;
+      return <MeasurementVerticalIcon size={size} color={color} />;
     case "age":
-      return <CalendarIcon size={12} color={color} />;
+      return <CalendarIcon size={size} color={color} />;
     default:
       return null;
   }
@@ -216,7 +224,7 @@ export const FormulaSelector = () => {
         </Text>
         <View style={styles.measurementIcons}>
           {getMeasurementTypes(selectedFormula.fields).map(type => (
-            <MeasurementIcon key={type} type={type} color="#fff" />
+            <MeasurementIcon key={type} size={12} type={type} color="#fff" />
           ))}
         </View>
       </TouchableOpacity>
@@ -297,7 +305,7 @@ export const FormulaSelector = () => {
                     <View style={styles.measurementIcons}>
                       {getMeasurementTypes(FORMULA_REQUIREMENTS[item.key as Formula].fields).map(
                         type => (
-                          <MeasurementIcon key={type} type={type} color="#666" />
+                          <MeasurementIcon key={type} size={12} type={type} color="#666" />
                         )
                       )}
                     </View>
