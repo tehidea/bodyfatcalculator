@@ -48,7 +48,7 @@ const getMeasurementTypes = (fields: (typeof FORMULA_REQUIREMENTS)[Formula]["fie
 
 export const FormulaSelector = () => {
   const { formula, setFormula } = useCalculatorStore();
-  const { pro, isLoading, purchasePro } = usePremiumStore();
+  const { pro, isLoading, purchasePro, checkEntitlements } = usePremiumStore();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isPremiumModalVisible, setIsPremiumModalVisible] = useState(false);
   const [pendingFormula, setPendingFormula] = useState<Formula | null>(null);
@@ -60,6 +60,13 @@ export const FormulaSelector = () => {
     premium: value.premium || false,
   }));
 
+  // Check entitlements on mount
+  useEffect(() => {
+    console.log("FormulaSelector - Checking entitlements on mount");
+    checkEntitlements();
+  }, []);
+
+  // Safeguard for premium formula without PRO status
   useEffect(() => {
     const currentFormula = formulas.find(f => f.key === formula);
     console.log("FormulaSelector - PRO status:", pro);
