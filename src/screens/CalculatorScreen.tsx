@@ -237,7 +237,7 @@ export const CalculatorScreen = () => {
         <SafeAreaView style={styles.safeAreaTop} edges={["top"]}>
           <Header />
         </SafeAreaView>
-        <View style={{ flex: 1, backgroundColor: COLORS.background }}>
+        <SafeAreaView edges={["bottom"]} style={{ flex: 1, backgroundColor: COLORS.background }}>
           <KeyboardAwareScrollView
             ref={scrollViewRef}
             style={{ flex: 1 }}
@@ -289,7 +289,7 @@ export const CalculatorScreen = () => {
             <ResultsDisplay scrollViewRef={scrollViewRef} />
             <VersionDisplay />
           </KeyboardAwareScrollView>
-        </View>
+        </SafeAreaView>
       </View>
       <KeyboardToolbar />
     </KeyboardProvider>
