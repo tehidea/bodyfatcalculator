@@ -196,6 +196,14 @@ export const FormulaSelector = () => {
     console.log("handleFormulaSelect - Is premium formula:", isPremiumFormula);
     console.log("handleFormulaSelect - Current PRO status:", pro);
 
+    // Check for Coming Soon formulas
+    if (["jack3", "jack4", "jack7", "parrillo", "durnin"].includes(selectedKey)) {
+      Alert.alert("Coming Soon", "This formula will be available in a future update. Stay tuned!", [
+        { text: "OK" },
+      ]);
+      return;
+    }
+
     if (!isPremiumFormula || pro) {
       setFormula(selectedKey);
       setIsModalVisible(false);
@@ -216,6 +224,9 @@ export const FormulaSelector = () => {
     }, 100);
   };
 
+  const isComingSoon = (formulaKey: Formula) =>
+    ["jack3", "jack4", "jack7", "parrillo", "durnin"].includes(formulaKey);
+
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.selector} onPress={() => setIsModalVisible(true)}>
@@ -229,10 +240,17 @@ export const FormulaSelector = () => {
           )}
           <Icon name="chevron-down" type="feather" color={COLORS.text} size={20} />
         </View>
-        <Text style={styles.description} numberOfLines={2}>
-          {selectedFormula.description}
-          {selectedFormula.premium !== true && ` (±${getMarginOfError(formula)})`}
-        </Text>
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.description} numberOfLines={2}>
+            {selectedFormula.description}
+            {selectedFormula.premium !== true && ` (±${getMarginOfError(formula)})`}
+          </Text>
+          {isComingSoon(formula) && (
+            <View style={[styles.premiumBadge, styles.comingSoonBadge]}>
+              <Text style={styles.premiumBadgeText}>COMING SOON</Text>
+            </View>
+          )}
+        </View>
         <View style={styles.measurementIcons}>
           {getMeasurementTypes(selectedFormula.fields).map(type => (
             <MeasurementIcon key={type} size={12} type={type} color="#fff" />
@@ -304,15 +322,22 @@ export const FormulaSelector = () => {
                         </View>
                       )}
                     </View>
-                    <Text
-                      style={[
-                        styles.formulaItemDescription,
-                        item.premium && !pro && styles.premiumFormulaText,
-                      ]}
-                      numberOfLines={2}
-                    >
-                      {item.description}
-                    </Text>
+                    <View style={styles.descriptionContainer}>
+                      <Text
+                        style={[
+                          styles.formulaItemDescription,
+                          item.premium && !pro && styles.premiumFormulaText,
+                        ]}
+                        numberOfLines={3}
+                      >
+                        {item.description}
+                      </Text>
+                      {isComingSoon(item.key as Formula) && (
+                        <View style={[styles.premiumBadge, styles.comingSoonBadge]}>
+                          <Text style={styles.premiumBadgeText}>COMING SOON</Text>
+                        </View>
+                      )}
+                    </View>
                     <View style={styles.measurementIcons}>
                       {getMeasurementTypes(FORMULA_REQUIREMENTS[item.key as Formula].fields).map(
                         type => (
@@ -385,11 +410,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  descriptionContainer: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginTop: 4,
+  },
   description: {
     color: COLORS.text,
     fontSize: 12,
-    marginTop: 4,
     opacity: 0.8,
+    flex: 1,
+    marginRight: 8,
   },
   modalContainer: {
     flex: 1,
@@ -452,6 +484,7 @@ const styles = StyleSheet.create({
     color: "#666",
   },
   formulaItemDescription: {
+    flex: 1,
     fontSize: 12,
     color: "#666",
   },
@@ -576,5 +609,9 @@ const styles = StyleSheet.create({
   },
   formulaList: {
     flex: 1,
+  },
+  comingSoonBadge: {
+    // marginLeft: 4,
+    flexShrink: 0,
   },
 });

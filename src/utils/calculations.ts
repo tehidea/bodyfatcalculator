@@ -208,6 +208,14 @@ export const calculateBodyFat = (
     //   );
     // }
 
+    // Coming Soon formulas
+    case "jack3":
+    case "durnin":
+    case "jack4":
+    case "jack7":
+    case "parrillo":
+      return 0;
+
     default:
       return 0;
   }
