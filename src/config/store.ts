@@ -22,8 +22,6 @@ export type Entitlement = keyof typeof ENTITLEMENTS;
 // Product IDs
 export const PRODUCTS = {
   pro: {
-    // Same ID for both development and production
-    // RevenueCat automatically handles sandbox vs production environment
     lifetime: "pro_lifetime",
   },
 } as const;
@@ -51,10 +49,23 @@ export async function getUserEntitlements(): Promise<UserEntitlements> {
   console.log("getUserEntitlements - Checking entitlements");
   try {
     const customerInfo = await Purchases.getCustomerInfo();
-    const entitlements = {
-      pro: customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined,
-    };
+    const hasProProduct = customerInfo.allPurchasedProductIdentifiers.includes(
+      PRODUCTS.pro.lifetime
+    );
+    const hasProEntitlement = customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined;
+
+    // Consider user as PRO if either the product is purchased or the entitlement is active
+    const isPro = hasProProduct || hasProEntitlement;
+
+    const entitlements = { pro: isPro };
     console.log("getUserEntitlements - Retrieved entitlements:", entitlements);
+    console.log("getUserEntitlements - Details:", {
+      hasProProduct,
+      hasProEntitlement,
+      allProducts: customerInfo.allPurchasedProductIdentifiers,
+      activeEntitlements: customerInfo.entitlements.active,
+      entitlementId: ENTITLEMENTS.pro, // Log the actual entitlement ID we're checking
+    });
     return entitlements;
   } catch (error) {
     console.error("getUserEntitlements - Error:", error);
@@ -80,38 +91,63 @@ export async function purchasePackage(package_: PurchasesPackage): Promise<UserE
   console.log("purchasePackage - Starting purchase");
   try {
     // Make the purchase
-    await Purchases.purchasePackage(package_);
+    const { customerInfo } = await Purchases.purchasePackage(package_);
     console.log("purchasePackage - Purchase transaction completed");
+    console.log("purchasePackage - Customer info:", customerInfo);
 
-    // Give RevenueCat a moment to process
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Check both product and entitlement
+    const hasProProduct = customerInfo.allPurchasedProductIdentifiers.includes(
+      PRODUCTS.pro.lifetime
+    );
+    const hasProEntitlement = customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined;
 
-    // Verify purchase with retries
+    console.log("purchasePackage - Initial check:", {
+      hasProProduct,
+      hasProEntitlement,
+      productId: PRODUCTS.pro.lifetime,
+      entitlementId: ENTITLEMENTS.pro,
+      allProducts: customerInfo.allPurchasedProductIdentifiers,
+      activeEntitlements: customerInfo.entitlements.active,
+    });
+
+    if (hasProProduct || hasProEntitlement) {
+      console.log("purchasePackage - Product/Entitlement activated immediately");
+      return { pro: true };
+    }
+
+    // If not activated immediately, try verification with retries
     for (let i = 0; i < 3; i++) {
       console.log(`purchasePackage - Verification attempt ${i + 1}`);
 
       // Force refresh customer info
       await Purchases.syncPurchases();
-      const customerInfo = await Purchases.getCustomerInfo();
+      const refreshedInfo = await Purchases.getCustomerInfo();
 
-      const hasProEntitlement = customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined;
-      console.log(`purchasePackage - Verification attempt ${i + 1} result:`, {
-        pro: hasProEntitlement,
+      const hasProProduct = refreshedInfo.allPurchasedProductIdentifiers.includes(
+        PRODUCTS.pro.lifetime
+      );
+      const hasProEntitlement = refreshedInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined;
+
+      console.log(`purchasePackage - Verification attempt ${i + 1} details:`, {
+        hasProProduct,
+        hasProEntitlement,
+        productId: PRODUCTS.pro.lifetime,
+        entitlementId: ENTITLEMENTS.pro,
+        allProducts: refreshedInfo.allPurchasedProductIdentifiers,
+        activeEntitlements: refreshedInfo.entitlements.active,
       });
 
-      if (hasProEntitlement) {
+      if (hasProProduct || hasProEntitlement) {
         return { pro: true };
       }
 
       if (i < 2) {
-        // Don't wait on last attempt
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Wait longer between retries
+        await new Promise(resolve => setTimeout(resolve, 2000));
       }
     }
 
-    console.warn(
-      "purchasePackage - Purchase completed but entitlement not activated after retries"
-    );
+    console.warn("purchasePackage - Purchase completed but activation not verified after retries");
     return { pro: false };
   } catch (error) {
     console.error("purchasePackage - Error:", error);
