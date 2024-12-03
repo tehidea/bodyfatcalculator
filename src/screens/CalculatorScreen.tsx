@@ -4,7 +4,6 @@ import { Text, Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   KeyboardAwareScrollView,
-  KeyboardProvider,
   KeyboardToolbar,
   useKeyboardController,
 } from "react-native-keyboard-controller";
@@ -164,11 +163,18 @@ export const CalculatorScreen = () => {
     fieldErrors,
   } = useCalculatorStore();
 
-  const scrollViewRef = useRef<KeyboardAwareScrollView>(null);
+  const scrollViewRef = useRef<typeof KeyboardAwareScrollView>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [currentInputIndex, setCurrentInputIndex] = useState<number | null>(null);
   const inputRefs = useRef<(TextInput | null)[]>([]);
-  const formulaFields = FORMULA_REQUIREMENTS[formula].fields;
+
+  const formulaFields = useMemo(
+    () =>
+      FORMULA_REQUIREMENTS[formula].fields.filter(
+        field => !field.genderSpecific || field.genderSpecific === gender
+      ),
+    [formula, gender]
+  );
 
   const handleFocusChange = useCallback((focused: boolean, index: number) => {
     setIsFocused(focused);
