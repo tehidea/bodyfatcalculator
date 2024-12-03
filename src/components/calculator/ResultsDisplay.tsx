@@ -69,12 +69,11 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
   const wholeNumber = Math.floor(results.bodyFatPercentage);
   const decimal = (results.bodyFatPercentage % 1).toFixed(1).substring(1);
 
-  const handleUpgrade = async () => {
-    const success = await handlePurchase();
-    if (success || !success) {
-      // Handle both success and failure/cancellation
+  const handleMaybeLater = () => {
+    // Add a small delay before closing the modal
+    setTimeout(() => {
       setShowProModal(false);
-    }
+    }, 100);
   };
 
   return (
@@ -164,14 +163,14 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
             <Button
               title={isProcessing ? "Processing..." : "Upgrade to PRO"}
               buttonStyle={styles.upgradeButton}
-              onPress={handleUpgrade}
+              onPress={handlePurchase}
               disabled={isProcessing}
             />
             <Button
               title="Maybe Later"
               type="clear"
               titleStyle={styles.cancelButtonText}
-              onPress={() => setShowProModal(false)}
+              onPress={handleMaybeLater}
             />
           </View>
         </View>

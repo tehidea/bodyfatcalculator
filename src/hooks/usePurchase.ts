@@ -14,14 +14,14 @@ export function usePurchase(options: UsePurchaseOptions = {}) {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handlePurchase = async () => {
-    if (isProcessing) return;
+    if (isProcessing) return false;
 
     try {
       setIsProcessing(true);
       console.log("Starting PRO purchase...");
       const success = await purchasePro();
-      console.log("Purchase result:", success);
 
+      // Handle success
       if (success) {
         if (options.onSuccess) {
           options.onSuccess();
@@ -30,32 +30,17 @@ export function usePurchase(options: UsePurchaseOptions = {}) {
           Alert.alert("Success!", options.successMessage, [{ text: "OK" }]);
         }
         return true;
-      } else {
-        Alert.alert(
-          "Purchase Error",
-          "Your purchase completed but PRO access wasn't activated. Please try restoring purchases or contact support.",
-          [{ text: "OK" }]
-        );
-        if (options.onError) {
-          options.onError();
-        }
-        return false;
       }
+
+      // purchasePro returns false for cancellation and other failures
+      // We don't need to show any alerts as they're handled in the store
+      if (options.onCancel) {
+        options.onCancel();
+      }
+      return false;
     } catch (error) {
-      console.error("Purchase error:", error);
-      // Handle user cancellation
-      if (error instanceof Error && error.message === "Purchase was cancelled.") {
-        if (options.onCancel) {
-          options.onCancel();
-        }
-        return false;
-      }
-      // Handle other errors
-      Alert.alert(
-        "Purchase Error",
-        "Something went wrong with your purchase. Please try again or contact support.",
-        [{ text: "OK" }]
-      );
+      // This should never happen as all errors are handled in the store
+      console.error("Unexpected purchase error:", error);
       if (options.onError) {
         options.onError();
       }

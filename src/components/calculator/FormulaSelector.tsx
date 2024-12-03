@@ -194,14 +194,15 @@ export const FormulaSelector = () => {
     }
   };
 
-  const handleUpgradePress = async () => {
-    const success = await handlePurchase();
-    if (success || !success) {
-      // Handle both success and failure/cancellation
-      setIsPremiumModalVisible(false);
+  const handleMaybeLater = () => {
+    // First close the premium modal
+    setIsPremiumModalVisible(false);
+    // Clear the pending formula
+    setPendingFormula(null);
+    // Wait a bit before closing the formula selector modal
+    setTimeout(() => {
       setIsModalVisible(false);
-      setPendingFormula(null);
-    }
+    }, 100);
   };
 
   return (
@@ -338,14 +339,14 @@ export const FormulaSelector = () => {
             <Button
               title={isProcessing ? "Processing..." : "Upgrade to PRO"}
               buttonStyle={styles.upgradeButton}
-              onPress={handleUpgradePress}
+              onPress={handlePurchase}
               disabled={isProcessing}
             />
             <Button
               title="Maybe Later"
               type="clear"
               titleStyle={styles.cancelButtonText}
-              onPress={() => setIsPremiumModalVisible(false)}
+              onPress={handleMaybeLater}
             />
           </View>
         </View>
