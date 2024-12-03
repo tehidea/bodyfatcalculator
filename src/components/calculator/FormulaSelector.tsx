@@ -142,27 +142,16 @@ export const FormulaSelector = () => {
         Alert.alert(
           "Success!",
           "Thank you for upgrading! You now have access to all PRO formulas.",
-          [
-            {
-              text: "OK",
-              onPress: () => {
-                setIsPremiumModalVisible(false);
-                setIsModalVisible(false);
-              },
-            },
-          ]
+          [{ text: "OK" }]
         );
       }
     } catch (error) {
       console.error("handlePurchase - Error:", error);
-      Alert.alert(
-        "Purchase Failed",
-        "There was an error processing your purchase. Please try again.",
-        [{ text: "OK" }]
-      );
     } finally {
+      // Always close modals
       setIsPremiumModalVisible(false);
       setIsModalVisible(false);
+      setPendingFormula(null);
     }
   };
 

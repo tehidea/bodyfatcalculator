@@ -87,7 +87,11 @@ export async function purchasePackage(package_: PurchasesPackage): Promise<UserE
     return entitlements;
   } catch (error) {
     console.error("purchasePackage - Error:", error);
-    if (error instanceof Error && error.message === "User cancelled") {
+    if (
+      error instanceof Error &&
+      (error.message === "User cancelled" || error.message === "Purchase was cancelled")
+    ) {
+      console.log("purchasePackage - Purchase cancelled by user");
       return { pro: false };
     }
     throw error;
