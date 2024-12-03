@@ -5,6 +5,8 @@ import { usePremiumStore } from "../store/premiumStore";
 interface UsePurchaseOptions {
   onSuccess?: () => void;
   successMessage?: string;
+  onCancel?: () => void;
+  onError?: () => void;
 }
 
 export function usePurchase(options: UsePurchaseOptions = {}) {
@@ -34,19 +36,29 @@ export function usePurchase(options: UsePurchaseOptions = {}) {
           "Your purchase completed but PRO access wasn't activated. Please try restoring purchases or contact support.",
           [{ text: "OK" }]
         );
+        if (options.onError) {
+          options.onError();
+        }
         return false;
       }
     } catch (error) {
       console.error("Purchase error:", error);
-      // Don't show error for user cancellation
+      // Handle user cancellation
       if (error instanceof Error && error.message === "Purchase was cancelled.") {
+        if (options.onCancel) {
+          options.onCancel();
+        }
         return false;
       }
+      // Handle other errors
       Alert.alert(
         "Purchase Error",
         "Something went wrong with your purchase. Please try again or contact support.",
         [{ text: "OK" }]
       );
+      if (options.onError) {
+        options.onError();
+      }
       return false;
     } finally {
       setIsProcessing(false);

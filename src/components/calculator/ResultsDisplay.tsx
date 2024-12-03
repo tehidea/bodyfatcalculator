@@ -31,6 +31,9 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
 
   const { handlePurchase, isProcessing } = usePurchase({
     successMessage: "Thank you for upgrading! You now have access to decimal precision.",
+    onSuccess: () => setShowProModal(false),
+    onCancel: () => setShowProModal(false),
+    onError: () => setShowProModal(false),
   });
 
   useEffect(() => {
@@ -144,7 +147,7 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
         visible={showProModal}
         animationType="fade"
         transparent={true}
-        onRequestClose={() => setShowProModal(false)}
+        onRequestClose={() => {}}
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>

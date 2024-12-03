@@ -68,8 +68,20 @@ export const FormulaSelector = () => {
         setFormula(pendingFormula);
         setPendingFormula(null);
       }
+      setIsPremiumModalVisible(false);
+      setIsModalVisible(false);
     },
     successMessage: "Thank you for upgrading! You now have access to all PRO formulas.",
+    onCancel: () => {
+      setIsPremiumModalVisible(false);
+      setIsModalVisible(false);
+      setPendingFormula(null);
+    },
+    onError: () => {
+      setIsPremiumModalVisible(false);
+      setIsModalVisible(false);
+      setPendingFormula(null);
+    },
   });
 
   const formulas = Object.entries(FORMULA_REQUIREMENTS).map(([key, value]) => ({
@@ -220,7 +232,7 @@ export const FormulaSelector = () => {
         visible={isModalVisible}
         animationType="slide"
         transparent={true}
-        onRequestClose={() => setIsModalVisible(false)}
+        onRequestClose={() => {}}
       >
         <View style={styles.modalContainer}>
           <SafeAreaView edges={["top"]} style={styles.modalContent}>
@@ -308,7 +320,7 @@ export const FormulaSelector = () => {
         visible={isPremiumModalVisible}
         animationType="fade"
         transparent={true}
-        onRequestClose={() => setIsPremiumModalVisible(false)}
+        onRequestClose={() => {}}
       >
         <View style={styles.premiumModalContainer}>
           <View style={styles.premiumModalContent}>
