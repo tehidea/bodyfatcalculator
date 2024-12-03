@@ -64,23 +64,34 @@ export const FormulaSelector = () => {
 
   const { handlePurchase, isProcessing } = usePurchase({
     onSuccess: () => {
-      if (pendingFormula) {
-        setFormula(pendingFormula);
-        setPendingFormula(null);
-      }
+      // First close the premium modal
       setIsPremiumModalVisible(false);
-      setIsModalVisible(false);
+      // Then update the formula if needed
+      if (pendingFormula) {
+        setTimeout(() => {
+          setFormula(pendingFormula);
+          setPendingFormula(null);
+          // Finally close the formula selector modal
+          setTimeout(() => {
+            setIsModalVisible(false);
+          }, 100);
+        }, 100);
+      }
     },
     successMessage: "Thank you for upgrading! You now have access to all PRO formulas.",
     onCancel: () => {
       setIsPremiumModalVisible(false);
-      setIsModalVisible(false);
       setPendingFormula(null);
+      setTimeout(() => {
+        setIsModalVisible(false);
+      }, 100);
     },
     onError: () => {
       setIsPremiumModalVisible(false);
-      setIsModalVisible(false);
       setPendingFormula(null);
+      setTimeout(() => {
+        setIsModalVisible(false);
+      }, 100);
     },
   });
 

@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  ScrollView,
-  TouchableOpacity,
-  Modal,
-  Alert,
-} from "react-native";
+import { View, StyleSheet, Dimensions, TouchableOpacity, Modal } from "react-native";
 import { Text, Card, LinearProgress, Button, Icon } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { usePremiumStore } from "../../store/premiumStore";
@@ -16,11 +8,12 @@ import { COLORS } from "../../constants/theme";
 import { useNavigation } from "@react-navigation/native";
 import { getMarginOfError } from "../../utils/accuracy";
 import { usePurchase } from "../../hooks/usePurchase";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const { width } = Dimensions.get("window");
 
 interface ResultsDisplayProps {
-  scrollViewRef: React.RefObject<ScrollView>;
+  scrollViewRef: React.RefObject<KeyboardAwareScrollView>;
 }
 
 export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
@@ -31,9 +24,21 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
 
   const { handlePurchase, isProcessing } = usePurchase({
     successMessage: "Thank you for upgrading! You now have access to decimal precision.",
-    onSuccess: () => setShowProModal(false),
-    onCancel: () => setShowProModal(false),
-    onError: () => setShowProModal(false),
+    onSuccess: () => {
+      setTimeout(() => {
+        setShowProModal(false);
+      }, 100);
+    },
+    onCancel: () => {
+      setTimeout(() => {
+        setShowProModal(false);
+      }, 100);
+    },
+    onError: () => {
+      setTimeout(() => {
+        setShowProModal(false);
+      }, 100);
+    },
   });
 
   useEffect(() => {

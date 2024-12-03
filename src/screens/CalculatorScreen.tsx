@@ -163,7 +163,7 @@ export const CalculatorScreen = () => {
     fieldErrors,
   } = useCalculatorStore();
 
-  const scrollViewRef = useRef<typeof KeyboardAwareScrollView>(null);
+  const scrollViewRef = useRef<KeyboardAwareScrollView>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [currentInputIndex, setCurrentInputIndex] = useState<number | null>(null);
   const inputRefs = useRef<(TextInput | null)[]>([]);
