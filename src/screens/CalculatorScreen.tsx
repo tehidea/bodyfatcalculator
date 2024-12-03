@@ -244,7 +244,7 @@ export const CalculatorScreen = () => {
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
             keyboardDismissMode="interactive"
-            bottomOffset={35}
+            bottomOffset={60}
           >
             <View style={styles.selectors}>
               <FormulaSelector />
