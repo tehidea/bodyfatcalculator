@@ -80,20 +80,15 @@ export async function purchasePackage(package_: PurchasesPackage): Promise<UserE
   console.log("purchasePackage - Starting purchase");
   try {
     const { customerInfo } = await Purchases.purchasePackage(package_);
-    const entitlements = {
-      pro: customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined,
-    };
-    console.log("purchasePackage - Purchase successful, entitlements:", entitlements);
+    const hasProEntitlement = customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined;
+    const entitlements = { pro: hasProEntitlement };
+
+    console.log("purchasePackage - Purchase result:", entitlements);
     return entitlements;
   } catch (error) {
     console.error("purchasePackage - Error:", error);
-    if (error instanceof Error) {
-      if (error.message === "User cancelled") {
-        console.log("purchasePackage - User cancelled");
-        const currentEntitlements = await getUserEntitlements();
-        return currentEntitlements;
-      }
-      throw error;
+    if (error instanceof Error && error.message === "User cancelled") {
+      return { pro: false };
     }
     throw error;
   }
