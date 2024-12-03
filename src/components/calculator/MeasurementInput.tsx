@@ -1,113 +1,13 @@
-import React, { forwardRef, useState, useEffect, useRef, useImperativeHandle } from "react";
-import {
-  Modal,
-  View,
-  StyleSheet,
-  TextInput,
-  TextInputProps,
-  ReturnKeyTypeOptions,
-  InputAccessoryView,
-  Keyboard,
-  Button as RNButton,
-  Platform,
-} from "react-native";
+import React, { useState, useEffect, forwardRef } from "react";
+import { View, StyleSheet, TouchableOpacity, Modal, Alert, TextInput } from "react-native";
 import { Text, Button, Icon } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { usePremiumStore } from "../../store/premiumStore";
+import { COLORS } from "../../constants/theme";
 import { CalculatorInputs } from "../../types/calculator";
 import { getUnitLabel } from "../../constants/formulas";
 import { convertMeasurement } from "../../utils/conversions";
-import { isCircumferenceMeasurement, isSkinfoldMeasurement } from "../../utils/typeGuards";
-import { COLORS } from "../../constants/theme";
-import { useNavigation } from "@react-navigation/native";
-import { MeasurementIcon } from "./FormulaSelector";
 
-// Private Input component interfaces
-interface InputProps extends TextInputProps {
-  label: string;
-  unit: string;
-  error?: string;
-  onSubmitEditing?: () => void;
-  returnKeyType?: ReturnKeyTypeOptions;
-  measurementType?: string;
-}
-
-export interface InputRef {
-  focus: () => void;
-}
-
-// Private Input component
-const Input = forwardRef<InputRef, InputProps>(
-  (
-    {
-      label,
-      unit,
-      error,
-      style,
-      onSubmitEditing,
-      returnKeyType = "next",
-      measurementType,
-      ...props
-    },
-    ref
-  ) => {
-    const inputRef = useRef<TextInput>(null);
-    const inputAccessoryViewID = `${label.replace(/\s/g, "")}_input`;
-
-    useImperativeHandle(ref, () => ({
-      focus: () => {
-        if (inputRef.current) {
-          inputRef.current.focus();
-        }
-      },
-    }));
-
-    const handleToolbarPress = () => {
-      if (returnKeyType === "done") {
-        Keyboard.dismiss();
-      }
-      if (onSubmitEditing) {
-        onSubmitEditing();
-      }
-    };
-
-    return (
-      <>
-        {Platform.OS === "ios" && (
-          <InputAccessoryView nativeID={inputAccessoryViewID}>
-            <View style={styles.toolbar}>
-              <RNButton
-                onPress={handleToolbarPress}
-                title={returnKeyType === "next" ? "Next" : "Done"}
-              />
-            </View>
-          </InputAccessoryView>
-        )}
-        <View style={[styles.container, style]}>
-          <Text style={styles.label}>{label}</Text>
-          <View style={[styles.inputContainer, error && styles.inputError]}>
-            {measurementType && <MeasurementIcon type={measurementType} color={COLORS.textDark} />}
-            <TextInput
-              {...props}
-              ref={inputRef}
-              style={styles.input}
-              placeholderTextColor="#999"
-              accessibilityLabel={label}
-              accessibilityHint={`Enter ${label.toLowerCase()}`}
-              accessibilityRole="spinbutton"
-              inputAccessoryViewID={inputAccessoryViewID}
-              keyboardType="decimal-pad"
-            />
-            <Text style={styles.unit}>{unit}</Text>
-          </View>
-          {error && <Text style={styles.error}>{error}</Text>}
-        </View>
-      </>
-    );
-  }
-);
-
-// MeasurementInput interfaces and component
 interface MeasurementInputProps {
   field: {
     key: keyof CalculatorInputs;
@@ -115,35 +15,22 @@ interface MeasurementInputProps {
     unit: string;
   };
   error: string;
-  returnKeyType: ReturnKeyTypeOptions;
-  onSubmitEditing: () => void;
 }
 
-export const MeasurementInput = forwardRef<InputRef, MeasurementInputProps>(
-  ({ field, error, returnKeyType, onSubmitEditing, ...props }, ref) => {
+export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
+  ({ field, error }, ref) => {
     const { inputs, setInput, measurementSystem } = useCalculatorStore();
-    const { pro } = usePremiumStore();
+    const { pro, purchasePro } = usePremiumStore();
     const [rawValue, setRawValue] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const [showProModal, setShowProModal] = useState(false);
-    const navigation = useNavigation();
-
-    // Get measurement type
-    const getMeasurementType = () => {
-      if (isCircumferenceMeasurement(field.key)) return "circumference";
-      if (isSkinfoldMeasurement(field.key)) return "skinfold";
-      if (field.key === "weight") return "weight";
-      if (field.key === "height") return "height";
-      if (field.key === "age") return "age";
-      return undefined;
-    };
 
     // Sync with store and handle reset or measurement system change
     useEffect(() => {
       const storeValue = inputs[field.key];
       if (storeValue === undefined || storeValue === null) {
         setRawValue("");
-        setIsEditing(false); // Force editing to false on reset
+        setIsEditing(false);
       } else if (!isEditing) {
         setRawValue(storeValue.toString());
       }
@@ -190,43 +77,59 @@ export const MeasurementInput = forwardRef<InputRef, MeasurementInputProps>(
       // Convert the value if needed
       const numValue = parseFloat(rawValue);
       if (!isNaN(numValue)) {
-        const measurementType = getMeasurementType();
-        if (measurementType && measurementType !== "age") {
-          const convertedValue = convertMeasurement(
-            numValue,
-            field.unit,
-            getUnitLabel(field.unit, measurementSystem),
-            measurementType
+        const convertedValue = convertMeasurement(
+          numValue,
+          field.unit,
+          getUnitLabel(field.unit, measurementSystem),
+          field.key
+        );
+        setRawValue(convertedValue.toString());
+        setInput(field.key, convertedValue);
+      }
+    };
+
+    const handleUpgrade = async () => {
+      setShowProModal(false);
+      try {
+        const success = await purchasePro();
+        if (success) {
+          Alert.alert(
+            "Success!",
+            "Thank you for upgrading! You now have access to decimal precision.",
+            [{ text: "OK" }]
           );
-          setRawValue(convertedValue.toString());
-          setInput(field.key, convertedValue);
-        } else {
-          setInput(field.key, numValue);
+        }
+      } catch (error) {
+        console.error("Purchase failed:", error);
+        if (error instanceof Error && error.message !== "Purchase was cancelled.") {
+          Alert.alert("Error", "Something went wrong. Please try again or contact support.", [
+            { text: "OK" },
+          ]);
         }
       }
     };
 
-    const handleUpgrade = () => {
-      setShowProModal(false);
-      // @ts-ignore - we know this screen exists
-      navigation.navigate("FeatureComparison");
-    };
-
     return (
       <>
-        <Input
-          ref={ref}
-          label={field.label}
-          unit={getUnitLabel(field.unit, measurementSystem)}
-          value={rawValue}
-          onChangeText={handleChangeText}
-          onBlur={handleBlur}
-          error={error}
-          returnKeyType={returnKeyType}
-          onSubmitEditing={onSubmitEditing}
-          measurementType={getMeasurementType()}
-          {...props}
-        />
+        <View style={styles.container}>
+          <Text style={styles.label}>{field.label}</Text>
+          <View style={[styles.inputContainer, error && styles.inputError]}>
+            <TextInput
+              ref={ref}
+              style={styles.input}
+              value={rawValue}
+              onChangeText={handleChangeText}
+              onBlur={handleBlur}
+              keyboardType="decimal-pad"
+              placeholderTextColor="#999"
+              accessibilityLabel={field.label}
+              accessibilityHint={`Enter ${field.label.toLowerCase()}`}
+              accessibilityRole="spinbutton"
+            />
+            <Text style={styles.unit}>{getUnitLabel(field.unit, measurementSystem)}</Text>
+          </View>
+          {error && <Text style={styles.error}>{error}</Text>}
+        </View>
 
         <Modal
           visible={showProModal}
@@ -301,14 +204,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 4,
     marginLeft: 12,
-  },
-  toolbar: {
-    backgroundColor: "#f8f8f8",
-    padding: 8,
-    borderTopWidth: 1,
-    borderTopColor: "#dedede",
-    flexDirection: "row",
-    justifyContent: "flex-end",
   },
   modalContainer: {
     flex: 1,

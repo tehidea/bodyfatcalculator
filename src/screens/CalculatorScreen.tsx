@@ -135,8 +135,6 @@ const CalculatorForm = ({
           ref={ref => {
             inputRefs.current[index] = ref;
           }}
-          returnKeyType={index === fieldsWithConvertedUnits.length - 1 ? "done" : "next"}
-          onSubmitEditing={() => handleInputSubmit(index)}
         />
       ))}
 
