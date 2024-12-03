@@ -52,6 +52,7 @@ export const FormulaSelector = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isPremiumModalVisible, setIsPremiumModalVisible] = useState(false);
   const [pendingFormula, setPendingFormula] = useState<Formula | null>(null);
+  const [checkError, setCheckError] = useState<string | null>(null);
 
   const formulas = Object.entries(FORMULA_REQUIREMENTS).map(([key, value]) => ({
     key: key as Formula,
@@ -60,11 +61,38 @@ export const FormulaSelector = () => {
     premium: value.premium || false,
   }));
 
-  // Check entitlements on mount
+  // Initial and periodic entitlement check
   useEffect(() => {
-    console.log("FormulaSelector - Checking entitlements on mount");
-    checkEntitlements();
-  }, []);
+    const checkWithErrorHandling = async () => {
+      try {
+        setCheckError(null);
+        await checkEntitlements();
+      } catch (error) {
+        console.error("FormulaSelector - Entitlement check failed:", error);
+        setCheckError("Failed to verify PRO status");
+      }
+    };
+
+    // Check immediately
+    console.log("FormulaSelector - Initial entitlements check");
+    checkWithErrorHandling();
+
+    // Check every 5 minutes
+    const interval = setInterval(checkWithErrorHandling, 5 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, [checkEntitlements]);
+
+  // Show error if entitlement check fails
+  useEffect(() => {
+    if (checkError) {
+      Alert.alert(
+        "Verification Error",
+        "Unable to verify PRO status. Some features may be unavailable.",
+        [{ text: "Retry", onPress: () => checkEntitlements() }]
+      );
+    }
+  }, [checkError]);
 
   // Safeguard for premium formula without PRO status
   useEffect(() => {
@@ -121,6 +149,8 @@ export const FormulaSelector = () => {
   const selectedFormula = FORMULA_REQUIREMENTS[formula];
 
   const handleFormulaSelect = (selectedKey: Formula, isPremiumFormula: boolean) => {
+    if (isLoading) return;
+
     console.log("handleFormulaSelect - Selected formula:", selectedKey);
     console.log("handleFormulaSelect - Is premium formula:", isPremiumFormula);
     console.log("handleFormulaSelect - Current PRO status:", pro);
