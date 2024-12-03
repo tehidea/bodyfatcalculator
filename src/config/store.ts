@@ -30,7 +30,6 @@ export const PRODUCTS = {
 
 export interface UserEntitlements {
   pro: boolean;
-  premium: boolean;
 }
 
 export async function initializeStore() {
@@ -43,7 +42,6 @@ export async function initializeStore() {
     apiKey: API_KEY,
   });
 
-  // Check entitlements immediately after initialization
   const entitlements = await getUserEntitlements();
   console.log("initializeStore - Initial entitlements:", entitlements);
   return entitlements;
@@ -55,13 +53,12 @@ export async function getUserEntitlements(): Promise<UserEntitlements> {
     const customerInfo = await Purchases.getCustomerInfo();
     const entitlements = {
       pro: customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined,
-      premium: false,
     };
     console.log("getUserEntitlements - Retrieved entitlements:", entitlements);
     return entitlements;
   } catch (error) {
     console.error("getUserEntitlements - Error:", error);
-    return { pro: false, premium: false };
+    return { pro: false };
   }
 }
 
@@ -80,19 +77,22 @@ export async function getOfferings() {
 }
 
 export async function purchasePackage(package_: PurchasesPackage): Promise<UserEntitlements> {
+  console.log("purchasePackage - Starting purchase");
   try {
     const { customerInfo } = await Purchases.purchasePackage(package_);
-    return {
+    const entitlements = {
       pro: customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined,
-      premium: false,
     };
+    console.log("purchasePackage - Purchase successful, entitlements:", entitlements);
+    return entitlements;
   } catch (error) {
+    console.error("purchasePackage - Error:", error);
     if (error instanceof Error) {
       if (error.message === "User cancelled") {
+        console.log("purchasePackage - User cancelled");
         const currentEntitlements = await getUserEntitlements();
         return currentEntitlements;
       }
-      console.error("Failed to purchase package:", error);
       throw error;
     }
     throw error;

@@ -158,6 +158,14 @@ export const FormulaSelector = () => {
       }
     } catch (error) {
       console.error("handlePurchase - Error:", error);
+      Alert.alert(
+        "Purchase Failed",
+        "There was an error processing your purchase. Please try again.",
+        [{ text: "OK" }]
+      );
+    } finally {
+      setIsPremiumModalVisible(false);
+      setIsModalVisible(false);
     }
   };
 

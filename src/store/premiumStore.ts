@@ -7,12 +7,8 @@ import {
 } from "../config/store";
 import { Alert } from "react-native";
 
-interface PurchaseState {
-  isLoading: boolean;
-  error: string | null;
-}
-
-interface PremiumStore extends UserEntitlements {
+interface PremiumStore {
+  pro: boolean;
   isLoading: boolean;
   error: string | null;
   checkEntitlements: () => Promise<void>;
@@ -23,7 +19,6 @@ interface PremiumStore extends UserEntitlements {
 
 export const usePremiumStore = create<PremiumStore>(set => ({
   pro: false,
-  premium: false,
   isLoading: false,
   error: null,
   checkEntitlements: async () => {
@@ -40,7 +35,7 @@ export const usePremiumStore = create<PremiumStore>(set => ({
   },
   setEntitlements: (entitlements: UserEntitlements) => {
     console.log("setEntitlements - Setting new entitlements:", entitlements);
-    set({ ...entitlements, premium: false });
+    set({ ...entitlements });
   },
   purchasePro: async () => {
     console.log("purchasePro - Starting with current state:", { isLoading: false, error: null });
@@ -61,37 +56,17 @@ export const usePremiumStore = create<PremiumStore>(set => ({
       const entitlements = await purchasePackage(proPackage);
       console.log("purchasePro - Purchase successful, entitlements:", entitlements);
 
-      // Double check entitlements after purchase
-      const verifiedEntitlements = await getUserEntitlements();
-      console.log("purchasePro - Verified entitlements:", verifiedEntitlements);
-
-      set(state => {
-        console.log("purchasePro - Setting new state:", {
-          ...state,
-          ...verifiedEntitlements,
-          isLoading: false,
-          error: null,
-        });
-        return {
-          ...state,
-          ...verifiedEntitlements,
-          isLoading: false,
-          error: null,
-        };
-      });
-
-      return verifiedEntitlements.pro;
+      set({ ...entitlements, isLoading: false, error: null });
+      return entitlements.pro;
     } catch (error) {
       console.error("purchasePro - Error:", error);
       if (error instanceof Error) {
-        // Handle user cancellation
         if (error.message === "User cancelled") {
           console.log("purchasePro - User cancelled");
           set({ isLoading: false, error: null });
           return false;
         }
 
-        // Handle authentication issues
         if (
           error.message.includes("Authentication Failed") ||
           error.message.includes("No active account")
@@ -107,15 +82,9 @@ export const usePremiumStore = create<PremiumStore>(set => ({
         }
       }
 
-      // Handle other errors
       console.log("purchasePro - Other error occurred");
       set({ error: "Purchase failed", isLoading: false });
-      Alert.alert(
-        "Purchase Failed",
-        "There was an error processing your purchase. Please try again.",
-        [{ text: "OK" }]
-      );
-      return false;
+      throw error;
     }
   },
   restorePurchases: async () => {
