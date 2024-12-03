@@ -164,7 +164,7 @@ export const CalculatorScreen = () => {
     fieldErrors,
   } = useCalculatorStore();
 
-  const scrollViewRef = useRef<ScrollView>(null);
+  const scrollViewRef = useRef<KeyboardAwareScrollView>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [currentInputIndex, setCurrentInputIndex] = useState<number | null>(null);
   const inputRefs = useRef<(TextInput | null)[]>([]);
@@ -239,6 +239,7 @@ export const CalculatorScreen = () => {
         </SafeAreaView>
         <View style={{ flex: 1, backgroundColor: COLORS.background }}>
           <KeyboardAwareScrollView
+            ref={scrollViewRef}
             style={{ flex: 1 }}
             contentContainerStyle={styles.scrollContent}
             keyboardShouldPersistTaps="handled"
