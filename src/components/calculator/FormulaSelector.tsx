@@ -6,7 +6,6 @@ import { usePremiumStore } from "../../store/premiumStore";
 import { Formula } from "../../types/calculator";
 import { FORMULA_REQUIREMENTS } from "../../constants/formulas";
 import { COLORS } from "../../constants/theme";
-import { purchasePremium } from "../../config/store";
 import { SkinfoldIcon } from "../icons/SkinfoldIcon";
 import { BodyWeightScalesIcon } from "../icons/BodyWeightScalesIcon";
 import { CalendarIcon } from "../icons/CalendarIcon";

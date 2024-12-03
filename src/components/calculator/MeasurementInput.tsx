@@ -7,6 +7,7 @@ import { COLORS } from "../../constants/theme";
 import { CalculatorInputs } from "../../types/calculator";
 import { getUnitLabel } from "../../constants/formulas";
 import { convertMeasurement } from "../../utils/conversions";
+import { MeasurementIcon } from "./FormulaSelector";
 
 interface MeasurementInputProps {
   field: {
@@ -81,7 +82,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
           numValue,
           field.unit,
           getUnitLabel(field.unit, measurementSystem),
-          field.key
+          field.key as "height" | "weight" | "circumference" | "skinfold"
         );
         setRawValue(convertedValue.toString());
         setInput(field.key, convertedValue);
@@ -109,11 +110,23 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       }
     };
 
+    const getIconType = (key: keyof CalculatorInputs) => {
+      if (key.includes("Skinfold")) return "skinfold";
+      if (key.includes("Circumference")) return "circumference";
+      if (key === "weight") return "weight";
+      if (key === "height") return "height";
+      if (key === "age") return "age";
+      return "weight";
+    };
+
     return (
       <>
         <View style={styles.container}>
           <Text style={styles.label}>{field.label}</Text>
           <View style={[styles.inputContainer, error && styles.inputError]}>
+            <View style={styles.iconContainer}>
+              <MeasurementIcon type={getIconType(field.key)} color={COLORS.textDark} />
+            </View>
             <TextInput
               ref={ref}
               style={styles.input}
@@ -185,6 +198,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     gap: 8,
   },
+  iconContainer: {
+    width: 12,
+    height: 12,
+    justifyContent: "center",
+    alignItems: "flex-start",
+  },
   input: {
     flex: 1,
     height: 40,
@@ -195,9 +214,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   unit: {
-    color: COLORS.primary,
-    marginLeft: 8,
-    fontWeight: "bold",
+    color: COLORS.textDark,
   },
   error: {
     color: "red",
