@@ -15,6 +15,7 @@ import { getUnitLabel } from "../../constants/formulas";
 import { COLORS } from "../../constants/theme";
 import { useNavigation } from "@react-navigation/native";
 import { getMarginOfError } from "../../utils/accuracy";
+import { usePurchase } from "../../hooks/usePurchase";
 
 const { width } = Dimensions.get("window");
 
@@ -24,9 +25,13 @@ interface ResultsDisplayProps {
 
 export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
   const { results, measurementSystem, isResultsStale, gender, formula } = useCalculatorStore();
-  const { pro, purchasePro } = usePremiumStore();
+  const { pro } = usePremiumStore();
   const [showProModal, setShowProModal] = useState(false);
   const navigation = useNavigation();
+
+  const { handlePurchase, isProcessing } = usePurchase({
+    successMessage: "Thank you for upgrading! You now have access to decimal precision.",
+  });
 
   useEffect(() => {
     if (results && !isResultsStale) {
@@ -62,25 +67,10 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
   const decimal = (results.bodyFatPercentage % 1).toFixed(1).substring(1);
 
   const handleUpgrade = async () => {
-    try {
-      console.log("Starting PRO purchase...");
-      const success = await purchasePro();
-      console.log("Purchase result:", success);
-
-      if (success) {
-        Alert.alert(
-          "Success!",
-          "Thank you for upgrading! You now have access to decimal precision.",
-          [{ text: "OK" }]
-        );
-      }
-    } catch (error) {
-      console.error("Purchase failed:", error);
-      if (error instanceof Error && error.message !== "Purchase was cancelled.") {
-        Alert.alert("Error", "Something went wrong. Please try again or contact support.", [
-          { text: "OK" },
-        ]);
-      }
+    const success = await handlePurchase();
+    if (success || !success) {
+      // Handle both success and failure/cancellation
+      setShowProModal(false);
     }
   };
 
@@ -96,7 +86,7 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
             {pro && <Text style={styles.mainValue}>{decimal}%</Text>}
           </View>
           {!pro && (
-            <TouchableOpacity style={styles.premiumBadge} onPress={handleUpgrade}>
+            <TouchableOpacity style={styles.premiumBadge} onPress={() => setShowProModal(true)}>
               <Icon name="lock" type="feather" color="#666" size={14} />
               <Text style={styles.premiumBadgeText}>Get more accurate results with PRO</Text>
             </TouchableOpacity>
@@ -169,9 +159,10 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
               {"\n"}• Share with family (up to 5 members)
             </Text>
             <Button
-              title="Upgrade to PRO"
+              title={isProcessing ? "Processing..." : "Upgrade to PRO"}
               buttonStyle={styles.upgradeButton}
               onPress={handleUpgrade}
+              disabled={isProcessing}
             />
             <Button
               title="Maybe Later"

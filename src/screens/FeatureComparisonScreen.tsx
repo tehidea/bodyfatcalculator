@@ -1,3 +1,5 @@
+// TODO: This isn't technically implemented yet
+
 import React, { useState } from "react";
 import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
 import { Text, Button, Icon } from "@rneui/themed";

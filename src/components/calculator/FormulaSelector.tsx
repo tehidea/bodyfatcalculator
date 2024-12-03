@@ -13,6 +13,7 @@ import { MeasurementVerticalIcon } from "../icons/MeasurementVerticalIcon";
 import { MeasuringTapeIcon } from "../icons/MeasuringTapeIcon";
 import { getMarginOfError } from "../../utils/accuracy";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { usePurchase } from "../../hooks/usePurchase";
 
 export const MeasurementIcon = ({
   type,
@@ -55,11 +56,21 @@ const getMeasurementTypes = (fields: (typeof FORMULA_REQUIREMENTS)[Formula]["fie
 
 export const FormulaSelector = () => {
   const { formula, setFormula } = useCalculatorStore();
-  const { pro, isLoading, purchasePro, checkEntitlements } = usePremiumStore();
+  const { pro, isLoading, checkEntitlements } = usePremiumStore();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isPremiumModalVisible, setIsPremiumModalVisible] = useState(false);
   const [pendingFormula, setPendingFormula] = useState<Formula | null>(null);
   const [checkError, setCheckError] = useState<string | null>(null);
+
+  const { handlePurchase, isProcessing } = usePurchase({
+    onSuccess: () => {
+      if (pendingFormula) {
+        setFormula(pendingFormula);
+        setPendingFormula(null);
+      }
+    },
+    successMessage: "Thank you for upgrading! You now have access to all PRO formulas.",
+  });
 
   const formulas = Object.entries(FORMULA_REQUIREMENTS).map(([key, value]) => ({
     key: key as Formula,
@@ -156,7 +167,7 @@ export const FormulaSelector = () => {
   const selectedFormula = FORMULA_REQUIREMENTS[formula];
 
   const handleFormulaSelect = (selectedKey: Formula, isPremiumFormula: boolean) => {
-    if (isLoading) return;
+    if (isLoading || isProcessing) return;
 
     console.log("handleFormulaSelect - Selected formula:", selectedKey);
     console.log("handleFormulaSelect - Is premium formula:", isPremiumFormula);
@@ -171,34 +182,10 @@ export const FormulaSelector = () => {
     }
   };
 
-  const handlePurchase = async () => {
-    try {
-      console.log("handlePurchase - Starting purchase flow");
-      const success = await purchasePro();
-      console.log("handlePurchase - Purchase success:", success);
-
-      if (!success) {
-        console.log("handlePurchase - Purchase completed but PRO status not activated");
-        Alert.alert(
-          "Purchase Error",
-          "Your purchase completed but PRO access wasn't activated. Please try restoring purchases or contact support.",
-          [{ text: "OK" }]
-        );
-        return;
-      }
-
-      if (pendingFormula) {
-        console.log("handlePurchase - Setting pending formula:", pendingFormula);
-        setFormula(pendingFormula);
-        setPendingFormula(null);
-      }
-      Alert.alert("Success!", "Thank you for upgrading! You now have access to all PRO formulas.", [
-        { text: "OK" },
-      ]);
-    } catch (error) {
-      console.error("handlePurchase - Error:", error);
-    } finally {
-      // Always close modals
+  const handleUpgradePress = async () => {
+    const success = await handlePurchase();
+    if (success || !success) {
+      // Handle both success and failure/cancellation
       setIsPremiumModalVisible(false);
       setIsModalVisible(false);
       setPendingFormula(null);
@@ -337,9 +324,10 @@ export const FormulaSelector = () => {
               {"\n"}• Share with family (up to 5 members)
             </Text>
             <Button
-              title="Upgrade to PRO"
+              title={isProcessing ? "Processing..." : "Upgrade to PRO"}
               buttonStyle={styles.upgradeButton}
-              onPress={handlePurchase}
+              onPress={handleUpgradePress}
+              disabled={isProcessing}
             />
             <Button
               title="Maybe Later"
