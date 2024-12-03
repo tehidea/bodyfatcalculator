@@ -8,8 +8,8 @@
         "projectId": "9f81ba56-4efb-41b5-8cb7-a310221df724"
       },
       "revenuecat": {
-        "ios": "YOUR_IOS_KEY",
-        "android": "YOUR_ANDROID_KEY"
+        "ios": "${process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY}",
+        "android": "${process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY}"
       }
     },
     "version": "1.0.0",
@@ -19,7 +19,8 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.tehidea.bodyfatcalculator"
+      "bundleIdentifier": "com.tehidea.bodyfatcalculator",
+      "buildNumber": "1"
     },
     "android": {
       "adaptiveIcon": {
