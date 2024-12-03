@@ -133,18 +133,24 @@ export const FormulaSelector = () => {
       const success = await purchasePro();
       console.log("handlePurchase - Purchase success:", success);
 
-      if (success) {
-        if (pendingFormula) {
-          console.log("handlePurchase - Setting pending formula:", pendingFormula);
-          setFormula(pendingFormula);
-          setPendingFormula(null);
-        }
+      if (!success) {
+        console.log("handlePurchase - Purchase completed but PRO status not activated");
         Alert.alert(
-          "Success!",
-          "Thank you for upgrading! You now have access to all PRO formulas.",
+          "Purchase Error",
+          "Your purchase completed but PRO access wasn't activated. Please try restoring purchases or contact support.",
           [{ text: "OK" }]
         );
+        return;
       }
+
+      if (pendingFormula) {
+        console.log("handlePurchase - Setting pending formula:", pendingFormula);
+        setFormula(pendingFormula);
+        setPendingFormula(null);
+      }
+      Alert.alert("Success!", "Thank you for upgrading! You now have access to all PRO formulas.", [
+        { text: "OK" },
+      ]);
     } catch (error) {
       console.error("handlePurchase - Error:", error);
     } finally {
