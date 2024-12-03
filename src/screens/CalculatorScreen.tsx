@@ -232,12 +232,12 @@ export const CalculatorScreen = () => {
   }, [isCalculating, results, isResultsStale]);
 
   return (
-    <KeyboardProvider statusBarTranslucent>
+    <>
       <View style={styles.container}>
         <SafeAreaView style={styles.safeAreaTop} edges={["top"]}>
           <Header />
         </SafeAreaView>
-        <SafeAreaView edges={["bottom"]} style={{ flex: 1, backgroundColor: COLORS.background }}>
+        <View style={{ flex: 1, backgroundColor: COLORS.background }}>
           <KeyboardAwareScrollView
             ref={scrollViewRef}
             style={{ flex: 1 }}
@@ -286,12 +286,17 @@ export const CalculatorScreen = () => {
                 buttonStyle={styles.resetButton}
               />
             </View>
+            {globalError && (
+              <View style={styles.errorContainer}>
+                <Text style={styles.errorText}>{globalError}</Text>
+              </View>
+            )}
             <ResultsDisplay scrollViewRef={scrollViewRef} />
             <VersionDisplay />
           </KeyboardAwareScrollView>
-        </SafeAreaView>
+        </View>
       </View>
       <KeyboardToolbar />
-    </KeyboardProvider>
+    </>
   );
 };

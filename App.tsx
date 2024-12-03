@@ -9,7 +9,7 @@ import {
 } from "@expo-google-fonts/montserrat";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { KeyboardProvider, KeyboardToolbar } from "react-native-keyboard-controller";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 import { CalculatorScreen } from "./src/screens/CalculatorScreen";
 import { FeatureComparisonScreen } from "./src/screens/FeatureComparisonScreen";
 import { theme } from "./src/constants/theme";
@@ -64,23 +64,25 @@ function App() {
   }
 
   return (
-    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <SafeAreaProvider>
-        <ThemeProvider theme={theme}>
-          <NavigationContainer>
-            <Stack.Navigator
-              screenOptions={{
-                headerShown: false,
-                animation: "slide_from_right",
-              }}
-            >
-              <Stack.Screen name="Calculator" component={CalculatorScreen} />
-              <Stack.Screen name="FeatureComparison" component={FeatureComparisonScreen} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </ThemeProvider>
-      </SafeAreaProvider>
-    </View>
+    <KeyboardProvider statusBarTranslucent>
+      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        <SafeAreaProvider>
+          <ThemeProvider theme={theme}>
+            <NavigationContainer>
+              <Stack.Navigator
+                screenOptions={{
+                  headerShown: false,
+                  animation: "slide_from_right",
+                }}
+              >
+                <Stack.Screen name="Calculator" component={CalculatorScreen} />
+                <Stack.Screen name="FeatureComparison" component={FeatureComparisonScreen} />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </ThemeProvider>
+        </SafeAreaProvider>
+      </View>
+    </KeyboardProvider>
   );
 }
 
