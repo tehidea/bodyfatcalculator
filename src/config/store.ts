@@ -79,12 +79,40 @@ export async function getOfferings() {
 export async function purchasePackage(package_: PurchasesPackage): Promise<UserEntitlements> {
   console.log("purchasePackage - Starting purchase");
   try {
-    const { customerInfo } = await Purchases.purchasePackage(package_);
-    const hasProEntitlement = customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined;
-    const entitlements = { pro: hasProEntitlement };
+    // Make the purchase
+    await Purchases.purchasePackage(package_);
+    console.log("purchasePackage - Purchase transaction completed");
 
-    console.log("purchasePackage - Purchase result:", entitlements);
-    return entitlements;
+    // Give RevenueCat a moment to process
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    // Verify purchase with retries
+    for (let i = 0; i < 3; i++) {
+      console.log(`purchasePackage - Verification attempt ${i + 1}`);
+
+      // Force refresh customer info
+      await Purchases.syncPurchases();
+      const customerInfo = await Purchases.getCustomerInfo();
+
+      const hasProEntitlement = customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined;
+      console.log(`purchasePackage - Verification attempt ${i + 1} result:`, {
+        pro: hasProEntitlement,
+      });
+
+      if (hasProEntitlement) {
+        return { pro: true };
+      }
+
+      if (i < 2) {
+        // Don't wait on last attempt
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+    }
+
+    console.warn(
+      "purchasePackage - Purchase completed but entitlement not activated after retries"
+    );
+    return { pro: false };
   } catch (error) {
     console.error("purchasePackage - Error:", error);
     if (
