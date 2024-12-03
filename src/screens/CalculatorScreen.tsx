@@ -127,6 +127,7 @@ const CalculatorForm = ({
           buttonStyle={styles.primaryButton}
           containerStyle={styles.buttonWrapperFlex}
           titleStyle={{ fontWeight: "bold" }}
+          testID="calculate-button"
         />
         <Button
           title="Reset"
@@ -136,6 +137,7 @@ const CalculatorForm = ({
           titleStyle={styles.resetButtonText}
           containerStyle={styles.buttonWrapperFlex}
           buttonStyle={styles.resetButton}
+          testID="reset-button"
         />
       </View>
       {globalError && (
@@ -281,6 +283,7 @@ export const CalculatorScreen = () => {
                 buttonStyle={styles.primaryButton}
                 containerStyle={styles.buttonWrapperFlex}
                 titleStyle={{ fontWeight: "bold" }}
+                testID="calculate-button"
               />
               <Button
                 title="Reset"
@@ -290,6 +293,7 @@ export const CalculatorScreen = () => {
                 titleStyle={styles.resetButtonText}
                 containerStyle={styles.buttonWrapperFlex}
                 buttonStyle={styles.resetButton}
+                testID="reset-button"
               />
             </View>
             {globalError && (

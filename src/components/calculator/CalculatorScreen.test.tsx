@@ -17,6 +17,14 @@ jest.mock("../calculator/FormulaSelector", () => ({
   MeasurementIcon: () => null,
 }));
 jest.mock("../../store/premiumStore");
+jest.mock("react-native-keyboard-controller", () => ({
+  KeyboardAwareScrollView: require("react-native").ScrollView,
+  KeyboardToolbar: () => null,
+  useKeyboardController: () => ({
+    state: { height: 0, visible: false },
+    dismiss: jest.fn(),
+  }),
+}));
 
 const mockUseCalculatorStore = useCalculatorStore as jest.MockedFunction<typeof useCalculatorStore>;
 const mockCalculateResults = calculateResults as jest.MockedFunction<typeof calculateResults>;
