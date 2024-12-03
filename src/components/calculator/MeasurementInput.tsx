@@ -220,7 +220,6 @@ const styles = StyleSheet.create({
     color: "red",
     fontSize: 12,
     marginTop: 4,
-    marginLeft: 12,
   },
   modalContainer: {
     flex: 1,

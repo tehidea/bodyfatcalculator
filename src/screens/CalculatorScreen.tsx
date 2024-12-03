@@ -17,7 +17,6 @@ import { memo } from "react";
 import { calculateResults } from "../utils/calculations";
 import { styles } from "./CalculatorScreen.styles";
 import { CalculatorInputs } from "../types/calculator";
-import { InputRef } from "../components/common/Input";
 import { getUnitLabel } from "../constants/formulas";
 import { usePremiumStore } from "../store/premiumStore";
 

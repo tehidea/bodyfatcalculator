@@ -127,7 +127,8 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   errorContainer: {
-    backgroundColor: "#ffebee",
+    borderWidth: 2,
+    borderColor: "#c62828",
     padding: 12,
     borderRadius: 12,
     marginBottom: 16,
@@ -135,6 +136,7 @@ export const styles = StyleSheet.create({
   errorText: {
     color: "#c62828",
     fontSize: 14,
+    fontWeight: "bold",
   },
   versionText: {
     textAlign: "center",
