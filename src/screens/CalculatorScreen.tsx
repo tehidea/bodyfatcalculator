@@ -19,6 +19,7 @@ import { styles } from "./CalculatorScreen.styles";
 import { CalculatorInputs } from "../types/calculator";
 import { InputRef } from "../components/common/Input";
 import { getUnitLabel } from "../constants/formulas";
+import { usePremiumStore } from "../store/premiumStore";
 
 // Extract Header into a separate component
 const Header = memo(() => (
@@ -36,6 +37,7 @@ const Header = memo(() => (
 
 // Add Version Display component
 const VersionDisplay = memo(() => {
+  const { pro } = usePremiumStore();
   const version = Constants.expoConfig?.version || "?.?.?";
   const buildNumber =
     Platform.select({
@@ -45,7 +47,7 @@ const VersionDisplay = memo(() => {
   return (
     <Text style={styles.versionText}>
       v{version}
-      {buildNumber ? ` (${buildNumber})` : ""}
+      {buildNumber ? ` (${buildNumber})` : ""} {pro ? "PRO" : ""}
     </Text>
   );
 });
