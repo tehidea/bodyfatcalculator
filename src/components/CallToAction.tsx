@@ -79,11 +79,11 @@ export function CallToAction() {
       <Container className="relative">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-medium tracking-tight text-white sm:text-4xl">
-            Choose Your Perfect Plan
+            Free or Pro - Your Choice
           </h2>
           <p className="mt-4 text-lg text-gray-400">
-            Start with our free version or upgrade to PRO for advanced features
-            and professional accuracy
+            Start with our free version or unlock all features with a one-time
+            Pro upgrade
           </p>
         </div>
 
