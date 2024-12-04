@@ -40,7 +40,7 @@ export function Footer() {
             </div>
           </div>
           <div className="hidden sm:block">
-            <div className="group relative -mx-4 flex items-center self-stretch p-4 transition-colors hover:bg-white/5 sm:self-auto sm:rounded-2xl lg:mx-0 lg:self-auto lg:p-6">
+            <div className="group relative -mx-4 flex items-center self-stretch p-4 transition-colors sm:self-auto sm:rounded-2xl lg:mx-0 lg:self-auto lg:p-6">
               <div className="mr-8 text-right lg:w-64">
                 <p className="text-base font-semibold text-white">
                   <Link href="#">
