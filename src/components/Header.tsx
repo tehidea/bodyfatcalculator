@@ -161,6 +161,11 @@ export function Header() {
                 </>
               )}
             </Popover>
+            <div className="ml-8 flex items-center gap-2 rounded-full bg-white/5 px-3 py-1">
+              <span className="text-sm font-medium text-white">
+                Early&nbsp;Access
+              </span>
+            </div>
             <Button href="#" color="red" className="hidden lg:block">
               Download
             </Button>

@@ -63,8 +63,8 @@ export function Hero() {
               transition={{ duration: 0.5 }}
               className="inline-flex items-center rounded-full bg-[#FF0000]/10 px-6 py-2 text-sm font-medium text-[#FF0000] ring-1 ring-inset ring-[#FF0000]/20"
             >
-              <span className="mr-2">★</span> #1337 Body Fat Calculator on the
-              App Store
+              <span className="mr-2">★★★★★</span> Brand New Body Fat Calculator
+              on the App Store
             </motion.div>
 
             <motion.div
@@ -125,11 +125,11 @@ export function Hero() {
                   ★
                 </div>
                 <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#FF5722] text-xs font-medium text-white">
-                  1k+
+                  β
                 </div>
               </div>
               <p className="text-sm text-gray-400">
-                Trusted by 1000+ fitness professionals worldwide
+                Early Access • First Reviews: "Exactly what I needed" - PT Alex
               </p>
             </motion.div>
           </div>
