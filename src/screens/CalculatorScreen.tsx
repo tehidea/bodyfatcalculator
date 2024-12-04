@@ -28,7 +28,7 @@ import { usePremiumStore } from "../store/premiumStore";
 // Extract Header into a separate component
 const Header = memo(() => (
   <View style={styles.header}>
-    <Logo style={styles.logo} width={80} accessibilityLabel="Calculator logo" />
+    <Logo style={styles.logo} width={62} accessibilityLabel="Calculator logo" />
     <View style={styles.headerTextContainer}>
       <View style={styles.titleContainer}>
         <Text style={[styles.headerTitle, { fontFamily: "Montserrat-ExtraLight" }]}>Body</Text>
