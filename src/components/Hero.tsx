@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 
 import { AppStoreLink } from '@/components/AppStoreLink'
 import { Container } from '@/components/Container'
+import { AppScreenshot } from '@/components/AppScreenshot'
 
 function PlayIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -163,68 +164,23 @@ export function Hero() {
             />
 
             <div className="relative mx-auto w-full max-w-[366px]">
-              {/* Left screenshot */}
-              <motion.div
-                initial={{ opacity: 0, x: -20, rotate: -15 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="absolute -left-[160px] top-[300px] aspect-[366/729] w-[220px] -rotate-[15deg] transition-transform duration-300 hover:-translate-x-2 hover:translate-y-2 hover:-rotate-[17deg]"
-              >
-                <div className="relative h-full overflow-hidden rounded-[38px] bg-[#1a1a1a] p-3.5 shadow-2xl ring-1 ring-gray-900/10">
-                  <div className="absolute left-1/2 top-[12px] h-1 w-[60px] -translate-x-1/2 rounded-full bg-gray-800" />
-                  <div className="relative h-full w-full overflow-hidden rounded-[34px] bg-black">
-                    <Image
-                      src="/screenshots/app-method.png"
-                      alt="Body Fat Calculator method selection"
-                      className="rounded-[32px] object-cover"
-                      fill
-                    />
-                  </div>
-                  <div className="absolute inset-0 rounded-[38px] ring-1 ring-white/10" />
-                </div>
-              </motion.div>
+              <AppScreenshot
+                src="/screenshots/app-method.png"
+                alt="Body Fat Calculator method selection"
+                position="left"
+              />
 
-              {/* Right screenshot */}
-              <motion.div
-                initial={{ opacity: 0, x: 20, rotate: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="absolute -right-[160px] top-[100px] aspect-[366/729] w-[220px] rotate-[30deg] transition-transform duration-300 hover:translate-x-2 hover:translate-y-2 hover:rotate-[32deg]"
-              >
-                <div className="relative h-full overflow-hidden rounded-[38px] bg-[#1a1a1a] p-3.5 shadow-2xl ring-1 ring-gray-900/10">
-                  <div className="absolute left-1/2 top-[12px] h-1 w-[60px] -translate-x-1/2 rounded-full bg-gray-800" />
-                  <div className="relative h-full w-full overflow-hidden rounded-[34px] bg-black">
-                    <Image
-                      src="/screenshots/app-results.png"
-                      alt="Body Fat Calculator results screen"
-                      className="rounded-[32px] object-cover"
-                      fill
-                    />
-                  </div>
-                  <div className="absolute inset-0 rounded-[38px] ring-1 ring-white/10" />
-                </div>
-              </motion.div>
+              <AppScreenshot
+                src="/screenshots/app-results.png"
+                alt="Body Fat Calculator results screen"
+                position="right"
+              />
 
-              {/* Main screenshot */}
-              <motion.div
-                initial={{ opacity: 1, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="relative z-20 aspect-[366/729] rounded-[38px] bg-[#1a1a1a] p-3.5 shadow-2xl ring-1 ring-gray-900/10 transition-transform duration-300 hover:scale-[1.02]"
-                style={{ transform: 'scale(1.1)' }}
-              >
-                <div className="absolute left-1/2 top-[12px] h-1 w-[100px] -translate-x-1/2 rounded-full bg-gray-800" />
-                <div className="relative h-full w-full overflow-hidden rounded-[34px] bg-black">
-                  <Image
-                    src="/screenshots/app-main.png"
-                    alt="Body Fat Calculator PRO app interface"
-                    className="object-cover"
-                    priority
-                    fill
-                  />
-                </div>
-                <div className="absolute inset-0 rounded-[38px] ring-1 ring-white/10" />
-              </motion.div>
+              <AppScreenshot
+                src="/screenshots/app-main.png"
+                alt="Body Fat Calculator PRO app interface"
+                position="center"
+              />
             </div>
           </div>
         </div>
