@@ -592,18 +592,7 @@ export function PrimaryFeatures() {
             <div className="h-px flex-auto bg-[#FF0000]/10"></div>
           </div>
           <h2 className="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Choose Your Perfect
-            <span className="relative whitespace-nowrap">
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 418 42"
-                className="absolute left-0 top-2/3 h-[0.58em] w-full fill-[#FF0000]/20"
-                preserveAspectRatio="none"
-              >
-                <path d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z" />
-              </svg>
-              <span className="relative ml-4">Method</span>
-            </span>
+            Choose Your Perfec Method
           </h2>
           <p className="mt-6 text-xl text-gray-400">
             From quick estimates to gold-standard measurements, we offer the
@@ -629,247 +618,291 @@ export function PrimaryFeatures() {
         </div>
         <div className="mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {/* Jackson & Pollock 7-Site */}
-          <div className="rounded-2xl border border-[#FF0000]/10 bg-[#333333] p-6">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-white">
-                Jackson & Pollock 7-Site
-              </h3>
-              <span className="text-sm text-[#4CAF50]">±3-4%</span>
+          <div className="group relative overflow-hidden rounded-2xl bg-[#1a1a1a] p-8 transition-all duration-300 hover:bg-[#222]">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="relative z-10">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-white">
+                  Jackson & Pollock 7-Site
+                </h3>
+                <span className="text-sm text-[#4CAF50]">±3-4%</span>
+              </div>
+              <div className="mt-2">
+                <span className="inline-flex items-center rounded bg-gradient-to-r from-[#FF0000] to-[#FF5722] px-2 py-0.5 text-xs font-medium text-white">
+                  PRO
+                </span>
+              </div>
+              <p className="mt-3 text-sm text-gray-400">
+                Most thorough method with seven skinfold measurements
+              </p>
+              {(() => {
+                const measurements = getRequiredMeasurements('jack7')
+                return (
+                  <div className="mt-4 flex gap-3">
+                    <BodyWeightScalesIcon size="20" className="text-gray-600" />
+                    {measurements.needsAge && (
+                      <CalendarIcon size="20" className="text-gray-600" />
+                    )}
+                    {measurements.needsSkinfold && (
+                      <SkinfoldIcon size="20" className="text-gray-600" />
+                    )}
+                  </div>
+                )
+              })()}
             </div>
-            <div className="mt-2">
-              <span className="inline-block rounded bg-[#FF0000] px-2 py-0.5 text-xs text-white">
-                PRO
-              </span>
-            </div>
-            <p className="mt-3 text-sm text-gray-400">
-              Most thorough method with seven skinfold measurements
-            </p>
-            {(() => {
-              const measurements = getRequiredMeasurements('jack7')
-              return (
-                <div className="mt-4 flex gap-3">
-                  {measurements.needsAge && <CalendarIcon size={24} />}
-                  {measurements.needsSkinfold && <SkinfoldIcon size={24} />}
-                </div>
-              )
-            })()}
           </div>
 
           {/* Jackson & Pollock 4-Site */}
-          <div className="rounded-2xl border border-[#FF0000]/10 bg-[#333333] p-6">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-white">
-                Jackson & Pollock 4-Site
-              </h3>
-              <span className="text-sm text-[#4CAF50]">±3-4%</span>
+          <div className="group relative overflow-hidden rounded-2xl bg-[#1a1a1a] p-8 transition-all duration-300 hover:bg-[#222]">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="relative z-10">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-white">
+                  Jackson & Pollock 4-Site
+                </h3>
+                <span className="text-sm text-[#4CAF50]">±3-4%</span>
+              </div>
+              <div className="mt-2">
+                <span className="inline-flex items-center rounded bg-gradient-to-r from-[#FF0000] to-[#FF5722] px-2 py-0.5 text-xs font-medium text-white">
+                  PRO
+                </span>
+              </div>
+              <p className="mt-3 text-sm text-gray-400">
+                Uses age and four strategic skinfold measurements
+              </p>
+              {(() => {
+                const measurements = getRequiredMeasurements('jack4')
+                return (
+                  <div className="mt-4 flex gap-3">
+                    <BodyWeightScalesIcon size="20" className="text-gray-600" />
+                    {measurements.needsAge && (
+                      <CalendarIcon size="20" className="text-gray-600" />
+                    )}
+                    {measurements.needsSkinfold && (
+                      <SkinfoldIcon size="20" className="text-gray-600" />
+                    )}
+                  </div>
+                )
+              })()}
             </div>
-            <div className="mt-2">
-              <span className="inline-block rounded bg-[#FF0000] px-2 py-0.5 text-xs text-white">
-                PRO
-              </span>
-            </div>
-            <p className="mt-3 text-sm text-gray-400">
-              Uses age and four strategic skinfold measurements
-            </p>
-            {(() => {
-              const measurements = getRequiredMeasurements('jack4')
-              return (
-                <div className="mt-4 flex gap-3">
-                  {measurements.needsAge && <CalendarIcon size={24} />}
-                  {measurements.needsSkinfold && <SkinfoldIcon size={24} />}
-                </div>
-              )
-            })()}
           </div>
 
           {/* Jackson & Pollock 3-Site */}
-          <div className="rounded-2xl border border-[#FF0000]/10 bg-[#333333] p-6">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-white">
-                Jackson & Pollock 3-Site
-              </h3>
-              <span className="text-sm text-[#4CAF50]">±3-4%</span>
+          <div className="group relative overflow-hidden rounded-2xl bg-[#1a1a1a] p-8 transition-all duration-300 hover:bg-[#222]">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="relative z-10">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-white">
+                  Jackson & Pollock 3-Site
+                </h3>
+                <span className="text-sm text-[#4CAF50]">±3-4%</span>
+              </div>
+              <div className="mt-2">
+                <span className="inline-flex items-center rounded bg-gradient-to-r from-[#FF0000] to-[#FF5722] px-2 py-0.5 text-xs font-medium text-white">
+                  PRO
+                </span>
+              </div>
+              <p className="mt-3 text-sm text-gray-400">
+                Quick but accurate method using three skinfold sites
+              </p>
+              {(() => {
+                const measurements = getRequiredMeasurements('jack3')
+                return (
+                  <div className="mt-4 flex gap-3">
+                    <BodyWeightScalesIcon size="20" className="text-gray-600" />
+                    {measurements.needsAge && (
+                      <CalendarIcon size="20" className="text-gray-600" />
+                    )}
+                    {measurements.needsSkinfold && (
+                      <SkinfoldIcon size="20" className="text-gray-600" />
+                    )}
+                  </div>
+                )
+              })()}
             </div>
-            <div className="mt-2">
-              <span className="inline-block rounded bg-[#FF0000] px-2 py-0.5 text-xs text-white">
-                PRO
-              </span>
-            </div>
-            <p className="mt-3 text-sm text-gray-400">
-              Quick but accurate method using three skinfold sites
-            </p>
-            {(() => {
-              const measurements = getRequiredMeasurements('jack3')
-              return (
-                <div className="mt-4 flex gap-3">
-                  {measurements.needsAge && <CalendarIcon size={24} />}
-                  {measurements.needsSkinfold && <SkinfoldIcon size={24} />}
-                </div>
-              )
-            })()}
           </div>
 
           {/* Durnin & Womersley */}
-          <div className="rounded-2xl border border-[#FF0000]/10 bg-[#333333] p-6">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-white">
-                Durnin & Womersley
-              </h3>
-              <span className="text-sm text-[#4CAF50]">±3-4%</span>
+          <div className="group relative overflow-hidden rounded-2xl bg-[#1a1a1a] p-8 transition-all duration-300 hover:bg-[#222]">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="relative z-10">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-white">
+                  Durnin & Womersley
+                </h3>
+                <span className="text-sm text-[#4CAF50]">±3-4%</span>
+              </div>
+              <div className="mt-2">
+                <span className="inline-flex items-center rounded bg-gradient-to-r from-[#FF0000] to-[#FF5722] px-2 py-0.5 text-xs font-medium text-white">
+                  PRO
+                </span>
+              </div>
+              <p className="mt-3 text-sm text-gray-400">
+                Scientific method using four skinfold measurements
+              </p>
+              {(() => {
+                const measurements = getRequiredMeasurements('durnin')
+                return (
+                  <div className="mt-4 flex gap-3">
+                    <BodyWeightScalesIcon size="20" className="text-gray-600" />
+                    {measurements.needsAge && (
+                      <CalendarIcon size="20" className="text-gray-600" />
+                    )}
+                    {measurements.needsSkinfold && (
+                      <SkinfoldIcon size="20" className="text-gray-600" />
+                    )}
+                  </div>
+                )
+              })()}
             </div>
-            <div className="mt-2">
-              <span className="inline-block rounded bg-[#FF0000] px-2 py-0.5 text-xs text-white">
-                PRO
-              </span>
-            </div>
-            <p className="mt-3 text-sm text-gray-400">
-              Scientific method using four skinfold measurements
-            </p>
-            {(() => {
-              const measurements = getRequiredMeasurements('durnin')
-              return (
-                <div className="mt-4 flex gap-3">
-                  {measurements.needsAge && <CalendarIcon size={24} />}
-                  {measurements.needsSkinfold && <SkinfoldIcon size={24} />}
-                </div>
-              )
-            })()}
           </div>
 
           {/* Parrillo */}
-          <div className="rounded-2xl border border-[#FF0000]/10 bg-[#333333] p-6">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-white">Parrillo</h3>
-              <span className="text-sm text-[#4CAF50]">±3-4%</span>
+          <div className="group relative overflow-hidden rounded-2xl bg-[#1a1a1a] p-8 transition-all duration-300 hover:bg-[#222]">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="relative z-10">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-white">Parrillo</h3>
+                <span className="text-sm text-[#4CAF50]">±3-4%</span>
+              </div>
+              <div className="mt-2">
+                <span className="inline-flex items-center rounded bg-gradient-to-r from-[#FF0000] to-[#FF5722] px-2 py-0.5 text-xs font-medium text-white">
+                  PRO
+                </span>
+              </div>
+              <p className="mt-3 text-sm text-gray-400">
+                Bodybuilding-focused method using nine skinfold sites
+              </p>
+              {(() => {
+                const measurements = getRequiredMeasurements('parrillo')
+                return (
+                  <div className="mt-4 flex gap-3">
+                    <BodyWeightScalesIcon size="20" className="text-gray-600" />
+                    {measurements.needsSkinfold && (
+                      <SkinfoldIcon size="20" className="text-gray-600" />
+                    )}
+                  </div>
+                )
+              })()}
             </div>
-            <div className="mt-2">
-              <span className="inline-block rounded bg-[#FF0000] px-2 py-0.5 text-xs text-white">
-                PRO
-              </span>
-            </div>
-            <p className="mt-3 text-sm text-gray-400">
-              Bodybuilding-focused method using nine skinfold sites
-            </p>
-            {(() => {
-              const measurements = getRequiredMeasurements('parrillo')
-              return (
-                <div className="mt-4 flex gap-3">
-                  {measurements.needsWeight && (
-                    <BodyWeightScalesIcon size={24} />
-                  )}
-                  {measurements.needsSkinfold && <SkinfoldIcon size={24} />}
-                </div>
-              )
-            })()}
           </div>
 
           {/* Covert Bailey */}
-          <div className="rounded-2xl border border-[#FF0000]/10 bg-[#333333] p-6">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-white">
-                Covert Bailey
-              </h3>
-              <span className="text-sm text-[#4CAF50]">±3-4%</span>
+          <div className="group relative overflow-hidden rounded-2xl bg-[#1a1a1a] p-8 transition-all duration-300 hover:bg-[#222]">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="relative z-10">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-white">
+                  Covert Bailey
+                </h3>
+                <span className="text-sm text-[#4CAF50]">±3-4%</span>
+              </div>
+              <div className="mt-2">
+                <span className="inline-flex items-center rounded bg-gradient-to-r from-[#FF0000] to-[#FF5722] px-2 py-0.5 text-xs font-medium text-white">
+                  PRO
+                </span>
+              </div>
+              <p className="mt-3 text-sm text-gray-400">
+                Comprehensive method using multiple body measurements
+              </p>
+              {(() => {
+                const measurements = getRequiredMeasurements('covert')
+                return (
+                  <div className="mt-4 flex gap-3">
+                    <BodyWeightScalesIcon size="20" className="text-gray-600" />
+                    {measurements.needsAge && (
+                      <CalendarIcon size="20" className="text-gray-600" />
+                    )}
+                    {measurements.needsCircumference && (
+                      <MeasuringTapeIcon size="20" className="text-gray-600" />
+                    )}
+                  </div>
+                )
+              })()}
             </div>
-            <div className="mt-2">
-              <span className="inline-block rounded bg-[#FF0000] px-2 py-0.5 text-xs text-white">
-                PRO
-              </span>
-            </div>
-            <p className="mt-3 text-sm text-gray-400">
-              Comprehensive method using multiple body measurements
-            </p>
-            {(() => {
-              const measurements = getRequiredMeasurements('covert')
-              return (
-                <div className="mt-4 flex gap-3">
-                  {measurements.needsWeight && (
-                    <BodyWeightScalesIcon size={24} />
-                  )}
-                  {measurements.needsAge && <CalendarIcon size={24} />}
-                  {measurements.needsCircumference && (
-                    <MeasuringTapeIcon size={24} />
-                  )}
-                </div>
-              )
-            })()}
           </div>
 
           {/* US Navy */}
-          <div className="rounded-2xl border border-[#FF0000]/10 bg-[#333333] p-6">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-white">US Navy</h3>
-              <span className="text-sm text-[#FFC107]">±4-6%</span>
+          <div className="group relative overflow-hidden rounded-2xl bg-[#1a1a1a] p-8 transition-all duration-300 hover:bg-[#222]">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="relative z-10">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-white">US Navy</h3>
+                <span className="text-sm text-[#FFC107]">±4-6%</span>
+              </div>
+              <p className="mt-3 text-sm text-gray-400">
+                Military method using height and circumference measurements
+              </p>
+              {(() => {
+                const measurements = getRequiredMeasurements('navy')
+                return (
+                  <div className="mt-4 flex gap-3">
+                    <BodyWeightScalesIcon size="20" className="text-gray-600" />
+                    {measurements.needsHeight && (
+                      <MeasurementVerticalIcon
+                        size="20"
+                        className="text-gray-600"
+                      />
+                    )}
+                    {measurements.needsCircumference && (
+                      <MeasuringTapeIcon size="20" className="text-gray-600" />
+                    )}
+                  </div>
+                )
+              })()}
             </div>
-            <p className="mt-3 text-sm text-gray-400">
-              Military method using height and circumference measurements
-            </p>
-            {(() => {
-              const measurements = getRequiredMeasurements('navy')
-              return (
-                <div className="mt-4 flex gap-3">
-                  {measurements.needsWeight && (
-                    <BodyWeightScalesIcon size={24} />
-                  )}
-                  {measurements.needsHeight && (
-                    <MeasurementVerticalIcon size={24} />
-                  )}
-                  {measurements.needsCircumference && (
-                    <MeasuringTapeIcon size={24} />
-                  )}
-                </div>
-              )
-            })()}
           </div>
 
           {/* YMCA */}
-          <div className="rounded-2xl border border-[#FF0000]/10 bg-[#333333] p-6">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-white">YMCA</h3>
-              <span className="text-sm text-[#FF5722]">±5-7%</span>
+          <div className="group relative overflow-hidden rounded-2xl bg-[#1a1a1a] p-8 transition-all duration-300 hover:bg-[#222]">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="relative z-10">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-white">YMCA</h3>
+                <span className="text-sm text-[#FF5722]">±5-7%</span>
+              </div>
+              <p className="mt-3 text-sm text-gray-400">
+                Simple method using weight and waist measurements
+              </p>
+              {(() => {
+                const measurements = getRequiredMeasurements('ymca')
+                return (
+                  <div className="mt-4 flex gap-3">
+                    <BodyWeightScalesIcon size="20" className="text-gray-600" />
+                    {measurements.needsCircumference && (
+                      <MeasuringTapeIcon size="20" className="text-gray-600" />
+                    )}
+                  </div>
+                )
+              })()}
             </div>
-            <p className="mt-3 text-sm text-gray-400">
-              Simple method using weight and waist measurements
-            </p>
-            {(() => {
-              const measurements = getRequiredMeasurements('ymca')
-              return (
-                <div className="mt-4 flex gap-3">
-                  {measurements.needsWeight && (
-                    <BodyWeightScalesIcon size={24} />
-                  )}
-                  {measurements.needsCircumference && (
-                    <MeasuringTapeIcon size={24} />
-                  )}
-                </div>
-              )
-            })()}
           </div>
 
           {/* Modified YMCA */}
-          <div className="rounded-2xl border border-[#FF0000]/10 bg-[#333333] p-6">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-white">
-                Modified YMCA
-              </h3>
-              <span className="text-sm text-[#FF5722]">±5-7%</span>
+          <div className="group relative overflow-hidden rounded-2xl bg-[#1a1a1a] p-8 transition-all duration-300 hover:bg-[#222]">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="relative z-10">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-white">
+                  Modified YMCA
+                </h3>
+                <span className="text-sm text-[#FF5722]">±5-7%</span>
+              </div>
+              <p className="mt-3 text-sm text-gray-400">
+                Enhanced YMCA method with additional measurements for women
+              </p>
+              {(() => {
+                const measurements = getRequiredMeasurements('mymca')
+                return (
+                  <div className="mt-4 flex gap-3">
+                    <BodyWeightScalesIcon size="20" className="text-gray-600" />
+                    {measurements.needsCircumference && (
+                      <MeasuringTapeIcon size="20" className="text-gray-600" />
+                    )}
+                  </div>
+                )
+              })()}
             </div>
-            <p className="mt-3 text-sm text-gray-400">
-              Enhanced YMCA method with additional measurements for women
-            </p>
-            {(() => {
-              const measurements = getRequiredMeasurements('mymca')
-              return (
-                <div className="mt-4 flex gap-3">
-                  {measurements.needsWeight && (
-                    <BodyWeightScalesIcon size={24} />
-                  )}
-                  {measurements.needsCircumference && (
-                    <MeasuringTapeIcon size={24} />
-                  )}
-                </div>
-              )
-            })()}
           </div>
         </div>
       </Container>

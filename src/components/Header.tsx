@@ -59,7 +59,7 @@ function MobileNavLink({
 
   return (
     <PopoverButton
-      className="block text-base font-medium leading-7 tracking-tight text-white hover:text-[#FF0000]"
+      className="block px-4 text-base font-medium leading-7 tracking-tight text-white hover:text-[#FF0000]"
       onClick={scrollToSection}
       {...props}
     >
@@ -72,38 +72,38 @@ export function Header() {
   return (
     <header className="bg-[#333333]">
       <nav>
-        <Container className="relative z-50 flex justify-between py-8">
-          <div className="relative z-10 flex items-center gap-16">
-            <div className="flex items-center gap-3">
-              <Link href="/" aria-label="Home">
-                <Logo className="h-10 w-auto" />
-              </Link>
-              <div className="flex h-8 items-center">
-                <span className="font-light tracking-wide text-white">
-                  BODY
-                </span>
-                <span className="font-bold tracking-wide text-white">FAT</span>
-              </div>
+        <Container className="relative z-50 flex items-center justify-between py-8">
+          <Link
+            href="/"
+            aria-label="Home"
+            className="flex flex-1 items-center gap-3"
+          >
+            <Logo className="h-10 w-auto" />
+            <div className="flex h-8 items-center text-3xl">
+              <span className="font-extralight tracking-tighter text-white">
+                BODY
+              </span>
+              <span className="font-light tracking-tighter text-white">
+                FAT
+              </span>
             </div>
-            <div className="hidden lg:flex lg:gap-10">
-              <NavLinks />
-            </div>
+          </Link>
+          <div className="hidden flex-1 items-center justify-center lg:flex">
+            <NavLinks />
           </div>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-1 items-center justify-end gap-6">
             <Popover className="lg:hidden">
               {({ open }) => (
                 <>
                   <PopoverButton
-                    className="relative z-10 -m-2 inline-flex items-center rounded-lg stroke-white p-2 hover:bg-white/10 hover:stroke-[#FF0000] active:stroke-[#FF0000] ui-not-focus-visible:outline-none"
+                    className="relative z-50 -m-2 inline-flex items-center rounded-lg stroke-white p-2 hover:bg-white/10 hover:stroke-[#FF0000] active:stroke-[#FF0000] ui-not-focus-visible:outline-none"
                     aria-label="Toggle site navigation"
                   >
-                    {({ open }) =>
-                      open ? (
-                        <ChevronUpIcon className="h-6 w-6" />
-                      ) : (
-                        <MenuIcon className="h-6 w-6" />
-                      )
-                    }
+                    {open ? (
+                      <ChevronUpIcon className="h-6 w-6" />
+                    ) : (
+                      <MenuIcon className="h-6 w-6" />
+                    )}
                   </PopoverButton>
                   <AnimatePresence initial={false}>
                     {open && (
@@ -114,7 +114,7 @@ export function Header() {
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
-                          className="fixed inset-0 z-0 bg-[#333333]/90 backdrop-blur"
+                          className="fixed inset-0 z-40 bg-[#333333]/90 backdrop-blur"
                         />
                         <PopoverPanel
                           static
@@ -126,9 +126,21 @@ export function Header() {
                             y: -32,
                             transition: { duration: 0.2 },
                           }}
-                          className="absolute inset-x-0 top-0 z-0 origin-top rounded-b-2xl bg-[#333333] px-6 pb-6 pt-32 shadow-2xl shadow-black/50"
+                          className="absolute inset-x-0 top-0 z-40 origin-top rounded-b-2xl bg-[#333333] px-4 pb-6 pt-8 shadow-2xl shadow-black/50 sm:px-6 lg:px-8"
                         >
-                          <div className="space-y-4">
+                          <div className="flex flex-col space-y-6">
+                            <div className="flex items-center gap-3">
+                              <Logo className="h-10 w-auto" />
+                              <div className="flex h-8 items-center text-3xl">
+                                <span className="font-extralight tracking-tighter text-white">
+                                  BODY
+                                </span>
+                                <span className="font-light tracking-tighter text-white">
+                                  FAT
+                                </span>
+                              </div>
+                            </div>
+
                             <MobileNavLink sectionId="features">
                               Features
                             </MobileNavLink>
@@ -136,11 +148,11 @@ export function Header() {
                               Pricing
                             </MobileNavLink>
                             <MobileNavLink sectionId="faqs">FAQs</MobileNavLink>
-                          </div>
-                          <div className="mt-8 flex flex-col gap-4">
-                            <Button href="#" color="red">
-                              Download
-                            </Button>
+                            <div className="pt-4">
+                              <Button href="#" color="red" className="w-full">
+                                Download
+                              </Button>
+                            </div>
                           </div>
                         </PopoverPanel>
                       </>
