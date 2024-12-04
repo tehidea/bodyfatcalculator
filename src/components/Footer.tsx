@@ -23,9 +23,9 @@ export function Footer() {
   return (
     <footer className="border-t border-gray-200 bg-[#333333]">
       <Container>
-        <div className="flex flex-col items-start justify-between gap-y-8 pb-4 pt-12 lg:flex-row lg:items-center lg:py-2">
-          <div>
-            <div className="flex items-center gap-3">
+        <div className="flex flex-col items-center justify-between gap-y-8 pb-4 pt-12 lg:flex-row lg:items-center lg:py-2">
+          <div className="w-full text-center lg:text-left">
+            <div className="flex items-center justify-center gap-3 lg:justify-start">
               <Link href="/" aria-label="Home">
                 <Logo className="h-10 w-auto" />
               </Link>
@@ -39,26 +39,28 @@ export function Footer() {
               </div>
             </div>
           </div>
-          <div className="group relative -mx-4 flex items-center self-stretch p-4 transition-colors hover:bg-white/5 sm:self-auto sm:rounded-2xl lg:mx-0 lg:self-auto lg:p-6">
-            <div className="mr-8 text-right lg:w-64">
-              <p className="text-base font-semibold text-white">
-                <Link href="#">
-                  <span className="absolute inset-0 sm:rounded-2xl" />
-                  Download the app
-                </Link>
-              </p>
-              <p className="mt-1 text-sm text-gray-400">
-                Scan the QR code to download the app from the App Store.
-              </p>
-            </div>
-            <div className="relative flex h-24 w-24 flex-none items-center justify-center">
-              <QrCodeBorder className="absolute inset-0 h-full w-full" />
-              <Image
-                src={qrCode}
-                alt="Download app QR code"
-                unoptimized
-                className="brightness-0 invert"
-              />
+          <div className="hidden sm:block">
+            <div className="group relative -mx-4 flex items-center self-stretch p-4 transition-colors hover:bg-white/5 sm:self-auto sm:rounded-2xl lg:mx-0 lg:self-auto lg:p-6">
+              <div className="mr-8 text-right lg:w-64">
+                <p className="text-base font-semibold text-white">
+                  <Link href="#">
+                    <span className="absolute inset-0 sm:rounded-2xl" />
+                    Download the app
+                  </Link>
+                </p>
+                <p className="mt-1 text-sm text-gray-400">
+                  Scan the QR code to download the app from the App Store.
+                </p>
+              </div>
+              <div className="relative flex h-24 w-24 flex-none items-center justify-center">
+                <QrCodeBorder className="absolute inset-0 h-full w-full" />
+                <Image
+                  src={qrCode}
+                  alt="Download app QR code"
+                  unoptimized
+                  className="brightness-0 invert"
+                />
+              </div>
             </div>
           </div>
         </div>
