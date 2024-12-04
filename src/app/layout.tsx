@@ -23,7 +23,7 @@ export const metadata = {
     siteName: 'Body Fat Calculator Pro',
     images: [
       {
-        url: '/og-image.png',
+        url: '/og.png',
         width: 1200,
         height: 630,
         alt: 'Body Fat Calculator Pro - Professional Body Fat Measurement Tool',
@@ -37,7 +37,7 @@ export const metadata = {
     title: 'Body Fat Calculator Pro',
     description:
       'Professional-grade body fat measurement app with multiple scientifically validated methods.',
-    images: ['/og-image.png'],
+    images: ['/og.png'],
     creator: '@bodyfatcalcpro',
   },
   icons: {
