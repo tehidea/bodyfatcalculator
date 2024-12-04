@@ -17,16 +17,24 @@ import { AppScreen } from '@/components/AppScreen'
 import { CircleBackground } from '@/components/CircleBackground'
 import { Container } from '@/components/Container'
 import { PhoneFrame } from '@/components/PhoneFrame'
-import {
-  DiageoLogo,
-  LaravelLogo,
-  MirageLogo,
-  ReversableLogo,
-  StatamicLogo,
-  StaticKitLogo,
-  TransistorLogo,
-  TupleLogo,
-} from '@/components/StockLogos'
+import { FORMULA_REQUIREMENTS } from '@/FORMULA_REQUIREMENTS'
+import { BodyWeightScalesIcon } from '@/images/icons/BodyWeightScalesIcon'
+import { MeasuringTapeIcon } from '@/images/icons/MeasuringTapeIcon'
+import { SkinfoldIcon } from '@/images/icons/SkinfoldIcon'
+import { MeasurementVerticalIcon } from '@/images/icons/MeasurementVerticalIcon'
+import { CalendarIcon } from '@/images/icons/CalendarIcon'
+
+// Helper function to check if formula needs specific measurements
+function getRequiredMeasurements(formula: keyof typeof FORMULA_REQUIREMENTS) {
+  const fields = FORMULA_REQUIREMENTS[formula].fields
+  return {
+    needsWeight: fields.some((f) => f.key === 'weight'),
+    needsHeight: fields.some((f) => f.key === 'height'),
+    needsCircumference: fields.some((f) => f.key.includes('Circumference')),
+    needsSkinfold: fields.some((f) => f.key.includes('Skinfold')),
+    needsAge: fields.some((f) => f.key === 'age'),
+  }
+}
 
 const MotionAppScreenHeader = motion(AppScreen.Header)
 const MotionAppScreenBody = motion(AppScreen.Body)
@@ -636,6 +644,15 @@ export function PrimaryFeatures() {
             <p className="mt-3 text-sm text-gray-400">
               Most thorough method with seven skinfold measurements
             </p>
+            {(() => {
+              const measurements = getRequiredMeasurements('jack7')
+              return (
+                <div className="mt-4 flex gap-3">
+                  {measurements.needsAge && <CalendarIcon size={24} />}
+                  {measurements.needsSkinfold && <SkinfoldIcon size={24} />}
+                </div>
+              )
+            })()}
           </div>
 
           {/* Jackson & Pollock 4-Site */}
@@ -654,6 +671,15 @@ export function PrimaryFeatures() {
             <p className="mt-3 text-sm text-gray-400">
               Uses age and four strategic skinfold measurements
             </p>
+            {(() => {
+              const measurements = getRequiredMeasurements('jack4')
+              return (
+                <div className="mt-4 flex gap-3">
+                  {measurements.needsAge && <CalendarIcon size={24} />}
+                  {measurements.needsSkinfold && <SkinfoldIcon size={24} />}
+                </div>
+              )
+            })()}
           </div>
 
           {/* Jackson & Pollock 3-Site */}
@@ -672,6 +698,15 @@ export function PrimaryFeatures() {
             <p className="mt-3 text-sm text-gray-400">
               Quick but accurate method using three skinfold sites
             </p>
+            {(() => {
+              const measurements = getRequiredMeasurements('jack3')
+              return (
+                <div className="mt-4 flex gap-3">
+                  {measurements.needsAge && <CalendarIcon size={24} />}
+                  {measurements.needsSkinfold && <SkinfoldIcon size={24} />}
+                </div>
+              )
+            })()}
           </div>
 
           {/* Durnin & Womersley */}
@@ -690,6 +725,15 @@ export function PrimaryFeatures() {
             <p className="mt-3 text-sm text-gray-400">
               Scientific method using four skinfold measurements
             </p>
+            {(() => {
+              const measurements = getRequiredMeasurements('durnin')
+              return (
+                <div className="mt-4 flex gap-3">
+                  {measurements.needsAge && <CalendarIcon size={24} />}
+                  {measurements.needsSkinfold && <SkinfoldIcon size={24} />}
+                </div>
+              )
+            })()}
           </div>
 
           {/* Parrillo */}
@@ -706,6 +750,17 @@ export function PrimaryFeatures() {
             <p className="mt-3 text-sm text-gray-400">
               Bodybuilding-focused method using nine skinfold sites
             </p>
+            {(() => {
+              const measurements = getRequiredMeasurements('parrillo')
+              return (
+                <div className="mt-4 flex gap-3">
+                  {measurements.needsWeight && (
+                    <BodyWeightScalesIcon size={24} />
+                  )}
+                  {measurements.needsSkinfold && <SkinfoldIcon size={24} />}
+                </div>
+              )
+            })()}
           </div>
 
           {/* Covert Bailey */}
@@ -724,6 +779,20 @@ export function PrimaryFeatures() {
             <p className="mt-3 text-sm text-gray-400">
               Comprehensive method using multiple body measurements
             </p>
+            {(() => {
+              const measurements = getRequiredMeasurements('covert')
+              return (
+                <div className="mt-4 flex gap-3">
+                  {measurements.needsWeight && (
+                    <BodyWeightScalesIcon size={24} />
+                  )}
+                  {measurements.needsAge && <CalendarIcon size={24} />}
+                  {measurements.needsCircumference && (
+                    <MeasuringTapeIcon size={24} />
+                  )}
+                </div>
+              )
+            })()}
           </div>
 
           {/* US Navy */}
@@ -735,6 +804,22 @@ export function PrimaryFeatures() {
             <p className="mt-3 text-sm text-gray-400">
               Military method using height and circumference measurements
             </p>
+            {(() => {
+              const measurements = getRequiredMeasurements('navy')
+              return (
+                <div className="mt-4 flex gap-3">
+                  {measurements.needsWeight && (
+                    <BodyWeightScalesIcon size={24} />
+                  )}
+                  {measurements.needsHeight && (
+                    <MeasurementVerticalIcon size={24} />
+                  )}
+                  {measurements.needsCircumference && (
+                    <MeasuringTapeIcon size={24} />
+                  )}
+                </div>
+              )
+            })()}
           </div>
 
           {/* YMCA */}
@@ -746,6 +831,19 @@ export function PrimaryFeatures() {
             <p className="mt-3 text-sm text-gray-400">
               Simple method using weight and waist measurements
             </p>
+            {(() => {
+              const measurements = getRequiredMeasurements('ymca')
+              return (
+                <div className="mt-4 flex gap-3">
+                  {measurements.needsWeight && (
+                    <BodyWeightScalesIcon size={24} />
+                  )}
+                  {measurements.needsCircumference && (
+                    <MeasuringTapeIcon size={24} />
+                  )}
+                </div>
+              )
+            })()}
           </div>
 
           {/* Modified YMCA */}
@@ -759,6 +857,19 @@ export function PrimaryFeatures() {
             <p className="mt-3 text-sm text-gray-400">
               Enhanced YMCA method with additional measurements for women
             </p>
+            {(() => {
+              const measurements = getRequiredMeasurements('mymca')
+              return (
+                <div className="mt-4 flex gap-3">
+                  {measurements.needsWeight && (
+                    <BodyWeightScalesIcon size={24} />
+                  )}
+                  {measurements.needsCircumference && (
+                    <MeasuringTapeIcon size={24} />
+                  )}
+                </div>
+              )
+            })()}
           </div>
         </div>
       </Container>

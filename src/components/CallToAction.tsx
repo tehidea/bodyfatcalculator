@@ -73,17 +73,6 @@ export function CallToAction() {
                 <CheckIcon className="h-5 w-5 text-warning" />
                 <span className="ml-4">US Navy Method (±4-6%)</span>
               </div>
-              <div className="mt-6 flex items-center gap-4">
-                {freeRequirements.some((r) => r.needsWeight) && (
-                  <BodyWeightScalesIcon className="h-8 w-8 text-gray-400" />
-                )}
-                {freeRequirements.some((r) => r.needsHeight) && (
-                  <MeasurementVerticalIcon className="h-8 w-8 text-gray-400" />
-                )}
-                {freeRequirements.some((r) => r.needsCircumference) && (
-                  <MeasuringTapeIcon className="h-8 w-8 text-gray-400" />
-                )}
-              </div>
               <div className="flex items-center text-white">
                 <CheckIcon className="h-5 w-5 text-warning" />
                 <span className="ml-4">Basic Results</span>
@@ -119,31 +108,9 @@ export function CallToAction() {
                 <CheckIcon className="h-5 w-5 text-success" />
                 <span className="ml-4">7 Professional Methods (±3-4%)</span>
               </div>
-              <div className="mt-6 flex items-center gap-4">
-                {premiumRequirements.some((r) => r.needsWeight) && (
-                  <BodyWeightScalesIcon className="h-8 w-8 text-gray-400" />
-                )}
-                {premiumRequirements.some((r) => r.needsHeight) && (
-                  <MeasurementVerticalIcon className="h-8 w-8 text-gray-400" />
-                )}
-                {premiumRequirements.some((r) => r.needsCircumference) && (
-                  <MeasuringTapeIcon className="h-8 w-8 text-gray-400" />
-                )}
-                {premiumRequirements.some((r) => r.needsSkinfold) && (
-                  <SkinfoldIcon className="h-8 w-8 text-gray-400" />
-                )}
-              </div>
               <div className="flex items-center text-white">
                 <CheckIcon className="h-5 w-5 text-success" />
                 <span className="ml-4">Enhanced Precision (2 decimals)</span>
-              </div>
-              <div className="flex items-center text-white">
-                <CheckIcon className="h-5 w-5 text-success" />
-                <span className="ml-4">Unlimited Storage</span>
-              </div>
-              <div className="flex items-center text-white">
-                <CheckIcon className="h-5 w-5 text-success" />
-                <span className="ml-4">Professional PDF Reports</span>
               </div>
             </div>
             <div className="mt-8">
