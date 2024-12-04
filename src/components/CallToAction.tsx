@@ -150,7 +150,7 @@ export function CallToAction() {
                   <h3 className="text-xl font-semibold text-white">
                     PRO Version
                   </h3>
-                  <div className="rounded-full bg-gradient-to-r from-[#FF0000] to-[#FF5722] px-3 py-1 text-sm font-medium text-white">
+                  <div className="rounded-full border-2 border-gray-400 px-3 py-1 text-sm font-medium text-white">
                     Lifetime Access
                   </div>
                 </div>

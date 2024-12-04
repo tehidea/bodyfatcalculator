@@ -5,24 +5,24 @@ const faqs = [
     {
       question: 'How accurate are the measurements?',
       answer:
-        'Our app offers multiple methods with varying accuracy levels. Premium caliper methods (Jackson & Pollock) achieve ±1-2% accuracy when done correctly, while the US Navy method offers ±3-4% accuracy using just a tape measure. All our methods are scientifically validated and calibrated against gold-standard techniques.',
+        'When measurements are done right, you can expect accuracy of ±3-4%. The key is consistent technique and site location. For best results, take measurements in the morning before eating or drinking.',
     },
     {
       question: 'What equipment do I need?',
       answer:
-        'It depends on your chosen method. For basic measurements (US Navy), you only need a tape measure. For premium caliper methods, we recommend professional-grade calipers like Harpenden or Lange. Our app includes detailed guides for both types of measurements.',
+        "You'll need a body fat caliper (also known as skinfold calipers). We recommend using professional-grade calipers like Harpenden or Lange for best results, though any caliper will work.",
     },
     {
       question: 'Which measurement method should I choose?',
       answer:
-        'For beginners or quick checks, start with the US Navy method - it only requires a tape measure. For professional accuracy, use the Jackson & Pollock 7-site method with calipers. The app will guide you through the best method based on your equipment and experience level.',
+        'For most people, we recommend starting with the Jackson & Pollock 3-site method. It provides a good balance of accuracy and simplicity. As you get more comfortable with measurements, you can try the 7-site method for potentially better accuracy.',
     },
   ],
   [
     {
       question: 'What makes the PRO version special?',
       answer:
-        'PRO unlocks 6 premium measurement methods (including J&P 3,4,7-site), unlimited measurement storage, detailed analytics, progress tracking, professional PDF reports, and data export. Perfect for trainers and serious fitness enthusiasts.',
+        'PRO unlocks additional measurement methods including Jackson & Pollock 3,4,7-site formulas and Durnin & Womersley method. Perfect for fitness enthusiasts who want access to all validated formulas.',
     },
     {
       question: 'How often should I measure?',
@@ -32,24 +32,24 @@ const faqs = [
     {
       question: 'Can I use this professionally with clients?',
       answer:
-        'Absolutely! The PRO version is designed for professional use with features like client management, white-label PDF reports, and data export. Many trainers and nutritionists trust our app for their client assessments.',
+        'Yes! The app is suitable for both personal and professional use. The multiple measurement methods and unit conversion features make it a practical tool for trainers working with clients.',
     },
   ],
   [
     {
       question: 'Is there a subscription fee?',
       answer:
-        'No! The PRO version is a one-time purchase of £10. You get lifetime access to all premium features and future updates. No hidden fees or subscriptions.',
+        'No! The PRO version is a one-time purchase of £10. You get lifetime access to all premium measurement methods and future updates. No hidden fees or subscriptions.',
     },
     {
       question: 'Why are some measurements gender-specific?',
       answer:
-        'Body fat distribution varies significantly between males and females. Gender-specific measurements (like hip circumference for women) help account for these natural differences, improving the accuracy of your results.',
+        'Body fat distribution varies significantly between males and females. Gender-specific formulas help account for these natural differences, improving the accuracy of your results.',
     },
     {
-      question: 'Do you offer professional support?',
+      question: 'Do you offer support?',
       answer:
-        'Yes! We provide dedicated support for fitness professionals, including training materials, measurement guides, and technical assistance. Contact us at support@bodyfatcalculator.pro for professional inquiries.',
+        'Yes! We provide support for all users. If you have questions about measurements, formulas, or technical issues, contact us at support@bodyfatcalculator.pro.',
     },
   ],
 ]
