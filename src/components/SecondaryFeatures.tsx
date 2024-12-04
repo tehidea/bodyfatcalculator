@@ -196,12 +196,11 @@ export function SecondaryFeatures() {
       <Container>
         <div className="mx-auto max-w-2xl sm:text-center">
           <h2 className="text-3xl font-semibold tracking-tight text-gray-900">
-            Everything you need for accurate tracking.
+            Simple and accurate body fat calculations.
           </h2>
           <p className="mt-2 text-lg text-gray-700">
-            From beginners to professional trainers, our app provides all the
-            tools you need to measure and track body composition with
-            confidence.
+            Our app focuses on providing accurate body fat measurements using
+            the most reliable caliper-based methods available.
           </p>
         </div>
         <ul
@@ -212,37 +211,19 @@ export function SecondaryFeatures() {
             {
               name: 'Multiple Measurement Methods',
               description:
-                'Choose from 7 scientifically validated formulas including Jackson & Pollock (3, 4, 7 sites), Durnin & Womersley, and more.',
+                'Choose from scientifically validated formulas including Jackson & Pollock (3, 4, 7 sites) and Durnin & Womersley.',
               icon: DeviceArrowIcon,
             },
             {
-              name: 'Progress Tracking',
+              name: 'Easy to Use',
               description:
-                'Store unlimited measurements and view your progress over time with detailed charts and analysis.',
+                'Simple interface that guides you through the measurement process with clear input fields and instant results.',
               icon: DeviceCardsIcon,
-            },
-            {
-              name: 'Professional Reports',
-              description:
-                'Generate detailed PDF reports for clients or personal records, including all measurements and progress charts.',
-              icon: DeviceClockIcon,
-            },
-            {
-              name: 'Measurement Guides',
-              description:
-                'Step-by-step guides with images and videos showing exact measurement locations and techniques.',
-              icon: DeviceListIcon,
-            },
-            {
-              name: 'Data Export',
-              description:
-                'Export your data in multiple formats for further analysis or record-keeping.',
-              icon: DeviceLockIcon,
             },
             {
               name: 'Unit Conversion',
               description:
-                'Seamlessly switch between metric and imperial measurements for international use.',
+                'Seamlessly switch between metric (millimeters) and imperial (inches) measurements for your convenience.',
               icon: DeviceChartIcon,
             },
           ].map((feature) => (
