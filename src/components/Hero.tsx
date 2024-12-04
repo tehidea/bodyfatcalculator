@@ -61,10 +61,10 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center rounded-full bg-[#FF0000]/10 px-6 py-2 text-sm font-medium text-[#FF0000] ring-1 ring-inset ring-[#FF0000]/20"
+              className="inline-flex flex-wrap items-center rounded-full bg-[#FF0000]/10 px-4 py-2 text-sm font-medium text-[#FF0000] ring-1 ring-inset ring-[#FF0000]/20 sm:px-6"
             >
-              <span className="mr-2">★★★★★</span> Brand New Body Fat Calculator
-              on the App Store
+              <span className="mr-2 whitespace-nowrap">★★★★★</span>
+              <span className="whitespace-nowrap">Soon on the App Store!</span>
             </motion.div>
 
             <motion.div
