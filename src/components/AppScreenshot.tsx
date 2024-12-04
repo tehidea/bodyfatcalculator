@@ -52,7 +52,11 @@ export function AppScreenshot({
           : undefined
       }
     >
-      <PhoneFrame className="w-full" priority={position === 'center'}>
+      <PhoneFrame
+        className="w-full"
+        priority={position === 'center'}
+        variant="dark"
+      >
         <Image
           src={src}
           alt={alt}
