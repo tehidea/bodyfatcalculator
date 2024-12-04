@@ -114,23 +114,22 @@ export function CallToAction() {
 
                 <div className="flex items-center gap-3">
                   {freeRequirements.some((r) => r.needsWeight) && (
-                    <BodyWeightScalesIcon size="24" className="text-gray-400" />
+                    <BodyWeightScalesIcon size="12" className="text-gray-400" />
                   )}
                   {freeRequirements.some((r) => r.needsHeight) && (
                     <MeasurementVerticalIcon
-                      size="24"
+                      size="12"
                       className="text-gray-400"
                     />
                   )}
                   {freeRequirements.some((r) => r.needsCircumference) && (
-                    <MeasuringTapeIcon size="24" className="text-gray-400" />
+                    <MeasuringTapeIcon size="12" className="text-gray-400" />
                   )}
                 </div>
               </div>
 
               <div className="mt-8">
-                <AppStoreLink />
-                <p className="mt-4 text-sm text-gray-500">Free forever</p>
+                <p className="text-sm text-gray-500">Free forever</p>
               </div>
             </div>
           </div>
@@ -177,27 +176,26 @@ export function CallToAction() {
                   <div className="flex items-center gap-3">
                     {premiumRequirements.some((r) => r.needsWeight) && (
                       <BodyWeightScalesIcon
-                        size="24"
+                        size="12"
                         className="text-gray-400"
                       />
                     )}
                     {premiumRequirements.some((r) => r.needsHeight) && (
                       <MeasurementVerticalIcon
-                        size="24"
+                        size="12"
                         className="text-gray-400"
                       />
                     )}
                     {premiumRequirements.some((r) => r.needsCircumference) && (
-                      <MeasuringTapeIcon size="24" className="text-gray-400" />
+                      <MeasuringTapeIcon size="12" className="text-gray-400" />
                     )}
                     {premiumRequirements.some((r) => r.needsSkinfold) && (
-                      <SkinfoldIcon size="24" className="text-gray-400" />
+                      <SkinfoldIcon size="12" className="text-gray-400" />
                     )}
                   </div>
                 </div>
 
                 <div className="mt-8">
-                  <AppStoreLink />
                   <div className="mt-4 flex items-center justify-between text-sm">
                     <span className="text-gray-500">One-time purchase</span>
                     <span className="font-medium text-white">£10</span>
@@ -206,6 +204,19 @@ export function CallToAction() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* MASSIVE Download Button */}
+        <div className="mt-20 flex flex-col items-center justify-center">
+          <div className="mb-6 text-center">
+            <p className="text-xl font-medium text-white">
+              Ready to get started?
+            </p>
+            <p className="mt-2 text-gray-400">
+              Download now and start measuring
+            </p>
+          </div>
+          <AppStoreLink className="scale-150 transform transition-all duration-300 hover:scale-[1.6]" />
         </div>
       </Container>
     </section>

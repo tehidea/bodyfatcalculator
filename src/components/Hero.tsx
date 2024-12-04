@@ -108,7 +108,7 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="mt-10 flex flex-wrap items-center gap-6"
             >
-              <AppStoreLink />
+              <AppStoreLink size="large" color="white" />
             </motion.div>
 
             <motion.div
