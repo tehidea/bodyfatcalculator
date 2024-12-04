@@ -248,60 +248,24 @@ function StocksScreen(props: ScreenProps) {
         <div className="divide-y divide-gray-100">
           {[
             {
-              name: 'Laravel',
-              price: '4,098.01',
+              name: 'Bodyweight',
               change: '+4.98%',
               color: '#F9322C',
-              logo: LaravelLogo,
             },
             {
-              name: 'Tuple',
-              price: '5,451.10',
+              name: 'Height',
               change: '-3.38%',
               color: '#5A67D8',
-              logo: TupleLogo,
             },
             {
-              name: 'Transistor',
-              price: '4,098.41',
+              name: 'Skinfold',
               change: '+6.25%',
-              color: '#2A5B94',
-              logo: TransistorLogo,
+              color: '#2563EB',
             },
             {
-              name: 'Diageo',
-              price: '250.65',
-              change: '+1.25%',
-              color: '#3320A7',
-              logo: DiageoLogo,
-            },
-            {
-              name: 'StaticKit',
-              price: '250.65',
-              change: '-3.38%',
-              color: '#2A3034',
-              logo: StaticKitLogo,
-            },
-            {
-              name: 'Statamic',
-              price: '5,040.85',
-              change: '-3.11%',
-              color: '#0EA5E9',
-              logo: StatamicLogo,
-            },
-            {
-              name: 'Mirage',
-              price: '140.44',
-              change: '+9.09%',
+              name: 'Circumference',
+              change: '-2.54%',
               color: '#16A34A',
-              logo: MirageLogo,
-            },
-            {
-              name: 'Reversable',
-              price: '550.60',
-              change: '-1.25%',
-              color: '#8D8D8D',
-              logo: ReversableLogo,
             },
           ].map((stock) => (
             <div key={stock.name} className="flex items-center gap-4 px-4 py-3">
@@ -309,14 +273,14 @@ function StocksScreen(props: ScreenProps) {
                 className="flex-none rounded-full"
                 style={{ backgroundColor: stock.color }}
               >
-                <stock.logo className="h-10 w-10" />
+                <BodyWeightScalesIcon size="20" className="text-gray-600" />
               </div>
               <div className="flex-auto text-sm text-gray-900">
                 {stock.name}
               </div>
               <div className="flex-none text-right">
                 <div className="text-sm font-medium text-gray-900">
-                  {stock.price}
+                  {stock.change}
                 </div>
                 <div
                   className={clsx(

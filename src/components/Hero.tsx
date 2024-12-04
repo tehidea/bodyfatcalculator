@@ -129,7 +129,8 @@ export function Hero() {
                 </div>
               </div>
               <p className="text-sm text-gray-400">
-                Early Access • First Reviews: "Exactly what I needed" - PT Alex
+                Early Access • First Reviews: &quot;Exactly what I needed&quot;
+                - PT Alex
               </p>
             </motion.div>
           </div>
