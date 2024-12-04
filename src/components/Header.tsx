@@ -59,7 +59,7 @@ function MobileNavLink({
 
   return (
     <PopoverButton
-      className="block px-4 text-base font-medium leading-7 tracking-tight text-white hover:text-[#FF0000]"
+      className="block px-4 text-base font-medium leading-7 tracking-tight text-[#333333] hover:text-[#FF0000]"
       onClick={scrollToSection}
       {...props}
     >
@@ -114,7 +114,7 @@ export function Header() {
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
-                          className="fixed inset-0 z-40 bg-[#333333]/90 backdrop-blur"
+                          className="fixed inset-0 z-40 bg-white/90 backdrop-blur"
                         />
                         <PopoverPanel
                           static
@@ -126,16 +126,16 @@ export function Header() {
                             y: -32,
                             transition: { duration: 0.2 },
                           }}
-                          className="absolute inset-x-0 top-0 z-40 origin-top rounded-b-2xl bg-[#333333] px-4 pb-6 pt-8 shadow-2xl shadow-black/50 sm:px-6 lg:px-8"
+                          className="absolute inset-x-0 top-0 z-40 origin-top rounded-b-2xl bg-white px-4 pb-6 pt-8 shadow-2xl shadow-gray-200/50 sm:px-6 lg:px-8"
                         >
                           <div className="flex flex-col space-y-6">
                             <div className="flex items-center gap-3">
-                              <Logo className="h-10 w-auto" />
+                              <Logo className="h-10 w-auto [&>path]:fill-[#333333]" />
                               <div className="flex h-8 items-center text-3xl">
-                                <span className="font-extralight tracking-tighter text-white">
+                                <span className="font-extralight tracking-tighter text-[#333333]">
                                   BODY
                                 </span>
-                                <span className="font-light tracking-tighter text-white">
+                                <span className="font-light tracking-tighter text-[#333333]">
                                   FAT
                                 </span>
                               </div>
