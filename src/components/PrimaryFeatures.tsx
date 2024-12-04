@@ -556,7 +556,7 @@ export function PrimaryFeatures() {
             <div className="h-px flex-auto bg-[#FF0000]/10"></div>
           </div>
           <h2 className="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Choose Your Perfec Method
+            Choose Your Perfect Method
           </h2>
           <p className="mt-6 text-xl text-gray-400">
             From quick estimates to gold-standard measurements, we offer the
