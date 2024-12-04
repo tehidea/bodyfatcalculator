@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Body Fat Calculator",
+    "name": "Body Fat Calculator PRO",
     "slug": "body-fat-calculator",
     "owner": "tehidea",
     "extra": {
@@ -19,7 +19,8 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.tehidea.bodyfatcalculator"
+      "bundleIdentifier": "com.tehidea.bodyfatcalculator",
+      "buildNumber": "1"
     },
     "android": {
       "adaptiveIcon": {
