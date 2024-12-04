@@ -11,6 +11,7 @@ import {
   motion,
 } from 'framer-motion'
 import { useDebouncedCallback } from 'use-debounce'
+import { CheckIcon } from '@heroicons/react/24/solid'
 
 import { AppScreen } from '@/components/AppScreen'
 import { CircleBackground } from '@/components/CircleBackground'
@@ -37,23 +38,23 @@ interface CustomAnimationProps {
 
 const features = [
   {
-    name: 'Invite friends for better returns',
+    name: 'Caliper Measurements',
     description:
-      'For every friend you invite to Pocket, you get insider notifications 5 seconds sooner. And it’s 10 seconds if you invite an insider.',
+      'Get the most accurate body fat measurements using the industry-standard Jackson & Pollock methods with 3, 4, or 7 sites. Perfect for fitness professionals and serious athletes.',
     icon: DeviceUserIcon,
     screen: InviteScreen,
   },
   {
-    name: 'Notifications on stock dips',
+    name: 'US Navy Method',
     description:
-      'Get a push notification every time we find out something that’s going to lower the share price on your holdings so you can sell before the information hits the public markets.',
+      "Quick and reliable measurements using the US Navy circumference method. Ideal for tracking progress when calipers aren't available.",
     icon: DeviceNotificationIcon,
     screen: StocksScreen,
   },
   {
-    name: 'Invest what you want',
+    name: 'Advanced Analytics',
     description:
-      'We hide your stock purchases behind thousands of anonymous trading accounts, so suspicious activity can never be traced back to you.',
+      'Track your progress over time with detailed charts, trends, and comprehensive body composition analysis. Export your data for professional analysis.',
     icon: DeviceTouchIcon,
     screen: InvestScreen,
   },
@@ -571,27 +572,195 @@ export function PrimaryFeatures() {
   return (
     <section
       id="features"
-      aria-label="Features for investing all your money"
-      className="bg-gray-900 py-20 sm:py-32"
+      aria-label="Professional body fat measurement features"
+      className="bg-[#000000] py-20 sm:py-32"
     >
       <Container>
         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-3xl">
-          <h2 className="text-3xl font-medium tracking-tight text-white">
-            Every feature you need to win. Try it for yourself.
+          <div className="flex items-center gap-4">
+            <div className="rounded-full bg-[#FF0000]/10 px-4 py-1 text-sm font-medium text-[#FF0000]">
+              9 Professional Methods
+            </div>
+            <div className="h-px flex-auto bg-[#FF0000]/10"></div>
+          </div>
+          <h2 className="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+            Choose Your Perfect
+            <span className="relative whitespace-nowrap">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 418 42"
+                className="absolute left-0 top-2/3 h-[0.58em] w-full fill-[#FF0000]/20"
+                preserveAspectRatio="none"
+              >
+                <path d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z" />
+              </svg>
+              <span className="relative ml-4">Method</span>
+            </span>
           </h2>
-          <p className="mt-2 text-lg text-gray-400">
-            Pocket was built for investors like you who play by their own rules
-            and aren’t going to let SEC regulations get in the way of their
-            dreams. If other investing tools are afraid to build it, Pocket has
-            it.
+          <p className="mt-6 text-xl text-gray-400">
+            From quick estimates to gold-standard measurements, we offer the
+            most comprehensive selection of scientifically validated formulas.
+            Each method is{' '}
+            <span className="text-white">optimized for different needs</span>{' '}
+            and equipment availability.
           </p>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <div className="flex items-center rounded-lg bg-white/10 px-4 py-2">
+              <span className="font-medium text-[#4CAF50]">±3-4%</span>
+              <span className="ml-2 text-sm text-gray-300">Pro Accuracy</span>
+            </div>
+            <div className="flex items-center rounded-lg bg-white/10 px-4 py-2">
+              <span className="font-medium text-[#FFC107]">6</span>
+              <span className="ml-2 text-sm text-gray-300">Pro Methods</span>
+            </div>
+            <div className="flex items-center rounded-lg bg-white/10 px-4 py-2">
+              <span className="font-medium text-[#FF5722]">3</span>
+              <span className="ml-2 text-sm text-gray-300">Free Methods</span>
+            </div>
+          </div>
         </div>
-      </Container>
-      <div className="mt-16 md:hidden">
-        <FeaturesMobile />
-      </div>
-      <Container className="hidden md:mt-20 md:block">
-        <FeaturesDesktop />
+        <div className="mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {/* Jackson & Pollock 7-Site */}
+          <div className="rounded-2xl border border-[#FF0000]/10 bg-[#333333] p-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-white">
+                Jackson & Pollock 7-Site
+              </h3>
+              <span className="text-sm text-[#4CAF50]">±3-4%</span>
+            </div>
+            <div className="mt-2">
+              <span className="inline-block rounded bg-[#FF0000] px-2 py-0.5 text-xs text-white">
+                PRO
+              </span>
+            </div>
+            <p className="mt-3 text-sm text-gray-400">
+              Most thorough method with seven skinfold measurements
+            </p>
+          </div>
+
+          {/* Jackson & Pollock 4-Site */}
+          <div className="rounded-2xl border border-[#FF0000]/10 bg-[#333333] p-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-white">
+                Jackson & Pollock 4-Site
+              </h3>
+              <span className="text-sm text-[#4CAF50]">±3-4%</span>
+            </div>
+            <div className="mt-2">
+              <span className="inline-block rounded bg-[#FF0000] px-2 py-0.5 text-xs text-white">
+                PRO
+              </span>
+            </div>
+            <p className="mt-3 text-sm text-gray-400">
+              Uses age and four strategic skinfold measurements
+            </p>
+          </div>
+
+          {/* Jackson & Pollock 3-Site */}
+          <div className="rounded-2xl border border-[#FF0000]/10 bg-[#333333] p-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-white">
+                Jackson & Pollock 3-Site
+              </h3>
+              <span className="text-sm text-[#4CAF50]">±3-4%</span>
+            </div>
+            <div className="mt-2">
+              <span className="inline-block rounded bg-[#FF0000] px-2 py-0.5 text-xs text-white">
+                PRO
+              </span>
+            </div>
+            <p className="mt-3 text-sm text-gray-400">
+              Quick but accurate method using three skinfold sites
+            </p>
+          </div>
+
+          {/* Durnin & Womersley */}
+          <div className="rounded-2xl border border-[#FF0000]/10 bg-[#333333] p-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-white">
+                Durnin & Womersley
+              </h3>
+              <span className="text-sm text-[#4CAF50]">±3-4%</span>
+            </div>
+            <div className="mt-2">
+              <span className="inline-block rounded bg-[#FF0000] px-2 py-0.5 text-xs text-white">
+                PRO
+              </span>
+            </div>
+            <p className="mt-3 text-sm text-gray-400">
+              Scientific method using four skinfold measurements
+            </p>
+          </div>
+
+          {/* Parrillo */}
+          <div className="rounded-2xl border border-[#FF0000]/10 bg-[#333333] p-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-white">Parrillo</h3>
+              <span className="text-sm text-[#4CAF50]">±3-4%</span>
+            </div>
+            <div className="mt-2">
+              <span className="inline-block rounded bg-[#FF0000] px-2 py-0.5 text-xs text-white">
+                PRO
+              </span>
+            </div>
+            <p className="mt-3 text-sm text-gray-400">
+              Bodybuilding-focused method using nine skinfold sites
+            </p>
+          </div>
+
+          {/* Covert Bailey */}
+          <div className="rounded-2xl border border-[#FF0000]/10 bg-[#333333] p-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-white">
+                Covert Bailey
+              </h3>
+              <span className="text-sm text-[#4CAF50]">±3-4%</span>
+            </div>
+            <div className="mt-2">
+              <span className="inline-block rounded bg-[#FF0000] px-2 py-0.5 text-xs text-white">
+                PRO
+              </span>
+            </div>
+            <p className="mt-3 text-sm text-gray-400">
+              Comprehensive method using multiple body measurements
+            </p>
+          </div>
+
+          {/* US Navy */}
+          <div className="rounded-2xl border border-[#FF0000]/10 bg-[#333333] p-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-white">US Navy</h3>
+              <span className="text-sm text-[#FFC107]">±4-6%</span>
+            </div>
+            <p className="mt-3 text-sm text-gray-400">
+              Military method using height and circumference measurements
+            </p>
+          </div>
+
+          {/* YMCA */}
+          <div className="rounded-2xl border border-[#FF0000]/10 bg-[#333333] p-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-white">YMCA</h3>
+              <span className="text-sm text-[#FF5722]">±5-7%</span>
+            </div>
+            <p className="mt-3 text-sm text-gray-400">
+              Simple method using weight and waist measurements
+            </p>
+          </div>
+
+          {/* Modified YMCA */}
+          <div className="rounded-2xl border border-[#FF0000]/10 bg-[#333333] p-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-white">
+                Modified YMCA
+              </h3>
+              <span className="text-sm text-[#FF5722]">±5-7%</span>
+            </div>
+            <p className="mt-3 text-sm text-gray-400">
+              Enhanced YMCA method with additional measurements for women
+            </p>
+          </div>
+        </div>
       </Container>
     </section>
   )

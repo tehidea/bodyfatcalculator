@@ -1,22 +1,25 @@
-import { type Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Montserrat } from 'next/font/google'
 import clsx from 'clsx'
 
 import '@/styles/tailwind.css'
+import '@/styles/globals.css'
 
-const inter = Inter({
+const montserrat = Montserrat({
   subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
+  weight: ['200', '300', '400', '500', '600', '700'],
+  variable: '--font-montserrat',
 })
 
-export const metadata: Metadata = {
-  title: {
-    template: '%s - Pocket',
-    default: 'Pocket - Invest at the perfect time.',
-  },
+export const metadata = {
+  title: 'Body Fat Calculator Pro',
   description:
-    'By leveraging insights from our network of industry insiders, you’ll know exactly when to buy to maximize profit, and exactly when to sell to avoid painful losses.',
+    'Professional-grade body fat measurement app with multiple scientifically validated methods.',
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.png', sizes: '32x32', type: 'image/png' },
+    ],
+  },
 }
 
 export default function RootLayout({
@@ -25,7 +28,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={clsx('bg-gray-50 antialiased', inter.variable)}>
+    <html
+      lang="en"
+      className={clsx(
+        'bg-[#333333] text-white antialiased',
+        montserrat.className,
+      )}
+    >
       <body>{children}</body>
     </html>
   )

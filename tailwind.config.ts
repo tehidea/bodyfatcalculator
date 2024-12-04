@@ -21,9 +21,20 @@ export default {
       '9xl': ['8rem', { lineHeight: '1' }],
     },
     extend: {
+      colors: {
+        primary: '#FF0000',
+        background: '#333333',
+        success: '#4CAF50',
+        warning: '#FFC107',
+        error: '#FF5722',
+        text: {
+          DEFAULT: '#FFFFFF',
+          light: '#333333',
+          dark: '#000000',
+        },
+      },
       animation: {
         'fade-in': 'fade-in 0.5s linear forwards',
-        marquee: 'marquee var(--marquee-duration) linear infinite',
         'spin-slow': 'spin 4s linear infinite',
         'spin-slower': 'spin 6s linear infinite',
         'spin-reverse': 'spin-reverse 1s linear infinite',
@@ -34,30 +45,16 @@ export default {
         '4xl': '2rem',
         '5xl': '2.5rem',
       },
-      colors: ({ colors }) => ({
-        gray: colors.neutral,
-      }),
       fontFamily: {
         sans: 'var(--font-inter)',
       },
       keyframes: {
         'fade-in': {
-          from: {
-            opacity: '0',
-          },
-          to: {
-            opacity: '1',
-          },
-        },
-        marquee: {
-          '100%': {
-            transform: 'translateY(-50%)',
-          },
+          from: { opacity: '0' },
+          to: { opacity: '1' },
         },
         'spin-reverse': {
-          to: {
-            transform: 'rotate(-360deg)',
-          },
+          to: { transform: 'rotate(-360deg)' },
         },
       },
       maxWidth: {
@@ -65,5 +62,5 @@ export default {
       },
     },
   },
-  plugins: [formsPlugin, headlessuiPlugin],
+  plugins: [headlessuiPlugin, formsPlugin],
 } satisfies Config

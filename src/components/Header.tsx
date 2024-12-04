@@ -22,6 +22,7 @@ function MenuIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"
+        stroke="currentColor"
       />
     </svg>
   )
@@ -35,35 +36,55 @@ function ChevronUpIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"
+        stroke="currentColor"
       />
     </svg>
   )
 }
 
-function MobileNavLink(
-  props: Omit<
-    React.ComponentPropsWithoutRef<typeof PopoverButton<typeof Link>>,
-    'as' | 'className'
-  >,
-) {
+function MobileNavLink({
+  children,
+  sectionId,
+  ...props
+}: {
+  children: React.ReactNode
+  sectionId: string
+}) {
+  const scrollToSection = () => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   return (
     <PopoverButton
-      as={Link}
-      className="block text-base leading-7 tracking-tight text-gray-700"
+      className="block text-base font-medium leading-7 tracking-tight text-white hover:text-[#FF0000]"
+      onClick={scrollToSection}
       {...props}
-    />
+    >
+      {children}
+    </PopoverButton>
   )
 }
 
 export function Header() {
   return (
-    <header>
+    <header className="bg-[#333333]">
       <nav>
         <Container className="relative z-50 flex justify-between py-8">
           <div className="relative z-10 flex items-center gap-16">
-            <Link href="/" aria-label="Home">
-              <Logo className="h-10 w-auto" />
-            </Link>
+            <div className="flex items-center gap-3">
+              <Link href="/" aria-label="Home">
+                <Logo className="h-10 w-auto" />
+              </Link>
+              <div className="flex h-8 items-center">
+                <span className="font-light tracking-wide text-white">
+                  BODY
+                </span>
+                <span className="font-bold tracking-wide text-white">FAT</span>
+              </div>
+            </div>
             <div className="hidden lg:flex lg:gap-10">
               <NavLinks />
             </div>
@@ -73,7 +94,7 @@ export function Header() {
               {({ open }) => (
                 <>
                   <PopoverButton
-                    className="relative z-10 -m-2 inline-flex items-center rounded-lg stroke-gray-900 p-2 hover:bg-gray-200/50 hover:stroke-gray-600 active:stroke-gray-900 ui-not-focus-visible:outline-none"
+                    className="relative z-10 -m-2 inline-flex items-center rounded-lg stroke-white p-2 hover:bg-white/10 hover:stroke-[#FF0000] active:stroke-[#FF0000] ui-not-focus-visible:outline-none"
                     aria-label="Toggle site navigation"
                   >
                     {({ open }) =>
@@ -93,7 +114,7 @@ export function Header() {
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
-                          className="fixed inset-0 z-0 bg-gray-300/60 backdrop-blur"
+                          className="fixed inset-0 z-0 bg-[#333333]/90 backdrop-blur"
                         />
                         <PopoverPanel
                           static
@@ -105,25 +126,21 @@ export function Header() {
                             y: -32,
                             transition: { duration: 0.2 },
                           }}
-                          className="absolute inset-x-0 top-0 z-0 origin-top rounded-b-2xl bg-gray-50 px-6 pb-6 pt-32 shadow-2xl shadow-gray-900/20"
+                          className="absolute inset-x-0 top-0 z-0 origin-top rounded-b-2xl bg-[#333333] px-6 pb-6 pt-32 shadow-2xl shadow-black/50"
                         >
                           <div className="space-y-4">
-                            <MobileNavLink href="/#features">
+                            <MobileNavLink sectionId="features">
                               Features
                             </MobileNavLink>
-                            <MobileNavLink href="/#reviews">
-                              Reviews
-                            </MobileNavLink>
-                            <MobileNavLink href="/#pricing">
+                            <MobileNavLink sectionId="get-pro-version">
                               Pricing
                             </MobileNavLink>
-                            <MobileNavLink href="/#faqs">FAQs</MobileNavLink>
+                            <MobileNavLink sectionId="faqs">FAQs</MobileNavLink>
                           </div>
                           <div className="mt-8 flex flex-col gap-4">
-                            <Button href="/login" variant="outline">
-                              Log in
+                            <Button href="#" color="red">
+                              Download
                             </Button>
-                            <Button href="#">Download the app</Button>
                           </div>
                         </PopoverPanel>
                       </>
@@ -132,10 +149,7 @@ export function Header() {
                 </>
               )}
             </Popover>
-            <Button href="/login" variant="outline" className="hidden lg:block">
-              Log in
-            </Button>
-            <Button href="#" className="hidden lg:block">
+            <Button href="#" color="red" className="hidden lg:block">
               Download
             </Button>
           </div>

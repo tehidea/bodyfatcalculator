@@ -1,0 +1,17 @@
+:root {
+  --color-primary: #FF0000;
+  --color-background: #333333;
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+  --color-text: #FFFFFF;
+  --color-text-light: #333333;
+  --color-text-dark: #000000;
+  --color-success: #4CAF50;
+  --color-warning: #FFC107;
+  --color-error: #FF5722;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+} 

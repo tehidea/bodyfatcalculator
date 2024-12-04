@@ -1,89 +1,12 @@
+'use client'
+
 import { useId } from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
+import { motion } from 'framer-motion'
 
-import { AppDemo } from '@/components/AppDemo'
 import { AppStoreLink } from '@/components/AppStoreLink'
-import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
-import { PhoneFrame } from '@/components/PhoneFrame'
-import logoBbc from '@/images/logos/bbc.svg'
-import logoCbs from '@/images/logos/cbs.svg'
-import logoCnn from '@/images/logos/cnn.svg'
-import logoFastCompany from '@/images/logos/fast-company.svg'
-import logoForbes from '@/images/logos/forbes.svg'
-import logoHuffpost from '@/images/logos/huffpost.svg'
-import logoTechcrunch from '@/images/logos/techcrunch.svg'
-import logoWired from '@/images/logos/wired.svg'
-
-function BackgroundIllustration(props: React.ComponentPropsWithoutRef<'div'>) {
-  let id = useId()
-
-  return (
-    <div {...props}>
-      <svg
-        viewBox="0 0 1026 1026"
-        fill="none"
-        aria-hidden="true"
-        className="absolute inset-0 h-full w-full animate-spin-slow"
-      >
-        <path
-          d="M1025 513c0 282.77-229.23 512-512 512S1 795.77 1 513 230.23 1 513 1s512 229.23 512 512Z"
-          stroke="#D4D4D4"
-          strokeOpacity="0.7"
-        />
-        <path
-          d="M513 1025C230.23 1025 1 795.77 1 513"
-          stroke={`url(#${id}-gradient-1)`}
-          strokeLinecap="round"
-        />
-        <defs>
-          <linearGradient
-            id={`${id}-gradient-1`}
-            x1="1"
-            y1="513"
-            x2="1"
-            y2="1025"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stopColor="#06b6d4" />
-            <stop offset="1" stopColor="#06b6d4" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-      </svg>
-      <svg
-        viewBox="0 0 1026 1026"
-        fill="none"
-        aria-hidden="true"
-        className="absolute inset-0 h-full w-full animate-spin-reverse-slower"
-      >
-        <path
-          d="M913 513c0 220.914-179.086 400-400 400S113 733.914 113 513s179.086-400 400-400 400 179.086 400 400Z"
-          stroke="#D4D4D4"
-          strokeOpacity="0.7"
-        />
-        <path
-          d="M913 513c0 220.914-179.086 400-400 400"
-          stroke={`url(#${id}-gradient-2)`}
-          strokeLinecap="round"
-        />
-        <defs>
-          <linearGradient
-            id={`${id}-gradient-2`}
-            x1="913"
-            y1="513"
-            x2="913"
-            y2="913"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stopColor="#06b6d4" />
-            <stop offset="1" stopColor="#06b6d4" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-      </svg>
-    </div>
-  )
-}
 
 function PlayIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -100,60 +23,211 @@ function PlayIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 
 export function Hero() {
   return (
-    <div className="overflow-hidden py-20 sm:py-32 lg:pb-32 xl:pb-36">
+    <div className="relative overflow-hidden bg-[#333333] py-20 sm:py-32 lg:pb-32 xl:pb-36">
+      <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+
+      {/* Dynamic animated background */}
+      <div className="absolute inset-0">
+        <motion.div
+          className="absolute -left-20 top-20 h-[800px] w-[800px] rounded-full bg-gradient-to-tr from-[#ff4694]/30 to-[#776fff]/30 opacity-20 blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            rotate: [0, 45, 0],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: 'linear',
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-20 h-[600px] w-[600px] rounded-full bg-gradient-to-bl from-[#FF0000]/20 to-[#FF5722]/20 opacity-20 blur-3xl"
+          animate={{
+            scale: [1.2, 1, 1.2],
+            rotate: [45, 0, 45],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: 'linear',
+          }}
+        />
+      </div>
+
       <Container>
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 lg:gap-y-20">
           <div className="relative z-10 mx-auto max-w-2xl lg:col-span-7 lg:max-w-none lg:pt-6 xl:col-span-6">
-            <h1 className="text-4xl font-medium tracking-tight text-gray-900">
-              Invest at the perfect time.
-            </h1>
-            <p className="mt-6 text-lg text-gray-600">
-              By leveraging insights from our network of industry insiders,
-              you’ll know exactly when to buy to maximize profit, and exactly
-              when to sell to avoid painful losses.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-4">
-              <AppStoreLink />
-              <Button
-                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                variant="outline"
-              >
-                <PlayIcon className="h-6 w-6 flex-none" />
-                <span className="ml-2.5">Watch the video</span>
-              </Button>
-            </div>
-          </div>
-          <div className="relative mt-10 sm:mt-20 lg:col-span-5 lg:row-span-2 lg:mt-0 xl:col-span-6">
-            <BackgroundIllustration className="absolute left-1/2 top-4 h-[1026px] w-[1026px] -translate-x-1/3 stroke-gray-300/70 [mask-image:linear-gradient(to_bottom,white_20%,transparent_75%)] sm:top-16 sm:-translate-x-1/2 lg:-top-16 lg:ml-12 xl:-top-14 xl:ml-0" />
-            <div className="-mx-4 h-[448px] px-9 [mask-image:linear-gradient(to_bottom,white_60%,transparent)] sm:mx-0 lg:absolute lg:-inset-x-10 lg:-bottom-20 lg:-top-10 lg:h-auto lg:px-0 lg:pt-10 xl:-bottom-32">
-              <PhoneFrame className="mx-auto max-w-[366px]" priority>
-                <AppDemo />
-              </PhoneFrame>
-            </div>
-          </div>
-          <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
-            <p className="text-center text-sm font-semibold text-gray-900 lg:text-left">
-              As featured in
-            </p>
-            <ul
-              role="list"
-              className="mx-auto mt-8 flex max-w-xl flex-wrap justify-center gap-x-10 gap-y-8 lg:mx-0 lg:justify-start"
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center rounded-full bg-[#FF0000]/10 px-6 py-2 text-sm font-medium text-[#FF0000] ring-1 ring-inset ring-[#FF0000]/20"
             >
-              {[
-                ['Forbes', logoForbes],
-                ['TechCrunch', logoTechcrunch],
-                ['Wired', logoWired],
-                ['CNN', logoCnn, 'hidden xl:block'],
-                ['BBC', logoBbc],
-                ['CBS', logoCbs],
-                ['Fast Company', logoFastCompany],
-                ['HuffPost', logoHuffpost, 'hidden xl:block'],
-              ].map(([name, logo, className]) => (
-                <li key={name} className={clsx('flex', className)}>
-                  <Image src={logo} alt={name} className="h-8" unoptimized />
-                </li>
-              ))}
-            </ul>
+              <span className="mr-2">★</span> #1337 Body Fat Calculator on the
+              App Store
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <h1 className="mt-8">
+                <span className="block text-4xl font-bold tracking-tight text-white sm:text-6xl">
+                  Professional
+                </span>
+                <span className="mt-2 block text-4xl font-bold tracking-tight sm:text-6xl">
+                  <span className="text-[#FF0000]">Body Fat</span> Analysis
+                </span>
+              </h1>
+
+              <p className="mt-6 text-lg leading-8 text-gray-300">
+                Get lab-grade accuracy with 9 scientifically validated methods.
+                Perfect for trainers, athletes, and fitness enthusiasts who
+                demand precision.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="mt-8 flex flex-wrap gap-4"
+            >
+              <div className="inline-flex items-center rounded-full bg-white/5 px-4 py-1 text-sm font-medium text-white ring-1 ring-inset ring-white/10 transition-colors hover:bg-white/10">
+                <span className="mr-2 text-[#4CAF50]">✓</span> ±3-4% Accuracy
+              </div>
+              <div className="inline-flex items-center rounded-full bg-white/5 px-4 py-1 text-sm font-medium text-white ring-1 ring-inset ring-white/10 transition-colors hover:bg-white/10">
+                <span className="mr-2 text-[#4CAF50]">✓</span> 6 Pro Methods
+              </div>
+              <div className="inline-flex items-center rounded-full bg-white/5 px-4 py-1 text-sm font-medium text-white ring-1 ring-inset ring-white/10 transition-colors hover:bg-white/10">
+                <span className="mr-2 text-[#4CAF50]">✓</span> PDF Reports
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="mt-10 flex flex-wrap items-center gap-6"
+            >
+              <AppStoreLink />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="mt-10 flex items-center gap-4"
+            >
+              <div className="flex -space-x-2">
+                <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#4CAF50] text-xs font-medium text-white">
+                  5.0
+                </div>
+                <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#FFC107] text-xs font-medium text-white">
+                  ★
+                </div>
+                <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#FF5722] text-xs font-medium text-white">
+                  1k+
+                </div>
+              </div>
+              <p className="text-sm text-gray-400">
+                Trusted by 1000+ fitness professionals worldwide
+              </p>
+            </motion.div>
+          </div>
+
+          <div className="relative mt-16 sm:mt-20 lg:col-span-5 lg:row-span-2 lg:mt-0 xl:col-span-6">
+            {/* Animated background gradients for screenshots */}
+            <motion.div
+              className="absolute -right-20 top-1/2 h-[800px] w-[800px] -translate-y-1/2 rounded-full bg-gradient-to-tr from-[#FF0000] to-[#FF5722] opacity-[0.15] blur-[64px]"
+              animate={{
+                scale: [1, 1.2, 1],
+                rotate: [0, 45, 0],
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+            />
+            <motion.div
+              className="absolute -left-20 top-1/2 h-[600px] w-[600px] -translate-y-1/2 rounded-full bg-gradient-to-br from-[#FF5722] to-[#FF0000] opacity-[0.1] blur-[96px]"
+              animate={{
+                scale: [1.2, 1, 1.2],
+                rotate: [45, 0, 45],
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+            />
+
+            <div className="relative mx-auto w-full max-w-[366px]">
+              {/* Left screenshot */}
+              <motion.div
+                initial={{ opacity: 0, x: -20, rotate: -15 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="absolute -left-[160px] top-[300px] aspect-[366/729] w-[220px] -rotate-[15deg] transition-transform duration-300 hover:-translate-x-2 hover:translate-y-2 hover:-rotate-[17deg]"
+              >
+                <div className="relative h-full overflow-hidden rounded-[38px] bg-[#1a1a1a] p-3.5 shadow-2xl ring-1 ring-gray-900/10">
+                  <div className="absolute left-1/2 top-[12px] h-1 w-[60px] -translate-x-1/2 rounded-full bg-gray-800" />
+                  <div className="relative h-full w-full overflow-hidden rounded-[34px] bg-black">
+                    <Image
+                      src="/screenshots/app-method.png"
+                      alt="Body Fat Calculator method selection"
+                      className="rounded-[32px] object-cover"
+                      fill
+                    />
+                  </div>
+                  <div className="absolute inset-0 rounded-[38px] ring-1 ring-white/10" />
+                </div>
+              </motion.div>
+
+              {/* Right screenshot */}
+              <motion.div
+                initial={{ opacity: 0, x: 20, rotate: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="absolute -right-[160px] top-[100px] aspect-[366/729] w-[220px] rotate-[30deg] transition-transform duration-300 hover:translate-x-2 hover:translate-y-2 hover:rotate-[32deg]"
+              >
+                <div className="relative h-full overflow-hidden rounded-[38px] bg-[#1a1a1a] p-3.5 shadow-2xl ring-1 ring-gray-900/10">
+                  <div className="absolute left-1/2 top-[12px] h-1 w-[60px] -translate-x-1/2 rounded-full bg-gray-800" />
+                  <div className="relative h-full w-full overflow-hidden rounded-[34px] bg-black">
+                    <Image
+                      src="/screenshots/app-results.png"
+                      alt="Body Fat Calculator results screen"
+                      className="rounded-[32px] object-cover"
+                      fill
+                    />
+                  </div>
+                  <div className="absolute inset-0 rounded-[38px] ring-1 ring-white/10" />
+                </div>
+              </motion.div>
+
+              {/* Main screenshot */}
+              <motion.div
+                initial={{ opacity: 1, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="relative z-20 aspect-[366/729] rounded-[38px] bg-[#1a1a1a] p-3.5 shadow-2xl ring-1 ring-gray-900/10 transition-transform duration-300 hover:scale-[1.02]"
+                style={{ transform: 'scale(1.1)' }}
+              >
+                <div className="absolute left-1/2 top-[12px] h-1 w-[100px] -translate-x-1/2 rounded-full bg-gray-800" />
+                <div className="relative h-full w-full overflow-hidden rounded-[34px] bg-black">
+                  <Image
+                    src="/screenshots/app-main.png"
+                    alt="Body Fat Calculator PRO app interface"
+                    className="object-cover"
+                    priority
+                    fill
+                  />
+                </div>
+                <div className="absolute inset-0 rounded-[38px] ring-1 ring-white/10" />
+              </motion.div>
+            </div>
           </div>
         </div>
       </Container>

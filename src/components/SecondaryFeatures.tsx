@@ -48,15 +48,15 @@ function DeviceArrowIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
         fillRule="evenodd"
         clipRule="evenodd"
         d="M9 0a4 4 0 00-4 4v24a4 4 0 004 4h14a4 4 0 004-4V4a4 4 0 00-4-4H9zm0 2a2 2 0 00-2 2v24a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2h-1.382a1 1 0 00-.894.553l-.448.894a1 1 0 01-.894.553h-6.764a1 1 0 01-.894-.553l-.448-.894A1 1 0 0010.382 2H9z"
-        fill="#737373"
+        fill="#475569"
       />
       <path
         d="M12 25l8-8m0 0h-6m6 0v6"
-        stroke="#171717"
+        stroke="#0F172A"
         strokeWidth={2}
         strokeLinecap="round"
       />
-      <circle cx={16} cy={16} r={16} fill="#A3A3A3" fillOpacity={0.2} />
+      <circle cx={16} cy={16} r={16} fill="#13B5C8" fillOpacity={0.2} />
     </svg>
   )
 }
@@ -89,8 +89,8 @@ function DeviceCardsIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
           y2={28}
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#737373" />
-          <stop offset={1} stopColor="#737373" stopOpacity={0} />
+          <stop stopColor="#475569" />
+          <stop offset={1} stopColor="#475569" stopOpacity={0} />
         </linearGradient>
       </defs>
     </svg>
@@ -190,33 +190,71 @@ export function SecondaryFeatures() {
   return (
     <section
       id="secondary-features"
-      aria-label="Features for building a portfolio"
-      className="py-20 sm:py-32"
+      aria-label="Additional features and benefits"
+      className="bg-gray-50 py-20 sm:py-32"
     >
       <Container>
         <div className="mx-auto max-w-2xl sm:text-center">
-          <h2 className="text-3xl font-medium tracking-tight text-gray-900">
-            Now is the time to build your portfolio.
+          <h2 className="text-3xl font-semibold tracking-tight text-gray-900">
+            Everything you need for accurate tracking.
           </h2>
-          <p className="mt-2 text-lg text-gray-600">
-            With typical market returns, you have to start young to secure your
-            future. With Pocket, it’s never too late to build your nest egg.
+          <p className="mt-2 text-lg text-gray-700">
+            From beginners to professional trainers, our app provides all the
+            tools you need to measure and track body composition with
+            confidence.
           </p>
         </div>
         <ul
           role="list"
           className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 text-sm sm:mt-20 sm:grid-cols-2 md:gap-y-10 lg:max-w-none lg:grid-cols-3"
         >
-          {features.map((feature) => (
+          {[
+            {
+              name: 'Multiple Measurement Methods',
+              description:
+                'Choose from 7 scientifically validated formulas including Jackson & Pollock (3, 4, 7 sites), Durnin & Womersley, and more.',
+              icon: DeviceArrowIcon,
+            },
+            {
+              name: 'Progress Tracking',
+              description:
+                'Store unlimited measurements and view your progress over time with detailed charts and analysis.',
+              icon: DeviceCardsIcon,
+            },
+            {
+              name: 'Professional Reports',
+              description:
+                'Generate detailed PDF reports for clients or personal records, including all measurements and progress charts.',
+              icon: DeviceClockIcon,
+            },
+            {
+              name: 'Measurement Guides',
+              description:
+                'Step-by-step guides with images and videos showing exact measurement locations and techniques.',
+              icon: DeviceListIcon,
+            },
+            {
+              name: 'Data Export',
+              description:
+                'Export your data in multiple formats for further analysis or record-keeping.',
+              icon: DeviceLockIcon,
+            },
+            {
+              name: 'Unit Conversion',
+              description:
+                'Seamlessly switch between metric and imperial measurements for international use.',
+              icon: DeviceChartIcon,
+            },
+          ].map((feature) => (
             <li
               key={feature.name}
-              className="rounded-2xl border border-gray-200 p-8"
+              className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition-shadow hover:shadow-md"
             >
               <feature.icon className="h-8 w-8" />
-              <h3 className="mt-6 font-semibold text-gray-900">
+              <h3 className="mt-6 text-base font-semibold text-gray-900">
                 {feature.name}
               </h3>
-              <p className="mt-2 text-gray-700">{feature.description}</p>
+              <p className="mt-2 text-gray-600">{feature.description}</p>
             </li>
           ))}
         </ul>

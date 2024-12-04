@@ -3,53 +3,53 @@ import { Container } from '@/components/Container'
 const faqs = [
   [
     {
-      question: 'How do I know the tips are good?',
+      question: 'How accurate are the measurements?',
       answer:
-        'Our whole business depends on our tips being good, so it’s in our best interest that they are. The results of our customers speak for themselves, just trust us.',
+        'Our app offers multiple methods with varying accuracy levels. Premium caliper methods (Jackson & Pollock) achieve ±1-2% accuracy when done correctly, while the US Navy method offers ±3-4% accuracy using just a tape measure. All our methods are scientifically validated and calibrated against gold-standard techniques.',
     },
     {
-      question: 'Isn’t this insider trading?',
+      question: 'What equipment do I need?',
       answer:
-        'Yes exactly. But at scale! Historically you could only make insider trades with knowledge from your direct network. Pocket brings you insider trading tips from people you don’t even know.',
+        'It depends on your chosen method. For basic measurements (US Navy), you only need a tape measure. For premium caliper methods, we recommend professional-grade calipers like Harpenden or Lange. Our app includes detailed guides for both types of measurements.',
     },
     {
-      question: 'But isn’t insider trading illegal?',
+      question: 'Which measurement method should I choose?',
       answer:
-        'Here’s the thing: you’re the one doing the insider trading, not us. We’re just giving you the tips and some tools to make trades. We’re not doing anything wrong here.',
-    },
-  ],
-  [
-    {
-      question: 'Do the people giving you tips realize what they are doing?',
-      answer:
-        'Again I would argue this isn’t really our responsibility. People make their own choices. If they don’t research the consequences that’s on them, not on us.',
-    },
-    {
-      question: 'Where is Pocket based?',
-      answer:
-        'Let’s just say it’s not somewhere where the SEC is going to find us.',
-    },
-    {
-      question: 'Is there any age limit to trading on Pocket?',
-      answer:
-        'For our free plan, the age limit is based on the minimum age to trade in your country of residence. Our VIP plan uses advanced transaction anonymization though, so you can use that plan even if you’re 9 years old. Or a dog.',
+        'For beginners or quick checks, start with the US Navy method - it only requires a tape measure. For professional accuracy, use the Jackson & Pollock 7-site method with calipers. The app will guide you through the best method based on your equipment and experience level.',
     },
   ],
   [
     {
-      question: 'How did you get this on the App Store?',
+      question: 'What makes the PRO version special?',
       answer:
-        'Honestly we were surprised too, but eventually we found out that the app reviewer found the app so compelling they approved it just so they could use it themselves.',
+        'PRO unlocks 6 premium measurement methods (including J&P 3,4,7-site), unlimited measurement storage, detailed analytics, progress tracking, professional PDF reports, and data export. Perfect for trainers and serious fitness enthusiasts.',
     },
     {
-      question: 'How do I explain the money I withdraw from Pocket to the IRS?',
+      question: 'How often should I measure?',
       answer:
-        'This feels like one-hundred percent a you problem. Pocket is not responsible in any way for your tax returns.',
+        'We recommend measuring every 2-4 weeks. This interval allows enough time to see meaningful changes while maintaining consistent progress tracking. Always measure at the same time of day (preferably morning) for best results.',
     },
     {
-      question: 'How do I become an insider?',
+      question: 'Can I use this professionally with clients?',
       answer:
-        'Contact us with some details about your industry and the type of access you have to apply for an insider account. Once approved, we’ll send you a guide on collecting insider information without being detected at work.',
+        'Absolutely! The PRO version is designed for professional use with features like client management, white-label PDF reports, and data export. Many trainers and nutritionists trust our app for their client assessments.',
+    },
+  ],
+  [
+    {
+      question: 'Is there a subscription fee?',
+      answer:
+        'No! The PRO version is a one-time purchase of £10. You get lifetime access to all premium features and future updates. No hidden fees or subscriptions.',
+    },
+    {
+      question: 'Why are some measurements gender-specific?',
+      answer:
+        'Body fat distribution varies significantly between males and females. Gender-specific measurements (like hip circumference for women) help account for these natural differences, improving the accuracy of your results.',
+    },
+    {
+      question: 'Do you offer professional support?',
+      answer:
+        'Yes! We provide dedicated support for fitness professionals, including training materials, measurement guides, and technical assistance. Contact us at support@bodyfatcalculator.pro for professional inquiries.',
     },
   ],
 ]
@@ -59,23 +59,23 @@ export function Faqs() {
     <section
       id="faqs"
       aria-labelledby="faqs-title"
-      className="border-t border-gray-200 py-20 sm:py-32"
+      className="bg-gray-50 py-20 sm:py-32"
     >
       <Container>
         <div className="mx-auto max-w-2xl lg:mx-0">
           <h2
             id="faqs-title"
-            className="text-3xl font-medium tracking-tight text-gray-900"
+            className="text-3xl font-semibold tracking-tight text-gray-900"
           >
             Frequently asked questions
           </h2>
-          <p className="mt-2 text-lg text-gray-600">
-            If you have anything else you want to ask,{' '}
+          <p className="mt-2 text-lg text-gray-700">
+            Have more questions?{' '}
             <a
-              href="mailto:info@example.com"
-              className="text-gray-900 underline"
+              href="mailto:support@bodyfatcalculator.pro"
+              className="text-[#FF0000] hover:text-[#FF0000]/90"
             >
-              reach out to us
+              Contact our support team
             </a>
             .
           </p>
@@ -92,7 +92,7 @@ export function Faqs() {
                     <h3 className="text-lg font-semibold leading-6 text-gray-900">
                       {faq.question}
                     </h3>
-                    <p className="mt-4 text-sm text-gray-700">{faq.answer}</p>
+                    <p className="mt-4 text-sm text-gray-600">{faq.answer}</p>
                   </li>
                 ))}
               </ul>
