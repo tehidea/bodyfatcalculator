@@ -17,6 +17,12 @@ import { initializeStore } from "./src/config/store";
 import { View } from "react-native";
 import { registerRootComponent } from "expo";
 
+// Configure splash screen options
+SplashScreen.setOptions({
+  duration: 600,
+  fade: true,
+});
+
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync().catch(() => {
   /* reloading the app might trigger some race conditions, ignore them */
