@@ -1,3 +1,5 @@
+'use client'
+
 import { AppStoreLink } from '@/components/AppStoreLink'
 import { CircleBackground } from '@/components/CircleBackground'
 import { Container } from '@/components/Container'
@@ -7,6 +9,7 @@ import { BodyWeightScalesIcon } from '@/images/icons/BodyWeightScalesIcon'
 import { MeasuringTapeIcon } from '@/images/icons/MeasuringTapeIcon'
 import { SkinfoldIcon } from '@/images/icons/SkinfoldIcon'
 import { MeasurementVerticalIcon } from '@/images/icons/MeasurementVerticalIcon'
+import { motion } from 'framer-motion'
 
 // Helper function to check if formula needs specific measurements
 function getRequiredMeasurements(formula: keyof typeof FORMULA_REQUIREMENTS) {
@@ -32,6 +35,7 @@ export function CallToAction() {
     'jack4',
     'jack7',
     'parrillo',
+    'navy',
   ] as const
   const premiumRequirements = premiumFormulas.map(getRequiredMeasurements)
 
@@ -40,85 +44,167 @@ export function CallToAction() {
       id="get-pro-version"
       className="relative overflow-hidden bg-[#000000] py-20 sm:py-28"
     >
-      <div className="absolute left-20 top-1/2 -translate-y-1/2 sm:left-1/2 sm:-translate-x-1/2">
-        <CircleBackground
-          color="#FF0000"
-          className="animate-spin-slower opacity-10"
+      {/* Animated background elements */}
+      <div className="absolute inset-0">
+        <motion.div
+          className="absolute -left-20 top-20 h-[1000px] w-[1000px] rounded-full bg-gradient-to-tr from-[#ff4694]/40 to-[#776fff]/40 opacity-20 blur-[120px]"
+          animate={{
+            scale: [1, 1.4, 1],
+            rotate: [0, 90, 0],
+            x: [0, 100, 0],
+            y: [0, 50, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-20 h-[800px] w-[800px] rounded-full bg-gradient-to-bl from-[#FF0000]/30 to-[#FF5722]/30 opacity-20 blur-[100px]"
+          animate={{
+            scale: [1.2, 0.8, 1.2],
+            rotate: [90, 0, 90],
+            x: [0, -100, 0],
+            y: [0, -50, 0],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
         />
       </div>
+
       <Container className="relative">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-medium tracking-tight text-white sm:text-4xl">
-            Choose Your Version
+            Choose Your Perfect Plan
           </h2>
           <p className="mt-4 text-lg text-gray-400">
             Start with our free version or upgrade to PRO for advanced features
+            and professional accuracy
           </p>
         </div>
-        <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-2">
+
+        <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-2">
           {/* Free Version */}
-          <div className="relative rounded-2xl bg-background p-8">
-            <h3 className="text-xl font-semibold text-white">Free Version</h3>
-            <p className="mt-4 text-gray-400">Basic methods for casual users</p>
-            <div className="mt-8 space-y-4">
-              <div className="flex items-center text-white">
-                <CheckIcon className="h-5 w-5 text-warning" />
-                <span className="ml-4">YMCA Method (±5-7%)</span>
+          <div className="relative rounded-2xl bg-[#1a1a1a] p-8 shadow-xl transition-transform duration-300 hover:scale-[1.02]">
+            <div className="flex flex-col">
+              <h3 className="text-xl font-semibold text-white">Free Version</h3>
+              <p className="mt-2 text-gray-400">
+                Perfect for casual measurements
+              </p>
+
+              <div className="mt-8 flex-1 space-y-6">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 text-white">
+                    <CheckIcon className="h-5 w-5 text-[#FFC107]" />
+                    <span>3 Basic Methods</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-white">
+                    <CheckIcon className="h-5 w-5 text-[#FFC107]" />
+                    <span>±4-7% Accuracy</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-white">
+                    <CheckIcon className="h-5 w-5 text-[#FFC107]" />
+                    <span>Basic Results</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  {freeRequirements.some((r) => r.needsWeight) && (
+                    <BodyWeightScalesIcon size="24" className="text-gray-400" />
+                  )}
+                  {freeRequirements.some((r) => r.needsHeight) && (
+                    <MeasurementVerticalIcon
+                      size="24"
+                      className="text-gray-400"
+                    />
+                  )}
+                  {freeRequirements.some((r) => r.needsCircumference) && (
+                    <MeasuringTapeIcon size="24" className="text-gray-400" />
+                  )}
+                </div>
               </div>
-              <div className="flex items-center text-white">
-                <CheckIcon className="h-5 w-5 text-warning" />
-                <span className="ml-4">Modified YMCA Method</span>
-              </div>
-              <div className="flex items-center text-white">
-                <CheckIcon className="h-5 w-5 text-warning" />
-                <span className="ml-4">US Navy Method (±4-6%)</span>
-              </div>
-              <div className="flex items-center text-white">
-                <CheckIcon className="h-5 w-5 text-warning" />
-                <span className="ml-4">Basic Results</span>
-              </div>
-              <div className="flex items-center text-white">
-                <CheckIcon className="h-5 w-5 text-warning" />
-                <span className="ml-4">Standard Precision (1 decimal)</span>
+
+              <div className="mt-8">
+                <AppStoreLink />
+                <p className="mt-4 text-sm text-gray-500">Free forever</p>
               </div>
             </div>
-            <div className="mt-8">
-              <AppStoreLink />
-            </div>
-            <p className="mt-4 text-sm text-gray-400">Free forever</p>
           </div>
 
           {/* PRO Version */}
-          <div className="relative rounded-2xl bg-background p-8 ring-2 ring-primary">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-              <div className="inline-flex items-center justify-center rounded-full bg-primary px-4 py-1 text-sm font-semibold text-white">
-                RECOMMENDED
+          <div className="relative rounded-2xl bg-gradient-to-br from-[#FF0000] to-[#FF5722] p-[1px] shadow-xl transition-transform duration-300 hover:scale-[1.02]">
+            <div className="relative h-full rounded-2xl bg-[#1a1a1a] p-8">
+              {/* Recommended badge */}
+              <div className="absolute -top-5 left-1/2 -translate-x-1/2">
+                <div className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#FF0000] to-[#FF5722] px-4 py-1 text-sm font-semibold text-white shadow-lg">
+                  RECOMMENDED
+                </div>
+              </div>
+
+              <div className="flex flex-col">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xl font-semibold text-white">
+                    PRO Version
+                  </h3>
+                  <div className="rounded-full bg-gradient-to-r from-[#FF0000] to-[#FF5722] px-3 py-1 text-sm font-medium text-white">
+                    Lifetime Access
+                  </div>
+                </div>
+                <p className="mt-2 text-gray-400">
+                  For professionals and enthusiasts
+                </p>
+
+                <div className="mt-8 flex-1 space-y-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 text-white">
+                      <CheckIcon className="h-5 w-5 text-[#4CAF50]" />
+                      <span>7 Professional Methods</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-white">
+                      <CheckIcon className="h-5 w-5 text-[#4CAF50]" />
+                      <span>±3-4% Accuracy</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-white">
+                      <CheckIcon className="h-5 w-5 text-[#4CAF50]" />
+                      <span>Enhanced Precision</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    {premiumRequirements.some((r) => r.needsWeight) && (
+                      <BodyWeightScalesIcon
+                        size="24"
+                        className="text-gray-400"
+                      />
+                    )}
+                    {premiumRequirements.some((r) => r.needsHeight) && (
+                      <MeasurementVerticalIcon
+                        size="24"
+                        className="text-gray-400"
+                      />
+                    )}
+                    {premiumRequirements.some((r) => r.needsCircumference) && (
+                      <MeasuringTapeIcon size="24" className="text-gray-400" />
+                    )}
+                    {premiumRequirements.some((r) => r.needsSkinfold) && (
+                      <SkinfoldIcon size="24" className="text-gray-400" />
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-8">
+                  <AppStoreLink />
+                  <div className="mt-4 flex items-center justify-between text-sm">
+                    <span className="text-gray-500">One-time purchase</span>
+                    <span className="font-medium text-white">£10</span>
+                  </div>
+                </div>
               </div>
             </div>
-            <h3 className="text-xl font-semibold text-white">PRO Version</h3>
-            <p className="mt-4 text-gray-400">
-              Advanced methods for professionals
-            </p>
-            <div className="mt-8 space-y-4">
-              <div className="flex items-center text-white">
-                <CheckIcon className="h-5 w-5 text-success" />
-                <span className="ml-4">All Free Features</span>
-              </div>
-              <div className="flex items-center text-white">
-                <CheckIcon className="h-5 w-5 text-success" />
-                <span className="ml-4">7 Professional Methods (±3-4%)</span>
-              </div>
-              <div className="flex items-center text-white">
-                <CheckIcon className="h-5 w-5 text-success" />
-                <span className="ml-4">Enhanced Precision (2 decimals)</span>
-              </div>
-            </div>
-            <div className="mt-8">
-              <AppStoreLink />
-            </div>
-            <p className="mt-4 text-sm text-gray-400">
-              One-time purchase • £10
-            </p>
           </div>
         </div>
       </Container>
