@@ -100,7 +100,7 @@ export function Header() {
                     aria-label="Toggle site navigation"
                   >
                     {open ? (
-                      <ChevronUpIcon className="h-6 w-6" />
+                      <ChevronUpIcon className="h-6 w-6 text-black" />
                     ) : (
                       <MenuIcon className="h-6 w-6" />
                     )}
@@ -114,7 +114,7 @@ export function Header() {
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
-                          className="fixed inset-0 z-40 bg-white/90 backdrop-blur"
+                          className="fixed inset-0 z-40 bg-[#333333]/90 backdrop-blur"
                         />
                         <PopoverPanel
                           static
@@ -126,7 +126,7 @@ export function Header() {
                             y: -32,
                             transition: { duration: 0.2 },
                           }}
-                          className="absolute inset-x-0 top-0 z-40 origin-top rounded-b-2xl bg-white px-4 pb-6 pt-8 shadow-2xl shadow-gray-200/50 sm:px-6 lg:px-8"
+                          className="absolute inset-x-0 top-[-2rem] z-40 origin-top rounded-b-2xl bg-white px-4 pb-6 pt-16 shadow-2xl shadow-gray-200/50 sm:px-6 lg:px-8"
                         >
                           <div className="flex flex-col space-y-6">
                             <div className="flex items-center gap-3">
