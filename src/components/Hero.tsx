@@ -1,8 +1,4 @@
 'use client'
-
-import { useId } from 'react'
-import Image from 'next/image'
-import clsx from 'clsx'
 import { motion } from 'framer-motion'
 
 import { AppStoreLink } from '@/components/AppStoreLink'
@@ -138,6 +134,46 @@ export function Hero() {
           </div>
 
           <div className="relative mt-16 sm:mt-20 lg:col-span-5 lg:row-span-2 lg:mt-0 xl:col-span-6">
+            {/* Starburst badge in top right */}
+            <motion.div
+              className="absolute -right-6 -top-12 z-50"
+              initial={{ opacity: 0, scale: 0.8, rotate: 0 }}
+              animate={{ opacity: 1, scale: 1, rotate: 12 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.6,
+                ease: 'easeOut',
+              }}
+            >
+              <div className="relative h-52 w-52">
+                {/* Starburst background */}
+                <svg
+                  viewBox="0 0 24 24"
+                  className="absolute inset-0 h-full w-full"
+                  fill="rgb(253 224 71)"
+                >
+                  <path d="m19.064 10.109l1.179-2.387a.5.5 0 0 0-.416-.72l-2.656-.172l-.172-2.656a.5.5 0 0 0-.721-.416l-2.385 1.18l-1.477-2.215c-.186-.278-.646-.278-.832 0l-1.477 2.215l-2.385-1.18a.5.5 0 0 0-.721.416L6.83 6.83l-2.657.171a.5.5 0 0 0-.416.721l1.179 2.386l-2.214 1.477a.501.501 0 0 0 0 .832l2.215 1.477l-1.18 2.386a.498.498 0 0 0 .416.72l2.656.171L7 19.828a.5.5 0 0 0 .721.416l2.386-1.179l1.477 2.214a.501.501 0 0 0 .832 0l1.477-2.214l2.386 1.179a.5.5 0 0 0 .721-.416l.171-2.656L19.827 17a.5.5 0 0 0 .416-.721l-1.179-2.385l2.214-1.478a.501.501 0 0 0 0-.832z" />
+                </svg>
+
+                {/* Content */}
+                <div className="absolute inset-0 flex items-center justify-center p-6">
+                  <div className="text-center text-yellow-900">
+                    <p className="text-xs font-bold leading-tight">
+                      <span className="mb-2 block text-[10px]">*blink*</span>
+                      <span className="block text-xs">PRO includes</span>
+                      <span className="text-md -mb-1 -mt-1 block text-lg font-extrabold">
+                        DR MIKE&apos;s
+                      </span>
+                      <span className="text-md block font-extrabold">
+                        Body Fat Ranges
+                      </span>
+                      <span className="mt-2 block text-[10px]">*blink*</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
             {/* Animated background gradients for screenshots */}
             <motion.div
               className="absolute -right-20 top-1/2 h-[800px] w-[800px] -translate-y-1/2 rounded-full bg-gradient-to-tr from-[#FF0000] to-[#FF5722] opacity-[0.15] blur-[64px]"
