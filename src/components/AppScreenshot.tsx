@@ -23,12 +23,14 @@ export function AppScreenshot({
       className: 'absolute -left-[160px] top-[300px] w-[220px] -rotate-[15deg]',
       hoverClassName:
         'hover:-translate-x-2 hover:translate-y-2 hover:-rotate-[17deg]',
+      scale: 1,
     },
     right: {
       initial: { opacity: 0, x: 20, rotate: 30 },
       className: 'absolute -right-[160px] top-[100px] w-[220px] rotate-[30deg]',
       hoverClassName:
         'hover:translate-x-2 hover:translate-y-2 hover:rotate-[32deg]',
+      scale: 1,
     },
     center: {
       initial: { opacity: 1, y: 20 },

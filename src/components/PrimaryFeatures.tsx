@@ -12,7 +12,7 @@ import {
 } from 'framer-motion'
 import { useDebouncedCallback } from 'use-debounce'
 import { CheckIcon } from '@heroicons/react/24/solid'
-import { Lock } from 'react-feather'
+import { Lock, Unlock } from 'react-feather'
 
 import { AppScreen } from '@/components/AppScreen'
 import { CircleBackground } from '@/components/CircleBackground'
@@ -593,7 +593,7 @@ export function PrimaryFeatures() {
                 <span className="text-sm text-[#4CAF50]">±3-4%</span>
               </div>
               <div className="mt-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-600">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100/10 px-2.5 py-1 text-xs font-medium text-gray-400">
                   <Lock size={12} />
                   PRO
                 </span>
@@ -629,7 +629,7 @@ export function PrimaryFeatures() {
                 <span className="text-sm text-[#4CAF50]">±3-4%</span>
               </div>
               <div className="mt-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-600">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100/10 px-2.5 py-1 text-xs font-medium text-gray-400">
                   <Lock size={12} />
                   PRO
                 </span>
@@ -665,7 +665,7 @@ export function PrimaryFeatures() {
                 <span className="text-sm text-[#4CAF50]">±3-4%</span>
               </div>
               <div className="mt-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-600">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100/10 px-2.5 py-1 text-xs font-medium text-gray-400">
                   <Lock size={12} />
                   PRO
                 </span>
@@ -701,7 +701,7 @@ export function PrimaryFeatures() {
                 <span className="text-sm text-[#4CAF50]">±3-4%</span>
               </div>
               <div className="mt-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-600">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100/10 px-2.5 py-1 text-xs font-medium text-gray-400">
                   <Lock size={12} />
                   PRO
                 </span>
@@ -735,7 +735,7 @@ export function PrimaryFeatures() {
                 <span className="text-sm text-[#4CAF50]">±3-4%</span>
               </div>
               <div className="mt-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-600">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100/10 px-2.5 py-1 text-xs font-medium text-gray-400">
                   <Lock size={12} />
                   PRO
                 </span>
@@ -768,7 +768,7 @@ export function PrimaryFeatures() {
                 <span className="text-sm text-[#4CAF50]">±3-4%</span>
               </div>
               <div className="mt-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-600">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100/10 px-2.5 py-1 text-xs font-medium text-gray-400">
                   <Lock size={12} />
                   PRO
                 </span>

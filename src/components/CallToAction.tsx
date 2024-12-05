@@ -1,5 +1,6 @@
 'use client'
 
+import { Lock, Unlock } from 'react-feather'
 import { AppStoreLink } from '@/components/AppStoreLink'
 import { CircleBackground } from '@/components/CircleBackground'
 import { Container } from '@/components/Container'
@@ -83,7 +84,7 @@ export function CallToAction() {
           </h2>
           <p className="mt-4 text-lg text-gray-400">
             Start with our free version or unlock all features with a one-time
-            Pro upgrade
+            PRO upgrade and enjoy lifetime access
           </p>
         </div>
 
@@ -149,7 +150,8 @@ export function CallToAction() {
                   <h3 className="text-xl font-semibold text-white">
                     PRO Version
                   </h3>
-                  <div className="rounded-full border-2 border-gray-400 px-3 py-1 text-sm font-medium text-white">
+                  <div className="font-large inline-flex items-center gap-1.5 rounded-full border-2 border-gray-400 px-3 py-1 text-sm text-white">
+                    <Unlock size={16} />
                     Lifetime Access
                   </div>
                 </div>
