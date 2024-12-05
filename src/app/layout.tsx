@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 import { Montserrat } from 'next/font/google'
 import clsx from 'clsx'
 
@@ -61,7 +62,10 @@ export default function RootLayout({
         montserrat.className,
       )}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   )
 }
