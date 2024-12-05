@@ -1,4 +1,19 @@
 import { Container } from '@/components/Container'
+import DOMPurify from 'isomorphic-dompurify'
+
+function FaqText({ text }: { text: string }) {
+  const sanitizedHtml = DOMPurify.sanitize(text, {
+    ALLOWED_TAGS: ['a'],
+    ALLOWED_ATTR: ['href', 'target', 'rel', 'class'],
+  })
+
+  return (
+    <p
+      className="mt-4 text-sm text-gray-600"
+      dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+    />
+  )
+}
 
 const faqs = [
   [
@@ -10,7 +25,7 @@ const faqs = [
     {
       question: 'What equipment do I need?',
       answer:
-        "You'll need a body fat caliper (also known as skinfold calipers). We recommend using professional-grade calipers like Harpenden or Lange for best results, though any caliper will work.",
+        "You'll need a body fat caliper (also known as skinfold calipers). We recommend using professional-grade calipers like Harpenden or Lange for best results, though any calipers (like <a href='https://amzn.to/41lEBHQ' target='_blank' rel='noopener noreferrer' class='text-[#FF0000] hover:text-[#FF0000]/90'>BOZEERA</a> etc) will work.",
     },
     {
       question: 'Which measurement method should I choose?',
@@ -92,7 +107,7 @@ export function Faqs() {
                     <h3 className="text-lg font-semibold leading-6 text-gray-900">
                       {faq.question}
                     </h3>
-                    <p className="mt-4 text-sm text-gray-600">{faq.answer}</p>
+                    <FaqText text={faq.answer} />
                   </li>
                 ))}
               </ul>
