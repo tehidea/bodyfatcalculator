@@ -453,3 +453,16 @@ The app uses RevenueCat's sandbox environment for testing:
 - Enable debug mode in development for detailed logs
 - Verify API key is correctly set in environment files
 - Ensure products and entitlements match the configured IDs
+
+## Screenshots
+
+When taking screenshots for the website, use iPhone 12 simulator since that's the device shown on the website.
+
+### Adjusting time
+
+To adjust the time in the simulator:
+`xcrun simctl status_bar Booted override --time "13:37" --cellularBars 4` (9:41 is classic but hey, 13:37 is my favorite time)
+
+## Website
+
+[Body Fat Calculator Website](https://bodyfatcalculator.pro)
