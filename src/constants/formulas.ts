@@ -13,7 +13,7 @@ export const getUnitLabel = (unit: string, system: MeasurementSystem): string =>
   if (system === "imperial") {
     switch (unit) {
       case "kg":
-        return "lbs";
+        return "lb";
       case "cm":
         return "in";
       default:
