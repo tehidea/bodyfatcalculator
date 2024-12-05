@@ -101,7 +101,7 @@ export function CallToAction() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 text-white">
                     <CheckIcon className="h-5 w-5 text-[#FFC107]" />
-                    <span>3 Basic Methods</span>
+                    <span>3 Free Basic Methods</span>
                   </div>
                   <div className="flex items-center gap-3 text-white">
                     <CheckIcon className="h-5 w-5 text-[#FFC107]" />
@@ -163,7 +163,7 @@ export function CallToAction() {
                   <div className="space-y-4">
                     <div className="flex items-center gap-3 text-white">
                       <CheckIcon className="h-5 w-5 text-[#4CAF50]" />
-                      <span>7 Professional Methods</span>
+                      <span>6 Additional Professional Methods</span>
                     </div>
                     <div className="flex items-center gap-3 text-white">
                       <CheckIcon className="h-5 w-5 text-[#4CAF50]" />

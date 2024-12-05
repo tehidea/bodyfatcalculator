@@ -99,7 +99,8 @@ export function Hero() {
                 <span className="mr-2 text-[#4CAF50]">✓</span> ±3-4% Accuracy
               </div>
               <div className="inline-flex items-center rounded-full bg-white/5 px-4 py-1 text-sm font-medium text-white ring-1 ring-inset ring-white/10 transition-colors hover:bg-white/10">
-                <span className="mr-2 text-[#4CAF50]">✓</span> 6 Pro Methods
+                <span className="mr-2 text-[#4CAF50]">✓</span> 6 Professional
+                Methods
               </div>
             </motion.div>
 
