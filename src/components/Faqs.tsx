@@ -25,7 +25,7 @@ const faqs = [
     {
       question: 'What equipment do I need?',
       answer:
-        "You'll need a body fat caliper (also known as skinfold calipers). We recommend using professional-grade calipers like Harpenden or Lange for best results, though any calipers (like <a href='https://amzn.to/41lEBHQ' target='_blank' rel='noopener noreferrer' class='text-[#FF0000] hover:text-[#FF0000]/90'>BOZEERA</a> etc) will work.",
+        "You'll need a body fat caliper (also known as skinfold calipers). We recommend using professional-grade calipers like Harpenden or Lange for best results, though any calipers (like <a href='https://amzn.to/41lEBHQ' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>BOZEERA</a> etc) will work.",
     },
     {
       question: 'Which measurement method should I choose?',
