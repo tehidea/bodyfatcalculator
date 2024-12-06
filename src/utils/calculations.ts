@@ -238,6 +238,28 @@ export const getClassification = (bodyFat: number, gender: Gender): string => {
   return "Unknown";
 };
 
+function isValidBodyFat(bodyFat: number): { isValid: boolean; message?: string } {
+  if (isNaN(bodyFat)) {
+    return {
+      isValid: false,
+      message: "Please check your measurements. The calculation resulted in an invalid value.",
+    };
+  }
+  if (bodyFat < 0) {
+    return {
+      isValid: false,
+      message: "Please check your measurements. Body fat percentage cannot be negative.",
+    };
+  }
+  if (bodyFat > 100) {
+    return {
+      isValid: false,
+      message: "Please check your measurements. Body fat percentage cannot exceed 100%.",
+    };
+  }
+  return { isValid: true };
+}
+
 export async function calculateResults(
   formula: Formula,
   gender: Gender,
@@ -245,6 +267,12 @@ export async function calculateResults(
   measurementSystem: MeasurementSystem
 ): Promise<CalculatorResults> {
   const bodyFat = calculateBodyFat(formula as Formula, gender, inputs, measurementSystem);
+
+  const validation = isValidBodyFat(bodyFat);
+  if (!validation.isValid) {
+    throw new Error(validation.message);
+  }
+
   const classification = getClassification(bodyFat, gender);
   const weight = inputs.weight || 0;
   const fatMass = weight * (bodyFat / 100);
