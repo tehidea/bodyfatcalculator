@@ -104,11 +104,16 @@ export const FormulaSelector = () => {
 
   // Initial and periodic entitlement check
   useEffect(() => {
+    let isMounted = true;
+
     const checkWithErrorHandling = async () => {
+      if (!isMounted) return;
+
       try {
         setCheckError(null);
         await checkEntitlements();
       } catch (error) {
+        if (!isMounted) return;
         console.error("FormulaSelector - Entitlement check failed:", error);
         setCheckError("Failed to verify PRO status");
       }
@@ -121,7 +126,10 @@ export const FormulaSelector = () => {
     // Check every 5 minutes
     const interval = setInterval(checkWithErrorHandling, 5 * 60 * 1000);
 
-    return () => clearInterval(interval);
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
   }, [checkEntitlements]);
 
   // Show error if entitlement check fails
@@ -149,6 +157,8 @@ export const FormulaSelector = () => {
 
   const getAccuracyColor = (formula: Formula) => {
     const error = getMarginOfError(formula);
+    if (!error) return COLORS.textLight;
+
     const lowerBound = parseFloat(error.split("-")[0]);
 
     if (lowerBound >= 5) {

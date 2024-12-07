@@ -39,10 +39,24 @@ export const usePremiumStore = create<PremiumStore>(set => ({
   },
   purchasePro: async () => {
     console.log("purchasePro - Starting with current state:", { isLoading: false, error: null });
+
+    // Prevent multiple simultaneous purchase attempts
+    if (get().isLoading) {
+      console.log("purchasePro - Purchase already in progress");
+      return false;
+    }
+
     set({ isLoading: true, error: null });
 
     try {
       const offerings = await getOfferings();
+
+      // Check if the store is still in loading state (hasn't been cancelled)
+      if (!get().isLoading) {
+        console.log("purchasePro - Operation cancelled");
+        return false;
+      }
+
       console.log("purchasePro - Got offerings:", offerings);
       const proPackage = offerings[0];
 
@@ -54,13 +68,24 @@ export const usePremiumStore = create<PremiumStore>(set => ({
 
       console.log("purchasePro - Attempting to purchase package");
       const entitlements = await purchasePackage(proPackage);
+
+      // Check if the store is still in loading state
+      if (!get().isLoading) {
+        console.log("purchasePro - Operation cancelled");
+        return false;
+      }
+
       console.log("purchasePro - Purchase successful, entitlements:", entitlements);
 
       set({ ...entitlements, isLoading: false, error: null });
       return entitlements.pro;
     } catch (error) {
       console.error("purchasePro - Error:", error);
-      set({ isLoading: false, error: null, pro: false });
+
+      // Only update state if we're still loading (operation hasn't been cancelled)
+      if (get().isLoading) {
+        set({ isLoading: false, error: null, pro: false });
+      }
 
       if (error instanceof Error) {
         // Handle user cancellation
@@ -85,7 +110,9 @@ export const usePremiumStore = create<PremiumStore>(set => ({
       }
 
       // Handle other errors
-      set({ error: "Purchase failed" });
+      if (get().isLoading) {
+        set({ error: "Purchase failed" });
+      }
       return false;
     }
   },
