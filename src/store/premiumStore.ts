@@ -17,7 +17,7 @@ interface PremiumStore {
   restorePurchases: () => Promise<void>;
 }
 
-export const usePremiumStore = create<PremiumStore>(set => ({
+export const usePremiumStore = create<PremiumStore>((set, get) => ({
   pro: false,
   isLoading: false,
   error: null,
