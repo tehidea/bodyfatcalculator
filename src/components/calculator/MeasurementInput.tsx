@@ -74,10 +74,11 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       if (storeValue === undefined || storeValue === null) {
         setRawValue("");
         setIsEditing(false);
-      } else if (!isEditing) {
+      } else {
+        // Always update when measurement system changes
         setRawValue(storeValue.toString());
       }
-    }, [inputs, field.key, isEditing, measurementSystem]);
+    }, [inputs, field.key, measurementSystem]);
 
     const handleChangeText = (value: string) => {
       setIsEditing(true);
