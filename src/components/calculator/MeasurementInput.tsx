@@ -124,17 +124,10 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       setIsEditing(false);
       onFocusChange?.(false);
 
-      // Convert the value if needed
+      // Just store the raw value without conversion
       const numValue = parseFloat(rawValue);
       if (!isNaN(numValue)) {
-        const convertedValue = convertMeasurement(
-          numValue,
-          field.unit,
-          getUnitLabel(field.unit, measurementSystem),
-          field.key as "height" | "weight" | "circumference" | "skinfold"
-        );
-        setRawValue(convertedValue.toString());
-        setInput(field.key, convertedValue);
+        setInput(field.key, numValue);
       }
     };
 
