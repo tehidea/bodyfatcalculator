@@ -239,12 +239,21 @@ export const getClassification = (bodyFat: number, gender: Gender): string => {
 };
 
 function isValidBodyFat(bodyFat: number): { isValid: boolean; message?: string } {
+  // Check for Infinity first (division by zero)
+  if (!Number.isFinite(bodyFat)) {
+    return {
+      isValid: false,
+      message: "Please check your measurements. The calculation resulted in an invalid value.",
+    };
+  }
+  // Then check for NaN
   if (isNaN(bodyFat)) {
     return {
       isValid: false,
       message: "Please check your measurements. The calculation resulted in an invalid value.",
     };
   }
+  // Then check range
   if (bodyFat < 0) {
     return {
       isValid: false,

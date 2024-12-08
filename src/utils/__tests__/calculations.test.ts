@@ -138,7 +138,7 @@ describe("Body Fat Calculations", () => {
       waistCircumference: 85,
     };
 
-    test("throws error for NaN body fat result", async () => {
+    test("throws error for infinite body fat result", async () => {
       const inputs = { ...baseInputs, weight: 0 };
       await expect(calculateResults("ymca", "male", inputs, "metric")).rejects.toThrow(
         "Please check your measurements. The calculation resulted in an invalid value."
