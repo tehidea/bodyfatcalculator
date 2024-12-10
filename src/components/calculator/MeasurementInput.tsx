@@ -74,9 +74,19 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       if (storeValue === undefined || storeValue === null) {
         setRawValue("");
         setIsEditing(false);
-      } else {
-        // Always update when measurement system changes
-        setRawValue(storeValue.toString());
+      } else if (!isEditing) {
+        // Only update display value if not currently editing and measurement system changed
+        if (measurementSystem === "imperial" && field.unit !== "years") {
+          const imperialValue = convertMeasurement(
+            storeValue as number,
+            field.unit,
+            getUnitLabel(field.unit, "imperial"),
+            field.key as "height" | "weight" | "circumference" | "skinfold"
+          );
+          setRawValue(imperialValue.toString());
+        } else {
+          setRawValue(storeValue.toString());
+        }
       }
     }, [inputs, field.key, measurementSystem]);
 
@@ -101,6 +111,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
         return;
       }
 
+      // Update display value immediately
       setRawValue(value);
 
       // Special case for single decimal point
@@ -111,7 +122,19 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
 
       const numValue = parseFloat(value);
       if (!isNaN(numValue)) {
-        setInput(field.key, numValue);
+        // If in imperial mode and not age, convert to metric before storing
+        if (measurementSystem === "imperial" && field.unit !== "years") {
+          const metricValue = convertMeasurement(
+            numValue,
+            getUnitLabel(field.unit, "imperial"),
+            field.unit,
+            field.key as "height" | "weight" | "circumference" | "skinfold"
+          );
+          setInput(field.key, metricValue);
+        } else {
+          // In metric mode or for age, store as is
+          setInput(field.key, numValue);
+        }
       }
     };
 
@@ -123,12 +146,6 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
     const handleBlur = () => {
       setIsEditing(false);
       onFocusChange?.(false);
-
-      // Just store the raw value without conversion
-      const numValue = parseFloat(rawValue);
-      if (!isNaN(numValue)) {
-        setInput(field.key, numValue);
-      }
     };
 
     const handleUpgrade = () => {

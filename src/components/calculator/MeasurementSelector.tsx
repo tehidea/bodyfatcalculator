@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
+import { StyleSheet, TouchableOpacity, View, ViewStyle, Keyboard } from "react-native";
 import { Text } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { MeasurementSystem } from "../../types/calculator";
@@ -13,8 +13,14 @@ export const MeasurementSelector: React.FC<MeasurementSelectorProps> = ({ style,
   const { measurementSystem, setMeasurementSystem, setResults } = useCalculatorStore();
 
   const handleSystemChange = (newSystem: MeasurementSystem) => {
-    setMeasurementSystem(newSystem);
-    setResults(null);
+    // Dismiss keyboard and blur any focused inputs
+    Keyboard.dismiss();
+
+    // Give time for the blur to complete
+    setTimeout(() => {
+      setMeasurementSystem(newSystem);
+      setResults(null);
+    }, 50);
   };
 
   return (

@@ -228,6 +228,9 @@ describe("MeasurementInput", () => {
       <MeasurementInput {...defaultProps} />
     );
 
+    const input = getByAccessibilityHint("Enter weight");
+    expect(input.props.value).toBe("80");
+
     mockUseCalculatorStore.mockReturnValue({
       inputs: { weight: 80 },
       setInput: mockSetInput,
@@ -236,7 +239,6 @@ describe("MeasurementInput", () => {
 
     rerender(<MeasurementInput {...defaultProps} />);
 
-    const input = getByAccessibilityHint("Enter weight");
-    expect(input.props.value).toBe("80");
+    expect(parseFloat(input.props.value)).toBeCloseTo(176.37, 1);
   });
 });
