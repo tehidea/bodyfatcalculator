@@ -159,7 +159,8 @@ export const FormulaSelector = () => {
     const error = getMarginOfError(formula);
     if (!error) return COLORS.textLight;
 
-    const lowerBound = parseFloat(error.split("-")[0]);
+    const errorValue = error ?? "0";
+    const lowerBound = parseFloat(errorValue.split("-")[0]);
 
     if (lowerBound >= 5) {
       return COLORS.error;
@@ -239,7 +240,17 @@ export const FormulaSelector = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.selector} onPress={() => setIsModalVisible(true)}>
+      <TouchableOpacity
+        style={styles.selector}
+        onPress={() => setIsModalVisible(true)}
+        activeOpacity={0.7}
+      >
+        <View style={styles.labelRow}>
+          <Text style={styles.selectorHint}>Select Formula</Text>
+          <View style={styles.chevronContainer}>
+            <Icon name="chevron-down" type="feather" color={COLORS.text} size={20} />
+          </View>
+        </View>
         <View style={styles.selectedFormula}>
           <Text style={styles.formulaName}>{selectedFormula.name}</Text>
           {selectedFormula.premium === true && !pro && (
@@ -248,7 +259,6 @@ export const FormulaSelector = () => {
               <Text style={styles.premiumBadgeText}>PRO</Text>
             </View>
           )}
-          <Icon name="chevron-down" type="feather" color={COLORS.text} size={20} />
         </View>
         <View style={styles.descriptionContainer}>
           <Text style={styles.description} numberOfLines={2}>
@@ -409,16 +419,20 @@ const styles = StyleSheet.create({
     backgroundColor: "#444",
     borderRadius: 12,
     padding: 12,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.1)",
   },
   selectedFormula: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingVertical: 4,
   },
   formulaName: {
     color: COLORS.text,
     fontSize: 16,
     fontWeight: "bold",
+    flex: 1,
   },
   descriptionContainer: {
     flexDirection: "row",
@@ -623,5 +637,26 @@ const styles = StyleSheet.create({
   comingSoonBadge: {
     // marginLeft: 4,
     flexShrink: 0,
+  },
+  selectorHint: {
+    color: COLORS.text,
+    fontSize: 12,
+    opacity: 0.6,
+    textAlign: "left",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    fontWeight: "bold",
+  },
+  chevronContainer: {
+    backgroundColor: "rgba(255,255,255,0.1)",
+    borderRadius: 8,
+    paddingHorizontal: 2,
+    paddingTop: 3,
+    paddingBottom: 1,
+  },
+  labelRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
