@@ -28,6 +28,7 @@ export function PremiumFormulaModal({
               </View>
               <View style={styles.iconGlow} />
             </View>
+
             <Text style={styles.modalTitle}>
               <Text style={styles.highlight}>PRO</Text> Formulas{"\n"}
               <Text style={styles.titleSecondary}>Enhanced Accuracy & Precision</Text>
@@ -37,7 +38,7 @@ export function PremiumFormulaModal({
           <View style={styles.featureList}>
             <View style={styles.feature}>
               <View style={styles.featureIconContainer}>
-                <SkinfoldIcon size={20} color={COLORS.primary} />
+                <Icon name="activity" type="feather" color={COLORS.primary} size={20} />
               </View>
               <View style={styles.featureContent}>
                 <Text style={styles.featureTitle}>Skinfold Methods</Text>
@@ -78,6 +79,8 @@ export function PremiumFormulaModal({
           </View>
 
           <View style={styles.ctaContainer}>
+            <Text style={styles.lifetimeBadge}>LIFETIME ACCESS</Text>
+
             <Button
               title={isProcessing ? "Processing..." : "Upgrade to PRO"}
               buttonStyle={styles.upgradeButton}
@@ -85,6 +88,9 @@ export function PremiumFormulaModal({
               onPress={onUpgrade}
               disabled={isProcessing}
             />
+
+            <Text style={styles.lifetimeText}>One-time purchase • No subscription</Text>
+
             <Button
               title="Maybe Later"
               type="clear"
@@ -130,13 +136,13 @@ const styles = StyleSheet.create({
   },
   iconWrapper: {
     marginTop: 18,
-    marginBottom: 32,
+    marginBottom: 24,
     alignItems: "center",
     justifyContent: "center",
   },
   iconContainer: {
     backgroundColor: COLORS.white,
-    borderRadius: 24,
+    borderRadius: 56,
     width: 56,
     height: 56,
     justifyContent: "center",
@@ -158,9 +164,28 @@ const styles = StyleSheet.create({
     backgroundColor: `${COLORS.primary}20`,
     transform: [{ scale: 1.2 }],
   },
+  lifetimeBadge: {
+    color: COLORS.primary,
+    backgroundColor: `${COLORS.primary}15`,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+    fontSize: 11,
+    letterSpacing: 0.75,
+    alignSelf: "flex-end",
+    transform: [{ rotate: "5deg" }],
+    marginBottom: -2,
+  },
+  lifetimeText: {
+    alignItems: "center",
+    marginBottom: 16,
+    fontSize: 12,
+    color: "#666",
+    fontFamily: "Montserrat-Light",
+  },
   modalTitle: {
     fontSize: 24,
-    marginTop: 12,
+    marginTop: 24,
     color: COLORS.textDark,
     fontFamily: "Montserrat-Medium",
     textAlign: "center",
@@ -177,6 +202,7 @@ const styles = StyleSheet.create({
   },
   featureList: {
     padding: 24,
+    paddingHorizontal: 40,
   },
   feature: {
     flexDirection: "row",
@@ -208,7 +234,8 @@ const styles = StyleSheet.create({
   },
   ctaContainer: {
     padding: 24,
-    paddingTop: 8,
+    paddingTop: 0,
+    marginTop: -12,
     alignItems: "center",
   },
   upgradeButton: {

@@ -2,15 +2,20 @@ import React from "react";
 import { View, Modal, StyleSheet } from "react-native";
 import { Text, Button, Icon } from "@rneui/themed";
 import { COLORS } from "../../constants/theme";
-import { SkinfoldIcon } from "../icons/SkinfoldIcon";
 
 interface ProUpgradeModalProps {
   visible: boolean;
+  isProcessing: boolean;
   onUpgrade: () => void;
   onClose: () => void;
 }
 
-export function ProUpgradeModal({ visible, onUpgrade, onClose }: ProUpgradeModalProps) {
+export function ProUpgradeModal({
+  visible,
+  isProcessing,
+  onUpgrade,
+  onClose,
+}: ProUpgradeModalProps) {
   return (
     <Modal visible={visible} animationType="fade" transparent={true} onRequestClose={onClose}>
       <View style={styles.modalContainer}>
@@ -22,6 +27,7 @@ export function ProUpgradeModal({ visible, onUpgrade, onClose }: ProUpgradeModal
               </View>
               <View style={styles.iconGlow} />
             </View>
+
             <Text style={styles.modalTitle}>
               <Text style={styles.highlight}>PRO</Text> Precision{"\n"}
               <Text style={styles.titleSecondary}>Unlock Your Full Potential</Text>
@@ -53,7 +59,7 @@ export function ProUpgradeModal({ visible, onUpgrade, onClose }: ProUpgradeModal
 
             <View style={styles.feature}>
               <View style={styles.featureIconContainer}>
-                <SkinfoldIcon size={20} color={COLORS.primary} />
+                <Icon name="activity" type="feather" color={COLORS.primary} size={20} />
               </View>
               <View style={styles.featureContent}>
                 <Text style={styles.featureTitle}>Skinfold Methods</Text>
@@ -73,12 +79,18 @@ export function ProUpgradeModal({ visible, onUpgrade, onClose }: ProUpgradeModal
           </View>
 
           <View style={styles.ctaContainer}>
+            <Text style={styles.lifetimeBadge}>LIFETIME ACCESS</Text>
+
             <Button
-              title="Upgrade to PRO"
+              title={isProcessing ? "Processing..." : "Upgrade to PRO"}
               buttonStyle={styles.upgradeButton}
               titleStyle={styles.upgradeButtonText}
               onPress={onUpgrade}
+              disabled={isProcessing}
             />
+
+            <Text style={styles.lifetimeText}>One-time purchase • No subscription</Text>
+
             <Button
               title="Maybe Later"
               type="clear"
@@ -124,13 +136,13 @@ const styles = StyleSheet.create({
   },
   iconWrapper: {
     marginTop: 18,
-    marginBottom: 32,
+    marginBottom: 24,
     alignItems: "center",
     justifyContent: "center",
   },
   iconContainer: {
     backgroundColor: COLORS.white,
-    borderRadius: 24,
+    borderRadius: 56,
     width: 56,
     height: 56,
     justifyContent: "center",
@@ -152,9 +164,28 @@ const styles = StyleSheet.create({
     backgroundColor: `${COLORS.primary}20`,
     transform: [{ scale: 1.2 }],
   },
+  lifetimeBadge: {
+    color: COLORS.primary,
+    backgroundColor: `${COLORS.primary}15`,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+    fontSize: 11,
+    letterSpacing: 0.75,
+    alignSelf: "flex-end",
+    transform: [{ rotate: "5deg" }],
+    marginBottom: -2,
+  },
+  lifetimeText: {
+    alignItems: "center",
+    marginBottom: 16,
+    fontSize: 12,
+    color: "#666",
+    fontFamily: "Montserrat-Light",
+  },
   modalTitle: {
     fontSize: 24,
-    marginTop: 12,
+    marginTop: 24,
     color: COLORS.textDark,
     fontFamily: "Montserrat-Medium",
     textAlign: "center",
@@ -171,6 +202,7 @@ const styles = StyleSheet.create({
   },
   featureList: {
     padding: 24,
+    paddingHorizontal: 40,
   },
   feature: {
     flexDirection: "row",
@@ -202,7 +234,8 @@ const styles = StyleSheet.create({
   },
   ctaContainer: {
     padding: 24,
-    paddingTop: 8,
+    paddingTop: 0,
+    marginTop: -12,
     alignItems: "center",
   },
   upgradeButton: {
