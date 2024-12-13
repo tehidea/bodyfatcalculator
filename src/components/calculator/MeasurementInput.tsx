@@ -68,14 +68,19 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       onSubmitEditing?.();
     };
 
-    // Sync with store and handle reset or measurement system change
+    // Sync with store and handle measurement system change
     useEffect(() => {
       const storeValue = inputs[field.key];
-      if (storeValue === undefined || storeValue === null) {
+
+      // Handle null/undefined values
+      if (storeValue === null || storeValue === undefined) {
         setRawValue("");
         setIsEditing(false);
-      } else if (!isEditing) {
-        // Only update display value if not currently editing and measurement system changed
+        return;
+      }
+
+      // Only update if we're not currently editing
+      if (!isEditing) {
         if (measurementSystem === "imperial" && field.unit !== "years") {
           const imperialValue = convertMeasurement(
             storeValue as number,
@@ -83,12 +88,12 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
             getUnitLabel(field.unit, "imperial"),
             field.key as "height" | "weight" | "circumference" | "skinfold"
           );
-          setRawValue(imperialValue.toString());
+          setRawValue(Number(Number(imperialValue).toFixed(2)).toString());
         } else {
-          setRawValue(storeValue.toString());
+          setRawValue(Number(Number(storeValue).toFixed(2)).toString());
         }
       }
-    }, [inputs, field.key, measurementSystem]);
+    }, [measurementSystem, inputs[field.key], isEditing, field.key, field.unit]);
 
     const handleChangeText = (value: string) => {
       setIsEditing(true);
@@ -122,8 +127,8 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
 
       const numValue = parseFloat(value);
       if (!isNaN(numValue)) {
-        // If in imperial mode and not age, convert to metric before storing
         if (measurementSystem === "imperial" && field.unit !== "years") {
+          // Convert from imperial to metric for storage
           const metricValue = convertMeasurement(
             numValue,
             getUnitLabel(field.unit, "imperial"),
@@ -132,7 +137,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
           );
           setInput(field.key, metricValue);
         } else {
-          // In metric mode or for age, store as is
+          // Store metric values as-is
           setInput(field.key, numValue);
         }
       }
