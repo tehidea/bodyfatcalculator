@@ -33,7 +33,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
     const [showProModal, setShowProModal] = useState(false);
     const inputRef = useRef<TextInput>(null);
 
-    const { handlePurchase } = usePurchase({
+    const { handlePurchase, isProcessing } = usePurchase({
       successMessage:
         "Thank you for upgrading! You now have access to decimal precision and all the PRO Formulas!",
       onSuccess: () => setShowProModal(false),
@@ -172,10 +172,8 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
 
         <ProUpgradeModal
           visible={showProModal}
-          onUpgrade={() => {
-            setShowProModal(false);
-            handlePurchase();
-          }}
+          isProcessing={isProcessing}
+          onUpgrade={handlePurchase}
           onClose={() => setShowProModal(false)}
         />
       </>

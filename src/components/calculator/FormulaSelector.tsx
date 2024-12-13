@@ -79,7 +79,7 @@ export const FormulaSelector = () => {
         }, 100);
       }
     },
-    successMessage: "Thank you for upgrading! You now have access to all PRO formulas.",
+    successMessage: "Thank you for upgrading! You now have access to all PRO Formulas!",
     onCancel: () => {
       setIsPremiumModalVisible(false);
       setPendingFormula(null);
