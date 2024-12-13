@@ -59,14 +59,14 @@ export const FormulaSelector = () => {
   const { formula, setFormula } = useCalculatorStore();
   const { pro, isLoading, checkEntitlements } = usePremiumStore();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isPremiumModalVisible, setIsPremiumModalVisible] = useState(false);
+  const [isProModalVisible, setIsProModalVisible] = useState(false);
   const [pendingFormula, setPendingFormula] = useState<Formula | null>(null);
   const [checkError, setCheckError] = useState<string | null>(null);
 
   const { handlePurchase, isProcessing } = usePurchase({
     onSuccess: () => {
       // First close the premium modal
-      setIsPremiumModalVisible(false);
+      setIsProModalVisible(false);
       // Then update the formula if needed
       if (pendingFormula) {
         setTimeout(() => {
@@ -81,14 +81,14 @@ export const FormulaSelector = () => {
     },
     successMessage: "Thank you for upgrading! You now have access to all PRO Formulas!",
     onCancel: () => {
-      setIsPremiumModalVisible(false);
+      setIsProModalVisible(false);
       setPendingFormula(null);
       setTimeout(() => {
         setIsModalVisible(false);
       }, 100);
     },
     onError: () => {
-      setIsPremiumModalVisible(false);
+      setIsProModalVisible(false);
       setPendingFormula(null);
       setTimeout(() => {
         setIsModalVisible(false);
@@ -225,14 +225,14 @@ export const FormulaSelector = () => {
       // Wait for the first modal to close before showing the premium modal
       setTimeout(() => {
         setPendingFormula(selectedKey);
-        setIsPremiumModalVisible(true);
+        setIsProModalVisible(true);
       }, 300);
     }
   };
 
   const handleMaybeLater = () => {
     // First close the premium modal
-    setIsPremiumModalVisible(false);
+    setIsProModalVisible(false);
     // Clear the pending formula
     setPendingFormula(null);
     // Wait a bit before closing the formula selector modal
@@ -380,7 +380,7 @@ export const FormulaSelector = () => {
       </Modal>
 
       <PremiumFormulaModal
-        visible={isPremiumModalVisible}
+        visible={isProModalVisible}
         isProcessing={isProcessing}
         onUpgrade={handlePurchase}
         onClose={handleMaybeLater}

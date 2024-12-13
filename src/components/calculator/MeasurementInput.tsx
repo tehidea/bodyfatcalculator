@@ -30,15 +30,15 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
     const { pro } = usePremiumStore();
     const [rawValue, setRawValue] = useState("");
     const [isEditing, setIsEditing] = useState(false);
-    const [showProModal, setShowProModal] = useState(false);
+    const [isProModalVisible, setIsProModalVisible] = useState(false);
     const inputRef = useRef<TextInput>(null);
 
     const { handlePurchase, isProcessing } = usePurchase({
       successMessage:
         "Thank you for upgrading! You now have access to decimal precision and all the PRO Formulas!",
-      onSuccess: () => setShowProModal(false),
-      onCancel: () => setShowProModal(false),
-      onError: () => setShowProModal(false),
+      onSuccess: () => setIsProModalVisible(false),
+      onCancel: () => setIsProModalVisible(false),
+      onError: () => setIsProModalVisible(false),
     });
 
     // Forward the ref
@@ -96,7 +96,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
         }
 
         if (value.includes(".") && !pro) {
-          setShowProModal(true);
+          setIsProModalVisible(true);
           return;
         }
 
@@ -171,10 +171,10 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
         </View>
 
         <ProUpgradeModal
-          visible={showProModal}
+          visible={isProModalVisible}
           isProcessing={isProcessing}
           onUpgrade={handlePurchase}
-          onClose={() => setShowProModal(false)}
+          onClose={() => setIsProModalVisible(false)}
         />
       </>
     );
