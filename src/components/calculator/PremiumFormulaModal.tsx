@@ -36,6 +36,15 @@ export function PremiumFormulaModal({
           <View style={styles.featureList}>
             <View style={styles.feature}>
               <View style={styles.featureIconContainer}>
+                <Icon name="activity" type="feather" color={COLORS.primary} size={20} />
+              </View>
+              <View style={styles.featureContent}>
+                <Text style={styles.featureTitle}>Skinfold Methods</Text>
+                <Text style={styles.featureDescription}>Professional measurement techniques</Text>
+              </View>
+            </View>
+            <View style={styles.feature}>
+              <View style={styles.featureIconContainer}>
                 <Icon name="percent" type="feather" color={COLORS.primary} size={20} />
               </View>
               <View style={styles.featureContent}>
@@ -46,31 +55,23 @@ export function PremiumFormulaModal({
 
             <View style={styles.feature}>
               <View style={styles.featureIconContainer}>
-                <Icon name="book" type="feather" color={COLORS.primary} size={20} />
+                <Icon name="sliders" type="feather" color={COLORS.primary} size={20} />
               </View>
               <View style={styles.featureContent}>
-                <Text style={styles.featureTitle}>Research Methods</Text>
-                <Text style={styles.featureDescription}>Scientifically validated formulas</Text>
+                <Text style={styles.featureTitle}>Decimal Precision</Text>
+                <Text style={styles.featureDescription}>
+                  Get exact measurements to&nbsp;2&nbsp;decimal places
+                </Text>
               </View>
             </View>
 
             <View style={styles.feature}>
               <View style={styles.featureIconContainer}>
-                <Icon name="target" type="feather" color={COLORS.primary} size={20} />
+                <Icon name="users" type="feather" color={COLORS.primary} size={20} />
               </View>
               <View style={styles.featureContent}>
-                <Text style={styles.featureTitle}>Sport-Specific</Text>
-                <Text style={styles.featureDescription}>Formulas tailored to athletes</Text>
-              </View>
-            </View>
-
-            <View style={styles.feature}>
-              <View style={styles.featureIconContainer}>
-                <Icon name="clipboard" type="feather" color={COLORS.primary} size={20} />
-              </View>
-              <View style={styles.featureContent}>
-                <Text style={styles.featureTitle}>Detailed Guides</Text>
-                <Text style={styles.featureDescription}>Step-by-step measurement instructions</Text>
+                <Text style={styles.featureTitle}>Family Sharing</Text>
+                <Text style={styles.featureDescription}>Share with up to 5 family members</Text>
               </View>
             </View>
           </View>
@@ -218,9 +219,8 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   upgradeButtonText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
-    letterSpacing: 0.5,
   },
   cancelButtonText: {
     color: "#666",

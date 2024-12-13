@@ -213,9 +213,8 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   upgradeButtonText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
-    letterSpacing: 0.5,
   },
   cancelButtonText: {
     color: "#666",

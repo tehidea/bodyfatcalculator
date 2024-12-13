@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Dimensions, TouchableOpacity, Modal, ScrollView } from "react-native";
-import { Text, Card, LinearProgress, Button, Icon } from "@rneui/themed";
+import { View, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from "react-native";
+import { Text, Card, LinearProgress, Icon } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { usePremiumStore } from "../../store/premiumStore";
 import { getUnitLabel } from "../../constants/formulas";
@@ -8,6 +8,7 @@ import { COLORS } from "../../constants/theme";
 import { useNavigation } from "@react-navigation/native";
 import { getMarginOfError } from "../../utils/accuracy";
 import { usePurchase } from "../../hooks/usePurchase";
+import { ProUpgradeModal } from "./ProUpgradeModal";
 
 const { width } = Dimensions.get("window");
 
@@ -163,39 +164,12 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
         <Text style={styles.formulaName}>{formula.toUpperCase()} Formula</Text>
       </Card>
 
-      <Modal
+      <ProUpgradeModal
         visible={showProModal}
-        animationType="fade"
-        transparent={true}
-        onRequestClose={() => {}}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Icon name="lock" type="feather" color={COLORS.primary} size={48} />
-            <Text style={styles.modalTitle}>Unlock Decimal Precision</Text>
-            <Text style={styles.modalDescription}>
-              Upgrade to PRO to access advanced formulas and get more accurate results:
-              {"\n\n"}• Higher accuracy formulas (±2.5-4% vs ±4-6%)
-              {"\n"}• Sport-specific body fat ranges
-              {"\n"}• Decimal precision for all measurements
-              {"\n"}• Detailed measurement guides
-              {"\n"}• Share with family (up to 5 members)
-            </Text>
-            <Button
-              title={isProcessing ? "Processing..." : "Upgrade to PRO"}
-              buttonStyle={styles.upgradeButton}
-              onPress={handlePurchase}
-              disabled={isProcessing}
-            />
-            <Button
-              title="Maybe Later"
-              type="clear"
-              titleStyle={styles.cancelButtonText}
-              onPress={handleMaybeLater}
-            />
-          </View>
-        </View>
-      </Modal>
+        isProcessing={isProcessing}
+        onUpgrade={handlePurchase}
+        onClose={handleMaybeLater}
+      />
     </>
   );
 };
@@ -307,45 +281,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 20,
     fontFamily: "Montserrat-Light",
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
-    padding: 20,
-  },
-  modalContent: {
-    backgroundColor: COLORS.white,
-    borderRadius: 16,
-    padding: 24,
-    alignItems: "center",
-    width: "100%",
-    maxWidth: 320,
-  },
-  modalTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: COLORS.textDark,
-    marginTop: 16,
-    marginBottom: 8,
-    textAlign: "center",
-  },
-  modalDescription: {
-    fontSize: 14,
-    color: "#666",
-    textAlign: "center",
-    marginBottom: 24,
-    lineHeight: 20,
-  },
-  upgradeButton: {
-    backgroundColor: COLORS.primary,
-    borderRadius: 12,
-    paddingHorizontal: 32,
-    paddingVertical: 12,
-    marginBottom: 8,
-  },
-  cancelButtonText: {
-    color: "#666",
   },
 });
