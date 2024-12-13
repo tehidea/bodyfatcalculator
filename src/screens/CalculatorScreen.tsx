@@ -31,8 +31,14 @@ const Header = memo(() => (
     <Logo style={styles.logo} width={62} accessibilityLabel="Calculator logo" />
     <View style={styles.headerTextContainer}>
       <View style={styles.titleContainer}>
-        <Text style={[styles.headerTitle, { fontFamily: "Montserrat-ExtraLight" }]}>Body</Text>
-        <Text style={[styles.headerTitle, { fontFamily: "Montserrat-Light" }]}>Fat</Text>
+        <Text
+          style={[styles.headerTitle, { fontFamily: "Montserrat-ExtraLight", fontWeight: 200 }]}
+        >
+          Body
+        </Text>
+        <Text style={[styles.headerTitle, { fontFamily: "Montserrat-Light", fontWeight: 300 }]}>
+          Fat
+        </Text>
       </View>
       <Text style={styles.strapline}>Body Fat Calculator for skinfold calipers</Text>
     </View>

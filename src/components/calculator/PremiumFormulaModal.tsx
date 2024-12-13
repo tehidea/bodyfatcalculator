@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginTop: 24,
     color: COLORS.textDark,
-    fontFamily: "Montserrat-Medium",
+    fontFamily: "Montserrat-Regular",
     textAlign: "center",
     lineHeight: 24,
   },

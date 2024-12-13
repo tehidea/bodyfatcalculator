@@ -38,7 +38,8 @@
         {
           "fonts": [
             "node_modules/@expo-google-fonts/montserrat/Montserrat_200ExtraLight.ttf",
-            "node_modules/@expo-google-fonts/montserrat/Montserrat_300Light.ttf"
+            "node_modules/@expo-google-fonts/montserrat/Montserrat_300Light.ttf",
+            "node_modules/@expo-google-fonts/montserrat/Montserrat_400Regular.ttf"
           ]
         }
       ],
