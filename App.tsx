@@ -6,6 +6,7 @@ import {
   useFonts,
   Montserrat_200ExtraLight,
   Montserrat_300Light,
+  Montserrat_500Medium,
 } from "@expo-google-fonts/montserrat";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -36,6 +37,7 @@ function App() {
   const [fontsLoaded, fontError] = useFonts({
     "Montserrat-ExtraLight": Montserrat_200ExtraLight,
     "Montserrat-Light": Montserrat_300Light,
+    "Montserrat-Medium": Montserrat_500Medium,
   });
 
   useEffect(() => {

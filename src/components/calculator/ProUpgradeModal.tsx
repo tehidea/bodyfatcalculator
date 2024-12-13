@@ -14,78 +14,77 @@ export function ProUpgradeModal({ visible, onUpgrade, onClose }: ProUpgradeModal
     <Modal visible={visible} animationType="fade" transparent={true} onRequestClose={onClose}>
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <View style={styles.iconContainer}>
-            <Icon name="lock" type="feather" color={COLORS.primary} size={48} />
+          <View style={styles.header}>
+            <View style={[styles.iconWrapper]}>
+              <View style={styles.iconContainer}>
+                <Icon name="lock" type="feather" color={COLORS.primary} size={32} />
+              </View>
+              <View style={styles.iconGlow} />
+            </View>
+            <Text style={styles.modalTitle}>
+              <Text style={styles.highlight}>PRO</Text> Precision{"\n"}
+              <Text style={styles.titleSecondary}>Unlock Your Full Potential</Text>
+            </Text>
           </View>
-          <Text style={styles.modalTitle}>
-            Unlock <Text style={styles.highlight}>Decimal{"\n"}Precision</Text>
-          </Text>
-          <Text style={styles.modalSubtitle}>Get more accurate body fat calculations</Text>
+
           <View style={styles.featureList}>
-            <Text style={styles.featureTitle}>PRO Features:</Text>
             <View style={styles.feature}>
-              <Icon
-                name="check"
-                type="feather"
-                color={COLORS.success}
-                size={16}
-                style={styles.featureIcon}
-              />
-              <Text style={styles.featureText}>Decimal precision for all measurements</Text>
+              <View style={styles.featureIconContainer}>
+                <Icon name="sliders" type="feather" color={COLORS.primary} size={20} />
+              </View>
+              <View style={styles.featureContent}>
+                <Text style={styles.featureTitle}>Decimal Precision</Text>
+                <Text style={styles.featureDescription}>
+                  Get exact measurements to&nbsp;2&nbsp;decimal places
+                </Text>
+              </View>
             </View>
+
             <View style={styles.feature}>
-              <Icon
-                name="check"
-                type="feather"
-                color={COLORS.success}
-                size={16}
-                style={styles.featureIcon}
-              />
-              <Text style={styles.featureText}>Advanced calculation formulas</Text>
+              <View style={styles.featureIconContainer}>
+                <Icon name="trending-up" type="feather" color={COLORS.primary} size={20} />
+              </View>
+              <View style={styles.featureContent}>
+                <Text style={styles.featureTitle}>Advanced Formulas</Text>
+                <Text style={styles.featureDescription}>Research-grade calculation methods</Text>
+              </View>
             </View>
+
             <View style={styles.feature}>
-              <Icon
-                name="check"
-                type="feather"
-                color={COLORS.success}
-                size={16}
-                style={styles.featureIcon}
-              />
-              <Text style={styles.featureText}>Skinfold measurement methods</Text>
+              <View style={styles.featureIconContainer}>
+                <Icon name="activity" type="feather" color={COLORS.primary} size={20} />
+              </View>
+              <View style={styles.featureContent}>
+                <Text style={styles.featureTitle}>Skinfold Methods</Text>
+                <Text style={styles.featureDescription}>Professional measurement techniques</Text>
+              </View>
             </View>
+
             <View style={styles.feature}>
-              <Icon
-                name="check"
-                type="feather"
-                color={COLORS.success}
-                size={16}
-                style={styles.featureIcon}
-              />
-              <Text style={styles.featureText}>More accurate results</Text>
-            </View>
-            <View style={styles.feature}>
-              <Icon
-                name="check"
-                type="feather"
-                color={COLORS.success}
-                size={16}
-                style={styles.featureIcon}
-              />
-              <Text style={styles.featureText}>Family Sharing enabled</Text>
+              <View style={styles.featureIconContainer}>
+                <Icon name="users" type="feather" color={COLORS.primary} size={20} />
+              </View>
+              <View style={styles.featureContent}>
+                <Text style={styles.featureTitle}>Family Sharing</Text>
+                <Text style={styles.featureDescription}>Share with up to 5 family members</Text>
+              </View>
             </View>
           </View>
-          <Button
-            title="Upgrade to PRO"
-            buttonStyle={styles.upgradeButton}
-            titleStyle={styles.upgradeButtonText}
-            onPress={onUpgrade}
-          />
-          <Button
-            title="Maybe Later"
-            type="clear"
-            titleStyle={styles.cancelButtonText}
-            onPress={onClose}
-          />
+
+          <View style={styles.ctaContainer}>
+            <Button
+              title="Upgrade to PRO"
+              buttonStyle={styles.upgradeButton}
+              titleStyle={styles.upgradeButtonText}
+              onPress={onUpgrade}
+            />
+            <Button
+              title="Maybe Later"
+              type="clear"
+              titleStyle={styles.cancelButtonText}
+              onPress={onClose}
+            />
+          </View>
         </View>
       </View>
     </Modal>
@@ -97,87 +96,126 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: "rgba(0,0,0,0.6)",
     padding: 20,
   },
   modalContent: {
     backgroundColor: COLORS.white,
-    borderRadius: 24,
-    padding: 24,
-    alignItems: "center",
+    borderRadius: 28,
     width: "100%",
-    maxWidth: 320,
+    maxWidth: 340,
+    overflow: "hidden",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 4,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  header: {
+    padding: 24,
+    paddingTop: 36,
+    paddingBottom: 32,
+    alignItems: "center",
+    backgroundColor: `${COLORS.primary}08`,
+  },
+  iconWrapper: {
+    marginTop: 18,
+    marginBottom: 32,
+    alignItems: "center",
+    justifyContent: "center",
   },
   iconContainer: {
-    backgroundColor: `${COLORS.primary}10`,
-    borderRadius: 50,
-    width: 80,
-    height: 80,
+    backgroundColor: COLORS.white,
+    borderRadius: 24,
+    width: 56,
+    height: 56,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20,
+    shadowColor: COLORS.primary,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  iconGlow: {
+    position: "absolute",
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: `${COLORS.primary}20`,
+    transform: [{ scale: 1.2 }],
   },
   modalTitle: {
-    fontSize: 28,
+    fontSize: 24,
+    marginTop: 12,
     color: COLORS.textDark,
-    marginBottom: 8,
+    fontFamily: "Montserrat-Medium",
     textAlign: "center",
-    lineHeight: 34,
+    lineHeight: 24,
   },
   highlight: {
     color: COLORS.primary,
     fontWeight: "bold",
   },
-  modalSubtitle: {
+  titleSecondary: {
     fontSize: 16,
     color: "#666",
-    marginBottom: 24,
-    textAlign: "center",
+    fontFamily: "Montserrat-Light",
   },
   featureList: {
-    alignSelf: "stretch",
-    marginBottom: 24,
-  },
-  featureTitle: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: COLORS.textDark,
-    marginBottom: 12,
-    textTransform: "uppercase",
-    letterSpacing: 1,
+    padding: 24,
   },
   feature: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: 20,
   },
-  featureIcon: {
-    marginRight: 12,
+  featureIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    backgroundColor: `${COLORS.primary}10`,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 16,
   },
-  featureText: {
-    fontSize: 15,
-    color: COLORS.textDark,
+  featureContent: {
     flex: 1,
+  },
+  featureTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: COLORS.textDark,
+    marginBottom: 2,
+  },
+  featureDescription: {
+    fontSize: 14,
+    color: "#666",
+    lineHeight: 20,
+  },
+  ctaContainer: {
+    padding: 24,
+    paddingTop: 8,
+    alignItems: "center",
   },
   upgradeButton: {
     backgroundColor: COLORS.primary,
-    borderRadius: 12,
+    borderRadius: 16,
     paddingHorizontal: 32,
-    paddingVertical: 14,
-    marginBottom: 8,
+    paddingVertical: 16,
     width: "100%",
+    marginBottom: 12,
   },
   upgradeButtonText: {
     fontSize: 16,
     fontWeight: "bold",
+    letterSpacing: 0.5,
   },
   cancelButtonText: {
     color: "#666",
