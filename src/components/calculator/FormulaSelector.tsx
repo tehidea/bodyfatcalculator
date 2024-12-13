@@ -14,6 +14,7 @@ import { MeasuringTapeIcon } from "../icons/MeasuringTapeIcon";
 import { getMarginOfError } from "../../utils/accuracy";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { usePurchase } from "../../hooks/usePurchase";
+import { PremiumFormulaModal } from "./PremiumFormulaModal";
 
 export const MeasurementIcon = ({
   type,
@@ -373,40 +374,12 @@ export const FormulaSelector = () => {
         </View>
       </Modal>
 
-      <Modal
+      <PremiumFormulaModal
         visible={isPremiumModalVisible}
-        animationType="fade"
-        transparent={true}
-        onRequestClose={() => {}}
-      >
-        <View style={styles.premiumModalContainer}>
-          <View style={styles.premiumModalContent}>
-            <Icon name="lock" type="feather" color={COLORS.primary} size={48} />
-            <Text style={styles.premiumModalTitle}>PRO Feature</Text>
-            <Text style={styles.premiumModalDescription}>
-              Upgrade to PRO to unlock advanced formulas with higher accuracy:
-              {"\n\n"}• Research-grade formulas (±2.5-4% margin of error)
-              {"\n"}• Skinfold measurement methods for precision
-              {"\n"}• Detailed measurement guides
-              {"\n"}• 2 decimal places for all measurements
-              {"\n"}• Sport-specific body fat ranges
-              {"\n"}• Share with family (up to 5 members)
-            </Text>
-            <Button
-              title={isProcessing ? "Processing..." : "Upgrade to PRO"}
-              buttonStyle={styles.upgradeButton}
-              onPress={handlePurchase}
-              disabled={isProcessing}
-            />
-            <Button
-              title="Maybe Later"
-              type="clear"
-              titleStyle={styles.cancelButtonText}
-              onPress={handleMaybeLater}
-            />
-          </View>
-        </View>
-      </Modal>
+        isProcessing={isProcessing}
+        onUpgrade={handlePurchase}
+        onClose={handleMaybeLater}
+      />
     </View>
   );
 };
@@ -526,45 +499,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#666",
     marginLeft: 4,
-  },
-  premiumModalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
-    padding: 20,
-  },
-  premiumModalContent: {
-    backgroundColor: COLORS.white,
-    borderRadius: 16,
-    padding: 24,
-    alignItems: "center",
-    width: "100%",
-    maxWidth: 320,
-  },
-  premiumModalTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: COLORS.textDark,
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  premiumModalDescription: {
-    fontSize: 14,
-    color: "#666",
-    textAlign: "center",
-    marginBottom: 24,
-    lineHeight: 20,
-  },
-  upgradeButton: {
-    backgroundColor: COLORS.primary,
-    borderRadius: 12,
-    paddingHorizontal: 32,
-    paddingVertical: 12,
-    marginBottom: 8,
-  },
-  cancelButtonText: {
-    color: "#666",
   },
   measurementIcons: {
     flexDirection: "row",
