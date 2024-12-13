@@ -2,6 +2,7 @@ import React from "react";
 import { View, Modal, StyleSheet } from "react-native";
 import { Text, Button, Icon } from "@rneui/themed";
 import { COLORS } from "../../constants/theme";
+import { SkinfoldIcon } from "../icons/SkinfoldIcon";
 
 interface ProUpgradeModalProps {
   visible: boolean;
@@ -52,7 +53,7 @@ export function ProUpgradeModal({ visible, onUpgrade, onClose }: ProUpgradeModal
 
             <View style={styles.feature}>
               <View style={styles.featureIconContainer}>
-                <Icon name="activity" type="feather" color={COLORS.primary} size={20} />
+                <SkinfoldIcon size={20} color={COLORS.primary} />
               </View>
               <View style={styles.featureContent}>
                 <Text style={styles.featureTitle}>Skinfold Methods</Text>
