@@ -220,8 +220,13 @@ export const FormulaSelector = () => {
       setFormula(selectedKey);
       setIsModalVisible(false);
     } else {
-      setPendingFormula(selectedKey);
-      setIsPremiumModalVisible(true);
+      // First close the formula selector modal
+      setIsModalVisible(false);
+      // Wait for the first modal to close before showing the premium modal
+      setTimeout(() => {
+        setPendingFormula(selectedKey);
+        setIsPremiumModalVisible(true);
+      }, 300);
     }
   };
 
