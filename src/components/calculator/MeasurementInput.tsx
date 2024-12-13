@@ -57,16 +57,17 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
     const convertValue = useCallback(
       (value: number) => {
         if (measurementSystem === "imperial" && field.unit !== "years") {
-          return convertMeasurement(
+          const convertedValue = convertMeasurement(
             value,
             field.unit,
             getUnitLabel(field.unit, "imperial"),
             field.key as "height" | "weight" | "circumference" | "skinfold"
           );
+          return pro ? convertedValue : Math.round(convertedValue);
         }
-        return value;
+        return pro ? value : Math.round(value);
       },
-      [measurementSystem, field.unit, field.key]
+      [measurementSystem, field.unit, field.key, pro]
     );
 
     // Sync with store and handle measurement system change
@@ -110,7 +111,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
 
         const numValue = parseFloat(value);
         if (!isNaN(numValue)) {
-          const finalValue =
+          const convertedValue =
             measurementSystem === "imperial" && field.unit !== "years"
               ? convertMeasurement(
                   numValue,
@@ -119,6 +120,8 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
                   field.key as "height" | "weight" | "circumference" | "skinfold"
                 )
               : numValue;
+
+          const finalValue = pro ? convertedValue : Math.round(convertedValue);
           setInput(field.key, finalValue);
         }
       },
