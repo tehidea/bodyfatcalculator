@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Modal, StyleSheet } from "react-native";
 import { Text, Button, Icon } from "@rneui/themed";
 import { COLORS } from "../../constants/theme";
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+  withSpring,
+  withDelay,
+  useSharedValue,
+} from "react-native-reanimated";
 
 interface ProUpgradeModalProps {
   visible: boolean;
@@ -16,6 +23,26 @@ export function ProUpgradeModal({
   onUpgrade,
   onClose,
 }: ProUpgradeModalProps) {
+  const rotation = useSharedValue("0deg");
+
+  useEffect(() => {
+    if (visible) {
+      // Reset and start animation when modal becomes visible
+      rotation.value = "0deg";
+      rotation.value = withDelay(
+        100, // Delay to ensure modal is fully mounted
+        withSpring("5deg", {
+          damping: 12,
+          stiffness: 100,
+        })
+      );
+    }
+  }, [visible]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: rotation.value }],
+  }));
+
   return (
     <Modal visible={visible} animationType="fade" transparent={true} onRequestClose={onClose}>
       <View style={styles.modalContainer}>
@@ -79,7 +106,9 @@ export function ProUpgradeModal({
           </View>
 
           <View style={styles.ctaContainer}>
-            <Text style={styles.lifetimeBadge}>LIFETIME ACCESS</Text>
+            <Animated.Text style={[styles.lifetimeBadge, animatedStyle]}>
+              LIFETIME ACCESS
+            </Animated.Text>
 
             <Button
               title={isProcessing ? "Processing..." : "Upgrade to PRO"}
@@ -173,7 +202,6 @@ const styles = StyleSheet.create({
     fontSize: 11,
     letterSpacing: 0.75,
     alignSelf: "flex-end",
-    transform: [{ rotate: "5deg" }],
     marginBottom: -2,
   },
   lifetimeText: {
