@@ -12,7 +12,7 @@
         "android": "${process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY}"
       }
     },
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -20,7 +20,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.tehidea.bodyfatcalculator",
-      "buildNumber": "2"
+      "buildNumber": "3"
     },
     "android": {
       "adaptiveIcon": {
