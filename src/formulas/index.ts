@@ -4,6 +4,11 @@ import { ymcaFormula } from "./ymca";
 import { mymcaFormula } from "./mymca";
 import { navyFormula } from "./navy";
 import { covertFormula } from "./covert";
+import { durninFormula } from "./durnin";
+import { jackson7Formula } from "./jackson7";
+import { jackson4Formula } from "./jackson4";
+import { jackson3Formula } from "./jackson3";
+import { parilloFormula } from "./parillo";
 
 /**
  * Registry of all available formulas
@@ -13,12 +18,11 @@ export const FORMULAS: Record<Formula, FormulaImplementation> = {
   mymca: mymcaFormula,
   navy: navyFormula,
   covert: covertFormula,
-  // TODO: Implement remaining formulas
-  durnin: ymcaFormula, // Temporary placeholder
-  jack7: ymcaFormula, // Temporary placeholder
-  jack4: ymcaFormula, // Temporary placeholder
-  jack3: ymcaFormula, // Temporary placeholder
-  parrillo: ymcaFormula, // Temporary placeholder
+  durnin: durninFormula,
+  jack7: jackson7Formula,
+  jack4: jackson4Formula,
+  jack3: jackson3Formula,
+  parrillo: parilloFormula,
 };
 
 /**
@@ -76,4 +80,50 @@ export function isFormulaSuitableForAge(formula: Formula, age: number): boolean 
   const isBelowMax = !impl.maximumAge || age <= impl.maximumAge;
 
   return isAboveMin && isBelowMax;
+}
+
+/**
+ * Get formulas that require skinfold measurements
+ */
+export function getSkinfoldFormulas(): Formula[] {
+  return Object.entries(FORMULAS)
+    .filter(([_, impl]) =>
+      impl.requiredFields.some(field => field.toLowerCase().includes("skinfold"))
+    )
+    .map(([key]) => key as Formula);
+}
+
+/**
+ * Get formulas that use circumference measurements
+ */
+export function getCircumferenceFormulas(): Formula[] {
+  return Object.entries(FORMULAS)
+    .filter(([_, impl]) =>
+      impl.requiredFields.some(
+        field =>
+          field.toLowerCase().includes("circumference") ||
+          ["neck", "waist", "hips", "chest", "thigh", "calf", "forearm", "wrist"].includes(field)
+      )
+    )
+    .map(([key]) => key as Formula);
+}
+
+/**
+ * Get formulas suitable for a specific age range
+ */
+export function getFormulasForAgeRange(minAge: number, maxAge: number): Formula[] {
+  return Object.entries(FORMULAS)
+    .filter(([_, impl]) => {
+      const isAboveMinRequired = !impl.minimumAge || minAge >= impl.minimumAge;
+      const isBelowMaxAllowed = !impl.maximumAge || maxAge <= impl.maximumAge;
+      return isAboveMinRequired && isBelowMaxAllowed;
+    })
+    .map(([key]) => key as Formula);
+}
+
+/**
+ * Get references for a formula
+ */
+export function getFormulaReferences(formula: Formula): string[] {
+  return FORMULAS[formula].references || [];
 }
