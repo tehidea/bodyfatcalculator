@@ -14,7 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { usePurchase } from "../../hooks/usePurchase";
 import { PremiumFormulaModal } from "./PremiumFormulaModal";
 import { getFormula, getRequiredFields, getAvailableFormulas } from "../../formulas";
-import { getMeasurementTypes } from "../../utils/fields";
+import { getIconTypes } from "../../utils/fields";
 
 export const MeasurementIcon = ({
   type,
@@ -41,13 +41,13 @@ export const MeasurementIcon = ({
   }
 };
 
-const getFormulaTypes = (formula: Formula): string[] => {
+const getFormulaTypes = (formula: Formula): IconType[] => {
   if (!formula) return [];
 
   const fields = getRequiredFields(formula);
   if (!fields || !fields.length) return [];
 
-  return Array.from(getMeasurementTypes(fields));
+  return getIconTypes(fields);
 };
 
 export const FormulaSelector = () => {
@@ -254,7 +254,7 @@ export const FormulaSelector = () => {
           </Text>
         </View>
         <View style={styles.measurementIcons}>
-          {Array.from(getMeasurementTypes(getRequiredFields(formula))).map((type: string) => (
+          {getIconTypes(getRequiredFields(formula)).map((type: string) => (
             <MeasurementIcon key={type} size={12} type={type} color="#fff" />
           ))}
         </View>
@@ -336,11 +336,9 @@ export const FormulaSelector = () => {
                       </Text>
                     </View>
                     <View style={styles.measurementIcons}>
-                      {Array.from(getMeasurementTypes(getRequiredFields(item.key as Formula))).map(
-                        (type: string) => (
-                          <MeasurementIcon key={type} size={12} type={type} color="#666" />
-                        )
-                      )}
+                      {getIconTypes(getRequiredFields(item.key as Formula)).map((type: string) => (
+                        <MeasurementIcon key={type} size={12} type={type} color="#666" />
+                      ))}
                     </View>
                   </TouchableOpacity>
                 );

@@ -45,3 +45,22 @@ export function getMeasurementTypes(fields: string[]): Set<string> {
 
   return types;
 }
+
+export function getIconTypes(fields: string[]): IconType[] {
+  if (!Array.isArray(fields)) return [];
+
+  // Use a Set to deduplicate but maintain first occurrence order
+  const seen = new Set<IconType>();
+  const types: IconType[] = [];
+
+  fields.forEach(field => {
+    if (!field || field === "gender") return;
+    const iconType = getIconType(field);
+    if (!seen.has(iconType)) {
+      seen.add(iconType);
+      types.push(iconType);
+    }
+  });
+
+  return types;
+}
