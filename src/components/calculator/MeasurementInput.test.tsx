@@ -20,11 +20,9 @@ const mockUseCalculatorStore = useCalculatorStore as jest.Mock;
 const mockUsePremiumStore = usePremiumStore as jest.Mock;
 
 const defaultProps = {
-  field: {
-    key: "weight" as const,
-    label: "Weight",
-    unit: "kg",
-  },
+  field: "weight",
+  label: "Weight",
+  unit: "kg",
   error: "",
 };
 

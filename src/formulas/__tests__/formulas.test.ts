@@ -15,7 +15,7 @@ describe("Body Fat Formula Implementations", () => {
       const inputs: StandardizedInputs = {
         gender: "male",
         weight: 80, // kg
-        waist: 85, // cm
+        waistCircumference: 85, // cm
       };
 
       const result = ymcaFormula.calculate(inputs);
@@ -29,7 +29,7 @@ describe("Body Fat Formula Implementations", () => {
       const inputs: StandardizedInputs = {
         gender: "female",
         weight: 60, // kg
-        waist: 70, // cm
+        waistCircumference: 70, // cm
       };
 
       const result = ymcaFormula.calculate(inputs);
@@ -45,10 +45,10 @@ describe("Body Fat Formula Implementations", () => {
       const inputs: StandardizedInputs = {
         gender: "male",
         weight: 80, // kg
-        waist: 85, // cm
-        wrist: 17, // cm
-        forearm: 30, // cm
-        hips: 95, // cm
+        waistCircumference: 85, // cm
+        wristCircumference: 17, // cm
+        forearmCircumference: 30, // cm
+        hipsCircumference: 95, // cm
       };
 
       const result = mymcaFormula.calculate(inputs);
@@ -62,10 +62,10 @@ describe("Body Fat Formula Implementations", () => {
       const inputs: StandardizedInputs = {
         gender: "female",
         weight: 60, // kg
-        waist: 70, // cm
-        wrist: 15, // cm
-        forearm: 25, // cm
-        hips: 90, // cm
+        waistCircumference: 70, // cm
+        wristCircumference: 15, // cm
+        forearmCircumference: 25, // cm
+        hipsCircumference: 90, // cm
       };
 
       const result = mymcaFormula.calculate(inputs);
@@ -82,9 +82,9 @@ describe("Body Fat Formula Implementations", () => {
         gender: "male",
         weight: 80, // kg
         height: 180, // cm
-        neck: 38, // cm
-        waist: 85, // cm
-        hips: 95, // cm
+        neckCircumference: 38, // cm
+        waistCircumference: 85, // cm
+        hipsCircumference: 95, // cm
       };
 
       const result = navyFormula.calculate(inputs);
@@ -99,9 +99,9 @@ describe("Body Fat Formula Implementations", () => {
         gender: "female",
         weight: 60, // kg
         height: 165, // cm
-        neck: 32, // cm
-        waist: 70, // cm
-        hips: 90, // cm
+        neckCircumference: 32, // cm
+        waistCircumference: 70, // cm
+        hipsCircumference: 90, // cm
       };
 
       const result = navyFormula.calculate(inputs);
@@ -118,12 +118,12 @@ describe("Body Fat Formula Implementations", () => {
         gender: "male",
         age: 25,
         weight: 80, // kg
-        waist: 85, // cm
-        hips: 95, // cm
-        forearm: 30, // cm
-        wrist: 17, // cm
-        thigh: 55, // cm
-        calf: 38, // cm
+        waistCircumference: 85, // cm
+        hipsCircumference: 95, // cm
+        forearmCircumference: 30, // cm
+        wristCircumference: 17, // cm
+        thighCircumference: 55, // cm
+        calfCircumference: 38, // cm
       };
 
       const result = covertFormula.calculate(inputs);
@@ -138,12 +138,12 @@ describe("Body Fat Formula Implementations", () => {
         gender: "male",
         age: 35,
         weight: 80, // kg
-        waist: 85, // cm
-        hips: 95, // cm
-        forearm: 30, // cm
-        wrist: 17, // cm
-        thigh: 55, // cm
-        calf: 38, // cm
+        waistCircumference: 85, // cm
+        hipsCircumference: 95, // cm
+        forearmCircumference: 30, // cm
+        wristCircumference: 17, // cm
+        thighCircumference: 55, // cm
+        calfCircumference: 38, // cm
       };
 
       const result = covertFormula.calculate(inputs);
@@ -158,12 +158,12 @@ describe("Body Fat Formula Implementations", () => {
         gender: "female",
         age: 25,
         weight: 60, // kg
-        waist: 70, // cm
-        hips: 90, // cm
-        forearm: 25, // cm
-        wrist: 15, // cm
-        thigh: 50, // cm
-        calf: 35, // cm
+        waistCircumference: 70, // cm
+        hipsCircumference: 90, // cm
+        forearmCircumference: 25, // cm
+        wristCircumference: 15, // cm
+        thighCircumference: 50, // cm
+        calfCircumference: 35, // cm
       };
 
       const result = covertFormula.calculate(inputs);
@@ -178,12 +178,12 @@ describe("Body Fat Formula Implementations", () => {
         gender: "female",
         age: 35,
         weight: 60, // kg
-        waist: 70, // cm
-        hips: 90, // cm
-        forearm: 25, // cm
-        wrist: 15, // cm
-        thigh: 50, // cm
-        calf: 35, // cm
+        waistCircumference: 70, // cm
+        hipsCircumference: 90, // cm
+        forearmCircumference: 25, // cm
+        wristCircumference: 15, // cm
+        thighCircumference: 50, // cm
+        calfCircumference: 35, // cm
       };
 
       const result = covertFormula.calculate(inputs);
