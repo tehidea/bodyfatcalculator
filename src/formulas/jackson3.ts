@@ -66,7 +66,7 @@ export const jackson3Formula: FormulaImplementation = {
     };
   },
 
-  name: "Jackson-Pollock 3-Site Formula",
+  name: "Jackson-Pollock 3-Site",
   marginOfError: "4-5",
 
   // Common required fields for both genders
@@ -83,11 +83,7 @@ export const jackson3Formula: FormulaImplementation = {
   },
 
   description:
-    "The Jackson-Pollock 3-site formula is their most practical method, using three " +
-    "strategically chosen skinfold sites that differ by gender. For men, measurements " +
-    "are taken at the chest, abdomen, and thigh. For women, measurements are taken at " +
-    "the tricep, suprailiac, and thigh. This approach balances practicality with accuracy " +
-    "and is widely used in field testing.",
+    "A practical skinfold method using three gender-specific measurement sites, balancing convenience with accuracy.",
 
   references: [
     "Jackson, A. S., & Pollock, M. L. (1985). Practical assessment of body composition. The Physician and Sportsmedicine, 13(5), 76-90.",

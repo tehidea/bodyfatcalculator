@@ -59,7 +59,7 @@ export const mymcaFormula: FormulaImplementation = {
     };
   },
 
-  name: "Modified YMCA Formula",
+  name: "Modified YMCA",
   marginOfError: "4-6",
 
   // Common required fields for both genders
@@ -72,10 +72,7 @@ export const mymcaFormula: FormulaImplementation = {
   },
 
   description:
-    "The Modified YMCA formula is an enhanced version of the original YMCA formula. " +
-    "For men, it uses a simplified calculation based on waist and weight. " +
-    "For women, it incorporates additional measurements (wrist, forearm, and hips) " +
-    "to provide more accurate results across different body types.",
+    "An enhanced YMCA formula that adds wrist, forearm, and hip measurements for women to improve accuracy.",
 
   references: [
     "Modified from YMCA of the USA. (2000). YMCA Fitness Testing and Assessment Manual. 4th ed.",

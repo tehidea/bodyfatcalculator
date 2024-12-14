@@ -53,7 +53,7 @@ export const jackson4Formula: FormulaImplementation = {
     };
   },
 
-  name: "Jackson-Pollock 4-Site Formula",
+  name: "Jackson-Pollock 4-Site",
   marginOfError: "3.5-4.5",
 
   requiredFields: [
@@ -67,10 +67,7 @@ export const jackson4Formula: FormulaImplementation = {
   ],
 
   description:
-    "The Jackson-Pollock 4-site formula is a simplified version of their 7-site method, " +
-    "using only four skinfold measurements: abdomen, thigh, tricep, and suprailiac. " +
-    "This makes it more practical for field testing while maintaining good accuracy. " +
-    "Like the 7-site formula, it accounts for age and gender differences in fat distribution.",
+    "A refined skinfold method using four measurements (abdomen, thigh, tricep, suprailiac), offering good accuracy with moderate complexity.",
 
   references: [
     "Jackson, A. S., & Pollock, M. L. (1985). Practical assessment of body composition. The Physician and Sportsmedicine, 13(5), 76-90.",

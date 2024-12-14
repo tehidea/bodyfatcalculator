@@ -68,7 +68,7 @@ export const covertFormula: FormulaImplementation = {
     };
   },
 
-  name: "Covert Bailey Formula",
+  name: "Covert Bailey",
   marginOfError: "4-5",
 
   // Common required fields for both genders
@@ -81,11 +81,7 @@ export const covertFormula: FormulaImplementation = {
   },
 
   description:
-    "The Covert Bailey formula uses different measurements for men and women, " +
-    "taking into account age-related changes in body composition. For men, it focuses " +
-    "on waist, hips, forearm, and wrist measurements, while women's calculations use " +
-    "hips, thigh, calf, and wrist measurements. The formula adjusts its calculations " +
-    "based on whether the person is over or under 30 years old.",
+    "An age-adjusted method using different circumference measurements for men and women, with specific calculations for those over and under 30.",
 
   references: [
     "Bailey, Covert. (1991). The Ultimate Fit or Fat: Get in Shape and Stay in Shape.",

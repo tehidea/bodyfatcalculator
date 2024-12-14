@@ -18,6 +18,21 @@ import {
 } from "../types/calculator";
 
 /**
+ * Predefined order of formulas
+ */
+const FORMULA_ORDER: Formula[] = [
+  "ymca",
+  "mymca",
+  "navy",
+  "covert",
+  "jack3",
+  "durnin",
+  "jack4",
+  "jack7",
+  "parrillo",
+];
+
+/**
  * Registry of all available formulas
  */
 export const FORMULAS: Record<Formula, FormulaImplementation> = {
@@ -68,10 +83,10 @@ export function getFormula(formula: Formula): FormulaImplementation {
 }
 
 /**
- * Get all available formulas
+ * Get all available formulas in predefined order
  */
 export function getAvailableFormulas(): Formula[] {
-  return Object.keys(FORMULAS) as Formula[];
+  return FORMULA_ORDER;
 }
 
 /**
@@ -93,6 +108,15 @@ export function getRequiredFields(formula: Formula): Array<string> {
  */
 export function getFormulaDescription(formula: Formula): string {
   return FORMULAS[formula].description;
+}
+
+/**
+ * Get formula short description (first sentence only)
+ */
+export function getFormulaShortDescription(formula: Formula): string {
+  const description = FORMULAS[formula].description;
+  const firstSentence = description.split(". ")[0];
+  return firstSentence + ".";
 }
 
 /**

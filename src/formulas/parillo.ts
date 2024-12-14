@@ -48,7 +48,7 @@ export const parilloFormula: FormulaImplementation = {
     };
   },
 
-  name: "Parillo Formula",
+  name: "Parillo",
   marginOfError: "3-4",
 
   requiredFields: [
@@ -65,12 +65,7 @@ export const parilloFormula: FormulaImplementation = {
   ],
 
   description:
-    "The Parillo formula is a comprehensive method that uses nine skinfold measurements " +
-    "to estimate body fat percentage. It's particularly popular in bodybuilding and " +
-    "fitness circles. The formula takes measurements from the chest, abdomen, thigh, " +
-    "bicep, tricep, subscapular, suprailiac, lower back, and calf sites. Unlike most " +
-    "other formulas, it doesn't use body density calculations but instead uses a direct " +
-    "multiplication factor based on the sum of skinfolds relative to body weight.",
+    "A bodybuilding-focused method using nine skinfold measurements, with a unique direct calculation approach instead of body density.",
 
   references: [
     "Parillo, J. (1993). High-Performance Body-Building. Perigee Books.",

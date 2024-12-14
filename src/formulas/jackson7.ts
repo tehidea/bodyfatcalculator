@@ -62,7 +62,7 @@ export const jackson7Formula: FormulaImplementation = {
     };
   },
 
-  name: "Jackson-Pollock 7-Site Formula",
+  name: "Jackson-Pollock 7-Site",
   marginOfError: "3-4",
 
   requiredFields: [
@@ -79,11 +79,7 @@ export const jackson7Formula: FormulaImplementation = {
   ],
 
   description:
-    "The Jackson-Pollock 7-site formula uses seven skinfold measurements to estimate " +
-    "body density, which is then converted to body fat percentage. The measurements " +
-    "include chest, abdomen, thigh, tricep, subscapular, suprailiac, and midaxillary " +
-    "sites. This comprehensive approach provides high accuracy across different body " +
-    "types and accounts for age-related changes in fat distribution.",
+    "The most comprehensive Jackson-Pollock method using seven skinfold sites, providing high accuracy across different body types.",
 
   references: [
     "Jackson, A. S., & Pollock, M. L. (1978). Generalized equations for predicting body density of men. British Journal of Nutrition, 40(3), 497-504.",

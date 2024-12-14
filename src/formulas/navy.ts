@@ -50,7 +50,7 @@ export const navyFormula: FormulaImplementation = {
     };
   },
 
-  name: "U.S. Navy Formula",
+  name: "U.S. Navy",
   marginOfError: "4-6",
 
   // Common required fields for both genders
@@ -63,10 +63,7 @@ export const navyFormula: FormulaImplementation = {
   },
 
   description:
-    "The U.S. Navy formula is a circumference-based method developed for military personnel. " +
-    "It uses height and various body circumference measurements to estimate body fat percentage. " +
-    "For men, it uses neck and waist measurements, while women's calculations include hip measurements " +
-    "for better accuracy across different body types.",
+    "A military-developed method using height and circumference measurements, with additional hip measurements for women.",
 
   references: [
     "Hodgdon, J. A., & Beckett, M. B. (1984). Prediction of percent body fat for U.S. Navy men and women from body circumferences and height. Naval Health Research Center Report, No. 84-29.",

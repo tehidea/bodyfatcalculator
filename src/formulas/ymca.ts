@@ -30,15 +30,13 @@ export const ymcaFormula: FormulaImplementation = {
     };
   },
 
-  name: "YMCA Formula",
+  name: "YMCA",
   marginOfError: "5-7",
 
   requiredFields: ["gender", "weight", "waistCircumference"],
 
   description:
-    "The YMCA formula is a simple method that uses waist circumference and body weight " +
-    "to estimate body fat percentage. While not as accurate as more comprehensive methods, " +
-    "it provides a quick assessment without requiring specialized equipment.",
+    "A simple method using waist circumference and body weight, providing quick results without specialized equipment.",
 
   references: ["YMCA of the USA. (2000). YMCA Fitness Testing and Assessment Manual. 4th ed."],
 };
