@@ -10,6 +10,7 @@ export function getFieldType(field: string): ConversionType {
   if (fieldLower.includes("circumference")) return "length";
   if (fieldLower === "weight") return "weight";
   if (fieldLower === "height") return "length";
+  if (fieldLower === "age") return "none";
   return "length"; // Default to length for any other measurements
 }
 

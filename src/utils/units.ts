@@ -16,6 +16,8 @@ export function getDisplayUnit(unit: string, system: MeasurementSystem): string 
 }
 
 export function getStandardUnit(type: string, system: MeasurementSystem): string {
+  if (type === "none") return "years";
+
   if (system === "metric") {
     switch (type) {
       case "weight":

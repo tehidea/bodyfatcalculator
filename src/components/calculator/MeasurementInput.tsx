@@ -10,7 +10,7 @@ import { ProUpgradeModal } from "./ProUpgradeModal";
 import { styles } from "./MeasurementInput.styles";
 import { COLORS } from "../../constants/theme";
 import { getDisplayUnit } from "../../utils/units";
-import { getFieldType, getIconType } from "../../utils/fields";
+import { getIconType, getFieldType } from "../../utils/fields";
 import { convertMeasurement } from "../../utils/conversions";
 
 interface MeasurementInputProps {
@@ -53,14 +53,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       onSubmitEditing?.();
     }, [isLastInput, onSubmitEditing]);
 
-    const convertValue = useCallback(
-      (value: number) => {
-        return pro ? value : Math.round(value);
-      },
-      [pro]
-    );
-
-    // Sync with store and handle measurement system change
+    // Sync with store and handle display conversion
     useEffect(() => {
       const storeValue = inputs[field as keyof CalculatorInputs];
       if (storeValue === null || storeValue === undefined) {
@@ -72,11 +65,17 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       if (!isEditing) {
         // Convert the stored metric value to display value
         const displayValue =
-          measurementSystem === "imperial"
+          measurementSystem === "imperial" && typeof storeValue === "number"
             ? convertMeasurement(storeValue, getFieldType(field), "metric", "imperial")
             : storeValue;
 
-        setRawValue(pro ? displayValue.toFixed(2) : Math.round(displayValue).toString());
+        setRawValue(
+          typeof displayValue === "number"
+            ? pro
+              ? displayValue.toFixed(2)
+              : Math.round(displayValue).toString()
+            : displayValue.toString()
+        );
       }
     }, [measurementSystem, inputs[field as keyof CalculatorInputs], isEditing, pro, field]);
 
@@ -106,11 +105,14 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
 
         const numValue = parseFloat(value);
         if (!isNaN(numValue)) {
+          const fieldType = getFieldType(field);
           // Convert from display system to metric for storage
           const metricValue =
-            measurementSystem === "imperial"
-              ? convertMeasurement(numValue, getFieldType(field), "imperial", "metric")
-              : numValue;
+            fieldType === "none"
+              ? numValue
+              : measurementSystem === "imperial"
+                ? convertMeasurement(numValue, fieldType, "imperial", "metric")
+                : numValue;
 
           setInput(
             field as keyof CalculatorInputs,

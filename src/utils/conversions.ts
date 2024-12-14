@@ -3,9 +3,9 @@
  * All internal calculations use metric system, conversions happen at the edges of the system.
  */
 
-export type MetricUnit = "kg" | "cm" | "mm";
-export type ImperialUnit = "lb" | "in";
-export type ConversionType = "weight" | "length" | "skinfold";
+export type MetricUnit = "kg" | "cm" | "mm" | "years";
+export type ImperialUnit = "lb" | "in" | "years";
+export type ConversionType = "weight" | "length" | "skinfold" | "none";
 
 // Standard conversion factors
 const STANDARD_CONVERSION_FACTORS = {
@@ -58,6 +58,12 @@ export const CONVERSIONS: Record<ConversionType, ConversionUnit> = {
     imperial: "in",
     toImperial: createConverter(STANDARD_CONVERSION_FACTORS.INCHES_PER_MM),
     toMetric: createConverter(25.4), // mm per inch
+  },
+  none: {
+    metric: "years",
+    imperial: "years",
+    toImperial: (value: number) => value,
+    toMetric: (value: number) => value,
   },
 };
 
