@@ -178,12 +178,8 @@ export const useCalculatorStore = create<CalculatorStore>()(
           const conversionType = INPUT_CONVERSION_MAP[key as keyof CalculatorInputs];
           if (!conversionType) return;
 
-          convertedInputs[key as keyof CalculatorInputs] = convertMeasurement(
-            value,
-            conversionType,
-            oldSystem,
-            newSystem
-          );
+          // Keep the original metric values when switching to imperial
+          convertedInputs[key as keyof CalculatorInputs] = value;
         });
 
         set({

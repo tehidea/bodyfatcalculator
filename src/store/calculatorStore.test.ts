@@ -1,4 +1,5 @@
 import { useCalculatorStore } from "./calculatorStore";
+import { convertMeasurement } from "../utils/conversions";
 
 describe("calculatorStore", () => {
   beforeEach(() => {
@@ -17,31 +18,44 @@ describe("calculatorStore", () => {
   });
 
   describe("setMeasurementSystem", () => {
-    it("converts values between metric and imperial", () => {
-      // Set initial metric values
-      useCalculatorStore.setState(state => ({
-        ...state,
+    it("keeps metric values in store while tracking measurement system preference", () => {
+      // Get store actions directly from useCalculatorStore
+      useCalculatorStore.setState({
         inputs: {
           weight: 80,
           waistCircumference: 85,
         },
-      }));
+      });
 
       // Switch to imperial
       useCalculatorStore.getState().setMeasurementSystem("imperial");
 
-      // Check converted values (80kg ≈ 176.37lbs, 85cm ≈ 33.46in)
-      const imperialState = useCalculatorStore.getState();
-      expect(imperialState.inputs.weight).toBeCloseTo(176.37, 1);
-      expect(imperialState.inputs.waistCircumference).toBeCloseTo(33.46, 1);
+      // Get state for assertions
+      const state = useCalculatorStore.getState();
 
-      // Switch back to metric
-      useCalculatorStore.getState().setMeasurementSystem("metric");
+      // Verify internal values stay metric
+      expect(state.inputs.weight).toBe(80);
+      expect(state.inputs.waistCircumference).toBe(85);
 
-      // Check values converted back to metric
-      const metricState = useCalculatorStore.getState();
-      expect(metricState.inputs.weight).toBeCloseTo(80, 1);
-      expect(metricState.inputs.waistCircumference).toBeCloseTo(85, 1);
+      // Verify measurement system was updated
+      expect(state.measurementSystem).toBe("imperial");
+
+      // If you want to verify conversion logic, do it separately
+      const displayWeight = convertMeasurement(
+        state.inputs.weight!,
+        "weight",
+        "metric",
+        "imperial"
+      );
+      const displayWaist = convertMeasurement(
+        state.inputs.waistCircumference!,
+        "length",
+        "metric",
+        "imperial"
+      );
+
+      expect(displayWeight).toBeCloseTo(176.37, 1);
+      expect(displayWaist).toBeCloseTo(33.46, 1);
     });
 
     it("resets validation errors when changing systems", () => {

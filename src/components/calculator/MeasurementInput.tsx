@@ -10,7 +10,8 @@ import { ProUpgradeModal } from "./ProUpgradeModal";
 import { styles } from "./MeasurementInput.styles";
 import { COLORS } from "../../constants/theme";
 import { getDisplayUnit } from "../../utils/units";
-import { getFieldType } from "../../utils/fields";
+import { getFieldType, getIconType } from "../../utils/fields";
+import { convertMeasurement } from "../../utils/conversions";
 
 interface MeasurementInputProps {
   field: string;
@@ -61,7 +62,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
 
     // Sync with store and handle measurement system change
     useEffect(() => {
-      const storeValue = inputs[field];
+      const storeValue = inputs[field as keyof CalculatorInputs];
       if (storeValue === null || storeValue === undefined) {
         setRawValue("");
         setIsEditing(false);
@@ -69,9 +70,15 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       }
 
       if (!isEditing) {
-        setRawValue(pro ? storeValue.toFixed(2) : Math.round(storeValue).toString());
+        // Convert the stored metric value to display value
+        const displayValue =
+          measurementSystem === "imperial"
+            ? convertMeasurement(storeValue, getFieldType(field), "metric", "imperial")
+            : storeValue;
+
+        setRawValue(pro ? displayValue.toFixed(2) : Math.round(displayValue).toString());
       }
-    }, [measurementSystem, inputs[field], isEditing, pro]);
+    }, [measurementSystem, inputs[field as keyof CalculatorInputs], isEditing, pro, field]);
 
     const handleChangeText = useCallback(
       (value: string) => {
@@ -79,7 +86,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
 
         if (value === "") {
           setRawValue("");
-          setInput(field, null);
+          setInput(field as keyof CalculatorInputs, null);
           return;
         }
 
@@ -93,19 +100,28 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
         setRawValue(value);
 
         if (value === ".") {
-          setInput(field, 0);
+          setInput(field as keyof CalculatorInputs, 0);
           return;
         }
 
         const numValue = parseFloat(value);
         if (!isNaN(numValue)) {
-          setInput(field, pro ? Number(numValue.toFixed(2)) : Math.round(numValue));
+          // Convert from display system to metric for storage
+          const metricValue =
+            measurementSystem === "imperial"
+              ? convertMeasurement(numValue, getFieldType(field), "imperial", "metric")
+              : numValue;
+
+          setInput(
+            field as keyof CalculatorInputs,
+            pro ? Number(metricValue.toFixed(2)) : Math.round(metricValue)
+          );
         }
       },
-      [pro, field, setInput]
+      [pro, field, setInput, measurementSystem]
     );
 
-    const iconType = useMemo(() => getFieldType(field), [field]);
+    const iconType = useMemo(() => getIconType(field), [field]);
     const displayUnit = useMemo(
       () => getDisplayUnit(unit, measurementSystem),
       [unit, measurementSystem]
