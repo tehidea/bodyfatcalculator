@@ -1,5 +1,6 @@
 import { FormulaImplementation, StandardizedInputs, FormulaResult } from "../types/formula";
 import { convertMeasurement } from "../utils/conversions";
+import { calculateMassMetrics } from "./utils";
 
 /**
  * Durnin & Womersley formula implementation
@@ -46,9 +47,8 @@ export const durninFormula: FormulaImplementation = {
     // Convert body density to body fat percentage using Siri's equation
     const bodyFatPercentage = 495 / bodyDensity - 450;
 
-    // Calculate fat mass and lean mass
-    const fatMass = (bodyFatPercentage / 100) * weight;
-    const leanMass = weight - fatMass;
+    // Calculate fat mass and lean mass using utility function
+    const { fatMass, leanMass } = calculateMassMetrics(bodyFatPercentage, weight);
 
     return {
       bodyFatPercentage,

@@ -1,5 +1,6 @@
 import { FormulaImplementation, StandardizedInputs, FormulaResult } from "../types/formula";
 import { convertMeasurement } from "../utils/conversions";
+import { calculateMassMetrics } from "./utils";
 
 /**
  * Covert Bailey formula implementation
@@ -57,9 +58,8 @@ export const covertFormula: FormulaImplementation = {
       bodyFatPercentage = hipsInches + thighMultiplier * thighInches - 2 * calfInches - wristInches;
     }
 
-    // Calculate fat mass and lean mass in kg
-    const fatMass = (bodyFatPercentage / 100) * weight;
-    const leanMass = weight - fatMass;
+    // Calculate fat mass and lean mass using utility function
+    const { fatMass, leanMass } = calculateMassMetrics(bodyFatPercentage, weight);
 
     return {
       bodyFatPercentage,

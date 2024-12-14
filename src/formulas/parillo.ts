@@ -1,4 +1,5 @@
 import { FormulaImplementation, StandardizedInputs, FormulaResult } from "../types/formula";
+import { calculateMassMetrics } from "./utils";
 
 /**
  * Parillo formula implementation
@@ -37,9 +38,8 @@ export const parilloFormula: FormulaImplementation = {
     // The formula multiplies the sum by 27 and divides by body weight in pounds
     const bodyFatPercentage = (sumOfSkinfolds * 27) / weight;
 
-    // Calculate fat mass and lean mass
-    const fatMass = (bodyFatPercentage / 100) * weight;
-    const leanMass = weight - fatMass;
+    // Calculate fat mass and lean mass using utility function
+    const { fatMass, leanMass } = calculateMassMetrics(bodyFatPercentage, weight);
 
     return {
       bodyFatPercentage,

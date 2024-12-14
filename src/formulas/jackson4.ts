@@ -1,4 +1,5 @@
 import { FormulaImplementation, StandardizedInputs, FormulaResult } from "../types/formula";
+import { calculateMassMetrics } from "./utils";
 
 /**
  * Jackson-Pollock 4-site formula implementation
@@ -42,9 +43,8 @@ export const jackson4Formula: FormulaImplementation = {
     // Convert body density to body fat percentage using Siri's equation
     const bodyFatPercentage = 495 / bodyDensity - 450;
 
-    // Calculate fat mass and lean mass
-    const fatMass = (bodyFatPercentage / 100) * weight;
-    const leanMass = weight - fatMass;
+    // Calculate fat mass and lean mass using utility function
+    const { fatMass, leanMass } = calculateMassMetrics(bodyFatPercentage, weight);
 
     return {
       bodyFatPercentage,

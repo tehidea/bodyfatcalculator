@@ -1,5 +1,6 @@
 import { FormulaImplementation, StandardizedInputs, FormulaResult } from "../types/formula";
 import { convertMeasurement } from "../utils/conversions";
+import { calculateMassMetrics } from "./utils";
 
 /**
  * Modified YMCA formula implementation
@@ -48,9 +49,8 @@ export const mymcaFormula: FormulaImplementation = {
             weightLbs) *
           100;
 
-    // Calculate fat mass and lean mass in kg
-    const fatMass = (bodyFatPercentage / 100) * weight;
-    const leanMass = weight - fatMass;
+    // Calculate fat mass and lean mass using utility function
+    const { fatMass, leanMass } = calculateMassMetrics(bodyFatPercentage, weight);
 
     return {
       bodyFatPercentage,

@@ -73,3 +73,12 @@ export function validateBodyFat(bodyFat: number): { isValid: boolean; message?: 
   }
   return { isValid: true };
 }
+
+/**
+ * Calculates fat mass and lean mass from body fat percentage and weight
+ */
+export function calculateMassMetrics(bodyFatPercentage: number, weight: number) {
+  const fatMass = (bodyFatPercentage / 100) * weight;
+  const leanMass = weight - fatMass;
+  return { fatMass, leanMass };
+}
