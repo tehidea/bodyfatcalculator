@@ -7,7 +7,11 @@ import Animated, {
   withTiming,
   withSpring,
   withDelay,
+  withSequence,
   useSharedValue,
+  FadeIn,
+  SlideInDown,
+  FadeInDown,
 } from "react-native-reanimated";
 
 interface PremiumFormulaModalProps {
@@ -24,34 +28,45 @@ export function PremiumFormulaModal({
   onClose,
 }: PremiumFormulaModalProps) {
   const rotation = useSharedValue("0deg");
+  const scale = useSharedValue(0.95);
+  const opacity = useSharedValue(0);
 
   useEffect(() => {
     if (visible) {
-      // Reset and start animation when modal becomes visible
       rotation.value = "0deg";
+      scale.value = 0.95;
+      opacity.value = 0;
+
+      scale.value = withSpring(1, { damping: 20, stiffness: 80 });
+      opacity.value = withTiming(1, { duration: 400 });
       rotation.value = withDelay(
-        300, // Delay to ensure modal is fully mounted
+        400,
         withSpring("5deg", {
-          damping: 12,
+          damping: 15,
           stiffness: 100,
         })
       );
     }
   }, [visible]);
 
-  const animatedStyle = useAnimatedStyle(() => ({
+  const animatedContainerStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+    opacity: opacity.value,
+  }));
+
+  const animatedBadgeStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: rotation.value }],
   }));
 
   return (
     <Modal visible={visible} animationType="fade" transparent={true} onRequestClose={onClose}>
       <View style={styles.modalContainer}>
-        <View style={styles.modalContent}>
+        <Animated.View style={[styles.modalContent, animatedContainerStyle]}>
           <View style={styles.header}>
             <View style={[styles.iconWrapper]}>
-              <View style={styles.iconContainer}>
+              <Animated.View entering={FadeIn.duration(600)} style={styles.iconContainer}>
                 <Icon name="lock" type="feather" color={COLORS.primary} size={32} />
-              </View>
+              </Animated.View>
               <View style={styles.iconGlow} />
             </View>
 
@@ -62,50 +77,48 @@ export function PremiumFormulaModal({
           </View>
 
           <View style={styles.featureList}>
-            <View style={styles.feature}>
-              <View style={styles.featureIconContainer}>
-                <Icon name="activity" type="feather" color={COLORS.primary} size={20} />
-              </View>
-              <View style={styles.featureContent}>
-                <Text style={styles.featureTitle}>Skinfold Methods</Text>
-                <Text style={styles.featureDescription}>Professional measurement techniques</Text>
-              </View>
-            </View>
-            <View style={styles.feature}>
-              <View style={styles.featureIconContainer}>
-                <Icon name="percent" type="feather" color={COLORS.primary} size={20} />
-              </View>
-              <View style={styles.featureContent}>
-                <Text style={styles.featureTitle}>Higher Accuracy</Text>
-                <Text style={styles.featureDescription}>±2.5-4% margin of error range</Text>
-              </View>
-            </View>
-
-            <View style={styles.feature}>
-              <View style={styles.featureIconContainer}>
-                <Icon name="sliders" type="feather" color={COLORS.primary} size={20} />
-              </View>
-              <View style={styles.featureContent}>
-                <Text style={styles.featureTitle}>Decimal Precision</Text>
-                <Text style={styles.featureDescription}>
-                  Get exact measurements to&nbsp;2&nbsp;decimal places
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.feature}>
-              <View style={styles.featureIconContainer}>
-                <Icon name="users" type="feather" color={COLORS.primary} size={20} />
-              </View>
-              <View style={styles.featureContent}>
-                <Text style={styles.featureTitle}>Family Sharing</Text>
-                <Text style={styles.featureDescription}>Share with up to 5 family members</Text>
-              </View>
-            </View>
+            {[0, 1, 2, 3].map(index => (
+              <Animated.View
+                key={index}
+                entering={FadeIn.delay(300 + index * 50).duration(400)}
+                style={styles.feature}
+              >
+                <View style={styles.featureIconContainer}>
+                  <Icon
+                    name={["activity", "percent", "sliders", "users"][index]}
+                    type="feather"
+                    color={COLORS.primary}
+                    size={20}
+                  />
+                </View>
+                <View style={styles.featureContent}>
+                  <Text style={styles.featureTitle}>
+                    {
+                      [
+                        "Skinfold Methods",
+                        "Higher Accuracy",
+                        "Decimal Precision",
+                        "Family Sharing",
+                      ][index]
+                    }
+                  </Text>
+                  <Text style={styles.featureDescription}>
+                    {
+                      [
+                        "Professional measurement techniques",
+                        "±2.5-4% margin of error range",
+                        "Get exact measurements to 2 decimal places",
+                        "Share with up to 5 family members",
+                      ][index]
+                    }
+                  </Text>
+                </View>
+              </Animated.View>
+            ))}
           </View>
 
-          <View style={styles.ctaContainer}>
-            <Animated.Text style={[styles.lifetimeBadge, animatedStyle]}>
+          <Animated.View entering={FadeIn.delay(500).duration(400)} style={styles.ctaContainer}>
+            <Animated.Text style={[styles.lifetimeBadge, animatedBadgeStyle]}>
               LIFETIME ACCESS
             </Animated.Text>
 
@@ -125,8 +138,8 @@ export function PremiumFormulaModal({
               titleStyle={styles.cancelButtonText}
               onPress={onClose}
             />
-          </View>
-        </View>
+          </Animated.View>
+        </Animated.View>
       </View>
     </Modal>
   );
@@ -228,13 +241,13 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat-Light",
   },
   featureList: {
-    padding: 24,
+    padding: 20,
     paddingHorizontal: 40,
   },
   feature: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 16,
   },
   featureIconContainer: {
     width: 40,
