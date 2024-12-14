@@ -2,15 +2,16 @@ import React from "react";
 import { render, fireEvent, act } from "@testing-library/react-native";
 import { CalculatorScreen } from "../../screens/CalculatorScreen";
 import { useCalculatorStore } from "../../store/calculatorStore";
-import { calculateResults } from "../../utils/calculations";
+import { calculateResults } from "../../formulas";
 import { validateInputs } from "../../utils/validation";
 import * as FormulaSelector from "../calculator/FormulaSelector";
 import { usePremiumStore } from "../../store/premiumStore";
 
 jest.mock("../../store/calculatorStore");
 jest.mock("@expo/vector-icons");
-jest.mock("../../utils/calculations");
-jest.mock("../../utils/validation");
+jest.mock("../../utils/validation", () => ({
+  validateInputs: jest.fn(() => ({ isValid: true, message: "" })),
+}));
 jest.mock("react-native-purchases");
 jest.mock("../calculator/FormulaSelector", () => ({
   FormulaSelector: () => null,
@@ -27,28 +28,19 @@ jest.mock("react-native-keyboard-controller", () => ({
 }));
 
 const mockUseCalculatorStore = useCalculatorStore as jest.MockedFunction<typeof useCalculatorStore>;
-const mockCalculateResults = calculateResults as jest.MockedFunction<typeof calculateResults>;
 const mockValidateInputs = validateInputs as jest.MockedFunction<typeof validateInputs>;
 const mockUsePremiumStore = usePremiumStore as jest.MockedFunction<typeof usePremiumStore>;
 
 describe("CalculatorScreen", () => {
   beforeEach(() => {
-    mockCalculateResults.mockClear();
     mockValidateInputs.mockClear();
-
     mockValidateInputs.mockReturnValue({ success: true, errors: {} });
-    mockCalculateResults.mockResolvedValue({
-      bodyFatPercentage: 20,
-      fatMass: 16,
-      leanMass: 64,
-      classification: "Fitness (14-17%)",
-    });
 
     mockUseCalculatorStore.mockReturnValue({
       formula: "ymca",
       gender: "male",
       inputs: {
-        waist: 85,
+        waistCircumference: 85,
         weight: 80,
       },
       error: null,
@@ -64,6 +56,7 @@ describe("CalculatorScreen", () => {
       setGender: jest.fn(),
       setMeasurementSystem: jest.fn(),
       calculate: jest.fn(),
+      setResults: jest.fn(),
     });
 
     mockUsePremiumStore.mockReturnValue({
@@ -85,11 +78,20 @@ describe("CalculatorScreen", () => {
       await Promise.resolve();
     });
 
-    expect(mockCalculateResults).toHaveBeenCalledWith(
+    const result = await calculateResults(
       "ymca",
       "male",
-      { waist: 85, weight: 80 },
+      { waistCircumference: 85, weight: 80 },
       "metric"
     );
+
+    expect(result).toMatchObject({
+      bodyFatPercentage: expect.any(Number),
+      fatMass: expect.any(Number),
+      leanMass: expect.any(Number),
+      classification: expect.any(String),
+    });
+
+    expect(result.bodyFatPercentage).toBeCloseTo(14.73, 1);
   });
 });

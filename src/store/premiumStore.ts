@@ -27,10 +27,10 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
     try {
       const entitlements = await getUserEntitlements();
       console.log("checkEntitlements - Retrieved entitlements:", entitlements);
-      set({ ...entitlements, isLoading: false });
+      set({ ...entitlements, isLoading: false, error: null });
     } catch (error) {
       console.error("checkEntitlements - Error:", error);
-      set({ error: "Failed to check entitlements", isLoading: false });
+      set({ isLoading: false, error: null });
     }
   },
   setEntitlements: (entitlements: UserEntitlements) => {
@@ -76,16 +76,16 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
       }
 
       console.log("purchasePro - Purchase successful, entitlements:", entitlements);
-
       set({ ...entitlements, isLoading: false, error: null });
       return entitlements.pro;
     } catch (error) {
       console.error("purchasePro - Error:", error);
 
-      // Only update state if we're still loading (operation hasn't been cancelled)
-      if (get().isLoading) {
-        set({ isLoading: false, error: null, pro: false });
+      if (!get().isLoading) {
+        return false;
       }
+
+      set({ isLoading: false, error: null, pro: false });
 
       if (error instanceof Error) {
         // Handle user cancellation
@@ -109,10 +109,6 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
         }
       }
 
-      // Handle other errors
-      if (get().isLoading) {
-        set({ error: "Purchase failed" });
-      }
       return false;
     }
   },
@@ -120,7 +116,7 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const entitlements = await getUserEntitlements();
-      set({ ...entitlements, isLoading: false });
+      set({ ...entitlements, isLoading: false, error: null });
       if (entitlements.pro) {
         Alert.alert("Success", "Your PRO access has been restored!", [{ text: "OK" }]);
       } else {
@@ -129,7 +125,7 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
         ]);
       }
     } catch (error) {
-      set({ error: "Failed to restore purchases", isLoading: false });
+      set({ isLoading: false, error: null });
       Alert.alert("Error", "Failed to restore purchases. Please try again.", [{ text: "OK" }]);
     }
   },

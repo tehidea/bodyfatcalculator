@@ -9,6 +9,11 @@ import { jackson3Formula } from "../jackson3";
 import { parilloFormula } from "../parillo";
 import { StandardizedInputs } from "../../types/formula";
 
+// Add type assertion to ensure weight is defined
+function assertWeight(weight: number | undefined): asserts weight is number {
+  if (weight === undefined) throw new Error("Weight is required for body fat calculations");
+}
+
 describe("Body Fat Formula Implementations", () => {
   describe("YMCA Formula", () => {
     it("calculates male body fat percentage correctly", () => {
@@ -19,6 +24,8 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = ymcaFormula.calculate(inputs);
+      assertWeight(inputs.weight);
+
       expect(result.bodyFatPercentage).toBeGreaterThan(0);
       expect(result.bodyFatPercentage).toBeLessThan(100);
       expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
@@ -33,6 +40,8 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = ymcaFormula.calculate(inputs);
+      assertWeight(inputs.weight);
+
       expect(result.bodyFatPercentage).toBeGreaterThan(0);
       expect(result.bodyFatPercentage).toBeLessThan(100);
       expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
@@ -52,6 +61,8 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = mymcaFormula.calculate(inputs);
+      assertWeight(inputs.weight);
+
       expect(result.bodyFatPercentage).toBeGreaterThan(0);
       expect(result.bodyFatPercentage).toBeLessThan(100);
       expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
@@ -69,6 +80,8 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = mymcaFormula.calculate(inputs);
+      assertWeight(inputs.weight);
+
       expect(result.bodyFatPercentage).toBeGreaterThan(0);
       expect(result.bodyFatPercentage).toBeLessThan(100);
       expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
@@ -88,6 +101,8 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = navyFormula.calculate(inputs);
+      assertWeight(inputs.weight);
+
       expect(result.bodyFatPercentage).toBeGreaterThan(0);
       expect(result.bodyFatPercentage).toBeLessThan(100);
       expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
@@ -105,6 +120,8 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = navyFormula.calculate(inputs);
+      assertWeight(inputs.weight);
+
       expect(result.bodyFatPercentage).toBeGreaterThan(0);
       expect(result.bodyFatPercentage).toBeLessThan(100);
       expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
@@ -127,6 +144,8 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = covertFormula.calculate(inputs);
+      assertWeight(inputs.weight);
+
       expect(result.bodyFatPercentage).toBeGreaterThan(0);
       expect(result.bodyFatPercentage).toBeLessThan(100);
       expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
@@ -147,6 +166,8 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = covertFormula.calculate(inputs);
+      assertWeight(inputs.weight);
+
       expect(result.bodyFatPercentage).toBeGreaterThan(0);
       expect(result.bodyFatPercentage).toBeLessThan(100);
       expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
@@ -167,6 +188,8 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = covertFormula.calculate(inputs);
+      assertWeight(inputs.weight);
+
       expect(result.bodyFatPercentage).toBeGreaterThan(0);
       expect(result.bodyFatPercentage).toBeLessThan(100);
       expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
@@ -187,6 +210,8 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = covertFormula.calculate(inputs);
+      assertWeight(inputs.weight);
+
       expect(result.bodyFatPercentage).toBeGreaterThan(0);
       expect(result.bodyFatPercentage).toBeLessThan(100);
       expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
@@ -210,6 +235,8 @@ describe("Body Fat Formula Implementations", () => {
       ages.forEach(age => {
         const inputs = { ...baseInputs, age };
         const result = durninFormula.calculate(inputs);
+        assertWeight(inputs.weight);
+
         expect(result.bodyFatPercentage).toBeGreaterThan(0);
         expect(result.bodyFatPercentage).toBeLessThan(100);
         expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
@@ -232,6 +259,8 @@ describe("Body Fat Formula Implementations", () => {
       ages.forEach(age => {
         const inputs = { ...baseInputs, age };
         const result = durninFormula.calculate(inputs);
+        assertWeight(inputs.weight);
+
         expect(result.bodyFatPercentage).toBeGreaterThan(0);
         expect(result.bodyFatPercentage).toBeLessThan(100);
         expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
@@ -256,6 +285,8 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = jackson7Formula.calculate(inputs);
+      assertWeight(inputs.weight);
+
       expect(result.bodyFatPercentage).toBeGreaterThan(0);
       expect(result.bodyFatPercentage).toBeLessThan(100);
       expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
@@ -277,6 +308,8 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = jackson7Formula.calculate(inputs);
+      assertWeight(inputs.weight);
+
       expect(result.bodyFatPercentage).toBeGreaterThan(0);
       expect(result.bodyFatPercentage).toBeLessThan(100);
       expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
@@ -297,6 +330,8 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = jackson4Formula.calculate(inputs);
+      assertWeight(inputs.weight);
+
       expect(result.bodyFatPercentage).toBeGreaterThan(0);
       expect(result.bodyFatPercentage).toBeLessThan(100);
       expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
@@ -315,6 +350,8 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = jackson4Formula.calculate(inputs);
+      assertWeight(inputs.weight);
+
       expect(result.bodyFatPercentage).toBeGreaterThan(0);
       expect(result.bodyFatPercentage).toBeLessThan(100);
       expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
@@ -336,6 +373,8 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = jackson3Formula.calculate(inputs);
+      assertWeight(inputs.weight);
+
       expect(result.bodyFatPercentage).toBeGreaterThan(0);
       expect(result.bodyFatPercentage).toBeLessThan(100);
       expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
@@ -355,6 +394,8 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = jackson3Formula.calculate(inputs);
+      assertWeight(inputs.weight);
+
       expect(result.bodyFatPercentage).toBeGreaterThan(0);
       expect(result.bodyFatPercentage).toBeLessThan(100);
       expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
@@ -365,6 +406,7 @@ describe("Body Fat Formula Implementations", () => {
   describe("Parillo Formula", () => {
     it("calculates body fat percentage correctly regardless of gender", () => {
       const inputs: StandardizedInputs = {
+        gender: "male",
         weight: 80, // kg
         chestSkinfold: 10, // mm
         abdomenSkinfold: 20, // mm
@@ -378,6 +420,8 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = parilloFormula.calculate(inputs);
+      assertWeight(inputs.weight);
+
       expect(result.bodyFatPercentage).toBeGreaterThan(0);
       expect(result.bodyFatPercentage).toBeLessThan(100);
       expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
