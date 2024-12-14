@@ -58,7 +58,7 @@ export const durninFormula: FormulaImplementation = {
   },
 
   name: "Durnin & Womersley Formula",
-  marginOfError: "3-4",
+  marginOfError: "3.5-5",
 
   requiredFields: [
     "gender",

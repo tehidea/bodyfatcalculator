@@ -51,7 +51,7 @@ export const navyFormula: FormulaImplementation = {
   },
 
   name: "U.S. Navy Formula",
-  marginOfError: "3-4",
+  marginOfError: "4-6",
 
   // Common required fields for both genders
   requiredFields: ["weight", "height", "neckCircumference", "waistCircumference"],

@@ -248,7 +248,7 @@ export const FormulaSelector = () => {
           )}
         </View>
         <View style={styles.descriptionContainer}>
-          <Text style={styles.description} numberOfLines={2}>
+          <Text style={styles.description} numberOfLines={6}>
             {selectedFormulaImpl.description}
             {!PREMIUM_FORMULAS.includes(formula) && ` (±${selectedFormulaImpl.marginOfError})`}
           </Text>
@@ -330,7 +330,7 @@ export const FormulaSelector = () => {
                           styles.formulaItemDescription,
                           item.premium && !pro && styles.premiumFormulaText,
                         ]}
-                        numberOfLines={3}
+                        numberOfLines={6}
                       >
                         {formulaImpl.description}
                       </Text>

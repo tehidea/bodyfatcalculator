@@ -54,7 +54,7 @@ export const jackson4Formula: FormulaImplementation = {
   },
 
   name: "Jackson-Pollock 4-Site Formula",
-  marginOfError: "3-5",
+  marginOfError: "3.5-4.5",
 
   requiredFields: [
     "gender",
