@@ -269,7 +269,7 @@ export const FormulaSelector = () => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Select Formula</Text>
+              <Text style={styles.modalTitle}>SELECT FORMULA</Text>
               <TouchableOpacity style={styles.closeButton} onPress={() => setIsModalVisible(false)}>
                 <Icon name="x" type="feather" color={COLORS.textDark} size={24} />
               </TouchableOpacity>
@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
   },
   formulaName: {
     color: COLORS.text,
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
     flex: 1,
   },
@@ -414,7 +414,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 20,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
     backgroundColor: COLORS.white,
@@ -422,9 +423,10 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 24,
   },
   modalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 14,
     color: COLORS.textDark,
+    textTransform: "uppercase",
+    letterSpacing: 1,
   },
   formulaItem: {
     paddingVertical: 14,
@@ -449,10 +451,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-  },
-  formulaItemNameText: {
-    fontSize: 16,
-    color: COLORS.textDark,
   },
   activeFormulaText: {
     color: COLORS.primary,
