@@ -8,14 +8,21 @@ import { convertMeasurement } from "../utils/conversions";
  */
 export const mymcaFormula: FormulaImplementation = {
   calculate: (inputs: StandardizedInputs): FormulaResult => {
-    const { gender, weight = 0, waist = 0, wrist = 0, forearm = 0, hips = 0 } = inputs;
+    const {
+      gender,
+      weight = 0,
+      waistCircumference = 0,
+      wristCircumference = 0,
+      forearmCircumference = 0,
+      hipsCircumference = 0,
+    } = inputs;
 
     // Convert to imperial for calculation (formula was designed for imperial units)
     const weightLbs = convertMeasurement(weight, "weight", "metric", "imperial");
-    const waistInches = convertMeasurement(waist, "length", "metric", "imperial");
-    const wristInches = convertMeasurement(wrist, "length", "metric", "imperial");
-    const forearmInches = convertMeasurement(forearm, "length", "metric", "imperial");
-    const hipsInches = convertMeasurement(hips, "length", "metric", "imperial");
+    const waistInches = convertMeasurement(waistCircumference, "length", "metric", "imperial");
+    const wristInches = convertMeasurement(wristCircumference, "length", "metric", "imperial");
+    const forearmInches = convertMeasurement(forearmCircumference, "length", "metric", "imperial");
+    const hipsInches = convertMeasurement(hipsCircumference, "length", "metric", "imperial");
 
     // Calculate body fat percentage based on gender
     const bodyFatPercentage =
@@ -44,7 +51,14 @@ export const mymcaFormula: FormulaImplementation = {
   name: "Modified YMCA Formula",
   marginOfError: "4-6",
 
-  requiredFields: ["gender", "weight", "waist", "wrist", "forearm", "hips"],
+  requiredFields: [
+    "gender",
+    "weight",
+    "waistCircumference",
+    "wristCircumference",
+    "forearmCircumference",
+    "hipsCircumference",
+  ],
 
   applicableGenders: ["male", "female"],
 

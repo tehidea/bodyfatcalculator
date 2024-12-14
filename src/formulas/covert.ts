@@ -12,21 +12,21 @@ export const covertFormula: FormulaImplementation = {
       gender,
       age = 0,
       weight = 0,
-      waist = 0,
-      hips = 0,
-      forearm = 0,
-      wrist = 0,
-      thigh = 0,
-      calf = 0,
+      waistCircumference = 0,
+      hipsCircumference = 0,
+      forearmCircumference = 0,
+      wristCircumference = 0,
+      thighCircumference = 0,
+      calfCircumference = 0,
     } = inputs;
 
     // Convert to imperial for calculation (formula was designed for imperial units)
-    const waistInches = convertMeasurement(waist, "length", "metric", "imperial");
-    const hipsInches = convertMeasurement(hips, "length", "metric", "imperial");
-    const forearmInches = convertMeasurement(forearm, "length", "metric", "imperial");
-    const wristInches = convertMeasurement(wrist, "length", "metric", "imperial");
-    const thighInches = convertMeasurement(thigh, "length", "metric", "imperial");
-    const calfInches = convertMeasurement(calf, "length", "metric", "imperial");
+    const waistInches = convertMeasurement(waistCircumference, "length", "metric", "imperial");
+    const hipsInches = convertMeasurement(hipsCircumference, "length", "metric", "imperial");
+    const forearmInches = convertMeasurement(forearmCircumference, "length", "metric", "imperial");
+    const wristInches = convertMeasurement(wristCircumference, "length", "metric", "imperial");
+    const thighInches = convertMeasurement(thighCircumference, "length", "metric", "imperial");
+    const calfInches = convertMeasurement(calfCircumference, "length", "metric", "imperial");
 
     let bodyFatPercentage: number;
 
@@ -55,7 +55,17 @@ export const covertFormula: FormulaImplementation = {
   name: "Covert Bailey Formula",
   marginOfError: "4-5",
 
-  requiredFields: ["gender", "age", "weight", "waist", "hips", "forearm", "wrist", "thigh", "calf"],
+  requiredFields: [
+    "gender",
+    "age",
+    "weight",
+    "waistCircumference",
+    "hipsCircumference",
+    "forearmCircumference",
+    "wristCircumference",
+    "thighCircumference",
+    "calfCircumference",
+  ],
 
   applicableGenders: ["male", "female"],
 

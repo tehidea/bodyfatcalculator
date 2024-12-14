@@ -7,11 +7,11 @@ import { convertMeasurement } from "../utils/conversions";
  */
 export const ymcaFormula: FormulaImplementation = {
   calculate: (inputs: StandardizedInputs): FormulaResult => {
-    const { gender, weight = 0, waist = 0 } = inputs;
+    const { gender, weight = 0, waistCircumference = 0 } = inputs;
 
     // Convert to imperial for calculation (formula was designed for imperial units)
     const weightLbs = convertMeasurement(weight, "weight", "metric", "imperial");
-    const waistInches = convertMeasurement(waist, "length", "metric", "imperial");
+    const waistInches = convertMeasurement(waistCircumference, "length", "metric", "imperial");
 
     // Calculate body fat percentage
     const bodyFatPercentage =
@@ -33,7 +33,7 @@ export const ymcaFormula: FormulaImplementation = {
   name: "YMCA Formula",
   marginOfError: "5-7",
 
-  requiredFields: ["gender", "weight", "waist"],
+  requiredFields: ["gender", "weight", "waistCircumference"],
 
   applicableGenders: ["male", "female"],
 

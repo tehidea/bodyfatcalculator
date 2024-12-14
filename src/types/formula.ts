@@ -12,17 +12,17 @@ export interface StandardizedInputs {
   height?: number; // cm
 
   // Circumference measurements (all in cm)
-  neck?: number;
-  waist?: number;
-  hips?: number;
-  chest?: number;
-  abdomen?: number;
-  thigh?: number;
-  calf?: number;
-  bicep?: number;
-  tricep?: number;
-  forearm?: number;
-  wrist?: number;
+  neckCircumference?: number;
+  waistCircumference?: number;
+  hipsCircumference?: number;
+  chestCircumference?: number;
+  abdomenCircumference?: number;
+  thighCircumference?: number;
+  calfCircumference?: number;
+  bicepCircumference?: number;
+  tricepCircumference?: number;
+  forearmCircumference?: number;
+  wristCircumference?: number;
 
   // Skinfold measurements (all in mm)
   chestSkinfold?: number;

@@ -8,13 +8,20 @@ import { convertMeasurement } from "../utils/conversions";
  */
 export const navyFormula: FormulaImplementation = {
   calculate: (inputs: StandardizedInputs): FormulaResult => {
-    const { gender, weight = 0, height = 0, neck = 0, waist = 0, hips = 0 } = inputs;
+    const {
+      gender,
+      weight = 0,
+      height = 0,
+      neckCircumference = 0,
+      waistCircumference = 0,
+      hipsCircumference = 0,
+    } = inputs;
 
     // Convert to imperial for calculation (formula was designed for imperial units)
     const heightInches = convertMeasurement(height, "length", "metric", "imperial");
-    const neckInches = convertMeasurement(neck, "length", "metric", "imperial");
-    const waistInches = convertMeasurement(waist, "length", "metric", "imperial");
-    const hipsInches = convertMeasurement(hips, "length", "metric", "imperial");
+    const neckInches = convertMeasurement(neckCircumference, "length", "metric", "imperial");
+    const waistInches = convertMeasurement(waistCircumference, "length", "metric", "imperial");
+    const hipsInches = convertMeasurement(hipsCircumference, "length", "metric", "imperial");
 
     // Calculate body fat percentage using gender-specific formulas
     const bodyFatPercentage =
@@ -38,7 +45,14 @@ export const navyFormula: FormulaImplementation = {
   name: "U.S. Navy Formula",
   marginOfError: "3-4",
 
-  requiredFields: ["gender", "weight", "height", "neck", "waist", "hips"],
+  requiredFields: [
+    "gender",
+    "weight",
+    "height",
+    "neckCircumference",
+    "waistCircumference",
+    "hipsCircumference",
+  ],
 
   applicableGenders: ["male", "female"],
 
