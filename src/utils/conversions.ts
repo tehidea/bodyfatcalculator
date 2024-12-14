@@ -7,6 +7,13 @@ export type MetricUnit = "kg" | "cm" | "mm";
 export type ImperialUnit = "lb" | "in";
 export type ConversionType = "weight" | "length" | "skinfold";
 
+// Standard conversion factors
+const STANDARD_CONVERSION_FACTORS = {
+  POUNDS_PER_KG: 2.20462262185,
+  INCHES_PER_CM: 1 / 2.54,
+  INCHES_PER_MM: 1 / 25.4,
+} as const;
+
 export interface ConversionUnit {
   metric: MetricUnit;
   imperial: ImperialUnit;
@@ -14,24 +21,43 @@ export interface ConversionUnit {
   toMetric: (value: number) => number;
 }
 
+function validateInput(value: number): void {
+  if (typeof value !== "number") {
+    throw new Error("Input must be a number");
+  }
+  if (!Number.isFinite(value)) {
+    throw new Error("Input must be a finite number");
+  }
+  if (value < 0) {
+    throw new Error("Input must be non-negative");
+  }
+}
+
+function createConverter(factor: number): ConversionUnit["toImperial" | "toMetric"] {
+  return (value: number) => {
+    validateInput(value);
+    return value * factor;
+  };
+}
+
 export const CONVERSIONS: Record<ConversionType, ConversionUnit> = {
   weight: {
     metric: "kg",
     imperial: "lb",
-    toImperial: kg => Number((kg * 2.2046).toFixed(2)),
-    toMetric: lb => Number((lb / 2.2046).toFixed(2)),
+    toImperial: createConverter(STANDARD_CONVERSION_FACTORS.POUNDS_PER_KG),
+    toMetric: createConverter(1 / STANDARD_CONVERSION_FACTORS.POUNDS_PER_KG),
   },
   length: {
     metric: "cm",
     imperial: "in",
-    toImperial: cm => Number((cm / 2.54).toFixed(2)),
-    toMetric: inch => Number((inch * 2.54).toFixed(2)),
+    toImperial: createConverter(STANDARD_CONVERSION_FACTORS.INCHES_PER_CM),
+    toMetric: createConverter(2.54), // cm per inch
   },
   skinfold: {
     metric: "mm",
     imperial: "in",
-    toImperial: mm => Number((mm / 25.4).toFixed(2)),
-    toMetric: inch => Number((inch * 25.4).toFixed(2)),
+    toImperial: createConverter(STANDARD_CONVERSION_FACTORS.INCHES_PER_MM),
+    toMetric: createConverter(25.4), // mm per inch
   },
 };
 
@@ -44,6 +70,8 @@ export function convertMeasurement(
   fromSystem: "metric" | "imperial",
   toSystem: "metric" | "imperial"
 ): number {
+  validateInput(value);
+
   if (fromSystem === toSystem) return value;
 
   const converter = CONVERSIONS[type];
@@ -65,5 +93,31 @@ export function formatMeasurement(
   type: ConversionType,
   system: "metric" | "imperial"
 ): string {
-  return `${value.toFixed(1)} ${getUnit(type, system)}`;
+  validateInput(value);
+  const precision = value < 0.1 ? 3 : 1; // Use more precision for small values
+  return `${value.toFixed(precision)} ${getUnit(type, system)}`;
+}
+
+/**
+ * Validates if a measurement is within a reasonable range
+ */
+export function isReasonableMeasurement(
+  value: number,
+  type: ConversionType,
+  system: "metric" | "imperial"
+): boolean {
+  try {
+    validateInput(value);
+  } catch {
+    return false;
+  }
+
+  const ranges = {
+    weight: { metric: { min: 20, max: 300 }, imperial: { min: 44, max: 660 } },
+    length: { metric: { min: 1, max: 300 }, imperial: { min: 0.4, max: 118 } },
+    skinfold: { metric: { min: 1, max: 100 }, imperial: { min: 0.04, max: 4 } },
+  };
+
+  const range = ranges[type][system];
+  return value >= range.min && value <= range.max;
 }
