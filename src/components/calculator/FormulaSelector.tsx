@@ -264,13 +264,13 @@ export const FormulaSelector = () => {
         visible={isModalVisible}
         animationType="slide"
         transparent={true}
-        onRequestClose={() => {}}
+        onRequestClose={() => setIsModalVisible(false)}
       >
         <View style={styles.modalContainer}>
-          <SafeAreaView edges={["top"]} style={styles.modalContent}>
+          <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Select Formula</Text>
-              <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+              <TouchableOpacity style={styles.closeButton} onPress={() => setIsModalVisible(false)}>
                 <Icon name="x" type="feather" color={COLORS.textDark} size={24} />
               </TouchableOpacity>
             </View>
@@ -344,7 +344,7 @@ export const FormulaSelector = () => {
                 );
               }}
             />
-          </SafeAreaView>
+          </View>
         </View>
       </Modal>
 
@@ -397,22 +397,29 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     justifyContent: "flex-end",
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: "transparent",
   },
   modalContent: {
     backgroundColor: COLORS.white,
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-    maxHeight: "85%",
-    flex: 1,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    height: "85%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -12 },
+    shadowOpacity: 0.75,
+    shadowRadius: 300,
+    elevation: 50,
   },
   modalHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 16,
+    padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
+    backgroundColor: COLORS.white,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
   },
   modalTitle: {
     fontSize: 18,
