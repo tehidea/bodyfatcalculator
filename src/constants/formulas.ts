@@ -1,11 +1,10 @@
 import { Formula, CalculatorInputs, MeasurementSystem, Gender } from "../types/calculator";
 
-interface FormulaField {
+export interface FormulaField {
   key: keyof CalculatorInputs;
   label: string;
   unit: string;
   required: boolean;
-  imperialUnit?: string;
   genderSpecific?: Gender;
 }
 

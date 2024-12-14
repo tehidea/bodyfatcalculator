@@ -3,12 +3,11 @@ import { View, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from "reac
 import { Text, Card, LinearProgress, Icon } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { usePremiumStore } from "../../store/premiumStore";
-import { getUnitLabel } from "../../constants/formulas";
 import { COLORS } from "../../constants/theme";
 import { useNavigation } from "@react-navigation/native";
-import { getMarginOfError } from "../../utils/accuracy";
 import { usePurchase } from "../../hooks/usePurchase";
 import { ProUpgradeModal } from "./ProUpgradeModal";
+import { getFormula } from "../../formulas";
 
 const { width } = Dimensions.get("window");
 
@@ -49,7 +48,6 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
     let isMounted = true;
 
     if (results && !isResultsStale && isMounted) {
-      // Give a small delay to ensure the results are rendered
       const timer = setTimeout(() => {
         if (isMounted && scrollViewRef.current) {
           scrollViewRef.current.scrollToEnd({ animated: true });
@@ -69,34 +67,61 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
 
   if (!results || isResultsStale) return null;
 
-  const weightUnit = getUnitLabel("kg", measurementSystem);
+  const weightUnit = measurementSystem === "imperial" ? "lbs" : "kg";
 
   // Calculate progress values
   const maxBodyFat = gender === "male" ? 35 : 45;
   const bodyFatProgress = Math.min(results.bodyFatPercentage / maxBodyFat, 1);
   const leanMassPercentage = 100 - results.bodyFatPercentage;
 
-  // Get color based on classification
-  const getClassificationColor = (classification: string) => {
-    if (classification.includes("Athletic")) return "#4CAF50";
-    if (classification.includes("Fitness")) return "#8BC34A";
-    if (classification.includes("Acceptable")) return "#FFC107";
-    if (classification.includes("Essential")) return "#2196F3";
-    return "#FF5722"; // Obese
+  // Get color based on body fat percentage
+  const getClassificationColor = (bodyFatPercentage: number) => {
+    if (gender === "male") {
+      if (bodyFatPercentage < 6) return "#2196F3"; // Essential fat
+      if (bodyFatPercentage < 14) return "#4CAF50"; // Athletic
+      if (bodyFatPercentage < 18) return "#8BC34A"; // Fitness
+      if (bodyFatPercentage < 25) return "#FFC107"; // Acceptable
+      return "#FF5722"; // Obese
+    } else {
+      if (bodyFatPercentage < 14) return "#2196F3"; // Essential fat
+      if (bodyFatPercentage < 21) return "#4CAF50"; // Athletic
+      if (bodyFatPercentage < 25) return "#8BC34A"; // Fitness
+      if (bodyFatPercentage < 32) return "#FFC107"; // Acceptable
+      return "#FF5722"; // Obese
+    }
   };
 
-  const classificationColor = getClassificationColor(results.classification);
+  const getClassification = (bodyFatPercentage: number) => {
+    if (gender === "male") {
+      if (bodyFatPercentage < 6) return "Essential Fat";
+      if (bodyFatPercentage < 14) return "Athletic";
+      if (bodyFatPercentage < 18) return "Fitness";
+      if (bodyFatPercentage < 25) return "Acceptable";
+      return "Obese";
+    } else {
+      if (bodyFatPercentage < 14) return "Essential Fat";
+      if (bodyFatPercentage < 21) return "Athletic";
+      if (bodyFatPercentage < 25) return "Fitness";
+      if (bodyFatPercentage < 32) return "Acceptable";
+      return "Obese";
+    }
+  };
+
+  const classificationColor = getClassificationColor(results.bodyFatPercentage);
+  const classification = getClassification(results.bodyFatPercentage);
 
   // Split body fat into whole and decimal parts
   const wholeNumber = Math.floor(results.bodyFatPercentage);
   const decimal = (results.bodyFatPercentage % 1).toFixed(1).substring(1);
 
   const handleMaybeLater = () => {
-    // Add a small delay before closing the modal
     setTimeout(() => {
       setShowProModal(false);
     }, 100);
   };
+
+  const formulaImpl = getFormula(formula);
+  const marginOfError = formulaImpl.marginOfError || "3-7";
 
   return (
     <>
@@ -116,7 +141,7 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
             </TouchableOpacity>
           )}
           <Text style={styles.mainLabel}>
-            Body Fat {pro ? `(±${getMarginOfError(formula)})` : "(estimated)"}
+            Body Fat {pro ? `(±${marginOfError}%)` : "(estimated)"}
           </Text>
           <LinearProgress
             style={styles.progressBar}
@@ -131,7 +156,7 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
           style={[styles.classificationContainer, { backgroundColor: `${classificationColor}15` }]}
         >
           <Text style={[styles.classification, { color: classificationColor }]}>
-            {results.classification}
+            {classification}
           </Text>
         </View>
 
@@ -161,7 +186,7 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
         </View>
 
         {/* Formula Name */}
-        <Text style={styles.formulaName}>{formula.toUpperCase()} Formula</Text>
+        <Text style={styles.formulaName}>{formulaImpl.name || formula.toUpperCase()}</Text>
       </Card>
 
       <ProUpgradeModal
@@ -248,19 +273,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "stretch",
+    marginBottom: 16,
   },
   breakdownItem: {
     flex: 1,
     alignItems: "center",
   },
-  divider: {
-    width: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.1)",
-    marginHorizontal: 16,
-  },
   breakdownValue: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: "600",
     color: COLORS.textDark,
     marginBottom: 4,
   },
@@ -272,14 +293,16 @@ const styles = StyleSheet.create({
   breakdownPercentage: {
     fontSize: 16,
     color: COLORS.textDark,
-    opacity: 0.8,
+  },
+  divider: {
+    width: 1,
+    backgroundColor: "#eee",
+    marginHorizontal: 16,
   },
   formulaName: {
     fontSize: 12,
-    color: COLORS.textDark,
-    opacity: 0.4,
+    color: COLORS.textLight,
     textAlign: "center",
-    marginTop: 20,
-    fontFamily: "Montserrat-Light",
+    marginTop: 8,
   },
 });

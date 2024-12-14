@@ -4,17 +4,17 @@ import { Text, Icon, Button } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { usePremiumStore } from "../../store/premiumStore";
 import { Formula } from "../../types/calculator";
-import { FORMULA_REQUIREMENTS } from "../../constants/formulas";
 import { COLORS } from "../../constants/theme";
 import { SkinfoldIcon } from "../icons/SkinfoldIcon";
 import { BodyWeightScalesIcon } from "../icons/BodyWeightScalesIcon";
 import { CalendarIcon } from "../icons/CalendarIcon";
 import { MeasurementVerticalIcon } from "../icons/MeasurementVerticalIcon";
 import { MeasuringTapeIcon } from "../icons/MeasuringTapeIcon";
-import { getMarginOfError } from "../../utils/accuracy";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { usePurchase } from "../../hooks/usePurchase";
 import { PremiumFormulaModal } from "./PremiumFormulaModal";
+import { getFormula, getRequiredFields, getAvailableFormulas } from "../../formulas";
+import { getMeasurementTypes } from "../../utils/fields";
 
 export const MeasurementIcon = ({
   type,
@@ -41,18 +41,13 @@ export const MeasurementIcon = ({
   }
 };
 
-const getMeasurementTypes = (fields: (typeof FORMULA_REQUIREMENTS)[Formula]["fields"]) => {
-  const types = new Set<string>();
+const getFormulaTypes = (formula: Formula): string[] => {
+  if (!formula) return [];
 
-  fields.forEach(field => {
-    if (field.key.includes("Skinfold")) types.add("skinfold");
-    else if (field.key.includes("Circumference")) types.add("circumference");
-    else if (field.key === "weight") types.add("weight");
-    else if (field.key === "height") types.add("height");
-    else if (field.key === "age") types.add("age");
-  });
+  const fields = getRequiredFields(formula);
+  if (!fields || !fields.length) return [];
 
-  return Array.from(types);
+  return Array.from(getMeasurementTypes(fields));
 };
 
 export const FormulaSelector = () => {
@@ -65,14 +60,11 @@ export const FormulaSelector = () => {
 
   const { handlePurchase, isProcessing } = usePurchase({
     onSuccess: () => {
-      // First close the premium modal
       setIsProModalVisible(false);
-      // Then update the formula if needed
       if (pendingFormula) {
         setTimeout(() => {
           setFormula(pendingFormula);
           setPendingFormula(null);
-          // Finally close the formula selector modal
           setTimeout(() => {
             setIsModalVisible(false);
           }, 100);
@@ -96,12 +88,18 @@ export const FormulaSelector = () => {
     },
   });
 
-  const formulas = Object.entries(FORMULA_REQUIREMENTS).map(([key, value]) => ({
-    key: key as Formula,
-    name: value.name,
-    description: value.description,
-    premium: value.premium || false,
-  }));
+  // Define which formulas are premium
+  const PREMIUM_FORMULAS: Formula[] = ["durnin", "jack7", "jack4", "jack3", "parrillo"];
+
+  const formulas = getAvailableFormulas().map(formulaKey => {
+    const formulaImpl = getFormula(formulaKey);
+    return {
+      key: formulaKey,
+      name: formulaImpl.name || formulaKey,
+      description: formulaImpl.description,
+      premium: PREMIUM_FORMULAS.includes(formulaKey),
+    };
+  });
 
   // Initial and periodic entitlement check
   useEffect(() => {
@@ -120,11 +118,9 @@ export const FormulaSelector = () => {
       }
     };
 
-    // Check immediately
     console.log("FormulaSelector - Initial entitlements check");
     checkWithErrorHandling();
 
-    // Check every 5 minutes
     const interval = setInterval(checkWithErrorHandling, 5 * 60 * 1000);
 
     return () => {
@@ -157,7 +153,8 @@ export const FormulaSelector = () => {
   }, [pro, formula, setFormula]);
 
   const getAccuracyColor = (formula: Formula) => {
-    const error = getMarginOfError(formula);
+    const formulaImpl = getFormula(formula);
+    const error = formulaImpl.marginOfError;
     if (!error) return COLORS.textLight;
 
     const errorValue = error ?? "0";
@@ -199,7 +196,7 @@ export const FormulaSelector = () => {
     </View>
   );
 
-  const selectedFormula = FORMULA_REQUIREMENTS[formula];
+  const selectedFormulaImpl = getFormula(formula);
 
   const handleFormulaSelect = (selectedKey: Formula, isPremiumFormula: boolean) => {
     if (isLoading || isProcessing) return;
@@ -208,21 +205,11 @@ export const FormulaSelector = () => {
     console.log("handleFormulaSelect - Is premium formula:", isPremiumFormula);
     console.log("handleFormulaSelect - Current PRO status:", pro);
 
-    // Check for Coming Soon formulas
-    if (["jack3", "jack4", "jack7", "parrillo", "durnin"].includes(selectedKey)) {
-      Alert.alert("Coming Soon", "This formula will be available in a future update. Stay tuned!", [
-        { text: "OK" },
-      ]);
-      return;
-    }
-
     if (!isPremiumFormula || pro) {
       setFormula(selectedKey);
       setIsModalVisible(false);
     } else {
-      // First close the formula selector modal
       setIsModalVisible(false);
-      // Wait for the first modal to close before showing the premium modal
       setTimeout(() => {
         setPendingFormula(selectedKey);
         setIsProModalVisible(true);
@@ -231,18 +218,12 @@ export const FormulaSelector = () => {
   };
 
   const handleMaybeLater = () => {
-    // First close the premium modal
     setIsProModalVisible(false);
-    // Clear the pending formula
     setPendingFormula(null);
-    // Wait a bit before closing the formula selector modal
     setTimeout(() => {
       setIsModalVisible(false);
     }, 100);
   };
-
-  const isComingSoon = (formulaKey: Formula) =>
-    ["jack3", "jack4", "jack7", "parrillo", "durnin"].includes(formulaKey);
 
   return (
     <View style={styles.container}>
@@ -258,8 +239,8 @@ export const FormulaSelector = () => {
           </View>
         </View>
         <View style={styles.selectedFormula}>
-          <Text style={styles.formulaName}>{selectedFormula.name}</Text>
-          {selectedFormula.premium === true && !pro && (
+          <Text style={styles.formulaName}>{selectedFormulaImpl.name}</Text>
+          {PREMIUM_FORMULAS.includes(formula) && !pro && (
             <View style={styles.premiumBadge}>
               <Icon name="lock" type="feather" color="#666" size={14} />
               <Text style={styles.premiumBadgeText}>PRO</Text>
@@ -267,18 +248,13 @@ export const FormulaSelector = () => {
           )}
         </View>
         <View style={styles.descriptionContainer}>
-          <Text style={styles.description} numberOfLines={2}>
-            {selectedFormula.description}
-            {selectedFormula.premium !== true && ` (±${getMarginOfError(formula)})`}
+          <Text style={styles.description} numberOfLines={6}>
+            {selectedFormulaImpl.description}
+            {!PREMIUM_FORMULAS.includes(formula) && ` (±${selectedFormulaImpl.marginOfError})`}
           </Text>
-          {isComingSoon(formula) && (
-            <View style={[styles.premiumBadge, styles.comingSoonBadge]}>
-              <Text style={styles.premiumBadgeText}>COMING SOON</Text>
-            </View>
-          )}
         </View>
         <View style={styles.measurementIcons}>
-          {getMeasurementTypes(selectedFormula.fields).map(type => (
+          {Array.from(getMeasurementTypes(getRequiredFields(formula))).map((type: string) => (
             <MeasurementIcon key={type} size={12} type={type} color="#fff" />
           ))}
         </View>
@@ -309,6 +285,8 @@ export const FormulaSelector = () => {
                 if (item.key === "accuracy_info") {
                   return renderAccuracyInfo();
                 }
+
+                const formulaImpl = getFormula(item.key as Formula);
                 return (
                   <TouchableOpacity
                     style={[
@@ -327,7 +305,7 @@ export const FormulaSelector = () => {
                             item.premium && !pro && styles.premiumFormulaText,
                           ]}
                         >
-                          {item.name}
+                          {formulaImpl.name}
                         </Text>
                         <View style={styles.formulaMetadata}>
                           <View
@@ -336,9 +314,7 @@ export const FormulaSelector = () => {
                               { backgroundColor: getAccuracyColor(item.key as Formula) },
                             ]}
                           />
-                          <Text style={styles.accuracyText}>
-                            ±{getMarginOfError(item.key as Formula)}
-                          </Text>
+                          <Text style={styles.accuracyText}>±{formulaImpl.marginOfError}</Text>
                         </View>
                       </View>
                       {item.premium && !pro && (
@@ -354,19 +330,14 @@ export const FormulaSelector = () => {
                           styles.formulaItemDescription,
                           item.premium && !pro && styles.premiumFormulaText,
                         ]}
-                        numberOfLines={3}
+                        numberOfLines={6}
                       >
-                        {item.description}
+                        {formulaImpl.description}
                       </Text>
-                      {isComingSoon(item.key as Formula) && (
-                        <View style={[styles.premiumBadge, styles.comingSoonBadge]}>
-                          <Text style={styles.premiumBadgeText}>COMING SOON</Text>
-                        </View>
-                      )}
                     </View>
                     <View style={styles.measurementIcons}>
-                      {getMeasurementTypes(FORMULA_REQUIREMENTS[item.key as Formula].fields).map(
-                        type => (
+                      {Array.from(getMeasurementTypes(getRequiredFields(item.key as Formula))).map(
+                        (type: string) => (
                           <MeasurementIcon key={type} size={12} type={type} color="#666" />
                         )
                       )}
@@ -572,10 +543,6 @@ const styles = StyleSheet.create({
   },
   formulaList: {
     flex: 1,
-  },
-  comingSoonBadge: {
-    // marginLeft: 4,
-    flexShrink: 0,
   },
   selectorHint: {
     color: COLORS.text,

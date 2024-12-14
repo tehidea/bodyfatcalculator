@@ -137,8 +137,8 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
       })
       .required(),
 
-  navy: (system: MeasurementSystem) => (gender: Gender) =>
-    createCalculatorInputSchema(system)
+  navy: (system: MeasurementSystem) => (gender: Gender) => {
+    const baseSchema = createCalculatorInputSchema(system)
       .pick({
         weight: true,
         height: true,
@@ -148,7 +148,26 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
           hipsCircumference: true,
         }),
       })
-      .required(),
+      .required();
+
+    // Add refinement for Navy-specific validation
+    return baseSchema.refine(
+      data => {
+        if (gender === "male") {
+          return data.waistCircumference > data.neckCircumference;
+        } else {
+          return data.waistCircumference + (data.hipsCircumference || 0) > data.neckCircumference;
+        }
+      },
+      {
+        message:
+          gender === "male"
+            ? "Waist circumference must be greater than neck circumference"
+            : "Sum of waist and hip circumferences must be greater than neck circumference",
+      }
+    );
+  },
+
   jack3: (system: MeasurementSystem) => (_gender: Gender) =>
     createCalculatorInputSchema(system)
       .pick({

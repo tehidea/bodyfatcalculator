@@ -4,20 +4,19 @@ import { Text } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { usePremiumStore } from "../../store/premiumStore";
 import { CalculatorInputs } from "../../types/calculator";
-import { getUnitLabel } from "../../constants/formulas";
-import { convertMeasurement } from "../../utils/conversions";
 import { MeasurementIcon } from "./FormulaSelector";
 import { usePurchase } from "../../hooks/usePurchase";
 import { ProUpgradeModal } from "./ProUpgradeModal";
 import { styles } from "./MeasurementInput.styles";
 import { COLORS } from "../../constants/theme";
+import { getDisplayUnit } from "../../utils/units";
+import { getFieldType, getIconType } from "../../utils/fields";
+import { convertMeasurement } from "../../utils/conversions";
 
 interface MeasurementInputProps {
-  field: {
-    key: keyof CalculatorInputs;
-    label: string;
-    unit: string;
-  };
+  field: string;
+  label: string;
+  unit: string;
   error: string;
   onSubmitEditing?: () => void;
   isLastInput?: boolean;
@@ -25,7 +24,7 @@ interface MeasurementInputProps {
 }
 
 export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
-  ({ field, error, onSubmitEditing, isLastInput, onFocusChange }, ref) => {
+  ({ field, label, unit, error, onSubmitEditing, isLastInput, onFocusChange }, ref) => {
     const { inputs, setInput, measurementSystem } = useCalculatorStore();
     const { pro } = usePremiumStore();
     const [rawValue, setRawValue] = useState("");
@@ -56,23 +55,14 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
 
     const convertValue = useCallback(
       (value: number) => {
-        if (measurementSystem === "imperial" && field.unit !== "years") {
-          const convertedValue = convertMeasurement(
-            value,
-            field.unit,
-            getUnitLabel(field.unit, "imperial"),
-            field.key as "height" | "weight" | "circumference" | "skinfold"
-          );
-          return pro ? convertedValue : Math.round(convertedValue);
-        }
         return pro ? value : Math.round(value);
       },
-      [measurementSystem, field.unit, field.key, pro]
+      [pro]
     );
 
     // Sync with store and handle measurement system change
     useEffect(() => {
-      const storeValue = inputs[field.key];
+      const storeValue = inputs[field as keyof CalculatorInputs];
       if (storeValue === null || storeValue === undefined) {
         setRawValue("");
         setIsEditing(false);
@@ -80,10 +70,15 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       }
 
       if (!isEditing) {
-        const convertedValue = convertValue(storeValue as number);
-        setRawValue(Number(Number(convertedValue).toFixed(2)).toString());
+        // Convert the stored metric value to display value
+        const displayValue =
+          measurementSystem === "imperial"
+            ? convertMeasurement(storeValue, getFieldType(field), "metric", "imperial")
+            : storeValue;
+
+        setRawValue(pro ? displayValue.toFixed(2) : Math.round(displayValue).toString());
       }
-    }, [measurementSystem, inputs[field.key], isEditing, convertValue]);
+    }, [measurementSystem, inputs[field as keyof CalculatorInputs], isEditing, pro, field]);
 
     const handleChangeText = useCallback(
       (value: string) => {
@@ -91,7 +86,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
 
         if (value === "") {
           setRawValue("");
-          setInput(field.key, null);
+          setInput(field as keyof CalculatorInputs, null);
           return;
         }
 
@@ -105,42 +100,37 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
         setRawValue(value);
 
         if (value === ".") {
-          setInput(field.key, 0);
+          setInput(field as keyof CalculatorInputs, 0);
           return;
         }
 
         const numValue = parseFloat(value);
         if (!isNaN(numValue)) {
-          const convertedValue =
-            measurementSystem === "imperial" && field.unit !== "years"
-              ? convertMeasurement(
-                  numValue,
-                  getUnitLabel(field.unit, "imperial"),
-                  field.unit,
-                  field.key as "height" | "weight" | "circumference" | "skinfold"
-                )
+          // Convert from display system to metric for storage
+          const metricValue =
+            measurementSystem === "imperial"
+              ? convertMeasurement(numValue, getFieldType(field), "imperial", "metric")
               : numValue;
 
-          const finalValue = pro ? convertedValue : Math.round(convertedValue);
-          setInput(field.key, finalValue);
+          setInput(
+            field as keyof CalculatorInputs,
+            pro ? Number(metricValue.toFixed(2)) : Math.round(metricValue)
+          );
         }
       },
-      [pro, measurementSystem, field.key, field.unit, setInput]
+      [pro, field, setInput, measurementSystem]
     );
 
-    const iconType = useMemo(() => {
-      if (field.key.includes("Skinfold")) return "skinfold";
-      if (field.key.includes("Circumference")) return "circumference";
-      if (field.key === "weight") return "weight";
-      if (field.key === "height") return "height";
-      if (field.key === "age") return "age";
-      return "weight";
-    }, [field.key]);
+    const iconType = useMemo(() => getIconType(field), [field]);
+    const displayUnit = useMemo(
+      () => getDisplayUnit(unit, measurementSystem),
+      [unit, measurementSystem]
+    );
 
     return (
       <>
         <View style={styles.container}>
-          <Text style={styles.label}>{field.label}</Text>
+          <Text style={styles.label}>{label}</Text>
           <View style={[styles.inputContainer, error && styles.inputError]}>
             <View style={styles.iconContainer}>
               <MeasurementIcon type={iconType} size={18} color={COLORS.textDark} />
@@ -161,11 +151,12 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
               keyboardType="decimal-pad"
               enablesReturnKeyAutomatically={false}
               placeholderTextColor="#999"
-              accessibilityLabel={field.label}
-              accessibilityHint={`Enter ${field.label.toLowerCase()}`}
+              accessibilityLabel={label}
+              accessibilityHint={`Enter ${label.toLowerCase()}`}
               accessibilityRole="spinbutton"
+              onSubmitEditing={handleSubmitEditing}
             />
-            <Text style={styles.unit}>{getUnitLabel(field.unit, measurementSystem)}</Text>
+            <Text style={styles.unit}>{displayUnit}</Text>
           </View>
           {error && <Text style={styles.error}>{error}</Text>}
         </View>
