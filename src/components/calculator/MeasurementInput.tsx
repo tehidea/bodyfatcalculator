@@ -130,15 +130,11 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
 
       const fieldLower = field.toLowerCase();
       if (fieldLower.includes("skinfold")) return "skinfold";
-      if (
-        fieldLower.includes("circumference") ||
-        ["neck", "waist", "hips", "chest", "thigh", "calf", "forearm", "wrist"].includes(fieldLower)
-      )
-        return "length";
+      if (fieldLower.includes("circumference")) return "circumference";
       if (fieldLower === "weight") return "weight";
       if (fieldLower === "height") return "height";
       if (fieldLower === "age") return "age";
-      return "weight";
+      return "circumference";
     }, [field]);
 
     return (
