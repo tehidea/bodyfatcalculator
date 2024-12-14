@@ -126,17 +126,18 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
     );
 
     const iconType = useMemo(() => {
-      if (field.toLowerCase().includes("skinfold")) return "skinfold";
+      if (!field) return "weight";
+
+      const fieldLower = field.toLowerCase();
+      if (fieldLower.includes("skinfold")) return "skinfold";
       if (
-        field.toLowerCase().includes("circumference") ||
-        ["neck", "waist", "hips", "chest", "thigh", "calf", "forearm", "wrist"].includes(
-          field.toLowerCase()
-        )
+        fieldLower.includes("circumference") ||
+        ["neck", "waist", "hips", "chest", "thigh", "calf", "forearm", "wrist"].includes(fieldLower)
       )
         return "length";
-      if (field === "weight") return "weight";
-      if (field === "height") return "height";
-      if (field === "age") return "age";
+      if (fieldLower === "weight") return "weight";
+      if (fieldLower === "height") return "height";
+      if (fieldLower === "age") return "age";
       return "weight";
     }, [field]);
 

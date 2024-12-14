@@ -115,13 +115,15 @@ const CalculatorForm = ({
       {fieldsWithConvertedUnits.map((field, index) => (
         <MeasurementInput
           key={field.key}
-          field={field}
+          field={field.key}
+          label={field.label}
+          unit={field.unit}
           error={getFieldError(field.key) ?? ""}
           ref={ref => {
             inputRefs.current[index] = ref;
           }}
-          isLastInput={index === fieldsWithConvertedUnits.length - 1}
           onFocusChange={onFocusChange}
+          isLastInput={index === fieldsWithConvertedUnits.length - 1}
         />
       ))}
       <View style={styles.buttonRow}>
@@ -271,7 +273,9 @@ export const CalculatorScreen = () => {
             {formulaFields.map((field, index) => (
               <MeasurementInput
                 key={field.key}
-                field={field}
+                field={field.key}
+                label={field.label}
+                unit={field.unit}
                 error={getFieldError(field.key) ?? ""}
                 ref={ref => {
                   inputRefs.current[index] = ref;

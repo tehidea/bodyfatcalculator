@@ -52,6 +52,9 @@ export const covertFormula: FormulaImplementation = {
     };
   },
 
+  name: "Covert Bailey Formula",
+  marginOfError: "4-5",
+
   requiredFields: ["gender", "age", "weight", "waist", "hips", "forearm", "wrist", "thigh", "calf"],
 
   applicableGenders: ["male", "female"],

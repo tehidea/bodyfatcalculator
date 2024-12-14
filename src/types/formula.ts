@@ -58,4 +58,8 @@ export interface FormulaImplementation {
   description: string;
   /** Scientific references or sources */
   references?: string[];
+  /** Display name of the formula */
+  name: string;
+  /** Margin of error range (e.g., "3-4" for ±3-4%) */
+  marginOfError: string;
 }

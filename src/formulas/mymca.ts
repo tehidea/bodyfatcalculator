@@ -41,6 +41,9 @@ export const mymcaFormula: FormulaImplementation = {
     };
   },
 
+  name: "Modified YMCA Formula",
+  marginOfError: "4-6",
+
   requiredFields: ["gender", "weight", "waist", "wrist", "forearm", "hips"],
 
   applicableGenders: ["male", "female"],

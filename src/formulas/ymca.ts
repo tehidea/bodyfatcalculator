@@ -30,6 +30,9 @@ export const ymcaFormula: FormulaImplementation = {
     };
   },
 
+  name: "YMCA Formula",
+  marginOfError: "5-7",
+
   requiredFields: ["gender", "weight", "waist"],
 
   applicableGenders: ["male", "female"],

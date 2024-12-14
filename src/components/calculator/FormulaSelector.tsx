@@ -13,15 +13,7 @@ import { MeasuringTapeIcon } from "../icons/MeasuringTapeIcon";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { usePurchase } from "../../hooks/usePurchase";
 import { PremiumFormulaModal } from "./PremiumFormulaModal";
-import {
-  getFormula,
-  getFormulaDescription,
-  getRequiredFields,
-  getSkinfoldFormulas,
-  getCircumferenceFormulas,
-  getFormulasForAgeRange,
-  getFormulaReferences,
-} from "../../formulas";
+import { getFormula, getRequiredFields, getAvailableFormulas } from "../../formulas";
 
 export const MeasurementIcon = ({
   type,
@@ -35,7 +27,7 @@ export const MeasurementIcon = ({
   switch (type) {
     case "weight":
       return <BodyWeightScalesIcon size={size} color={color} />;
-    case "length":
+    case "circumference":
       return <MeasuringTapeIcon size={size} color={color} />;
     case "skinfold":
       return <SkinfoldIcon size={size} color={color} />;
@@ -49,16 +41,19 @@ export const MeasurementIcon = ({
 };
 
 const getMeasurementTypes = (formula: Formula) => {
+  if (!formula) return [];
+
   const fields = getRequiredFields(formula);
+  if (!fields || !fields.length) return [];
+
   const types = new Set<string>();
 
   fields.forEach(field => {
-    if (field.includes("Skinfold")) types.add("skinfold");
-    else if (
-      field.includes("Circumference") ||
-      ["neck", "waist", "hips", "chest", "thigh", "calf", "forearm", "wrist"].includes(field)
-    )
-      types.add("length");
+    if (!field) return;
+
+    const fieldLower = field.toLowerCase();
+    if (fieldLower.includes("skinfold")) types.add("skinfold");
+    else if (fieldLower.includes("circumference")) types.add("circumference");
     else if (field === "weight") types.add("weight");
     else if (field === "height") types.add("height");
     else if (field === "age") types.add("age");
@@ -108,13 +103,13 @@ export const FormulaSelector = () => {
   // Define which formulas are premium
   const PREMIUM_FORMULAS: Formula[] = ["durnin", "jack7", "jack4", "jack3", "parrillo"];
 
-  const formulas = Object.entries(PREMIUM_FORMULAS).map(([_, formulaKey]) => {
-    const formulaImpl = getFormula(formulaKey as Formula);
+  const formulas = getAvailableFormulas().map(formulaKey => {
+    const formulaImpl = getFormula(formulaKey);
     return {
-      key: formulaKey as Formula,
+      key: formulaKey,
       name: formulaImpl.name || formulaKey,
       description: formulaImpl.description,
-      premium: PREMIUM_FORMULAS.includes(formulaKey as Formula),
+      premium: PREMIUM_FORMULAS.includes(formulaKey),
     };
   });
 
@@ -146,6 +141,7 @@ export const FormulaSelector = () => {
     };
   }, [checkEntitlements]);
 
+  // Show error if entitlement check fails
   useEffect(() => {
     if (checkError) {
       Alert.alert(
@@ -158,36 +154,30 @@ export const FormulaSelector = () => {
 
   // Safeguard for premium formula without PRO status
   useEffect(() => {
-    const isPremium = PREMIUM_FORMULAS.includes(formula);
+    const currentFormula = formulas.find(f => f.key === formula);
     console.log("FormulaSelector - PRO status:", pro);
     console.log("FormulaSelector - Current formula:", formula);
-    console.log("FormulaSelector - Selected formula premium:", isPremium);
+    console.log("FormulaSelector - Selected formula premium:", currentFormula?.premium);
 
-    if (!pro && isPremium) {
+    if (!pro && currentFormula?.premium) {
       setFormula("ymca");
     }
   }, [pro, formula, setFormula]);
 
-  const getAccuracyLevel = (formula: Formula) => {
-    const isSkinfold = getSkinfoldFormulas().includes(formula);
-    const measurementCount = getRequiredFields(formula).length;
-
-    if (isSkinfold && measurementCount >= 7) return "high";
-    if (isSkinfold && measurementCount >= 4) return "medium";
-    return "low";
-  };
-
   const getAccuracyColor = (formula: Formula) => {
-    const accuracy = getAccuracyLevel(formula);
-    switch (accuracy) {
-      case "high":
-        return COLORS.success;
-      case "medium":
-        return COLORS.warning;
-      case "low":
-        return COLORS.error;
-      default:
-        return COLORS.textLight;
+    const formulaImpl = getFormula(formula);
+    const error = formulaImpl.marginOfError;
+    if (!error) return COLORS.textLight;
+
+    const errorValue = error ?? "0";
+    const lowerBound = parseFloat(errorValue.split("-")[0]);
+
+    if (lowerBound >= 5) {
+      return COLORS.error;
+    } else if (lowerBound >= 4) {
+      return COLORS.warning;
+    } else {
+      return COLORS.success;
     }
   };
 
@@ -218,7 +208,7 @@ export const FormulaSelector = () => {
     </View>
   );
 
-  const selectedFormula = getFormula(formula);
+  const selectedFormulaImpl = getFormula(formula);
 
   const handleFormulaSelect = (selectedKey: Formula, isPremiumFormula: boolean) => {
     if (isLoading || isProcessing) return;
@@ -252,98 +242,129 @@ export const FormulaSelector = () => {
       <TouchableOpacity
         style={styles.selector}
         onPress={() => setIsModalVisible(true)}
-        accessibilityLabel="Select formula"
-        accessibilityHint="Opens formula selection modal"
+        activeOpacity={0.7}
       >
-        <View style={styles.selectorContent}>
-          <View>
-            <Text style={styles.selectorTitle}>{selectedFormula.name || formula}</Text>
-            <Text style={styles.selectorDescription} numberOfLines={2}>
-              {selectedFormula.description}
-            </Text>
+        <View style={styles.labelRow}>
+          <Text style={styles.selectorHint}>Select Formula</Text>
+          <View style={styles.chevronContainer}>
+            <Icon name="chevron-down" type="feather" color={COLORS.text} size={20} />
           </View>
-          <View style={styles.selectorRight}>
-            <View style={styles.measurementTypes}>
-              {getMeasurementTypes(formula).map(type => (
-                <View key={type} style={styles.measurementType}>
-                  <MeasurementIcon type={type} size={16} color={COLORS.textDark} />
-                </View>
-              ))}
+        </View>
+        <View style={styles.selectedFormula}>
+          <Text style={styles.formulaName}>{selectedFormulaImpl.name}</Text>
+          {PREMIUM_FORMULAS.includes(formula) && !pro && (
+            <View style={styles.premiumBadge}>
+              <Icon name="lock" type="feather" color="#666" size={14} />
+              <Text style={styles.premiumBadgeText}>PRO</Text>
             </View>
-            <Icon name="chevron-right" type="feather" color={COLORS.textLight} size={24} />
-          </View>
+          )}
+        </View>
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.description} numberOfLines={2}>
+            {selectedFormulaImpl.description}
+            {!PREMIUM_FORMULAS.includes(formula) && ` (±${selectedFormulaImpl.marginOfError})`}
+          </Text>
+        </View>
+        <View style={styles.measurementIcons}>
+          {getMeasurementTypes(formula).map(type => (
+            <MeasurementIcon key={type} size={12} type={type} color="#fff" />
+          ))}
         </View>
       </TouchableOpacity>
 
       <Modal
         visible={isModalVisible}
         animationType="slide"
-        onRequestClose={() => setIsModalVisible(false)}
+        transparent={true}
+        onRequestClose={() => {}}
       >
-        <SafeAreaView style={styles.modalContainer}>
-          <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>Select Formula</Text>
-            <TouchableOpacity
-              onPress={() => setIsModalVisible(false)}
-              accessibilityLabel="Close formula selector"
-              accessibilityRole="button"
-            >
-              <Icon name="x" type="feather" size={24} />
-            </TouchableOpacity>
-          </View>
+        <View style={styles.modalContainer}>
+          <SafeAreaView edges={["top"]} style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Select Formula</Text>
+              <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                <Icon name="x" type="feather" color={COLORS.textDark} size={24} />
+              </TouchableOpacity>
+            </View>
+            <FlatList
+              data={[
+                ...formulas,
+                { key: "accuracy_info", name: "", description: "", premium: false },
+              ]}
+              keyExtractor={item => item.key}
+              style={styles.formulaList}
+              renderItem={({ item }) => {
+                if (item.key === "accuracy_info") {
+                  return renderAccuracyInfo();
+                }
 
-          {renderAccuracyInfo()}
-
-          <FlatList
-            data={formulas}
-            keyExtractor={item => item.key}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={[styles.formulaItem, formula === item.key && styles.selectedFormulaItem]}
-                onPress={() => handleFormulaSelect(item.key, item.premium)}
-                accessibilityLabel={`Select ${item.name} formula`}
-                accessibilityRole="button"
-                accessibilityState={{ selected: formula === item.key }}
-              >
-                <View style={styles.formulaContent}>
-                  <View style={styles.formulaHeader}>
-                    <Text style={styles.formulaName}>{item.name}</Text>
-                    {item.premium && (
-                      <View style={styles.premiumBadge}>
-                        <Text style={styles.premiumText}>PRO</Text>
-                      </View>
-                    )}
-                  </View>
-                  <Text style={styles.formulaDescription} numberOfLines={2}>
-                    {item.description}
-                  </Text>
-                  <View style={styles.formulaFooter}>
-                    <View style={styles.measurementTypes}>
-                      {getMeasurementTypes(item.key).map(type => (
-                        <View key={type} style={styles.measurementType}>
-                          <MeasurementIcon type={type} size={16} color={COLORS.textDark} />
+                const formulaImpl = getFormula(item.key as Formula);
+                return (
+                  <TouchableOpacity
+                    style={[
+                      styles.formulaItem,
+                      item.key === formula && styles.activeFormula,
+                      item.premium && !pro && styles.premiumFormula,
+                    ]}
+                    onPress={() => handleFormulaSelect(item.key as Formula, item.premium && !pro)}
+                  >
+                    <View style={styles.formulaItemHeader}>
+                      <View style={styles.formulaItemNameContainer}>
+                        <Text
+                          style={[
+                            styles.formulaItemName,
+                            item.key === formula && styles.activeFormulaText,
+                            item.premium && !pro && styles.premiumFormulaText,
+                          ]}
+                        >
+                          {formulaImpl.name}
+                        </Text>
+                        <View style={styles.formulaMetadata}>
+                          <View
+                            style={[
+                              styles.accuracyIndicator,
+                              { backgroundColor: getAccuracyColor(item.key as Formula) },
+                            ]}
+                          />
+                          <Text style={styles.accuracyText}>±{formulaImpl.marginOfError}</Text>
                         </View>
+                      </View>
+                      {item.premium && !pro && (
+                        <View style={styles.premiumBadge}>
+                          <Icon name="lock" type="feather" color="#666" size={14} />
+                          <Text style={styles.premiumBadgeText}>PRO</Text>
+                        </View>
+                      )}
+                    </View>
+                    <View style={styles.descriptionContainer}>
+                      <Text
+                        style={[
+                          styles.formulaItemDescription,
+                          item.premium && !pro && styles.premiumFormulaText,
+                        ]}
+                        numberOfLines={3}
+                      >
+                        {formulaImpl.description}
+                      </Text>
+                    </View>
+                    <View style={styles.measurementIcons}>
+                      {getMeasurementTypes(item.key as Formula).map(type => (
+                        <MeasurementIcon key={type} size={12} type={type} color="#666" />
                       ))}
                     </View>
-                    <View
-                      style={[
-                        styles.accuracyIndicator,
-                        { backgroundColor: getAccuracyColor(item.key) },
-                      ]}
-                    />
-                  </View>
-                </View>
-              </TouchableOpacity>
-            )}
-          />
-        </SafeAreaView>
+                  </TouchableOpacity>
+                );
+              }}
+            />
+          </SafeAreaView>
+        </View>
       </Modal>
 
       <PremiumFormulaModal
         visible={isProModalVisible}
         isProcessing={isProcessing}
         onUpgrade={handlePurchase}
-        onMaybeLater={handleMaybeLater}
+        onClose={handleMaybeLater}
       />
     </View>
   );
@@ -354,52 +375,48 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   selector: {
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    backgroundColor: "#444",
+    borderRadius: 12,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.1)",
   },
-  selectorContent: {
+  selectedFormula: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingVertical: 4,
   },
-  selectorTitle: {
+  formulaName: {
+    color: COLORS.text,
     fontSize: 16,
-    fontWeight: "600",
-    marginBottom: 4,
+    fontWeight: "bold",
+    flex: 1,
   },
-  selectorDescription: {
-    fontSize: 14,
-    color: COLORS.textLight,
-    maxWidth: "80%",
-  },
-  selectorRight: {
+  descriptionContainer: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginTop: 4,
   },
-  measurementTypes: {
-    flexDirection: "row",
+  description: {
+    color: COLORS.text,
+    fontSize: 12,
+    opacity: 0.8,
+    flex: 1,
     marginRight: 8,
-  },
-  measurementType: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: "#f5f5f5",
-    justifyContent: "center",
-    alignItems: "center",
-    marginLeft: -8,
-    borderWidth: 2,
-    borderColor: "#fff",
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: "#fff",
+    justifyContent: "flex-end",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  modalContent: {
+    backgroundColor: COLORS.white,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    maxHeight: "85%",
+    flex: 1,
   },
   modalHeader: {
     flexDirection: "row",
@@ -410,93 +427,152 @@ const styles = StyleSheet.create({
     borderBottomColor: "#eee",
   },
   modalTitle: {
-    fontSize: 20,
-    fontWeight: "600",
+    fontSize: 18,
+    fontWeight: "bold",
+    color: COLORS.textDark,
   },
-  accuracyInfoWrapper: {
-    padding: 16,
-    backgroundColor: "#f9f9f9",
+  formulaItem: {
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
   },
-  accuracyInfo: {
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 16,
-  },
-  accuracyInfoTitle: {
-    fontSize: 16,
-    fontWeight: "600",
-    marginBottom: 12,
-  },
-  accuracyLevels: {
+  formulaItemHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 4,
+  },
+  activeFormula: {
+    backgroundColor: COLORS.primary + "10",
+  },
+  premiumFormula: {
+    backgroundColor: "#f8f8f8",
+  },
+  formulaItemNameContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  formulaItemNameText: {
+    fontSize: 16,
+    color: COLORS.textDark,
+  },
+  activeFormulaText: {
+    color: COLORS.primary,
+    fontWeight: "bold",
+  },
+  premiumFormulaText: {
+    color: "#666",
+  },
+  formulaItemDescription: {
+    flex: 1,
+    fontSize: 12,
+    color: "#666",
+  },
+  premiumBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f0f0f0",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+    marginLeft: 8,
+  },
+  premiumBadgeText: {
+    fontSize: 10,
+    fontWeight: "bold",
+    color: "#666",
+    marginLeft: 4,
+  },
+  measurementIcons: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginTop: 8,
+    opacity: 0.6,
+  },
+  formulaItemName: {
+    fontSize: 16,
+    color: COLORS.textDark,
+    flex: 1,
+  },
+  accuracyInfoWrapper: {
+    backgroundColor: COLORS.white,
+    marginBottom: 16,
+  },
+  accuracyInfo: {
+    padding: 16,
+    paddingTop: 20,
+    backgroundColor: COLORS.white,
+  },
+  accuracyInfoTitle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: COLORS.textDark,
+    marginBottom: 12,
+    textAlign: "center",
+  },
+  accuracyLevels: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 8,
     marginBottom: 12,
   },
   accuracyLevel: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 4,
   },
   accuracyDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    marginRight: 4,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
   },
   accuracyText: {
-    fontSize: 14,
-    color: COLORS.textLight,
+    fontSize: 12,
+    color: "#666",
   },
   accuracyNote: {
     fontSize: 12,
-    color: COLORS.textLight,
+    color: "#666",
     textAlign: "center",
+    fontStyle: "italic",
   },
-  formulaItem: {
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-  },
-  selectedFormulaItem: {
-    backgroundColor: "#f5f5f5",
-  },
-  formulaContent: {
-    flex: 1,
-  },
-  formulaHeader: {
+  formulaMetadata: {
     flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 4,
-  },
-  formulaName: {
-    fontSize: 16,
-    fontWeight: "600",
-    marginRight: 8,
-  },
-  premiumBadge: {
-    backgroundColor: COLORS.primary,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
-  },
-  premiumText: {
-    color: "#fff",
-    fontSize: 12,
-    fontWeight: "600",
-  },
-  formulaDescription: {
-    fontSize: 14,
-    color: COLORS.textLight,
-    marginBottom: 8,
-  },
-  formulaFooter: {
-    flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
   },
   accuracyIndicator: {
     width: 8,
     height: 8,
     borderRadius: 4,
+    marginRight: 6,
+  },
+  formulaList: {
+    flex: 1,
+  },
+  selectorHint: {
+    color: COLORS.text,
+    fontSize: 12,
+    opacity: 0.6,
+    textAlign: "left",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    fontWeight: "bold",
+  },
+  chevronContainer: {
+    backgroundColor: "rgba(255,255,255,0.1)",
+    borderRadius: 8,
+    paddingHorizontal: 2,
+    paddingTop: 3,
+    paddingBottom: 1,
+  },
+  labelRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });

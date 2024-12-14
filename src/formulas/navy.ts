@@ -35,6 +35,9 @@ export const navyFormula: FormulaImplementation = {
     };
   },
 
+  name: "U.S. Navy Formula",
+  marginOfError: "3-4",
+
   requiredFields: ["gender", "weight", "height", "neck", "waist", "hips"],
 
   applicableGenders: ["male", "female"],

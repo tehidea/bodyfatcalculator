@@ -56,6 +56,9 @@ export const jackson3Formula: FormulaImplementation = {
     };
   },
 
+  name: "Jackson-Pollock 3-Site Formula",
+  marginOfError: "4-5",
+
   requiredFields: [
     "gender",
     "age",

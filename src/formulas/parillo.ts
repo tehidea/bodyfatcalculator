@@ -48,6 +48,9 @@ export const parilloFormula: FormulaImplementation = {
     };
   },
 
+  name: "Parillo Formula",
+  marginOfError: "3-4",
+
   requiredFields: [
     "weight",
     "chestSkinfold",

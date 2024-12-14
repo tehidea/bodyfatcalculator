@@ -57,6 +57,9 @@ export const durninFormula: FormulaImplementation = {
     };
   },
 
+  name: "Durnin & Womersley Formula",
+  marginOfError: "3-4",
+
   requiredFields: [
     "gender",
     "age",

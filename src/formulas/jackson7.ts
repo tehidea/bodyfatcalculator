@@ -62,6 +62,9 @@ export const jackson7Formula: FormulaImplementation = {
     };
   },
 
+  name: "Jackson-Pollock 7-Site Formula",
+  marginOfError: "3-4",
+
   requiredFields: [
     "gender",
     "age",
