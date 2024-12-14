@@ -9,6 +9,13 @@ import { jackson7Formula } from "./jackson7";
 import { jackson4Formula } from "./jackson4";
 import { jackson3Formula } from "./jackson3";
 import { parilloFormula } from "./parillo";
+import { validateBodyFat, getClassification } from "./utils";
+import {
+  CalculatorInputs,
+  Gender,
+  MeasurementSystem,
+  CalculatorResults,
+} from "../types/calculator";
 
 /**
  * Registry of all available formulas
@@ -24,6 +31,34 @@ export const FORMULAS: Record<Formula, FormulaImplementation> = {
   jack3: jackson3Formula,
   parrillo: parilloFormula,
 };
+
+/**
+ * Calculate body fat results using the specified formula
+ */
+export async function calculateResults(
+  formula: Formula,
+  gender: Gender,
+  inputs: CalculatorInputs,
+  measurementSystem: MeasurementSystem
+): Promise<CalculatorResults> {
+  const formulaImpl = FORMULAS[formula];
+  const standardizedInputs = {
+    gender,
+    ...inputs,
+  };
+
+  const results = formulaImpl.calculate(standardizedInputs);
+  const validation = validateBodyFat(results.bodyFatPercentage);
+
+  if (!validation.isValid) {
+    throw new Error(validation.message);
+  }
+
+  return {
+    ...results,
+    classification: getClassification(results.bodyFatPercentage, gender),
+  };
+}
 
 /**
  * Get a formula implementation by its key

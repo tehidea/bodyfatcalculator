@@ -5,6 +5,14 @@ import { convertMeasurement } from "../utils/conversions";
  * U.S. Navy formula implementation
  * This formula uses circumference measurements and height to estimate body fat percentage.
  * It's widely used in the U.S. military for its simplicity and reasonable accuracy.
+ *
+ * Male formula uses:
+ * - Height
+ * - Neck circumference
+ * - Waist circumference
+ *
+ * Female formula additionally uses:
+ * - Hip circumference
  */
 export const navyFormula: FormulaImplementation = {
   calculate: (inputs: StandardizedInputs): FormulaResult => {
@@ -45,14 +53,14 @@ export const navyFormula: FormulaImplementation = {
   name: "U.S. Navy Formula",
   marginOfError: "3-4",
 
-  requiredFields: [
-    "gender",
-    "weight",
-    "height",
-    "neckCircumference",
-    "waistCircumference",
-    "hipsCircumference",
-  ],
+  // Common required fields for both genders
+  requiredFields: ["weight", "height", "neckCircumference", "waistCircumference"],
+
+  // Gender-specific required fields
+  genderSpecificFields: {
+    male: [], // No additional fields for males
+    female: ["hipsCircumference"], // Females additionally need hip circumference
+  },
 
   applicableGenders: ["male", "female"],
 

@@ -5,6 +5,22 @@ import { convertMeasurement } from "../utils/conversions";
  * Covert Bailey formula implementation
  * This formula uses different measurements for men and women, taking into account age
  * and various circumference measurements.
+ *
+ * Male formula uses:
+ * - Weight
+ * - Age
+ * - Waist circumference
+ * - Hips circumference
+ * - Forearm circumference
+ * - Wrist circumference
+ *
+ * Female formula uses:
+ * - Weight
+ * - Age
+ * - Hips circumference
+ * - Thigh circumference
+ * - Calf circumference
+ * - Wrist circumference
  */
 export const covertFormula: FormulaImplementation = {
   calculate: (inputs: StandardizedInputs): FormulaResult => {
@@ -55,17 +71,14 @@ export const covertFormula: FormulaImplementation = {
   name: "Covert Bailey Formula",
   marginOfError: "4-5",
 
-  requiredFields: [
-    "gender",
-    "age",
-    "weight",
-    "waistCircumference",
-    "hipsCircumference",
-    "forearmCircumference",
-    "wristCircumference",
-    "thighCircumference",
-    "calfCircumference",
-  ],
+  // Common required fields for both genders
+  requiredFields: ["weight", "age", "wristCircumference", "hipsCircumference"],
+
+  // Gender-specific required fields
+  genderSpecificFields: {
+    male: ["waistCircumference", "forearmCircumference"],
+    female: ["thighCircumference", "calfCircumference"],
+  },
 
   applicableGenders: ["male", "female"],
 

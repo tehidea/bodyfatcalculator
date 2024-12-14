@@ -18,20 +18,20 @@ export const CONVERSIONS: Record<ConversionType, ConversionUnit> = {
   weight: {
     metric: "kg",
     imperial: "lb",
-    toImperial: kg => Number((kg * 2.20462).toFixed(2)),
-    toMetric: lb => Number((lb / 2.20462).toFixed(2)),
+    toImperial: kg => Number((kg * 2.2046).toFixed(2)),
+    toMetric: lb => Number((lb / 2.2046).toFixed(2)),
   },
   length: {
     metric: "cm",
     imperial: "in",
-    toImperial: cm => Number((cm * 0.393701).toFixed(2)),
-    toMetric: inch => Number((inch / 0.393701).toFixed(2)),
+    toImperial: cm => Number((cm / 2.54).toFixed(2)),
+    toMetric: inch => Number((inch * 2.54).toFixed(2)),
   },
   skinfold: {
     metric: "mm",
     imperial: "in",
-    toImperial: mm => Number((mm * 0.0393701).toFixed(2)),
-    toMetric: inch => Number((inch / 0.0393701).toFixed(2)),
+    toImperial: mm => Number((mm / 25.4).toFixed(2)),
+    toMetric: inch => Number((inch * 25.4).toFixed(2)),
   },
 };
 

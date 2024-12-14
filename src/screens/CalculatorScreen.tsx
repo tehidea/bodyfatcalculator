@@ -15,14 +15,12 @@ import { MeasurementSelector } from "../components/calculator/MeasurementSelecto
 import { MeasurementInput } from "../components/calculator/MeasurementInput";
 import { ResultsDisplay } from "../components/calculator/ResultsDisplay";
 import { useCalculatorStore } from "../store/calculatorStore";
-import { validateInputs } from "../utils/validation";
-import { FORMULA_REQUIREMENTS } from "../constants/formulas";
+import { validateInputs, getFieldMetadata } from "../validation/schema";
 import Logo from "../images/logo";
 import { memo } from "react";
-import { calculateResults } from "../utils/calculations";
+import { calculateResults, getFormula } from "../formulas";
 import { styles } from "./CalculatorScreen.styles";
 import { CalculatorInputs } from "../types/calculator";
-import { getUnitLabel } from "../constants/formulas";
 import { usePremiumStore } from "../store/premiumStore";
 
 // Extract Header into a separate component
@@ -62,101 +60,6 @@ const VersionDisplay = memo(() => {
   );
 });
 
-// Add proper types for the CalculatorForm props
-interface CalculatorFormProps {
-  formulaFields: Array<{
-    key: keyof CalculatorInputs;
-    label: string;
-    unit: string;
-    genderSpecific?: string;
-  }>;
-  getFieldError: (fieldKey: string) => string | undefined;
-  handleCalculate: () => Promise<void>;
-  handleReset: () => void;
-  buttonTitle: string;
-  isCalculating: boolean;
-  globalError?: string | null;
-  scrollViewRef: React.RefObject<ScrollView>;
-  onFocusChange: (focused: boolean) => void;
-}
-
-// Extract form section into a separate component
-const CalculatorForm = ({
-  formulaFields,
-  getFieldError,
-  handleCalculate,
-  handleReset,
-  buttonTitle,
-  isCalculating,
-  globalError,
-  scrollViewRef,
-  onFocusChange,
-}: CalculatorFormProps) => {
-  const gender = useCalculatorStore(state => state.gender);
-  const measurementSystem = useCalculatorStore(state => state.measurementSystem);
-  const inputRefs = useRef<(TextInput | null)[]>([]);
-
-  const visibleFields = useMemo(
-    () => formulaFields.filter(field => !field.genderSpecific || field.genderSpecific === gender),
-    [formulaFields, gender]
-  );
-
-  const fieldsWithConvertedUnits = useMemo(
-    () =>
-      visibleFields.map(field => ({
-        ...field,
-        unit: getUnitLabel(field.unit, measurementSystem),
-      })),
-    [visibleFields, measurementSystem]
-  );
-
-  return (
-    <View style={styles.content}>
-      {fieldsWithConvertedUnits.map((field, index) => (
-        <MeasurementInput
-          key={field.key}
-          field={field.key}
-          label={field.label}
-          unit={field.unit}
-          error={getFieldError(field.key) ?? ""}
-          ref={ref => {
-            inputRefs.current[index] = ref;
-          }}
-          onFocusChange={onFocusChange}
-          isLastInput={index === fieldsWithConvertedUnits.length - 1}
-        />
-      ))}
-      <View style={styles.buttonRow}>
-        <Button
-          title={buttonTitle}
-          onPress={handleCalculate}
-          loading={isCalculating}
-          disabled={isCalculating}
-          buttonStyle={styles.primaryButton}
-          containerStyle={styles.buttonWrapperFlex}
-          titleStyle={{ fontWeight: "bold" }}
-          testID="calculate-button"
-        />
-        <Button
-          title="Reset"
-          type="outline"
-          onPress={handleReset}
-          disabled={isCalculating}
-          titleStyle={styles.resetButtonText}
-          containerStyle={styles.buttonWrapperFlex}
-          buttonStyle={styles.resetButton}
-          testID="reset-button"
-        />
-      </View>
-      {globalError && (
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{globalError}</Text>
-        </View>
-      )}
-    </View>
-  );
-};
-
 export const CalculatorScreen = () => {
   const {
     formula,
@@ -178,13 +81,31 @@ export const CalculatorScreen = () => {
   const [currentInputIndex, setCurrentInputIndex] = useState<number | null>(null);
   const inputRefs = useRef<(TextInput | null)[]>([]);
 
-  const formulaFields = useMemo(
-    () =>
-      FORMULA_REQUIREMENTS[formula].fields.filter(
-        field => !field.genderSpecific || field.genderSpecific === gender
-      ),
-    [formula, gender]
-  );
+  const formulaFields = useMemo(() => {
+    const currentFormula = getFormula(formula);
+
+    // Get all required fields for the current gender
+    const allRequiredFields = [
+      ...currentFormula.requiredFields,
+      ...(currentFormula.genderSpecificFields?.[gender] || []),
+    ];
+
+    return allRequiredFields
+      .filter(field => field !== "gender") // Exclude gender field
+      .map(field => {
+        const { unit } = getFieldMetadata(field, measurementSystem);
+        return {
+          key: field,
+          label:
+            field.charAt(0).toUpperCase() +
+            field
+              .slice(1)
+              .replace(/([A-Z])/g, " $1")
+              .trim(),
+          unit,
+        };
+      });
+  }, [formula, gender, measurementSystem]);
 
   const handleFocusChange = useCallback((focused: boolean, index: number) => {
     setIsFocused(focused);
@@ -247,6 +168,11 @@ export const CalculatorScreen = () => {
     return "Calculate";
   }, [isCalculating, results, isResultsStale]);
 
+  const visibleFields = useMemo(
+    () => formulaFields.filter(field => !field.genderSpecific || field.genderSpecific === gender),
+    [formulaFields, gender]
+  );
+
   return (
     <>
       <View style={styles.container}>
@@ -270,7 +196,7 @@ export const CalculatorScreen = () => {
                 <MeasurementSelector />
               </View>
             </View>
-            {formulaFields.map((field, index) => (
+            {visibleFields.map((field, index) => (
               <MeasurementInput
                 key={field.key}
                 field={field.key}
@@ -281,7 +207,7 @@ export const CalculatorScreen = () => {
                   inputRefs.current[index] = ref;
                 }}
                 onFocusChange={focused => handleFocusChange(focused, index)}
-                isLastInput={index === formulaFields.length - 1}
+                isLastInput={index === visibleFields.length - 1}
               />
             ))}
             <View style={styles.buttonRow}>

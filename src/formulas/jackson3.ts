@@ -5,6 +5,16 @@ import { FormulaImplementation, StandardizedInputs, FormulaResult } from "../typ
  * This formula uses three skinfold measurements to estimate body density,
  * which is then converted to body fat percentage using Siri's equation.
  * Different sites are used for men and women to optimize accuracy.
+ *
+ * Male sites:
+ * - Chest
+ * - Abdomen
+ * - Thigh
+ *
+ * Female sites:
+ * - Tricep
+ * - Suprailiac
+ * - Thigh
  */
 export const jackson3Formula: FormulaImplementation = {
   calculate: (inputs: StandardizedInputs): FormulaResult => {
@@ -59,16 +69,18 @@ export const jackson3Formula: FormulaImplementation = {
   name: "Jackson-Pollock 3-Site Formula",
   marginOfError: "4-5",
 
+  // Common required fields for both genders
   requiredFields: [
-    "gender",
-    "age",
     "weight",
-    "chestSkinfold",
-    "abdomenSkinfold",
-    "thighSkinfold",
-    "tricepSkinfold",
-    "suprailiacSkinfold",
+    "age",
+    "thighSkinfold", // Common to both genders
   ],
+
+  // Gender-specific required fields
+  genderSpecificFields: {
+    male: ["chestSkinfold", "abdomenSkinfold"],
+    female: ["tricepSkinfold", "suprailiacSkinfold"],
+  },
 
   applicableGenders: ["male", "female"],
 

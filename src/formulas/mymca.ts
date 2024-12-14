@@ -5,6 +5,17 @@ import { convertMeasurement } from "../utils/conversions";
  * Modified YMCA formula implementation
  * This formula is a variation of the YMCA formula that includes additional measurements
  * for women to improve accuracy.
+ *
+ * Male formula uses:
+ * - Weight
+ * - Waist circumference
+ *
+ * Female formula uses:
+ * - Weight
+ * - Waist circumference
+ * - Wrist circumference
+ * - Forearm circumference
+ * - Hips circumference
  */
 export const mymcaFormula: FormulaImplementation = {
   calculate: (inputs: StandardizedInputs): FormulaResult => {
@@ -51,14 +62,14 @@ export const mymcaFormula: FormulaImplementation = {
   name: "Modified YMCA Formula",
   marginOfError: "4-6",
 
-  requiredFields: [
-    "gender",
-    "weight",
-    "waistCircumference",
-    "wristCircumference",
-    "forearmCircumference",
-    "hipsCircumference",
-  ],
+  // Common required fields for both genders
+  requiredFields: ["weight", "waistCircumference"],
+
+  // Gender-specific required fields
+  genderSpecificFields: {
+    male: [], // No additional fields for males
+    female: ["wristCircumference", "forearmCircumference", "hipsCircumference"],
+  },
 
   applicableGenders: ["male", "female"],
 

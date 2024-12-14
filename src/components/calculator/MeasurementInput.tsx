@@ -4,7 +4,7 @@ import { Text } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { usePremiumStore } from "../../store/premiumStore";
 import { CalculatorInputs } from "../../types/calculator";
-import { convertMeasurement } from "../../utils/conversions";
+import { convertMeasurement, ConversionType } from "../../utils/conversions";
 import { MeasurementIcon } from "./FormulaSelector";
 import { usePurchase } from "../../hooks/usePurchase";
 import { ProUpgradeModal } from "./ProUpgradeModal";
@@ -53,18 +53,9 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
 
     const convertValue = useCallback(
       (value: number) => {
-        if (measurementSystem === "imperial" && unit !== "years") {
-          const convertedValue = convertMeasurement(
-            value,
-            unit,
-            unit === "cm" ? "in" : unit === "kg" ? "lbs" : unit === "mm" ? "in" : unit,
-            unit === "cm" || unit === "mm" ? "length" : unit === "kg" ? "weight" : "skinfold"
-          );
-          return pro ? convertedValue : Math.round(convertedValue);
-        }
         return pro ? value : Math.round(value);
       },
-      [measurementSystem, unit, pro]
+      [pro]
     );
 
     // Sync with store and handle measurement system change
@@ -77,10 +68,9 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       }
 
       if (!isEditing) {
-        const convertedValue = convertValue(storeValue as number);
-        setRawValue(Number(Number(convertedValue).toFixed(2)).toString());
+        setRawValue(pro ? storeValue.toFixed(2) : Math.round(storeValue).toString());
       }
-    }, [measurementSystem, inputs[field], isEditing, convertValue]);
+    }, [measurementSystem, inputs[field], isEditing, pro]);
 
     const handleChangeText = useCallback(
       (value: string) => {
@@ -108,21 +98,10 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
 
         const numValue = parseFloat(value);
         if (!isNaN(numValue)) {
-          const convertedValue =
-            measurementSystem === "imperial" && unit !== "years"
-              ? convertMeasurement(
-                  numValue,
-                  unit === "cm" ? "in" : unit === "kg" ? "lbs" : unit === "mm" ? "in" : unit,
-                  unit,
-                  unit === "cm" || unit === "mm" ? "length" : unit === "kg" ? "weight" : "skinfold"
-                )
-              : numValue;
-
-          const finalValue = pro ? convertedValue : Math.round(convertedValue);
-          setInput(field, finalValue);
+          setInput(field, pro ? Number(numValue.toFixed(2)) : Math.round(numValue));
         }
       },
-      [pro, measurementSystem, field, unit, setInput]
+      [pro, field, setInput]
     );
 
     const iconType = useMemo(() => {

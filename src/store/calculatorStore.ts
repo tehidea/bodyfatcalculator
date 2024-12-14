@@ -164,13 +164,31 @@ export const useCalculatorStore = create<CalculatorStore>()(
       setMeasurementSystem: newSystem => {
         const { measurementSystem: oldSystem, inputs } = get();
 
-        // Convert current inputs to metric first, then to new system
-        const metricInputs = convertToMetric(inputs, oldSystem);
-        const newInputs = convertToDisplaySystem(metricInputs, newSystem);
+        if (oldSystem === newSystem) return;
+
+        const convertedInputs: Partial<CalculatorInputs> = {
+          gender: inputs.gender,
+          age: inputs.age,
+        };
+
+        // Convert each input to the new system
+        Object.entries(inputs).forEach(([key, value]) => {
+          if (value == null || key === "gender" || key === "age") return;
+
+          const conversionType = INPUT_CONVERSION_MAP[key as keyof CalculatorInputs];
+          if (!conversionType) return;
+
+          convertedInputs[key as keyof CalculatorInputs] = convertMeasurement(
+            value,
+            conversionType,
+            oldSystem,
+            newSystem
+          );
+        });
 
         set({
           measurementSystem: newSystem,
-          inputs: newInputs,
+          inputs: convertedInputs as CalculatorInputs,
           results: null,
           isResultsStale: true,
           error: null,
