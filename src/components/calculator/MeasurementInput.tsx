@@ -4,12 +4,13 @@ import { Text } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { usePremiumStore } from "../../store/premiumStore";
 import { CalculatorInputs } from "../../types/calculator";
-import { convertMeasurement, ConversionType } from "../../utils/conversions";
 import { MeasurementIcon } from "./FormulaSelector";
 import { usePurchase } from "../../hooks/usePurchase";
 import { ProUpgradeModal } from "./ProUpgradeModal";
 import { styles } from "./MeasurementInput.styles";
 import { COLORS } from "../../constants/theme";
+import { getDisplayUnit } from "../../utils/units";
+import { getFieldType } from "../../utils/fields";
 
 interface MeasurementInputProps {
   field: string;
@@ -104,17 +105,11 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       [pro, field, setInput]
     );
 
-    const iconType = useMemo(() => {
-      if (!field) return "weight";
-
-      const fieldLower = field.toLowerCase();
-      if (fieldLower.includes("skinfold")) return "skinfold";
-      if (fieldLower.includes("circumference")) return "circumference";
-      if (fieldLower === "weight") return "weight";
-      if (fieldLower === "height") return "height";
-      if (fieldLower === "age") return "age";
-      return "circumference";
-    }, [field]);
+    const iconType = useMemo(() => getFieldType(field), [field]);
+    const displayUnit = useMemo(
+      () => getDisplayUnit(unit, measurementSystem),
+      [unit, measurementSystem]
+    );
 
     return (
       <>
@@ -145,17 +140,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
               accessibilityRole="spinbutton"
               onSubmitEditing={handleSubmitEditing}
             />
-            <Text style={styles.unit}>
-              {measurementSystem === "imperial"
-                ? unit === "cm"
-                  ? "in"
-                  : unit === "kg"
-                    ? "lbs"
-                    : unit === "mm"
-                      ? "in"
-                      : unit
-                : unit}
-            </Text>
+            <Text style={styles.unit}>{displayUnit}</Text>
           </View>
           {error && <Text style={styles.error}>{error}</Text>}
         </View>

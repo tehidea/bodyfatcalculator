@@ -71,8 +71,6 @@ export const mymcaFormula: FormulaImplementation = {
     female: ["wristCircumference", "forearmCircumference", "hipsCircumference"],
   },
 
-  applicableGenders: ["male", "female"],
-
   description:
     "The Modified YMCA formula is an enhanced version of the original YMCA formula. " +
     "For men, it uses a simplified calculation based on waist and weight. " +

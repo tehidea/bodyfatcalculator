@@ -78,11 +78,6 @@ export const jackson7Formula: FormulaImplementation = {
     "midaxillarySkinfold",
   ],
 
-  applicableGenders: ["male", "female"],
-
-  minimumAge: 18,
-  maximumAge: 61,
-
   description:
     "The Jackson-Pollock 7-site formula uses seven skinfold measurements to estimate " +
     "body density, which is then converted to body fat percentage. The measurements " +

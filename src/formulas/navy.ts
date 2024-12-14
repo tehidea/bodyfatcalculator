@@ -62,8 +62,6 @@ export const navyFormula: FormulaImplementation = {
     female: ["hipsCircumference"], // Females additionally need hip circumference
   },
 
-  applicableGenders: ["male", "female"],
-
   description:
     "The U.S. Navy formula is a circumference-based method developed for military personnel. " +
     "It uses height and various body circumference measurements to estimate body fat percentage. " +

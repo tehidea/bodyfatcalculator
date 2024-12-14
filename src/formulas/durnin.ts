@@ -70,11 +70,6 @@ export const durninFormula: FormulaImplementation = {
     "suprailiacSkinfold",
   ],
 
-  applicableGenders: ["male", "female"],
-
-  minimumAge: 16,
-  maximumAge: 72,
-
   description:
     "The Durnin & Womersley formula uses four skinfold measurements (biceps, triceps, " +
     "subscapular, and suprailiac) to estimate body density, which is then converted to " +

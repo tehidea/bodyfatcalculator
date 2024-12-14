@@ -14,6 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { usePurchase } from "../../hooks/usePurchase";
 import { PremiumFormulaModal } from "./PremiumFormulaModal";
 import { getFormula, getRequiredFields, getAvailableFormulas } from "../../formulas";
+import { getMeasurementTypes } from "../../utils/fields";
 
 export const MeasurementIcon = ({
   type,
@@ -40,26 +41,13 @@ export const MeasurementIcon = ({
   }
 };
 
-const getMeasurementTypes = (formula: Formula) => {
+const getFormulaTypes = (formula: Formula): string[] => {
   if (!formula) return [];
 
   const fields = getRequiredFields(formula);
   if (!fields || !fields.length) return [];
 
-  const types = new Set<string>();
-
-  fields.forEach(field => {
-    if (!field) return;
-
-    const fieldLower = field.toLowerCase();
-    if (fieldLower.includes("skinfold")) types.add("skinfold");
-    else if (fieldLower.includes("circumference")) types.add("circumference");
-    else if (field === "weight") types.add("weight");
-    else if (field === "height") types.add("height");
-    else if (field === "age") types.add("age");
-  });
-
-  return Array.from(types);
+  return Array.from(getMeasurementTypes(fields));
 };
 
 export const FormulaSelector = () => {
@@ -266,7 +254,7 @@ export const FormulaSelector = () => {
           </Text>
         </View>
         <View style={styles.measurementIcons}>
-          {getMeasurementTypes(formula).map(type => (
+          {Array.from(getMeasurementTypes(getRequiredFields(formula))).map((type: string) => (
             <MeasurementIcon key={type} size={12} type={type} color="#fff" />
           ))}
         </View>
@@ -348,9 +336,11 @@ export const FormulaSelector = () => {
                       </Text>
                     </View>
                     <View style={styles.measurementIcons}>
-                      {getMeasurementTypes(item.key as Formula).map(type => (
-                        <MeasurementIcon key={type} size={12} type={type} color="#666" />
-                      ))}
+                      {Array.from(getMeasurementTypes(getRequiredFields(item.key as Formula))).map(
+                        (type: string) => (
+                          <MeasurementIcon key={type} size={12} type={type} color="#666" />
+                        )
+                      )}
                     </View>
                   </TouchableOpacity>
                 );

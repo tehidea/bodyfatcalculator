@@ -82,15 +82,6 @@ export function isFormulaAvailable(formula: Formula): boolean {
 }
 
 /**
- * Get formulas available for a specific gender
- */
-export function getFormulasForGender(gender: "male" | "female"): Formula[] {
-  return Object.entries(FORMULAS)
-    .filter(([_, impl]) => impl.applicableGenders.includes(gender))
-    .map(([key]) => key as Formula);
-}
-
-/**
  * Get required fields for a formula
  */
 export function getRequiredFields(formula: Formula): Array<string> {
@@ -102,19 +93,6 @@ export function getRequiredFields(formula: Formula): Array<string> {
  */
 export function getFormulaDescription(formula: Formula): string {
   return FORMULAS[formula].description;
-}
-
-/**
- * Check if a formula is suitable for a given age
- */
-export function isFormulaSuitableForAge(formula: Formula, age: number): boolean {
-  const impl = FORMULAS[formula];
-  if (!impl.minimumAge && !impl.maximumAge) return true;
-
-  const isAboveMin = !impl.minimumAge || age >= impl.minimumAge;
-  const isBelowMax = !impl.maximumAge || age <= impl.maximumAge;
-
-  return isAboveMin && isBelowMax;
 }
 
 /**
@@ -140,19 +118,6 @@ export function getCircumferenceFormulas(): Formula[] {
           ["neck", "waist", "hips", "chest", "thigh", "calf", "forearm", "wrist"].includes(field)
       )
     )
-    .map(([key]) => key as Formula);
-}
-
-/**
- * Get formulas suitable for a specific age range
- */
-export function getFormulasForAgeRange(minAge: number, maxAge: number): Formula[] {
-  return Object.entries(FORMULAS)
-    .filter(([_, impl]) => {
-      const isAboveMinRequired = !impl.minimumAge || minAge >= impl.minimumAge;
-      const isBelowMaxAllowed = !impl.maximumAge || maxAge <= impl.maximumAge;
-      return isAboveMinRequired && isBelowMaxAllowed;
-    })
     .map(([key]) => key as Formula);
 }
 

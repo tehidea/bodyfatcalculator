@@ -405,20 +405,6 @@ describe("Body Fat Formula Implementations", () => {
       });
     });
 
-    it("provides age restrictions where applicable", () => {
-      const formulasWithAgeRestrictions = [
-        covertFormula,
-        durninFormula,
-        jackson7Formula,
-        jackson4Formula,
-        jackson3Formula,
-      ];
-
-      formulasWithAgeRestrictions.forEach(formula => {
-        expect(formula.minimumAge || formula.maximumAge).toBeDefined();
-      });
-    });
-
     it("provides scientific references for each formula", () => {
       const formulas = [
         ymcaFormula,

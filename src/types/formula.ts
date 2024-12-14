@@ -46,20 +46,19 @@ export interface FormulaResult {
 export interface FormulaImplementation {
   /** Calculates body fat using standardized metric inputs */
   calculate: (inputs: StandardizedInputs) => FormulaResult;
-  /** Required fields for this formula */
-  requiredFields: Array<keyof StandardizedInputs>;
-  /** Which genders this formula supports */
-  applicableGenders: Gender[];
-  /** Minimum required age (if applicable) */
-  minimumAge?: number;
-  /** Maximum supported age (if applicable) */
-  maximumAge?: number;
-  /** Description of the formula and its limitations */
-  description: string;
-  /** Scientific references or sources */
-  references?: string[];
   /** Display name of the formula */
   name: string;
+  /** Description of the formula and its limitations */
+  description: string;
   /** Margin of error range (e.g., "3-4" for ±3-4%) */
   marginOfError: string;
+  /** Required fields for this formula */
+  requiredFields: Array<keyof StandardizedInputs>;
+  /** Gender-specific fields */
+  genderSpecificFields?: {
+    male: Array<keyof StandardizedInputs>;
+    female: Array<keyof StandardizedInputs>;
+  };
+  /** Scientific references or sources */
+  references?: string[];
 }

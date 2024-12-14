@@ -82,11 +82,6 @@ export const jackson3Formula: FormulaImplementation = {
     female: ["tricepSkinfold", "suprailiacSkinfold"],
   },
 
-  applicableGenders: ["male", "female"],
-
-  minimumAge: 18,
-  maximumAge: 61,
-
   description:
     "The Jackson-Pollock 3-site formula is their most practical method, using three " +
     "strategically chosen skinfold sites that differ by gender. For men, measurements " +

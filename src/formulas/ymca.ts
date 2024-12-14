@@ -35,8 +35,6 @@ export const ymcaFormula: FormulaImplementation = {
 
   requiredFields: ["gender", "weight", "waistCircumference"],
 
-  applicableGenders: ["male", "female"],
-
   description:
     "The YMCA formula is a simple method that uses waist circumference and body weight " +
     "to estimate body fat percentage. While not as accurate as more comprehensive methods, " +

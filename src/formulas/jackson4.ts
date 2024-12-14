@@ -66,11 +66,6 @@ export const jackson4Formula: FormulaImplementation = {
     "suprailiacSkinfold",
   ],
 
-  applicableGenders: ["male", "female"],
-
-  minimumAge: 18,
-  maximumAge: 61,
-
   description:
     "The Jackson-Pollock 4-site formula is a simplified version of their 7-site method, " +
     "using only four skinfold measurements: abdomen, thigh, tricep, and suprailiac. " +

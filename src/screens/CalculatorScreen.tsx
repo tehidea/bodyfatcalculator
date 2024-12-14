@@ -93,7 +93,9 @@ export const CalculatorScreen = () => {
     return allRequiredFields
       .filter(field => field !== "gender") // Exclude gender field
       .map(field => {
-        const { unit } = getFieldMetadata(field, measurementSystem);
+        const metadata = getFieldMetadata(field, measurementSystem, formula);
+        if (!metadata) return { key: field, label: field, unit: "" };
+        const { unit } = metadata;
         return {
           key: field,
           label:
@@ -105,7 +107,7 @@ export const CalculatorScreen = () => {
           unit,
         };
       });
-  }, [formula, gender, measurementSystem]);
+  }, [formula, gender, measurementSystem, formula]);
 
   const handleFocusChange = useCallback((focused: boolean, index: number) => {
     setIsFocused(focused);

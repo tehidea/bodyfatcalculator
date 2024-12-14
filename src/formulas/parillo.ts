@@ -64,8 +64,6 @@ export const parilloFormula: FormulaImplementation = {
     "calfSkinfold",
   ],
 
-  applicableGenders: ["male", "female"],
-
   description:
     "The Parillo formula is a comprehensive method that uses nine skinfold measurements " +
     "to estimate body fat percentage. It's particularly popular in bodybuilding and " +

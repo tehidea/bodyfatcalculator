@@ -2,20 +2,14 @@ import { z } from "zod";
 import { Formula, Gender, MeasurementSystem } from "../types/calculator";
 import { getFormula } from "../formulas";
 import { ConversionType } from "../utils/conversions";
+import { FORMULA_REQUIREMENTS, FormulaField } from "../constants/formulas";
+import { getFieldType } from "../utils/fields";
+import { getStandardUnit } from "../utils/units";
 
 /**
  * Base schema for all measurements
  */
 const measurementSchema = z.number().positive("Must be a positive number");
-
-/**
- * Get the unit type for a field
- */
-function getFieldType(field: string): ConversionType {
-  if (field === "weight") return "weight";
-  if (field.toLowerCase().includes("skinfold")) return "skinfold";
-  return "length";
-}
 
 /**
  * Schema for each measurement type
@@ -77,22 +71,27 @@ export function createFormulaSchema(formula: Formula, gender: Gender) {
 }
 
 /**
- * Get the measurement type and unit for a field
+ * Gets metadata for a specific field from the formula configuration
  */
-export function getFieldMetadata(field: string, measurementSystem: MeasurementSystem) {
-  const type = getFieldType(field);
-  const unit =
-    measurementSystem === "metric"
-      ? type === "weight"
-        ? "kg"
-        : type === "skinfold"
-          ? "mm"
-          : "cm"
-      : type === "weight"
-        ? "lb"
-        : "in";
-
-  return { type, unit };
+export function getFieldMetadata(
+  field: string,
+  measurementSystem: MeasurementSystem,
+  formula: Formula
+): FormulaField | null {
+  try {
+    const type = getFieldType(field);
+    const unit = getStandardUnit(type, measurementSystem);
+    const formulaConfig = FORMULA_REQUIREMENTS[formula];
+    if (!formulaConfig?.fields) return null;
+    return (
+      {
+        ...formulaConfig.fields.find((f: FormulaField) => f.key === field),
+        unit,
+      } || null
+    );
+  } catch {
+    return null;
+  }
 }
 
 /**
@@ -106,38 +105,7 @@ export function validateFormulaInputs(
 ) {
   const implementation = getFormula(formula);
 
-  // First validate gender compatibility
-  if (!implementation.applicableGenders.includes(gender)) {
-    return {
-      success: false as const,
-      errors: {
-        gender: `This formula is only available for ${implementation.applicableGenders.join(" and ")}`,
-      },
-    };
-  }
-
-  // Then validate age restrictions if applicable
-  if (inputs.age !== undefined && (implementation.minimumAge || implementation.maximumAge)) {
-    const age = inputs.age;
-    const isAboveMin = !implementation.minimumAge || age >= implementation.minimumAge;
-    const isBelowMax = !implementation.maximumAge || age <= implementation.maximumAge;
-
-    if (!isAboveMin || !isBelowMax) {
-      return {
-        success: false as const,
-        errors: {
-          age:
-            implementation.minimumAge && implementation.maximumAge
-              ? `This formula is only valid for ages ${implementation.minimumAge}-${implementation.maximumAge}`
-              : implementation.minimumAge
-                ? `Must be at least ${implementation.minimumAge} years old`
-                : `Must be at most ${implementation.maximumAge} years old`,
-        },
-      };
-    }
-  }
-
-  // Finally validate measurements using gender-specific schema
+  // Validate measurements using gender-specific schema
   const schema = createFormulaSchema(formula, gender);
   const result = schema.safeParse(inputs);
 

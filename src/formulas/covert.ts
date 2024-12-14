@@ -80,11 +80,6 @@ export const covertFormula: FormulaImplementation = {
     female: ["thighCircumference", "calfCircumference"],
   },
 
-  applicableGenders: ["male", "female"],
-
-  minimumAge: 18,
-  maximumAge: 60,
-
   description:
     "The Covert Bailey formula uses different measurements for men and women, " +
     "taking into account age-related changes in body composition. For men, it focuses " +
