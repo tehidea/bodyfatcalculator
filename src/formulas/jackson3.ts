@@ -1,7 +1,6 @@
 import { z } from "zod";
-import { formulaSchemas } from "../schemas/calculator";
-import { calculateMassMetrics } from "./utils";
-import { MeasurementSystem } from "../types/calculator";
+import { formulaSchemas, MeasurementSystem } from "../schemas/calculator";
+import { calculateBodyFat } from "./utils";
 
 type Jackson3Inputs = z.infer<ReturnType<ReturnType<(typeof formulaSchemas)["jack3"]>>>;
 type FormulaResult = { bodyFatPercentage: number; fatMass: number; leanMass: number };
@@ -47,7 +46,7 @@ export const jackson3Formula = {
     const bodyFatPercentage = 495 / bodyDensity - 450;
 
     // Calculate fat mass and lean mass using utility function
-    const { fatMass, leanMass } = calculateMassMetrics(bodyFatPercentage, weight);
+    const { fatMass, leanMass } = calculateBodyFat(bodyFatPercentage, weight);
 
     return {
       bodyFatPercentage,

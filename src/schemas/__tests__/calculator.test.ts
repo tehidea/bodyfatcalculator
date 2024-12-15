@@ -1,5 +1,4 @@
-import { validateFormula } from "../calculator";
-import { Formula, Gender, MeasurementSystem } from "../../types/calculator";
+import { validateFormula, Formula, Gender, MeasurementSystem } from "../calculator";
 
 describe("validateFormula", () => {
   const testCases: Array<{

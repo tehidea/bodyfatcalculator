@@ -1,8 +1,7 @@
 import { z } from "zod";
-import { formulaSchemas } from "../schemas/calculator";
+import { formulaSchemas, MeasurementSystem } from "../schemas/calculator";
 import { convertMeasurement } from "../utils/conversions";
-import { calculateMassMetrics } from "./utils";
-import { MeasurementSystem } from "../types/calculator";
+import { calculateBodyFat } from "./utils";
 
 type MYMCAInputs = z.infer<ReturnType<ReturnType<(typeof formulaSchemas)["mymca"]>>>;
 type FormulaResult = { bodyFatPercentage: number; fatMass: number; leanMass: number };
@@ -65,7 +64,7 @@ export const mymcaFormula = {
         : convertMeasurement(weight, "weight", "imperial", "metric");
 
     // Calculate fat mass and lean mass using utility function
-    const { fatMass, leanMass } = calculateMassMetrics(bodyFatPercentage, weightKg);
+    const { fatMass, leanMass } = calculateBodyFat(bodyFatPercentage, weightKg);
 
     return {
       bodyFatPercentage,

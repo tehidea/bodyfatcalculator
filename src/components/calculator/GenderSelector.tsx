@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 import { Text, Icon } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
-import { Gender } from "../../types/calculator";
+import { Gender } from "../../schemas/calculator";
 import { COLORS } from "../../constants/theme";
 import MaleIcon from "../icons/MaleIcon";
 import FemaleIcon from "../icons/FemaleIcon";

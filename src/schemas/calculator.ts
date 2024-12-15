@@ -1,5 +1,27 @@
 import { z } from "zod";
-import { Gender, Formula, MeasurementSystem } from "../types/calculator";
+
+// Basic types
+export type Gender = "male" | "female";
+export type MeasurementSystem = "metric" | "imperial";
+export type Formula = (typeof validFormulas)[number];
+
+// Add the formula implementation types here
+export interface FormulaImplementation {
+  (inputs: Record<string, number>): {
+    bodyFatPercentage: number;
+    fatMass: number;
+    leanMass: number;
+  };
+}
+
+export type FormulaMap = Record<Formula, FormulaImplementation>;
+
+export interface StandardizedInputs {
+  weight?: number;
+  height?: number;
+  age?: number;
+  [key: string]: number | undefined;
+}
 
 // First, extend Zod's functionality to support metadata
 z.ZodType.prototype.meta = function meta(metadata: Record<string, unknown>) {

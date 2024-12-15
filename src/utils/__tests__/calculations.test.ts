@@ -1,6 +1,7 @@
 import { calculateResults } from "../../formulas";
 import { getClassification } from "../../formulas/utils";
-import { Formula, CalculatorInputs, MeasurementSystem } from "../../types/calculator";
+import { Formula, CalculatorInputs, MeasurementSystem } from "../../schemas/calculator";
+import { convertMeasurement } from "../conversions";
 
 describe("Body Fat Calculations", () => {
   // Common test data

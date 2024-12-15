@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity, Modal, FlatList, Alert } from "reac
 import { Text, Icon, Button } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { usePremiumStore } from "../../store/premiumStore";
-import { Formula } from "../../types/calculator";
+import { Formula, getAllFormulasMetadata, getFormulaMetadata } from "../../schemas/calculator";
 import { COLORS } from "../../constants/theme";
 import { SkinfoldIcon } from "../icons/SkinfoldIcon";
 import { BodyWeightScalesIcon } from "../icons/BodyWeightScalesIcon";
@@ -12,7 +12,6 @@ import { MeasurementVerticalIcon } from "../icons/MeasurementVerticalIcon";
 import { MeasuringTapeIcon } from "../icons/MeasuringTapeIcon";
 import { usePurchase } from "../../hooks/usePurchase";
 import { PremiumFormulaModal } from "./PremiumFormulaModal";
-import { getAllFormulasMetadata, getFormulaMetadata } from "../../schemas/calculator";
 import {
   isIPad,
   getResponsiveSpacing,

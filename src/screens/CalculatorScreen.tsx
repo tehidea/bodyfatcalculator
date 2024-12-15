@@ -21,8 +21,7 @@ import { memo } from "react";
 import { calculateResults, getFormula } from "../formulas";
 import { styles } from "./CalculatorScreen.styles";
 import { usePremiumStore } from "../store/premiumStore";
-import { z } from "zod";
-import { Gender } from "../types/calculator";
+import { Gender } from "../schemas/calculator";
 
 // Extract Header into a separate component
 const Header = memo(() => (

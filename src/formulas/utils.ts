@@ -1,5 +1,19 @@
-import { Gender } from "../types/calculator";
-import { FormulaResult } from "../schemas/formula";
+import { Gender } from "../schemas/calculator";
+
+export interface FormulaResult {
+  bodyFatPercentage: number;
+  fatMass: number;
+  leanMass: number;
+}
+
+export function calculateBodyFat(
+  bodyFatPercentage: number,
+  weight: number
+): Omit<FormulaResult, "bodyFatPercentage"> {
+  const fatMass = (bodyFatPercentage / 100) * weight;
+  const leanMass = weight - fatMass;
+  return { fatMass, leanMass };
+}
 
 /**
  * Gets the classification based on body fat percentage and gender
@@ -53,18 +67,4 @@ export function validateBodyFat(bodyFat: number): { isValid: boolean; message?: 
     };
   }
   return { isValid: true };
-}
-
-/**
- * Calculate fat mass and lean mass from body fat percentage and weight
- */
-export function calculateMassMetrics(bodyFatPercentage: number, weightKg: number): FormulaResult {
-  const fatMass = (bodyFatPercentage / 100) * weightKg;
-  const leanMass = weightKg - fatMass;
-
-  return {
-    bodyFatPercentage,
-    fatMass,
-    leanMass,
-  };
 }

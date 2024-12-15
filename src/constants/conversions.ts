@@ -1,4 +1,4 @@
-import { CalculatorInputs } from "../types/calculator";
+import { CalculatorInputs } from "../schemas/calculator";
 import { ConversionType } from "../utils/conversions";
 
 /**

@@ -1,5 +1,4 @@
-import { Formula } from "../types/calculator";
-import { FormulaImplementation } from "../types/formula";
+import { Formula, FormulaImplementation } from "../schemas/calculator";
 import { ymcaFormula } from "./ymca";
 import { mymcaFormula } from "./mymca";
 import { navyFormula } from "./navy";

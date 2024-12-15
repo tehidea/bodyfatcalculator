@@ -1,13 +1,6 @@
 import { StyleSheet } from "react-native";
 import { COLORS } from "../constants/theme";
-import {
-  getResponsiveSpacing,
-  getResponsiveTypography,
-  getLineHeight,
-  getLetterSpacing,
-  getResponsiveFontSize,
-  isIPad,
-} from "../utils/device";
+import { getResponsiveSpacing, getResponsiveTypography, isIPad } from "../utils/device";
 
 export const styles = StyleSheet.create({
   container: {

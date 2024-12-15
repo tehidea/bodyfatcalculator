@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, View, ViewStyle, Keyboard } from "react-native";
 import { Text } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
-import { MeasurementSystem } from "../../types/calculator";
+import { MeasurementSystem } from "../../schemas/calculator";
 import { COLORS } from "../../constants/theme";
 import { getResponsiveTypography, getLineHeight } from "../../utils/device";
 

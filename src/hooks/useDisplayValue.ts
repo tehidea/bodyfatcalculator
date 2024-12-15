@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useCalculatorStore } from "../store/calculatorStore";
-import { ConversionType, convertMeasurement, formatMeasurement } from "../utils/conversions";
+import { convertMeasurement } from "../utils/conversions";
+import { getFormulaMetadata } from "../schemas/calculator";
 import { INPUT_CONVERSION_MAP } from "../constants/conversions";
 import { CalculatorInputs } from "../types/calculator";
 

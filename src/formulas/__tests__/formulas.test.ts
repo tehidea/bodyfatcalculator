@@ -3,9 +3,8 @@ import { mymcaFormula } from "../mymca";
 import { navyFormula } from "../navy";
 import { covertFormula } from "../covert";
 import { durninFormula } from "../durnin";
-import { StandardizedInputs } from "../../types/formula";
+import { StandardizedInputs, MeasurementSystem } from "../../schemas/calculator";
 import { convertMeasurement } from "../../utils/conversions";
-import { MeasurementSystem } from "../../types/calculator";
 
 // Add type assertion to ensure weight is defined
 function assertWeight(weight: number | undefined): asserts weight is number {

@@ -1,8 +1,7 @@
 import { z } from "zod";
-import { formulaSchemas } from "../schemas/calculator";
+import { formulaSchemas, MeasurementSystem } from "../schemas/calculator";
 import { convertMeasurement } from "../utils/conversions";
-import { calculateMassMetrics } from "./utils";
-import { MeasurementSystem } from "../types/calculator";
+import { calculateBodyFat } from "./utils";
 
 type YMCAInputs = z.infer<ReturnType<ReturnType<(typeof formulaSchemas)["ymca"]>>>;
 type FormulaResult = { bodyFatPercentage: number; fatMass: number; leanMass: number };
@@ -37,7 +36,7 @@ export const ymcaFormula = {
         ? weight
         : convertMeasurement(weight, "weight", "imperial", "metric");
 
-    const { fatMass, leanMass } = calculateMassMetrics(bodyFatPercentage, weightKg);
+    const { fatMass, leanMass } = calculateBodyFat(bodyFatPercentage, weightKg);
 
     return {
       bodyFatPercentage,
