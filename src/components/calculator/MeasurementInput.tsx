@@ -12,6 +12,7 @@ import { COLORS } from "../../constants/theme";
 import { getDisplayUnit } from "../../utils/units";
 import { getIconType, getFieldType } from "../../utils/fields";
 import { convertMeasurement } from "../../utils/conversions";
+import { getResponsiveSpacing } from "../../utils/device";
 
 interface MeasurementInputProps {
   field: string;
@@ -125,7 +126,11 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
           <Text style={styles.label}>{label}</Text>
           <View style={[styles.inputContainer, error && styles.inputError]}>
             <View style={styles.iconContainer}>
-              <MeasurementIcon type={iconType} size={18} color={COLORS.textDark} />
+              <MeasurementIcon
+                type={iconType}
+                size={getResponsiveSpacing(18)}
+                color={COLORS.textDark}
+              />
             </View>
             <TextInput
               ref={inputRef}

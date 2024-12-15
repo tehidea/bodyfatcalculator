@@ -188,12 +188,12 @@ export const FormulaSelector = () => {
             <View style={[styles.accuracyDot, { backgroundColor: COLORS.error }]} />
             <Text style={styles.accuracyText}>±5-7%</Text>
           </View>
-          <Icon name="arrow-right" type="feather" color="#666" size={16} />
+          <Icon name="arrow-right" type="feather" color="#666" size={getResponsiveSpacing(16)} />
           <View style={styles.accuracyLevel}>
             <View style={[styles.accuracyDot, { backgroundColor: COLORS.warning }]} />
             <Text style={styles.accuracyText}>±4-5%</Text>
           </View>
-          <Icon name="arrow-right" type="feather" color="#666" size={16} />
+          <Icon name="arrow-right" type="feather" color="#666" size={getResponsiveSpacing(16)} />
           <View style={styles.accuracyLevel}>
             <View style={[styles.accuracyDot, { backgroundColor: COLORS.success }]} />
             <Text style={styles.accuracyText}>±3-4%</Text>
@@ -245,14 +245,19 @@ export const FormulaSelector = () => {
         <View style={styles.labelRow}>
           <Text style={styles.selectorHint}>Select Formula</Text>
           <View style={styles.chevronContainer}>
-            <Icon name="chevron-down" type="feather" color={COLORS.text} size={20} />
+            <Icon
+              name="chevron-down"
+              type="feather"
+              color={COLORS.text}
+              size={getResponsiveSpacing(20)}
+            />
           </View>
         </View>
         <View style={styles.selectedFormula}>
           <Text style={styles.formulaName}>{selectedFormulaImpl.name}</Text>
           {PREMIUM_FORMULAS.includes(formula) && !pro && (
             <View style={styles.premiumBadge}>
-              <Icon name="lock" type="feather" color="#666" size={14} />
+              <Icon name="lock" type="feather" color="#666" size={getResponsiveSpacing(14)} />
               <Text style={styles.premiumBadgeText}>PRO</Text>
             </View>
           )}
@@ -265,7 +270,7 @@ export const FormulaSelector = () => {
         </View>
         <View style={styles.measurementIcons}>
           {getIconTypes(getRequiredFields(formula)).map((type: string) => (
-            <MeasurementIcon key={type} size={12} type={type} color="#fff" />
+            <MeasurementIcon key={type} size={getResponsiveSpacing(12)} type={type} color="#fff" />
           ))}
         </View>
       </TouchableOpacity>
@@ -281,7 +286,12 @@ export const FormulaSelector = () => {
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>SELECT FORMULA</Text>
               <TouchableOpacity style={styles.closeButton} onPress={() => setIsModalVisible(false)}>
-                <Icon name="x" type="feather" color={COLORS.textDark} size={24} />
+                <Icon
+                  name="x"
+                  type="feather"
+                  color={COLORS.textDark}
+                  size={getResponsiveSpacing(24)}
+                />
               </TouchableOpacity>
             </View>
             <FlatList
@@ -329,7 +339,12 @@ export const FormulaSelector = () => {
                       </View>
                       {item.premium && !pro && (
                         <View style={styles.premiumBadge}>
-                          <Icon name="lock" type="feather" color="#666" size={14} />
+                          <Icon
+                            name="lock"
+                            type="feather"
+                            color="#666"
+                            size={getResponsiveSpacing(14)}
+                          />
                           <Text style={styles.premiumBadgeText}>PRO</Text>
                         </View>
                       )}
@@ -347,7 +362,12 @@ export const FormulaSelector = () => {
                     </View>
                     <View style={styles.measurementIcons}>
                       {getIconTypes(getRequiredFields(item.key as Formula)).map((type: string) => (
-                        <MeasurementIcon key={type} size={12} type={type} color="#666" />
+                        <MeasurementIcon
+                          key={type}
+                          size={getResponsiveSpacing(12)}
+                          type={type}
+                          color="#666"
+                        />
                       ))}
                     </View>
                   </TouchableOpacity>
@@ -395,7 +415,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     justifyContent: "space-between",
-    marginTop: getResponsiveSpacing(4),
   },
   description: {
     color: COLORS.text,

@@ -6,7 +6,7 @@ import { Gender } from "../../types/calculator";
 import { COLORS } from "../../constants/theme";
 import MaleIcon from "../icons/MaleIcon";
 import FemaleIcon from "../icons/FemaleIcon";
-import { getResponsiveTypography, getLineHeight } from "../../utils/device";
+import { getResponsiveTypography, getLineHeight, getResponsiveSpacing } from "../../utils/device";
 
 interface GenderSelectorProps {
   style?: ViewStyle;
@@ -27,7 +27,7 @@ export const GenderSelector = ({ style }: GenderSelectorProps) => {
         onPress={() => handleGenderChange("male")}
       >
         <View style={styles.iconTextContainer}>
-          <MaleIcon size={12} color="#fff" style={styles.icon} />
+          <MaleIcon size={getResponsiveSpacing(12)} color="#fff" style={styles.icon} />
           <Text style={[styles.text, gender === "male" && styles.activeText]}>Male</Text>
         </View>
       </TouchableOpacity>
@@ -36,7 +36,7 @@ export const GenderSelector = ({ style }: GenderSelectorProps) => {
         onPress={() => handleGenderChange("female")}
       >
         <View style={styles.iconTextContainer}>
-          <FemaleIcon size={12} color="#fff" />
+          <FemaleIcon size={getResponsiveSpacing(12)} color="#fff" />
           <Text style={[styles.text, gender === "female" && styles.activeText]}> Female</Text>
         </View>
       </TouchableOpacity>
