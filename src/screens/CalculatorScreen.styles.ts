@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { COLORS } from "../constants/theme";
+import { getResponsiveSpacing, getResponsiveFontSize, isIPad } from "../utils/device";
 
 export const styles = StyleSheet.create({
   safeAreaTop: {
@@ -13,7 +14,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: COLORS.white,
-    padding: 16,
+    padding: getResponsiveSpacing(16),
     borderBottomWidth: 2,
     borderBottomColor: COLORS.primary,
   },
@@ -24,7 +25,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
   },
   headerTitle: {
-    fontSize: 42,
+    fontSize: getResponsiveFontSize(42),
     color: COLORS.black,
     textTransform: "uppercase",
     letterSpacing: -2,
@@ -32,17 +33,17 @@ export const styles = StyleSheet.create({
     marginTop: -6,
   },
   strapline: {
-    fontSize: 10,
+    fontSize: getResponsiveFontSize(10),
     color: COLORS.black,
     marginTop: -6,
-    marginLeft: 4,
+    marginLeft: getResponsiveSpacing(4),
     fontFamily: "Montserrat-Light",
     textTransform: "uppercase",
   },
   logo: {
-    width: 60,
+    width: getResponsiveSpacing(60),
     aspectRatio: 1,
-    marginRight: 8,
+    marginRight: getResponsiveSpacing(8),
   },
   container: {
     flex: 1,
@@ -50,32 +51,35 @@ export const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    padding: 16,
+    padding: getResponsiveSpacing(16),
+    maxWidth: isIPad ? 800 : undefined,
+    alignSelf: "center",
+    width: "100%",
   },
   selectors: {
-    marginBottom: 24,
+    marginBottom: getResponsiveSpacing(24),
   },
   description: {
-    marginBottom: 16,
-    padding: 12,
+    marginBottom: getResponsiveSpacing(16),
+    padding: getResponsiveSpacing(12),
     backgroundColor: "#f5f5f5",
     borderRadius: 12,
   },
   buttonContainer: {
-    marginTop: 24,
-    marginBottom: 16,
+    marginTop: getResponsiveSpacing(24),
+    marginBottom: getResponsiveSpacing(16),
   },
   resetButton: {
     borderRadius: 12,
     borderWidth: 0,
     overflow: "hidden",
     backgroundColor: "#444",
-    paddingVertical: 12,
-    paddingHorizontal: 24,
+    paddingVertical: getResponsiveSpacing(12),
+    paddingHorizontal: getResponsiveSpacing(24),
   },
   resetButtonText: {
     color: COLORS.white,
-    // fontWeight: "bold",
+    fontSize: getResponsiveFontSize(14),
   },
   content: {
     flex: 1,
@@ -83,7 +87,7 @@ export const styles = StyleSheet.create({
   selectorRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    gap: 8,
+    gap: getResponsiveSpacing(8),
   },
   halfWidth: {
     flex: 1,
@@ -98,53 +102,55 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   button: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
+    paddingVertical: getResponsiveSpacing(12),
+    paddingHorizontal: getResponsiveSpacing(24),
     borderRadius: 14,
   },
   buttonRow: {
     flexDirection: "row",
-    gap: 8,
-    marginTop: 24,
-    marginBottom: 16,
+    gap: getResponsiveSpacing(8),
+    marginTop: getResponsiveSpacing(24),
+    marginBottom: getResponsiveSpacing(16),
   },
   primaryButton: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
+    paddingVertical: getResponsiveSpacing(12),
+    paddingHorizontal: getResponsiveSpacing(24),
     borderRadius: 10,
     backgroundColor: COLORS.primary,
   },
   disabledButton: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
+    paddingVertical: getResponsiveSpacing(12),
+    paddingHorizontal: getResponsiveSpacing(24),
     borderRadius: 10,
     backgroundColor: COLORS.primary + "80",
   },
   buttonTitle: {
     fontWeight: "bold",
+    fontSize: getResponsiveFontSize(14),
   },
   outlineButtonTitle: {
     color: COLORS.primary,
     fontWeight: "bold",
+    fontSize: getResponsiveFontSize(14),
   },
   errorContainer: {
     borderWidth: 2,
     borderColor: "#c62828",
-    padding: 12,
+    padding: getResponsiveSpacing(12),
     borderRadius: 12,
-    marginBottom: 16,
+    marginBottom: getResponsiveSpacing(16),
   },
   errorText: {
     color: "#c62828",
-    fontSize: 14,
+    fontSize: getResponsiveFontSize(14),
     fontWeight: "bold",
   },
   versionText: {
     textAlign: "center",
     color: "rgba(255, 255, 255, 0.4)",
-    fontSize: 12,
-    marginTop: 32,
-    marginBottom: 8,
+    fontSize: getResponsiveFontSize(12),
+    marginTop: getResponsiveSpacing(32),
+    marginBottom: getResponsiveSpacing(8),
     fontFamily: "Montserrat-Light",
   },
   toolbarContainer: {

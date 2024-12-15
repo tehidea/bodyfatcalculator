@@ -1,32 +1,36 @@
 import { StyleSheet } from "react-native";
 import { COLORS } from "../../constants/theme";
+import { getResponsiveSpacing, getResponsiveFontSize } from "../../utils/device";
 
 export const styles = StyleSheet.create({
   container: {
-    marginBottom: 16,
+    marginBottom: getResponsiveSpacing(16),
   },
   label: {
-    marginBottom: 8,
+    marginBottom: getResponsiveSpacing(8),
     color: COLORS.text,
+    fontSize: getResponsiveFontSize(14),
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: COLORS.white,
     borderRadius: 12,
-    paddingHorizontal: 12,
-    gap: 8,
+    paddingHorizontal: getResponsiveSpacing(12),
+    gap: getResponsiveSpacing(8),
+    height: getResponsiveSpacing(40),
   },
   iconContainer: {
-    width: 18,
-    height: 18,
+    width: getResponsiveSpacing(18),
+    height: getResponsiveSpacing(18),
     justifyContent: "center",
     alignItems: "flex-start",
   },
   input: {
     flex: 1,
-    height: 40,
+    height: getResponsiveSpacing(40),
     color: COLORS.textDark,
+    fontSize: getResponsiveFontSize(16),
   },
   inputError: {
     borderColor: "red",
@@ -34,10 +38,11 @@ export const styles = StyleSheet.create({
   },
   unit: {
     color: COLORS.textDark,
+    fontSize: getResponsiveFontSize(14),
   },
   error: {
     color: "red",
-    fontSize: 12,
-    marginTop: 4,
+    fontSize: getResponsiveFontSize(12),
+    marginTop: getResponsiveSpacing(4),
   },
 });
