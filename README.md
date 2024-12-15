@@ -458,10 +458,27 @@ The app uses RevenueCat's sandbox environment for testing:
 
 When taking screenshots for the website, use iPhone 12 simulator since that's the device shown on the website.
 
-### Adjusting time
+### Simulator Status Bar Configuration
 
-To adjust the time in the simulator:
-`xcrun simctl status_bar Booted override --time "13:37" --cellularBars 4` (9:41 is classic but hey, 13:37 is my favorite time)
+To set a consistent status bar appearance across all running iOS simulators (useful for screenshots and demos), use:
+
+```bash
+xcrun simctl list devices | grep -o '[A-Z0-9]\{8\}-[A-Z0-9]\{4\}-[A-Z0-9]\{4\}-[A-Z0-9]\{4\}-[A-Z0-9]\{12\}' | while read -r device; do xcrun simctl status_bar "$device" override --time "13:37" --cellularBars 4; done
+```
+
+This command will:
+
+- Find all booted simulators
+- Set the time to 13:37
+- Set cellular signal to maximum strength
+- Apply these settings across all active simulator devices
+
+You can customize the status bar further with additional options:
+
+- `--time "HH:MM"` - Set custom time
+- `--cellularBars 0-4` - Set cellular signal strength
+- `--batteryLevel 0-100` - Set battery percentage
+- `--dataNetwork "wifi"` - Set network type
 
 ## Website
 
