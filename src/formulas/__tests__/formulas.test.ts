@@ -61,6 +61,59 @@ describe("Body Fat Formula Implementations", () => {
       expect(result.bodyFatPercentage).toBeCloseTo(expectedBf, 2);
     });
 
+    it("calculates female body fat percentage correctly with metric inputs", () => {
+      const inputs: StandardizedInputs = {
+        gender: "female",
+        weight: 60, // kg
+        waistCircumference: 70, // cm
+      };
+
+      const result = ymcaFormula.calculate(inputs, "metric");
+      validateIntermediateResults(result, inputs);
+
+      // Verify intermediate conversion steps
+      const weightLbs = convertMeasurement(inputs.weight, "weight", "metric", "imperial");
+      const waistInches = convertMeasurement(
+        inputs.waistCircumference,
+        "length",
+        "metric",
+        "imperial"
+      );
+
+      // Manual calculation to verify female formula
+      const expectedBf = (100 * (4.15 * waistInches - 0.082 * weightLbs - 76.76)) / weightLbs;
+      expect(result.bodyFatPercentage).toBeCloseTo(expectedBf, 2);
+    });
+
+    it("maintains consistent results across measurement systems for females", () => {
+      const metricInputs: StandardizedInputs = {
+        gender: "female",
+        weight: 60, // kg
+        waistCircumference: 70, // cm
+      };
+
+      const imperialInputs: StandardizedInputs = {
+        gender: "female",
+        weight: convertMeasurement(60, "weight", "metric", "imperial"), // lbs
+        waistCircumference: convertMeasurement(70, "length", "metric", "imperial"), // inches
+      };
+
+      const metricResult = ymcaFormula.calculate(metricInputs, "metric");
+      const imperialResult = ymcaFormula.calculate(imperialInputs, "imperial");
+
+      // Results should be identical regardless of input system
+      expect(imperialResult.bodyFatPercentage).toBeCloseTo(metricResult.bodyFatPercentage, 2);
+    });
+
+    it("throws error when gender is missing", () => {
+      const inputs: StandardizedInputs = {
+        weight: 80,
+        waistCircumference: 85,
+      } as StandardizedInputs;
+
+      expect(() => ymcaFormula.calculate(inputs, "metric")).toThrow("Gender is required");
+    });
+
     it("calculates male body fat percentage correctly with imperial inputs", () => {
       const imperialInputs: StandardizedInputs = {
         gender: "male",

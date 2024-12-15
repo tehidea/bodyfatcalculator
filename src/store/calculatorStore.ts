@@ -75,12 +75,13 @@ export interface CalculatorStore {
  */
 function convertToMetric(
   inputs: CalculatorInputs,
-  currentSystem: MeasurementSystem
+  currentSystem: MeasurementSystem,
+  gender: Gender
 ): StandardizedInputs {
-  if (currentSystem === "metric") return inputs as StandardizedInputs;
+  if (currentSystem === "metric") return { ...inputs, gender } as StandardizedInputs;
 
   const metricInputs: Partial<StandardizedInputs> = {
-    gender: inputs.gender ?? "male", // Provide default value
+    gender,
     age: inputs.age,
   };
 
@@ -107,12 +108,13 @@ function convertToMetric(
  */
 function convertToDisplaySystem(
   inputs: StandardizedInputs,
-  targetSystem: MeasurementSystem
+  targetSystem: MeasurementSystem,
+  gender: Gender
 ): CalculatorInputs {
-  if (targetSystem === "metric") return inputs as CalculatorInputs;
+  if (targetSystem === "metric") return { ...inputs, gender } as CalculatorInputs;
 
   const displayInputs: Partial<CalculatorInputs> = {
-    gender: inputs.gender,
+    gender,
     age: inputs.age ?? undefined,
   };
 
@@ -159,39 +161,41 @@ export const useCalculatorStore = create<CalculatorStore>()(
         }),
 
       setGender: gender =>
-        set({
+        set(state => ({
+          ...state,
           gender,
-          results: null,
-          isResultsStale: false,
-          error: null,
-          fieldErrors: {},
-        }),
-
-      setMeasurementSystem: newSystem => {
-        const { measurementSystem: oldSystem, inputs } = get();
-        console.log("[Store] Switching measurement system:", oldSystem, "->", newSystem);
-        console.log("[Store] Current inputs:", inputs);
-
-        if (oldSystem === newSystem) return;
-
-        // First convert all values to metric (our standardized format)
-        const metricInputs = convertToMetric(inputs, oldSystem);
-        console.log("[Store] Values in metric:", metricInputs);
-
-        // Then convert to the target system if it's imperial
-        const displayInputs =
-          newSystem === "imperial" ? convertToDisplaySystem(metricInputs, newSystem) : metricInputs;
-
-        console.log("[Store] Final values for display:", displayInputs);
-
-        set({
-          measurementSystem: newSystem,
-          inputs: displayInputs,
+          inputs: { ...state.inputs, gender }, // Ensure gender is in inputs
           results: null,
           isResultsStale: true,
           error: null,
           fieldErrors: {},
-        });
+        })),
+
+      setMeasurementSystem: newSystem => {
+        const { measurementSystem: oldSystem, inputs, gender } = get();
+        console.log("[Store] Switching measurement system:", oldSystem, "->", newSystem);
+        console.log("[Store] Current inputs:", inputs);
+        console.log("[Store] Current gender:", gender);
+
+        if (oldSystem === newSystem) return;
+
+        // First convert all values to metric (our standardized format)
+        const metricInputs = convertToMetric(inputs, oldSystem, gender);
+        console.log("[Store] Values in metric:", metricInputs);
+
+        // Then convert to the target system if it's imperial
+        const displayInputs = convertToDisplaySystem(metricInputs, newSystem, gender);
+        console.log("[Store] Final values for display:", displayInputs);
+
+        set(state => ({
+          ...state,
+          measurementSystem: newSystem,
+          inputs: { ...displayInputs, gender }, // Ensure gender is preserved
+          results: null,
+          isResultsStale: true,
+          error: null,
+          fieldErrors: {},
+        }));
       },
 
       setInput: (key, value, options) => {
@@ -237,7 +241,7 @@ export const useCalculatorStore = create<CalculatorStore>()(
           }
 
           // Always convert inputs to metric for calculation
-          const metricInputs = convertToMetric(inputs, measurementSystem);
+          const metricInputs = convertToMetric(inputs, measurementSystem, gender);
           console.log("[Store] Converted to metric for calculation:", metricInputs);
 
           // Get formula implementation and calculate using metric inputs

@@ -4,13 +4,25 @@ import { calculateMassMetrics } from "./utils";
 import { MeasurementSystem } from "../types/calculator";
 
 /**
- * YMCA formula implementation
- * This formula uses waist circumference and weight to estimate body fat percentage.
- * The formula calculates in imperial units (lbs and inches) internally.
+ * YMCA Formula for body fat percentage calculation
+ *
+ * Measurement System Handling:
+ * - The formula internally uses imperial units (lbs and inches)
+ * - For metric inputs, we convert to imperial before calculation
+ * - For imperial inputs, we use the values directly
+ * - Results are consistent across measurement systems to 2 decimal places
+ *
+ * Gender-Specific Formulas:
+ * - Male: (100 * (4.15 * waistInches - 0.082 * weightLbs - 98.42)) / weightLbs
+ * - Female: (100 * (4.15 * waistInches - 0.082 * weightLbs - 76.76)) / weightLbs
  */
 export const ymcaFormula: FormulaImplementation = {
   calculate: (inputs: StandardizedInputs, measurementSystem: MeasurementSystem): FormulaResult => {
     const { gender, weight = 0, waistCircumference = 0 } = inputs;
+
+    if (!gender) {
+      throw new Error("Gender is required for YMCA formula");
+    }
 
     // Get values in imperial units for the formula calculation
     const weightLbs =
@@ -22,27 +34,26 @@ export const ymcaFormula: FormulaImplementation = {
         ? convertMeasurement(waistCircumference, "length", "metric", "imperial")
         : waistCircumference;
 
-    console.log("[YMCA Formula] Input measurement system:", measurementSystem);
-    console.log(
-      "[YMCA Formula] Input weight:",
-      weight,
-      measurementSystem === "metric" ? "kg" : "lbs"
-    );
-    console.log(
-      "[YMCA Formula] Input waist:",
-      waistCircumference,
-      measurementSystem === "metric" ? "cm" : "in"
-    );
-    console.log("[YMCA Formula] Used weight (lbs):", weightLbs);
-    console.log("[YMCA Formula] Used waist (inches):", waistInches);
-
     // Calculate body fat percentage using imperial units
     const bodyFatPercentage =
       gender === "male"
         ? (100 * (4.15 * waistInches - 0.082 * weightLbs - 98.42)) / weightLbs
         : (100 * (4.15 * waistInches - 0.082 * weightLbs - 76.76)) / weightLbs;
 
-    console.log("[YMCA Formula] Calculated body fat %:", bodyFatPercentage);
+    // Validate results
+    if (isNaN(bodyFatPercentage)) {
+      throw new Error(
+        "Please check your measurements. The calculation resulted in an invalid value."
+      );
+    }
+
+    if (bodyFatPercentage < 0) {
+      throw new Error("Please check your measurements. Body fat percentage cannot be negative.");
+    }
+
+    if (bodyFatPercentage > 100) {
+      throw new Error("Please check your measurements. Body fat percentage cannot exceed 100%.");
+    }
 
     // For mass calculations, ensure we're using metric weight
     const weightKg =
