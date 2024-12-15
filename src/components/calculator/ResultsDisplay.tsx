@@ -113,7 +113,7 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
 
   // Split body fat into whole and decimal parts
   const wholeNumber = Math.floor(results.bodyFatPercentage);
-  const decimal = (results.bodyFatPercentage % 1).toFixed(1).substring(1);
+  const decimal = (results.bodyFatPercentage % 1).toFixed(2).substring(1);
 
   const handleMaybeLater = () => {
     setTimeout(() => {
@@ -165,11 +165,11 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
         <View style={styles.breakdownContainer}>
           <View style={styles.breakdownItem}>
             <Text style={styles.breakdownValue}>
-              {pro ? results.fatMass.toFixed(1) : Math.round(results.fatMass)} {weightUnit}
+              {pro ? results.fatMass.toFixed(2) : Math.round(results.fatMass)} {weightUnit}
             </Text>
             <Text style={styles.breakdownLabel}>Fat Mass</Text>
             <Text style={styles.breakdownPercentage}>
-              {pro ? results.bodyFatPercentage.toFixed(1) : Math.round(results.bodyFatPercentage)}%
+              {pro ? results.bodyFatPercentage.toFixed(2) : Math.round(results.bodyFatPercentage)}%
             </Text>
           </View>
 
@@ -177,11 +177,11 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
 
           <View style={styles.breakdownItem}>
             <Text style={styles.breakdownValue}>
-              {pro ? results.leanMass.toFixed(1) : Math.round(results.leanMass)} {weightUnit}
+              {pro ? results.leanMass.toFixed(2) : Math.round(results.leanMass)} {weightUnit}
             </Text>
             <Text style={styles.breakdownLabel}>Lean Mass</Text>
             <Text style={styles.breakdownPercentage}>
-              {pro ? leanMassPercentage.toFixed(1) : Math.round(leanMassPercentage)}%
+              {pro ? leanMassPercentage.toFixed(2) : Math.round(leanMassPercentage)}%
             </Text>
           </View>
         </View>
