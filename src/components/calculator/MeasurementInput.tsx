@@ -78,11 +78,10 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       }
 
       if (!isEditing) {
-        // The store already handles conversion between systems, so we just display the value as is
         setRawValue(
           typeof storeValue === "number"
             ? pro
-              ? storeValue.toFixed(2)
+              ? storeValue.toString()
               : Math.round(storeValue).toString()
             : storeValue?.toString() || ""
         );
@@ -117,10 +116,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
         const numValue = parseFloat(value);
         if (!isNaN(numValue)) {
           console.log(`[MeasurementInput] ${field} - Sending to store:`, numValue);
-          setInput(
-            field as keyof CalculatorInputs,
-            pro ? Number(numValue.toFixed(2)) : Math.round(numValue)
-          );
+          setInput(field as keyof CalculatorInputs, pro ? numValue : Math.round(numValue));
         }
       },
       [pro, field, setInput]
