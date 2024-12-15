@@ -24,6 +24,12 @@ export const ymcaFormula: FormulaImplementation = {
       throw new Error("Gender is required for YMCA formula");
     }
 
+    if (weight === 0 || waistCircumference === 0) {
+      throw new Error(
+        "Please check your measurements. The calculation resulted in an invalid value."
+      );
+    }
+
     // Get values in imperial units for the formula calculation
     const weightLbs =
       measurementSystem === "metric"

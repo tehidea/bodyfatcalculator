@@ -17,19 +17,29 @@ function assertWeight(weight: number | undefined): asserts weight is number {
 
 describe("Body Fat Formula Implementations", () => {
   // Helper function to validate intermediate results
-  function validateIntermediateResults(result: any, inputs: StandardizedInputs) {
+  function validateIntermediateResults(
+    result: any,
+    inputs: StandardizedInputs,
+    measurementSystem: MeasurementSystem = "metric"
+  ) {
     assertWeight(inputs.weight);
 
     // Basic validation
     expect(result.bodyFatPercentage).toBeGreaterThan(0);
     expect(result.bodyFatPercentage).toBeLessThan(100);
 
+    // Convert weight to metric for mass calculations if needed
+    const weightKg =
+      measurementSystem === "metric"
+        ? inputs.weight
+        : convertMeasurement(inputs.weight, "weight", "imperial", "metric");
+
     // Mass calculations validation
-    expect(result.fatMass).toBe((result.bodyFatPercentage / 100) * inputs.weight);
-    expect(result.leanMass).toBe(inputs.weight - result.fatMass);
+    expect(result.fatMass).toBeCloseTo((result.bodyFatPercentage / 100) * weightKg, 2);
+    expect(result.leanMass).toBeCloseTo(weightKg - result.fatMass, 2);
 
     // Sum validation
-    expect(result.fatMass + result.leanMass).toBeCloseTo(inputs.weight, 2);
+    expect(result.fatMass + result.leanMass).toBeCloseTo(weightKg, 2);
 
     // Reasonable ranges
     expect(result.bodyFatPercentage).toBeGreaterThanOrEqual(2); // Essential fat minimum
@@ -45,7 +55,7 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = ymcaFormula.calculate(inputs, "metric");
-      validateIntermediateResults(result, inputs);
+      validateIntermediateResults(result, inputs, "metric");
 
       // Verify intermediate conversion steps
       const weightLbs = convertMeasurement(inputs.weight, "weight", "metric", "imperial");
@@ -69,7 +79,7 @@ describe("Body Fat Formula Implementations", () => {
       };
 
       const result = ymcaFormula.calculate(inputs, "metric");
-      validateIntermediateResults(result, inputs);
+      validateIntermediateResults(result, inputs, "metric");
 
       // Verify intermediate conversion steps
       const weightLbs = convertMeasurement(inputs.weight, "weight", "metric", "imperial");
@@ -117,14 +127,14 @@ describe("Body Fat Formula Implementations", () => {
     it("calculates male body fat percentage correctly with imperial inputs", () => {
       const imperialInputs: StandardizedInputs = {
         gender: "male",
-        weight: 80, // kg
-        waistCircumference: 85, // cm
+        weight: 176.37, // lbs (80 kg converted)
+        waistCircumference: 33.46, // inches (85 cm converted)
       };
 
       const metricInputs: StandardizedInputs = {
         gender: "male",
-        weight: 80,
-        waistCircumference: 85,
+        weight: 80, // kg
+        waistCircumference: 85, // cm
       };
 
       const imperialResult = ymcaFormula.calculate(imperialInputs, "imperial");
@@ -132,8 +142,8 @@ describe("Body Fat Formula Implementations", () => {
 
       // Results should be the same regardless of input unit system
       expect(imperialResult.bodyFatPercentage).toBeCloseTo(metricResult.bodyFatPercentage, 2);
-      validateIntermediateResults(imperialResult, imperialInputs);
-      validateIntermediateResults(metricResult, metricInputs);
+      validateIntermediateResults(imperialResult, imperialInputs, "imperial");
+      validateIntermediateResults(metricResult, metricInputs, "metric");
     });
 
     // Similar tests for female calculations...

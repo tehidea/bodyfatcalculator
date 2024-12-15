@@ -123,6 +123,7 @@ describe("Body Fat Calculations", () => {
 
   describe("Input Validation", () => {
     it("rejects invalid measurements", async () => {
+      // Test invalid value
       await expectCalculationError(
         "ymca",
         "male",
@@ -130,6 +131,7 @@ describe("Body Fat Calculations", () => {
         "Please check your measurements. The calculation resulted in an invalid value."
       );
 
+      // Test negative body fat
       await expectCalculationError(
         "ymca",
         "male",
@@ -137,6 +139,7 @@ describe("Body Fat Calculations", () => {
         "Please check your measurements. Body fat percentage cannot be negative."
       );
 
+      // Test body fat > 100%
       await expectCalculationError(
         "ymca",
         "male",

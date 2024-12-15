@@ -18,7 +18,7 @@ describe("calculatorStore", () => {
   });
 
   describe("setMeasurementSystem", () => {
-    it("keeps metric values in store while tracking measurement system preference", () => {
+    it("converts values to the target system and updates measurement system", () => {
       // Get store actions directly from useCalculatorStore
       useCalculatorStore.setState({
         inputs: {
@@ -33,29 +33,16 @@ describe("calculatorStore", () => {
       // Get state for assertions
       const state = useCalculatorStore.getState();
 
-      // Verify internal values stay metric
-      expect(state.inputs.weight).toBe(80);
-      expect(state.inputs.waistCircumference).toBe(85);
+      // Verify values are converted to imperial
+      expect(state.inputs.weight).toBeCloseTo(176.37, 2);
+      expect(state.inputs.waistCircumference).toBeCloseTo(33.46, 2);
 
       // Verify measurement system was updated
       expect(state.measurementSystem).toBe("imperial");
 
-      // If you want to verify conversion logic, do it separately
-      const displayWeight = convertMeasurement(
-        state.inputs.weight!,
-        "weight",
-        "metric",
-        "imperial"
-      );
-      const displayWaist = convertMeasurement(
-        state.inputs.waistCircumference!,
-        "length",
-        "metric",
-        "imperial"
-      );
-
-      expect(displayWeight).toBeCloseTo(176.37, 1);
-      expect(displayWaist).toBeCloseTo(33.46, 1);
+      // Verify results are cleared and marked as stale
+      expect(state.results).toBeNull();
+      expect(state.isResultsStale).toBe(true);
     });
 
     it("resets validation errors when changing systems", () => {
@@ -80,34 +67,6 @@ describe("calculatorStore", () => {
       expect(updatedState.error).toBeNull();
       expect(updatedState.fieldErrors).toEqual({});
     });
-
-    it("marks results as stale when changing systems", () => {
-      // Set initial values and results
-      useCalculatorStore.setState(state => ({
-        ...state,
-        inputs: { weight: 80 },
-        results: {
-          bodyFatPercentage: 20,
-          fatMass: 16,
-          leanMass: 64,
-          classification: "Fitness",
-        },
-        isResultsStale: false,
-      }));
-
-      // Verify results are set and not stale
-      const initialState = useCalculatorStore.getState();
-      expect(initialState.results).not.toBeNull();
-      expect(initialState.isResultsStale).toBe(false);
-
-      // Change measurement system
-      useCalculatorStore.getState().setMeasurementSystem("imperial");
-
-      // Verify results are cleared and marked as stale
-      const updatedState = useCalculatorStore.getState();
-      expect(updatedState.results).toBeNull();
-      expect(updatedState.isResultsStale).toBe(true);
-    });
   });
 
   describe("setGender", () => {
@@ -115,25 +74,25 @@ describe("calculatorStore", () => {
       // Set initial values and trigger validation error
       useCalculatorStore.setState(state => ({
         ...state,
-        gender: "male",
-        error: "Invalid measurement",
-        fieldErrors: { waistCircumference: "Waist circumference is required" },
+        inputs: { weight: 15 }, // Below minimum 20kg
+        error: "Invalid weight",
+        fieldErrors: { weight: "Weight must be at least 20 kg" },
       }));
 
       // Verify error is set
       const initialState = useCalculatorStore.getState();
-      expect(initialState.error).toBe("Invalid measurement");
-      expect(initialState.fieldErrors.waistCircumference).toBe("Waist circumference is required");
+      expect(initialState.error).toBe("Invalid weight");
+      expect(initialState.fieldErrors.weight).toBe("Weight must be at least 20 kg");
 
       // Change gender
       useCalculatorStore.getState().setGender("female");
 
-      // Verify errors are reset
+      // Verify errors are reset and results are marked as stale
       const updatedState = useCalculatorStore.getState();
       expect(updatedState.error).toBeNull();
       expect(updatedState.fieldErrors).toEqual({});
       expect(updatedState.results).toBeNull();
-      expect(updatedState.isResultsStale).toBe(false);
+      expect(updatedState.isResultsStale).toBe(true);
     });
   });
 
