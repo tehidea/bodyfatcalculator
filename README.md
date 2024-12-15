@@ -220,23 +220,33 @@ $$86.010 \times \log_{10}(Waist_{in} - Neck_{in}) - 70.041 \times \log_{10}(Heig
 
 $$163.205 \times \log_{10}(Waist_{in} + Hip_{in} - Neck_{in}) - 97.684 \times \log_{10}(Height_{in}) - 78.387$$
 
-### Jackson & Pollock 7-Site Formula
+### Jackson & Pollock Methods
 
-Uses seven skinfold measurements. First calculates body density, then converts to body fat percentage.
+All Jackson & Pollock formulas use a two-step process:
+
+1. Calculate body density using skinfold measurements and age
+2. Convert body density to body fat percentage using Siri's equation
+
+#### Jackson & Pollock 3-Site Formula
+
+Uses three gender-specific skinfold sites:
+
+- Men: chest, abdomen, thigh
+- Women: tricep, suprailiac, thigh
 
 **Body Density Formula for Men:**
 
-$$1.112 - 0.00043499(X) + 0.00000055(X^2) - 0.00028826(Age)$$
+$$1.10938 - 0.0008267(X) + 0.0000016(X^2) - 0.0002574(Age)$$
 
 **Body Density Formula for Women:**
 
-$$1.097 - 0.00046971(X) + 0.00000056(X^2) - 0.00012828(Age)$$
+$$1.0994921 - 0.0009929(X) + 0.0000023(X^2) - 0.0001392(Age)$$
 
-Where X = Sum of chest, abdomen, thigh, tricep, subscapular, suprailiac, and midaxillary skinfolds (mm)
+Where X = Sum of skinfolds (mm)
 
-### Jackson & Pollock 4-Site Formula
+#### Jackson & Pollock 4-Site Formula
 
-Uses four skinfold measurements for a simplified version of the 7-site method.
+Uses four skinfold measurements (abdomen, thigh, tricep, suprailiac).
 
 **Body Density Formula for Men:**
 
@@ -246,7 +256,25 @@ $$1.10938 - 0.0008267(X) + 0.0000016(X^2) - 0.0002574(Age)$$
 
 $$1.096095 - 0.0006952(X) + 0.0000011(X^2) - 0.0000714(Age)$$
 
-Where X = Sum of abdomen, thigh, tricep, and suprailiac skinfolds (mm)
+Where X = Sum of skinfolds (mm)
+
+#### Jackson & Pollock 7-Site Formula
+
+Uses seven skinfold measurements (chest, abdomen, thigh, tricep, subscapular, suprailiac, midaxillary).
+
+**Body Density Formula for Men:**
+
+$$1.112 - 0.00043499(X) + 0.00000055(X^2) - 0.00028826(Age)$$
+
+**Body Density Formula for Women:**
+
+$$1.097 - 0.00046971(X) + 0.00000056(X^2) - 0.00012828(Age)$$
+
+Where X = Sum of skinfolds (mm)
+
+For all Jackson & Pollock formulas, convert body density to body fat percentage using Siri's equation:
+
+$$Body Fat\% = \left(\frac{495}{Body Density} - 450\right)$$
 
 ### Durnin & Womersley Formula
 

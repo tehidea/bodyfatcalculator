@@ -33,21 +33,16 @@ export const jackson7Formula: FormulaImplementation = {
       midaxillarySkinfold;
 
     // Calculate body density using gender-specific formulas
-    let bodyDensity: number;
-
-    if (gender === "male") {
-      bodyDensity =
-        1.112 -
-        0.00043499 * sumOfSkinfolds +
-        0.00000055 * Math.pow(sumOfSkinfolds, 2) -
-        0.00028826 * age;
-    } else {
-      bodyDensity =
-        1.097 -
-        0.00046971 * sumOfSkinfolds +
-        0.00000056 * Math.pow(sumOfSkinfolds, 2) -
-        0.00012828 * age;
-    }
+    const bodyDensity =
+      gender === "male"
+        ? 1.112 -
+          0.00043499 * sumOfSkinfolds +
+          0.00000055 * Math.pow(sumOfSkinfolds, 2) -
+          0.00028826 * age
+        : 1.097 -
+          0.00046971 * sumOfSkinfolds +
+          0.00000056 * Math.pow(sumOfSkinfolds, 2) -
+          0.00012828 * age;
 
     // Convert body density to body fat percentage using Siri's equation
     const bodyFatPercentage = 495 / bodyDensity - 450;

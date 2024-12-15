@@ -3,10 +3,8 @@ import { calculateMassMetrics } from "./utils";
 
 /**
  * Jackson-Pollock 4-site formula implementation
- * This formula uses four skinfold measurements to estimate body density,
- * which is then converted to body fat percentage using Siri's equation.
- * It's a simplified version of the 7-site formula, maintaining good accuracy
- * while requiring fewer measurements.
+ * This formula uses four skinfold measurements to directly estimate body fat percentage.
+ * The formula uses measurements from triceps, thigh, suprailiac, and abdomen sites.
  */
 export const jackson4Formula: FormulaImplementation = {
   calculate: (inputs: StandardizedInputs): FormulaResult => {
@@ -23,25 +21,11 @@ export const jackson4Formula: FormulaImplementation = {
     // Calculate sum of skinfolds (in mm, no conversion needed)
     const sumOfSkinfolds = abdomenSkinfold + thighSkinfold + tricepSkinfold + suprailiacSkinfold;
 
-    // Calculate body density using gender-specific formulas
-    let bodyDensity: number;
-
-    if (gender === "male") {
-      bodyDensity =
-        1.10938 -
-        0.0008267 * sumOfSkinfolds +
-        0.0000016 * Math.pow(sumOfSkinfolds, 2) -
-        0.0002574 * age;
-    } else {
-      bodyDensity =
-        1.0994921 -
-        0.0009929 * sumOfSkinfolds +
-        0.0000023 * Math.pow(sumOfSkinfolds, 2) -
-        0.0001392 * age;
-    }
-
-    // Convert body density to body fat percentage using Siri's equation
-    const bodyFatPercentage = 495 / bodyDensity - 450;
+    // Calculate body fat percentage using gender-specific formulas
+    const bodyFatPercentage =
+      gender === "male"
+        ? 0.29288 * sumOfSkinfolds - 0.0005 * Math.pow(sumOfSkinfolds, 2) + 0.15845 * age - 5.76377
+        : 0.29669 * sumOfSkinfolds - 0.00043 * Math.pow(sumOfSkinfolds, 2) + 0.02963 * age + 1.4072;
 
     // Calculate fat mass and lean mass using utility function
     const { fatMass, leanMass } = calculateMassMetrics(bodyFatPercentage, weight);

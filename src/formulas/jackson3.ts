@@ -37,21 +37,16 @@ export const jackson3Formula: FormulaImplementation = {
         : tricepSkinfold + suprailiacSkinfold + thighSkinfold;
 
     // Calculate body density using gender-specific formulas
-    let bodyDensity: number;
-
-    if (gender === "male") {
-      bodyDensity =
-        1.10938 -
-        0.0008267 * sumOfSkinfolds +
-        0.0000016 * Math.pow(sumOfSkinfolds, 2) -
-        0.0002574 * age;
-    } else {
-      bodyDensity =
-        1.0994921 -
-        0.0009929 * sumOfSkinfolds +
-        0.0000023 * Math.pow(sumOfSkinfolds, 2) -
-        0.0001392 * age;
-    }
+    const bodyDensity =
+      gender === "male"
+        ? 1.10938 -
+          0.0008267 * sumOfSkinfolds +
+          0.0000016 * Math.pow(sumOfSkinfolds, 2) -
+          0.0002574 * age
+        : 1.0994921 -
+          0.0009929 * sumOfSkinfolds +
+          0.0000023 * Math.pow(sumOfSkinfolds, 2) -
+          0.0001392 * age;
 
     // Convert body density to body fat percentage using Siri's equation
     const bodyFatPercentage = 495 / bodyDensity - 450;

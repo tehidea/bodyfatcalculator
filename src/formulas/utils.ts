@@ -1,26 +1,6 @@
 import { Gender } from "../types/calculator";
 
 /**
- * Calculates body density using the Jackson-Pollock formula
- */
-export function calculateBodyDensity(sumOfSkinfolds: number, age: number, gender: Gender): number {
-  if (gender === "male") {
-    return (
-      1.10938 -
-      0.0008267 * sumOfSkinfolds +
-      0.0000016 * Math.pow(sumOfSkinfolds, 2) -
-      0.0002574 * age
-    );
-  }
-  return (
-    1.0994921 -
-    0.0009929 * sumOfSkinfolds +
-    0.0000023 * Math.pow(sumOfSkinfolds, 2) -
-    0.0001392 * age
-  );
-}
-
-/**
  * Gets the classification based on body fat percentage and gender
  */
 export function getClassification(bodyFat: number, gender: Gender): string {
