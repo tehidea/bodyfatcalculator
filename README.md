@@ -302,6 +302,14 @@ For all formulas that calculate body density, convert to body fat percentage usi
 
 $$Body Fat\% = \left(\frac{495}{Body Density} - 450\right)$$
 
+### Parillo Formula
+
+Uses nine skinfold measurements (chest, abdomen, thigh, bicep, tricep, subscapular, suprailiac, lower back, calf) and body weight.
+
+$$Body Fat\% = \frac{Sum\ of\ skinfolds\ (mm) \times 27}{Weight\ (lbs)}$$
+
+Note: Weight must be in pounds. The calculator automatically converts from kilograms.
+
 ## Unit Conversions
 
 ### Weight
