@@ -45,6 +45,16 @@ export const MeasurementIcon = ({
   }
 };
 
+// Helper to get unique measurement types while preserving order
+function getUniqueMeasurementTypes(fields: Array<{ type: string }>) {
+  const seen = new Set<string>();
+  return fields.filter(field => {
+    if (seen.has(field.type)) return false;
+    seen.add(field.type);
+    return true;
+  });
+}
+
 export const FormulaSelector = () => {
   const { formula, setFormula, gender, system } = useCalculatorStore();
   const { pro, isLoading, checkEntitlements } = usePremiumStore();
@@ -241,9 +251,9 @@ export const FormulaSelector = () => {
           </Text>
         </View>
         <View style={styles.measurementIcons}>
-          {selectedFormula.fields.map(field => (
+          {getUniqueMeasurementTypes(selectedFormula.fields).map(field => (
             <MeasurementIcon
-              key={field.key}
+              key={field.type}
               size={getResponsiveSpacing(12)}
               type={field.type}
               color="#fff"
@@ -336,9 +346,9 @@ export const FormulaSelector = () => {
                       </Text>
                     </View>
                     <View style={styles.measurementIcons}>
-                      {item.fields.map(field => (
+                      {getUniqueMeasurementTypes(item.fields).map(field => (
                         <MeasurementIcon
-                          key={field.key}
+                          key={field.type}
                           size={getResponsiveSpacing(12)}
                           type={field.type}
                           color="#666"
