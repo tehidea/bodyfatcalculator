@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Modal, StyleSheet } from "react-native";
+import { View, Modal, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import { Text, Button, Icon } from "@rneui/themed";
 import { COLORS } from "../../constants/theme";
 import Animated, {
@@ -30,17 +30,22 @@ export function ProUpgradeModal({
   const rotation = useSharedValue("0deg");
   const scale = useSharedValue(0.95);
   const opacity = useSharedValue(0);
+  const backdropOpacity = useSharedValue(0);
 
   useEffect(() => {
     if (visible) {
-      rotation.value = "0deg";
+      // Reset values immediately
       scale.value = 0.95;
       opacity.value = 0;
+      backdropOpacity.value = 0;
+      rotation.value = "0deg";
 
-      scale.value = withSpring(1, { damping: 20, stiffness: 80 });
-      opacity.value = withTiming(1, { duration: 400 });
+      // Start animations
+      backdropOpacity.value = withTiming(1, { duration: 150 });
+      scale.value = withSpring(1, { damping: 20, stiffness: 90 });
+      opacity.value = withTiming(1, { duration: 200 });
       rotation.value = withDelay(
-        400,
+        200,
         withSpring("5deg", {
           damping: 15,
           stiffness: 100,
@@ -54,14 +59,35 @@ export function ProUpgradeModal({
     opacity: opacity.value,
   }));
 
+  const animatedBackdropStyle = useAnimatedStyle(() => ({
+    backgroundColor: "rgba(0,0,0,0.6)",
+    opacity: backdropOpacity.value,
+  }));
+
   const animatedBadgeStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: rotation.value }],
   }));
 
+  if (!visible) return null;
+
   return (
-    <Modal visible={visible} animationType="fade" transparent={true} onRequestClose={onClose}>
+    <Modal visible={visible} transparent={true} onRequestClose={onClose} animationType="none">
       <View style={styles.modalContainer}>
+        <Animated.View style={[styles.backdrop, animatedBackdropStyle]}>
+          <TouchableWithoutFeedback onPress={onClose}>
+            <View style={StyleSheet.absoluteFill} />
+          </TouchableWithoutFeedback>
+        </Animated.View>
+
         <Animated.View style={[styles.modalContent, animatedContainerStyle]}>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={onClose}
+            hitSlop={{ top: 20, right: 20, bottom: 20, left: 20 }}
+          >
+            <Icon name="x" type="feather" size={20} color="rgba(0,0,0,0.25)" />
+          </TouchableOpacity>
+
           <View style={styles.header}>
             <View style={[styles.iconWrapper]}>
               <Animated.View entering={FadeIn.duration(600)} style={styles.iconContainer}>
@@ -150,8 +176,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.6)",
-    padding: 20,
+  },
+  backdrop: {
+    ...StyleSheet.absoluteFillObject,
   },
   modalContent: {
     backgroundColor: COLORS.white,
@@ -167,6 +194,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 8,
+    margin: 20,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 12,
+    right: 12,
+    zIndex: 1,
+    padding: 8,
+    opacity: 0.6,
   },
   header: {
     padding: 24,
