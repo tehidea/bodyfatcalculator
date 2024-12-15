@@ -12,16 +12,13 @@ import Animated, {
 } from "react-native-reanimated";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { usePremiumStore } from "../../store/premiumStore";
-import { CalculatorInputs } from "../../types/calculator";
 import { MeasurementIcon } from "./FormulaSelector";
 import { usePurchase } from "../../hooks/usePurchase";
 import { ProUpgradeModal } from "./ProUpgradeModal";
 import { styles } from "./MeasurementInput.styles";
 import { COLORS } from "../../constants/theme";
-import { getDisplayUnit } from "../../utils/units";
-import { getIconType, getFieldType } from "../../utils/fields";
-import { convertMeasurement } from "../../utils/conversions";
 import { getResponsiveSpacing } from "../../utils/device";
+import { getFormulaMetadata, FieldMetadata } from "../../schemas/calculator";
 
 interface MeasurementInputProps {
   field: string;
@@ -35,7 +32,7 @@ interface MeasurementInputProps {
 
 export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
   ({ field, label, unit, error, onSubmitEditing, isLastInput, onFocusChange }, ref) => {
-    const { inputs, setInput, measurementSystem } = useCalculatorStore();
+    const { inputs, setInput, measurementSystem, formula, gender } = useCalculatorStore();
     const { pro } = usePremiumStore();
     const [rawValue, setRawValue] = useState("");
     const [isEditing, setIsEditing] = useState(false);
@@ -53,6 +50,18 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       onError: () => setIsProModalVisible(false),
     });
 
+    // Get field metadata from Zod schema
+    const fieldMetadata = useMemo(() => {
+      if (!formula || !gender) return null;
+      try {
+        const metadata = getFormulaMetadata(formula, measurementSystem, gender);
+        return metadata.fields.find(f => f.key === field);
+      } catch (error) {
+        console.error("[MeasurementInput] Error getting field metadata:", error);
+        return null;
+      }
+    }, [formula, gender, measurementSystem, field]);
+
     // Forward the ref
     useEffect(() => {
       if (typeof ref === "function") ref(inputRef.current);
@@ -68,7 +77,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
 
     // Sync with store and handle display conversion
     useEffect(() => {
-      const storeValue = inputs[field as keyof CalculatorInputs];
+      const storeValue = inputs[field];
       console.log(`[MeasurementInput] ${field} - Store value:`, storeValue);
 
       if (storeValue === null || storeValue === undefined) {
@@ -86,7 +95,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
             : storeValue?.toString() || ""
         );
       }
-    }, [measurementSystem, inputs[field as keyof CalculatorInputs], isEditing, pro, field]);
+    }, [measurementSystem, inputs[field], isEditing, pro, field]);
 
     const handleChangeText = useCallback(
       (value: string) => {
@@ -95,7 +104,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
 
         if (value === "") {
           setRawValue("");
-          setInput(field as keyof CalculatorInputs, null);
+          setInput(field, null);
           return;
         }
 
@@ -109,24 +118,17 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
         setRawValue(value);
 
         if (value === ".") {
-          setInput(field as keyof CalculatorInputs, 0);
+          setInput(field, 0);
           return;
         }
 
         const numValue = parseFloat(value);
         if (!isNaN(numValue)) {
           console.log(`[MeasurementInput] ${field} - Sending to store:`, numValue);
-          setInput(field as keyof CalculatorInputs, pro ? numValue : Math.round(numValue));
+          setInput(field, pro ? numValue : Math.round(numValue));
         }
       },
       [pro, field, setInput]
-    );
-
-    const iconType = useMemo(() => getIconType(field), [field]);
-    const fieldType = useMemo(() => getFieldType(field), [field]);
-    const displayUnit = useMemo(
-      () => getDisplayUnit(unit, measurementSystem, fieldType),
-      [unit, measurementSystem, fieldType]
     );
 
     // Calculate the error container height outside the worklet
@@ -172,16 +174,19 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       transform: [{ translateX: shakeAnimation.value }],
     }));
 
+    // If we don't have field metadata, don't render anything
+    if (!fieldMetadata) return null;
+
     return (
       <>
         <View style={styles.container}>
-          <Text style={styles.label}>{label}</Text>
+          <Text style={styles.label}>{fieldMetadata.label}</Text>
           <Animated.View
             style={[styles.inputContainer, error && styles.inputError, inputContainerStyle]}
           >
             <View style={styles.iconContainer}>
               <MeasurementIcon
-                type={iconType}
+                type={fieldMetadata.type}
                 size={getResponsiveSpacing(18)}
                 color={COLORS.textDark}
               />
@@ -202,12 +207,12 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
               keyboardType="decimal-pad"
               enablesReturnKeyAutomatically={false}
               placeholderTextColor="#999"
-              accessibilityLabel={label}
-              accessibilityHint={`Enter ${label.toLowerCase()}`}
+              accessibilityLabel={fieldMetadata.label}
+              accessibilityHint={`Enter ${fieldMetadata.label.toLowerCase()}`}
               accessibilityRole="spinbutton"
               onSubmitEditing={handleSubmitEditing}
             />
-            <Text style={styles.unit}>{displayUnit}</Text>
+            <Text style={styles.unit}>{fieldMetadata.unit}</Text>
           </Animated.View>
           <Animated.View style={[styles.errorContainer, errorContainerStyle]}>
             {error ? <Text style={styles.error}>{error}</Text> : null}

@@ -1,37 +1,19 @@
-import { FormulaImplementation, StandardizedInputs, FormulaResult } from "../types/formula";
+import { z } from "zod";
+import { formulaSchemas } from "../schemas/calculator";
 import { convertMeasurement } from "../utils/conversions";
 import { calculateMassMetrics } from "./utils";
 import { MeasurementSystem } from "../types/calculator";
+
+type CovertInputs = z.infer<ReturnType<ReturnType<(typeof formulaSchemas)["covert"]>>>;
+type FormulaResult = { bodyFatPercentage: number; fatMass: number; leanMass: number };
 
 /**
  * Covert Bailey formula implementation
  * This formula uses different measurements for men and women, taking into account age
  * and various circumference measurements.
- *
- * Measurement System Handling:
- * - The formula internally uses imperial units (inches)
- * - For metric inputs, we convert to imperial before calculation
- * - For imperial inputs, we use the values directly
- * - Results are consistent across measurement systems to 2 decimal places
- *
- * Male formula uses:
- * - Weight
- * - Age
- * - Waist circumference
- * - Hips circumference
- * - Forearm circumference
- * - Wrist circumference
- *
- * Female formula uses:
- * - Weight
- * - Age
- * - Hips circumference
- * - Thigh circumference
- * - Calf circumference
- * - Wrist circumference
  */
-export const covertFormula: FormulaImplementation = {
-  calculate: (inputs: StandardizedInputs, measurementSystem: MeasurementSystem): FormulaResult => {
+export const covertFormula = {
+  calculate: (inputs: CovertInputs, measurementSystem: MeasurementSystem): FormulaResult => {
     const {
       gender,
       age = 0,
@@ -98,24 +80,4 @@ export const covertFormula: FormulaImplementation = {
       leanMass,
     };
   },
-
-  name: "Covert Bailey",
-  marginOfError: "4-5",
-
-  // Common required fields for both genders
-  requiredFields: ["weight", "age", "wristCircumference", "hipsCircumference"],
-
-  // Gender-specific required fields
-  genderSpecificFields: {
-    male: ["waistCircumference", "forearmCircumference"],
-    female: ["thighCircumference", "calfCircumference"],
-  },
-
-  description:
-    "An age-adjusted method using different circumference measurements for men and women, with specific calculations for those over and under 30.",
-
-  references: [
-    "Bailey, Covert. (1991). The Ultimate Fit or Fat: Get in Shape and Stay in Shape.",
-    "Bailey, Covert. (1994). Smart Exercise: Burning Fat, Getting Fit.",
-  ],
 };

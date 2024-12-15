@@ -1,32 +1,19 @@
-import { FormulaImplementation, StandardizedInputs, FormulaResult } from "../types/formula";
+import { z } from "zod";
+import { formulaSchemas } from "../schemas/calculator";
 import { convertMeasurement } from "../utils/conversions";
 import { calculateMassMetrics } from "./utils";
 import { MeasurementSystem } from "../types/calculator";
+
+type MYMCAInputs = z.infer<ReturnType<ReturnType<(typeof formulaSchemas)["mymca"]>>>;
+type FormulaResult = { bodyFatPercentage: number; fatMass: number; leanMass: number };
 
 /**
  * Modified YMCA formula implementation
  * This formula is a variation of the YMCA formula that includes additional measurements
  * for women to improve accuracy.
- *
- * Measurement System Handling:
- * - The formula internally uses imperial units (lbs and inches)
- * - For metric inputs, we convert to imperial before calculation
- * - For imperial inputs, we use the values directly
- * - Results are consistent across measurement systems to 2 decimal places
- *
- * Male formula uses:
- * - Weight
- * - Waist circumference
- *
- * Female formula uses:
- * - Weight
- * - Waist circumference
- * - Wrist circumference
- * - Forearm circumference
- * - Hips circumference
  */
-export const mymcaFormula: FormulaImplementation = {
-  calculate: (inputs: StandardizedInputs, measurementSystem: MeasurementSystem): FormulaResult => {
+export const mymcaFormula = {
+  calculate: (inputs: MYMCAInputs, measurementSystem: MeasurementSystem): FormulaResult => {
     const {
       gender,
       weight = 0,
@@ -86,23 +73,4 @@ export const mymcaFormula: FormulaImplementation = {
       leanMass,
     };
   },
-
-  name: "Modified YMCA",
-  marginOfError: "4-6",
-
-  // Common required fields for both genders
-  requiredFields: ["weight", "waistCircumference"],
-
-  // Gender-specific required fields
-  genderSpecificFields: {
-    male: [], // No additional fields for males
-    female: ["wristCircumference", "forearmCircumference", "hipsCircumference"],
-  },
-
-  description:
-    "An enhanced YMCA formula that adds wrist, forearm, and hip measurements for women to improve accuracy.",
-
-  references: [
-    "Modified from YMCA of the USA. (2000). YMCA Fitness Testing and Assessment Manual. 4th ed.",
-  ],
 };

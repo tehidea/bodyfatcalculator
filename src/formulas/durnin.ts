@@ -1,6 +1,10 @@
-import { FormulaImplementation, StandardizedInputs, FormulaResult } from "../types/formula";
-import { convertMeasurement } from "../utils/conversions";
+import { z } from "zod";
+import { formulaSchemas } from "../schemas/calculator";
 import { calculateMassMetrics } from "./utils";
+import { MeasurementSystem } from "../types/calculator";
+
+type DurninInputs = z.infer<ReturnType<ReturnType<(typeof formulaSchemas)["durnin"]>>>;
+type FormulaResult = { bodyFatPercentage: number; fatMass: number; leanMass: number };
 
 /**
  * Durnin & Womersley formula implementation
@@ -8,8 +12,8 @@ import { calculateMassMetrics } from "./utils";
  * which is then converted to body fat percentage using Siri's equation.
  * The formula coefficients vary by age and gender.
  */
-export const durninFormula: FormulaImplementation = {
-  calculate: (inputs: StandardizedInputs): FormulaResult => {
+export const durninFormula = {
+  calculate: (inputs: DurninInputs, measurementSystem: MeasurementSystem): FormulaResult => {
     const {
       gender,
       age = 0,
@@ -56,25 +60,4 @@ export const durninFormula: FormulaImplementation = {
       leanMass,
     };
   },
-
-  name: "Durnin & Womersley",
-  marginOfError: "3.5-5",
-
-  requiredFields: [
-    "gender",
-    "age",
-    "weight",
-    "bicepSkinfold",
-    "tricepSkinfold",
-    "subscapularSkinfold",
-    "suprailiacSkinfold",
-  ],
-
-  description:
-    "A skinfold method using four measurements (biceps, triceps, subscapular, suprailiac) with age and gender-specific calculations.",
-
-  references: [
-    "Durnin, J. V., & Womersley, J. (1974). Body fat assessed from total body density and its estimation from skinfold thickness: measurements on 481 men and women aged from 16 to 72 years. British Journal of Nutrition, 32(1), 77-97.",
-    "Siri, W. E. (1961). Body composition from fluid spaces and density: analysis of methods. Techniques for measuring body composition, 61, 223-244.",
-  ],
 };

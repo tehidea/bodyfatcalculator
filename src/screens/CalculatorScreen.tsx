@@ -1,27 +1,28 @@
 import React, { useState, useMemo, useCallback, useRef } from "react";
-import { View, Platform, Keyboard, TextInput, ScrollView } from "react-native";
+import { View, Platform, Keyboard, TextInput } from "react-native";
 import { Text, Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  KeyboardAwareScrollView,
-  KeyboardToolbar,
-  useKeyboardController,
-} from "react-native-keyboard-controller";
+import { KeyboardAwareScrollView, KeyboardToolbar } from "react-native-keyboard-controller";
 import Constants from "expo-constants";
-import { COLORS } from "../constants/theme";
 import { FormulaSelector } from "../components/calculator/FormulaSelector";
 import { GenderSelector } from "../components/calculator/GenderSelector";
 import { MeasurementSelector } from "../components/calculator/MeasurementSelector";
 import { MeasurementInput } from "../components/calculator/MeasurementInput";
 import { ResultsDisplay } from "../components/calculator/ResultsDisplay";
 import { useCalculatorStore } from "../store/calculatorStore";
-import { validateInputs, getFieldMetadata } from "../validation/schema";
+import {
+  validateFormula as validateInputs,
+  getFormulaMetadata,
+  isValidFormula,
+  formulaSchemas,
+} from "../schemas/calculator";
 import Logo from "../images/logo";
 import { memo } from "react";
 import { calculateResults, getFormula } from "../formulas";
 import { styles } from "./CalculatorScreen.styles";
-import { CalculatorInputs } from "../types/calculator";
 import { usePremiumStore } from "../store/premiumStore";
+import { z } from "zod";
+import { Gender } from "../types/calculator";
 
 // Extract Header into a separate component
 const Header = memo(() => (
@@ -76,38 +77,22 @@ export const CalculatorScreen = () => {
     fieldErrors,
   } = useCalculatorStore();
 
-  const scrollViewRef = useRef<KeyboardAwareScrollView>(null);
+  const scrollViewRef = useRef<any>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [currentInputIndex, setCurrentInputIndex] = useState<number | null>(null);
   const inputRefs = useRef<(TextInput | null)[]>([]);
 
   const formulaFields = useMemo(() => {
-    const currentFormula = getFormula(formula);
+    if (!isValidFormula(formula)) return [];
 
-    // Get all required fields for the current gender
-    const allRequiredFields = [
-      ...currentFormula.requiredFields,
-      ...(currentFormula.genderSpecificFields?.[gender] || []),
-    ];
-
-    return allRequiredFields
-      .filter(field => field !== "gender") // Exclude gender field
-      .map(field => {
-        const metadata = getFieldMetadata(field, measurementSystem, formula);
-        if (!metadata) return { key: field, label: field, unit: "" };
-        const { unit } = metadata;
-        return {
-          key: field,
-          label:
-            field.charAt(0).toUpperCase() +
-            field
-              .slice(1)
-              .replace(/([A-Z])/g, " $1")
-              .trim(),
-          unit,
-        };
-      });
-  }, [formula, gender, measurementSystem, formula]);
+    const metadata = getFormulaMetadata(formula, measurementSystem, gender);
+    return metadata.fields.map(field => ({
+      key: field.key,
+      label: field.label,
+      unit: field.unit,
+      required: field.required,
+    }));
+  }, [formula, gender, measurementSystem]);
 
   const handleFocusChange = useCallback((focused: boolean, index: number) => {
     setIsFocused(focused);
@@ -115,22 +100,6 @@ export const CalculatorScreen = () => {
       setCurrentInputIndex(index);
     }
   }, []);
-
-  const keyboard = useKeyboardController();
-
-  const handlePrevious = useCallback(() => {
-    if (currentInputIndex !== null && currentInputIndex > 0) {
-      const prevRef = inputRefs.current[currentInputIndex - 1];
-      prevRef?.focus();
-    }
-  }, [currentInputIndex]);
-
-  const handleNext = useCallback(() => {
-    if (currentInputIndex !== null && currentInputIndex < inputRefs.current.length - 1) {
-      const nextRef = inputRefs.current[currentInputIndex + 1];
-      nextRef?.focus();
-    }
-  }, [currentInputIndex]);
 
   const getFieldError = (fieldKey: string): string | undefined => {
     return fieldErrors[fieldKey];
@@ -141,7 +110,7 @@ export const CalculatorScreen = () => {
     setError(null);
 
     try {
-      const validation = validateInputs(formula, inputs, gender, measurementSystem);
+      const validation = validateInputs(formula, inputs, measurementSystem, gender);
       if (!validation.success) {
         setError("Please correct the input errors", validation.errors);
         return;
@@ -170,11 +139,6 @@ export const CalculatorScreen = () => {
     return "Calculate";
   }, [isCalculating, results, isResultsStale]);
 
-  const visibleFields = useMemo(
-    () => formulaFields.filter(field => !field.genderSpecific || field.genderSpecific === gender),
-    [formulaFields, gender]
-  );
-
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
       <View style={styles.innerContainer}>
@@ -196,18 +160,18 @@ export const CalculatorScreen = () => {
                 <MeasurementSelector />
               </View>
             </View>
-            {visibleFields.map((field, index) => (
+            {formulaFields.map((field, index) => (
               <MeasurementInput
                 key={field.key}
                 field={field.key}
                 label={field.label}
-                unit={field.unit}
+                unit={field.unit || ""}
                 error={getFieldError(field.key) ?? ""}
                 ref={ref => {
                   inputRefs.current[index] = ref;
                 }}
                 onFocusChange={focused => handleFocusChange(focused, index)}
-                isLastInput={index === visibleFields.length - 1}
+                isLastInput={index === formulaFields.length - 1}
               />
             ))}
             <View style={styles.buttonRow}>

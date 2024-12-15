@@ -3,7 +3,7 @@ import { render, fireEvent, act } from "@testing-library/react-native";
 import { CalculatorScreen } from "../../screens/CalculatorScreen";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { calculateResults } from "../../formulas";
-import { validateInputs } from "../../utils/validation";
+import { validateFormula as validateInputs } from "../../schemas/calculator";
 import * as FormulaSelector from "../calculator/FormulaSelector";
 import { usePremiumStore } from "../../store/premiumStore";
 

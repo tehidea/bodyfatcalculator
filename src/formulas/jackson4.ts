@@ -1,13 +1,18 @@
-import { FormulaImplementation, StandardizedInputs, FormulaResult } from "../types/formula";
+import { z } from "zod";
+import { formulaSchemas } from "../schemas/calculator";
 import { calculateMassMetrics } from "./utils";
+import { MeasurementSystem } from "../types/calculator";
+
+type Jackson4Inputs = z.infer<ReturnType<ReturnType<(typeof formulaSchemas)["jack4"]>>>;
+type FormulaResult = { bodyFatPercentage: number; fatMass: number; leanMass: number };
 
 /**
  * Jackson-Pollock 4-site formula implementation
  * This formula uses four skinfold measurements to directly estimate body fat percentage.
  * The formula uses measurements from triceps, thigh, suprailiac, and abdomen sites.
  */
-export const jackson4Formula: FormulaImplementation = {
-  calculate: (inputs: StandardizedInputs): FormulaResult => {
+export const jackson4Formula = {
+  calculate: (inputs: Jackson4Inputs, measurementSystem: MeasurementSystem): FormulaResult => {
     const {
       gender,
       age = 0,
@@ -36,25 +41,4 @@ export const jackson4Formula: FormulaImplementation = {
       leanMass,
     };
   },
-
-  name: "Jackson-Pollock 4-Site",
-  marginOfError: "3.5-4.5",
-
-  requiredFields: [
-    "gender",
-    "age",
-    "weight",
-    "abdomenSkinfold",
-    "thighSkinfold",
-    "tricepSkinfold",
-    "suprailiacSkinfold",
-  ],
-
-  description:
-    "A refined skinfold method using four measurements (abdomen, thigh, tricep, suprailiac), offering good accuracy with moderate complexity.",
-
-  references: [
-    "Jackson, A. S., & Pollock, M. L. (1985). Practical assessment of body composition. The Physician and Sportsmedicine, 13(5), 76-90.",
-    "Siri, W. E. (1961). Body composition from fluid spaces and density: analysis of methods. Techniques for measuring body composition, 61, 223-244.",
-  ],
 };

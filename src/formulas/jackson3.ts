@@ -1,24 +1,19 @@
-import { FormulaImplementation, StandardizedInputs, FormulaResult } from "../types/formula";
+import { z } from "zod";
+import { formulaSchemas } from "../schemas/calculator";
 import { calculateMassMetrics } from "./utils";
+import { MeasurementSystem } from "../types/calculator";
+
+type Jackson3Inputs = z.infer<ReturnType<ReturnType<(typeof formulaSchemas)["jack3"]>>>;
+type FormulaResult = { bodyFatPercentage: number; fatMass: number; leanMass: number };
 
 /**
  * Jackson-Pollock 3-site formula implementation
  * This formula uses three skinfold measurements to estimate body density,
  * which is then converted to body fat percentage using Siri's equation.
  * Different sites are used for men and women to optimize accuracy.
- *
- * Male sites:
- * - Chest
- * - Abdomen
- * - Thigh
- *
- * Female sites:
- * - Tricep
- * - Suprailiac
- * - Thigh
  */
-export const jackson3Formula: FormulaImplementation = {
-  calculate: (inputs: StandardizedInputs): FormulaResult => {
+export const jackson3Formula = {
+  calculate: (inputs: Jackson3Inputs, measurementSystem: MeasurementSystem): FormulaResult => {
     const {
       gender,
       age = 0,
@@ -60,29 +55,4 @@ export const jackson3Formula: FormulaImplementation = {
       leanMass,
     };
   },
-
-  name: "Jackson-Pollock 3-Site",
-  marginOfError: "4-5",
-
-  // Common required fields for both genders
-  requiredFields: [
-    "weight",
-    "age",
-    "thighSkinfold", // Common to both genders
-  ],
-
-  // Gender-specific required fields
-  genderSpecificFields: {
-    male: ["chestSkinfold", "abdomenSkinfold"],
-    female: ["tricepSkinfold", "suprailiacSkinfold"],
-  },
-
-  description:
-    "A practical skinfold method using three gender-specific measurement sites, balancing convenience with accuracy.",
-
-  references: [
-    "Jackson, A. S., & Pollock, M. L. (1985). Practical assessment of body composition. The Physician and Sportsmedicine, 13(5), 76-90.",
-    "Jackson, A. S., Pollock, M. L., & Ward, A. (1980). Generalized equations for predicting body density of women. Medicine and Science in Sports and Exercise, 12(3), 175-181.",
-    "Siri, W. E. (1961). Body composition from fluid spaces and density: analysis of methods. Techniques for measuring body composition, 61, 223-244.",
-  ],
 };

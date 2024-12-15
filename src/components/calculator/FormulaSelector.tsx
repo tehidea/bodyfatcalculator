@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { StyleSheet, View, TouchableOpacity, Modal, FlatList, Alert } from "react-native";
 import { Text, Icon, Button } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
@@ -10,21 +10,15 @@ import { BodyWeightScalesIcon } from "../icons/BodyWeightScalesIcon";
 import { CalendarIcon } from "../icons/CalendarIcon";
 import { MeasurementVerticalIcon } from "../icons/MeasurementVerticalIcon";
 import { MeasuringTapeIcon } from "../icons/MeasuringTapeIcon";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { usePurchase } from "../../hooks/usePurchase";
 import { PremiumFormulaModal } from "./PremiumFormulaModal";
-import { getFormula, getRequiredFields, getAvailableFormulas } from "../../formulas";
-import { getIconTypes } from "../../utils/fields";
+import { getAllFormulasMetadata, getFormulaMetadata } from "../../schemas/calculator";
 import {
   isIPad,
   getResponsiveSpacing,
   getResponsiveFontSize,
   getResponsiveTypography,
-  getLineHeight,
-  getLetterSpacing,
 } from "../../utils/device";
-
-type IconType = "weight" | "circumference" | "skinfold" | "height" | "age";
 
 export const MeasurementIcon = ({
   type,
@@ -51,17 +45,8 @@ export const MeasurementIcon = ({
   }
 };
 
-const getFormulaTypes = (formula: Formula): IconType[] => {
-  if (!formula) return [];
-
-  const fields = getRequiredFields(formula);
-  if (!fields || !fields.length) return [];
-
-  return getIconTypes(fields);
-};
-
 export const FormulaSelector = () => {
-  const { formula, setFormula } = useCalculatorStore();
+  const { formula, setFormula, gender, system } = useCalculatorStore();
   const { pro, isLoading, checkEntitlements } = usePremiumStore();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isProModalVisible, setIsProModalVisible] = useState(false);
@@ -98,18 +83,13 @@ export const FormulaSelector = () => {
     },
   });
 
-  // Define which formulas are premium
-  const PREMIUM_FORMULAS: Formula[] = ["durnin", "jack7", "jack4", "jack3", "parrillo"];
+  // Get formulas with metadata from Zod
+  const formulas = useMemo(() => getAllFormulasMetadata(system, gender), [system, gender]);
 
-  const formulas = getAvailableFormulas().map(formulaKey => {
-    const formulaImpl = getFormula(formulaKey);
-    return {
-      key: formulaKey,
-      name: formulaImpl.name || formulaKey,
-      description: formulaImpl.description,
-      premium: PREMIUM_FORMULAS.includes(formulaKey),
-    };
-  });
+  const selectedFormula = useMemo(
+    () => getFormulaMetadata(formula, system, gender),
+    [formula, system, gender]
+  );
 
   // Initial and periodic entitlement check
   useEffect(() => {
@@ -152,33 +132,28 @@ export const FormulaSelector = () => {
 
   // Safeguard for premium formula without PRO status
   useEffect(() => {
-    const currentFormula = formulas.find(f => f.key === formula);
-    console.log("FormulaSelector - PRO status:", pro);
-    console.log("FormulaSelector - Current formula:", formula);
-    console.log("FormulaSelector - Selected formula premium:", currentFormula?.premium);
-
-    if (!pro && currentFormula?.premium) {
+    if (!pro && selectedFormula?.premium) {
       setFormula("ymca");
     }
-  }, [pro, formula, setFormula]);
+  }, [pro, formula, setFormula, selectedFormula]);
 
+  // Update accuracy color logic to use metadata
   const getAccuracyColor = (formula: Formula) => {
-    const formulaImpl = getFormula(formula);
-    const error = formulaImpl.marginOfError;
-    if (!error) return COLORS.textLight;
+    const metadata = getFormulaMetadata(formula, system, gender);
+    const { min } = metadata.accuracy;
 
-    const errorValue = error ?? "0";
-    const lowerBound = parseFloat(errorValue.split("-")[0]);
-
-    if (lowerBound >= 5) {
-      return COLORS.error;
-    } else if (lowerBound >= 4) {
-      return COLORS.warning;
-    } else {
-      return COLORS.success;
-    }
+    if (min >= 5) return COLORS.error; // ±5-7%
+    if (min >= 4) return COLORS.warning; // ±4-5%
+    return COLORS.success; // ±3-4%
   };
 
+  const renderAccuracyText = (formula: Formula) => {
+    const metadata = getFormulaMetadata(formula, system, gender);
+    const { min, max } = metadata.accuracy;
+    return `±${min}-${max}%`;
+  };
+
+  // Update accuracy info to use actual ranges
   const renderAccuracyInfo = () => (
     <View style={styles.accuracyInfoWrapper}>
       <View style={styles.accuracyInfo}>
@@ -205,8 +180,6 @@ export const FormulaSelector = () => {
       </View>
     </View>
   );
-
-  const selectedFormulaImpl = getFormula(formula);
 
   const handleFormulaSelect = (selectedKey: Formula, isPremiumFormula: boolean) => {
     if (isLoading || isProcessing) return;
@@ -254,8 +227,8 @@ export const FormulaSelector = () => {
           </View>
         </View>
         <View style={styles.selectedFormula}>
-          <Text style={styles.formulaName}>{selectedFormulaImpl.name}</Text>
-          {PREMIUM_FORMULAS.includes(formula) && !pro && (
+          <Text style={styles.formulaName}>{selectedFormula.name}</Text>
+          {selectedFormula.premium && !pro && (
             <View style={styles.premiumBadge}>
               <Icon name="lock" type="feather" color="#666" size={getResponsiveSpacing(14)} />
               <Text style={styles.premiumBadgeText}>PRO</Text>
@@ -264,13 +237,17 @@ export const FormulaSelector = () => {
         </View>
         <View style={styles.descriptionContainer}>
           <Text style={styles.description} numberOfLines={6}>
-            {selectedFormulaImpl.description}
-            {!PREMIUM_FORMULAS.includes(formula) && ` (±${selectedFormulaImpl.marginOfError})`}
+            {selectedFormula.description}
           </Text>
         </View>
         <View style={styles.measurementIcons}>
-          {getIconTypes(getRequiredFields(formula)).map((type: string) => (
-            <MeasurementIcon key={type} size={getResponsiveSpacing(12)} type={type} color="#fff" />
+          {selectedFormula.fields.map(field => (
+            <MeasurementIcon
+              key={field.key}
+              size={getResponsiveSpacing(12)}
+              type={field.type}
+              color="#fff"
+            />
           ))}
         </View>
       </TouchableOpacity>
@@ -297,7 +274,7 @@ export const FormulaSelector = () => {
             <FlatList
               data={[
                 ...formulas,
-                { key: "accuracy_info", name: "", description: "", premium: false },
+                { key: "accuracy_info", name: "", description: "", premium: false, fields: [] },
               ]}
               keyExtractor={item => item.key}
               style={styles.formulaList}
@@ -306,7 +283,6 @@ export const FormulaSelector = () => {
                   return renderAccuracyInfo();
                 }
 
-                const formulaImpl = getFormula(item.key as Formula);
                 return (
                   <TouchableOpacity
                     style={[
@@ -314,7 +290,7 @@ export const FormulaSelector = () => {
                       item.key === formula && styles.activeFormula,
                       item.premium && !pro && styles.premiumFormula,
                     ]}
-                    onPress={() => handleFormulaSelect(item.key as Formula, item.premium && !pro)}
+                    onPress={() => handleFormulaSelect(item.key as Formula, item.premium)}
                   >
                     <View style={styles.formulaItemHeader}>
                       <View style={styles.formulaItemNameContainer}>
@@ -325,7 +301,7 @@ export const FormulaSelector = () => {
                             item.premium && !pro && styles.premiumFormulaText,
                           ]}
                         >
-                          {formulaImpl.name}
+                          {item.name}
                         </Text>
                         <View style={styles.formulaMetadata}>
                           <View
@@ -334,7 +310,6 @@ export const FormulaSelector = () => {
                               { backgroundColor: getAccuracyColor(item.key as Formula) },
                             ]}
                           />
-                          <Text style={styles.accuracyText}>±{formulaImpl.marginOfError}</Text>
                         </View>
                       </View>
                       {item.premium && !pro && (
@@ -357,15 +332,15 @@ export const FormulaSelector = () => {
                         ]}
                         numberOfLines={6}
                       >
-                        {formulaImpl.description}
+                        {item.description}
                       </Text>
                     </View>
                     <View style={styles.measurementIcons}>
-                      {getIconTypes(getRequiredFields(item.key as Formula)).map((type: string) => (
+                      {item.fields.map(field => (
                         <MeasurementIcon
-                          key={type}
+                          key={field.key}
                           size={getResponsiveSpacing(12)}
-                          type={type}
+                          type={field.type}
                           color="#666"
                         />
                       ))}

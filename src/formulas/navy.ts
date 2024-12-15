@@ -1,29 +1,19 @@
-import { FormulaImplementation, StandardizedInputs, FormulaResult } from "../types/formula";
+import { z } from "zod";
+import { formulaSchemas } from "../schemas/calculator";
 import { convertMeasurement } from "../utils/conversions";
 import { calculateMassMetrics } from "./utils";
 import { MeasurementSystem } from "../types/calculator";
+
+type NavyInputs = z.infer<ReturnType<ReturnType<(typeof formulaSchemas)["navy"]>>>;
+type FormulaResult = { bodyFatPercentage: number; fatMass: number; leanMass: number };
 
 /**
  * U.S. Navy formula implementation
  * This formula uses circumference measurements and height to estimate body fat percentage.
  * It's widely used in the U.S. military for its simplicity and reasonable accuracy.
- *
- * Measurement System Handling:
- * - The formula internally uses imperial units (inches)
- * - For metric inputs, we convert to imperial before calculation
- * - For imperial inputs, we use the values directly
- * - Results are consistent across measurement systems to 2 decimal places
- *
- * Male formula uses:
- * - Height
- * - Neck circumference
- * - Waist circumference
- *
- * Female formula additionally uses:
- * - Hip circumference
  */
-export const navyFormula: FormulaImplementation = {
-  calculate: (inputs: StandardizedInputs, measurementSystem: MeasurementSystem): FormulaResult => {
+export const navyFormula = {
+  calculate: (inputs: NavyInputs, measurementSystem: MeasurementSystem): FormulaResult => {
     const {
       gender,
       weight = 0,
@@ -74,24 +64,4 @@ export const navyFormula: FormulaImplementation = {
       leanMass,
     };
   },
-
-  name: "U.S. Navy",
-  marginOfError: "4-6",
-
-  // Common required fields for both genders
-  requiredFields: ["weight", "height", "neckCircumference", "waistCircumference"],
-
-  // Gender-specific required fields
-  genderSpecificFields: {
-    male: [], // No additional fields for males
-    female: ["hipsCircumference"], // Females additionally need hip circumference
-  },
-
-  description:
-    "A military-developed method using height and circumference measurements, with additional hip measurements for women.",
-
-  references: [
-    "Hodgdon, J. A., & Beckett, M. B. (1984). Prediction of percent body fat for U.S. Navy men and women from body circumferences and height. Naval Health Research Center Report, No. 84-29.",
-    "Hodgdon, J. A., & Beckett, M. B. (1984). Prediction of percent body fat for U.S. Navy women from body circumferences and height. Naval Health Research Center Report, No. 84-29.",
-  ],
 };

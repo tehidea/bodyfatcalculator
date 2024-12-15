@@ -1,20 +1,20 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { z } from "zod";
 import {
-  Formula,
-  Gender,
-  MeasurementSystem,
-  CalculatorInputs,
-  CalculatorResults,
-} from "../types/calculator";
-import { StandardizedInputs } from "../types/formula";
+  formulaSchemas,
+  validateFormula as validateInputs,
+  isValidFormula,
+} from "../schemas/calculator";
 import { convertMeasurement, ConversionType } from "../utils/conversions";
 import { getFormula } from "../formulas";
-import { validateInputs } from "../utils/validation";
 
 // Map input fields to their conversion types
-const INPUT_CONVERSION_MAP: Partial<Record<keyof CalculatorInputs, ConversionType>> = {
+// Note: Skinfold measurements are always in mm, so they don't need conversion
+const INPUT_CONVERSION_MAP: Partial<
+  Record<keyof z.infer<(typeof formulaSchemas)["ymca"]>, ConversionType>
+> = {
   weight: "weight",
   height: "length",
   neckCircumference: "length",
@@ -28,41 +28,31 @@ const INPUT_CONVERSION_MAP: Partial<Record<keyof CalculatorInputs, ConversionTyp
   tricepCircumference: "length",
   forearmCircumference: "length",
   wristCircumference: "length",
-  chestSkinfold: "skinfold",
-  abdomenSkinfold: "skinfold",
-  thighSkinfold: "skinfold",
-  tricepSkinfold: "skinfold",
-  bicepSkinfold: "skinfold",
-  subscapularSkinfold: "skinfold",
-  suprailiacSkinfold: "skinfold",
-  midaxillarySkinfold: "skinfold",
-  lowerBackSkinfold: "skinfold",
-  calfSkinfold: "skinfold",
 };
 
 export interface CalculatorStore {
   // State
-  formula: Formula;
-  gender: Gender;
-  inputs: CalculatorInputs; // Display values in current measurement system
+  formula: z.infer<typeof formulaSchemas.formula>;
+  gender: z.infer<typeof formulaSchemas.gender>;
+  inputs: z.infer<typeof formulaSchemas.inputs>;
   error: string | null;
   isCalculating: boolean;
   isResultsStale: boolean;
-  results: CalculatorResults | null;
-  measurementSystem: MeasurementSystem;
+  results: z.infer<typeof formulaSchemas.results> | null;
+  measurementSystem: z.infer<typeof formulaSchemas.measurementSystem>;
   fieldErrors: Record<string, string>;
   _hasHydrated: boolean;
 
   // Actions
-  setFormula: (formula: Formula) => void;
-  setGender: (gender: Gender) => void;
-  setMeasurementSystem: (system: MeasurementSystem) => void;
+  setFormula: (formula: z.infer<typeof formulaSchemas.formula>) => void;
+  setGender: (gender: z.infer<typeof formulaSchemas.gender>) => void;
+  setMeasurementSystem: (system: z.infer<typeof formulaSchemas.measurementSystem>) => void;
   setInput: (
-    key: keyof CalculatorInputs,
+    key: keyof z.infer<typeof formulaSchemas.inputs>,
     value: number | null,
     options?: { keepResults?: boolean }
   ) => void;
-  setResults: (results: CalculatorResults | null) => void;
+  setResults: (results: z.infer<typeof formulaSchemas.results> | null) => void;
   setError: (error: string | null, fieldErrors?: Record<string, string>) => void;
   setHasHydrated: (state: boolean) => void;
   setResultsStale: (isStale: boolean) => void;
@@ -72,15 +62,16 @@ export interface CalculatorStore {
 
 /**
  * Converts input values to metric (our standardized format)
+ * Note: Skinfold measurements are always in mm and don't need conversion
  */
 function convertToMetric(
-  inputs: CalculatorInputs,
-  currentSystem: MeasurementSystem,
-  gender: Gender
-): StandardizedInputs {
-  if (currentSystem === "metric") return { ...inputs, gender } as StandardizedInputs;
+  inputs: z.infer<typeof formulaSchemas.inputs>,
+  currentSystem: z.infer<typeof formulaSchemas.measurementSystem>,
+  gender: z.infer<typeof formulaSchemas.gender>
+): z.infer<typeof formulaSchemas.inputs> {
+  if (currentSystem === "metric") return { ...inputs, gender };
 
-  const metricInputs: Partial<StandardizedInputs> = {
+  const metricInputs: Partial<z.infer<typeof formulaSchemas.inputs>> = {
     gender,
     age: inputs.age,
   };
@@ -89,51 +80,64 @@ function convertToMetric(
   Object.entries(inputs).forEach(([key, value]) => {
     if (value == null || key === "gender" || key === "age") return;
 
-    const conversionType = INPUT_CONVERSION_MAP[key as keyof CalculatorInputs];
-    if (!conversionType) return;
+    const conversionType = INPUT_CONVERSION_MAP[key as keyof typeof inputs];
+    if (!conversionType) {
+      // If no conversion type is specified (e.g., skinfolds), keep the value as is
+      metricInputs[key as keyof typeof inputs] = value;
+      return;
+    }
 
-    metricInputs[key as keyof StandardizedInputs] = convertMeasurement(
-      value,
-      conversionType,
-      "imperial",
-      "metric"
-    );
+    if (typeof value === "number") {
+      metricInputs[key as keyof typeof inputs] = convertMeasurement(
+        value,
+        conversionType,
+        "imperial",
+        "metric"
+      );
+    }
   });
 
-  return metricInputs as StandardizedInputs;
+  return metricInputs as z.infer<typeof formulaSchemas.inputs>;
 }
 
 /**
  * Converts metric values to display system
+ * Note: Skinfold measurements are always in mm and don't need conversion
  */
 function convertToDisplaySystem(
-  inputs: StandardizedInputs,
-  targetSystem: MeasurementSystem,
-  gender: Gender
-): CalculatorInputs {
-  if (targetSystem === "metric") return { ...inputs, gender } as CalculatorInputs;
+  inputs: z.infer<typeof formulaSchemas.inputs>,
+  targetSystem: z.infer<typeof formulaSchemas.measurementSystem>,
+  gender: z.infer<typeof formulaSchemas.gender>
+): z.infer<typeof formulaSchemas.inputs> {
+  if (targetSystem === "metric") return { ...inputs, gender };
 
-  const displayInputs: Partial<CalculatorInputs> = {
+  const displayInputs: Partial<z.infer<typeof formulaSchemas.inputs>> = {
     gender,
-    age: inputs.age ?? undefined,
+    age: inputs.age,
   };
 
   // Convert each input to display system
   Object.entries(inputs).forEach(([key, value]) => {
     if (value == null || key === "gender" || key === "age") return;
 
-    const conversionType = INPUT_CONVERSION_MAP[key as keyof CalculatorInputs];
-    if (!conversionType) return;
+    const conversionType = INPUT_CONVERSION_MAP[key as keyof typeof inputs];
+    if (!conversionType) {
+      // If no conversion type is specified (e.g., skinfolds), keep the value as is
+      displayInputs[key as keyof typeof inputs] = value;
+      return;
+    }
 
-    displayInputs[key as keyof CalculatorInputs] = convertMeasurement(
-      value,
-      conversionType,
-      "metric",
-      "imperial"
-    );
+    if (typeof value === "number") {
+      displayInputs[key as keyof typeof inputs] = convertMeasurement(
+        value,
+        conversionType,
+        "metric",
+        "imperial"
+      );
+    }
   });
 
-  return displayInputs as CalculatorInputs;
+  return displayInputs as z.infer<typeof formulaSchemas.inputs>;
 }
 
 export const useCalculatorStore = create<CalculatorStore>()(
@@ -164,7 +168,7 @@ export const useCalculatorStore = create<CalculatorStore>()(
         set(state => ({
           ...state,
           gender,
-          inputs: { ...state.inputs, gender }, // Ensure gender is in inputs
+          inputs: { ...state.inputs, gender },
           results: null,
           isResultsStale: true,
           error: null,
@@ -203,19 +207,21 @@ export const useCalculatorStore = create<CalculatorStore>()(
       },
 
       setInput: (key, value, options) => {
-        console.log(`[Store] Setting ${key}:`, value);
+        console.log(`[Store] Setting ${String(key)}:`, value);
         const state = get();
         const currentValue = state.inputs[key];
 
         // Handle string inputs and empty strings
-        let processedValue = value;
+        let processedValue: number | null = null;
         if (typeof value === "string") {
           if (value === "") {
-            processedValue = undefined;
+            processedValue = null;
           } else {
             const numValue = parseFloat(value);
-            processedValue = isNaN(numValue) ? value : numValue;
+            processedValue = isNaN(numValue) ? null : numValue;
           }
+        } else {
+          processedValue = value;
         }
 
         // Only mark results as stale if the value actually changed
@@ -248,7 +254,7 @@ export const useCalculatorStore = create<CalculatorStore>()(
         set({ isCalculating: true, error: null });
 
         try {
-          const validation = validateInputs(formula, inputs, gender, measurementSystem);
+          const validation = validateInputs(formula, inputs, measurementSystem, gender);
 
           if (!validation.success) {
             set({
@@ -269,7 +275,7 @@ export const useCalculatorStore = create<CalculatorStore>()(
           console.log("[Store] Calculation results:", results);
 
           set({
-            results: { ...results, classification: "normal" }, // Add required classification
+            results: { ...results, classification: "normal" },
             isCalculating: false,
             isResultsStale: false,
             fieldErrors: {},

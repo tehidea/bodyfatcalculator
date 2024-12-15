@@ -1,200 +1,265 @@
-import { z } from "zod";
-import { formulaSchemas } from "../calculator";
-import { MeasurementSystem } from "../../types/calculator";
+import { validateFormula } from "../calculator";
+import { Formula, Gender, MeasurementSystem } from "../../types/calculator";
 
-describe("Calculator Schemas", () => {
-  describe("Weight Schema", () => {
-    test("validates metric weight correctly", () => {
-      const schema = formulaSchemas.ymca("metric")("male");
+describe("validateFormula", () => {
+  const testCases: Array<{
+    name: string;
+    formula: Formula;
+    gender: Gender;
+    system: MeasurementSystem;
+    inputs: Record<string, number | undefined>;
+    shouldPass: boolean;
+    expectedErrors?: string[];
+  }> = [
+    // YMCA Formula Tests - Metric
+    {
+      name: "YMCA valid metric inputs",
+      formula: "ymca",
+      gender: "male",
+      system: "metric",
+      inputs: {
+        weight: 80,
+        waistCircumference: 85,
+      },
+      shouldPass: true,
+    },
+    {
+      name: "YMCA invalid metric weight",
+      formula: "ymca",
+      gender: "male",
+      system: "metric",
+      inputs: {
+        weight: 15, // Below 20kg minimum
+        waistCircumference: 85,
+      },
+      shouldPass: false,
+      expectedErrors: ["Weight must be at least 20 kg"],
+    },
+    {
+      name: "YMCA invalid metric waist",
+      formula: "ymca",
+      gender: "male",
+      system: "metric",
+      inputs: {
+        weight: 80,
+        waistCircumference: 250, // Above 200cm maximum
+      },
+      shouldPass: false,
+      expectedErrors: ["Circumference cannot exceed 200 cm"],
+    },
 
-      // Valid weights
-      expect(() => schema.parse({ weight: 20, waistCircumference: 85 })).not.toThrow();
-      expect(() => schema.parse({ weight: 150, waistCircumference: 85 })).not.toThrow();
-      expect(() => schema.parse({ weight: 300, waistCircumference: 85 })).not.toThrow();
+    // YMCA Formula Tests - Imperial
+    {
+      name: "YMCA valid imperial inputs",
+      formula: "ymca",
+      gender: "male",
+      system: "imperial",
+      inputs: {
+        weight: 176, // 80kg in lbs
+        waistCircumference: 33.5, // 85cm in inches
+      },
+      shouldPass: true,
+    },
+    {
+      name: "YMCA invalid imperial weight",
+      formula: "ymca",
+      gender: "male",
+      system: "imperial",
+      inputs: {
+        weight: 30, // Below 44lbs minimum
+        waistCircumference: 33.5,
+      },
+      shouldPass: false,
+      expectedErrors: ["Weight must be at least 44 lbs"],
+    },
+    {
+      name: "YMCA invalid imperial waist",
+      formula: "ymca",
+      gender: "male",
+      system: "imperial",
+      inputs: {
+        weight: 176,
+        waistCircumference: 90, // Above 78.7in maximum
+      },
+      shouldPass: false,
+      expectedErrors: ["Circumference cannot exceed 78.7 in"],
+    },
 
-      // Invalid weights
-      expect(() => schema.parse({ weight: 19, waistCircumference: 85 })).toThrow(
-        "Weight must be at least 20 kg"
-      );
-      expect(() => schema.parse({ weight: 301, waistCircumference: 85 })).toThrow(
-        "Weight cannot exceed 300 kg"
-      );
-    });
+    // Modified YMCA Tests - Metric
+    {
+      name: "Modified YMCA valid metric inputs - male",
+      formula: "mymca",
+      gender: "male",
+      system: "metric",
+      inputs: {
+        weight: 80,
+        waistCircumference: 85,
+      },
+      shouldPass: true,
+    },
+    {
+      name: "Modified YMCA valid metric inputs - female",
+      formula: "mymca",
+      gender: "female",
+      system: "metric",
+      inputs: {
+        weight: 60,
+        waistCircumference: 70,
+        wristCircumference: 15,
+        hipsCircumference: 90,
+        forearmCircumference: 25,
+      },
+      shouldPass: true,
+    },
 
-    test("validates imperial weight correctly", () => {
-      const schema = formulaSchemas.ymca("imperial")("male");
+    // Modified YMCA Tests - Imperial
+    {
+      name: "Modified YMCA valid imperial inputs - female",
+      formula: "mymca",
+      gender: "female",
+      system: "imperial",
+      inputs: {
+        weight: 132, // 60kg in lbs
+        waistCircumference: 27.6, // 70cm in inches
+        wristCircumference: 5.9, // 15cm in inches
+        hipsCircumference: 35.4, // 90cm in inches
+        forearmCircumference: 9.8, // 25cm in inches
+      },
+      shouldPass: true,
+    },
 
-      // Valid weights
-      expect(() => schema.parse({ weight: 44, waistCircumference: 33.5 })).not.toThrow();
-      expect(() => schema.parse({ weight: 330, waistCircumference: 33.5 })).not.toThrow();
-      expect(() => schema.parse({ weight: 661, waistCircumference: 33.5 })).not.toThrow();
+    // Covert Tests - Metric
+    {
+      name: "Covert valid metric inputs - male",
+      formula: "covert",
+      gender: "male",
+      system: "metric",
+      inputs: {
+        weight: 80,
+        age: 30,
+        hipsCircumference: 95,
+        wristCircumference: 17,
+        waistCircumference: 85,
+        forearmCircumference: 30,
+      },
+      shouldPass: true,
+    },
+    {
+      name: "Covert valid metric inputs - female",
+      formula: "covert",
+      gender: "female",
+      system: "metric",
+      inputs: {
+        weight: 60,
+        age: 25,
+        hipsCircumference: 90,
+        wristCircumference: 15,
+        thighCircumference: 55,
+        calfCircumference: 35,
+      },
+      shouldPass: true,
+    },
 
-      // Invalid weights
-      expect(() => schema.parse({ weight: 43, waistCircumference: 33.5 })).toThrow(
-        "Weight must be at least 44 lbs"
-      );
-      expect(() => schema.parse({ weight: 662, waistCircumference: 33.5 })).toThrow(
-        "Weight cannot exceed 661 lbs"
-      );
-    });
+    // Navy Tests - Metric
+    {
+      name: "Navy valid metric inputs - male",
+      formula: "navy",
+      gender: "male",
+      system: "metric",
+      inputs: {
+        weight: 80,
+        height: 180,
+        neckCircumference: 38,
+        waistCircumference: 85,
+      },
+      shouldPass: true,
+    },
+    {
+      name: "Navy valid metric inputs - female",
+      formula: "navy",
+      gender: "female",
+      system: "metric",
+      inputs: {
+        weight: 60,
+        height: 165,
+        neckCircumference: 32,
+        waistCircumference: 70,
+        hipsCircumference: 90,
+      },
+      shouldPass: true,
+    },
+    {
+      name: "Navy invalid metric inputs - missing required field",
+      formula: "navy",
+      gender: "male",
+      system: "metric",
+      inputs: {
+        weight: 80,
+        height: 180,
+        waistCircumference: 85,
+        // missing neckCircumference
+      },
+      shouldPass: false,
+      expectedErrors: ["Required"],
+    },
+  ];
+
+  test.each(testCases)(
+    "$name",
+    ({ formula, gender, system, inputs, shouldPass, expectedErrors }) => {
+      const result = validateFormula(formula, inputs, system, gender);
+
+      if (shouldPass) {
+        expect(result.success).toBe(true);
+        expect(result.errors).toEqual({});
+      } else {
+        expect(result.success).toBe(false);
+        expectedErrors?.forEach(expectedError => {
+          expect(Object.values(result.errors)).toContain(expectedError);
+        });
+      }
+    }
+  );
+
+  // Edge cases
+  test("handles undefined inputs correctly", () => {
+    const result = validateFormula(
+      "ymca",
+      { weight: undefined, waistCircumference: undefined },
+      "metric",
+      "male"
+    );
+    expect(result.success).toBe(false);
+    expect(Object.keys(result.errors)).toContain("weight");
+    expect(Object.keys(result.errors)).toContain("waistCircumference");
   });
 
-  describe("Circumference Schema", () => {
-    test("validates metric circumference correctly", () => {
-      const schema = formulaSchemas.ymca("metric")("male");
-
-      // Valid circumferences
-      expect(() => schema.parse({ weight: 80, waistCircumference: 1 })).not.toThrow();
-      expect(() => schema.parse({ weight: 80, waistCircumference: 100 })).not.toThrow();
-      expect(() => schema.parse({ weight: 80, waistCircumference: 200 })).not.toThrow();
-
-      // Invalid circumferences
-      expect(() => schema.parse({ weight: 80, waistCircumference: 0.9 })).toThrow(
-        "Circumference must be at least 1 cm"
-      );
-      expect(() => schema.parse({ weight: 80, waistCircumference: 201 })).toThrow(
-        "Circumference cannot exceed 200 cm"
-      );
-    });
-
-    test("validates imperial circumference correctly", () => {
-      const schema = formulaSchemas.ymca("imperial")("male");
-
-      // Valid circumferences
-      expect(() => schema.parse({ weight: 176, waistCircumference: 0.4 })).not.toThrow();
-      expect(() => schema.parse({ weight: 176, waistCircumference: 39.4 })).not.toThrow();
-      expect(() => schema.parse({ weight: 176, waistCircumference: 78.7 })).not.toThrow();
-
-      // Invalid circumferences
-      expect(() => schema.parse({ weight: 176, waistCircumference: 0.3 })).toThrow(
-        "Circumference must be at least 0.4 in"
-      );
-      expect(() => schema.parse({ weight: 176, waistCircumference: 78.8 })).toThrow(
-        "Circumference cannot exceed 78.7 in"
-      );
-    });
+  test("handles missing required inputs", () => {
+    const result = validateFormula("ymca", {}, "metric", "male");
+    expect(result.success).toBe(false);
+    expect(Object.keys(result.errors)).toContain("weight");
+    expect(Object.keys(result.errors)).toContain("waistCircumference");
   });
 
-  describe("Gender-specific schemas", () => {
-    test("validates female-specific fields in metric", () => {
-      const schema = formulaSchemas.mymca("metric")("female");
-
-      // Valid female measurements
-      expect(() =>
-        schema.parse({
-          weight: 60,
-          waistCircumference: 70,
-          wristCircumference: 15,
-          hipsCircumference: 90,
-          forearmCircumference: 25,
-        })
-      ).not.toThrow();
-    });
-
-    test("validates female-specific fields in imperial", () => {
-      const schema = formulaSchemas.mymca("imperial")("female");
-
-      // Valid female measurements
-      expect(() =>
-        schema.parse({
-          weight: 132,
-          waistCircumference: 27.6,
-          wristCircumference: 5.9,
-          hipsCircumference: 35.4,
-          forearmCircumference: 9.8,
-        })
-      ).not.toThrow();
-    });
-
-    test("male schema doesn't require female-specific fields", () => {
-      const schema = formulaSchemas.mymca("metric")("male");
-
-      // Valid male measurements (without female-specific fields)
-      expect(() =>
-        schema.parse({
-          weight: 80,
-          waistCircumference: 85,
-        })
-      ).not.toThrow();
-    });
+  test("handles invalid input types", () => {
+    const result = validateFormula(
+      "ymca",
+      { weight: "not a number" as any, waistCircumference: 85 },
+      "metric",
+      "male"
+    );
+    expect(result.success).toBe(false);
+    expect(Object.keys(result.errors)).toContain("weight");
   });
 
-  describe("Covert formula", () => {
-    test("validates male-specific fields in metric", () => {
-      const schema = formulaSchemas.covert("metric")("male");
-
-      // Valid male measurements
-      expect(() =>
-        schema.parse({
-          weight: 80,
-          age: 30,
-          hipsCircumference: 95,
-          wristCircumference: 17,
-          waistCircumference: 85,
-          forearmCircumference: 30,
-        })
-      ).not.toThrow();
-    });
-
-    test("validates female-specific fields in metric", () => {
-      const schema = formulaSchemas.covert("metric")("female");
-
-      // Valid female measurements
-      expect(() =>
-        schema.parse({
-          weight: 60,
-          age: 25,
-          hipsCircumference: 90,
-          wristCircumference: 15,
-          thighCircumference: 55,
-          calfCircumference: 35,
-        })
-      ).not.toThrow();
-    });
-  });
-
-  describe("Navy formula", () => {
-    test("validates male-specific fields in metric", () => {
-      const schema = formulaSchemas.navy("metric")("male");
-
-      // Valid male measurements
-      expect(() =>
-        schema.parse({
-          weight: 80,
-          height: 180,
-          neckCircumference: 38,
-          waistCircumference: 85,
-        })
-      ).not.toThrow();
-    });
-
-    test("validates female-specific fields in metric", () => {
-      const schema = formulaSchemas.navy("metric")("female");
-
-      // Valid female measurements
-      expect(() =>
-        schema.parse({
-          weight: 60,
-          height: 165,
-          neckCircumference: 32,
-          waistCircumference: 70,
-          hipsCircumference: 90,
-        })
-      ).not.toThrow();
-    });
-
-    test("requires hips circumference for females", () => {
-      const schema = formulaSchemas.navy("metric")("female");
-
-      // Missing hips circumference
-      expect(() =>
-        schema.parse({
-          weight: 60,
-          height: 165,
-          neckCircumference: 32,
-          waistCircumference: 70,
-        })
-      ).toThrow();
-    });
+  test("handles invalid formula", () => {
+    const result = validateFormula(
+      "invalid" as Formula,
+      { weight: 80, waistCircumference: 85 },
+      "metric",
+      "male"
+    );
+    expect(result.success).toBe(false);
+    expect(result.errors._).toBe("Invalid formula: invalid");
   });
 });

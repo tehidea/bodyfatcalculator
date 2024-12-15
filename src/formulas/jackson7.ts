@@ -1,5 +1,10 @@
-import { FormulaImplementation, StandardizedInputs, FormulaResult } from "../types/formula";
+import { z } from "zod";
+import { formulaSchemas } from "../schemas/calculator";
 import { calculateMassMetrics } from "./utils";
+import { MeasurementSystem } from "../types/calculator";
+
+type Jackson7Inputs = z.infer<ReturnType<ReturnType<(typeof formulaSchemas)["jack7"]>>>;
+type FormulaResult = { bodyFatPercentage: number; fatMass: number; leanMass: number };
 
 /**
  * Jackson-Pollock 7-site formula implementation
@@ -7,8 +12,8 @@ import { calculateMassMetrics } from "./utils";
  * which is then converted to body fat percentage using Siri's equation.
  * The formula accounts for age and gender differences in fat distribution.
  */
-export const jackson7Formula: FormulaImplementation = {
-  calculate: (inputs: StandardizedInputs): FormulaResult => {
+export const jackson7Formula = {
+  calculate: (inputs: Jackson7Inputs, measurementSystem: MeasurementSystem): FormulaResult => {
     const {
       gender,
       age = 0,
@@ -56,29 +61,4 @@ export const jackson7Formula: FormulaImplementation = {
       leanMass,
     };
   },
-
-  name: "Jackson-Pollock 7-Site",
-  marginOfError: "3-4",
-
-  requiredFields: [
-    "gender",
-    "age",
-    "weight",
-    "chestSkinfold",
-    "abdomenSkinfold",
-    "thighSkinfold",
-    "tricepSkinfold",
-    "subscapularSkinfold",
-    "suprailiacSkinfold",
-    "midaxillarySkinfold",
-  ],
-
-  description:
-    "The most comprehensive Jackson-Pollock method using seven skinfold sites, providing high accuracy across different body types.",
-
-  references: [
-    "Jackson, A. S., & Pollock, M. L. (1978). Generalized equations for predicting body density of men. British Journal of Nutrition, 40(3), 497-504.",
-    "Jackson, A. S., Pollock, M. L., & Ward, A. (1980). Generalized equations for predicting body density of women. Medicine and Science in Sports and Exercise, 12(3), 175-181.",
-    "Siri, W. E. (1961). Body composition from fluid spaces and density: analysis of methods. Techniques for measuring body composition, 61, 223-244.",
-  ],
 };
