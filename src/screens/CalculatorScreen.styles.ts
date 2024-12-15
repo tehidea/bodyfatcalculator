@@ -10,10 +10,15 @@ import {
 } from "../utils/device";
 
 export const styles = StyleSheet.create({
-  safeAreaTop: {
+  container: {
+    flex: 1,
     backgroundColor: COLORS.white,
   },
-  safeAreaBottom: {
+  innerContainer: {
+    flex: 1,
+    backgroundColor: COLORS.background,
+  },
+  content: {
     flex: 1,
     backgroundColor: COLORS.background,
   },
@@ -52,10 +57,6 @@ export const styles = StyleSheet.create({
     aspectRatio: 1,
     marginRight: getResponsiveSpacing(8),
   },
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background,
-  },
   scrollContent: {
     flexGrow: 1,
     padding: getResponsiveSpacing(16),
@@ -87,9 +88,6 @@ export const styles = StyleSheet.create({
   resetButtonText: {
     color: COLORS.white,
     fontSize: getResponsiveTypography("lg"),
-  },
-  content: {
-    flex: 1,
   },
   selectorRow: {
     flexDirection: "row",

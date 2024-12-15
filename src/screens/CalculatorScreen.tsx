@@ -176,12 +176,10 @@ export const CalculatorScreen = () => {
   );
 
   return (
-    <>
-      <View style={styles.container}>
-        <SafeAreaView style={styles.safeAreaTop} edges={["top"]}>
-          <Header />
-        </SafeAreaView>
-        <View style={{ flex: 1, backgroundColor: COLORS.background }}>
+    <SafeAreaView style={styles.container} edges={["top"]}>
+      <View style={styles.innerContainer}>
+        <Header />
+        <View style={styles.content}>
           <KeyboardAwareScrollView
             ref={scrollViewRef}
             style={{ flex: 1 }}
@@ -245,6 +243,6 @@ export const CalculatorScreen = () => {
         </View>
       </View>
       <KeyboardToolbar />
-    </>
+    </SafeAreaView>
   );
 };
