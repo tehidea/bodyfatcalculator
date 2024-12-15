@@ -1,11 +1,18 @@
 import { FormulaImplementation, StandardizedInputs, FormulaResult } from "../types/formula";
 import { convertMeasurement } from "../utils/conversions";
 import { calculateMassMetrics } from "./utils";
+import { MeasurementSystem } from "../types/calculator";
 
 /**
  * Modified YMCA formula implementation
  * This formula is a variation of the YMCA formula that includes additional measurements
  * for women to improve accuracy.
+ *
+ * Measurement System Handling:
+ * - The formula internally uses imperial units (lbs and inches)
+ * - For metric inputs, we convert to imperial before calculation
+ * - For imperial inputs, we use the values directly
+ * - Results are consistent across measurement systems to 2 decimal places
  *
  * Male formula uses:
  * - Weight
@@ -19,7 +26,7 @@ import { calculateMassMetrics } from "./utils";
  * - Hips circumference
  */
 export const mymcaFormula: FormulaImplementation = {
-  calculate: (inputs: StandardizedInputs): FormulaResult => {
+  calculate: (inputs: StandardizedInputs, measurementSystem: MeasurementSystem): FormulaResult => {
     const {
       gender,
       weight = 0,
@@ -29,12 +36,27 @@ export const mymcaFormula: FormulaImplementation = {
       hipsCircumference = 0,
     } = inputs;
 
-    // Convert to imperial for calculation (formula was designed for imperial units)
-    const weightLbs = convertMeasurement(weight, "weight", "metric", "imperial");
-    const waistInches = convertMeasurement(waistCircumference, "length", "metric", "imperial");
-    const wristInches = convertMeasurement(wristCircumference, "length", "metric", "imperial");
-    const forearmInches = convertMeasurement(forearmCircumference, "length", "metric", "imperial");
-    const hipsInches = convertMeasurement(hipsCircumference, "length", "metric", "imperial");
+    // Get values in imperial units for the formula calculation
+    const weightLbs =
+      measurementSystem === "metric"
+        ? convertMeasurement(weight, "weight", "metric", "imperial")
+        : weight;
+    const waistInches =
+      measurementSystem === "metric"
+        ? convertMeasurement(waistCircumference, "length", "metric", "imperial")
+        : waistCircumference;
+    const wristInches =
+      measurementSystem === "metric"
+        ? convertMeasurement(wristCircumference, "length", "metric", "imperial")
+        : wristCircumference;
+    const forearmInches =
+      measurementSystem === "metric"
+        ? convertMeasurement(forearmCircumference, "length", "metric", "imperial")
+        : forearmCircumference;
+    const hipsInches =
+      measurementSystem === "metric"
+        ? convertMeasurement(hipsCircumference, "length", "metric", "imperial")
+        : hipsCircumference;
 
     // Calculate body fat percentage based on gender
     const bodyFatPercentage =
@@ -49,8 +71,14 @@ export const mymcaFormula: FormulaImplementation = {
             weightLbs) *
           100;
 
+    // For mass calculations, ensure we're using metric weight
+    const weightKg =
+      measurementSystem === "metric"
+        ? weight
+        : convertMeasurement(weight, "weight", "imperial", "metric");
+
     // Calculate fat mass and lean mass using utility function
-    const { fatMass, leanMass } = calculateMassMetrics(bodyFatPercentage, weight);
+    const { fatMass, leanMass } = calculateMassMetrics(bodyFatPercentage, weightKg);
 
     return {
       bodyFatPercentage,

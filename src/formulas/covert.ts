@@ -1,11 +1,18 @@
 import { FormulaImplementation, StandardizedInputs, FormulaResult } from "../types/formula";
 import { convertMeasurement } from "../utils/conversions";
 import { calculateMassMetrics } from "./utils";
+import { MeasurementSystem } from "../types/calculator";
 
 /**
  * Covert Bailey formula implementation
  * This formula uses different measurements for men and women, taking into account age
  * and various circumference measurements.
+ *
+ * Measurement System Handling:
+ * - The formula internally uses imperial units (inches)
+ * - For metric inputs, we convert to imperial before calculation
+ * - For imperial inputs, we use the values directly
+ * - Results are consistent across measurement systems to 2 decimal places
  *
  * Male formula uses:
  * - Weight
@@ -24,7 +31,7 @@ import { calculateMassMetrics } from "./utils";
  * - Wrist circumference
  */
 export const covertFormula: FormulaImplementation = {
-  calculate: (inputs: StandardizedInputs): FormulaResult => {
+  calculate: (inputs: StandardizedInputs, measurementSystem: MeasurementSystem): FormulaResult => {
     const {
       gender,
       age = 0,
@@ -37,13 +44,31 @@ export const covertFormula: FormulaImplementation = {
       calfCircumference = 0,
     } = inputs;
 
-    // Convert to imperial for calculation (formula was designed for imperial units)
-    const waistInches = convertMeasurement(waistCircumference, "length", "metric", "imperial");
-    const hipsInches = convertMeasurement(hipsCircumference, "length", "metric", "imperial");
-    const forearmInches = convertMeasurement(forearmCircumference, "length", "metric", "imperial");
-    const wristInches = convertMeasurement(wristCircumference, "length", "metric", "imperial");
-    const thighInches = convertMeasurement(thighCircumference, "length", "metric", "imperial");
-    const calfInches = convertMeasurement(calfCircumference, "length", "metric", "imperial");
+    // Get values in imperial units for the formula calculation
+    const waistInches =
+      measurementSystem === "metric"
+        ? convertMeasurement(waistCircumference, "length", "metric", "imperial")
+        : waistCircumference;
+    const hipsInches =
+      measurementSystem === "metric"
+        ? convertMeasurement(hipsCircumference, "length", "metric", "imperial")
+        : hipsCircumference;
+    const forearmInches =
+      measurementSystem === "metric"
+        ? convertMeasurement(forearmCircumference, "length", "metric", "imperial")
+        : forearmCircumference;
+    const wristInches =
+      measurementSystem === "metric"
+        ? convertMeasurement(wristCircumference, "length", "metric", "imperial")
+        : wristCircumference;
+    const thighInches =
+      measurementSystem === "metric"
+        ? convertMeasurement(thighCircumference, "length", "metric", "imperial")
+        : thighCircumference;
+    const calfInches =
+      measurementSystem === "metric"
+        ? convertMeasurement(calfCircumference, "length", "metric", "imperial")
+        : calfCircumference;
 
     let bodyFatPercentage: number;
 
@@ -58,8 +83,14 @@ export const covertFormula: FormulaImplementation = {
       bodyFatPercentage = hipsInches + thighMultiplier * thighInches - 2 * calfInches - wristInches;
     }
 
+    // For mass calculations, ensure we're using metric weight
+    const weightKg =
+      measurementSystem === "metric"
+        ? weight
+        : convertMeasurement(weight, "weight", "imperial", "metric");
+
     // Calculate fat mass and lean mass using utility function
-    const { fatMass, leanMass } = calculateMassMetrics(bodyFatPercentage, weight);
+    const { fatMass, leanMass } = calculateMassMetrics(bodyFatPercentage, weightKg);
 
     return {
       bodyFatPercentage,

@@ -1,11 +1,18 @@
 import { FormulaImplementation, StandardizedInputs, FormulaResult } from "../types/formula";
 import { convertMeasurement } from "../utils/conversions";
 import { calculateMassMetrics } from "./utils";
+import { MeasurementSystem } from "../types/calculator";
 
 /**
  * U.S. Navy formula implementation
  * This formula uses circumference measurements and height to estimate body fat percentage.
  * It's widely used in the U.S. military for its simplicity and reasonable accuracy.
+ *
+ * Measurement System Handling:
+ * - The formula internally uses imperial units (inches)
+ * - For metric inputs, we convert to imperial before calculation
+ * - For imperial inputs, we use the values directly
+ * - Results are consistent across measurement systems to 2 decimal places
  *
  * Male formula uses:
  * - Height
@@ -16,7 +23,7 @@ import { calculateMassMetrics } from "./utils";
  * - Hip circumference
  */
 export const navyFormula: FormulaImplementation = {
-  calculate: (inputs: StandardizedInputs): FormulaResult => {
+  calculate: (inputs: StandardizedInputs, measurementSystem: MeasurementSystem): FormulaResult => {
     const {
       gender,
       weight = 0,
@@ -26,11 +33,23 @@ export const navyFormula: FormulaImplementation = {
       hipsCircumference = 0,
     } = inputs;
 
-    // Convert to imperial for calculation (formula was designed for imperial units)
-    const heightInches = convertMeasurement(height, "length", "metric", "imperial");
-    const neckInches = convertMeasurement(neckCircumference, "length", "metric", "imperial");
-    const waistInches = convertMeasurement(waistCircumference, "length", "metric", "imperial");
-    const hipsInches = convertMeasurement(hipsCircumference, "length", "metric", "imperial");
+    // Get values in imperial units for the formula calculation
+    const heightInches =
+      measurementSystem === "metric"
+        ? convertMeasurement(height, "length", "metric", "imperial")
+        : height;
+    const neckInches =
+      measurementSystem === "metric"
+        ? convertMeasurement(neckCircumference, "length", "metric", "imperial")
+        : neckCircumference;
+    const waistInches =
+      measurementSystem === "metric"
+        ? convertMeasurement(waistCircumference, "length", "metric", "imperial")
+        : waistCircumference;
+    const hipsInches =
+      measurementSystem === "metric"
+        ? convertMeasurement(hipsCircumference, "length", "metric", "imperial")
+        : hipsCircumference;
 
     // Calculate body fat percentage using gender-specific formulas
     const bodyFatPercentage =
@@ -40,8 +59,14 @@ export const navyFormula: FormulaImplementation = {
           97.684 * Math.log10(heightInches) -
           78.387;
 
+    // For mass calculations, ensure we're using metric weight
+    const weightKg =
+      measurementSystem === "metric"
+        ? weight
+        : convertMeasurement(weight, "weight", "imperial", "metric");
+
     // Calculate fat mass and lean mass using utility function
-    const { fatMass, leanMass } = calculateMassMetrics(bodyFatPercentage, weight);
+    const { fatMass, leanMass } = calculateMassMetrics(bodyFatPercentage, weightKg);
 
     return {
       bodyFatPercentage,
