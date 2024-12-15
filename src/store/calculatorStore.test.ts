@@ -19,7 +19,6 @@ describe("calculatorStore", () => {
 
   describe("setMeasurementSystem", () => {
     it("converts values to the target system and updates measurement system", () => {
-      // Get store actions directly from useCalculatorStore
       useCalculatorStore.setState({
         inputs: {
           weight: 80,
@@ -46,7 +45,6 @@ describe("calculatorStore", () => {
     });
 
     it("resets validation errors when changing systems", () => {
-      // Set initial values and trigger validation error
       useCalculatorStore.setState(state => ({
         ...state,
         inputs: { weight: 15 }, // Below minimum 20kg
@@ -67,14 +65,52 @@ describe("calculatorStore", () => {
       expect(updatedState.error).toBeNull();
       expect(updatedState.fieldErrors).toEqual({});
     });
+
+    it("handles empty inputs when changing measurement system", () => {
+      useCalculatorStore.setState({
+        inputs: {},
+      });
+
+      // Switch to imperial
+      useCalculatorStore.getState().setMeasurementSystem("imperial");
+
+      // Get state for assertions
+      const state = useCalculatorStore.getState();
+
+      // Verify empty inputs remain empty
+      expect(state.inputs).toEqual({});
+      expect(state.measurementSystem).toBe("imperial");
+    });
+
+    it("maintains precision when converting back and forth", () => {
+      const originalInputs = {
+        weight: 80,
+        waistCircumference: 85,
+      };
+
+      useCalculatorStore.setState({ inputs: originalInputs });
+
+      // Switch to imperial
+      useCalculatorStore.getState().setMeasurementSystem("imperial");
+      // Switch back to metric
+      useCalculatorStore.getState().setMeasurementSystem("metric");
+
+      const finalState = useCalculatorStore.getState();
+
+      // Values should be the same as original within reasonable precision
+      expect(finalState.inputs.weight).toBeCloseTo(originalInputs.weight, 2);
+      expect(finalState.inputs.waistCircumference).toBeCloseTo(
+        originalInputs.waistCircumference,
+        2
+      );
+    });
   });
 
   describe("setGender", () => {
     it("resets validation errors when changing gender", () => {
-      // Set initial values and trigger validation error
       useCalculatorStore.setState(state => ({
         ...state,
-        inputs: { weight: 15 }, // Below minimum 20kg
+        inputs: { weight: 15 },
         error: "Invalid weight",
         fieldErrors: { weight: "Weight must be at least 20 kg" },
       }));
@@ -93,12 +129,28 @@ describe("calculatorStore", () => {
       expect(updatedState.fieldErrors).toEqual({});
       expect(updatedState.results).toBeNull();
       expect(updatedState.isResultsStale).toBe(true);
+      expect(updatedState.gender).toBe("female");
+    });
+
+    it("preserves inputs when changing gender", () => {
+      const inputs = {
+        weight: 80,
+        waistCircumference: 85,
+      };
+
+      useCalculatorStore.setState({ inputs });
+
+      // Change gender
+      useCalculatorStore.getState().setGender("female");
+
+      // Verify inputs are preserved
+      const state = useCalculatorStore.getState();
+      expect(state.inputs).toEqual(inputs);
     });
   });
 
   describe("setFormula", () => {
     it("resets validation errors when changing formula", () => {
-      // Set initial values and trigger validation error
       useCalculatorStore.setState(state => ({
         ...state,
         formula: "ymca",
@@ -120,6 +172,65 @@ describe("calculatorStore", () => {
       expect(updatedState.fieldErrors).toEqual({});
       expect(updatedState.results).toBeNull();
       expect(updatedState.isResultsStale).toBe(false);
+      expect(updatedState.formula).toBe("navy");
+    });
+
+    it("preserves inputs when changing formula", () => {
+      const inputs = {
+        weight: 80,
+        waistCircumference: 85,
+      };
+
+      useCalculatorStore.setState({ inputs });
+
+      // Change formula
+      useCalculatorStore.getState().setFormula("navy");
+
+      // Verify inputs are preserved
+      const state = useCalculatorStore.getState();
+      expect(state.inputs).toEqual(inputs);
+    });
+  });
+
+  describe("setInput", () => {
+    it("updates a single input value", () => {
+      useCalculatorStore.getState().setInput("weight", 75);
+
+      const state = useCalculatorStore.getState();
+      expect(state.inputs.weight).toBe(75);
+      expect(state.isResultsStale).toBe(true);
+    });
+
+    it("handles string input values", () => {
+      useCalculatorStore.getState().setInput("weight", "75");
+
+      const state = useCalculatorStore.getState();
+      expect(state.inputs.weight).toBe(75);
+    });
+
+    it("handles empty string input", () => {
+      useCalculatorStore.getState().setInput("weight", "");
+
+      const state = useCalculatorStore.getState();
+      expect(state.inputs.weight).toBeUndefined();
+    });
+
+    it("marks results as stale when input changes", () => {
+      // Set initial results
+      useCalculatorStore.setState({
+        results: {
+          bodyFatPercentage: 20,
+          fatMass: 16,
+          leanMass: 64,
+          classification: "Fitness",
+        },
+        isResultsStale: false,
+      });
+
+      useCalculatorStore.getState().setInput("weight", 75);
+
+      const state = useCalculatorStore.getState();
+      expect(state.isResultsStale).toBe(true);
     });
   });
 });

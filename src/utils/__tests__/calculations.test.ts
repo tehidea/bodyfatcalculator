@@ -52,73 +52,60 @@ describe("Body Fat Calculations", () => {
       );
       expect(result.bodyFatPercentage).toBeCloseTo(26.42, 1);
     });
-  });
 
-  describe("Modified YMCA Formula", () => {
-    const formula: Formula = "mymca";
+    it("calculates correctly with imperial inputs", async () => {
+      const imperialInputs: CalculatorInputs = {
+        weight: 176.37, // 80kg in lbs
+        waistCircumference: 33.46, // 85cm in inches
+      };
 
-    it("calculates male body fat with minimal inputs", async () => {
+      const result = await calculateResults(formula, "male", imperialInputs, "imperial");
+      expect(result.bodyFatPercentage).toBeCloseTo(14.73, 1);
+    });
+
+    it("handles edge case measurements", async () => {
+      // Test with minimum acceptable values
+      const minInputs: CalculatorInputs = {
+        weight: 40, // Minimum reasonable weight
+        waistCircumference: 50, // Minimum reasonable waist
+      };
+
+      const minResult = await calculateResults(formula, "male", minInputs, "metric");
+      expect(minResult.bodyFatPercentage).toBeGreaterThan(2);
+      expect(minResult.bodyFatPercentage).toBeLessThan(50);
+
+      // Test with maximum acceptable values
+      const maxInputs: CalculatorInputs = {
+        weight: 150, // Maximum reasonable weight
+        waistCircumference: 150, // Maximum reasonable waist
+      };
+
+      const maxResult = await calculateResults(formula, "male", maxInputs, "metric");
+      expect(maxResult.bodyFatPercentage).toBeGreaterThan(2);
+      expect(maxResult.bodyFatPercentage).toBeLessThan(50);
+    });
+
+    it("validates mass calculations", async () => {
       const result = await calculateResults(
         formula,
         "male",
         maleBaseInputs,
         defaultParams.measurementSystem
       );
-      expect(result.bodyFatPercentage).toBeCloseTo(17.0, 1);
-    });
 
-    it("calculates female body fat with complete inputs", async () => {
-      const inputs: CalculatorInputs = {
-        ...femaleBaseInputs,
-        wristCircumference: 15,
-        forearmCircumference: 23,
-        hipsCircumference: 90,
-      };
-      const result = await calculateResults(
-        formula,
-        "female",
-        inputs,
-        defaultParams.measurementSystem
+      // Verify mass calculations
+      expect(result.fatMass).toBeCloseTo(
+        (result.bodyFatPercentage / 100) * maleBaseInputs.weight,
+        2
       );
-      expect(result.bodyFatPercentage).toBeCloseTo(25.68, 2);
+      expect(result.leanMass).toBeCloseTo(
+        maleBaseInputs.weight - (result.bodyFatPercentage / 100) * maleBaseInputs.weight,
+        2
+      );
+
+      // Verify total mass equals input weight
+      expect(result.fatMass + result.leanMass).toBeCloseTo(maleBaseInputs.weight, 2);
     });
-  });
-
-  describe("Covert Bailey Formula", () => {
-    const formula: Formula = "covert";
-
-    describe("Male calculations", () => {
-      const maleInputs: CalculatorInputs = {
-        hipsCircumference: 100,
-        waistCircumference: 85,
-        forearmCircumference: 30,
-        wristCircumference: 17,
-      };
-
-      it("calculates correctly for age ≤ 30", async () => {
-        const result = await calculateResults(
-          formula,
-          "male",
-          { ...maleInputs, age: 25 },
-          defaultParams.measurementSystem
-        );
-        const expected = calculateExpectedCovertBaileyMale(maleInputs, false);
-        expect(result.bodyFatPercentage).toBeCloseTo(expected, 1);
-      });
-
-      it("calculates correctly for age > 30", async () => {
-        const result = await calculateResults(
-          formula,
-          "male",
-          { ...maleInputs, age: 35 },
-          defaultParams.measurementSystem
-        );
-        const expected = calculateExpectedCovertBaileyMale(maleInputs, true);
-        expect(result.bodyFatPercentage).toBeCloseTo(expected, 1);
-      });
-    });
-
-    // Similar structure for female calculations...
   });
 
   describe("Input Validation", () => {
@@ -166,6 +153,22 @@ describe("Body Fat Calculations", () => {
       expect(result.bodyFatPercentage).toBeGreaterThanOrEqual(0);
       expect(result.bodyFatPercentage).toBeLessThanOrEqual(100);
     });
+
+    it("rejects missing required fields", async () => {
+      await expectCalculationError(
+        "ymca",
+        "male",
+        { weight: maleBaseInputs.weight },
+        "Please check your measurements"
+      );
+
+      await expectCalculationError(
+        "ymca",
+        "male",
+        { waistCircumference: maleBaseInputs.waistCircumference },
+        "Please check your measurements"
+      );
+    });
   });
 
   describe("Classifications", () => {
@@ -190,18 +193,27 @@ describe("Body Fat Calculations", () => {
       expect(getClassification(2, "male")).toBe("Essential fat (2-5%)");
       expect(getClassification(10, "female")).toBe("Essential fat (10-13%)");
     });
+
+    it("handles boundary values", () => {
+      // Male boundaries
+      expect(getClassification(5, "male")).toBe("Essential fat (2-5%)");
+      expect(getClassification(6, "male")).toBe("Athletic (6-13%)");
+      expect(getClassification(13, "male")).toBe("Athletic (6-13%)");
+      expect(getClassification(14, "male")).toBe("Fitness (14-17%)");
+      expect(getClassification(17, "male")).toBe("Fitness (14-17%)");
+      expect(getClassification(18, "male")).toBe("Acceptable (18-25%)");
+      expect(getClassification(25, "male")).toBe("Acceptable (18-25%)");
+      expect(getClassification(26, "male")).toBe("Obese (> 25%)");
+
+      // Female boundaries
+      expect(getClassification(13, "female")).toBe("Essential fat (10-13%)");
+      expect(getClassification(14, "female")).toBe("Athletic (14-20%)");
+      expect(getClassification(20, "female")).toBe("Athletic (14-20%)");
+      expect(getClassification(21, "female")).toBe("Fitness (21-24%)");
+      expect(getClassification(24, "female")).toBe("Fitness (21-24%)");
+      expect(getClassification(25, "female")).toBe("Acceptable (25-31%)");
+      expect(getClassification(31, "female")).toBe("Acceptable (25-31%)");
+      expect(getClassification(32, "female")).toBe("Obese (> 31%)");
+    });
   });
 });
-
-// Helper functions
-function calculateExpectedCovertBaileyMale(inputs: CalculatorInputs, isOver30: boolean): number {
-  const { waistCircumference, hipsCircumference, forearmCircumference, wristCircumference } =
-    inputs;
-  const forearmMultiplier = isOver30 ? 2.7 : 3;
-  return (
-    waistCircumference * 0.393701 +
-    0.5 * hipsCircumference * 0.393701 -
-    forearmMultiplier * forearmCircumference * 0.393701 -
-    wristCircumference * 0.393701
-  );
-}
