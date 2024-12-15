@@ -1,5 +1,5 @@
 import React, { useState, useEffect, forwardRef, useRef, useCallback, useMemo } from "react";
-import { View, TextInput, Keyboard } from "react-native";
+import { View, TextInput, Keyboard, StyleSheet } from "react-native";
 import { Text } from "@rneui/themed";
 import Animated, {
   withTiming,
@@ -19,6 +19,7 @@ import { styles } from "./MeasurementInput.styles";
 import { COLORS } from "../../constants/theme";
 import { getResponsiveSpacing } from "../../utils/device";
 import { getFormulaMetadata, FieldMetadata } from "../../schemas/calculator";
+import { MeasurementHint } from "./MeasurementHint";
 
 interface MeasurementInputProps {
   field: string;
@@ -180,7 +181,18 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
     return (
       <>
         <View style={styles.container}>
-          <Text style={styles.label}>{fieldMetadata.label}</Text>
+          <View style={styles.labelContainer}>
+            <Text style={styles.label}>{fieldMetadata.label}</Text>
+            {fieldMetadata.accessibilityHint && (
+              <>
+                {console.log("MeasurementInput - Hint data:", {
+                  hint: fieldMetadata.accessibilityHint,
+                  type: fieldMetadata.type,
+                })}
+                <MeasurementHint hint={fieldMetadata.accessibilityHint} type={fieldMetadata.type} />
+              </>
+            )}
+          </View>
           <Animated.View
             style={[styles.inputContainer, error && styles.inputError, inputContainerStyle]}
           >

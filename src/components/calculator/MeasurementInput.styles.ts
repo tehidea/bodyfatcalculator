@@ -6,8 +6,12 @@ export const styles = StyleSheet.create({
   container: {
     marginBottom: getResponsiveSpacing(16),
   },
-  label: {
+  labelContainer: {
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: getResponsiveSpacing(8),
+  },
+  label: {
     color: COLORS.text,
     fontSize: getResponsiveTypography("sm"),
   },

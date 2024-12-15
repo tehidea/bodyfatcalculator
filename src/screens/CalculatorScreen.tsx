@@ -14,14 +14,12 @@ import {
   validateFormula as validateInputs,
   getFormulaMetadata,
   isValidFormula,
-  formulaSchemas,
 } from "../schemas/calculator";
 import Logo from "../images/logo";
 import { memo } from "react";
-import { calculateResults, getFormula } from "../formulas";
+import { calculateResults } from "../formulas";
 import { styles } from "./CalculatorScreen.styles";
 import { usePremiumStore } from "../store/premiumStore";
-import { Gender } from "../schemas/calculator";
 
 // Extract Header into a separate component
 const Header = memo(() => (
