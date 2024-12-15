@@ -78,7 +78,7 @@ export function getResponsiveTypography(size: keyof typeof BASE_TYPOGRAPHY): num
   const scaleFactor = TYPOGRAPHY_SCALE[deviceType];
 
   // Scale based on device type and apply minimum size protection
-  return Math.max(baseSize * scaleFactor, BASE_TYPOGRAPHY.xs);
+  return Math.max(baseSize * scaleFactor, BASE_TYPOGRAPHY.xxxs);
 }
 
 // Helper function to get dynamic line height based on font size
