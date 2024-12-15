@@ -15,7 +15,14 @@ import { usePurchase } from "../../hooks/usePurchase";
 import { PremiumFormulaModal } from "./PremiumFormulaModal";
 import { getFormula, getRequiredFields, getAvailableFormulas } from "../../formulas";
 import { getIconTypes } from "../../utils/fields";
-import { isIPad, getResponsiveSpacing, getResponsiveFontSize } from "../../utils/device";
+import {
+  isIPad,
+  getResponsiveSpacing,
+  getResponsiveFontSize,
+  getResponsiveTypography,
+  getLineHeight,
+  getLetterSpacing,
+} from "../../utils/device";
 
 type IconType = "weight" | "circumference" | "skinfold" | "height" | "age";
 
@@ -380,7 +387,7 @@ const styles = StyleSheet.create({
   },
   formulaName: {
     color: COLORS.text,
-    fontSize: getResponsiveFontSize(18),
+    fontSize: getResponsiveTypography("lg"),
     fontWeight: "bold",
     flex: 1,
   },
@@ -392,7 +399,7 @@ const styles = StyleSheet.create({
   },
   description: {
     color: COLORS.text,
-    fontSize: getResponsiveFontSize(12),
+    fontSize: getResponsiveTypography("xs"),
     opacity: 0.8,
     flex: 1,
     marginRight: getResponsiveSpacing(8),
@@ -464,7 +471,7 @@ const styles = StyleSheet.create({
   },
   formulaItemDescription: {
     flex: 1,
-    fontSize: getResponsiveFontSize(12),
+    fontSize: getResponsiveTypography("xs"),
     color: "#666",
   },
   premiumBadge: {
@@ -528,11 +535,11 @@ const styles = StyleSheet.create({
     borderRadius: getResponsiveSpacing(4),
   },
   accuracyText: {
-    fontSize: getResponsiveFontSize(12),
+    fontSize: getResponsiveTypography("xs"),
     color: "#666",
   },
   accuracyNote: {
-    fontSize: getResponsiveFontSize(12),
+    fontSize: getResponsiveTypography("xs"),
     color: "#666",
     textAlign: "center",
     fontStyle: "italic",
@@ -552,7 +559,7 @@ const styles = StyleSheet.create({
   },
   selectorHint: {
     color: COLORS.text,
-    fontSize: getResponsiveFontSize(12),
+    fontSize: getResponsiveTypography("xs"),
     opacity: 0.6,
     textAlign: "left",
     textTransform: "uppercase",
@@ -572,7 +579,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalTitle: {
-    fontSize: getResponsiveFontSize(14),
+    fontSize: getResponsiveTypography("sm"),
     color: COLORS.textDark,
     textTransform: "uppercase",
     letterSpacing: 1,

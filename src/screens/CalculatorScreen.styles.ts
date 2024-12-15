@@ -1,6 +1,13 @@
 import { StyleSheet } from "react-native";
 import { COLORS } from "../constants/theme";
-import { getResponsiveSpacing, getResponsiveFontSize, isIPad } from "../utils/device";
+import {
+  getResponsiveSpacing,
+  getResponsiveTypography,
+  getLineHeight,
+  getLetterSpacing,
+  getResponsiveFontSize,
+  isIPad,
+} from "../utils/device";
 
 export const styles = StyleSheet.create({
   safeAreaTop: {
@@ -25,7 +32,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
   },
   headerTitle: {
-    fontSize: getResponsiveFontSize(42),
+    fontSize: getResponsiveTypography("5xl"),
     color: COLORS.black,
     textTransform: "uppercase",
     letterSpacing: -2,
@@ -33,7 +40,7 @@ export const styles = StyleSheet.create({
     marginTop: -6,
   },
   strapline: {
-    fontSize: getResponsiveFontSize(10),
+    fontSize: getResponsiveTypography("xxxs"),
     color: COLORS.black,
     marginTop: -6,
     marginLeft: getResponsiveSpacing(4),
@@ -79,7 +86,7 @@ export const styles = StyleSheet.create({
   },
   resetButtonText: {
     color: COLORS.white,
-    fontSize: getResponsiveFontSize(14),
+    fontSize: getResponsiveTypography("sm"),
   },
   content: {
     flex: 1,
@@ -126,12 +133,12 @@ export const styles = StyleSheet.create({
   },
   buttonTitle: {
     fontWeight: "bold",
-    fontSize: getResponsiveFontSize(14),
+    fontSize: getResponsiveTypography("sm"),
   },
   outlineButtonTitle: {
     color: COLORS.primary,
     fontWeight: "bold",
-    fontSize: getResponsiveFontSize(14),
+    fontSize: getResponsiveTypography("sm"),
   },
   errorContainer: {
     borderWidth: 2,
@@ -142,13 +149,13 @@ export const styles = StyleSheet.create({
   },
   errorText: {
     color: "#c62828",
-    fontSize: getResponsiveFontSize(14),
+    fontSize: getResponsiveTypography("sm"),
     fontWeight: "bold",
   },
   versionText: {
     textAlign: "center",
     color: "rgba(255, 255, 255, 0.4)",
-    fontSize: getResponsiveFontSize(12),
+    fontSize: getResponsiveTypography("xs"),
     marginTop: getResponsiveSpacing(32),
     marginBottom: getResponsiveSpacing(8),
     fontFamily: "Montserrat-Light",

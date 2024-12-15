@@ -8,6 +8,7 @@ import { FEATURES, PRICING } from "../constants/features";
 import { COLORS } from "../constants/theme";
 import { usePremiumStore } from "../store/premiumStore";
 import { purchasePackage, getOfferings } from "../config/store";
+import { getResponsiveTypography, getLineHeight } from "../utils/device";
 
 export const FeatureComparisonScreen = () => {
   const { pro, premium, setEntitlements } = usePremiumStore();
@@ -215,13 +216,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 24,
+    fontSize: getResponsiveTypography("2xl"),
     fontWeight: "bold",
     color: COLORS.textDark,
     marginBottom: 8,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: getResponsiveTypography("md"),
     color: "#666",
     textAlign: "center",
   },
@@ -230,7 +231,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: getResponsiveTypography("xl"),
     fontWeight: "bold",
     color: COLORS.textDark,
     marginBottom: 16,
@@ -255,19 +256,19 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
   },
   planLabel: {
-    fontSize: 14,
+    fontSize: getResponsiveTypography("sm"),
     fontWeight: "bold",
     color: COLORS.textDark,
     marginBottom: 4,
   },
   accuracyRange: {
-    fontSize: 24,
+    fontSize: getResponsiveTypography("2xl"),
     fontWeight: "bold",
     color: COLORS.primary,
     marginBottom: 4,
   },
   accuracyNote: {
-    fontSize: 12,
+    fontSize: getResponsiveTypography("xs"),
     color: "#666",
     marginBottom: 12,
   },
@@ -276,12 +277,12 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   methodItem: {
-    fontSize: 11,
+    fontSize: getResponsiveTypography("xs"),
     color: "#666",
     marginBottom: 4,
   },
   accuracyDisclaimer: {
-    fontSize: 11,
+    fontSize: getResponsiveTypography("xs"),
     color: "#666",
     fontStyle: "italic",
     marginTop: 12,
@@ -307,24 +308,24 @@ const styles = StyleSheet.create({
     borderColor: COLORS.primary,
   },
   planName: {
-    fontSize: 20,
+    fontSize: getResponsiveTypography("xl"),
     fontWeight: "bold",
     color: COLORS.textDark,
     marginBottom: 8,
   },
   planPrice: {
-    fontSize: 32,
+    fontSize: getResponsiveTypography("3xl"),
     fontWeight: "bold",
     color: COLORS.primary,
     marginBottom: 4,
   },
   planType: {
-    fontSize: 14,
+    fontSize: getResponsiveTypography("sm"),
     color: "#666",
     marginBottom: 16,
   },
   monthlyPrice: {
-    fontSize: 12,
+    fontSize: getResponsiveTypography("xs"),
     color: "#666",
     marginBottom: 16,
   },
@@ -333,7 +334,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   keyFeature: {
-    fontSize: 14,
+    fontSize: getResponsiveTypography("sm"),
     color: "#444",
     marginBottom: 4,
   },
@@ -354,7 +355,7 @@ const styles = StyleSheet.create({
   },
   saveBadgeText: {
     color: "#fff",
-    fontSize: 12,
+    fontSize: getResponsiveTypography("xs"),
     fontWeight: "bold",
   },
   featuresSection: {
@@ -371,12 +372,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   featureName: {
-    fontSize: 16,
+    fontSize: getResponsiveTypography("md"),
     color: COLORS.textDark,
     marginBottom: 2,
   },
   featureDescription: {
-    fontSize: 12,
+    fontSize: getResponsiveTypography("xs"),
     color: "#666",
   },
   availabilityIndicator: {

@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { COLORS } from "../../constants/theme";
-import { getResponsiveSpacing, getResponsiveFontSize } from "../../utils/device";
+import { getResponsiveSpacing, getResponsiveTypography, getLineHeight } from "../../utils/device";
 
 export const styles = StyleSheet.create({
   container: {
@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   label: {
     marginBottom: getResponsiveSpacing(8),
     color: COLORS.text,
-    fontSize: getResponsiveFontSize(14),
+    fontSize: getResponsiveTypography("sm"),
   },
   inputContainer: {
     flexDirection: "row",
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     height: getResponsiveSpacing(40),
     color: COLORS.textDark,
-    fontSize: getResponsiveFontSize(16),
+    fontSize: getResponsiveTypography("md"),
   },
   inputError: {
     borderColor: "red",
@@ -38,11 +38,11 @@ export const styles = StyleSheet.create({
   },
   unit: {
     color: COLORS.textDark,
-    fontSize: getResponsiveFontSize(14),
+    fontSize: getResponsiveTypography("sm"),
   },
   error: {
     color: "red",
-    fontSize: getResponsiveFontSize(12),
+    fontSize: getResponsiveTypography("xs"),
     marginTop: getResponsiveSpacing(4),
   },
 });

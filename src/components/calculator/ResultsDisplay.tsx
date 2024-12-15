@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { usePurchase } from "../../hooks/usePurchase";
 import { ProUpgradeModal } from "./ProUpgradeModal";
 import { getFormula } from "../../formulas";
+import { getResponsiveTypography, getLineHeight } from "../../utils/device";
 
 const { width } = Dimensions.get("window");
 
@@ -215,7 +216,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: COLORS.textDark,
-    fontSize: 20,
+    fontSize: getResponsiveTypography("xl"),
     marginBottom: 16,
   },
   mainResult: {
@@ -228,7 +229,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   mainValue: {
-    fontSize: 48,
+    fontSize: getResponsiveTypography("6xl"),
     fontWeight: "bold",
     color: COLORS.textDark,
   },
@@ -243,13 +244,13 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   premiumBadgeText: {
-    fontSize: 10,
+    fontSize: getResponsiveTypography("xxxs"),
     fontWeight: "bold",
     color: "#666",
     marginLeft: 4,
   },
   mainLabel: {
-    fontSize: 16,
+    fontSize: getResponsiveTypography("md"),
     color: COLORS.textLight,
     marginBottom: 8,
   },
@@ -266,7 +267,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   classification: {
-    fontSize: 16,
+    fontSize: getResponsiveTypography("md"),
     fontWeight: "600",
   },
   breakdownContainer: {
@@ -280,18 +281,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   breakdownValue: {
-    fontSize: 20,
+    fontSize: getResponsiveTypography("xl"),
     fontWeight: "600",
     color: COLORS.textDark,
     marginBottom: 4,
   },
   breakdownLabel: {
-    fontSize: 14,
+    fontSize: getResponsiveTypography("sm"),
     color: COLORS.textLight,
     marginBottom: 4,
   },
   breakdownPercentage: {
-    fontSize: 16,
+    fontSize: getResponsiveTypography("md"),
     color: COLORS.textDark,
   },
   divider: {
@@ -300,7 +301,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   formulaName: {
-    fontSize: 12,
+    fontSize: getResponsiveTypography("xs"),
     color: COLORS.textLight,
     textAlign: "center",
     marginTop: 8,

@@ -6,6 +6,7 @@ import { Gender } from "../../types/calculator";
 import { COLORS } from "../../constants/theme";
 import MaleIcon from "../icons/MaleIcon";
 import FemaleIcon from "../icons/FemaleIcon";
+import { getResponsiveTypography, getLineHeight } from "../../utils/device";
 
 interface GenderSelectorProps {
   style?: ViewStyle;
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#fff",
-    fontSize: 14,
+    fontSize: getResponsiveTypography("sm"),
   },
   activeText: {
     color: "#fff",

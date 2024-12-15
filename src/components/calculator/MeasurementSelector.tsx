@@ -4,6 +4,7 @@ import { Text } from "@rneui/themed";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { MeasurementSystem } from "../../types/calculator";
 import { COLORS } from "../../constants/theme";
+import { getResponsiveTypography, getLineHeight } from "../../utils/device";
 
 interface MeasurementSelectorProps {
   style?: ViewStyle;
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#fff",
-    fontSize: 14,
+    fontSize: getResponsiveTypography("sm"),
   },
   activeText: {
     color: "#fff",

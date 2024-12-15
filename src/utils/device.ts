@@ -47,3 +47,46 @@ export function getResponsiveFontSize(base: number): number {
   if (isIPad) return base * 1.2;
   return base;
 }
+
+// Typography scale factors based on device type
+const TYPOGRAPHY_SCALE = {
+  phone: 1,
+  tablet: 1.2,
+  desktop: 1.3,
+} as const;
+
+// Base typography sizes
+export const BASE_TYPOGRAPHY = {
+  xxxs: 10,
+  xxs: 11,
+  xs: 12,
+  sm: 14,
+  md: 16,
+  lg: 18,
+  xl: 20,
+  "2xl": 24,
+  "3xl": 30,
+  "4xl": 36,
+  "5xl": 42,
+  "6xl": 48,
+} as const;
+
+// Helper function to get responsive typography size
+export function getResponsiveTypography(size: keyof typeof BASE_TYPOGRAPHY): number {
+  const baseSize = BASE_TYPOGRAPHY[size];
+  const deviceType = getDeviceType();
+  const scaleFactor = TYPOGRAPHY_SCALE[deviceType];
+
+  // Scale based on device type and apply minimum size protection
+  return Math.max(baseSize * scaleFactor, BASE_TYPOGRAPHY.xs);
+}
+
+// Helper function to get dynamic line height based on font size
+export function getLineHeight(fontSize: number): number {
+  return Math.round(fontSize * 1.5);
+}
+
+// Helper function to get letter spacing based on font size
+export function getLetterSpacing(fontSize: number): number {
+  return fontSize * 0.02;
+}
