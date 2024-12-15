@@ -123,9 +123,10 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
     );
 
     const iconType = useMemo(() => getIconType(field), [field]);
+    const fieldType = useMemo(() => getFieldType(field), [field]);
     const displayUnit = useMemo(
-      () => getDisplayUnit(unit, measurementSystem),
-      [unit, measurementSystem]
+      () => getDisplayUnit(unit, measurementSystem, fieldType),
+      [unit, measurementSystem, fieldType]
     );
 
     // Calculate the error container height outside the worklet

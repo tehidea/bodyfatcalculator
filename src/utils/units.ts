@@ -1,10 +1,16 @@
 import { MeasurementSystem } from "../types/calculator";
+import { ConversionType } from "./conversions";
 
-export function getDisplayUnit(unit: string, system: MeasurementSystem): string {
+export function getDisplayUnit(
+  unit: string,
+  system: MeasurementSystem,
+  type?: ConversionType
+): string {
+  if (type === "skinfold") return "mm";
+
   if (system === "imperial") {
     switch (unit) {
       case "cm":
-      case "mm":
         return "in";
       case "kg":
         return "lbs";
@@ -17,13 +23,12 @@ export function getDisplayUnit(unit: string, system: MeasurementSystem): string 
 
 export function getStandardUnit(type: string, system: MeasurementSystem): string {
   if (type === "none") return "years";
+  if (type === "skinfold") return "mm";
 
   if (system === "metric") {
     switch (type) {
       case "weight":
         return "kg";
-      case "skinfold":
-        return "mm";
       default:
         return "cm";
     }
