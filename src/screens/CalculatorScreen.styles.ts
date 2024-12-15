@@ -86,7 +86,7 @@ export const styles = StyleSheet.create({
   },
   resetButtonText: {
     color: COLORS.white,
-    fontSize: getResponsiveTypography("sm"),
+    fontSize: getResponsiveTypography("lg"),
   },
   content: {
     flex: 1,
@@ -124,6 +124,11 @@ export const styles = StyleSheet.create({
     paddingHorizontal: getResponsiveSpacing(24),
     borderRadius: 10,
     backgroundColor: COLORS.primary,
+  },
+  primaryButtonText: {
+    color: COLORS.white,
+    fontSize: getResponsiveTypography("lg"),
+    fontWeight: "bold",
   },
   disabledButton: {
     paddingVertical: getResponsiveSpacing(12),

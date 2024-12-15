@@ -220,7 +220,7 @@ export const CalculatorScreen = () => {
                 disabled={isCalculating}
                 buttonStyle={styles.primaryButton}
                 containerStyle={styles.buttonWrapperFlex}
-                titleStyle={{ fontWeight: "bold" }}
+                titleStyle={styles.primaryButtonText}
                 testID="calculate-button"
               />
               <Button
