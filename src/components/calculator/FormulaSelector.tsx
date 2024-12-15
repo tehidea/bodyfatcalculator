@@ -320,6 +320,9 @@ export const FormulaSelector = () => {
                               { backgroundColor: getAccuracyColor(item.key as Formula) },
                             ]}
                           />
+                          <Text style={styles.accuracyText}>
+                            {renderAccuracyText(item.key as Formula)}
+                          </Text>
                         </View>
                       </View>
                       {item.premium && !pro && (
@@ -541,6 +544,7 @@ const styles = StyleSheet.create({
   accuracyText: {
     fontSize: getResponsiveTypography("xs"),
     color: "#666",
+    marginLeft: getResponsiveSpacing(2),
   },
   accuracyNote: {
     fontSize: getResponsiveTypography("xs"),
@@ -556,7 +560,7 @@ const styles = StyleSheet.create({
     width: getResponsiveSpacing(8),
     height: getResponsiveSpacing(8),
     borderRadius: getResponsiveSpacing(4),
-    marginRight: getResponsiveSpacing(6),
+    marginRight: getResponsiveSpacing(4),
   },
   formulaList: {
     flex: 1,
