@@ -19,12 +19,17 @@ describe("Unit Conversions", () => {
       expect(CONVERSIONS.length.toMetric(inches)).toBeCloseTo(cm, 2);
     });
 
-    it("uses correct conversion factors for skinfold", () => {
+    it("keeps skinfold measurements in millimeters as whole numbers", () => {
       const mm = 10;
-      const inches = mm / 25.4; // Standard conversion factor
+      // Skinfold measurements should always be in millimeters
+      expect(CONVERSIONS.skinfold.toImperial(mm)).toBe(10);
+      expect(CONVERSIONS.skinfold.toMetric(mm)).toBe(10);
 
-      expect(CONVERSIONS.skinfold.toImperial(mm)).toBeCloseTo(inches, 2);
-      expect(CONVERSIONS.skinfold.toMetric(inches)).toBeCloseTo(mm, 2);
+      // Decimal values should be rounded to whole numbers
+      expect(CONVERSIONS.skinfold.toImperial(10.4)).toBe(10);
+      expect(CONVERSIONS.skinfold.toImperial(10.6)).toBe(11);
+      expect(CONVERSIONS.skinfold.toMetric(10.4)).toBe(10);
+      expect(CONVERSIONS.skinfold.toMetric(10.6)).toBe(11);
     });
   });
 
@@ -55,7 +60,9 @@ describe("Unit Conversions", () => {
     it("handles small values correctly", () => {
       expect(convertMeasurement(0.1, "weight", "metric", "imperial")).toBeGreaterThan(0);
       expect(convertMeasurement(0.1, "length", "metric", "imperial")).toBeGreaterThan(0);
-      expect(convertMeasurement(0.1, "skinfold", "metric", "imperial")).toBeGreaterThan(0);
+      // Skinfold measurements should be rounded to whole numbers
+      expect(convertMeasurement(0.1, "skinfold", "metric", "imperial")).toBe(0);
+      expect(convertMeasurement(0.6, "skinfold", "metric", "imperial")).toBe(1);
     });
 
     it("handles large values correctly", () => {
@@ -68,9 +75,8 @@ describe("Unit Conversions", () => {
       expect(convertMeasurement(largeMeasurement, "length", "metric", "imperial")).toBeLessThan(
         largeMeasurement
       );
-      expect(convertMeasurement(largeMeasurement, "skinfold", "metric", "imperial")).toBeLessThan(
-        largeMeasurement
-      );
+      // Skinfold measurements should stay the same as whole numbers
+      expect(convertMeasurement(largeMeasurement, "skinfold", "metric", "imperial")).toBe(300);
     });
   });
 
@@ -79,7 +85,7 @@ describe("Unit Conversions", () => {
     it("maintains precision for typical measurements", () => {
       const weight = 75.5; // kg
       const length = 182.5; // cm
-      const skinfold = 12.5; // mm
+      const skinfold = 13; // mm (whole number)
 
       expect(
         convertMeasurement(
@@ -99,6 +105,7 @@ describe("Unit Conversions", () => {
         )
       ).toBeCloseTo(length, 2);
 
+      // Skinfold measurements should stay as whole numbers
       expect(
         convertMeasurement(
           convertMeasurement(skinfold, "skinfold", "metric", "imperial"),
@@ -106,7 +113,7 @@ describe("Unit Conversions", () => {
           "imperial",
           "metric"
         )
-      ).toBeCloseTo(skinfold, 2);
+      ).toBe(13);
     });
   });
 

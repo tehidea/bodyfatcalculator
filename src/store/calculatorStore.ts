@@ -187,10 +187,14 @@ export const useCalculatorStore = create<CalculatorStore>()(
         const displayInputs = convertToDisplaySystem(metricInputs, newSystem, gender);
         console.log("[Store] Final values for display:", displayInputs);
 
+        // Only include gender if there are other inputs
+        const hasOtherInputs = Object.keys(displayInputs).length > 0;
+        const finalInputs = hasOtherInputs ? { ...displayInputs, gender } : {};
+
         set(state => ({
           ...state,
           measurementSystem: newSystem,
-          inputs: { ...displayInputs, gender }, // Ensure gender is preserved
+          inputs: finalInputs,
           results: null,
           isResultsStale: true,
           error: null,
@@ -203,12 +207,27 @@ export const useCalculatorStore = create<CalculatorStore>()(
         const state = get();
         const currentValue = state.inputs[key];
 
+        // Handle string inputs and empty strings
+        let processedValue = value;
+        if (typeof value === "string") {
+          if (value === "") {
+            processedValue = undefined;
+          } else {
+            const numValue = parseFloat(value);
+            processedValue = isNaN(numValue) ? value : numValue;
+          }
+        }
+
         // Only mark results as stale if the value actually changed
-        const shouldMarkStale = !options?.keepResults && value !== currentValue;
+        const shouldMarkStale = !options?.keepResults && processedValue !== currentValue;
 
         set(state => ({
-          inputs: { ...state.inputs, [key]: value },
-          isResultsStale: shouldMarkStale ? true : state.isResultsStale,
+          ...state,
+          inputs: { ...state.inputs, [key]: processedValue },
+          results: shouldMarkStale ? null : state.results,
+          isResultsStale: shouldMarkStale,
+          error: null,
+          fieldErrors: {},
         }));
       },
 

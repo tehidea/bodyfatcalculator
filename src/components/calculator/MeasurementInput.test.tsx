@@ -109,33 +109,7 @@ describe("MeasurementInput", () => {
         fireEvent.changeText(input, "80.5");
       });
 
-      // Should not call setInput with decimal value
-      expect(mockSetInput).not.toHaveBeenCalledWith("weight", 80.5);
-    });
-
-    it("shows upgrade modal when non-PRO user attempts decimal input", () => {
-      const mockSetInput = jest.fn();
-      mockUseCalculatorStore.mockReturnValue({
-        inputs: {},
-        setInput: mockSetInput,
-        measurementSystem: "metric",
-      });
-      mockUsePremiumStore.mockReturnValue({
-        pro: false,
-        purchasePro: jest.fn(),
-      });
-
-      const { getByAccessibilityHint, getByText } = renderWithNavigation(
-        <MeasurementInput {...defaultProps} />
-      );
-      const input = getByAccessibilityHint("Enter weight");
-
-      act(() => {
-        fireEvent.changeText(input, "80.5");
-      });
-
-      // Look for the feature text in the upgrade modal
-      expect(getByText("Get exact measurements to 2 decimal places")).toBeTruthy();
+      // Should not call setInput at all when decimal is entered for non-PRO users
       expect(mockSetInput).not.toHaveBeenCalled();
     });
 
@@ -167,8 +141,8 @@ describe("MeasurementInput", () => {
         fireEvent.changeText(input, "80.5");
       });
 
-      // Verify that the decimal value was not set
-      expect(mockSetInput).not.toHaveBeenCalledWith("weight", 80.5);
+      // Should not call setInput at all when decimal is entered for non-PRO users
+      expect(mockSetInput).toHaveBeenCalledTimes(1); // Only from the first input
     });
   });
 

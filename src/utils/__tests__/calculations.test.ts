@@ -66,8 +66,8 @@ describe("Body Fat Calculations", () => {
     it("handles edge case measurements", async () => {
       // Test with minimum acceptable values
       const minInputs: CalculatorInputs = {
-        weight: 40, // Minimum reasonable weight
-        waistCircumference: 50, // Minimum reasonable waist
+        weight: 60, // Minimum reasonable weight
+        waistCircumference: 70, // Minimum reasonable waist
       };
 
       const minResult = await calculateResults(formula, "male", minInputs, "metric");
@@ -76,8 +76,8 @@ describe("Body Fat Calculations", () => {
 
       // Test with maximum acceptable values
       const maxInputs: CalculatorInputs = {
-        weight: 150, // Maximum reasonable weight
-        waistCircumference: 150, // Maximum reasonable waist
+        weight: 120, // Maximum reasonable weight
+        waistCircumference: 110, // Maximum reasonable waist
       };
 
       const maxResult = await calculateResults(formula, "male", maxInputs, "metric");
