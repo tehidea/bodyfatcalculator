@@ -33,15 +33,18 @@ export const styles = StyleSheet.create({
     fontSize: getResponsiveTypography("md"),
   },
   inputError: {
-    borderColor: "red",
+    borderColor: COLORS.error,
     borderWidth: 1,
   },
   unit: {
     color: COLORS.textDark,
     fontSize: getResponsiveTypography("sm"),
   },
+  errorContainer: {
+    overflow: "hidden",
+  },
   error: {
-    color: "red",
+    color: COLORS.error,
     fontSize: getResponsiveTypography("xs"),
     marginTop: getResponsiveSpacing(4),
   },

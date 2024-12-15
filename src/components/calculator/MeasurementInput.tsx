@@ -1,6 +1,15 @@
 import React, { useState, useEffect, forwardRef, useRef, useCallback, useMemo } from "react";
 import { View, TextInput, Keyboard } from "react-native";
 import { Text } from "@rneui/themed";
+import Animated, {
+  withTiming,
+  withSpring,
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  interpolate,
+  Extrapolation,
+} from "react-native-reanimated";
 import { useCalculatorStore } from "../../store/calculatorStore";
 import { usePremiumStore } from "../../store/premiumStore";
 import { CalculatorInputs } from "../../types/calculator";
@@ -32,6 +41,9 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
     const [isEditing, setIsEditing] = useState(false);
     const [isProModalVisible, setIsProModalVisible] = useState(false);
     const inputRef = useRef<TextInput>(null);
+    const errorAnimation = useSharedValue(0);
+    const shakeAnimation = useSharedValue(0);
+    const previousError = useRef<string | null>(null);
 
     const { handlePurchase, isProcessing } = usePurchase({
       successMessage:
@@ -120,11 +132,56 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       [unit, measurementSystem]
     );
 
+    // Calculate the error container height outside the worklet
+    const ERROR_CONTAINER_HEIGHT = getResponsiveSpacing(20);
+
+    useEffect(() => {
+      if (error && !previousError.current) {
+        // New error appeared
+        errorAnimation.value = withTiming(1, {
+          duration: 150,
+        });
+
+        shakeAnimation.value = withSequence(
+          withTiming(-3, { duration: 50 }),
+          withTiming(3, { duration: 50 }),
+          withTiming(0, { duration: 50 })
+        );
+      } else if (!error && previousError.current) {
+        // Error cleared
+        errorAnimation.value = withTiming(0, {
+          duration: 100,
+        });
+      }
+      previousError.current = error || null;
+    }, [error]);
+
+    const errorContainerStyle = useAnimatedStyle(() => {
+      const interpolatedHeight = interpolate(
+        errorAnimation.value,
+        [0, 1],
+        [0, ERROR_CONTAINER_HEIGHT],
+        Extrapolation.CLAMP
+      );
+
+      return {
+        opacity: errorAnimation.value,
+        height: interpolatedHeight,
+        transform: [{ translateX: shakeAnimation.value }],
+      };
+    });
+
+    const inputContainerStyle = useAnimatedStyle(() => ({
+      transform: [{ translateX: shakeAnimation.value }],
+    }));
+
     return (
       <>
         <View style={styles.container}>
           <Text style={styles.label}>{label}</Text>
-          <View style={[styles.inputContainer, error && styles.inputError]}>
+          <Animated.View
+            style={[styles.inputContainer, error && styles.inputError, inputContainerStyle]}
+          >
             <View style={styles.iconContainer}>
               <MeasurementIcon
                 type={iconType}
@@ -154,8 +211,10 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
               onSubmitEditing={handleSubmitEditing}
             />
             <Text style={styles.unit}>{displayUnit}</Text>
-          </View>
-          {error && <Text style={styles.error}>{error}</Text>}
+          </Animated.View>
+          <Animated.View style={[styles.errorContainer, errorContainerStyle]}>
+            {error ? <Text style={styles.error}>{error}</Text> : null}
+          </Animated.View>
         </View>
 
         <ProUpgradeModal
