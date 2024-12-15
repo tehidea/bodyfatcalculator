@@ -62,7 +62,7 @@ export async function calculateResults(
     ...inputs,
   };
 
-  const results = formulaImpl.calculate(standardizedInputs);
+  const results = formulaImpl.calculate(standardizedInputs, measurementSystem);
   const validation = validateBodyFat(results.bodyFatPercentage);
 
   if (!validation.isValid) {

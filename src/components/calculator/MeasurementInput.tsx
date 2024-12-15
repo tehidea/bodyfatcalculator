@@ -56,6 +56,8 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
     // Sync with store and handle display conversion
     useEffect(() => {
       const storeValue = inputs[field as keyof CalculatorInputs];
+      console.log(`[MeasurementInput] ${field} - Store value:`, storeValue);
+
       if (storeValue === null || storeValue === undefined) {
         setRawValue("");
         setIsEditing(false);
@@ -63,18 +65,13 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       }
 
       if (!isEditing) {
-        // Convert the stored metric value to display value
-        const displayValue =
-          measurementSystem === "imperial" && typeof storeValue === "number"
-            ? convertMeasurement(storeValue, getFieldType(field), "metric", "imperial")
-            : storeValue;
-
+        // The store already handles conversion between systems, so we just display the value as is
         setRawValue(
-          typeof displayValue === "number"
+          typeof storeValue === "number"
             ? pro
-              ? displayValue.toFixed(2)
-              : Math.round(displayValue).toString()
-            : displayValue.toString()
+              ? storeValue.toFixed(2)
+              : Math.round(storeValue).toString()
+            : storeValue?.toString() || ""
         );
       }
     }, [measurementSystem, inputs[field as keyof CalculatorInputs], isEditing, pro, field]);
@@ -82,6 +79,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
     const handleChangeText = useCallback(
       (value: string) => {
         setIsEditing(true);
+        console.log(`[MeasurementInput] ${field} - User input:`, value);
 
         if (value === "") {
           setRawValue("");
@@ -105,22 +103,14 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
 
         const numValue = parseFloat(value);
         if (!isNaN(numValue)) {
-          const fieldType = getFieldType(field);
-          // Convert from display system to metric for storage
-          const metricValue =
-            fieldType === "none"
-              ? numValue
-              : measurementSystem === "imperial"
-                ? convertMeasurement(numValue, fieldType, "imperial", "metric")
-                : numValue;
-
+          console.log(`[MeasurementInput] ${field} - Sending to store:`, numValue);
           setInput(
             field as keyof CalculatorInputs,
-            pro ? Number(metricValue.toFixed(2)) : Math.round(metricValue)
+            pro ? Number(numValue.toFixed(2)) : Math.round(numValue)
           );
         }
       },
-      [pro, field, setInput, measurementSystem]
+      [pro, field, setInput]
     );
 
     const iconType = useMemo(() => getIconType(field), [field]);

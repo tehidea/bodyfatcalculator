@@ -45,7 +45,7 @@ export interface FormulaResult {
 
 export interface FormulaImplementation {
   /** Calculates body fat using standardized metric inputs */
-  calculate: (inputs: StandardizedInputs) => FormulaResult;
+  calculate: (inputs: StandardizedInputs, measurementSystem: MeasurementSystem) => FormulaResult;
   /** Display name of the formula */
   name: string;
   /** Description of the formula and its limitations */

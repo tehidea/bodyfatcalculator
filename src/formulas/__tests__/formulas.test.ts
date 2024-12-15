@@ -44,7 +44,7 @@ describe("Body Fat Formula Implementations", () => {
         waistCircumference: 85, // cm
       };
 
-      const result = ymcaFormula.calculate(inputs);
+      const result = ymcaFormula.calculate(inputs, "metric");
       validateIntermediateResults(result, inputs);
 
       // Verify intermediate conversion steps
@@ -74,8 +74,8 @@ describe("Body Fat Formula Implementations", () => {
         waistCircumference: 85,
       };
 
-      const imperialResult = ymcaFormula.calculate(imperialInputs);
-      const metricResult = ymcaFormula.calculate(metricInputs);
+      const imperialResult = ymcaFormula.calculate(imperialInputs, "imperial");
+      const metricResult = ymcaFormula.calculate(metricInputs, "metric");
 
       // Results should be the same regardless of input unit system
       expect(imperialResult.bodyFatPercentage).toBeCloseTo(metricResult.bodyFatPercentage, 2);
@@ -97,7 +97,7 @@ describe("Body Fat Formula Implementations", () => {
         hipsCircumference: 95,
       };
 
-      const result = mymcaFormula.calculate(inputs);
+      const result = mymcaFormula.calculate(inputs, "metric");
       validateIntermediateResults(result, inputs);
 
       // Verify wrist-to-waist ratio is reasonable
@@ -120,7 +120,7 @@ describe("Body Fat Formula Implementations", () => {
         hipsCircumference: 95,
       };
 
-      const result = navyFormula.calculate(inputs);
+      const result = navyFormula.calculate(inputs, "metric");
       validateIntermediateResults(result, inputs);
 
       // Verify circumference ratios are reasonable

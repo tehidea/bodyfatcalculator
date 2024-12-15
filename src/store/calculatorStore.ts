@@ -70,6 +70,9 @@ export interface CalculatorStore {
   reset: () => void;
 }
 
+/**
+ * Converts input values to metric (our standardized format)
+ */
 function convertToMetric(
   inputs: CalculatorInputs,
   currentSystem: MeasurementSystem
@@ -77,7 +80,7 @@ function convertToMetric(
   if (currentSystem === "metric") return inputs as StandardizedInputs;
 
   const metricInputs: Partial<StandardizedInputs> = {
-    gender: inputs.gender,
+    gender: inputs.gender ?? "male", // Provide default value
     age: inputs.age,
   };
 
@@ -99,6 +102,9 @@ function convertToMetric(
   return metricInputs as StandardizedInputs;
 }
 
+/**
+ * Converts metric values to display system
+ */
 function convertToDisplaySystem(
   inputs: StandardizedInputs,
   targetSystem: MeasurementSystem
@@ -107,7 +113,7 @@ function convertToDisplaySystem(
 
   const displayInputs: Partial<CalculatorInputs> = {
     gender: inputs.gender,
-    age: inputs.age,
+    age: inputs.age ?? undefined,
   };
 
   // Convert each input to display system
@@ -163,28 +169,24 @@ export const useCalculatorStore = create<CalculatorStore>()(
 
       setMeasurementSystem: newSystem => {
         const { measurementSystem: oldSystem, inputs } = get();
+        console.log("[Store] Switching measurement system:", oldSystem, "->", newSystem);
+        console.log("[Store] Current inputs:", inputs);
 
         if (oldSystem === newSystem) return;
 
-        const convertedInputs: Partial<CalculatorInputs> = {
-          gender: inputs.gender,
-          age: inputs.age,
-        };
+        // First convert all values to metric (our standardized format)
+        const metricInputs = convertToMetric(inputs, oldSystem);
+        console.log("[Store] Values in metric:", metricInputs);
 
-        // Convert each input to the new system
-        Object.entries(inputs).forEach(([key, value]) => {
-          if (value == null || key === "gender" || key === "age") return;
+        // Then convert to the target system if it's imperial
+        const displayInputs =
+          newSystem === "imperial" ? convertToDisplaySystem(metricInputs, newSystem) : metricInputs;
 
-          const conversionType = INPUT_CONVERSION_MAP[key as keyof CalculatorInputs];
-          if (!conversionType) return;
-
-          // Keep the original metric values when switching to imperial
-          convertedInputs[key as keyof CalculatorInputs] = value;
-        });
+        console.log("[Store] Final values for display:", displayInputs);
 
         set({
           measurementSystem: newSystem,
-          inputs: convertedInputs as CalculatorInputs,
+          inputs: displayInputs,
           results: null,
           isResultsStale: true,
           error: null,
@@ -193,6 +195,7 @@ export const useCalculatorStore = create<CalculatorStore>()(
       },
 
       setInput: (key, value, options) => {
+        console.log(`[Store] Setting ${key}:`, value);
         const state = get();
         const currentValue = state.inputs[key];
 
@@ -216,6 +219,8 @@ export const useCalculatorStore = create<CalculatorStore>()(
 
       calculate: async () => {
         const { formula, gender, inputs, measurementSystem } = get();
+        console.log("[Store] Calculating with inputs:", inputs);
+        console.log("[Store] Current measurement system:", measurementSystem);
 
         set({ isCalculating: true, error: null });
 
@@ -231,21 +236,23 @@ export const useCalculatorStore = create<CalculatorStore>()(
             return;
           }
 
-          // Convert inputs to metric for calculation
+          // Always convert inputs to metric for calculation
           const metricInputs = convertToMetric(inputs, measurementSystem);
+          console.log("[Store] Converted to metric for calculation:", metricInputs);
 
-          // Get formula implementation and calculate
+          // Get formula implementation and calculate using metric inputs
           const formulaImpl = getFormula(formula);
-          const results = formulaImpl.calculate(metricInputs);
+          const results = formulaImpl.calculate(metricInputs, measurementSystem);
+          console.log("[Store] Calculation results:", results);
 
           set({
-            results,
+            results: { ...results, classification: "normal" }, // Add required classification
             isCalculating: false,
             isResultsStale: false,
             fieldErrors: {},
           });
         } catch (error) {
-          console.error("Calculation error:", error);
+          console.error("[Store] Calculation error:", error);
           set({
             error: error instanceof Error ? error.message : "An unexpected error occurred",
             isCalculating: false,

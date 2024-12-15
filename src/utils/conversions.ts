@@ -6,12 +6,20 @@
 export type MetricUnit = "kg" | "cm" | "mm" | "years";
 export type ImperialUnit = "lb" | "in" | "years";
 export type ConversionType = "weight" | "length" | "skinfold" | "none";
+export type MeasurementSystem = "metric" | "imperial";
 
 // Standard conversion factors
 const STANDARD_CONVERSION_FACTORS = {
-  POUNDS_PER_KG: 2.20462262185,
-  INCHES_PER_CM: 1 / 2.54,
-  INCHES_PER_MM: 1 / 25.4,
+  POUNDS_PER_KG: 2.20462,
+  INCHES_PER_CM: 0.393701,
+} as const;
+
+// Precision settings for different measurement types
+const PRECISION_SETTINGS = {
+  weight: 2, // 2 decimal places for weight
+  length: 2, // 2 decimal places for length
+  skinfold: 0, // no decimal places for skinfold (always in mm)
+  none: 0, // no decimal places for things like age
 } as const;
 
 export interface ConversionUnit {
@@ -33,10 +41,18 @@ function validateInput(value: number): void {
   }
 }
 
-function createConverter(factor: number): ConversionUnit["toImperial" | "toMetric"] {
+function roundToPrecision(value: number, type: ConversionType): number {
+  const precision = PRECISION_SETTINGS[type];
+  return Number(value.toFixed(precision));
+}
+
+function createConverter(
+  factor: number,
+  type: ConversionType
+): ConversionUnit["toImperial" | "toMetric"] {
   return (value: number) => {
     validateInput(value);
-    return value * factor;
+    return roundToPrecision(value * factor, type);
   };
 }
 
@@ -44,26 +60,26 @@ export const CONVERSIONS: Record<ConversionType, ConversionUnit> = {
   weight: {
     metric: "kg",
     imperial: "lb",
-    toImperial: createConverter(STANDARD_CONVERSION_FACTORS.POUNDS_PER_KG),
-    toMetric: createConverter(1 / STANDARD_CONVERSION_FACTORS.POUNDS_PER_KG),
+    toImperial: createConverter(STANDARD_CONVERSION_FACTORS.POUNDS_PER_KG, "weight"),
+    toMetric: createConverter(1 / STANDARD_CONVERSION_FACTORS.POUNDS_PER_KG, "weight"),
   },
   length: {
     metric: "cm",
     imperial: "in",
-    toImperial: createConverter(STANDARD_CONVERSION_FACTORS.INCHES_PER_CM),
-    toMetric: createConverter(2.54), // cm per inch
+    toImperial: createConverter(STANDARD_CONVERSION_FACTORS.INCHES_PER_CM, "length"),
+    toMetric: createConverter(2.54, "length"), // cm per inch
   },
   skinfold: {
     metric: "mm",
-    imperial: "in",
-    toImperial: createConverter(STANDARD_CONVERSION_FACTORS.INCHES_PER_MM),
-    toMetric: createConverter(25.4), // mm per inch
+    imperial: "mm", // Always use mm regardless of system
+    toImperial: (value: number) => roundToPrecision(value, "skinfold"), // No conversion needed
+    toMetric: (value: number) => roundToPrecision(value, "skinfold"), // No conversion needed
   },
   none: {
     metric: "years",
     imperial: "years",
-    toImperial: (value: number) => value,
-    toMetric: (value: number) => value,
+    toImperial: (value: number) => roundToPrecision(value, "none"),
+    toMetric: (value: number) => roundToPrecision(value, "none"),
   },
 };
 
@@ -73,21 +89,26 @@ export const CONVERSIONS: Record<ConversionType, ConversionUnit> = {
 export function convertMeasurement(
   value: number,
   type: ConversionType,
-  fromSystem: "metric" | "imperial",
-  toSystem: "metric" | "imperial"
+  fromSystem: MeasurementSystem,
+  toSystem: MeasurementSystem
 ): number {
+  console.log(
+    `[Conversions] Converting ${value} from ${fromSystem} to ${toSystem} (type: ${type})`
+  );
   validateInput(value);
 
-  if (fromSystem === toSystem) return value;
+  if (fromSystem === toSystem) return roundToPrecision(value, type);
 
   const converter = CONVERSIONS[type];
-  return fromSystem === "metric" ? converter.toImperial(value) : converter.toMetric(value);
+  const result = fromSystem === "metric" ? converter.toImperial(value) : converter.toMetric(value);
+  console.log(`[Conversions] Result:`, result);
+  return result;
 }
 
 /**
  * Gets the appropriate unit for a measurement type based on the system
  */
-export function getUnit(type: ConversionType, system: "metric" | "imperial"): string {
+export function getUnit(type: ConversionType, system: MeasurementSystem): string {
   return CONVERSIONS[type][system];
 }
 
@@ -97,11 +118,10 @@ export function getUnit(type: ConversionType, system: "metric" | "imperial"): st
 export function formatMeasurement(
   value: number,
   type: ConversionType,
-  system: "metric" | "imperial"
+  system: MeasurementSystem
 ): string {
   validateInput(value);
-  const precision = value < 0.1 ? 3 : 1; // Use more precision for small values
-  return `${value.toFixed(precision)} ${getUnit(type, system)}`;
+  return `${roundToPrecision(value, type)} ${getUnit(type, system)}`;
 }
 
 /**
@@ -110,7 +130,7 @@ export function formatMeasurement(
 export function isReasonableMeasurement(
   value: number,
   type: ConversionType,
-  system: "metric" | "imperial"
+  system: MeasurementSystem
 ): boolean {
   try {
     validateInput(value);
@@ -118,12 +138,26 @@ export function isReasonableMeasurement(
     return false;
   }
 
+  if (type === "none") {
+    // Handle age validation
+    return value >= 0 && value <= 120;
+  }
+
   const ranges = {
     weight: { metric: { min: 20, max: 300 }, imperial: { min: 44, max: 660 } },
     length: { metric: { min: 1, max: 300 }, imperial: { min: 0.4, max: 118 } },
-    skinfold: { metric: { min: 1, max: 100 }, imperial: { min: 0.04, max: 4 } },
+    skinfold: { metric: { min: 1, max: 100 }, imperial: { min: 1, max: 100 } }, // Same range for both systems
   };
 
-  const range = ranges[type][system];
+  const range = ranges[type]?.[system];
+  if (!range) return true; // If no range defined, consider it valid
+
   return value >= range.min && value <= range.max;
+}
+
+/**
+ * Determines if a value needs conversion based on the measurement type
+ */
+export function needsConversion(type: ConversionType): boolean {
+  return type !== "none" && type !== "skinfold"; // skinfold doesn't need conversion
 }
