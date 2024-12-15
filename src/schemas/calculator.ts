@@ -62,6 +62,7 @@ export interface FieldMetadata {
   label: string;
   unit?: string;
   type: "weight" | "height" | "skinfold" | "age" | "circumference";
+  accessibilityHint?: string;
 }
 
 export interface FormulaMetadata {
@@ -104,6 +105,7 @@ function createWeightSchema(system: MeasurementSystem) {
       label: "Weight",
       unit: system === "metric" ? "kg" : "lb",
       type: "weight",
+      accessibilityHint: "Enter your body weight for accurate body fat calculations",
     });
 }
 
@@ -123,9 +125,51 @@ function createHeightSchema(system: MeasurementSystem) {
       label: "Height",
       unit: system === "metric" ? "cm" : "in",
       type: "height",
+      accessibilityHint: "Enter your height for body composition calculations",
     });
 }
 
+// Helper function to get specific circumference hints
+function getCircumferenceHint(label: string): string {
+  const hints: Record<string, string> = {
+    "Waist Circumference":
+      "Measure around your waist at the navel level, keeping the tape parallel to the floor",
+    "Neck Circumference":
+      "Measure around your neck just below the Adam's apple, keeping the tape level",
+    "Wrist Circumference":
+      "Measure around the smallest part of your wrist, just below the wrist bone",
+    "Forearm Circumference": "Measure around the widest part of your forearm with your arm relaxed",
+    "Hips Circumference":
+      "Measure around the widest part of your hips and buttocks, keeping the tape level",
+    "Thigh Circumference":
+      "Measure around the widest part of your thigh while standing with weight evenly distributed",
+    "Calf Circumference":
+      "Measure around the widest part of your calf muscle while standing relaxed",
+  };
+
+  return hints[label] || `Measure ${label.toLowerCase()} at the widest point for accurate results`;
+}
+
+// Helper function to get specific skinfold hints
+function getSkinfoldHint(label: string): string {
+  const hints: Record<string, string> = {
+    "Chest Skinfold":
+      "Pinch the skin diagonally halfway between the nipple and anterior axillary fold",
+    "Abdomen Skinfold": "Pinch vertically 2cm to the right of the navel",
+    "Thigh Skinfold": "Pinch vertically at the midpoint of the front of the thigh",
+    "Tricep Skinfold": "Pinch vertically at the midpoint of the back of your upper arm",
+    "Suprailiac Skinfold": "Pinch diagonally above the hip bone following the natural angle",
+    "Subscapular Skinfold": "Pinch diagonally below the bottom tip of the shoulder blade",
+    "Bicep Skinfold": "Pinch vertically at the midpoint of the front of your upper arm",
+    "Midaxillary Skinfold": "Pinch vertically on the midaxillary line at nipple level",
+    "Lower Back Skinfold": "Pinch vertically about 2cm from the spine at waist level",
+    "Calf Skinfold": "Pinch vertically at the inside of the calf at maximum circumference",
+  };
+
+  return hints[label] || `Measure ${label.toLowerCase()} using calipers, pinching the skin gently`;
+}
+
+// Update the createCircumferenceSchema function
 function createCircumferenceSchema(system: MeasurementSystem, label: string) {
   return z
     .number()
@@ -142,9 +186,11 @@ function createCircumferenceSchema(system: MeasurementSystem, label: string) {
       label,
       unit: system === "metric" ? "cm" : "in",
       type: "circumference",
+      accessibilityHint: getCircumferenceHint(label),
     });
 }
 
+// Update the createSkinfoldSchema function
 function createSkinfoldSchema(system: MeasurementSystem, label: string) {
   return z
     .number()
@@ -155,6 +201,7 @@ function createSkinfoldSchema(system: MeasurementSystem, label: string) {
       label,
       unit: "mm",
       type: "skinfold",
+      accessibilityHint: getSkinfoldHint(label),
     });
 }
 
@@ -169,6 +216,7 @@ function createAgeSchema() {
       label: "Age",
       unit: "years",
       type: "age",
+      accessibilityHint: "Enter your current age in years",
     } as const);
 }
 

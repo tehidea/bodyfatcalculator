@@ -208,7 +208,9 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
               enablesReturnKeyAutomatically={false}
               placeholderTextColor="#999"
               accessibilityLabel={fieldMetadata.label}
-              accessibilityHint={`Enter ${fieldMetadata.label.toLowerCase()}`}
+              accessibilityHint={
+                fieldMetadata.accessibilityHint || `Enter ${fieldMetadata.label.toLowerCase()}`
+              }
               accessibilityRole="spinbutton"
               onSubmitEditing={handleSubmitEditing}
             />
