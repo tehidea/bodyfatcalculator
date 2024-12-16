@@ -104,7 +104,7 @@ export const FeatureComparisonScreen = () => {
                 <Text style={styles.methodItem}>• Jackson & Pollock 3-Site (±4-5%)</Text>
                 <Text style={styles.methodItem}>• Jackson & Pollock 4-Site (±3.5-4.5%)</Text>
                 <Text style={styles.methodItem}>• Jackson & Pollock 7-Site (±3-4%)</Text>
-                <Text style={styles.methodItem}>• Parrillo 9-Site (±3-4%)</Text>
+                <Text style={styles.methodItem}>• Parillo 9-Site (±3-4%)</Text>
               </View>
             </View>
           </View>

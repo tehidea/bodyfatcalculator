@@ -10,11 +10,11 @@ import { jackson3Formula } from "./jackson3";
 import { parilloFormula } from "./parillo";
 import { validateBodyFat, getClassification } from "./utils";
 import {
-  CalculatorInputs,
+  StandardizedInputs,
   Gender,
   MeasurementSystem,
-  CalculatorResults,
-} from "../types/calculator";
+  CalculationResult,
+} from "../schemas/calculator";
 
 /**
  * Predefined order of formulas
@@ -28,7 +28,7 @@ const FORMULA_ORDER: Formula[] = [
   "durnin",
   "jack4",
   "jack7",
-  "parrillo",
+  "parillo",
 ];
 
 /**
@@ -43,7 +43,7 @@ export const FORMULAS: Record<Formula, FormulaImplementation> = {
   jack7: jackson7Formula,
   jack4: jackson4Formula,
   jack3: jackson3Formula,
-  parrillo: parilloFormula,
+  parillo: parilloFormula,
 };
 
 /**
@@ -52,9 +52,9 @@ export const FORMULAS: Record<Formula, FormulaImplementation> = {
 export async function calculateResults(
   formula: Formula,
   gender: Gender,
-  inputs: CalculatorInputs,
+  inputs: StandardizedInputs,
   measurementSystem: MeasurementSystem
-): Promise<CalculatorResults> {
+): Promise<CalculationResult> {
   const formulaImpl = FORMULAS[formula];
   const standardizedInputs = {
     gender,

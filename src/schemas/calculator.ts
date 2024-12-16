@@ -5,16 +5,47 @@ export type Gender = "male" | "female";
 export type MeasurementSystem = "metric" | "imperial";
 export type Formula = (typeof validFormulas)[number];
 
+// Schema for calculation results
+export const calculationResultSchema = z
+  .object({
+    bodyFatPercentage: z
+      .number()
+      .min(0, "Body fat percentage cannot be negative")
+      .max(100, "Body fat percentage cannot exceed 100%"),
+    fatMass: z.number().min(0, "Fat mass cannot be negative"),
+    leanMass: z.number().min(0, "Lean mass cannot be negative"),
+  })
+  .strict();
+
+export type CalculationResult = z.infer<typeof calculationResultSchema>;
+
 // Add the formula implementation types here
 export interface FormulaImplementation {
-  (inputs: Record<string, number>): {
-    bodyFatPercentage: number;
-    fatMass: number;
-    leanMass: number;
-  };
+  (inputs: Record<string, number>): CalculationResult;
 }
 
 export type FormulaMap = Record<Formula, FormulaImplementation>;
+
+// Add validation helper for calculation results
+export function validateCalculationResult(result: unknown): ValidationResult {
+  try {
+    calculationResultSchema.parse(result);
+    return { success: true, errors: {} };
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      const errors: Record<string, string> = {};
+      error.errors.forEach(err => {
+        const path = err.path.join(".");
+        errors[path] = err.message;
+      });
+      return { success: false, errors };
+    }
+    return {
+      success: false,
+      errors: { _: error instanceof Error ? error.message : "Unknown validation error" },
+    };
+  }
+}
 
 export interface StandardizedInputs {
   weight?: number;
@@ -39,7 +70,7 @@ const validFormulas = [
   "durnin",
   "jack4",
   "jack7",
-  "parrillo",
+  "parillo",
 ] as const;
 
 // Export the isValidFormula function
@@ -426,7 +457,7 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
         },
       }),
 
-  parrillo: (system: MeasurementSystem) => (_gender: Gender) =>
+  parillo: (system: MeasurementSystem) => (_gender: Gender) =>
     z
       .object({
         weight: createWeightSchema(system),
@@ -434,7 +465,6 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
         tricepSkinfold: createSkinfoldSchema(system, "Tricep Skinfold"),
         bicepSkinfold: createSkinfoldSchema(system, "Bicep Skinfold"),
         chestSkinfold: createSkinfoldSchema(system, "Chest Skinfold"),
-        midaxillarySkinfold: createSkinfoldSchema(system, "Midaxillary Skinfold"),
         suprailiacSkinfold: createSkinfoldSchema(system, "Suprailiac Skinfold"),
         abdomenSkinfold: createSkinfoldSchema(system, "Abdomen Skinfold"),
         lowerBackSkinfold: createSkinfoldSchema(system, "Lower Back Skinfold"),
@@ -443,7 +473,7 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
       })
       .required()
       .meta({
-        name: "Parrillo",
+        name: "Parillo",
         description:
           "A bodybuilding-focused method using weight and nine precise skinfold measurements",
         premium: true,

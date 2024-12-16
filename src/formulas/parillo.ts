@@ -3,7 +3,7 @@ import { formulaSchemas, MeasurementSystem } from "../schemas/calculator";
 import { convertMeasurement } from "../utils/conversions";
 import { calculateBodyFat } from "./utils";
 
-type ParilloInputs = z.infer<ReturnType<ReturnType<(typeof formulaSchemas)["parrillo"]>>>;
+type ParilloInputs = z.infer<ReturnType<ReturnType<(typeof formulaSchemas)["parillo"]>>>;
 type FormulaResult = { bodyFatPercentage: number; fatMass: number; leanMass: number };
 
 /**

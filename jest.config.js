@@ -1,21 +1,21 @@
 module.exports = {
   preset: "jest-expo",
-  setupFiles: ["./jest.setup.js"],
-  transformIgnorePatterns: [
-    "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)",
-  ],
-  setupFilesAfterEnv: ["@testing-library/jest-native/extend-expect"],
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
   collectCoverage: true,
+  coverageDirectory: "coverage",
+  coverageReporters: ["text", "lcov", "clover"],
   collectCoverageFrom: [
-    "**/*.{ts,tsx}",
-    "!**/coverage/**",
-    "!**/node_modules/**",
-    "!**/babel.config.js",
-    "!**/jest.setup.js",
+    "src/**/*.{ts,tsx}",
+    "!src/**/*.d.ts",
+    "!src/**/*.test.{ts,tsx}",
+    "!src/**/*.spec.{ts,tsx}",
+    "!src/**/__tests__/**",
   ],
-  moduleNameMapper: {
-    "^@react-native-async-storage/async-storage$":
-      "<rootDir>/src/__mocks__/@react-native-async-storage/async-storage.ts",
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80,
+    },
   },
 };
