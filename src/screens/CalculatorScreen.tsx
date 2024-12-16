@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback, useRef } from "react";
-import { View, Platform, Keyboard, TextInput } from "react-native";
+import { View, Platform, Keyboard, TextInput, TouchableOpacity, Linking } from "react-native";
 import { Text, Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView, KeyboardToolbar } from "react-native-keyboard-controller";
@@ -20,6 +20,7 @@ import { memo } from "react";
 import { calculateResults } from "../formulas";
 import { styles } from "./CalculatorScreen.styles";
 import { usePremiumStore } from "../store/premiumStore";
+import { COLORS } from "../constants/theme";
 
 // Extract Header into a separate component
 const Header = memo(() => (
@@ -40,6 +41,33 @@ const Header = memo(() => (
     </View>
   </View>
 ));
+
+// Add References Display component
+const ReferencesDisplay = memo(() => {
+  const { formula, gender, measurementSystem } = useCalculatorStore();
+
+  if (!isValidFormula(formula)) return null;
+
+  const metadata = getFormulaMetadata(formula, measurementSystem, gender);
+  const { primary, validations } = metadata.reference;
+
+  if (!primary) return null;
+
+  const handleDoiPress = (doi: string) => {
+    Linking.openURL(`https://doi.org/${doi}`);
+  };
+
+  return (
+    <View style={styles.referencesContainer}>
+      <Text style={styles.referenceCitation}>{primary.citation}</Text>
+      {/* {primary.doi && (
+        <TouchableOpacity onPress={() => handleDoiPress(primary.doi!)}>
+          <Text style={styles.referenceDoi}>DOI: {primary.doi}</Text>
+        </TouchableOpacity>
+      )} */}
+    </View>
+  );
+});
 
 // Add Version Display component
 const VersionDisplay = memo(() => {
@@ -199,6 +227,7 @@ export const CalculatorScreen = () => {
               </View>
             )}
             <ResultsDisplay scrollViewRef={scrollViewRef} />
+            <ReferencesDisplay />
             <VersionDisplay />
           </KeyboardAwareScrollView>
         </View>

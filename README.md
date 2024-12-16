@@ -329,14 +329,93 @@ Note: Weight must be in pounds. The calculator automatically converts from kilog
 
 ## References
 
-1. Heyward, V.H., & Wagner, D.R. (2004). Applied Body Composition Assessment (2nd ed.). Human Kinetics. pp. 87-98.
-2. Hodgdon, J.A., & Beckett, M.B. (1984). Prediction of percent body fat for U.S. Navy men and women from body circumferences and height. Naval Health Research Center Report No. 84-29.
-3. Bailey, Covert. (1991). The Ultimate Fit or Fat. Houghton Mifflin Harcourt. pp. 179-187.
-4. Durnin, J.V.G.A., & Womersley, J. (1974). Body fat assessed from total body density and its estimation from skinfold thickness: measurements on 481 men and women aged from 16 to 72 years. British Journal of Nutrition, 32(1), 77-97.
-5. Jackson, A.S., & Pollock, M.L. (1985). Practical assessment of body composition. The Physician and Sportsmedicine, 13(5), 76-90.
-6. Parillo, J., & Greenwood-Robinson, M. (1993). High-Performance Body-Building. Perigee Books. pp. 304-309.
-7. Wang, Z.M., Pierson, R.N., & Heymsfield, S.B. (1992). The five-level model: a new approach to organizing body-composition research. The American Journal of Clinical Nutrition, 56(1), 19-28.
-8. Lohman, T.G. (1992). Advances in Body Composition Assessment. Human Kinetics Publishers. pp. 65-77.
+### Primary Sources
+
+1. **YMCA & Modified YMCA**
+
+   - Primary source:
+     - Golding Lawrence A., Myers Clayton R., Sinning Wayne E. (1999). Y's Way to Physical Fitness: The Complete Guide to Fitness Testing and Instruction. Human Kinetics.
+     - ISBN: 0-87322-214-8
+     - Full Text: [Archive.org](https://archive.org/details/yswaytophysicalf00gold/)
+   - Validation source:
+     - YMCA of the USA. (2000). YMCA Fitness Testing and Assessment Manual (4th ed.). YMCA of the USA.
+     - ISBN: 978-0736033169
+     - Preview: [Google Books](https://books.google.co.uk/books?id=rmNyQgAACAAJ)
+   - _Note: Uses weight and waist circumference for basic formula; adds wrist, forearm, and hip measurements for women in modified version_
+   - Accuracy: 5-7% (basic), 4-6% (modified)
+
+2. **U.S. Navy**
+
+   - Primary source:
+     - Hodgdon, J.A., & Beckett, M.B. (1984). Prediction of percent body fat for U.S. Navy men and women from body circumferences and height. Naval Health Research Center Report No. 84-29.
+     - Full text: [Archive.org](https://archive.org/details/DTIC_ADA143890)
+   - _Note: Technical report archived by Defense Technical Information Center_
+   - Accuracy: 4-6%
+
+3. **Covert Bailey**
+
+   - Primary source:
+     - Bailey, C. (1999). The Ultimate Fit or Fat: Get in Shape and Stay in Shape with America's Best-Loved and Most Effective Fitness Teacher. Houghton Mifflin Harcourt.
+     - ISBN: 978-0395959411
+     - Preview: [Google Books](https://books.google.co.uk/books?id=X3qbN6DNb_oC)
+   - _Note: Updated edition of the 1991 original_
+   - Accuracy: 4-5%
+
+4. **Jackson & Pollock 3-Site**
+
+   - For men:
+     - Jackson, A.S., & Pollock, M.L. (1978). Generalized equations for predicting body density of men. British Journal of Nutrition, 40(3), 497-504.
+     - **DOI:** [10.1079/BJN19780152](https://doi.org/10.1079/BJN19780152)
+     - _Note: Original 1978 publication, digitized by Cambridge Core in 2007_
+   - For women:
+     - Jackson, A.S., Pollock, M.L., & Ward, A. (1980). Generalized equations for predicting body density of women. Medicine and Science in Sports and Exercise, 12(3), 175-181.
+     - **DOI:** [10.1249/00005768-198023000-00009](https://doi.org/10.1249/00005768-198023000-00009)
+   - Accuracy: 4-5%
+
+5. **Jackson & Pollock 4-Site and 7-Site**
+
+   - Primary source:
+     - Jackson, A.S., & Pollock, M.L. (1985). Practical assessment of body composition. The Physician and Sportsmedicine, 13(5), 76-90.
+     - **DOI:** [10.1080/00913847.1985.11708790](https://doi.org/10.1080/00913847.1985.11708790)
+     - _Note: Original 1985 publication, digitized by Taylor & Francis in 2016_
+   - Accuracy: 3.5-4.5% (4-site), 3-4% (7-site)
+
+6. **Durnin & Womersley**
+
+   - Primary source:
+     - Durnin, J.V.G.A., & Womersley, J. (1974). Body fat assessed from total body density and its estimation from skinfold thickness: measurements on 481 men and women aged from 16 to 72 years. British Journal of Nutrition, 32(1), 77-97.
+     - **DOI:** [10.1079/BJN19740060](https://doi.org/10.1079/BJN19740060)
+     - _Note: Original 1974 publication, digitized by Cambridge Core_
+   - Accuracy: 3.5-5%
+
+7. **Parillo**
+   - Primary source:
+     - Parillo, J., & Greenwood-Robinson, M. (1993). High-Performance Body-Building. Perigee Books.
+     - ISBN: 978-0399517716
+     - Pages: 185 total
+     - Preview: [Google Books](https://books.google.co.uk/books?id=7nETOQAACAAJ)
+     - _Note: Verification needed for exact location of body fat measurement method_
+   - Accuracy: 3-4%
+
+### General Validation Studies
+
+1. **General Methodology**
+
+   - Wang, Z.M., Pierson, R.N., & Heymsfield, S.B. (1992). The five-level model: a new approach to organizing body-composition research. The American Journal of Clinical Nutrition, 56(1), 19-28.
+   - **DOI:** [10.1093/ajcn/56.1.19](https://doi.org/10.1093/ajcn/56.1.19)
+   - _Note: Original 1992 publication, digitized by Oxford Academic_
+
+2. **Comprehensive Validation**
+
+   - Heyward, V.H., & Wagner, D.R. (2004). Applied Body Composition Assessment (2nd ed.). Human Kinetics.
+   - ISBN: 978-0736046305
+   - Pages: 87-98
+   - Preview: [Google Books](https://books.google.co.uk/books?id=rZQe0Yz_IyQC)
+
+3. **Assessment Methods**
+   - Lohman, T.G. (1992). Advances in Body Composition Assessment. Human Kinetics Publishers.
+   - ISBN: 978-0873223928
+   - Preview: [Google Books](https://books.google.co.uk/books?id=Vr8rAQAAMAAJ)
 
 ## Implementation Details
 

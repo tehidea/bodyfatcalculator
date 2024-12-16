@@ -104,6 +104,24 @@ export interface FormulaMetadata {
     min: number;
     max: number;
   };
+  reference: {
+    primary: {
+      citation: string;
+      doi?: string;
+      isbn?: string;
+      pages?: string;
+      url?: string;
+      notes?: string;
+    };
+    validations?: Array<{
+      citation: string;
+      doi?: string;
+      isbn?: string;
+      pages?: string;
+      url?: string;
+      notes?: string;
+    }>;
+  };
 }
 
 // Add a type helper for schema with metadata
@@ -268,6 +286,22 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
           min: 5,
           max: 7,
         },
+        reference: {
+          primary: {
+            citation:
+              "Golding Lawrence A., Myers Clayton R., Sinning Wayne E. (1999). Y's Way to Physical Fitness: The Complete Guide to Fitness Testing and Instruction. Human Kinetics.",
+            isbn: "0-87322-214-8",
+            url: "https://archive.org/details/yswaytophysicalf00gold/",
+          },
+          validations: [
+            {
+              citation:
+                "YMCA of the USA. (2000). YMCA Fitness Testing and Assessment Manual (4th ed.). YMCA of the USA.",
+              isbn: "978-0736033169",
+              url: "https://books.google.co.uk/books?id=rmNyQgAACAAJ",
+            },
+          ],
+        },
       }),
 
   mymca: (system: MeasurementSystem) => (gender: Gender) =>
@@ -291,6 +325,22 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
           min: 4,
           max: 6,
         },
+        reference: {
+          primary: {
+            citation:
+              "Golding Lawrence A., Myers Clayton R., Sinning Wayne E. (1999). Y's Way to Physical Fitness: The Complete Guide to Fitness Testing and Instruction. Human Kinetics.",
+            isbn: "0-87322-214-8",
+            url: "https://archive.org/details/yswaytophysicalf00gold/",
+          },
+          validations: [
+            {
+              citation:
+                "YMCA of the USA. (2000). YMCA Fitness Testing and Assessment Manual (4th ed.). YMCA of the USA.",
+              isbn: "978-0736033169",
+              url: "https://books.google.co.uk/books?id=rmNyQgAACAAJ",
+            },
+          ],
+        },
       }),
 
   navy: (system: MeasurementSystem) => (gender: Gender) => {
@@ -312,6 +362,22 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
         accuracy: {
           min: 4,
           max: 6,
+        },
+        reference: {
+          primary: {
+            citation:
+              "Hodgdon, J.A., & Beckett, M.B. (1984). Prediction of percent body fat for U.S. Navy men and women from body circumferences and height. Naval Health Research Center Report No. 84-29.",
+            url: "https://archive.org/details/DTIC_ADA143890",
+          },
+          validations: [
+            {
+              citation:
+                "Heyward, V.H., & Wagner, D.R. (2004). Applied Body Composition Assessment (2nd ed.). Human Kinetics.",
+              isbn: "978-0736046305",
+              pages: "87-98",
+              url: "https://books.google.co.uk/books?id=rZQe0Yz_IyQC",
+            },
+          ],
         },
       });
 
@@ -360,6 +426,15 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
           min: 4,
           max: 5,
         },
+        reference: {
+          primary: {
+            citation:
+              "Bailey, C. (1999). The Ultimate Fit or Fat: Get in Shape and Stay in Shape with America's Best-Loved and Most Effective Fitness Teacher. Houghton Mifflin Harcourt.",
+            isbn: "978-0395959411",
+            url: "https://books.google.co.uk/books?id=X3qbN6DNb_oC",
+            notes: "Updated edition of the 1991 original",
+          },
+        },
       }),
 
   jack3: (system: MeasurementSystem) => (gender: Gender) =>
@@ -388,6 +463,19 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
           min: 4,
           max: 5,
         },
+        reference: {
+          primary: {
+            citation:
+              gender === "male"
+                ? "Jackson, A.S., & Pollock, M.L. (1978). Generalized equations for predicting body density of men. British Journal of Nutrition, 40(3), 497-504."
+                : "Jackson, A.S., Pollock, M.L., & Ward, A. (1980). Generalized equations for predicting body density of women. Medicine and Science in Sports and Exercise, 12(3), 175-181.",
+            doi: gender === "male" ? "10.1079/BJN19780152" : "10.1249/00005768-198023000-00009",
+            notes:
+              gender === "male"
+                ? "Original 1978 publication, digitized by Cambridge Core in 2007"
+                : undefined,
+          },
+        },
       }),
 
   jack4: (system: MeasurementSystem) => (_gender: Gender) =>
@@ -409,6 +497,14 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
         accuracy: {
           min: 3.5,
           max: 4.5,
+        },
+        reference: {
+          primary: {
+            citation:
+              "Jackson, A.S., & Pollock, M.L. (1985). Practical assessment of body composition. The Physician and Sportsmedicine, 13(5), 76-90.",
+            doi: "10.1080/00913847.1985.11708790",
+            notes: "Original 1985 publication, digitized by Taylor & Francis in 2016",
+          },
         },
       }),
 
@@ -434,6 +530,14 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
           min: 3,
           max: 4,
         },
+        reference: {
+          primary: {
+            citation:
+              "Jackson, A.S., & Pollock, M.L. (1985). Practical assessment of body composition. The Physician and Sportsmedicine, 13(5), 76-90.",
+            doi: "10.1080/00913847.1985.11708790",
+            notes: "Original 1985 publication, digitized by Taylor & Francis in 2016",
+          },
+        },
       }),
 
   durnin: (system: MeasurementSystem) => (_gender: Gender) =>
@@ -454,6 +558,14 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
         accuracy: {
           min: 3.5,
           max: 5,
+        },
+        reference: {
+          primary: {
+            citation:
+              "Durnin, J.V.G.A., & Womersley, J. (1974). Body fat assessed from total body density and its estimation from skinfold thickness: measurements on 481 men and women aged from 16 to 72 years. British Journal of Nutrition, 32(1), 77-97.",
+            doi: "10.1079/BJN19740060",
+            notes: "Original 1974 publication, digitized by Cambridge Core",
+          },
         },
       }),
 
@@ -480,6 +592,16 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
         accuracy: {
           min: 3,
           max: 4,
+        },
+        reference: {
+          primary: {
+            citation:
+              "Parillo, J., & Greenwood-Robinson, M. (1993). High-Performance Body-Building. Perigee Books.",
+            isbn: "978-0399517716",
+            pages: "185",
+            url: "https://books.google.co.uk/books?id=7nETOQAACAAJ",
+            notes: "Verification needed for exact location of body fat measurement method",
+          },
         },
       }),
 };
@@ -550,7 +672,11 @@ export function getFormulaMetadata(formula: Formula, system: MeasurementSystem, 
   }
 
   const fields = Object.entries(shape).map(([key, field]) => {
-    const meta = field._def.metadata as FieldMetadata | undefined;
+    // Add type assertion for ZodType
+    const zodField = field as z.ZodType<any> & {
+      _def: { metadata?: FieldMetadata; optional?: boolean };
+    };
+    const meta = zodField._def.metadata;
     if (!meta) {
       throw new Error(`Missing field metadata for ${key} in formula ${formula}`);
     }
@@ -558,7 +684,7 @@ export function getFormulaMetadata(formula: Formula, system: MeasurementSystem, 
     return {
       key,
       ...meta,
-      required: !("optional" in field._def),
+      required: !zodField._def.optional,
     };
   });
 

@@ -165,4 +165,28 @@ export const styles = StyleSheet.create({
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: "#d8d8d8",
   },
+  referencesContainer: {
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
+    borderRadius: 12,
+    padding: getResponsiveSpacing(12),
+    marginTop: getResponsiveSpacing(24),
+  },
+  referenceTitle: {
+    fontSize: getResponsiveTypography("sm"),
+    color: "rgba(255, 255, 255, 0.8)",
+    fontWeight: "600",
+    marginBottom: getResponsiveSpacing(4),
+  },
+  referenceCitation: {
+    fontSize: getResponsiveTypography("xs"),
+    color: "rgba(255, 255, 255, 0.3)",
+    marginBottom: getResponsiveSpacing(4),
+    textAlign: "center",
+  },
+  referenceDoi: {
+    fontSize: getResponsiveTypography("xs"),
+    color: COLORS.textLight,
+    textDecorationLine: "underline",
+    textAlign: "center",
+  },
 });
