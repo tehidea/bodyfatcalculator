@@ -56,10 +56,11 @@ const sections = [
     title: 'Introduction',
     content: (
       <p className="mt-4">
-        Tehidea Ltd ("we," "our," or "us"), operating as Body Fat Calculator, is
-        committed to protecting your privacy. This Privacy Policy explains how
-        we collect, use, disclose, and safeguard your information when you use
-        our mobile application and related services.
+        Tehidea Ltd (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;),
+        operating as Body Fat Calculator, is committed to protecting your
+        privacy. This Privacy Policy explains how we collect, use, disclose, and
+        safeguard your information when you use our mobile application and
+        related services.
       </p>
     ),
   },
@@ -99,7 +100,7 @@ const sections = [
         <p className="mt-4">We use the collected information to:</p>
         <ul className="mt-4 list-inside list-disc space-y-2 marker:text-[#FF0000]">
           <li>Calculate and track your body fat percentage</li>
-          <li>Improve and optimize our app's performance</li>
+          <li>Improve and optimize our app&apos;s performance</li>
           <li>Provide technical support</li>
           <li>Send important updates about the app</li>
           <li>Analyze usage patterns to enhance user experience</li>
@@ -151,7 +152,7 @@ const sections = [
     ),
   },
   {
-    title: "Children's Privacy",
+    title: 'Children&apos;s Privacy',
     content: (
       <p className="mt-4">
         Our service is not intended for users under 16 years of age. We do not
@@ -165,7 +166,7 @@ const sections = [
       <p className="mt-4">
         We may update this Privacy Policy periodically. We will notify you of
         any changes by posting the new Privacy Policy on this page and updating
-        the "Last updated" date.
+        the &quot;Last updated&quot; date.
       </p>
     ),
   },

@@ -56,9 +56,10 @@ const sections = [
     title: '1. Agreement to Terms',
     content: (
       <p className="mt-4">
-        By accessing and using the Body Fat Calculator application ("App"), you
-        agree to be bound by these Terms of Service ("Terms"). If you disagree
-        with any part of these terms, you may not access or use our App.
+        By accessing and using the Body Fat Calculator application
+        (&quot;App&quot;), you agree to be bound by these Terms of Service
+        (&quot;Terms&quot;). If you disagree with any part of these terms, you
+        may not access or use our App.
       </p>
     ),
   },
@@ -67,8 +68,8 @@ const sections = [
     content: (
       <>
         <p className="mt-4">
-          The App is operated by Tehidea Ltd ("Company," "we," or "us"),
-          registered in England and Wales:
+          The App is operated by Tehidea Ltd (&quot;Company,&quot;
+          &quot;we,&quot; or &quot;us&quot;), registered in England and Wales:
         </p>
         <div className="mt-4 rounded-lg bg-black/20 p-6 ring-1 ring-white/10">
           <p className="space-y-1">
@@ -145,8 +146,8 @@ const sections = [
     title: '8. Disclaimer of Warranties',
     content: (
       <p className="mt-4">
-        The App is provided "as is" and "as available" without any warranties of
-        any kind, either express or implied.
+        The App is provided &quot;as is&quot; and &quot;as available&quot;
+        without any warranties of any kind, either express or implied.
       </p>
     ),
   },
@@ -165,7 +166,7 @@ const sections = [
     content: (
       <p className="mt-4">
         We reserve the right to modify these Terms at any time. We will notify
-        users of any changes by updating the "Last updated" date.
+        users of any changes by updating the &quot;Last updated&quot; date.
       </p>
     ),
   },
