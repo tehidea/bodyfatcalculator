@@ -58,7 +58,7 @@ Limitations:
   - Jackson & Pollock (3-site): Quick but accurate skinfold method (±3.5-4% when done properly)
   - Jackson & Pollock (4-site): Balanced skinfold approach (±3-3.5% when done properly)
   - Jackson & Pollock (7-site): Most thorough skinfold method (±2.5-3% when done properly)
-  - Parrillo: Bodybuilding-focused nine-site method (±2.5-3% when done properly)
+  - Parillo: Bodybuilding-focused nine-site method (±2.5-3% when done properly)
 - [x] Enhanced Precision
   - 2 decimal places for all measurements
   - Access to research-grade formulas
@@ -118,7 +118,7 @@ Each formula has an inherent margin of error, which varies based on multiple fac
    - Accuracy improves with more measurement sites
    - Requires significant technical expertise
 
-4. Parrillo (±3-4% when done properly)[6]
+4. Parillo (±3-4% when done properly)[6]
    - Bodybuilding-focused nine-site method
    - Most comprehensive skinfold method
    - Requires significant expertise and consistent technique
@@ -334,7 +334,7 @@ Note: Weight must be in pounds. The calculator automatically converts from kilog
 3. Bailey, Covert. (1991). The Ultimate Fit or Fat. Houghton Mifflin Harcourt. pp. 179-187.
 4. Durnin, J.V.G.A., & Womersley, J. (1974). Body fat assessed from total body density and its estimation from skinfold thickness: measurements on 481 men and women aged from 16 to 72 years. British Journal of Nutrition, 32(1), 77-97.
 5. Jackson, A.S., & Pollock, M.L. (1985). Practical assessment of body composition. The Physician and Sportsmedicine, 13(5), 76-90.
-6. Parrillo, J., & Greenwood-Robinson, M. (1993). High-Performance Body-Building. Perigee Books. pp. 304-309.
+6. Parillo, J., & Greenwood-Robinson, M. (1993). High-Performance Body-Building. Perigee Books. pp. 304-309.
 7. Wang, Z.M., Pierson, R.N., & Heymsfield, S.B. (1992). The five-level model: a new approach to organizing body-composition research. The American Journal of Clinical Nutrition, 56(1), 19-28.
 8. Lohman, T.G. (1992). Advances in Body Composition Assessment. Human Kinetics Publishers. pp. 65-77.
 

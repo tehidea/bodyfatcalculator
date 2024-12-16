@@ -28,7 +28,7 @@ const FORMULA_ORDER: Formula[] = [
   "durnin",
   "jack4",
   "jack7",
-  "parrillo",
+  "parillo",
 ];
 
 /**

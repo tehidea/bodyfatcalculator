@@ -70,7 +70,7 @@ const validFormulas = [
   "durnin",
   "jack4",
   "jack7",
-  "parrillo",
+  "parillo",
 ] as const;
 
 // Export the isValidFormula function
@@ -457,7 +457,7 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
         },
       }),
 
-  parrillo: (system: MeasurementSystem) => (_gender: Gender) =>
+  parillo: (system: MeasurementSystem) => (_gender: Gender) =>
     z
       .object({
         weight: createWeightSchema(system),
@@ -474,7 +474,7 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
       })
       .required()
       .meta({
-        name: "Parrillo",
+        name: "Parillo",
         description:
           "A bodybuilding-focused method using weight and nine precise skinfold measurements",
         premium: true,
