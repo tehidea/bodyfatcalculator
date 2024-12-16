@@ -465,7 +465,6 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
         tricepSkinfold: createSkinfoldSchema(system, "Tricep Skinfold"),
         bicepSkinfold: createSkinfoldSchema(system, "Bicep Skinfold"),
         chestSkinfold: createSkinfoldSchema(system, "Chest Skinfold"),
-        midaxillarySkinfold: createSkinfoldSchema(system, "Midaxillary Skinfold"),
         suprailiacSkinfold: createSkinfoldSchema(system, "Suprailiac Skinfold"),
         abdomenSkinfold: createSkinfoldSchema(system, "Abdomen Skinfold"),
         lowerBackSkinfold: createSkinfoldSchema(system, "Lower Back Skinfold"),
