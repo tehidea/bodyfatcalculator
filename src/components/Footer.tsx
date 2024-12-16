@@ -64,11 +64,19 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center border-t border-gray-700/50 pb-8 pt-6 md:flex-row md:justify-center md:pt-4">
-          <p className="text-sm text-gray-400">
+        <div className="flex flex-col items-center justify-between border-t border-gray-700/50 pb-8 pt-6 md:flex-row md:items-center md:pt-4">
+          <p className="order-2 text-sm text-gray-400 md:order-1">
             &copy; {new Date().getFullYear()} BodyFat Calculator. All rights
             reserved.
           </p>
+          <div className="order-1 mb-4 flex space-x-6 text-sm text-gray-400 md:order-2 md:mb-0">
+            <Link href="/privacy-policy" className="hover:text-white">
+              Privacy Policy
+            </Link>
+            <Link href="/terms-of-service" className="hover:text-white">
+              Terms of Service
+            </Link>
+          </div>
         </div>
       </Container>
     </footer>
