@@ -11,6 +11,7 @@
     "format:check": "prettier --check \"src/**/*.{ts,tsx}\"",
     "test": "jest",
     "test:watch": "jest --watchAll",
+    "test:coverage": "jest --coverage --verbose",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "check-versions": "node scripts/check-versions.js"
