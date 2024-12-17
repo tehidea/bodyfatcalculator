@@ -578,7 +578,9 @@ When taking screenshots for the website, use iPhone 12 simulator since that's th
 To set a consistent status bar appearance across all running iOS simulators (useful for screenshots and demos), use:
 
 ```bash
-xcrun simctl list devices | grep -o '[A-Z0-9]\{8\}-[A-Z0-9]\{4\}-[A-Z0-9]\{4\}-[A-Z0-9]\{4\}-[A-Z0-9]\{12\}' | while read -r device; do xcrun simctl status_bar "$device" override --time "13:37" --cellularBars 4; done
+xcrun simctl list devices | grep "Booted" | sed -E 's/.*\(([-A-Z0-9]+)\).*/\1/' | while read -r device; do
+    xcrun simctl status_bar "$device" override --time "13:37" --cellularBars 4
+done
 ```
 
 This command will:
