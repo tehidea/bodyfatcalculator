@@ -13,6 +13,7 @@ import { getResponsiveTypography, getLineHeight } from "../utils/device";
 export const FeatureComparisonScreen = () => {
   const { pro, premium, setEntitlements } = usePremiumStore();
   const [loading, setLoading] = useState(false);
+  const { restorePurchases } = usePremiumStore();
 
   const handlePurchase = async (type: "pro" | "premium" | "bundle" | "lifetime") => {
     setLoading(true);
@@ -201,6 +202,24 @@ export const FeatureComparisonScreen = () => {
           <Text style={styles.sectionTitle}>Features</Text>
           {FEATURES.map(renderFeature)}
         </View>
+
+        {/* Restore Purchases Button */}
+        <View style={styles.restoreContainer}>
+          <Button
+            title="Restore Purchases"
+            type="clear"
+            loading={loading}
+            onPress={restorePurchases}
+            titleStyle={styles.restoreButtonText}
+            icon={{
+              name: "refresh-ccw",
+              type: "feather",
+              size: 16,
+              color: COLORS.primary,
+            }}
+            iconPosition="left"
+          />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -382,5 +401,15 @@ const styles = StyleSheet.create({
   },
   availabilityIndicator: {
     marginLeft: 16,
+  },
+  restoreContainer: {
+    alignItems: "center",
+    paddingVertical: 20,
+    marginTop: 10,
+  },
+  restoreButtonText: {
+    color: COLORS.primary,
+    fontSize: 14,
+    marginLeft: 8,
   },
 });

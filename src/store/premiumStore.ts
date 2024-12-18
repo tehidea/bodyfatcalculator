@@ -6,6 +6,7 @@ import {
   getOfferings,
 } from "../config/store";
 import { Alert } from "react-native";
+import Purchases, { PurchasesError } from "react-native-purchases";
 
 interface PremiumStore {
   pro: boolean;
@@ -30,7 +31,21 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
       set({ ...entitlements, isLoading: false, error: null });
     } catch (error) {
       console.error("checkEntitlements - Error:", error);
-      set({ isLoading: false, error: null });
+      if (error instanceof PurchasesError) {
+        // Handle specific RevenueCat errors
+        switch (error.code) {
+          case Purchases.ErrorCode.NetworkError:
+            set({ isLoading: false, error: "Network connection error. Please try again." });
+            break;
+          case Purchases.ErrorCode.PurchaseNotAllowedError:
+            set({ isLoading: false, error: "Purchases are not allowed on this device." });
+            break;
+          default:
+            set({ isLoading: false, error: null });
+        }
+      } else {
+        set({ isLoading: false, error: null });
+      }
     }
   },
   setEntitlements: (entitlements: UserEntitlements) => {
@@ -63,6 +78,11 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
       if (!proPackage) {
         console.log("purchasePro - No PRO package available");
         set({ isLoading: false, error: null, pro: false });
+        Alert.alert(
+          "Product Unavailable",
+          "The PRO package is currently unavailable. Please try again later.",
+          [{ text: "OK" }]
+        );
         return false;
       }
 
@@ -76,6 +96,18 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
       }
 
       console.log("purchasePro - Purchase successful, entitlements:", entitlements);
+
+      // If purchase was successful but entitlements aren't reflected, try restoring
+      if (!entitlements.pro) {
+        console.log(
+          "purchasePro - Purchase successful but entitlements not reflected, attempting restore"
+        );
+        await Purchases.syncPurchases(); // Use syncPurchases instead of restorePurchases here
+        const restoredEntitlements = await getUserEntitlements();
+        set({ ...restoredEntitlements, isLoading: false, error: null });
+        return restoredEntitlements.pro;
+      }
+
       set({ ...entitlements, isLoading: false, error: null });
       return entitlements.pro;
     } catch (error) {
@@ -87,25 +119,42 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
 
       set({ isLoading: false, error: null, pro: false });
 
-      if (error instanceof Error) {
-        // Handle user cancellation
-        if (error.message === "User cancelled" || error.message === "Purchase was cancelled.") {
-          console.log("purchasePro - User cancelled");
-          return false;
-        }
-
-        // Handle authentication errors
-        if (
-          error.message.includes("Authentication Failed") ||
-          error.message.includes("No active account")
-        ) {
-          console.log("purchasePro - Authentication failed");
-          Alert.alert(
-            "Sign In Required",
-            "Please sign in with your Sandbox Tester account in Settings > App Store.",
-            [{ text: "OK" }]
-          );
-          return false;
+      if (error instanceof PurchasesError) {
+        switch (error.code) {
+          case Purchases.ErrorCode.NetworkError:
+            Alert.alert("Network Error", "Please check your internet connection and try again.", [
+              { text: "OK" },
+            ]);
+            return false;
+          case Purchases.ErrorCode.StoreProblemError:
+            Alert.alert(
+              "Store Error",
+              "There was a problem with the App Store. Please try again later.",
+              [{ text: "OK" }]
+            );
+            return false;
+          case Purchases.ErrorCode.PurchaseCancelledError:
+            console.log("purchasePro - User cancelled");
+            return false;
+          case Purchases.ErrorCode.CustomerInfoError:
+            Alert.alert(
+              "Sign In Required",
+              "Please sign in with your App Store account to make purchases.",
+              [{ text: "OK" }]
+            );
+            return false;
+          case Purchases.ErrorCode.InvalidReceiptError:
+            Alert.alert(
+              "Purchase Error",
+              "There was a problem validating your purchase. Please try again.",
+              [{ text: "OK" }]
+            );
+            return false;
+          default:
+            Alert.alert("Purchase Error", "An unexpected error occurred. Please try again later.", [
+              { text: "OK" },
+            ]);
+            return false;
         }
       }
 
@@ -113,20 +162,62 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
     }
   },
   restorePurchases: async () => {
+    console.log("restorePurchases - Starting restore");
     set({ isLoading: true, error: null });
     try {
-      const entitlements = await getUserEntitlements();
-      set({ ...entitlements, isLoading: false, error: null });
-      if (entitlements.pro) {
-        Alert.alert("Success", "Your PRO access has been restored!", [{ text: "OK" }]);
-      } else {
+      // First check current entitlements
+      const currentEntitlements = await getUserEntitlements();
+
+      // Call restore and sync
+      await Purchases.restorePurchases();
+      await Purchases.syncPurchases();
+
+      // Get updated entitlements
+      const restoredEntitlements = await getUserEntitlements();
+      console.log("restorePurchases - Retrieved entitlements:", restoredEntitlements);
+      set({ ...restoredEntitlements, isLoading: false, error: null });
+
+      // Only show success message if restoration actually changed something
+      if (!currentEntitlements.pro && restoredEntitlements.pro) {
+        Alert.alert("Purchases Restored", "Your PRO access has been successfully restored.", [
+          { text: "OK" },
+        ]);
+      } else if (!restoredEntitlements.pro) {
         Alert.alert("No Purchases Found", "No previous purchases were found to restore.", [
           { text: "OK" },
         ]);
       }
     } catch (error) {
-      set({ isLoading: false, error: null });
-      Alert.alert("Error", "Failed to restore purchases. Please try again.", [{ text: "OK" }]);
+      console.error("restorePurchases - Error:", error);
+
+      if (error instanceof PurchasesError) {
+        switch (error.code) {
+          case Purchases.ErrorCode.NetworkError:
+            set({ isLoading: false, error: "Network connection error. Please try again." });
+            Alert.alert("Network Error", "Please check your internet connection and try again.", [
+              { text: "OK" },
+            ]);
+            break;
+          case Purchases.ErrorCode.InvalidCredentialsError:
+            set({ isLoading: false, error: "Sign in required to restore purchases." });
+            Alert.alert(
+              "Sign In Required",
+              "Please sign in with your App Store account to restore purchases.",
+              [{ text: "OK" }]
+            );
+            break;
+          default:
+            set({ isLoading: false, error: "Failed to restore purchases" });
+            Alert.alert("Restore Failed", "Failed to restore purchases. Please try again.", [
+              { text: "OK" },
+            ]);
+        }
+      } else {
+        set({ isLoading: false, error: "Failed to restore purchases" });
+        Alert.alert("Restore Failed", "Failed to restore purchases. Please try again.", [
+          { text: "OK" },
+        ]);
+      }
     }
   },
 }));

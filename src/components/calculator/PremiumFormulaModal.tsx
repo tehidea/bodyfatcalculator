@@ -13,6 +13,7 @@ import Animated, {
   SlideInDown,
   FadeInDown,
 } from "react-native-reanimated";
+import { usePremiumStore } from "../../store/premiumStore";
 
 interface PremiumFormulaModalProps {
   visible: boolean;
@@ -164,6 +165,27 @@ export function PremiumFormulaModal({
               titleStyle={styles.cancelButtonText}
               onPress={onClose}
             />
+
+            <View style={styles.restoreContainer}>
+              <Button
+                title="Restore Purchases"
+                type="clear"
+                loading={isProcessing}
+                onPress={() => {
+                  const { restorePurchases } = usePremiumStore.getState();
+                  restorePurchases();
+                }}
+                titleStyle={styles.restoreButtonText}
+                icon={{
+                  name: "refresh-ccw",
+                  type: "feather",
+                  size: 16,
+                  color: COLORS.primary,
+                }}
+                iconPosition="left"
+                containerStyle={styles.restoreButtonContainer}
+              />
+            </View>
           </Animated.View>
         </Animated.View>
       </View>
@@ -329,5 +351,18 @@ const styles = StyleSheet.create({
   cancelButtonText: {
     color: "#666",
     fontSize: 15,
+  },
+  restoreContainer: {
+    alignItems: "center",
+    marginTop: 8,
+  },
+  restoreButtonContainer: {
+    marginTop: 0,
+  },
+  restoreButtonText: {
+    color: COLORS.primary,
+    fontSize: 12,
+    marginLeft: 8,
+    fontWeight: "600",
   },
 });
