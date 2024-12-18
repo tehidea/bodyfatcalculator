@@ -11,7 +11,7 @@ import { CalendarIcon } from "../icons/CalendarIcon";
 import { MeasurementVerticalIcon } from "../icons/MeasurementVerticalIcon";
 import { MeasuringTapeIcon } from "../icons/MeasuringTapeIcon";
 import { usePurchase } from "../../hooks/usePurchase";
-import { PremiumFormulaModal } from "./PremiumFormulaModal";
+import { UpgradeModal } from "./UpgradeModal";
 import {
   isIPad,
   getResponsiveSpacing,
@@ -365,9 +365,10 @@ export const FormulaSelector = () => {
         </View>
       </Modal>
 
-      <PremiumFormulaModal
+      <UpgradeModal
         visible={isProModalVisible}
         isProcessing={isProcessing}
+        variant="formula"
         onUpgrade={handlePurchase}
         onClose={handleMaybeLater}
       />

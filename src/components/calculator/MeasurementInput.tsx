@@ -14,7 +14,7 @@ import { useCalculatorStore } from "../../store/calculatorStore";
 import { usePremiumStore } from "../../store/premiumStore";
 import { MeasurementIcon } from "./FormulaSelector";
 import { usePurchase } from "../../hooks/usePurchase";
-import { ProUpgradeModal } from "./ProUpgradeModal";
+import { UpgradeModal } from "./UpgradeModal";
 import { styles } from "./MeasurementInput.styles";
 import { COLORS } from "../../constants/theme";
 import { getResponsiveSpacing } from "../../utils/device";
@@ -233,9 +233,10 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
           </Animated.View>
         </View>
 
-        <ProUpgradeModal
+        <UpgradeModal
           visible={isProModalVisible}
           isProcessing={isProcessing}
+          variant="pro"
           onUpgrade={handlePurchase}
           onClose={() => setIsProModalVisible(false)}
         />

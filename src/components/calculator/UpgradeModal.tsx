@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { View, Modal, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import { Text, Button, Icon } from "@rneui/themed";
 import { COLORS } from "../../constants/theme";
@@ -7,27 +7,74 @@ import Animated, {
   withTiming,
   withSpring,
   withDelay,
-  withSequence,
   useSharedValue,
   FadeIn,
-  SlideInDown,
-  FadeInDown,
 } from "react-native-reanimated";
+import { usePurchaseRestore } from "../../hooks/usePurchaseRestore";
 import { usePremiumStore } from "../../store/premiumStore";
 
-interface ProUpgradeModalProps {
+const FEATURE_ICONS = {
+  pro: ["sliders", "trending-up", "activity", "users"] as const,
+  formula: ["activity", "percent", "sliders", "users"] as const,
+};
+
+const FEATURE_CONTENT = {
+  pro: [
+    {
+      title: "Decimal Precision",
+      description: "Get exact measurements to 2 decimal places",
+    },
+    {
+      title: "Advanced Formulas",
+      description: "Research-grade calculation methods",
+    },
+    {
+      title: "Skinfold Methods",
+      description: "Professional measurement techniques",
+    },
+    {
+      title: "Family Sharing",
+      description: "Share with up to 5 family members",
+    },
+  ],
+  formula: [
+    {
+      title: "Skinfold Methods",
+      description: "Professional measurement techniques",
+    },
+    {
+      title: "Higher Accuracy",
+      description: "±2.5-4% margin of error range",
+    },
+    {
+      title: "Decimal Precision",
+      description: "Get exact measurements to 2 decimal places",
+    },
+    {
+      title: "Family Sharing",
+      description: "Share with up to 5 family members",
+    },
+  ],
+};
+
+interface UpgradeModalProps {
   visible: boolean;
   isProcessing: boolean;
+  variant: "pro" | "formula";
   onUpgrade: () => void;
   onClose: () => void;
 }
 
-export function ProUpgradeModal({
+export function UpgradeModal({
   visible,
   isProcessing,
+  variant,
   onUpgrade,
   onClose,
-}: ProUpgradeModalProps) {
+}: UpgradeModalProps) {
+  const { isRestoring, handleRestore } = usePurchaseRestore();
+  const isPro = usePremiumStore(state => state.pro);
+  const [isClosing, setIsClosing] = useState(false);
   const rotation = useSharedValue("0deg");
   const scale = useSharedValue(0.95);
   const opacity = useSharedValue(0);
@@ -69,13 +116,42 @@ export function ProUpgradeModal({
     transform: [{ rotate: rotation.value }],
   }));
 
+  // Handle restore action
+  const handleRestorePress = useCallback(async () => {
+    const result = await handleRestore();
+
+    if (result.success && result.wasUpgraded) {
+      // If successfully upgraded, wait for alert to be seen
+      setIsClosing(true);
+      setTimeout(() => {
+        setIsClosing(false);
+        onClose();
+      }, 1500);
+    }
+  }, [handleRestore, onClose]);
+
+  // Handle modal close request
+  const handleClose = useCallback(() => {
+    if (isProcessing || isRestoring || isClosing) return;
+    onClose();
+  }, [isProcessing, isRestoring, isClosing, onClose]);
+
+  // Handle upgrade action
+  const handleUpgradePress = useCallback(() => {
+    if (isProcessing || isRestoring || isClosing) return;
+    onUpgrade();
+  }, [isProcessing, isRestoring, isClosing, onUpgrade]);
+
   if (!visible) return null;
 
+  const features = FEATURE_CONTENT[variant];
+  const icons = FEATURE_ICONS[variant];
+
   return (
-    <Modal visible={visible} transparent={true} onRequestClose={onClose} animationType="none">
+    <Modal visible={visible} transparent={true} onRequestClose={handleClose} animationType="none">
       <View style={styles.modalContainer}>
         <Animated.View style={[styles.backdrop, animatedBackdropStyle]}>
-          <TouchableWithoutFeedback onPress={onClose}>
+          <TouchableWithoutFeedback onPress={handleClose}>
             <View style={StyleSheet.absoluteFill} />
           </TouchableWithoutFeedback>
         </Animated.View>
@@ -83,7 +159,7 @@ export function ProUpgradeModal({
         <Animated.View style={[styles.modalContent, animatedContainerStyle]}>
           <TouchableOpacity
             style={styles.closeButton}
-            onPress={onClose}
+            onPress={handleClose}
             hitSlop={{ top: 20, right: 20, bottom: 20, left: 20 }}
           >
             <Icon name="x" type="feather" size={20} color="rgba(0,0,0,0.25)" />
@@ -98,13 +174,17 @@ export function ProUpgradeModal({
             </View>
 
             <Text style={styles.modalTitle}>
-              <Text style={styles.highlight}>PRO</Text> Precision{"\n"}
-              <Text style={styles.titleSecondary}>Unlock Your Full Potential</Text>
+              <Text style={styles.highlight}>PRO</Text>{" "}
+              {variant === "pro" ? "Precision" : "Formulas"}
+              {"\n"}
+              <Text style={styles.titleSecondary}>
+                {variant === "pro" ? "Unlock Your Full Potential" : "Enhanced Accuracy & Precision"}
+              </Text>
             </Text>
           </View>
 
           <View style={styles.featureList}>
-            {[0, 1, 2, 3].map(index => (
+            {features.map((feature, index) => (
               <Animated.View
                 key={index}
                 entering={FadeIn.delay(300 + index * 50).duration(400)}
@@ -112,33 +192,15 @@ export function ProUpgradeModal({
               >
                 <View style={styles.featureIconContainer}>
                   <Icon
-                    name={["sliders", "trending-up", "activity", "users"][index]}
+                    name={icons[index % icons.length]}
                     type="feather"
                     color={COLORS.primary}
                     size={20}
                   />
                 </View>
                 <View style={styles.featureContent}>
-                  <Text style={styles.featureTitle}>
-                    {
-                      [
-                        "Decimal Precision",
-                        "Advanced Formulas",
-                        "Skinfold Methods",
-                        "Family Sharing",
-                      ][index]
-                    }
-                  </Text>
-                  <Text style={styles.featureDescription}>
-                    {
-                      [
-                        "Get exact measurements to 2 decimal places",
-                        "Research-grade calculation methods",
-                        "Professional measurement techniques",
-                        "Share with up to 5 family members",
-                      ][index]
-                    }
-                  </Text>
+                  <Text style={styles.featureTitle}>{feature.title}</Text>
+                  <Text style={styles.featureDescription}>{feature.description}</Text>
                 </View>
               </Animated.View>
             ))}
@@ -153,38 +215,47 @@ export function ProUpgradeModal({
               title={isProcessing ? "Processing..." : "Upgrade to PRO"}
               buttonStyle={styles.upgradeButton}
               titleStyle={styles.upgradeButtonText}
-              onPress={onUpgrade}
-              disabled={isProcessing}
+              onPress={handleUpgradePress}
+              disabled={isProcessing || isRestoring || isClosing}
             />
 
             <Text style={styles.lifetimeText}>One-time purchase • No subscription</Text>
 
-            <Button
-              title="Maybe Later"
-              type="clear"
-              titleStyle={styles.cancelButtonText}
-              onPress={onClose}
-            />
-
-            <View style={styles.restoreContainer}>
+            <View style={styles.secondaryButtonsContainer}>
               <Button
-                title="Restore Purchases"
+                title="Maybe Later"
                 type="clear"
-                loading={isProcessing}
-                onPress={() => {
-                  const { restorePurchases } = usePremiumStore.getState();
-                  restorePurchases();
-                }}
-                titleStyle={styles.restoreButtonText}
+                titleStyle={styles.secondaryButtonText}
+                onPress={handleClose}
+                disabled={isProcessing || isRestoring || isClosing}
+                containerStyle={styles.secondaryButtonContainer}
                 icon={{
-                  name: "refresh-ccw",
+                  name: "corner-up-left",
                   type: "feather",
                   size: 16,
-                  color: COLORS.primary,
+                  color: COLORS.textLight + "80",
                 }}
                 iconPosition="left"
-                containerStyle={styles.restoreButtonContainer}
               />
+
+              {!isPro && (
+                <Button
+                  title="Restore Purchases"
+                  type="clear"
+                  loading={isRestoring}
+                  disabled={isProcessing || isRestoring || isClosing}
+                  onPress={handleRestorePress}
+                  titleStyle={styles.secondaryButtonText}
+                  icon={{
+                    name: "refresh-ccw",
+                    type: "feather",
+                    size: 16,
+                    color: COLORS.textLight + "80",
+                  }}
+                  iconPosition="left"
+                  containerStyle={styles.secondaryButtonContainer}
+                />
+              )}
             </View>
           </Animated.View>
         </Animated.View>
@@ -348,21 +419,19 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  cancelButtonText: {
-    color: "#666",
-    fontSize: 15,
-  },
-  restoreContainer: {
+  secondaryButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
+    gap: 16,
     marginTop: 8,
   },
-  restoreButtonContainer: {
-    marginTop: 0,
+  secondaryButtonContainer: {
+    minWidth: 120,
   },
-  restoreButtonText: {
-    color: COLORS.primary,
+  secondaryButtonText: {
+    color: COLORS.textLight + "80",
     fontSize: 12,
-    marginLeft: 8,
     fontWeight: "600",
   },
 });

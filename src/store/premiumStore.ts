@@ -18,6 +18,17 @@ interface PremiumStore {
   restorePurchases: () => Promise<void>;
 }
 
+function handleRestoreError(error: unknown) {
+  if (error instanceof Error) {
+    const message = error.message || "Failed to restore purchases";
+    Alert.alert("Restore Failed", message, [{ text: "OK" }]);
+  } else {
+    Alert.alert("Restore Failed", "An unexpected error occurred while restoring purchases", [
+      { text: "OK" },
+    ]);
+  }
+}
+
 export const usePremiumStore = create<PremiumStore>((set, get) => ({
   pro: false,
   isLoading: false,
@@ -31,13 +42,13 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
       set({ ...entitlements, isLoading: false, error: null });
     } catch (error) {
       console.error("checkEntitlements - Error:", error);
-      if (error instanceof PurchasesError) {
-        // Handle specific RevenueCat errors
-        switch (error.code) {
-          case Purchases.ErrorCode.NetworkError:
+      if (error instanceof Error && "code" in error) {
+        const purchaseError = error as PurchasesError;
+        switch (purchaseError.code) {
+          case "NetworkError":
             set({ isLoading: false, error: "Network connection error. Please try again." });
             break;
-          case Purchases.ErrorCode.PurchaseNotAllowedError:
+          case "PurchaseNotAllowedError":
             set({ isLoading: false, error: "Purchases are not allowed on this device." });
             break;
           default:
@@ -102,7 +113,7 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
         console.log(
           "purchasePro - Purchase successful but entitlements not reflected, attempting restore"
         );
-        await Purchases.syncPurchases(); // Use syncPurchases instead of restorePurchases here
+        await Purchases.syncPurchases();
         const restoredEntitlements = await getUserEntitlements();
         set({ ...restoredEntitlements, isLoading: false, error: null });
         return restoredEntitlements.pro;
@@ -119,31 +130,32 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
 
       set({ isLoading: false, error: null, pro: false });
 
-      if (error instanceof PurchasesError) {
-        switch (error.code) {
-          case Purchases.ErrorCode.NetworkError:
+      if (error instanceof Error && "code" in error) {
+        const purchaseError = error as PurchasesError;
+        switch (purchaseError.code) {
+          case "NetworkError":
             Alert.alert("Network Error", "Please check your internet connection and try again.", [
               { text: "OK" },
             ]);
             return false;
-          case Purchases.ErrorCode.StoreProblemError:
+          case "StoreProblemError":
             Alert.alert(
               "Store Error",
               "There was a problem with the App Store. Please try again later.",
               [{ text: "OK" }]
             );
             return false;
-          case Purchases.ErrorCode.PurchaseCancelledError:
+          case "PurchaseCancelledError":
             console.log("purchasePro - User cancelled");
             return false;
-          case Purchases.ErrorCode.CustomerInfoError:
+          case "CustomerInfoError":
             Alert.alert(
               "Sign In Required",
               "Please sign in with your App Store account to make purchases.",
               [{ text: "OK" }]
             );
             return false;
-          case Purchases.ErrorCode.InvalidReceiptError:
+          case "InvalidReceiptError":
             Alert.alert(
               "Purchase Error",
               "There was a problem validating your purchase. Please try again.",
@@ -189,35 +201,8 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
       }
     } catch (error) {
       console.error("restorePurchases - Error:", error);
-
-      if (error instanceof PurchasesError) {
-        switch (error.code) {
-          case Purchases.ErrorCode.NetworkError:
-            set({ isLoading: false, error: "Network connection error. Please try again." });
-            Alert.alert("Network Error", "Please check your internet connection and try again.", [
-              { text: "OK" },
-            ]);
-            break;
-          case Purchases.ErrorCode.InvalidCredentialsError:
-            set({ isLoading: false, error: "Sign in required to restore purchases." });
-            Alert.alert(
-              "Sign In Required",
-              "Please sign in with your App Store account to restore purchases.",
-              [{ text: "OK" }]
-            );
-            break;
-          default:
-            set({ isLoading: false, error: "Failed to restore purchases" });
-            Alert.alert("Restore Failed", "Failed to restore purchases. Please try again.", [
-              { text: "OK" },
-            ]);
-        }
-      } else {
-        set({ isLoading: false, error: "Failed to restore purchases" });
-        Alert.alert("Restore Failed", "Failed to restore purchases. Please try again.", [
-          { text: "OK" },
-        ]);
-      }
+      handleRestoreError(error);
+      set({ isLoading: false, error: "Failed to restore purchases" });
     }
   },
 }));

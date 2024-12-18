@@ -6,7 +6,7 @@ import { usePremiumStore } from "../../store/premiumStore";
 import { COLORS } from "../../constants/theme";
 import { useNavigation } from "@react-navigation/native";
 import { usePurchase } from "../../hooks/usePurchase";
-import { ProUpgradeModal } from "./ProUpgradeModal";
+import { UpgradeModal } from "./UpgradeModal";
 import { getFormula } from "../../formulas";
 import { getResponsiveTypography, getLineHeight } from "../../utils/device";
 
@@ -190,9 +190,10 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
         <Text style={styles.formulaName}>{formulaImpl.name || formula.toUpperCase()}</Text>
       </Card>
 
-      <ProUpgradeModal
+      <UpgradeModal
         visible={showProModal}
         isProcessing={isProcessing}
+        variant="pro"
         onUpgrade={handlePurchase}
         onClose={handleMaybeLater}
       />
