@@ -7,7 +7,8 @@
     "development": {
       "node": "22.11.0",
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "autoIncrement": false
     },
     "development-simulator": {
       "node": "22.11.0",
@@ -22,8 +23,8 @@
       "distribution": "internal"
     },
     "production": {
-      "node": "22.11.0"
-      // "autoIncrement": true
+      "node": "22.11.0",
+      "autoIncrement": false
     }
   },
   "submit": {
