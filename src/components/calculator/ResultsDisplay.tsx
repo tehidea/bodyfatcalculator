@@ -72,7 +72,12 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
 
   // Calculate progress values
   const maxBodyFat = gender === "male" ? 35 : 45;
-  const bodyFatProgress = Math.min(results.bodyFatPercentage / maxBodyFat, 1);
+  const calculateProgress = (value: number, max: number) => {
+    // Convert to integer math (multiply by 1000 for 3 decimal precision equivalent)
+    const progress = Math.floor((value * 1000) / (max * 1000));
+    return Math.min(progress, 1);
+  };
+  const bodyFatProgress = calculateProgress(results.bodyFatPercentage, maxBodyFat);
   const leanMassPercentage = 100 - results.bodyFatPercentage;
 
   // Get color based on body fat percentage
