@@ -12,7 +12,7 @@ export function AppStoreLink({
 }) {
   return (
     <Link
-      href="#"
+      href="https://apps.apple.com/us/app/body-fat-calculator-pro/id6738918673"
       aria-label="Download on the App Store"
       className={clsx(
         'rounded-lg transition-colors',

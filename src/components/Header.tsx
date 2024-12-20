@@ -161,14 +161,13 @@ export function Header() {
                 </>
               )}
             </Popover>
-            <Button href="#" color="red" className="hidden lg:block">
+            <Button
+              href="https://apps.apple.com/us/app/body-fat-calculator-pro/id6738918673"
+              color="red"
+              className="hidden lg:block"
+            >
               Download
             </Button>
-            <div className="hidden items-center gap-2 rounded-full bg-white/5 px-3 py-1 lg:flex">
-              <span className="text-sm font-medium text-white">
-                Early&nbsp;Access
-              </span>
-            </div>
           </div>
         </Container>
       </nav>

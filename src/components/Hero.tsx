@@ -61,7 +61,7 @@ export function Hero() {
               className="inline-flex flex-wrap items-center rounded-full bg-[#FF0000]/10 px-4 py-2 text-sm font-medium text-[#FF0000] ring-1 ring-inset ring-[#FF0000]/20 sm:px-6"
             >
               <span className="mr-2 whitespace-nowrap">★★★★★</span>
-              <span className="whitespace-nowrap">Soon on the App Store!</span>
+              <span className="whitespace-nowrap">Available on App Store!</span>
             </motion.div>
 
             <motion.div
@@ -122,13 +122,12 @@ export function Hero() {
                 <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#FFC107] text-xs font-medium text-white">
                   ★
                 </div>
-                <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#FF5722] text-xs font-medium text-white">
-                  β
+                <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#FF5722] text-[10px] font-bold text-white">
+                  PRO
                 </div>
               </div>
               <p className="text-sm text-gray-400">
-                Early Access • First Reviews: &quot;Exactly what I needed&quot;
-                - PT Alex
+                &quot;Exactly what I needed!&quot; - Michał
               </p>
             </motion.div>
           </div>
@@ -159,15 +158,21 @@ export function Hero() {
                 <div className="absolute inset-0 flex items-center justify-center p-6">
                   <div className="text-center text-yellow-900">
                     <p className="text-xs font-bold leading-tight">
-                      <span className="mb-2 block text-[10px]">*blink*</span>
-                      <span className="block text-xs">PRO includes</span>
-                      <span className="text-md -mb-1 -mt-1 block text-lg font-extrabold">
-                        DR MIKE&apos;s
+                      <span className="mb-1/2 block text-[10px]">
+                        Start for FREE
                       </span>
-                      <span className="text-md block font-extrabold">
-                        Body Fat Ranges
+                      <span className="text-md -mb-2 block text-sm font-extrabold">
+                        ONE TIME
                       </span>
-                      <span className="mt-2 block text-[10px]">*blink*</span>
+                      <span className="text-md -mb-2 block text-sm font-extrabold">
+                        PURCHASE
+                      </span>
+                      <span className="text-md mb-1/2 block text-sm font-extrabold">
+                        FOR PRO
+                      </span>
+                      <span className="mb-0 block text-[10px]">
+                        FOREVER Yours
+                      </span>
                     </p>
                   </div>
                 </div>
