@@ -224,6 +224,7 @@ const styles = StyleSheet.create({
     color: COLORS.textDark,
     fontSize: getResponsiveTypography("xl"),
     marginBottom: 16,
+    lineHeight: getLineHeight("xl"),
   },
   mainResult: {
     alignItems: "center",
@@ -238,6 +239,7 @@ const styles = StyleSheet.create({
     fontSize: getResponsiveTypography("6xl"),
     fontWeight: "bold",
     color: COLORS.textDark,
+    lineHeight: getLineHeight("6xl"),
   },
   premiumBadge: {
     flexDirection: "row",
@@ -254,11 +256,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#666",
     marginLeft: 4,
+    lineHeight: getLineHeight("xxxs"),
   },
   mainLabel: {
     fontSize: getResponsiveTypography("md"),
     color: COLORS.textLight,
     marginBottom: 8,
+    lineHeight: getLineHeight("md"),
   },
   progressBar: {
     width: "100%",
@@ -275,6 +279,7 @@ const styles = StyleSheet.create({
   classification: {
     fontSize: getResponsiveTypography("md"),
     fontWeight: "600",
+    lineHeight: getLineHeight("md"),
   },
   breakdownContainer: {
     flexDirection: "row",
@@ -291,15 +296,18 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: COLORS.textDark,
     marginBottom: 4,
+    lineHeight: getLineHeight("xl"),
   },
   breakdownLabel: {
     fontSize: getResponsiveTypography("sm"),
     color: COLORS.textLight,
     marginBottom: 4,
+    lineHeight: getLineHeight("sm"),
   },
   breakdownPercentage: {
     fontSize: getResponsiveTypography("md"),
     color: COLORS.textDark,
+    lineHeight: getLineHeight("md"),
   },
   divider: {
     width: 1,
@@ -311,5 +319,6 @@ const styles = StyleSheet.create({
     color: COLORS.textLight,
     textAlign: "center",
     marginTop: 8,
+    lineHeight: getLineHeight("xs"),
   },
 });

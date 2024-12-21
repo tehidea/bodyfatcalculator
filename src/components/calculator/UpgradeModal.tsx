@@ -12,6 +12,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { usePurchaseRestore } from "../../hooks/usePurchaseRestore";
 import { usePremiumStore } from "../../store/premiumStore";
+import { getLineHeight, getResponsiveTypography } from "../../utils/device";
 
 const FEATURE_ICONS = {
   pro: ["sliders", "trending-up", "activity", "users"] as const,
@@ -397,9 +398,9 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   featureDescription: {
-    fontSize: 14,
+    fontSize: getResponsiveTypography("sm"),
+    lineHeight: getLineHeight("sm"),
     color: "#666",
-    lineHeight: 20,
   },
   ctaContainer: {
     padding: 24,
@@ -416,7 +417,8 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   upgradeButtonText: {
-    fontSize: 18,
+    fontSize: getResponsiveTypography("lg"),
+    lineHeight: getLineHeight("lg"),
     fontWeight: "bold",
   },
   secondaryButtonsContainer: {
@@ -431,7 +433,8 @@ const styles = StyleSheet.create({
   },
   secondaryButtonText: {
     color: COLORS.textLight + "80",
-    fontSize: 12,
+    fontSize: getResponsiveTypography("xs"),
+    lineHeight: getLineHeight("xs"),
     fontWeight: "600",
   },
 });

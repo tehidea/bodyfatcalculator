@@ -8,7 +8,7 @@ import { FEATURES, PRICING } from "../constants/features";
 import { COLORS } from "../constants/theme";
 import { usePremiumStore } from "../store/premiumStore";
 import { purchasePackage, getOfferings } from "../config/store";
-import { getResponsiveTypography, getLineHeight } from "../utils/device";
+import { getResponsiveTypography, getLineHeight, getResponsiveSpacing } from "../utils/device";
 
 export const FeatureComparisonScreen = () => {
   const { pro, premium, setEntitlements } = usePremiumStore();
@@ -77,7 +77,7 @@ export const FeatureComparisonScreen = () => {
       <ScrollView>
         <View style={styles.header}>
           <Text style={styles.title}>Choose Your Plan</Text>
-          <Text style={styles.subtitle}>
+          <Text style={styles.description}>
             Get more accurate body fat calculations with advanced formulas
           </Text>
         </View>
@@ -236,14 +236,16 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: getResponsiveTypography("2xl"),
+    lineHeight: getLineHeight("2xl"),
     fontWeight: "bold",
     color: COLORS.textDark,
-    marginBottom: 8,
+    marginBottom: getResponsiveSpacing(8),
   },
-  subtitle: {
+  description: {
     fontSize: getResponsiveTypography("md"),
+    lineHeight: getLineHeight("md"),
     color: "#666",
-    textAlign: "center",
+    marginBottom: getResponsiveSpacing(24),
   },
   section: {
     padding: 16,
@@ -251,9 +253,10 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: getResponsiveTypography("xl"),
+    lineHeight: getLineHeight("xl"),
     fontWeight: "bold",
     color: COLORS.textDark,
-    marginBottom: 16,
+    marginBottom: getResponsiveSpacing(16),
   },
   accuracyComparison: {
     flexDirection: "row",
@@ -288,8 +291,9 @@ const styles = StyleSheet.create({
   },
   accuracyNote: {
     fontSize: getResponsiveTypography("xs"),
+    lineHeight: getLineHeight("xs"),
     color: "#666",
-    marginBottom: 12,
+    marginBottom: getResponsiveSpacing(12),
   },
   methodList: {
     width: "100%",
@@ -297,16 +301,18 @@ const styles = StyleSheet.create({
   },
   methodItem: {
     fontSize: getResponsiveTypography("xs"),
+    lineHeight: getLineHeight("xs"),
     color: "#666",
-    marginBottom: 4,
+    marginBottom: getResponsiveSpacing(4),
   },
   accuracyDisclaimer: {
     fontSize: getResponsiveTypography("xs"),
+    lineHeight: getLineHeight("xs"),
     color: "#666",
     fontStyle: "italic",
-    marginTop: 12,
+    marginTop: getResponsiveSpacing(12),
     textAlign: "center",
-    paddingHorizontal: 16,
+    paddingHorizontal: getResponsiveSpacing(16),
   },
   pricingCards: {
     padding: 20,
@@ -328,25 +334,29 @@ const styles = StyleSheet.create({
   },
   planName: {
     fontSize: getResponsiveTypography("xl"),
+    lineHeight: getLineHeight("xl"),
     fontWeight: "bold",
     color: COLORS.textDark,
-    marginBottom: 8,
+    marginBottom: getResponsiveSpacing(8),
   },
   planPrice: {
     fontSize: getResponsiveTypography("3xl"),
+    lineHeight: getLineHeight("3xl"),
     fontWeight: "bold",
     color: COLORS.primary,
-    marginBottom: 4,
+    marginBottom: getResponsiveSpacing(4),
   },
   planType: {
     fontSize: getResponsiveTypography("sm"),
+    lineHeight: getLineHeight("sm"),
     color: "#666",
-    marginBottom: 16,
+    marginBottom: getResponsiveSpacing(16),
   },
   monthlyPrice: {
     fontSize: getResponsiveTypography("xs"),
+    lineHeight: getLineHeight("xs"),
     color: "#666",
-    marginBottom: 16,
+    marginBottom: getResponsiveSpacing(16),
   },
   keyFeatures: {
     width: "100%",
@@ -354,8 +364,9 @@ const styles = StyleSheet.create({
   },
   keyFeature: {
     fontSize: getResponsiveTypography("sm"),
+    lineHeight: getLineHeight("sm"),
     color: "#444",
-    marginBottom: 4,
+    marginBottom: getResponsiveSpacing(4),
   },
   buyButton: {
     paddingHorizontal: 32,
@@ -375,6 +386,7 @@ const styles = StyleSheet.create({
   saveBadgeText: {
     color: "#fff",
     fontSize: getResponsiveTypography("xs"),
+    lineHeight: getLineHeight("xs"),
     fontWeight: "bold",
   },
   featuresSection: {
@@ -392,11 +404,13 @@ const styles = StyleSheet.create({
   },
   featureName: {
     fontSize: getResponsiveTypography("md"),
+    lineHeight: getLineHeight("md"),
     color: COLORS.textDark,
-    marginBottom: 2,
+    marginBottom: getResponsiveSpacing(2),
   },
   featureDescription: {
     fontSize: getResponsiveTypography("xs"),
+    lineHeight: getLineHeight("xs"),
     color: "#666",
   },
   availabilityIndicator: {
@@ -409,7 +423,8 @@ const styles = StyleSheet.create({
   },
   restoreButtonText: {
     color: COLORS.primary,
-    fontSize: 14,
-    marginLeft: 8,
+    fontSize: getResponsiveTypography("xs"),
+    lineHeight: getLineHeight("xs"),
+    marginLeft: getResponsiveSpacing(8),
   },
 });

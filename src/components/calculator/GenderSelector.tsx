@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
   text: {
     color: "#fff",
     fontSize: getResponsiveTypography("sm"),
+    lineHeight: getLineHeight("sm"),
   },
   activeText: {
     color: "#fff",

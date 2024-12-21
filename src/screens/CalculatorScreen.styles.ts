@@ -1,6 +1,11 @@
 import { StyleSheet } from "react-native";
 import { COLORS } from "../constants/theme";
-import { getResponsiveSpacing, getResponsiveTypography, isIPad } from "../utils/device";
+import {
+  getResponsiveSpacing,
+  getResponsiveTypography,
+  isIPad,
+  getLineHeight,
+} from "../utils/device";
 
 export const styles = StyleSheet.create({
   container: {
@@ -31,6 +36,7 @@ export const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: getResponsiveTypography("5xl"),
+    lineHeight: getLineHeight("5xl"),
     color: COLORS.black,
     textTransform: "uppercase",
     letterSpacing: -2,
@@ -39,6 +45,7 @@ export const styles = StyleSheet.create({
   },
   strapline: {
     fontSize: getResponsiveTypography("xxxs"),
+    lineHeight: getLineHeight("xxxs"),
     color: COLORS.black,
     marginTop: -6,
     marginLeft: getResponsiveSpacing(4),
@@ -81,6 +88,7 @@ export const styles = StyleSheet.create({
   resetButtonText: {
     color: COLORS.white,
     fontSize: getResponsiveTypography("lg"),
+    lineHeight: getLineHeight("lg"),
   },
   selectorRow: {
     flexDirection: "row",
@@ -119,6 +127,7 @@ export const styles = StyleSheet.create({
   primaryButtonText: {
     color: COLORS.white,
     fontSize: getResponsiveTypography("lg"),
+    lineHeight: getLineHeight("lg"),
     fontWeight: "bold",
   },
   disabledButton: {
@@ -130,11 +139,13 @@ export const styles = StyleSheet.create({
   buttonTitle: {
     fontWeight: "bold",
     fontSize: getResponsiveTypography("sm"),
+    lineHeight: getLineHeight("sm"),
   },
   outlineButtonTitle: {
     color: COLORS.primary,
     fontWeight: "bold",
     fontSize: getResponsiveTypography("sm"),
+    lineHeight: getLineHeight("sm"),
   },
   errorContainer: {
     borderWidth: 2,
@@ -146,12 +157,14 @@ export const styles = StyleSheet.create({
   errorText: {
     color: "#c62828",
     fontSize: getResponsiveTypography("sm"),
+    lineHeight: getLineHeight("sm"),
     fontWeight: "bold",
   },
   versionText: {
     textAlign: "center",
     color: "rgba(255, 255, 255, 0.4)",
     fontSize: getResponsiveTypography("xs"),
+    lineHeight: getLineHeight("xs"),
     marginTop: getResponsiveSpacing(32),
     marginBottom: getResponsiveSpacing(8),
     fontFamily: "Montserrat-Light",
@@ -173,18 +186,21 @@ export const styles = StyleSheet.create({
   },
   referenceTitle: {
     fontSize: getResponsiveTypography("sm"),
+    lineHeight: getLineHeight("sm"),
     color: "rgba(255, 255, 255, 0.8)",
     fontWeight: "600",
     marginBottom: getResponsiveSpacing(4),
   },
   referenceCitation: {
     fontSize: getResponsiveTypography("xs"),
+    lineHeight: getLineHeight("xs"),
     color: "rgba(255, 255, 255, 0.3)",
     marginBottom: getResponsiveSpacing(4),
     textAlign: "center",
   },
   referenceDoi: {
     fontSize: getResponsiveTypography("xs"),
+    lineHeight: getLineHeight("xs"),
     color: COLORS.textLight,
     textDecorationLine: "underline",
     textAlign: "center",

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Pressable, Modal, Dimensions, StyleSheet } from "react-native";
 import { Text, Icon } from "@rneui/themed";
 import { COLORS } from "../../constants/theme";
-import { getResponsiveSpacing, getResponsiveTypography } from "../../utils/device";
+import { getResponsiveSpacing, getResponsiveTypography, getLineHeight } from "../../utils/device";
 import { MeasurementIcon } from "./FormulaSelector";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
   },
   hintTitle: {
     fontSize: getResponsiveTypography("lg"),
+    lineHeight: getLineHeight("lg"),
     fontWeight: "600",
     color: COLORS.textDark,
     marginBottom: getResponsiveSpacing(12),
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
   },
   hintText: {
     fontSize: getResponsiveTypography("md"),
-    lineHeight: getResponsiveTypography("md") * 1.5,
+    lineHeight: getLineHeight("md"),
     textAlign: "center",
     color: COLORS.textDark,
   },
@@ -122,6 +123,7 @@ const styles = StyleSheet.create({
   closeButtonText: {
     color: "white",
     fontSize: getResponsiveTypography("md"),
+    lineHeight: getLineHeight("md"),
     fontWeight: "600",
     textAlign: "center",
   },

@@ -17,6 +17,7 @@ import {
   getResponsiveSpacing,
   getResponsiveFontSize,
   getResponsiveTypography,
+  getLineHeight,
 } from "../../utils/device";
 
 export const MeasurementIcon = ({
@@ -396,6 +397,7 @@ const styles = StyleSheet.create({
   formulaName: {
     color: COLORS.text,
     fontSize: getResponsiveTypography("lg"),
+    lineHeight: getLineHeight("lg"),
     fontWeight: "bold",
     flex: 1,
   },
@@ -407,6 +409,7 @@ const styles = StyleSheet.create({
   description: {
     color: COLORS.text,
     fontSize: getResponsiveTypography("xs"),
+    lineHeight: getLineHeight("xs"),
     opacity: 0.8,
     flex: 1,
     marginRight: getResponsiveSpacing(8),
@@ -479,6 +482,7 @@ const styles = StyleSheet.create({
   formulaItemDescription: {
     flex: 1,
     fontSize: getResponsiveTypography("xs"),
+    lineHeight: getLineHeight("xs"),
     color: "#666",
   },
   premiumBadge: {
@@ -491,7 +495,8 @@ const styles = StyleSheet.create({
     marginLeft: getResponsiveSpacing(8),
   },
   premiumBadgeText: {
-    fontSize: getResponsiveFontSize(10),
+    fontSize: getResponsiveTypography("xxxs"),
+    lineHeight: getLineHeight("xxxs"),
     fontWeight: "bold",
     color: "#666",
     marginLeft: getResponsiveSpacing(4),
@@ -504,7 +509,8 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   formulaItemName: {
-    fontSize: getResponsiveFontSize(16),
+    fontSize: getResponsiveTypography("md"),
+    lineHeight: getLineHeight("md"),
     color: COLORS.textDark,
     flex: 1,
   },
@@ -518,7 +524,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   accuracyInfoTitle: {
-    fontSize: getResponsiveFontSize(14),
+    fontSize: getResponsiveTypography("sm"),
+    lineHeight: getLineHeight("sm"),
     fontWeight: "bold",
     color: COLORS.textDark,
     marginBottom: getResponsiveSpacing(12),
@@ -543,11 +550,13 @@ const styles = StyleSheet.create({
   },
   accuracyText: {
     fontSize: getResponsiveTypography("xs"),
+    lineHeight: getLineHeight("xs"),
     color: "#666",
     marginLeft: getResponsiveSpacing(2),
   },
   accuracyNote: {
     fontSize: getResponsiveTypography("xs"),
+    lineHeight: getLineHeight("xs"),
     color: "#666",
     textAlign: "center",
     fontStyle: "italic",
@@ -568,6 +577,7 @@ const styles = StyleSheet.create({
   selectorHint: {
     color: COLORS.text,
     fontSize: getResponsiveTypography("xs"),
+    lineHeight: getLineHeight("xs"),
     opacity: 0.6,
     textAlign: "left",
     textTransform: "uppercase",
@@ -588,6 +598,7 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: getResponsiveTypography("sm"),
+    lineHeight: getLineHeight("sm"),
     color: COLORS.textDark,
     textTransform: "uppercase",
     letterSpacing: 1,

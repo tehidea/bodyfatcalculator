@@ -81,9 +81,31 @@ export function getResponsiveTypography(size: keyof typeof BASE_TYPOGRAPHY): num
   return Math.max(baseSize * scaleFactor, BASE_TYPOGRAPHY.xxxs);
 }
 
+// Line heights for each typography size
+const LINE_HEIGHTS = {
+  xxxs: 12,
+  xxs: 13,
+  xs: 17,
+  sm: 17,
+  md: 19,
+  lg: 22,
+  xl: 24,
+  "2xl": 29,
+  "3xl": 36,
+  "4xl": 43,
+  "5xl": 50,
+  "6xl": 58,
+} as const;
+
 // Helper function to get dynamic line height based on font size
-export function getLineHeight(fontSize: number): number {
-  return Math.round(fontSize * 1.5);
+export function getLineHeight(size: number | keyof typeof BASE_TYPOGRAPHY): number {
+  // If a number is passed, use it directly
+  if (typeof size === "number") {
+    return size;
+  }
+
+  // Get the line height for the typography key
+  return LINE_HEIGHTS[size];
 }
 
 // Helper function to get letter spacing based on font size

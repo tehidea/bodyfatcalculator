@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
   label: {
     color: COLORS.text,
     fontSize: getResponsiveTypography("sm"),
+    lineHeight: getLineHeight("sm"),
   },
   inputContainer: {
     flexDirection: "row",
@@ -35,6 +36,7 @@ export const styles = StyleSheet.create({
     height: getResponsiveSpacing(40),
     color: COLORS.textDark,
     fontSize: getResponsiveTypography("md"),
+    lineHeight: getLineHeight("md"),
   },
   inputError: {
     borderColor: COLORS.error,
@@ -43,6 +45,7 @@ export const styles = StyleSheet.create({
   unit: {
     color: COLORS.textDark,
     fontSize: getResponsiveTypography("sm"),
+    lineHeight: getLineHeight("sm"),
   },
   errorContainer: {
     overflow: "hidden",
@@ -50,6 +53,7 @@ export const styles = StyleSheet.create({
   error: {
     color: COLORS.error,
     fontSize: getResponsiveTypography("xs"),
+    lineHeight: getLineHeight("xs"),
     marginTop: getResponsiveSpacing(4),
   },
 });
