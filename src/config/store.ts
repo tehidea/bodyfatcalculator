@@ -1,14 +1,20 @@
 import Purchases, { PurchasesPackage } from "react-native-purchases";
+import { Platform } from "react-native";
 
 // In development, use sandbox environment
 const isDevelopment = __DEV__;
 
-const API_KEY = process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY || "default_ios_key";
+const API_KEY =
+  Platform.select({
+    ios: process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY,
+    android: process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY,
+  }) || "default_key";
 
 if (isDevelopment) {
   console.log("🛠️ Running in development mode - using sandbox environment");
-  if (API_KEY === "default_ios_key") {
-    console.warn("⚠️ RevenueCat API key is not configured in .env");
+  console.log(`📱 Platform: ${Platform.OS}`);
+  if (API_KEY === "default_key") {
+    console.warn(`⚠️ RevenueCat API key for ${Platform.OS} is not configured in .env`);
   }
 }
 
