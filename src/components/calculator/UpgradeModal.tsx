@@ -23,7 +23,7 @@ const FEATURE_CONTENT = {
   pro: [
     {
       title: "Decimal Precision",
-      description: "Get exact measurements to 2 decimal places",
+      description: "Get exact measurements to\u00A02\u00A0decimal places",
     },
     {
       title: "Advanced Formulas",
@@ -49,7 +49,7 @@ const FEATURE_CONTENT = {
     },
     {
       title: "Decimal Precision",
-      description: "Get exact measurements to 2 decimal places",
+      description: "Get exact measurements to\u00A02\u00A0decimal places",
     },
     {
       title: "Family Sharing",
