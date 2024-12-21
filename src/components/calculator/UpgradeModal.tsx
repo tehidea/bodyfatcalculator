@@ -214,7 +214,7 @@ export function UpgradeModal({
 
             <Button
               title={isProcessing ? "Processing..." : "Upgrade to PRO"}
-              buttonStyle={styles.upgradeButton}
+              buttonStyle={[styles.upgradeButton]}
               titleStyle={styles.upgradeButtonText}
               onPress={handleUpgradePress}
               disabled={isProcessing || isRestoring || isClosing}
@@ -411,9 +411,10 @@ const styles = StyleSheet.create({
   upgradeButton: {
     backgroundColor: COLORS.primary,
     borderRadius: 16,
-    paddingHorizontal: 32,
+    paddingHorizontal: 48,
     paddingVertical: 16,
-    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
     marginBottom: 12,
   },
   upgradeButtonText: {
@@ -436,5 +437,11 @@ const styles = StyleSheet.create({
     fontSize: getResponsiveTypography("xs"),
     lineHeight: getLineHeight("xs"),
     fontWeight: "600",
+  },
+  buttonTitleFix: {
+    textAlign: "center",
+    textAlignVertical: "center",
+    includeFontPadding: false,
+    padding: 0,
   },
 });
