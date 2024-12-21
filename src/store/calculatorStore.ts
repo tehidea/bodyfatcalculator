@@ -154,15 +154,18 @@ export const useCalculatorStore = create<CalculatorStore>()(
       fieldErrors: {},
       _hasHydrated: false,
 
-      setFormula: formula =>
-        set({
+      setFormula: formula => {
+        set(state => ({
+          ...state,
           formula,
-          inputs: {},
+          // Keep all existing inputs
+          inputs: { ...state.inputs },
           results: null,
           isResultsStale: false,
           error: null,
           fieldErrors: {},
-        }),
+        }));
+      },
 
       setGender: gender =>
         set(state => ({
