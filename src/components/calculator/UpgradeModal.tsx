@@ -12,7 +12,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { usePurchaseRestore } from "../../hooks/usePurchaseRestore";
 import { usePremiumStore } from "../../store/premiumStore";
-import { getLineHeight, getResponsiveTypography } from "../../utils/device";
+import { getLineHeight, getResponsiveTypography, isIPad, getDeviceType } from "../../utils/device";
 
 const FEATURE_ICONS = {
   pro: ["sliders", "trending-up", "activity", "users"] as const,
@@ -265,6 +265,24 @@ export function UpgradeModal({
   );
 }
 
+const BASE_MODAL_WIDTH = 340;
+
+function getModalMaxWidth(): number {
+  const deviceType = getDeviceType();
+  if (deviceType === "desktop" || isIPad) {
+    return BASE_MODAL_WIDTH * 1.5;
+  }
+  return BASE_MODAL_WIDTH;
+}
+
+function getLifetimeBadgeMarginRight(): number {
+  const deviceType = getDeviceType();
+  if (deviceType === "desktop" || isIPad) {
+    return 60;
+  }
+  return 0;
+}
+
 const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
@@ -278,7 +296,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderRadius: 28,
     width: "100%",
-    maxWidth: 340,
+    maxWidth: getModalMaxWidth(),
     overflow: "hidden",
     shadowColor: "#000",
     shadowOffset: {
@@ -345,6 +363,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.75,
     alignSelf: "flex-end",
     marginBottom: -2,
+    marginRight: getLifetimeBadgeMarginRight(),
   },
   lifetimeText: {
     alignItems: "center",
