@@ -121,13 +121,35 @@ export function Footer() {
             &copy; {new Date().getFullYear()} BodyFat Calculator. All rights
             reserved.
           </p>
-          <div className="order-1 mb-4 flex space-x-6 text-sm text-gray-400 md:order-2 md:mb-0">
-            <Link href="/privacy-policy" className="hover:text-white">
-              Privacy Policy
-            </Link>
-            <Link href="/terms-of-service" className="hover:text-white">
-              Terms of Service
-            </Link>
+          <div className="order-1 mb-4 flex flex-col space-y-4 text-sm text-gray-400 md:order-2 md:mb-0">
+            <div className="flex space-x-6">
+              <Link href="/methods" className="hover:text-white">
+                Methods
+              </Link>
+              <Link href="/accuracy" className="hover:text-white">
+                Accuracy
+              </Link>
+              <Link href="/formulas" className="hover:text-white">
+                Formulas
+              </Link>
+              <Link href="/guides" className="hover:text-white">
+                Guides
+              </Link>
+            </div>
+            <div className="flex space-x-6">
+              <Link href="/research" className="hover:text-white">
+                Research
+              </Link>
+              <Link href="/faq" className="hover:text-white">
+                FAQ
+              </Link>
+              <Link href="/privacy-policy" className="hover:text-white">
+                Privacy Policy
+              </Link>
+              <Link href="/terms-of-service" className="hover:text-white">
+                Terms of Service
+              </Link>
+            </div>
           </div>
         </div>
       </Container>
