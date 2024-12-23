@@ -166,7 +166,14 @@ export function Header() {
               color="red"
               className="hidden lg:block"
             >
-              Download
+              Download on App Store
+            </Button>
+            <Button
+              href="https://play.google.com/store/apps/details?id=com.tehidea.bodyfatcalculator"
+              color="red"
+              className="hidden lg:block"
+            >
+              Get it on Google Play
             </Button>
           </div>
         </Container>

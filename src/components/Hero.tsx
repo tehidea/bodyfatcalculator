@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion'
 
 import { AppStoreLink } from '@/components/AppStoreLink'
+import { GooglePlayLink } from '@/components/GooglePlayLink'
 import { Container } from '@/components/Container'
 import { AppScreenshot } from '@/components/AppScreenshot'
 
@@ -61,7 +62,9 @@ export function Hero() {
               className="inline-flex flex-wrap items-center rounded-full bg-[#FF0000]/10 px-4 py-2 text-sm font-medium text-[#FF0000] ring-1 ring-inset ring-[#FF0000]/20 sm:px-6"
             >
               <span className="mr-2 whitespace-nowrap">★★★★★</span>
-              <span className="whitespace-nowrap">Available on App Store!</span>
+              <span className="whitespace-nowrap">
+                Available on App Store & Google Play!
+              </span>
             </motion.div>
 
             <motion.div
@@ -107,6 +110,7 @@ export function Hero() {
               className="mt-10 flex flex-wrap items-center gap-6"
             >
               <AppStoreLink size="large" color="white" />
+              <GooglePlayLink size="large" color="white" />
             </motion.div>
 
             <motion.div

@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { Container } from '@/components/Container'
 import { Logo } from '@/components/Logo'
 import { NavLinks } from '@/components/NavLinks'
-import qrCode from '@/images/qr-code.svg'
+import qrCodeApple from '@/images/qr-code-apple.svg'
+import qrCodeGoogle from '@/images/qr-code-google.svg'
 
 function QrCodeBorder(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -40,21 +41,48 @@ export function Footer() {
             </div>
           </div>
           <div className="hidden sm:block">
-            <div className="group relative -mx-4 flex items-center self-stretch p-4 transition-colors sm:self-auto sm:rounded-2xl lg:mx-0 lg:self-auto lg:p-6">
-              <div className="mr-8 text-right lg:w-64">
-                <p className="text-base font-semibold text-white">
-                  <Link href="https://apps.apple.com/us/app/body-fat-calculator-pro/id6738918673">
-                    <span className="absolute inset-0 sm:rounded-2xl" />
-                    Download the app
-                  </Link>
-                </p>
-                <p className="mt-1 text-sm text-gray-400">
-                  Scan the QR code to download the app from the App Store.
-                </p>
+            <div className="flex gap-4">
+              <div className="group relative flex items-center self-stretch p-4 transition-colors sm:self-auto sm:rounded-2xl lg:self-auto lg:p-6">
+                <div className="mr-8 text-right lg:w-64">
+                  <p className="text-base font-semibold text-white">
+                    <Link href="https://apps.apple.com/us/app/body-fat-calculator-pro/id6738918673">
+                      <span className="absolute inset-0 sm:rounded-2xl" />
+                      Download from App Store
+                    </Link>
+                  </p>
+                  <p className="mt-1 text-sm text-gray-400">
+                    Scan the QR code to download the app from the App Store.
+                  </p>
+                </div>
+                <div className="relative flex h-24 w-24 flex-none items-center justify-center">
+                  <QrCodeBorder className="absolute inset-0 h-full w-full" />
+                  <Image
+                    src={qrCodeApple}
+                    alt="Download app QR code"
+                    unoptimized
+                  />
+                </div>
               </div>
-              <div className="relative flex h-24 w-24 flex-none items-center justify-center">
-                <QrCodeBorder className="absolute inset-0 h-full w-full" />
-                <Image src={qrCode} alt="Download app QR code" unoptimized />
+              <div className="group relative flex items-center self-stretch p-4 transition-colors sm:self-auto sm:rounded-2xl lg:self-auto lg:p-6">
+                <div className="mr-8 text-right lg:w-64">
+                  <p className="text-base font-semibold text-white">
+                    <Link href="https://play.google.com/store/apps/details?id=com.tehidea.bodyfatcalculator">
+                      <span className="absolute inset-0 sm:rounded-2xl" />
+                      Get it on Google Play
+                    </Link>
+                  </p>
+                  <p className="mt-1 text-sm text-gray-400">
+                    Scan the QR code to download the app from Google Play.
+                  </p>
+                </div>
+                <div className="relative flex h-24 w-24 flex-none items-center justify-center">
+                  <QrCodeBorder className="absolute inset-0 h-full w-full" />
+                  <Image
+                    src={qrCodeGoogle}
+                    alt="Download app QR code"
+                    unoptimized
+                  />
+                </div>
               </div>
             </div>
           </div>

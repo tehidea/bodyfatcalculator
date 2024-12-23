@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="888" height="888" viewBox="0 0 888 888"><rect width="888" height="888" fill="rgba(0,0,0,0)" x="0" y="0"/><g fill="#ffffff">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="888" height="888" viewBox="0 0 888 888">
+<g fill="#ffffff">
 <g transform="translate(264,48) scale(4.12)"><rect width="6" height="6"/></g>
 <g transform="translate(288,48) scale(4.12)"><rect width="6" height="6"/></g>
 <g transform="translate(336,48) scale(4.12)"><rect width="6" height="6"/></g>

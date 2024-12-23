@@ -2,6 +2,7 @@
 
 import { Lock, Unlock } from 'react-feather'
 import { AppStoreLink } from '@/components/AppStoreLink'
+import { GooglePlayLink } from '@/components/GooglePlayLink'
 import { CircleBackground } from '@/components/CircleBackground'
 import { Container } from '@/components/Container'
 import { CheckIcon } from '@heroicons/react/24/solid'
@@ -218,7 +219,10 @@ export function CallToAction() {
               Download now and start measuring
             </p>
           </div>
-          <AppStoreLink className="scale-150 transform transition-all duration-300 hover:scale-[1.6]" />
+          <div className="flex flex-col items-center gap-8 sm:flex-row sm:gap-20">
+            <AppStoreLink className="scale-150 transform transition-all duration-300 hover:scale-[1.6]" />
+            <GooglePlayLink className="scale-150 transform transition-all duration-300 hover:scale-[1.6]" />
+          </div>
         </div>
       </Container>
     </section>
