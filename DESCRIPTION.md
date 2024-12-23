@@ -6,56 +6,58 @@ The most comprehensive body fat calculation tool implementing research-validated
 
 ### Free Methods
 
-- **YMCA Method** (±5-7% accuracy)
+**YMCA Method** (±5-7% accuracy)
 
-  - Simple method using weight and waist measurements
-  - Higher margin of error due to minimal measurements
-  - Best for tracking personal trends rather than absolute values
-  - Less accurate for athletic or non-standard body types
+- Simple method using weight and waist measurements
+- Higher margin of error due to minimal measurements
+- Best for tracking personal trends rather than absolute values
+- Less accurate for athletic or non-standard body types
 
-- **Modified YMCA** (±4-6% accuracy)
+**Modified YMCA** (±4-6% accuracy)
 
-  - Enhanced version with additional measurements for women
-  - Improved accuracy over basic YMCA
-  - More reliable for women due to gender-specific calculations
-  - Still affected by non-standard fat distribution
+- Enhanced version with additional measurements for women
+- Improved accuracy over basic YMCA
+- More reliable for women due to gender-specific calculations
+- Still affected by non-standard fat distribution
 
-- **U.S. Navy Method** (±4-6% accuracy)
-  - Military standard using key body measurements
-  - Most accurate for individuals near population averages
-  - Less reliable for very lean (<8%) or obese (>30%) individuals
-  - Accuracy depends heavily on measurement technique
+**U.S. Navy Method** (±4-6% accuracy)
+
+- Military standard using key body measurements
+- Most accurate for individuals near population averages
+- Less reliable for very lean (under 8%) or obese (over 30%) individuals
+- Accuracy depends heavily on measurement technique
 
 ### PRO Methods (One-Time Purchase)
 
-- **Covert Bailey** (±4-5% accuracy)
+**Covert Bailey** (±4-5% accuracy)
 
-  - Comprehensive method with multiple measurements
-  - Age and gender-specific calculations
-  - More reliable across different body types
-  - Requires precise measurement technique
+- Comprehensive method with multiple measurements
+- Age and gender-specific calculations
+- More reliable across different body types
+- Requires precise measurement technique
 
-- **Durnin & Womersley** (±3.5-5% accuracy)
+**Durnin & Womersley** (±3.5-5% accuracy)
 
-  - Scientific skinfold method
-  - Age and gender-specific equations
-  - Accuracy heavily dependent on technician skill
-  - Requires proper caliper technique and calibration
+- Scientific skinfold method
+- Age and gender-specific equations
+- Accuracy heavily dependent on technician skill
+- Requires proper caliper technique and calibration
 
-- **Jackson & Pollock Methods**
+**Jackson & Pollock Methods**
 
-  - 3-Site (±4-5% accuracy)
-  - 4-Site (±3.5-4.5% accuracy)
-  - 7-Site (±3-4% accuracy)
-  - Industry standard for skinfold measurements
-  - Accuracy improves with more measurement sites
-  - Requires significant technical expertise
+- 3-Site (±4-5% accuracy)
+- 4-Site (±3.5-4.5% accuracy)
+- 7-Site (±3-4% accuracy)
+- Industry standard for skinfold measurements
+- Accuracy improves with more measurement sites
+- Requires significant technical expertise
 
-- **Parillo 9-Site** (±3-4% accuracy)
-  - Bodybuilding-focused nine-site method
-  - Most comprehensive skinfold method
-  - Requires significant expertise and consistent technique
-  - Best for tracking changes in trained individuals
+**Parillo 9-Site** (±3-4% accuracy)
+
+- Bodybuilding-focused nine-site method
+- Most comprehensive skinfold method
+- Requires significant expertise and consistent technique
+- Best for tracking changes in trained individuals
 
 ## Measurement Tools & Techniques
 
