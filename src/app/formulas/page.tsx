@@ -328,7 +328,8 @@ export default function Formulas() {
                       method pioneered age-specific body fat calculations. Based
                       on research with 481 subjects aged 16-72 years, it was the
                       first to account for age-related changes in body
-                      composition.
+                      composition. Durnin & Womersley&apos;s equations are age
+                      and gender-specific
                     </p>
                   </div>
 
@@ -455,7 +456,7 @@ export default function Formulas() {
               </div>
             </motion.section>
 
-            {/* Siri's Equation */}
+            {/* Siri&apos;s Equation */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -465,7 +466,7 @@ export default function Formulas() {
               <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
               <div className="relative">
                 <h2 className="text-2xl font-semibold text-white">
-                  Siri's Equation
+                  Siri&apos;s Equation
                 </h2>
                 <div className="mt-8 space-y-6">
                   <div>

@@ -70,7 +70,7 @@ export default function Methods() {
                     </h3>
                     <p className="mt-4 text-gray-300">
                       Traditional gold standard with ±1.5-2.5% accuracy. Based
-                      on Archimedes' principle of water displacement to
+                      on Archimedes&apos; principle of water displacement to
                       determine body density.
                     </p>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
