@@ -47,26 +47,63 @@ export function Footer() {
   return (
     <footer className="border-t border-gray-200 bg-[#333333]">
       <Container>
-        <div className="flex flex-col items-center justify-between gap-y-8 pb-4 pt-12 lg:flex-row lg:items-center lg:py-2">
-          <div className="w-full text-center lg:text-left">
-            <div className="flex items-center justify-center gap-3 lg:justify-start">
-              <Link href="/" aria-label="Home">
-                <Logo className="h-10 w-auto" />
-              </Link>
-              <div className="flex h-8 items-center text-4xl">
-                <span className="font-extralight tracking-tighter text-white">
-                  BODY
-                </span>
-                <span className="font-light tracking-tighter text-white">
-                  FAT
-                </span>
-              </div>
+        <div className="flex flex-col items-center gap-y-8 py-12">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            <Link href="/" aria-label="Home">
+              <Logo className="h-10 w-auto" />
+            </Link>
+            <div className="flex h-8 items-center text-4xl">
+              <span className="font-extralight tracking-tighter text-white">
+                BODY
+              </span>
+              <span className="font-light tracking-tighter text-white">
+                FAT
+              </span>
             </div>
           </div>
+
+          {/* Navigation Links */}
+          <nav className="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+            <Link href="/methods" className="hover:text-white">
+              Methods
+            </Link>
+            <Link href="/accuracy" className="hover:text-white">
+              Accuracy
+            </Link>
+            <Link href="/formulas" className="hover:text-white">
+              Formulas
+            </Link>
+            <Link href="/guides" className="hover:text-white">
+              Guides
+            </Link>
+            <Link href="/research" className="hover:text-white">
+              Research
+            </Link>
+            <Link href="/faq" className="hover:text-white">
+              FAQ
+            </Link>
+            <Link href="/privacy-policy" className="hover:text-white">
+              Privacy Policy
+            </Link>
+            <Link href="/terms-of-service" className="hover:text-white">
+              Terms of Service
+            </Link>
+          </nav>
+
+          {/* QR Codes */}
           <div className="hidden sm:block">
             <div className="flex gap-4">
               <div className="group relative flex items-center self-stretch p-4 transition-colors sm:self-auto sm:rounded-2xl lg:self-auto lg:p-6">
-                <div className="mr-8 text-right lg:w-64">
+                <div className="relative flex h-24 w-24 flex-none items-center justify-center">
+                  <QrCodeBorder className="absolute inset-0 h-full w-full" />
+                  <Image
+                    src={qrCodeApple}
+                    alt="Download app QR code"
+                    unoptimized
+                  />
+                </div>
+                <div className="ml-8 text-left lg:w-64">
                   <p className="text-base font-semibold text-white">
                     <Link
                       href="https://apps.apple.com/us/app/body-fat-calculator-pro/id6738918673"
@@ -79,14 +116,6 @@ export function Footer() {
                   <p className="mt-1 text-sm text-gray-400">
                     Scan the QR code to download the app from the App Store.
                   </p>
-                </div>
-                <div className="relative flex h-24 w-24 flex-none items-center justify-center">
-                  <QrCodeBorder className="absolute inset-0 h-full w-full" />
-                  <Image
-                    src={qrCodeApple}
-                    alt="Download app QR code"
-                    unoptimized
-                  />
                 </div>
               </div>
               <div className="group relative flex items-center self-stretch p-4 transition-colors sm:self-auto sm:rounded-2xl lg:self-auto lg:p-6">
@@ -115,41 +144,29 @@ export function Footer() {
               </div>
             </div>
           </div>
-        </div>
-        <div className="flex flex-col items-center justify-between border-t border-gray-700/50 pb-8 pt-6 md:flex-row md:items-center md:pt-4">
-          <p className="order-2 text-sm text-gray-400 md:order-1">
-            &copy; {new Date().getFullYear()} BodyFat Calculator. All rights
-            reserved.
-          </p>
-          <div className="order-1 mb-4 flex flex-col space-y-4 text-sm text-gray-400 md:order-2 md:mb-0">
-            <div className="flex space-x-6">
-              <Link href="/methods" className="hover:text-white">
-                Methods
-              </Link>
-              <Link href="/accuracy" className="hover:text-white">
-                Accuracy
-              </Link>
-              <Link href="/formulas" className="hover:text-white">
-                Formulas
-              </Link>
-              <Link href="/guides" className="hover:text-white">
-                Guides
-              </Link>
-            </div>
-            <div className="flex space-x-6">
-              <Link href="/research" className="hover:text-white">
-                Research
-              </Link>
-              <Link href="/faq" className="hover:text-white">
-                FAQ
-              </Link>
-              <Link href="/privacy-policy" className="hover:text-white">
-                Privacy Policy
-              </Link>
-              <Link href="/terms-of-service" className="hover:text-white">
-                Terms of Service
-              </Link>
-            </div>
+
+          {/* Mobile Download Links */}
+          <div className="flex flex-col items-center gap-4 sm:hidden">
+            <Link
+              href="https://apps.apple.com/us/app/body-fat-calculator-pro/id6738918673"
+              className="text-sm text-gray-400 hover:text-white"
+            >
+              Download from App Store
+            </Link>
+            <Link
+              href="https://play.google.com/store/apps/details?id=com.tehidea.bodyfatcalculator"
+              className="text-sm text-gray-400 hover:text-white"
+            >
+              Get it on Google Play
+            </Link>
+          </div>
+
+          {/* Copyright */}
+          <div className="border-t border-gray-700/50 pt-8 text-center">
+            <p className="text-sm text-gray-400">
+              &copy; {new Date().getFullYear()} BodyFat Calculator. All rights
+              reserved.
+            </p>
           </div>
         </div>
       </Container>
