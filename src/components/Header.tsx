@@ -45,23 +45,17 @@ function ChevronUpIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 
 function MobileNavLink({
   children,
-  sectionId,
+  href,
   ...props
 }: {
   children: React.ReactNode
-  sectionId: string
+  href: string
 }) {
-  const scrollToSection = () => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
-
   return (
     <PopoverButton
+      as={Link}
+      href={href}
       className="block px-4 text-base font-medium leading-7 tracking-tight text-[#333333] hover:text-[#FF0000]"
-      onClick={scrollToSection}
       {...props}
     >
       {children}
@@ -147,9 +141,9 @@ export function Header() {
                             y: -32,
                             transition: { duration: 0.2 },
                           }}
-                          className="absolute inset-x-0 top-[-2rem] z-40 origin-top rounded-b-2xl bg-white px-4 pb-6 pt-16 shadow-2xl shadow-gray-200/50 sm:px-6 lg:px-8"
+                          className="absolute inset-x-0 top-0 z-40 origin-top rounded-b-2xl bg-white px-6 pb-6 pt-16 shadow-2xl shadow-gray-900/20"
                         >
-                          <div className="flex flex-col space-y-6">
+                          <div className="flex flex-col space-y-4">
                             <div className="flex items-center gap-3">
                               <Logo className="h-10 w-auto [&>path]:fill-[#333333]" />
                               <div className="flex h-8 items-center text-3xl">
@@ -162,16 +156,51 @@ export function Header() {
                               </div>
                             </div>
 
-                            <MobileNavLink sectionId="features">
+                            <div className="h-px bg-gray-200" />
+
+                            <MobileNavLink href="/#features">
                               Features
                             </MobileNavLink>
-                            <MobileNavLink sectionId="get-pro-version">
+                            <MobileNavLink href="/#get-pro-version">
                               Pricing
                             </MobileNavLink>
-                            <MobileNavLink sectionId="faqs">FAQs</MobileNavLink>
-                            <div className="pt-4">
-                              <Button href="#" color="red" className="w-full">
-                                Download
+                            <MobileNavLink href="/#faqs">FAQs</MobileNavLink>
+
+                            {/* 
+                            <div className="h-px bg-gray-200" />
+
+                            <MobileNavLink href="/methods">
+                              Methods
+                            </MobileNavLink>
+                            <MobileNavLink href="/accuracy">
+                              Accuracy
+                            </MobileNavLink>
+                            <MobileNavLink href="/formulas">
+                              Formulas
+                            </MobileNavLink>
+                            <MobileNavLink href="/guides">Guides</MobileNavLink>
+                            <MobileNavLink href="/research">
+                              Research
+                            </MobileNavLink>
+                            <MobileNavLink href="/faq">FAQ</MobileNavLink>
+
+                            <div className="h-px bg-gray-200" />
+                            */}
+
+                            <div className="flex flex-col gap-4 pt-4">
+                              <Button
+                                href="https://apps.apple.com/us/app/body-fat-calculator-pro/id6738918673"
+                                color="red"
+                                className="w-full"
+                              >
+                                Download on App Store
+                              </Button>
+                              <Button
+                                href="https://play.google.com/store/apps/details?id=com.tehidea.bodyfatcalculator"
+                                color="red"
+                                className="w-full"
+                              >
+                                Get it on Google Play
                               </Button>
                             </div>
                           </div>
