@@ -42,12 +42,6 @@ export function getResponsiveSpacing(base: number): number {
   return base;
 }
 
-// Helper function to get dynamic font size based on device type
-export function getResponsiveFontSize(base: number): number {
-  if (isIPad) return base * 1.2;
-  return base;
-}
-
 // Typography scale factors based on device type
 const TYPOGRAPHY_SCALE = {
   phone: 1,
@@ -99,13 +93,18 @@ const LINE_HEIGHTS = {
 
 // Helper function to get dynamic line height based on font size
 export function getLineHeight(size: number | keyof typeof BASE_TYPOGRAPHY): number {
-  // If a number is passed, use it directly
+  // If a number is passed, use it directly with device scaling
   if (typeof size === "number") {
-    return size;
+    const deviceType = getDeviceType();
+    const scaleFactor = TYPOGRAPHY_SCALE[deviceType];
+    return Math.max(size * scaleFactor, LINE_HEIGHTS.xxxs);
   }
 
-  // Get the line height for the typography key
-  return LINE_HEIGHTS[size];
+  // Get the line height for the typography key and apply device scaling
+  const baseLineHeight = LINE_HEIGHTS[size];
+  const deviceType = getDeviceType();
+  const scaleFactor = TYPOGRAPHY_SCALE[deviceType];
+  return Math.max(baseLineHeight * scaleFactor, LINE_HEIGHTS.xxxs);
 }
 
 // Helper function to get letter spacing based on font size

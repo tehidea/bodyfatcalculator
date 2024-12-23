@@ -15,7 +15,6 @@ import { UpgradeModal } from "./UpgradeModal";
 import {
   isIPad,
   getResponsiveSpacing,
-  getResponsiveFontSize,
   getResponsiveTypography,
   getLineHeight,
 } from "../../utils/device";
