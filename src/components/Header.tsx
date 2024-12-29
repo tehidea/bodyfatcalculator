@@ -8,6 +8,7 @@ import {
   PopoverPanel,
 } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { usePlausible } from 'next-plausible'
 
 import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
@@ -69,6 +70,26 @@ function MobileNavLink({
 }
 
 export function Header() {
+  const plausible = usePlausible()
+
+  const handleAppStoreClick = () => {
+    plausible('App Store Click', {
+      props: {
+        location: 'header',
+        platform: 'ios',
+      },
+    })
+  }
+
+  const handleGooglePlayClick = () => {
+    plausible('Google Play Click', {
+      props: {
+        location: 'header',
+        platform: 'android',
+      },
+    })
+  }
+
   return (
     <header className="bg-[#333333]">
       <nav>
@@ -165,6 +186,7 @@ export function Header() {
               href="https://apps.apple.com/us/app/body-fat-calculator-pro/id6738918673"
               color="red"
               className="hidden lg:block"
+              onClick={handleAppStoreClick}
             >
               Download on App Store
             </Button>
@@ -172,6 +194,7 @@ export function Header() {
               href="https://play.google.com/store/apps/details?id=com.tehidea.bodyfatcalculator"
               color="red"
               className="hidden lg:block"
+              onClick={handleGooglePlayClick}
             >
               Get it on Google Play
             </Button>

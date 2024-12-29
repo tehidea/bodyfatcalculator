@@ -1,5 +1,8 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePlausible } from 'next-plausible'
 
 import { Container } from '@/components/Container'
 import { Logo } from '@/components/Logo'
@@ -21,6 +24,26 @@ function QrCodeBorder(props: React.ComponentPropsWithoutRef<'svg'>) {
 }
 
 export function Footer() {
+  const plausible = usePlausible()
+
+  const handleAppStoreClick = () => {
+    plausible('App Store Click', {
+      props: {
+        location: 'footer',
+        platform: 'ios',
+      },
+    })
+  }
+
+  const handleGooglePlayClick = () => {
+    plausible('Google Play Click', {
+      props: {
+        location: 'footer',
+        platform: 'android',
+      },
+    })
+  }
+
   return (
     <footer className="border-t border-gray-200 bg-[#333333]">
       <Container>
@@ -45,7 +68,10 @@ export function Footer() {
               <div className="group relative flex items-center self-stretch p-4 transition-colors sm:self-auto sm:rounded-2xl lg:self-auto lg:p-6">
                 <div className="mr-8 text-right lg:w-64">
                   <p className="text-base font-semibold text-white">
-                    <Link href="https://apps.apple.com/us/app/body-fat-calculator-pro/id6738918673">
+                    <Link
+                      href="https://apps.apple.com/us/app/body-fat-calculator-pro/id6738918673"
+                      onClick={handleAppStoreClick}
+                    >
                       <span className="absolute inset-0 sm:rounded-2xl" />
                       Download from App Store
                     </Link>
@@ -66,7 +92,10 @@ export function Footer() {
               <div className="group relative flex items-center self-stretch p-4 transition-colors sm:self-auto sm:rounded-2xl lg:self-auto lg:p-6">
                 <div className="mr-8 text-right lg:w-64">
                   <p className="text-base font-semibold text-white">
-                    <Link href="https://play.google.com/store/apps/details?id=com.tehidea.bodyfatcalculator">
+                    <Link
+                      href="https://play.google.com/store/apps/details?id=com.tehidea.bodyfatcalculator"
+                      onClick={handleGooglePlayClick}
+                    >
                       <span className="absolute inset-0 sm:rounded-2xl" />
                       Get it on Google Play
                     </Link>

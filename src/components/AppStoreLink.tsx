@@ -1,5 +1,8 @@
+'use client'
+
 import Link from 'next/link'
 import clsx from 'clsx'
+import { usePlausible } from 'next-plausible'
 
 export function AppStoreLink({
   color = 'black',
@@ -10,10 +13,22 @@ export function AppStoreLink({
   className?: string
   size?: 'default' | 'large' | 'massive'
 }) {
+  const plausible = usePlausible()
+
+  const handleClick = () => {
+    plausible('App Store Click', {
+      props: {
+        location: 'website',
+        platform: 'ios',
+      },
+    })
+  }
+
   return (
     <Link
       href="https://apps.apple.com/us/app/body-fat-calculator-pro/id6738918673"
       aria-label="Download on the App Store"
+      onClick={handleClick}
       className={clsx(
         'rounded-lg transition-colors',
         color === 'black'

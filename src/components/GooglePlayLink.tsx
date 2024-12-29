@@ -1,5 +1,8 @@
+'use client'
+
 import Link from 'next/link'
 import clsx from 'clsx'
+import { usePlausible } from 'next-plausible'
 
 export function GooglePlayLink({
   color = 'black',
@@ -10,10 +13,22 @@ export function GooglePlayLink({
   className?: string
   size?: 'default' | 'large' | 'massive'
 }) {
+  const plausible = usePlausible()
+
+  const handleClick = () => {
+    plausible('Google Play Click', {
+      props: {
+        location: 'website',
+        platform: 'android',
+      },
+    })
+  }
+
   return (
     <Link
       href="https://play.google.com/store/apps/details?id=com.tehidea.bodyfatcalculator"
       aria-label="Get it on Google Play"
+      onClick={handleClick}
       className={clsx(
         'rounded-lg transition-colors',
         color === 'black'
