@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/react'
 import { Montserrat } from 'next/font/google'
 import clsx from 'clsx'
+import PlausibleProvider from 'next-plausible'
 
 import '@/styles/tailwind.css'
 import '@/styles/globals.css'
@@ -62,6 +63,19 @@ export default function RootLayout({
         montserrat.className,
       )}
     >
+      <head>
+        <PlausibleProvider
+          domain="bodyfatcalculator.pro"
+          customDomain="https://plausible.tehidea.net"
+          trackOutboundLinks={true}
+          trackFileDownloads={true}
+          taggedEvents={true}
+          trackLocalhost={true}
+          revenue={true}
+          hash={true}
+          selfHosted={true}
+        />
+      </head>
       <body>
         {children}
         <Analytics />
