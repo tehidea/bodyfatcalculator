@@ -562,6 +562,26 @@ The app uses RevenueCat's sandbox environment for testing:
    - Verify receipt validation
    - Test the complete purchase flow
 
+## Advertising
+
+### AdMob
+
+#### Banner iOS
+
+Complete the instructions in the [Google Mobile Ads SDK guide](https://developers.google.com/admob/android/quick-start#import_the_mobile_ads_sdk) using this app ID:
+`ca-app-pub-2117029955778880~2123412137`
+
+Follow the [banner implementation guide](https://developers.google.com/admob/android/banner) to integrate the SDK. You'll specify ad type, size and placement when you integrate the code using this ad unit ID:
+`Bannerca-app-pub-2117029955778880/3850297476`
+
+#### Banner Android
+
+Complete the instructions in the [Google Mobile Ads SDK guide](https://developers.google.com/admob/android/quick-start#import_the_mobile_ads_sdk) using this app ID:
+`ca-app-pub-2117029955778880~1499174729`
+
+Follow the [banner implementation guide](https://developers.google.com/admob/android/banner) to integrate the SDK. You'll specify ad type, size and placement when you integrate the code using this ad unit ID:
+`Banner Androidca-app-pub-2117029955778880/5756046138`
+
 ### Troubleshooting
 
 - Check RevenueCat dashboard for purchase logs
