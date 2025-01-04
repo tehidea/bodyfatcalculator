@@ -4,6 +4,7 @@ import { Container } from '@/components/Container'
 import { Layout } from '@/components/Layout'
 import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
+import { Formula } from '@/components/Formula'
 
 export default function Formulas() {
   return (
@@ -59,16 +60,17 @@ export default function Formulas() {
                       Formula for Men
                     </h3>
                     <div className="mt-4 rounded-lg bg-black/20 p-6 ring-1 ring-white/10">
-                      <p className="font-mono text-sm text-gray-300">
-                        Body Fat % = ((4.15 × Waist) - (0.082 × Weight) - 98.42)
-                        / Weight × 100
-                      </p>
+                      <Formula
+                        formula={`\\text{Body Fat}\\% = \\frac{4.15 \\times \\text{Waist}_{in} - 0.082 \\times \\text{Weight}_{lb} - 98.42}{\\text{Weight}_{lb}} \\times 100`}
+                      />
                       <p className="mt-4 text-sm text-gray-400">
                         Where:
                         <br />
-                        Waist = waist circumference in inches
+                        <Formula inline formula="\\text{Waist}_{in}" /> = waist
+                        circumference in inches
                         <br />
-                        Weight = body weight in pounds
+                        <Formula inline formula="\\text{Weight}_{lb}" /> = body
+                        weight in pounds
                       </p>
                     </div>
                   </div>
@@ -78,16 +80,17 @@ export default function Formulas() {
                       Formula for Women
                     </h3>
                     <div className="mt-4 rounded-lg bg-black/20 p-6 ring-1 ring-white/10">
-                      <p className="font-mono text-sm text-gray-300">
-                        Body Fat % = ((4.15 × Waist) - (0.082 × Weight) - 76.76)
-                        / Weight × 100
-                      </p>
+                      <Formula
+                        formula={`\\text{Body Fat}\\% = \\frac{4.15 \\times \\text{Waist}_{in} - 0.082 \\times \\text{Weight}_{lb} - 76.76}{\\text{Weight}_{lb}} \\times 100`}
+                      />
                       <p className="mt-4 text-sm text-gray-400">
                         Where:
                         <br />
-                        Waist = waist circumference in inches
+                        <Formula inline formula="\\text{Waist}_{in}" /> = waist
+                        circumference in inches
                         <br />
-                        Weight = body weight in pounds
+                        <Formula inline formula="\\text{Weight}_{lb}" /> = body
+                        weight in pounds
                       </p>
                     </div>
                   </div>
@@ -124,8 +127,8 @@ export default function Formulas() {
                         Manual, 4th Edition. Human Kinetics.
                       </li>
                       <li>
-                        Golding, L.A. (2000). The Y's Way to Physical Fitness.
-                        Human Kinetics.
+                        Golding, L.A. (2000). The Y&apos;s Way to Physical
+                        Fitness. Human Kinetics.
                       </li>
                     </ul>
                   </div>
@@ -163,8 +166,17 @@ export default function Formulas() {
                       Formula for Men
                     </h3>
                     <div className="mt-4 rounded-lg bg-black/20 p-6 ring-1 ring-white/10">
-                      <p className="font-mono text-sm text-gray-300">
-                        Same as YMCA formula
+                      <Formula
+                        formula={`\\text{Body Fat}\\% = \\frac{4.15 \\times \\text{Waist}_{in} - 0.082 \\times \\text{Weight}_{lb} - 94.42}{\\text{Weight}_{lb}} \\times 100`}
+                      />
+                      <p className="mt-4 text-sm text-gray-400">
+                        Where:
+                        <br />
+                        <Formula inline formula="\\text{Waist}_{in}" /> = waist
+                        circumference in inches
+                        <br />
+                        <Formula inline formula="\\text{Weight}_{lb}" /> = body
+                        weight in pounds
                       </p>
                     </div>
                   </div>
@@ -174,17 +186,26 @@ export default function Formulas() {
                       Formula for Women
                     </h3>
                     <div className="mt-4 rounded-lg bg-black/20 p-6 ring-1 ring-white/10">
-                      <p className="font-mono text-sm text-gray-300">
-                        Body Fat % = ((4.15 × W) + (0.082 × B) - (0.15 × H) -
-                        76.76) / B × 100
-                      </p>
+                      <Formula
+                        formula={`\\text{Body Fat}\\% = \\frac{0.268 \\times \\text{Weight}_{lb} - 0.318 \\times \\text{Wrist}_{in} + 0.157 \\times \\text{Waist}_{in} + 0.245 \\times \\text{Hips}_{in} - 0.434 \\times \\text{Forearm}_{in} - 8.987}{\\text{Weight}_{lb}} \\times 100`}
+                      />
                       <p className="mt-4 text-sm text-gray-400">
                         Where:
                         <br />
-                        W = Waist circumference (inches)
+                        <Formula inline formula="\\text{Weight}_{lb}" /> = body
+                        weight in pounds
                         <br />
-                        B = Body weight (pounds)
-                        <br />H = Hip circumference (inches)
+                        <Formula inline formula="\\text{Wrist}_{in}" /> = wrist
+                        circumference in inches
+                        <br />
+                        <Formula inline formula="\\text{Waist}_{in}" /> = waist
+                        circumference in inches
+                        <br />
+                        <Formula inline formula="\\text{Hips}_{in}" /> = hip
+                        circumference in inches
+                        <br />
+                        <Formula inline formula="\\text{Forearm}_{in}" /> =
+                        forearm circumference in inches
                       </p>
                     </div>
                   </div>
@@ -257,14 +278,20 @@ export default function Formulas() {
                       Formula for Men
                     </h3>
                     <div className="mt-4 rounded-lg bg-black/20 p-6 ring-1 ring-white/10">
-                      <p className="font-mono text-sm text-gray-300">
-                        Body Fat % = 86.010 × log₁₀(Waist - Neck) - 70.041 ×
-                        log₁₀(Height) + 36.76
-                      </p>
+                      <Formula
+                        formula={`\\text{Body Fat}\\% = 86.010 \\times \\log_{10}(\\text{Waist}_{in} - \\text{Neck}_{in}) - 70.041 \\times \\log_{10}(\\text{Height}_{in}) + 36.76`}
+                      />
                       <p className="mt-4 text-sm text-gray-400">
                         Where:
                         <br />
-                        Waist, Neck, Height = measurements in inches
+                        <Formula inline formula="\\text{Waist}_{in}" /> = waist
+                        circumference in inches
+                        <br />
+                        <Formula inline formula="\\text{Neck}_{in}" /> = neck
+                        circumference in inches
+                        <br />
+                        <Formula inline formula="\\text{Height}_{in}" /> =
+                        height in inches
                       </p>
                     </div>
                   </div>
@@ -274,14 +301,23 @@ export default function Formulas() {
                       Formula for Women
                     </h3>
                     <div className="mt-4 rounded-lg bg-black/20 p-6 ring-1 ring-white/10">
-                      <p className="font-mono text-sm text-gray-300">
-                        Body Fat % = 163.205 × log₁₀(Waist + Hip - Neck) -
-                        97.684 × log₁₀(Height) - 78.387
-                      </p>
+                      <Formula
+                        formula={`\\text{Body Fat}\\% = 163.205 \\times \\log_{10}(\\text{Waist}_{in} + \\text{Hip}_{in} - \\text{Neck}_{in}) - 97.684 \\times \\log_{10}(\\text{Height}_{in}) - 78.387`}
+                      />
                       <p className="mt-4 text-sm text-gray-400">
                         Where:
                         <br />
-                        Waist, Hip, Neck, Height = measurements in inches
+                        <Formula inline formula="\\text{Waist}_{in}" /> = waist
+                        circumference in inches
+                        <br />
+                        <Formula inline formula="\\text{Hip}_{in}" /> = hip
+                        circumference in inches
+                        <br />
+                        <Formula inline formula="\\text{Neck}_{in}" /> = neck
+                        circumference in inches
+                        <br />
+                        <Formula inline formula="\\text{Height}_{in}" /> =
+                        height in inches
                       </p>
                     </div>
                   </div>
@@ -353,19 +389,32 @@ export default function Formulas() {
                       Formula for Men
                     </h3>
                     <div className="mt-4 rounded-lg bg-black/20 p-6 ring-1 ring-white/10">
-                      <p className="font-mono text-sm text-gray-300">
-                        Body Fat % = (0.13 × W) + (0.19 × B) - (0.12 × H) +
-                        (0.15 × A) - 5.8
+                      <p className="mb-4 text-sm text-gray-400">
+                        For age {'≤'} 30:
                       </p>
+                      <Formula
+                        formula={`\\text{Body Fat}\\% = \\text{Waist}_{in} + 0.5 \\times \\text{Hips}_{in} - 3 \\times \\text{Forearm}_{in} - \\text{Wrist}_{in}`}
+                      />
+                      <p className="mb-4 mt-4 text-sm text-gray-400">
+                        For age {'>'} 30:
+                      </p>
+                      <Formula
+                        formula={`\\text{Body Fat}\\% = \\text{Waist}_{in} + 0.5 \\times \\text{Hips}_{in} - 2.7 \\times \\text{Forearm}_{in} - \\text{Wrist}_{in}`}
+                      />
                       <p className="mt-4 text-sm text-gray-400">
                         Where:
                         <br />
-                        W = Waist circumference (inches)
+                        <Formula inline formula="\\text{Waist}_{in}" /> = waist
+                        circumference at navel
                         <br />
-                        B = Body weight (pounds)
+                        <Formula inline formula="\\text{Hips}_{in}" /> = hip
+                        circumference at widest point
                         <br />
-                        H = Height (inches)
-                        <br />A = Age in years
+                        <Formula inline formula="\\text{Forearm}_{in}" /> =
+                        forearm circumference at widest point
+                        <br />
+                        <Formula inline formula="\\text{Wrist}_{in}" /> = wrist
+                        circumference at smallest point
                       </p>
                     </div>
                   </div>
@@ -375,19 +424,32 @@ export default function Formulas() {
                       Formula for Women
                     </h3>
                     <div className="mt-4 rounded-lg bg-black/20 p-6 ring-1 ring-white/10">
-                      <p className="font-mono text-sm text-gray-300">
-                        Body Fat % = (0.11 × W) + (0.23 × B) - (0.13 × H) +
-                        (0.14 × A) - 8.9
+                      <p className="mb-4 text-sm text-gray-400">
+                        For age {'≤'} 30:
                       </p>
+                      <Formula
+                        formula={`\\text{Body Fat}\\% = \\text{Hips}_{in} + 0.8 \\times \\text{Thigh}_{in} - 2 \\times \\text{Calf}_{in} - \\text{Wrist}_{in}`}
+                      />
+                      <p className="mb-4 mt-4 text-sm text-gray-400">
+                        For age {'>'} 30:
+                      </p>
+                      <Formula
+                        formula={`\\text{Body Fat}\\% = \\text{Hips}_{in} + \\text{Thigh}_{in} - 2 \\times \\text{Calf}_{in} - \\text{Wrist}_{in}`}
+                      />
                       <p className="mt-4 text-sm text-gray-400">
                         Where:
                         <br />
-                        W = Waist circumference (inches)
+                        <Formula inline formula="\\text{Hips}_{in}" /> = hip
+                        circumference at widest point
                         <br />
-                        B = Body weight (pounds)
+                        <Formula inline formula="\\text{Thigh}_{in}" /> = thigh
+                        circumference at widest point
                         <br />
-                        H = Height (inches)
-                        <br />A = Age in years
+                        <Formula inline formula="\\text{Calf}_{in}" /> = calf
+                        circumference at widest point
+                        <br />
+                        <Formula inline formula="\\text{Wrist}_{in}" /> = wrist
+                        circumference at smallest point
                       </p>
                     </div>
                   </div>
@@ -460,22 +522,37 @@ export default function Formulas() {
                       Formula
                     </h3>
                     <div className="mt-4 rounded-lg bg-black/20 p-6 ring-1 ring-white/10">
-                      <p className="font-mono text-sm text-gray-300">
-                        Men: Body Density = 1.10938 - (0.0008267 × Sum) +
-                        (0.0000016 × Sum²) - (0.0002574 × Age)
-                        <br />
-                        Women: Body Density = 1.0994921 - (0.0009929 × Sum) +
-                        (0.0000023 × Sum²) - (0.0001392 × Age)
+                      <p className="mb-4 text-sm text-gray-400">For men:</p>
+                      <Formula
+                        formula={`\\text{Body Density} = 1.10938 - (0.0008267 \\times \\sum\\text{SF}) + (0.0000016 \\times \\sum\\text{SF}^2) - (0.0002574 \\times \\text{Age})`}
+                      />
+                      <p className="mb-4 mt-4 text-sm text-gray-400">
+                        For women:
                       </p>
+                      <Formula
+                        formula={`\\text{Body Density} = 1.0994921 - (0.0009929 \\times \\sum\\text{SF}) + (0.0000023 \\times \\sum\\text{SF}^2) - (0.0001392 \\times \\text{Age})`}
+                      />
                       <p className="mt-4 text-sm text-gray-400">
                         Where:
                         <br />
-                        Sum = Sum of three skinfold measurements (mm)
+                        <Formula inline formula="\\sum\\text{SF}" /> = Sum of
+                        three skinfold measurements (mm)
                         <br />
-                        Age = age in years
+                        For men: chest, abdomen, thigh
                         <br />
-                        Body Fat % = (495 / Body Density) - 450
+                        For women: tricep, suprailiac, thigh
+                        <br />
+                        <Formula inline formula="\\text{Age}" /> = age in years
                       </p>
+                      <div className="mt-4 border-t border-white/10 pt-4">
+                        <p className="text-sm text-gray-400">
+                          Convert to body fat percentage using Siri&apos;s
+                          equation:
+                        </p>
+                        <Formula
+                          formula={`\\text{Body Fat}\\% = \\frac{495}{\\text{Body Density}} - 450`}
+                        />
+                      </div>
                     </div>
                   </div>
 
@@ -547,24 +624,93 @@ export default function Formulas() {
                       Formula
                     </h3>
                     <div className="mt-4 rounded-lg bg-black/20 p-6 ring-1 ring-white/10">
-                      <p className="font-mono text-sm text-gray-300">
-                        Body Density = C - [M × log₁₀(Sum of 4 Skinfolds)]
-                        <br />
-                        Where C and M vary by age and gender
-                      </p>
+                      <Formula
+                        formula={`\\text{Body Density} = c - m \\times \\log_{10}(\\sum\\text{SF})`}
+                      />
                       <p className="mt-4 text-sm text-gray-400">
-                        Skinfold sites:
+                        Where:
                         <br />
-                        - Biceps
+                        <Formula inline formula="\\sum\\text{SF}" /> = Sum of
+                        bicep, tricep, subscapular, and suprailiac skinfolds
+                        (mm)
                         <br />
-                        - Triceps
-                        <br />
-                        - Subscapular
-                        <br />
-                        - Suprailiac
-                        <br />
-                        Body Fat % = (495 / Body Density) - 450
+                        <Formula inline formula="c" /> and{' '}
+                        <Formula inline formula="m" /> are age and
+                        gender-specific coefficients:
                       </p>
+                      <div className="mt-4 overflow-x-auto">
+                        <table className="min-w-full text-sm">
+                          <thead>
+                            <tr className="border-b border-white/10">
+                              <th className="py-2 text-left text-gray-300">
+                                Age
+                              </th>
+                              <th className="py-2 text-left text-gray-300">
+                                Men (c, m)
+                              </th>
+                              <th className="py-2 text-left text-gray-300">
+                                Women (c, m)
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-white/10">
+                            <tr>
+                              <td className="py-2 text-gray-400">17-19</td>
+                              <td className="py-2 text-gray-400">
+                                1.1620, 0.0630
+                              </td>
+                              <td className="py-2 text-gray-400">
+                                1.1549, 0.0678
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="py-2 text-gray-400">20-29</td>
+                              <td className="py-2 text-gray-400">
+                                1.1631, 0.0632
+                              </td>
+                              <td className="py-2 text-gray-400">
+                                1.1599, 0.0717
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="py-2 text-gray-400">30-39</td>
+                              <td className="py-2 text-gray-400">
+                                1.1422, 0.0544
+                              </td>
+                              <td className="py-2 text-gray-400">
+                                1.1423, 0.0632
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="py-2 text-gray-400">40-49</td>
+                              <td className="py-2 text-gray-400">
+                                1.1620, 0.0700
+                              </td>
+                              <td className="py-2 text-gray-400">
+                                1.1333, 0.0612
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="py-2 text-gray-400">50+</td>
+                              <td className="py-2 text-gray-400">
+                                1.1715, 0.0779
+                              </td>
+                              <td className="py-2 text-gray-400">
+                                1.1339, 0.0645
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div className="mt-4 border-t border-white/10 pt-4">
+                        <p className="text-sm text-gray-400">
+                          Convert to body fat percentage using Siri&apos;s
+                          equation:
+                        </p>
+                        <Formula
+                          formula={`\\text{Body Fat}\\% = \\frac{495}{\\text{Body Density}} - 450`}
+                        />
+                      </div>
                     </div>
                   </div>
 
@@ -638,22 +784,37 @@ export default function Formulas() {
                       Formula
                     </h3>
                     <div className="mt-4 rounded-lg bg-black/20 p-6 ring-1 ring-white/10">
-                      <p className="font-mono text-sm text-gray-300">
-                        Men: Body Density = 1.10938 - (0.0008267 × Sum) +
-                        (0.0000016 × Sum²) - (0.0002574 × Age)
-                        <br />
-                        Women: Body Density = 1.0994921 - (0.0009929 × Sum) +
-                        (0.0000023 × Sum²) - (0.0001392 × Age)
+                      <p className="mb-4 text-sm text-gray-400">For men:</p>
+                      <Formula
+                        formula={`\\text{Body Density} = 1.10938 - (0.0008267 \\times \\sum\\text{SF}) + (0.0000016 \\times \\sum\\text{SF}^2) - (0.0002574 \\times \\text{Age})`}
+                      />
+                      <p className="mb-4 mt-4 text-sm text-gray-400">
+                        For women:
                       </p>
+                      <Formula
+                        formula={`\\text{Body Density} = 1.0994921 - (0.0009929 \\times \\sum\\text{SF}) + (0.0000023 \\times \\sum\\text{SF}^2) - (0.0001392 \\times \\text{Age})`}
+                      />
                       <p className="mt-4 text-sm text-gray-400">
                         Where:
                         <br />
-                        Sum = Sum of four skinfold measurements (mm)
+                        <Formula inline formula="\\sum\\text{SF}" /> = Sum of
+                        four skinfold measurements (mm)
                         <br />
-                        Age = age in years
+                        For men: triceps, subscapular, suprailiac, abdomen
                         <br />
-                        Body Fat % = (495 / Body Density) - 450
+                        For women: triceps, subscapular, suprailiac, thigh
+                        <br />
+                        <Formula inline formula="\\text{Age}" /> = age in years
                       </p>
+                      <div className="mt-4 border-t border-white/10 pt-4">
+                        <p className="text-sm text-gray-400">
+                          Convert to body fat percentage using Siri&apos;s
+                          equation:
+                        </p>
+                        <Formula
+                          formula={`\\text{Body Fat}\\% = \\frac{495}{\\text{Body Density}} - 450`}
+                        />
+                      </div>
                     </div>
                   </div>
 
@@ -724,20 +885,29 @@ export default function Formulas() {
                       Formula
                     </h3>
                     <div className="mt-4 rounded-lg bg-black/20 p-6 ring-1 ring-white/10">
-                      <p className="font-mono text-sm text-gray-300">
-                        Body Density = 1.112 - (0.00043499 × Sum) + (0.00000055
-                        × Sum²) - (0.00028826 × Age)
-                      </p>
+                      <Formula
+                        formula={`\\text{Body Density} = 1.112 - (0.00043499 \\times \\sum\\text{SF}) + (0.00000055 \\times \\sum\\text{SF}^2) - (0.00028826 \\times \\text{Age})`}
+                      />
                       <p className="mt-4 text-sm text-gray-400">
                         Where:
                         <br />
-                        Sum = Sum of chest, midaxillary, triceps, subscapular,
-                        abdomen, suprailiac, and thigh skinfolds (mm)
+                        <Formula inline formula="\\sum\\text{SF}" /> = Sum of
+                        seven skinfold measurements (mm):
                         <br />
-                        Age = age in years
+                        chest, midaxillary, triceps, subscapular, abdomen,
+                        suprailiac, and thigh
                         <br />
-                        Body Fat % = (495 / Body Density) - 450
+                        <Formula inline formula="\\text{Age}" /> = age in years
                       </p>
+                      <div className="mt-4 border-t border-white/10 pt-4">
+                        <p className="text-sm text-gray-400">
+                          Convert to body fat percentage using Siri&apos;s
+                          equation:
+                        </p>
+                        <Formula
+                          formula={`\\text{Body Fat}\\% = \\frac{495}{\\text{Body Density}} - 450`}
+                        />
+                      </div>
                     </div>
                   </div>
 
@@ -807,16 +977,20 @@ export default function Formulas() {
                       Formula
                     </h3>
                     <div className="mt-4 rounded-lg bg-black/20 p-6 ring-1 ring-white/10">
-                      <p className="font-mono text-sm text-gray-300">
-                        Body Fat % = ((Sum of 9 Sites × 27) / Weight) × 100
-                      </p>
+                      <Formula
+                        formula={`\\text{Body Fat}\\% = \\frac{\\sum\\text{SF} \\times 27}{\\text{Weight}_{lb}} \\times 100`}
+                      />
                       <p className="mt-4 text-sm text-gray-400">
                         Where:
                         <br />
-                        Sites = cheek, chin, pectoral, tricep, subscapular,
-                        abdominal, suprailiac, quadriceps, knee (mm)
+                        <Formula inline formula="\\sum\\text{SF}" /> = Sum of
+                        nine skinfold measurements (mm):
                         <br />
-                        Weight = body weight in pounds
+                        cheek, chin, pectoral, tricep, subscapular, abdominal,
+                        suprailiac, quadriceps, knee
+                        <br />
+                        <Formula inline formula="\\text{Weight}_{lb}" /> = body
+                        weight in pounds
                       </p>
                     </div>
                   </div>
@@ -885,21 +1059,33 @@ export default function Formulas() {
                       Conversion Formulas
                     </h3>
                     <div className="mt-4 rounded-lg bg-black/20 p-6 ring-1 ring-white/10">
-                      <p className="font-mono text-sm text-gray-300">
-                        Siri (1956): Body Fat % = (495 / Body Density) - 450
-                        <br />
-                        <br />
-                        Brozek (1963): Body Fat % = (457 / Body Density) - 414.2
-                        <br />
-                        <br />
-                        Schutte (1984, for African American men): Body Fat % =
-                        (437.4 / Body Density) - 392.8
-                        <br />
-                        <br />
-                        Wagner & Heyward (2001, for African American men): Body
-                        Fat % = (485 / Body Density) - 439
+                      <p className="mb-4 text-sm text-gray-400">Siri (1956):</p>
+                      <Formula
+                        formula={`\\text{Body Fat}\\% = \\frac{495}{\\text{Body Density}} - 450`}
+                      />
+
+                      <p className="mb-4 mt-6 text-sm text-gray-400">
+                        Brozek (1963):
                       </p>
-                      <p className="mt-4 text-sm text-gray-400">
+                      <Formula
+                        formula={`\\text{Body Fat}\\% = \\frac{457}{\\text{Body Density}} - 414.2`}
+                      />
+
+                      <p className="mb-4 mt-6 text-sm text-gray-400">
+                        Schutte (1984, for African American men):
+                      </p>
+                      <Formula
+                        formula={`\\text{Body Fat}\\% = \\frac{437.4}{\\text{Body Density}} - 392.8`}
+                      />
+
+                      <p className="mb-4 mt-6 text-sm text-gray-400">
+                        Wagner & Heyward (2001, for African American men):
+                      </p>
+                      <Formula
+                        formula={`\\text{Body Fat}\\% = \\frac{485}{\\text{Body Density}} - 439`}
+                      />
+
+                      <p className="mt-6 text-sm text-gray-400">
                         Note: Siri and Brozek equations are most commonly used
                         and generally provide similar results (within ±1%) for
                         most populations.

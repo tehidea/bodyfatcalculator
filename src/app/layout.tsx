@@ -5,6 +5,7 @@ import PlausibleProvider from 'next-plausible'
 
 import '@/styles/tailwind.css'
 import '@/styles/globals.css'
+import 'katex/dist/katex.min.css'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
