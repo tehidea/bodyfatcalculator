@@ -46,155 +46,30 @@ export default function Methods() {
           </motion.div>
 
           <div className="space-y-12">
-            {/* Method Selection Guide */}
-            <motion.section
+            {/* Selection Guide Link */}
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Method Selection Guide
-              </h2>
-              <p className="mt-4 text-gray-300">
-                Find the most suitable method based on your needs and available
-                equipment.
-              </p>
-
-              <div className="mt-8 space-y-8">
-                {/* For Athletes */}
-                <div className="rounded-lg bg-black/20 p-6">
-                  <h3 className="text-lg font-semibold text-white">
-                    For Athletes & Bodybuilders
-                  </h3>
-                  <p className="mt-2 text-sm text-gray-400">
-                    When maximum precision is required for competition or
-                    detailed progress tracking.
-                  </p>
-                  <div className="mt-4 space-y-3">
-                    <Link href="/methods/parrillo" className="block">
-                      <div className="flex items-center justify-between rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30">
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <h4 className="font-medium text-white">
-                              Parrillo Method
-                            </h4>
-                            <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
-                              <Lock size={10} /> PRO
-                            </span>
-                          </div>
-                          <p className="mt-1 text-sm text-gray-400">
-                            9-site skinfold method optimized for bodybuilders
-                          </p>
-                        </div>
-                        <span className="text-[#4CAF50]">±3-4%</span>
-                      </div>
-                    </Link>
-                    <Link href="/methods/jackson-pollock-7" className="block">
-                      <div className="flex items-center justify-between rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30">
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <h4 className="font-medium text-white">
-                              Jackson & Pollock 7-Site
-                            </h4>
-                            <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
-                              <Lock size={10} /> PRO
-                            </span>
-                          </div>
-                          <p className="mt-1 text-sm text-gray-400">
-                            Gold standard for professional assessment
-                          </p>
-                        </div>
-                        <span className="text-[#4CAF50]">±3-4%</span>
-                      </div>
-                    </Link>
+              <Link href="/selection-guide" className="block">
+                <div className="group relative overflow-hidden rounded-2xl bg-white/[0.02] transition-colors hover:bg-white/[0.04]">
+                  <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
+                  <div className="relative p-6">
+                    <h2 className="text-2xl font-semibold text-white">
+                      Method Selection Guide
+                    </h2>
+                    <p className="mt-2 text-gray-400">
+                      Find the most suitable method based on your needs,
+                      available equipment, and accuracy requirements.
+                    </p>
+                    <div className="mt-4 text-sm font-medium text-white">
+                      View Guide →
+                    </div>
                   </div>
                 </div>
-
-                {/* For Regular Tracking */}
-                <div className="rounded-lg bg-black/20 p-6">
-                  <h3 className="text-lg font-semibold text-white">
-                    For Regular Progress Tracking
-                  </h3>
-                  <p className="mt-2 text-sm text-gray-400">
-                    When you need a good balance between accuracy and
-                    convenience.
-                  </p>
-                  <div className="mt-4 space-y-3">
-                    <Link href="/methods/jackson-pollock-3" className="block">
-                      <div className="flex items-center justify-between rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30">
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <h4 className="font-medium text-white">
-                              Jackson & Pollock 3-Site
-                            </h4>
-                            <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
-                              <Lock size={10} /> PRO
-                            </span>
-                          </div>
-                          <p className="mt-1 text-sm text-gray-400">
-                            Quick but reliable skinfold method
-                          </p>
-                        </div>
-                        <span className="text-[#FFC107]">±4-5%</span>
-                      </div>
-                    </Link>
-                    <Link href="/methods/us-navy" className="block">
-                      <div className="flex items-center justify-between rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30">
-                        <div>
-                          <h4 className="font-medium text-white">
-                            US Navy Method
-                          </h4>
-                          <p className="mt-1 text-sm text-gray-400">
-                            Simple circumference measurements
-                          </p>
-                        </div>
-                        <span className="text-[#FFC107]">±4-6%</span>
-                      </div>
-                    </Link>
-                  </div>
-                </div>
-
-                {/* For Quick Checks */}
-                <div className="rounded-lg bg-black/20 p-6">
-                  <h3 className="text-lg font-semibold text-white">
-                    For Quick Assessments
-                  </h3>
-                  <p className="mt-2 text-sm text-gray-400">
-                    When speed and simplicity are priorities over maximum
-                    precision.
-                  </p>
-                  <div className="mt-4 space-y-3">
-                    <Link href="/methods/ymca-modified" className="block">
-                      <div className="flex items-center justify-between rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30">
-                        <div>
-                          <h4 className="font-medium text-white">
-                            Modified YMCA
-                          </h4>
-                          <p className="mt-1 text-sm text-gray-400">
-                            Enhanced accuracy over standard YMCA
-                          </p>
-                        </div>
-                        <span className="text-[#FF5722]">±4-6%</span>
-                      </div>
-                    </Link>
-                    <Link href="/methods/ymca" className="block">
-                      <div className="flex items-center justify-between rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30">
-                        <div>
-                          <h4 className="font-medium text-white">
-                            YMCA Method
-                          </h4>
-                          <p className="mt-1 text-sm text-gray-400">
-                            Fastest basic screening method
-                          </p>
-                        </div>
-                        <span className="text-[#FF5722]">±5-7%</span>
-                      </div>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </motion.section>
+              </Link>
+            </motion.div>
 
             {/* All Methods Grid */}
             <motion.section
