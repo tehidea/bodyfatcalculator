@@ -909,6 +909,111 @@ export default function Formulas() {
 
                   <div>
                     <h3 className="text-lg font-semibold text-white">
+                      Formula-Specific Limitations
+                    </h3>
+                    <div className="mt-4 space-y-4">
+                      <div>
+                        <h4 className="font-medium text-white">
+                          Brozek (1963)
+                        </h4>
+                        <ul className="mt-2 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                          <li>
+                            Based on analysis of only 4 cadavers, limiting its
+                            generalizability
+                          </li>
+                          <li>
+                            Assumes constant densities of fat (0.9007 g/cm³) and
+                            fat-free mass (1.1000 g/cm³)
+                          </li>
+                          <li>
+                            May underestimate body fat in very lean individuals
+                            (&lt;8%)
+                          </li>
+                          <li>
+                            Less accurate for populations with different bone
+                            densities or muscle mass
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div>
+                        <h4 className="font-medium text-white">
+                          Schutte (1984)
+                        </h4>
+                        <ul className="mt-2 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                          <li>
+                            Study based on small sample size (n=19) of African
+                            American men
+                          </li>
+                          <li>
+                            Limited to college-aged subjects (17-25 years)
+                          </li>
+                          <li>
+                            No validation for women or other ethnic groups
+                          </li>
+                          <li>
+                            May not account for variations within African
+                            American populations
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div>
+                        <h4 className="font-medium text-white">
+                          Wagner & Heyward (2001)
+                        </h4>
+                        <ul className="mt-2 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                          <li>
+                            Validated only on African American men aged 19-45
+                            years
+                          </li>
+                          <li>Sample excluded highly trained athletes</li>
+                          <li>
+                            May not be accurate for individuals with extreme
+                            body compositions
+                          </li>
+                          <li>
+                            Limited cross-validation with modern imaging
+                            techniques
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">
+                      Why We Use Siri&apos;s Equation
+                    </h3>
+                    <p className="mt-4 text-gray-300">
+                      We chose Siri&apos;s equation as our primary conversion
+                      formula for several reasons:
+                    </p>
+                    <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                      <li>
+                        Most widely used and validated in research settings
+                      </li>
+                      <li>
+                        Original equation used in the development and validation
+                        of Jackson & Pollock methods
+                      </li>
+                      <li>
+                        Simpler coefficients (495/450) make it easier to
+                        remember and calculate manually
+                      </li>
+                      <li>
+                        More extensively cross-validated against modern methods
+                        like DEXA
+                      </li>
+                      <li>
+                        Provides nearly identical results to Brozek for body fat
+                        ranges of 6-30%, which covers most users
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">
                       Population-Specific Considerations
                     </h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
