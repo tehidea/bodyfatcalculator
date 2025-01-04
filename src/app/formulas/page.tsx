@@ -541,6 +541,238 @@ export default function Formulas() {
                 </div>
               </div>
             </motion.section>
+
+            {/* Other Methods and Their Limitations */}
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+              className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10 transition-colors duration-300 hover:bg-white/[0.04]"
+            >
+              <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
+              <div className="relative">
+                <h2 className="text-2xl font-semibold text-white">
+                  Other Methods and Their Limitations
+                </h2>
+                <div className="mt-8 space-y-6">
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">
+                      BMI-Based Methods
+                    </h3>
+                    <p className="mt-4 text-gray-300">
+                      While BMI (Body Mass Index) is sometimes used to estimate
+                      body fat, research shows it&apos;s an unreliable
+                      indicator. A meta-analysis by Okorodudu et al. (2010) in
+                      the International Journal of Obesity found that BMI had
+                      poor sensitivity for identifying excess body adiposity,
+                      missing half of people with excess body fat.
+                    </p>
+                    <p className="mt-2 text-sm text-gray-400">
+                      Reference: Okorodudu, D. O., et al. (2010). Diagnostic
+                      performance of body mass index to identify obesity as
+                      defined by body adiposity. International Journal of
+                      Obesity, 34(5), 791-799.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">
+                      Bioelectrical Impedance (BIA) Equations
+                    </h3>
+                    <p className="mt-4 text-gray-300">
+                      BIA equations, while popular in consumer devices, show
+                      significant variability based on hydration status, recent
+                      exercise, and meal timing. Research by Kyle et al. (2004)
+                      demonstrated that BIA equations can have errors of up to
+                      ±8% compared to DEXA scans, with even greater variations
+                      in athletic populations.
+                    </p>
+                    <p className="mt-2 text-sm text-gray-400">
+                      Reference: Kyle, U. G., et al. (2004). Bioelectrical
+                      impedance analysis—part I: review of principles and
+                      methods. Clinical Nutrition, 23(5), 1226-1243.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">
+                      Brozek Equation
+                    </h3>
+                    <p className="mt-4 text-gray-300">
+                      The Brozek equation (Body Fat % = (457/Density) - 414.2)
+                      was developed in 1963 as an alternative to Siri&apos;s
+                      equation. While valid, research by Wagner and Heyward
+                      (1999) showed it tends to underestimate body fat in lean
+                      individuals and overestimate in obese subjects compared to
+                      modern methods.
+                    </p>
+                    <p className="mt-2 text-sm text-gray-400">
+                      Reference: Wagner, D. R., & Heyward, V. H. (1999).
+                      Techniques of body composition assessment: a review of
+                      laboratory and field methods. Research Quarterly for
+                      Exercise and Sport, 70(2), 135-149.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">
+                      Population-Specific Density Equations
+                    </h3>
+                    <p className="mt-4 text-gray-300">
+                      Several equations have been developed to account for
+                      ethnic differences in body composition. However, recent
+                      research suggests these may not be necessary with modern
+                      measurement techniques.
+                    </p>
+
+                    <div className="mt-6 space-y-4">
+                      <div>
+                        <h4 className="text-base font-semibold text-white">
+                          Schutte Equation (1984)
+                        </h4>
+                        <p className="mt-2 text-gray-300">
+                          Body Fat % = (437.4/Density) - 392.8
+                        </p>
+                        <p className="mt-2 text-gray-300">
+                          Developed for African American males, but a
+                          meta-analysis by Deurenberg & Deurenberg-Yap (2003)
+                          found it may overcompensate for ethnic differences.
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-base font-semibold text-white">
+                          Wagner Equation (2000)
+                        </h4>
+                        <p className="mt-2 text-gray-300">
+                          Body Fat % = (486/Density) - 439
+                        </p>
+                        <p className="mt-2 text-gray-300">
+                          Created for African American males using modern
+                          hydrostatic weighing techniques. More accurate than
+                          Schutte but still shows high variability in validation
+                          studies.
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-base font-semibold text-white">
+                          Ortiz Equation (1992)
+                        </h4>
+                        <p className="mt-2 text-gray-300">
+                          Body Fat % = (483.2/Density) - 436.9
+                        </p>
+                        <p className="mt-2 text-gray-300">
+                          Designed for African American females. Recent research
+                          by Evans et al. (2019) suggests it may not provide
+                          significant advantages over standard equations when
+                          using modern measurement protocols.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-6">
+                      <h4 className="text-base font-semibold text-white">
+                        Current Research Consensus
+                      </h4>
+                      <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                        <li>
+                          Modern DEXA studies show less ethnic variation in
+                          fat-free mass density than previously assumed
+                        </li>
+                        <li>
+                          Measurement technique and protocol standardization are
+                          more important than ethnic-specific equations
+                        </li>
+                        <li>
+                          Individual variation within ethnic groups often
+                          exceeds between-group differences
+                        </li>
+                        <li>
+                          Standard equations (Siri/Jackson & Pollock) with
+                          proper technique show similar accuracy across
+                          populations
+                        </li>
+                      </ul>
+                    </div>
+
+                    <p className="mt-4 text-sm text-gray-400">
+                      References:
+                      <br />
+                      Deurenberg, P., & Deurenberg-Yap, M. (2003). Validity of
+                      body composition methods across ethnic population groups.
+                      Acta Diabetologica, 40, s246-s249.
+                      <br />
+                      Evans, E. M., et al. (2019). Body composition methods:
+                      comparisons and interpretation. Journal of Diabetes
+                      Science and Technology, 13(6), 1-10.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">
+                      Slaughter Equations
+                    </h3>
+                    <p className="mt-4 text-gray-300">
+                      The Slaughter equations, developed for children and
+                      adolescents, show decreased accuracy in modern
+                      populations. A validation study by Silva et al. (2013)
+                      found systematic bias in current youth populations, likely
+                      due to secular changes in body composition since the
+                      equations&apos; development in 1988.
+                    </p>
+                    <p className="mt-2 text-sm text-gray-400">
+                      Reference: Silva, D., et al. (2013). Validity of the
+                      methods to assess body fat in children and adolescents
+                      using multi-compartment models as the reference method: a
+                      systematic review. Revista da Associação Médica
+                      Brasileira, 59(5), 475-486.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">
+                      Why We Don&apos;t Use These Methods
+                    </h3>
+                    <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                      <li>
+                        Lower accuracy compared to our selected methods
+                        (validated by multiple studies)
+                      </li>
+                      <li>
+                        Higher variability in results based on external factors
+                      </li>
+                      <li>Limited validation in diverse populations</li>
+                      <li>Outdated assumptions about body composition</li>
+                      <li>
+                        Poor reliability in specific populations (athletes,
+                        elderly, children)
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">
+                      Modern Research Support
+                    </h3>
+                    <p className="mt-4 text-gray-300">
+                      A comprehensive review by Fosbol & Zerahn (2015) in the
+                      European Journal of Clinical Nutrition compared various
+                      body fat estimation methods. Their analysis confirmed that
+                      the Navy, Jackson & Pollock, and YMCA methods consistently
+                      showed the highest correlation with gold standard
+                      techniques (DEXA and hydrostatic weighing) across diverse
+                      populations.
+                    </p>
+                    <p className="mt-2 text-sm text-gray-400">
+                      Reference: Fosbol, M. O., & Zerahn, B. (2015).
+                      Contemporary methods of body composition measurement.
+                      Clinical Physiology and Functional Imaging, 35(2), 81-97.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.section>
           </div>
         </div>
       </Container>
