@@ -68,12 +68,6 @@ export function Footer() {
             <Link href="/methods" className="hover:text-white">
               Methods
             </Link>
-            <Link href="/formulas" className="hover:text-white">
-              Formulas
-            </Link>
-            <Link href="/guides" className="hover:text-white">
-              Guides
-            </Link>
             <Link href="/research" className="hover:text-white">
               Research
             </Link>
