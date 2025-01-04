@@ -28,16 +28,12 @@ const faqs = [
       answer:
         'When measurements are done right, you can expect accuracy of ±3-4%. The key is consistent technique and site location. For best results, take measurements in the morning before eating or drinking.',
     },
-    {
-      question: 'What equipment do I need?',
-      answer: `You'll need a body fat caliper (also known as skinfold calipers). We recommend using professional-grade calipers like <a href='https://www.amazon.co.uk/Harpenden-Skinfold-Caliper-Calibration-Dowel/dp/B00289EHA0?crid=179GKCY0GZSID&nsdOptOutParam=true&sprefix=harpenden+calipers%2Caps%2C75&sr=8-5&linkCode=ll1&tag=bodyfatcalculator-21&linkId=2943e66b7223012cef58d3c029243c7c&language=en_GB&ref_=as_li_ss_tl' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>Harpenden</a> or <a href='https://www.amazon.co.uk/Lange-Calibration-Instruction-Percentage-Professional/dp/B00DD631G8?crid=179GKCY0GZSID&nsdOptOutParam=true&sprefix=harpenden+calipers%2Caps%2C75&sr=8-8&linkCode=ll1&tag=bodyfatcalculator-21&linkId=f30e96b3850d39000e3d1c53c74f8235&language=en_GB&ref_=as_li_ss_tl' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>Lange</a> for best results, though any calipers (like <a href='https://www.amazon.co.uk/CALIPER-MEASURING-Skinfold-Caliper-Measure/dp/B07B9Y5J7N?crid=2IU4GPJB8C0U0&nsdOptOutParam=true&refinements=p_85%3A20930949031&rnid=20930948031&rps=1&sprefix=body+calipers%2Caps%2C70&sr=8-5&linkCode=ll1&tag=bodyfatcalculator-21&linkId=60fe659fe6cb7399b48d403e938d77a8&language=en_GB&ref_=as_li_ss_tl' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>BOZEERA</a>) will work for getting started.`,
-    },
   ],
   [
     {
       question: 'What makes the PRO version special?',
       answer:
-        'PRO unlocks additional measurement methods including Jackson & Pollock 3,4,7-site formulas and Durnin & Womersley method. Perfect for fitness enthusiasts who want access to all validated formulas.',
+        'PRO unlocks professional skinfold methods, higher accuracy with 2 decimal place precision, and can be shared with up to 5 family members.',
     },
     {
       question: 'Is there a subscription fee?',
@@ -45,17 +41,11 @@ const faqs = [
         'No! The PRO version is a one-time purchase of £10. You get lifetime access to all premium measurement methods and future updates. No hidden fees or subscriptions.',
     },
     {
-      question: 'How do results compare to DEXA scans?',
-      answer:
-        'When performed correctly, our methods correlate strongly with DEXA results (r > 0.94). While DEXA remains the gold standard, our methods provide a practical, cost-effective alternative for regular tracking.',
+      question: 'What equipment do I need?',
+      answer: `You'll need a body fat caliper (also known as skinfold calipers). We recommend using professional-grade calipers like <a href='https://www.amazon.co.uk/Harpenden-Skinfold-Caliper-Calibration-Dowel/dp/B00289EHA0?crid=179GKCY0GZSID&nsdOptOutParam=true&sprefix=harpenden+calipers%2Caps%2C75&sr=8-5&linkCode=ll1&tag=bodyfatcalculator-21&linkId=2943e66b7223012cef58d3c029243c7c&language=en_GB&ref_=as_li_ss_tl' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>Harpenden</a> or <a href='https://www.amazon.co.uk/Lange-Calibration-Instruction-Percentage-Professional/dp/B00DD631G8?crid=179GKCY0GZSID&nsdOptOutParam=true&sprefix=harpenden+calipers%2Caps%2C75&sr=8-8&linkCode=ll1&tag=bodyfatcalculator-21&linkId=f30e96b3850d39000e3d1c53c74f8235&language=en_GB&ref_=as_li_ss_tl' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>Lange</a> for best results, though any calipers (like <a href='https://www.amazon.co.uk/CALIPER-MEASURING-Skinfold-Caliper-Measure/dp/B07B9Y5J7N?crid=2IU4GPJB8C0U0&nsdOptOutParam=true&refinements=p_85%3A20930949031&rnid=20930948031&rps=1&sprefix=body+calipers%2Caps%2C70&sr=8-5&linkCode=ll1&tag=bodyfatcalculator-21&linkId=60fe659fe6cb7399b48d403e938d77a8&language=en_GB&ref_=as_li_ss_tl' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>BOZEERA</a>) will work for getting started.`,
     },
   ],
   [
-    {
-      question: "What's the best time to measure?",
-      answer:
-        'Morning measurements, before eating or drinking, provide the most consistent results. Avoid measuring after exercise or sauna use, as this can affect skin thickness and hydration status.',
-    },
     {
       question: 'Can I use this professionally with clients?',
       answer:
