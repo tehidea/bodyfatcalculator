@@ -45,7 +45,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="border-t border-gray-200 bg-[#333333]">
+    <footer className="border-t border-gray-700 bg-[#333333]">
       <Container>
         <div className="flex flex-col items-center gap-y-8 py-12">
           {/* Logo */}

@@ -18,19 +18,19 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
       transition={{ duration: 0.5, delay: 0.6 }}
       className="mt-12 flex justify-center"
     >
-      <ol className="flex items-center space-x-2 text-sm text-gray-800">
+      <ol className="mt-12 flex items-center space-x-2 text-sm text-gray-400/20">
         <li>
-          <Link href="/" className="hover:text-gray-400">
+          <Link href="/" className="hover:text-gray-400/60">
             Home
           </Link>
         </li>
         {items.map((item, index) => (
           <li key={item.href}>
-            <span className="ml-1 mr-2">/</span>
+            <span className="ml-1 mr-2 text-gray-400/20">/</span>
             {index === items.length - 1 ? (
-              <span className="text-gray-600">{item.label}</span>
+              <span className="text-gray-400/20">{item.label}</span>
             ) : (
-              <Link href={item.href} className="hover:text-gray-400">
+              <Link href={item.href} className="hover:text-gray-400/60">
                 {item.label}
               </Link>
             )}

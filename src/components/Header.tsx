@@ -141,7 +141,7 @@ export function Header() {
                             y: -32,
                             transition: { duration: 0.2 },
                           }}
-                          className="absolute inset-x-0 top-0 z-40 origin-top rounded-b-2xl bg-white px-6 pb-6 pt-16 shadow-2xl shadow-gray-900/20"
+                          className="absolute inset-x-0 top-0 z-40 origin-top rounded-b-2xl bg-white px-6 pb-6 pt-8 shadow-2xl shadow-gray-900/20"
                         >
                           <div className="flex flex-col space-y-4">
                             <div className="flex items-center gap-3">
