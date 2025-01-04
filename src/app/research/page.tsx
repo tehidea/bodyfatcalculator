@@ -5,6 +5,7 @@ import { Layout } from '@/components/Layout'
 import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { Breadcrumbs } from '@/components/Breadcrumbs'
 
 export default function Research() {
   return (
@@ -13,21 +14,6 @@ export default function Research() {
         <CirclesBackground className="absolute left-1/2 top-0 -z-10 h-[64rem] w-[64rem] -translate-x-1/2 stroke-gray-300/30 [mask-image:linear-gradient(to_bottom,white_20%,transparent_75%)]" />
 
         <div className="mx-auto max-w-5xl">
-          {/* Breadcrumb Navigation */}
-          <nav className="mb-8">
-            <ol className="flex items-center space-x-2 text-sm text-gray-400">
-              <li>
-                <Link href="/" className="hover:text-white">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <span className="mx-2">/</span>
-              </li>
-              <li className="text-white">Research</li>
-            </ol>
-          </nav>
-
           {/* Header */}
           <motion.div
             className="mb-12 text-center"

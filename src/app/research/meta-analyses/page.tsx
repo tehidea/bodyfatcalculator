@@ -6,6 +6,7 @@ import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'react-feather'
+import { Breadcrumbs } from '@/components/Breadcrumbs'
 
 export default function MetaAnalyses() {
   return (
@@ -279,6 +280,19 @@ export default function MetaAnalyses() {
                 </ul>
               </div>
             </motion.section>
+
+            <Breadcrumbs
+              items={[
+                {
+                  label: 'Research',
+                  href: '/research',
+                },
+                {
+                  label: 'Meta-Analyses',
+                  href: '/research/meta-analyses',
+                },
+              ]}
+            />
           </div>
         </div>
       </Container>

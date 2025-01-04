@@ -6,6 +6,7 @@ import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'react-feather'
+import { Breadcrumbs } from '@/components/Breadcrumbs'
 
 export default function ClinicalApplications() {
   return (
@@ -271,6 +272,19 @@ export default function ClinicalApplications() {
                 </ul>
               </div>
             </motion.section>
+
+            <Breadcrumbs
+              items={[
+                {
+                  label: 'Research',
+                  href: '/research',
+                },
+                {
+                  label: 'Clinical Applications',
+                  href: '/research/clinical-applications',
+                },
+              ]}
+            />
           </div>
         </div>
       </Container>

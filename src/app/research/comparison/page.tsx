@@ -6,6 +6,7 @@ import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, Lock } from 'react-feather'
+import { Breadcrumbs } from '@/components/Breadcrumbs'
 
 export default function MethodComparison() {
   return (
@@ -374,6 +375,19 @@ export default function MethodComparison() {
                 </ul>
               </div>
             </motion.section>
+
+            <Breadcrumbs
+              items={[
+                {
+                  label: 'Research',
+                  href: '/research',
+                },
+                {
+                  label: 'Method Comparison',
+                  href: '/research/comparison',
+                },
+              ]}
+            />
           </div>
         </div>
       </Container>

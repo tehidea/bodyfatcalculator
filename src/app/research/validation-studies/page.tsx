@@ -6,6 +6,7 @@ import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'react-feather'
+import { Breadcrumbs } from '@/components/Breadcrumbs'
 
 export default function ValidationStudies() {
   return (
@@ -589,6 +590,19 @@ export default function ValidationStudies() {
                 </ul>
               </div>
             </motion.section>
+
+            <Breadcrumbs
+              items={[
+                {
+                  label: 'Research',
+                  href: '/research',
+                },
+                {
+                  label: 'Validation Studies',
+                  href: '/research/validation-studies',
+                },
+              ]}
+            />
           </div>
         </div>
       </Container>

@@ -5,6 +5,7 @@ import { Layout } from '@/components/Layout'
 import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import { Formula } from '@/components/Formula'
+import Link from 'next/link'
 
 export default function Formulas() {
   return (
@@ -1353,6 +1354,26 @@ export default function Formulas() {
               </div>
             </motion.section>
           </div>
+
+          {/* Breadcrumb Navigation */}
+          <motion.nav
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="mt-12 flex justify-center"
+          >
+            <ol className="flex items-center space-x-2 text-sm text-gray-400">
+              <li>
+                <Link href="/" className="hover:text-white">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <span className="mx-2">/</span>
+              </li>
+              <li className="text-white">Formulas</li>
+            </ol>
+          </motion.nav>
         </div>
       </Container>
     </Layout>
