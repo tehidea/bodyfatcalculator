@@ -4,6 +4,8 @@ import { Container } from '@/components/Container'
 import { Layout } from '@/components/Layout'
 import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
+import { Lock } from 'react-feather'
 
 export default function Methods() {
   return (
@@ -12,6 +14,21 @@ export default function Methods() {
         <CirclesBackground className="absolute left-1/2 top-0 -z-10 h-[64rem] w-[64rem] -translate-x-1/2 stroke-gray-300/30 [mask-image:linear-gradient(to_bottom,white_20%,transparent_75%)]" />
 
         <div className="mx-auto max-w-5xl">
+          {/* Breadcrumb Navigation */}
+          <nav className="mb-8">
+            <ol className="flex items-center space-x-2 text-sm text-gray-400">
+              <li>
+                <Link href="/" className="hover:text-white">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <span className="mx-2">/</span>
+              </li>
+              <li className="text-white">Methods</li>
+            </ol>
+          </nav>
+
           <motion.div
             className="mb-12 text-center"
             initial={{ opacity: 0, y: 20 }}
@@ -29,11 +46,161 @@ export default function Methods() {
           </motion.div>
 
           <div className="space-y-12">
-            {/* Free Methods Section */}
+            {/* Method Selection Guide */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
+              className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
+            >
+              <h2 className="text-2xl font-semibold text-white">
+                Method Selection Guide
+              </h2>
+              <p className="mt-4 text-gray-300">
+                Find the most suitable method based on your needs and available
+                equipment.
+              </p>
+
+              <div className="mt-8 space-y-8">
+                {/* For Athletes */}
+                <div className="rounded-lg bg-black/20 p-6">
+                  <h3 className="text-lg font-semibold text-white">
+                    For Athletes & Bodybuilders
+                  </h3>
+                  <p className="mt-2 text-sm text-gray-400">
+                    When maximum precision is required for competition or
+                    detailed progress tracking.
+                  </p>
+                  <div className="mt-4 space-y-3">
+                    <Link href="#methods/parrillo" className="block">
+                      <div className="flex items-center justify-between rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h4 className="font-medium text-white">
+                              Parrillo Method
+                            </h4>
+                            <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
+                              <Lock size={10} /> PRO
+                            </span>
+                          </div>
+                          <p className="mt-1 text-sm text-gray-400">
+                            9-site skinfold method optimized for bodybuilders
+                          </p>
+                        </div>
+                        <span className="text-[#4CAF50]">±3-4%</span>
+                      </div>
+                    </Link>
+                    <Link href="#methods/jackson-pollock-7" className="block">
+                      <div className="flex items-center justify-between rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h4 className="font-medium text-white">
+                              Jackson & Pollock 7-Site
+                            </h4>
+                            <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
+                              <Lock size={10} /> PRO
+                            </span>
+                          </div>
+                          <p className="mt-1 text-sm text-gray-400">
+                            Gold standard for professional assessment
+                          </p>
+                        </div>
+                        <span className="text-[#4CAF50]">±3-4%</span>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* For Regular Tracking */}
+                <div className="rounded-lg bg-black/20 p-6">
+                  <h3 className="text-lg font-semibold text-white">
+                    For Regular Progress Tracking
+                  </h3>
+                  <p className="mt-2 text-sm text-gray-400">
+                    When you need a good balance between accuracy and
+                    convenience.
+                  </p>
+                  <div className="mt-4 space-y-3">
+                    <Link href="#methods/jackson-pollock-3" className="block">
+                      <div className="flex items-center justify-between rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h4 className="font-medium text-white">
+                              Jackson & Pollock 3-Site
+                            </h4>
+                            <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
+                              <Lock size={10} /> PRO
+                            </span>
+                          </div>
+                          <p className="mt-1 text-sm text-gray-400">
+                            Quick but reliable skinfold method
+                          </p>
+                        </div>
+                        <span className="text-[#FFC107]">±4-5%</span>
+                      </div>
+                    </Link>
+                    <Link href="#methods/us-navy" className="block">
+                      <div className="flex items-center justify-between rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30">
+                        <div>
+                          <h4 className="font-medium text-white">
+                            US Navy Method
+                          </h4>
+                          <p className="mt-1 text-sm text-gray-400">
+                            Simple circumference measurements
+                          </p>
+                        </div>
+                        <span className="text-[#FFC107]">±4-6%</span>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* For Quick Checks */}
+                <div className="rounded-lg bg-black/20 p-6">
+                  <h3 className="text-lg font-semibold text-white">
+                    For Quick Assessments
+                  </h3>
+                  <p className="mt-2 text-sm text-gray-400">
+                    When speed and simplicity are priorities over maximum
+                    precision.
+                  </p>
+                  <div className="mt-4 space-y-3">
+                    <Link href="#methods/ymca-modified" className="block">
+                      <div className="flex items-center justify-between rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30">
+                        <div>
+                          <h4 className="font-medium text-white">
+                            Modified YMCA
+                          </h4>
+                          <p className="mt-1 text-sm text-gray-400">
+                            Enhanced accuracy over standard YMCA
+                          </p>
+                        </div>
+                        <span className="text-[#FF5722]">±4-6%</span>
+                      </div>
+                    </Link>
+                    <Link href="#methods/ymca" className="block">
+                      <div className="flex items-center justify-between rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30">
+                        <div>
+                          <h4 className="font-medium text-white">
+                            YMCA Method
+                          </h4>
+                          <p className="mt-1 text-sm text-gray-400">
+                            Fastest basic screening method
+                          </p>
+                        </div>
+                        <span className="text-[#FF5722]">±5-7%</span>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </motion.section>
+
+            {/* Free Methods Section */}
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10 transition-colors duration-300 hover:bg-white/[0.04]"
             >
               <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
@@ -42,7 +209,7 @@ export default function Methods() {
                   Free Methods
                 </h2>
                 <div className="mt-8 space-y-12">
-                  <article>
+                  <article id="methods/us-navy">
                     <h3 className="text-xl font-semibold text-white">
                       U.S. Navy Method
                     </h3>
@@ -67,7 +234,7 @@ export default function Methods() {
                     </div>
                   </article>
 
-                  <article>
+                  <article id="methods/ymca-modified">
                     <h3 className="text-xl font-semibold text-white">
                       Modified YMCA Method
                     </h3>
@@ -91,7 +258,7 @@ export default function Methods() {
                     </div>
                   </article>
 
-                  <article>
+                  <article id="methods/ymca">
                     <h3 className="text-xl font-semibold text-white">
                       YMCA Method
                     </h3>
@@ -131,7 +298,7 @@ export default function Methods() {
                   PRO Methods
                 </h2>
                 <div className="mt-8 space-y-12">
-                  <article>
+                  <article id="methods/parrillo">
                     <h3 className="text-xl font-semibold text-white">
                       Parrillo 9-Site Method
                     </h3>
@@ -156,7 +323,7 @@ export default function Methods() {
                     </div>
                   </article>
 
-                  <article>
+                  <article id="methods/jackson-pollock-7">
                     <h3 className="text-xl font-semibold text-white">
                       Jackson & Pollock 7-Site Method
                     </h3>
@@ -182,7 +349,7 @@ export default function Methods() {
                     </div>
                   </article>
 
-                  <article>
+                  <article id="methods/jackson-pollock-4">
                     <h3 className="text-xl font-semibold text-white">
                       Jackson & Pollock 4-Site Method
                     </h3>
@@ -209,7 +376,7 @@ export default function Methods() {
                     </div>
                   </article>
 
-                  <article>
+                  <article id="methods/durnin-womersley">
                     <h3 className="text-xl font-semibold text-white">
                       Durnin & Womersley Method
                     </h3>
@@ -235,7 +402,7 @@ export default function Methods() {
                     </div>
                   </article>
 
-                  <article>
+                  <article id="methods/jackson-pollock-3">
                     <h3 className="text-xl font-semibold text-white">
                       Jackson & Pollock 3-Site Method
                     </h3>
@@ -260,7 +427,7 @@ export default function Methods() {
                     </div>
                   </article>
 
-                  <article>
+                  <article id="methods/covert-bailey">
                     <h3 className="text-xl font-semibold text-white">
                       Covert Bailey Method
                     </h3>
@@ -418,6 +585,74 @@ export default function Methods() {
                 </div>
               </div>
             </motion.section>
+
+            {/* Research References */}
+            <motion.div
+              className="mt-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <div className="rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10">
+                <h2 className="text-2xl font-semibold text-white">
+                  Scientific Research
+                </h2>
+                <p className="mt-4 text-gray-300">
+                  Our methods are backed by extensive scientific research and
+                  validation studies. Learn more about:
+                </p>
+                <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                  <Link
+                    href="/research/validation-studies"
+                    className="group rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30"
+                  >
+                    <h3 className="text-lg font-semibold text-white">
+                      Validation Studies
+                    </h3>
+                    <p className="mt-2 text-sm text-gray-400">
+                      Review scientific validation against laboratory standards
+                      like DEXA and hydrostatic weighing.
+                    </p>
+                  </Link>
+                  <Link
+                    href="/research/comparison"
+                    className="group rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30"
+                  >
+                    <h3 className="text-lg font-semibold text-white">
+                      Method Comparisons
+                    </h3>
+                    <p className="mt-2 text-sm text-gray-400">
+                      Compare accuracy, reliability, and practical
+                      considerations across all methods.
+                    </p>
+                  </Link>
+                  <Link
+                    href="/research/clinical-applications"
+                    className="group rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30"
+                  >
+                    <h3 className="text-lg font-semibold text-white">
+                      Clinical Applications
+                    </h3>
+                    <p className="mt-2 text-sm text-gray-400">
+                      Explore real-world applications in healthcare and fitness
+                      settings.
+                    </p>
+                  </Link>
+                  <Link
+                    href="/research/meta-analyses"
+                    className="group rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30"
+                  >
+                    <h3 className="text-lg font-semibold text-white">
+                      Meta-Analyses
+                    </h3>
+                    <p className="mt-2 text-sm text-gray-400">
+                      Review comprehensive analyses of multiple validation
+                      studies.
+                    </p>
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </Container>
