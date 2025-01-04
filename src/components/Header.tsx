@@ -9,6 +9,7 @@ import {
 } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { usePlausible } from 'next-plausible'
+import { usePathname } from 'next/navigation'
 
 import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
@@ -46,15 +47,29 @@ function ChevronUpIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 function MobileNavLink({
   children,
   href,
+  onClick,
   ...props
 }: {
   children: React.ReactNode
-  href: string
+  href?: string
+  onClick?: () => void
 }) {
+  if (onClick) {
+    return (
+      <PopoverButton
+        as="button"
+        onClick={onClick}
+        className="block px-4 text-base font-medium leading-7 tracking-tight text-[#333333] hover:text-[#FF0000]"
+        {...props}
+      >
+        {children}
+      </PopoverButton>
+    )
+  }
   return (
     <PopoverButton
       as={Link}
-      href={href}
+      href={href!}
       className="block px-4 text-base font-medium leading-7 tracking-tight text-[#333333] hover:text-[#FF0000]"
       {...props}
     >
@@ -65,6 +80,8 @@ function MobileNavLink({
 
 export function Header() {
   const plausible = usePlausible()
+  const pathname = usePathname()
+  const isHomePage = pathname === '/'
 
   const handleAppStoreClick = () => {
     plausible('App Store Click', {
@@ -82,6 +99,13 @@ export function Header() {
         platform: 'android',
       },
     })
+  }
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   return (
@@ -158,34 +182,39 @@ export function Header() {
 
                             <div className="h-px bg-gray-200" />
 
-                            <MobileNavLink href="/#features">
-                              Features
-                            </MobileNavLink>
-                            <MobileNavLink href="/#get-pro-version">
-                              Pricing
-                            </MobileNavLink>
-                            <MobileNavLink href="/#faqs">FAQs</MobileNavLink>
-
-                            {/* 
-                            <div className="h-px bg-gray-200" />
-
-                            <MobileNavLink href="/methods">
-                              Methods
-                            </MobileNavLink>
-                            <MobileNavLink href="/accuracy">
-                              Accuracy
-                            </MobileNavLink>
-                            <MobileNavLink href="/formulas">
-                              Formulas
-                            </MobileNavLink>
-                            <MobileNavLink href="/guides">Guides</MobileNavLink>
-                            <MobileNavLink href="/research">
-                              Research
-                            </MobileNavLink>
-                            <MobileNavLink href="/faq">FAQ</MobileNavLink>
-
-                            <div className="h-px bg-gray-200" />
-                            */}
+                            {isHomePage ? (
+                              <>
+                                <MobileNavLink
+                                  onClick={() => scrollToSection('features')}
+                                >
+                                  Features
+                                </MobileNavLink>
+                                <MobileNavLink
+                                  onClick={() =>
+                                    scrollToSection('get-pro-version')
+                                  }
+                                >
+                                  Pricing
+                                </MobileNavLink>
+                                <MobileNavLink
+                                  onClick={() => scrollToSection('faqs')}
+                                >
+                                  FAQs
+                                </MobileNavLink>
+                              </>
+                            ) : (
+                              <>
+                                <MobileNavLink href="/#features">
+                                  Features
+                                </MobileNavLink>
+                                <MobileNavLink href="/#get-pro-version">
+                                  Pricing
+                                </MobileNavLink>
+                                <MobileNavLink href="/#faqs">
+                                  FAQs
+                                </MobileNavLink>
+                              </>
+                            )}
 
                             <div className="flex flex-col gap-4 pt-4">
                               <Button
