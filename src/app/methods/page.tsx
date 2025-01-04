@@ -29,7 +29,7 @@ export default function Methods() {
           </motion.div>
 
           <div className="space-y-12">
-            {/* Laboratory Methods Section */}
+            {/* Free Methods Section */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -39,104 +39,9 @@ export default function Methods() {
               <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
               <div className="relative">
                 <h2 className="text-2xl font-semibold text-white">
-                  Laboratory Standards
-                </h2>
-                <p className="mt-4 text-gray-300">
-                  While not available in our app, these methods serve as the
-                  gold standards against which our supported methods are
-                  validated:
-                </p>
-                <div className="mt-8 space-y-12">
-                  <article>
-                    <h3 className="text-xl font-semibold text-white">
-                      DEXA (Dual-Energy X-ray Absorptiometry)
-                    </h3>
-                    <p className="mt-4 text-gray-300">
-                      The current gold standard for body composition analysis,
-                      offering ±1-2% accuracy. Uses low-dose X-rays to
-                      differentiate between bone, fat, and lean tissue.
-                    </p>
-                    <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                      <li>Highest accuracy in clinical settings</li>
-                      <li>Can measure regional body composition</li>
-                      <li>Provides bone density measurements</li>
-                      <li>Used in major research studies</li>
-                    </ul>
-                  </article>
-
-                  <article>
-                    <h3 className="text-xl font-semibold text-white">
-                      Hydrostatic Weighing
-                    </h3>
-                    <p className="mt-4 text-gray-300">
-                      Traditional gold standard with ±1.5-2.5% accuracy. Based
-                      on Archimedes&apos; principle of water displacement to
-                      determine body density.
-                    </p>
-                    <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                      <li>Requires complete underwater submersion</li>
-                      <li>Accounts for residual lung volume</li>
-                      <li>Used to validate most field methods</li>
-                      <li>Limited by equipment availability</li>
-                    </ul>
-                  </article>
-
-                  <article>
-                    <h3 className="text-xl font-semibold text-white">
-                      Air Displacement Plethysmography (Bod Pod)
-                    </h3>
-                    <p className="mt-4 text-gray-300">
-                      Modern alternative to hydrostatic weighing, using air
-                      displacement to measure body volume with ±2-3% accuracy.
-                    </p>
-                    <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                      <li>Non-invasive and quick (5-10 minutes)</li>
-                      <li>Suitable for most populations</li>
-                      <li>Requires minimal subject cooperation</li>
-                      <li>Used in clinical and research settings</li>
-                    </ul>
-                  </article>
-                </div>
-              </div>
-            </motion.section>
-
-            {/* Free Methods Section */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10 transition-colors duration-300 hover:bg-white/[0.04]"
-            >
-              <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
-              <div className="relative">
-                <h2 className="text-2xl font-semibold text-white">
                   Free Methods
                 </h2>
                 <div className="mt-8 space-y-12">
-                  <article>
-                    <h3 className="text-xl font-semibold text-white">
-                      YMCA Method
-                    </h3>
-                    <p className="mt-4 text-gray-300">
-                      Developed through extensive YMCA research programs, this
-                      method uses waist circumference and weight to estimate
-                      body fat percentage. Validated against hydrostatic
-                      weighing with a correlation coefficient of r = 0.72-0.82.
-                    </p>
-                    <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                      <li>Accuracy: ±5-7% compared to DEXA</li>
-                      <li>Requires only a tape measure and scale</li>
-                      <li>Best for tracking changes over time</li>
-                      <li>Validated on 1,000+ subjects</li>
-                      <li>Less accurate for athletic builds</li>
-                    </ul>
-                    <div className="mt-4 rounded-lg bg-black/20 p-4 text-sm text-gray-300">
-                      <strong>Measurement Tip:</strong> Measure waist at the
-                      narrowest point, typically just above the belly button,
-                      while standing relaxed.
-                    </div>
-                  </article>
-
                   <article>
                     <h3 className="text-xl font-semibold text-white">
                       U.S. Navy Method
@@ -161,6 +66,54 @@ export default function Methods() {
                       skin.
                     </div>
                   </article>
+
+                  <article>
+                    <h3 className="text-xl font-semibold text-white">
+                      Modified YMCA Method
+                    </h3>
+                    <p className="mt-4 text-gray-300">
+                      An enhanced version of the YMCA method, incorporating
+                      additional measurements for improved accuracy,
+                      particularly for women. Validated against hydrostatic
+                      weighing with r = 0.80-0.85.
+                    </p>
+                    <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                      <li>Accuracy: ±4-6% compared to DEXA</li>
+                      <li>Enhanced accuracy for women</li>
+                      <li>Accounts for body frame size</li>
+                      <li>Uses multiple circumference measurements</li>
+                      <li>Better for diverse body types</li>
+                    </ul>
+                    <div className="mt-4 rounded-lg bg-black/20 p-4 text-sm text-gray-300">
+                      <strong>Measurement Tip:</strong> Take all measurements in
+                      the same order each time, ensuring consistent tension on
+                      the measuring tape.
+                    </div>
+                  </article>
+
+                  <article>
+                    <h3 className="text-xl font-semibold text-white">
+                      YMCA Method
+                    </h3>
+                    <p className="mt-4 text-gray-300">
+                      Developed through extensive YMCA research programs, this
+                      method uses waist circumference and weight to estimate
+                      body fat percentage. Validated against hydrostatic
+                      weighing with a correlation coefficient of r = 0.72-0.82.
+                    </p>
+                    <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                      <li>Accuracy: ±5-7% compared to DEXA</li>
+                      <li>Requires only a tape measure and scale</li>
+                      <li>Best for tracking changes over time</li>
+                      <li>Validated on 1,000+ subjects</li>
+                      <li>Less accurate for athletic builds</li>
+                    </ul>
+                    <div className="mt-4 rounded-lg bg-black/20 p-4 text-sm text-gray-300">
+                      <strong>Measurement Tip:</strong> Measure waist at the
+                      narrowest point, typically just above the belly button,
+                      while standing relaxed.
+                    </div>
+                  </article>
                 </div>
               </div>
             </motion.section>
@@ -169,7 +122,7 @@ export default function Methods() {
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10 transition-colors duration-300 hover:bg-white/[0.04]"
             >
               <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
@@ -180,30 +133,79 @@ export default function Methods() {
                 <div className="mt-8 space-y-12">
                   <article>
                     <h3 className="text-xl font-semibold text-white">
-                      Jackson & Pollock Methods
+                      Parrillo 9-Site Method
                     </h3>
                     <p className="mt-4 text-gray-300">
-                      Published in the British Journal of Nutrition (1978) and
-                      Medicine & Science in Sports & Exercise (1980), these
-                      methods represent the gold standard in skinfold-based
-                      assessment. Validated against hydrostatic weighing with
+                      Developed by John Parrillo specifically for bodybuilding
+                      applications. Uses nine skinfold sites to account for
+                      various fat distribution patterns. Particularly effective
+                      for athletic populations.
+                    </p>
+                    <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                      <li>Accuracy: ±3-4% when performed correctly</li>
+                      <li>Most comprehensive skinfold method</li>
+                      <li>Excellent for trained individuals</li>
+                      <li>Accounts for athletic body types</li>
+                      <li>Best for bodybuilding applications</li>
+                    </ul>
+                    <div className="mt-4 rounded-lg bg-black/20 p-4 text-sm text-gray-300">
+                      <strong>Measurement Tip:</strong> Take measurements in a
+                      rotational sequence to allow skin to return to normal.
+                      Sites include: chest, axilla, triceps, subscapular,
+                      abdominal, suprailiac, lower back, calf, and quadriceps.
+                    </div>
+                  </article>
+
+                  <article>
+                    <h3 className="text-xl font-semibold text-white">
+                      Jackson & Pollock 7-Site Method
+                    </h3>
+                    <p className="mt-4 text-gray-300">
+                      The gold standard in skinfold-based body fat assessment.
+                      Uses seven strategic measurement sites for maximum
+                      accuracy. Validated against hydrostatic weighing with
                       correlation coefficients exceeding 0.94.
                     </p>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                      <li>
-                        3-Site Method: ±4-5% accuracy, ideal for quick
-                        assessments
-                      </li>
-                      <li>7-Site Method: ±3-4% accuracy, most comprehensive</li>
-                      <li>Age-adjusted equations for better accuracy</li>
-                      <li>Validated on 1,500+ subjects</li>
-                      <li>Used in research and clinical settings</li>
+                      <li>Accuracy: ±3-4% compared to hydrostatic weighing</li>
+                      <li>Highest correlation with hydrostatic weighing</li>
+                      <li>Most comprehensive skinfold method</li>
+                      <li>Excellent for research and clinical applications</li>
+                      <li>Gold standard for field testing</li>
                     </ul>
                     <div className="mt-4 rounded-lg bg-black/20 p-4 text-sm text-gray-300">
-                      <strong>Measurement Tip:</strong> Take skinfold
-                      measurements on the right side of the body. Grasp the fold
-                      firmly but avoid squeezing too hard. Take readings 2-3
-                      seconds after applying the caliper.
+                      <strong>Measurement Tip:</strong> Grasp skinfolds firmly
+                      between thumb and index finger. Measure chest,
+                      midaxillary, triceps, subscapular, abdomen, suprailiac,
+                      and thigh sites. Wait 1-2 seconds after applying caliper
+                      before reading.
+                    </div>
+                  </article>
+
+                  <article>
+                    <h3 className="text-xl font-semibold text-white">
+                      Jackson & Pollock 4-Site Method
+                    </h3>
+                    <p className="mt-4 text-gray-300">
+                      An intermediate version between the 3-site and 7-site
+                      methods, offering improved accuracy while maintaining
+                      practical efficiency. Validated against hydrostatic
+                      weighing with correlation coefficients of r = 0.92-0.94.
+                    </p>
+                    <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                      <li>
+                        Accuracy: ±3.5-4.5% compared to hydrostatic weighing
+                      </li>
+                      <li>Better accuracy than 3-site method</li>
+                      <li>Balanced approach to measurement</li>
+                      <li>Gender-specific measurement sites</li>
+                      <li>Excellent balance of accuracy and practicality</li>
+                    </ul>
+                    <div className="mt-4 rounded-lg bg-black/20 p-4 text-sm text-gray-300">
+                      <strong>Measurement Tip:</strong> For men: chest, triceps,
+                      subscapular, and abdominal sites. For women: triceps,
+                      suprailiac, abdomen, and thigh. Always measure on the
+                      right side of the body.
                     </div>
                   </article>
 
@@ -212,10 +214,9 @@ export default function Methods() {
                       Durnin & Womersley Method
                     </h3>
                     <p className="mt-4 text-gray-300">
-                      Published in the British Journal of Nutrition (1974), this
-                      method pioneered age-specific body fat calculations. Based
-                      on research with 481 subjects aged 16-72 years and
-                      validated against hydrostatic weighing.
+                      Published in 1974, this method pioneered age-specific body
+                      fat calculations. Based on research with 481 subjects aged
+                      16-72 years and validated against hydrostatic weighing.
                     </p>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                       <li>
@@ -227,34 +228,60 @@ export default function Methods() {
                       <li>Ideal for longitudinal studies</li>
                     </ul>
                     <div className="mt-4 rounded-lg bg-black/20 p-4 text-sm text-gray-300">
-                      <strong>Measurement Tip:</strong> For consistent results,
-                      mark measurement sites with a surgical marker. Take
-                      measurements in the same order each time.
+                      <strong>Measurement Tip:</strong> Measure biceps, triceps,
+                      subscapular, and suprailiac sites. Take readings 2 seconds
+                      after applying caliper. Repeat measurements in the same
+                      sequence for consistency.
                     </div>
                   </article>
 
                   <article>
                     <h3 className="text-xl font-semibold text-white">
-                      Parillo 9-Site Method
+                      Jackson & Pollock 3-Site Method
                     </h3>
                     <p className="mt-4 text-gray-300">
-                      Developed by John Parillo for bodybuilding applications,
-                      this comprehensive method uses nine skinfold sites to
-                      account for various fat distribution patterns.
-                      Particularly effective for athletic populations.
+                      A simplified version of the 7-site method, providing quick
+                      but accurate body fat measurements. Validated against
+                      hydrostatic weighing with correlation coefficients of r =
+                      0.90-0.93.
                     </p>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                      <li>Accuracy: ±3-4% when performed correctly</li>
-                      <li>Most comprehensive skinfold method</li>
-                      <li>Excellent for trained individuals</li>
-                      <li>Accounts for athletic body types</li>
-                      <li>Popular in bodybuilding community</li>
+                      <li>Accuracy: ±4-5% compared to hydrostatic weighing</li>
+                      <li>Ideal for quick assessments</li>
+                      <li>Gender-specific measurement sites</li>
+                      <li>Validated on 1,500+ subjects</li>
+                      <li>Excellent for tracking changes</li>
                     </ul>
                     <div className="mt-4 rounded-lg bg-black/20 p-4 text-sm text-gray-300">
-                      <strong>Measurement Tip:</strong> Due to the number of
-                      sites, maintain consistent technique and order. Consider
-                      taking multiple measurements at each site and using the
-                      average.
+                      <strong>Measurement Tip:</strong> For men: chest, abdomen,
+                      and thigh. For women: triceps, suprailiac, and thigh. Take
+                      measurements standing, with skin dry and unmarked. Wait 2
+                      seconds after applying caliper.
+                    </div>
+                  </article>
+
+                  <article>
+                    <h3 className="text-xl font-semibold text-white">
+                      Covert Bailey Method
+                    </h3>
+                    <p className="mt-4 text-gray-300">
+                      A comprehensive method using multiple body measurements,
+                      developed to provide accurate estimates for different body
+                      types and age groups. Validated against hydrostatic
+                      weighing with r = 0.88-0.90.
+                    </p>
+                    <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                      <li>Accuracy: ±4-5% compared to hydrostatic weighing</li>
+                      <li>Age-specific formulas</li>
+                      <li>Gender-specific measurement sites</li>
+                      <li>Accounts for body frame variations</li>
+                      <li>Good for general population use</li>
+                    </ul>
+                    <div className="mt-4 rounded-lg bg-black/20 p-4 text-sm text-gray-300">
+                      <strong>Measurement Tip:</strong> Take measurements at
+                      triceps, suprailiac, and thigh sites. Ensure subject is
+                      relaxed and standing. Measure each site twice and use the
+                      average if readings differ by more than 1mm.
                     </div>
                   </article>
                 </div>
@@ -265,7 +292,7 @@ export default function Methods() {
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
+              transition={{ duration: 0.5, delay: 0.25 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10 transition-colors duration-300 hover:bg-white/[0.04]"
             >
               <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
@@ -273,238 +300,121 @@ export default function Methods() {
                 <h2 className="text-2xl font-semibold text-white">
                   Measurement Tools
                 </h2>
-                <div className="mt-8">
-                  <p className="mt-4 text-gray-300">
-                    The accuracy of your measurements greatly depends on the
-                    quality and proper use of your tools. Here are our
-                    recommended instruments, listed by precision level:
-                  </p>
-                  <div className="mt-6 grid gap-8 sm:grid-cols-2">
-                    <div>
-                      <h3 className="text-lg font-semibold text-white">
-                        Professional Calipers
-                      </h3>
-                      <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                        <li>Harpenden (±0.2mm accuracy)</li>
-                        <li>Lange (±1mm accuracy)</li>
-                        <li>Beta Technology (±0.5mm)</li>
-                        <li>Lafayette (±1mm accuracy)</li>
-                      </ul>
-                      <p className="mt-4 text-sm text-gray-400">
-                        Best for clinical and research settings
-                      </p>
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-white">
-                        Consumer Calipers
-                      </h3>
-                      <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                        <li>Slim Guide (±1mm accuracy)</li>
-                        <li>Accu-Measure (±1-2mm)</li>
-                        <li>FatTrack (±1-2mm)</li>
-                        <li>Baseline (±1mm accuracy)</li>
-                      </ul>
-                      <p className="mt-4 text-sm text-gray-400">
-                        Suitable for personal use and fitness settings
-                      </p>
-                    </div>
-                  </div>
-                  <div className="mt-8 grid gap-8 sm:grid-cols-2">
-                    <div>
-                      <h3 className="text-lg font-semibold text-white">
-                        Professional Tape Measures
-                      </h3>
-                      <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                        <li>Gulick II (spring-loaded)</li>
-                        <li>Seca 201 (ergonomic)</li>
-                        <li>Lufkin Executive (steel)</li>
-                        <li>Hoechstmass (medical grade)</li>
-                      </ul>
-                      <p className="mt-4 text-sm text-gray-400">
-                        Ensures consistent tension for accurate measurements
-                      </p>
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-white">
-                        Consumer Tape Measures
-                      </h3>
-                      <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                        <li>MyoTape (retractable)</li>
-                        <li>AccuFitness (basic)</li>
-                        <li>Orbitape (self-help)</li>
-                        <li>RENPHO (smart)</li>
-                      </ul>
-                      <p className="mt-4 text-sm text-gray-400">
-                        Good for self-measurement and home use
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.section>
-
-            {/* Emerging Technologies */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10 transition-colors duration-300 hover:bg-white/[0.04]"
-            >
-              <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
-              <div className="relative">
-                <h2 className="text-2xl font-semibold text-white">
-                  Emerging Technologies
-                </h2>
                 <div className="mt-8 space-y-12">
                   <article>
                     <h3 className="text-xl font-semibold text-white">
-                      3D Body Scanning
+                      Skinfold Calipers
                     </h3>
                     <p className="mt-4 text-gray-300">
-                      Advanced optical scanning technology that creates detailed
-                      3D models for body composition analysis. Currently being
-                      validated against traditional methods.
+                      Professional-grade calipers designed for accurate skinfold
+                      measurements. Essential for all skinfold-based methods.
                     </p>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                      <li>Non-invasive and quick (30-60 seconds)</li>
-                      <li>Preliminary accuracy: ±4-6% vs DEXA</li>
-                      <li>Provides detailed body shape analysis</li>
-                      <li>Requires specialized equipment</li>
+                      <li>Precision up to 0.5mm</li>
+                      <li>Consistent pressure application</li>
+                      <li>Durable construction</li>
+                      <li>Regular calibration required</li>
+                      <li>Available in digital and analog versions</li>
                     </ul>
                     <div className="mt-4 rounded-lg bg-black/20 p-4 text-sm text-gray-300">
-                      <strong>Status:</strong> Promising technology still
-                      undergoing validation studies. Currently used in research
-                      settings and high-end fitness facilities.
+                      <strong>Usage Tip:</strong> Apply calipers 1cm away from
+                      pinched fingers, release after 2 seconds of pressure.
+                      Clean with alcohol wipes after use.
                     </div>
                   </article>
 
                   <article>
                     <h3 className="text-xl font-semibold text-white">
-                      Bioelectrical Impedance Spectroscopy (BIS)
+                      Measuring Tape
                     </h3>
                     <p className="mt-4 text-gray-300">
-                      Advanced version of traditional BIA, using multiple
-                      frequencies for more detailed tissue analysis.
+                      Flexible, non-stretchable tape measure for circumference
+                      measurements. Required for Navy method and YMCA methods.
                     </p>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                      <li>Multi-frequency analysis (5-1000 kHz)</li>
-                      <li>Improved accuracy over traditional BIA</li>
-                      <li>Measures intracellular/extracellular water</li>
-                      <li>Less affected by hydration status</li>
+                      <li>Non-elastic material</li>
+                      <li>Clear markings in cm/inches</li>
+                      <li>Easy to clean</li>
+                      <li>Portable and lightweight</li>
+                      <li>Replaceable when worn</li>
                     </ul>
                     <div className="mt-4 rounded-lg bg-black/20 p-4 text-sm text-gray-300">
-                      <strong>Status:</strong> Gaining acceptance in clinical
-                      settings, but still needs more validation for general
-                      population use.
+                      <strong>Usage Tip:</strong> Keep tape parallel to floor,
+                      snug but not compressing tissue. Take measurements at end
+                      of normal exhalation.
                     </div>
                   </article>
                 </div>
               </div>
             </motion.section>
 
-            {/* Method Selection Guide */}
+            {/* Laboratory Standards Section */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10 transition-colors duration-300 hover:bg-white/[0.04]"
             >
               <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
               <div className="relative">
                 <h2 className="text-2xl font-semibold text-white">
-                  Method Selection Guide
+                  Laboratory Standards
                 </h2>
-                <div className="mt-8 space-y-8">
-                  <div className="overflow-x-auto rounded-lg bg-black/20 ring-1 ring-white/10">
-                    <table className="min-w-full">
-                      <thead>
-                        <tr>
-                          <th className="border-b border-white/10 px-6 py-3 text-left text-sm font-semibold text-white">
-                            Your Goal
-                          </th>
-                          <th className="border-b border-white/10 px-6 py-3 text-left text-sm font-semibold text-white">
-                            Recommended Method
-                          </th>
-                          <th className="border-b border-white/10 px-6 py-3 text-left text-sm font-semibold text-white">
-                            Alternative Method
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-white/10">
-                        <tr>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            General Tracking
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            Navy Method
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            YMCA Method
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            Athletic Performance
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            7-Site Jackson & Pollock
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            Parillo 9-Site
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            Clinical Assessment
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            Durnin & Womersley
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            3-Site Jackson & Pollock
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            Quick Assessment
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            3-Site Jackson & Pollock
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            Navy Method
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                <p className="mt-4 text-gray-300">
+                  While not available in our app, these methods serve as the
+                  gold standards against which our supported methods are
+                  validated:
+                </p>
+                <div className="mt-8 space-y-12">
+                  <article>
+                    <h3 className="text-xl font-semibold text-white">
+                      Air Displacement Plethysmography (Bod Pod)
+                    </h3>
+                    <p className="mt-4 text-gray-300">
+                      Modern alternative to hydrostatic weighing, using air
+                      displacement to measure body volume with ±2-3% accuracy.
+                    </p>
+                    <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                      <li>Non-invasive and quick (5-10 minutes)</li>
+                      <li>Suitable for most populations</li>
+                      <li>Requires minimal subject cooperation</li>
+                      <li>Used in clinical and research settings</li>
+                    </ul>
+                  </article>
 
-                  <div className="grid gap-8 sm:grid-cols-2">
-                    <div>
-                      <h3 className="text-lg font-semibold text-white">
-                        Selection Factors
-                      </h3>
-                      <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                        <li>Available equipment</li>
-                        <li>Measurement expertise</li>
-                        <li>Time constraints</li>
-                        <li>Required accuracy</li>
-                        <li>Subject characteristics</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-white">
-                        Best Practices
-                      </h3>
-                      <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                        <li>Use multiple methods when possible</li>
-                        <li>Track trends over absolute values</li>
-                        <li>Maintain consistent conditions</li>
-                        <li>Document measurement details</li>
-                        <li>Regular recalibration of tools</li>
-                      </ul>
-                    </div>
-                  </div>
+                  <article>
+                    <h3 className="text-xl font-semibold text-white">
+                      Hydrostatic Weighing
+                    </h3>
+                    <p className="mt-4 text-gray-300">
+                      Traditional gold standard with ±1.5-2.5% accuracy. Based
+                      on Archimedes&apos; principle of water displacement to
+                      determine body density.
+                    </p>
+                    <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                      <li>Requires complete underwater submersion</li>
+                      <li>Accounts for residual lung volume</li>
+                      <li>Used to validate most field methods</li>
+                      <li>Limited by equipment availability</li>
+                    </ul>
+                  </article>
+
+                  <article>
+                    <h3 className="text-xl font-semibold text-white">
+                      DEXA (Dual-Energy X-ray Absorptiometry)
+                    </h3>
+                    <p className="mt-4 text-gray-300">
+                      The current gold standard for body composition analysis,
+                      offering ±1-2% accuracy. Uses low-dose X-rays to
+                      differentiate between bone, fat, and lean tissue.
+                    </p>
+                    <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                      <li>Highest accuracy in clinical settings</li>
+                      <li>Can measure regional body composition</li>
+                      <li>Provides bone density measurements</li>
+                      <li>Used in major research studies</li>
+                    </ul>
+                  </article>
                 </div>
               </div>
             </motion.section>
