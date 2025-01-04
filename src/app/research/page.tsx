@@ -79,7 +79,7 @@ export default function Research() {
                 <p className="mt-2 text-sm text-gray-400">
                   Historical and modern validation studies comparing field
                   methods against laboratory standards like DEXA and hydrostatic
-                  weighing.
+                  weighing, with comprehensive accuracy analysis.
                 </p>
               </div>
             </Link>

@@ -68,9 +68,6 @@ export function Footer() {
             <Link href="/methods" className="hover:text-white">
               Methods
             </Link>
-            <Link href="/accuracy" className="hover:text-white">
-              Accuracy
-            </Link>
             <Link href="/formulas" className="hover:text-white">
               Formulas
             </Link>

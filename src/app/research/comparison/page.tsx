@@ -94,8 +94,13 @@ export default function MethodComparison() {
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
               <h2 className="text-2xl font-semibold text-white">
-                Detailed Method Comparison
+                Practical Method Comparison
               </h2>
+              <p className="mb-6 mt-4 text-gray-400">
+                Compare methods based on real-world factors to find the most
+                suitable approach for your specific needs. For detailed
+                scientific validation data, see the Validation Studies section.
+              </p>
               <div className="mt-6 overflow-x-auto">
                 <table className="w-full min-w-[800px] border-collapse text-left">
                   <thead>
