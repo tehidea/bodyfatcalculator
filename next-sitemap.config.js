@@ -2,13 +2,11 @@
 module.exports = {
   siteUrl: 'https://www.bodyfatcalculator.pro',
   generateRobotsTxt: true,
-  exclude: ['/guides', '/guides/*', '/formulas', '/formulas/*'],
   robotsTxtOptions: {
     policies: [
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/guides', '/guides/*', '/formulas', '/formulas/*'],
       },
     ],
   },
