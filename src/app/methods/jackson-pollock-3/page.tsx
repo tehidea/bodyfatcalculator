@@ -139,7 +139,7 @@ export default function JacksonPollock3() {
               <div className="mt-6">
                 <Link
                   href="/research/methods/jackson-pollock"
-                  className="group rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30"
+                  className="group block rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30"
                 >
                   <h3 className="text-lg font-semibold text-white">
                     View Research Studies
