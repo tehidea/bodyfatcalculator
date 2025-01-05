@@ -22,7 +22,6 @@ function PlayIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 export function Hero() {
   return (
     <div className="relative overflow-hidden bg-[#333333] py-20 sm:py-32 lg:pb-32 xl:pb-36">
-      <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
 
       {/* Dynamic animated background */}
       <div className="absolute inset-0">
