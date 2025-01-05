@@ -65,6 +65,9 @@ export function AppScreenshot({
           className="object-cover"
           fill
           priority={position === 'center'}
+          sizes={
+            position === 'center' ? '(max-width: 768px) 100vw, 366px' : '220px'
+          }
         />
       </PhoneFrame>
     </motion.div>
