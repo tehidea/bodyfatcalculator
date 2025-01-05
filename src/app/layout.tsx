@@ -14,22 +14,22 @@ const montserrat = Montserrat({
 })
 
 export const metadata = {
-  title: 'Body Fat Calculator PRO',
+  title: 'Body Fat Calculator (PRO)',
   description:
     'Professional-grade body fat measurement app with multiple scientifically validated methods.',
   metadataBase: new URL('https://bodyfatcalculator.pro'),
   openGraph: {
-    title: 'Body Fat Calculator PRO',
+    title: 'Body Fat Calculator (PRO)',
     description:
       'Professional-grade body fat measurement app with multiple scientifically validated methods.',
     url: 'https://bodyfatcalculator.pro',
-    siteName: 'Body Fat Calculator PRO',
+    siteName: 'Body Fat Calculator (PRO)',
     images: [
       {
         url: '/og.png',
         width: 1200,
         height: 630,
-        alt: 'Body Fat Calculator PRO - Professional Body Fat Measurement Tool',
+        alt: 'Body Fat Calculator (PRO) - Professional Body Fat Measurement Tool',
       },
     ],
     locale: 'en_US',
@@ -37,7 +37,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Body Fat Calculator PRO',
+    title: 'Body Fat Calculator (PRO)',
     description:
       'Professional-grade body fat measurement app with multiple scientifically validated methods.',
     images: ['/og.png'],

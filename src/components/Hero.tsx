@@ -224,7 +224,7 @@ export function Hero() {
 
               <AppScreenshot
                 src="/screenshots/app-main.png"
-                alt="Body Fat Calculator PRO app interface"
+                alt="Body Fat Calculator (PRO) app interface"
                 position="center"
               />
             </div>

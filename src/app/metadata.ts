@@ -2,26 +2,27 @@ import { type Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: {
-    template: '%s - Body Fat Calculator PRO',
-    default: 'Body Fat Calculator PRO - Professional Body Fat Measurement Tool',
+    template: '%s - Body Fat Calculator (PRO)',
+    default:
+      'Body Fat Calculator (PRO) - Professional Body Fat Measurement Tool',
   },
   description:
     'The most accurate body fat calculator app with multiple measurement methods including calipers and US Navy. Get professional-grade accuracy with our advanced algorithms.',
   openGraph: {
-    title: 'Body Fat Calculator PRO',
+    title: 'Body Fat Calculator (PRO)',
     description: 'Professional Body Fat Measurement Tool',
     images: [
       {
         url: '/og.png',
         width: 1200,
         height: 630,
-        alt: 'Body Fat Calculator PRO',
+        alt: 'Body Fat Calculator (PRO)',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Body Fat Calculator PRO',
+    title: 'Body Fat Calculator (PRO)',
     description: 'Professional Body Fat Measurement Tool',
     images: ['/og.png'],
   },

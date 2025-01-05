@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Privacy Policy - Body Fat Calculator PRO',
-  description: 'Privacy Policy for Body Fat Calculator PRO app.',
+  title: 'Privacy Policy - Body Fat Calculator (PRO)',
+  description: 'Privacy Policy for Body Fat Calculator (PRO) app.',
 }
 
 export default function PrivacyPolicyLayout({

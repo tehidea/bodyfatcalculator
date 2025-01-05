@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Frequently Asked Questions | Body Fat Calculator Pro',
+  title: 'Frequently Asked Questions | Body Fat Calculator (PRO)',
   description:
     'Common questions and answers about body fat measurement methods, accuracy, techniques, and best practices.',
   keywords:

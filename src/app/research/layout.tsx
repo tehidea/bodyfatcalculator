@@ -1,7 +1,8 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Body Fat Research & Scientific Validation | Body Fat Calculator Pro',
+  title:
+    'Body Fat Research & Scientific Validation | Body Fat Calculator (PRO)',
   description:
     'Comprehensive analysis of scientific research, validation studies, and academic references supporting body fat measurement methods. Includes meta-analyses, clinical trials, field studies, and peer-reviewed research.',
   keywords:
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
     description:
       'Comprehensive scientific research and validation studies on body fat measurement methods.',
     type: 'article',
-    authors: ['Body Fat Calculator Pro Research Team'],
+    authors: ['Body Fat Calculator (PRO) Research Team'],
     publishedTime: '2024-01-04',
     modifiedTime: '2024-01-04',
   },
