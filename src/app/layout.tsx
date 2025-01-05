@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { Montserrat } from 'next/font/google'
 import clsx from 'clsx'
 import PlausibleProvider from 'next-plausible'
+import Script from 'next/script'
 
 import '@/styles/tailwind.css'
 import '@/styles/globals.css'
@@ -76,10 +77,256 @@ export default function RootLayout({
           hash={true}
           selfHosted={true}
         />
+        <Script id="klaro-config" strategy="beforeInteractive">
+          {`
+            window.klaroConfig = {
+              version: 1,
+              elementID: 'klaro',
+              styling: {
+                theme: ['dark', 'bottom', 'wide'],
+                vars: {
+                  '--font-family': 'var(--font-montserrat)',
+                  '--border-radius': '0.5rem',
+                  '--border-width': '2px',
+                  '--button-border-radius': '0.5rem',
+                  '--button-gap': '0.5rem',
+                  '--button-padding': '0.75rem 1rem',
+                  '--dark1': '#333333',
+                  '--dark2': '#333333',
+                  '--dark3': '#333333',
+                  '--white1': '#FFFFFF',
+                  '--white2': '#FFFFFF',
+                  '--white3': '#FFFFFF',
+                  /* Decline button - grey */
+                  '--red1': '#9CA3AF',
+                  '--red2': '#9CA3AF',
+                  '--red3': '#9CA3AF',
+                  /* Accept selected - red outline */
+                  '--yellow1': '#EF4444',
+                  '--yellow2': '#EF4444',
+                  '--yellow3': '#EF4444',
+                  /* Accept all - red filled */
+                  '--green1': '#EF4444',
+                  '--green2': '#EF4444',
+                  '--green3': '#DC2626',
+                  '--gray0': '#333333',
+                  '--gray1': '#333333',
+                  '--gray2': '#333333',
+                  '--gray3': '#333333',
+                  '--gray4': '#333333',
+                  '--gray5': '#333333',
+                },
+              },
+              noAutoLoad: false,
+              htmlTexts: true,
+              embedded: false,
+              groupByPurpose: true,
+              storageMethod: 'cookie',
+              cookieName: 'klaro',
+              cookieExpiresAfterDays: 365,
+              default: false,
+              mustConsent: true,
+              acceptAll: true,
+              hideDeclineAll: false,
+              hideLearnMore: false,
+              translations: {
+                en: {
+                  privacyPolicyUrl: '/privacy-policy',
+                  consentModal: {
+                    title: 'Privacy Settings',
+                    description: 'We use cookies and similar technologies to provide you with the best possible experience. Some are essential for the site to work, while others help us improve the site and your experience.',
+                  },
+                  purposes: {
+                    essential: 'Essential',
+                    analytics: 'Analytics',
+                    advertising: 'Advertising',
+                  },
+                  ok: "Accept Selected",
+                  acceptAll: "Accept All",
+                  decline: "Decline",
+                  close: "Close",
+                  service: {
+                    purpose: 'Purpose',
+                    purposes: 'Purposes',
+                    required: {
+                      title: 'Required',
+                      description: 'These services are required for the basic functionality of the website.',
+                    },
+                  },
+                },
+              },
+              services: [
+                {
+                  name: 'plausible',
+                  title: 'Plausible Analytics',
+                  purposes: ['analytics'],
+                  required: false,
+                  default: false,
+                  cookies: [
+                    ['plausible_session', '', 'session']
+                  ],
+                },
+                {
+                  name: 'vercel-analytics',
+                  title: 'Vercel Analytics',
+                  purposes: ['analytics'],
+                  required: false,
+                  default: false,
+                },
+                {
+                  name: 'google-adsense',
+                  title: 'Google AdSense',
+                  purposes: ['advertising'],
+                  cookies: [
+                    /^__gads/,
+                    /^__gpi/,
+                    /^_gcl_au/
+                  ],
+                  required: false,
+                  default: false,
+                  onInit: \`
+                    window.dataLayer = window.dataLayer || [];
+                    window.gtag = function(){dataLayer.push(arguments)};
+                    gtag('consent', 'default', {
+                      'ad_storage': 'denied',
+                      'ad_user_data': 'denied',
+                      'ad_personalization': 'denied'
+                    });
+                  \`,
+                  onAccept: \`
+                    gtag('consent', 'update', {
+                      'ad_storage': 'granted',
+                      'ad_user_data': 'granted',
+                      'ad_personalization': 'granted'
+                    });
+                    // Reload ads after consent is granted
+                    (adsbygoogle = window.adsbygoogle || []).requestNonPersonalizedAds = 0;
+                    (adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 0;
+                  \`,
+                  onDecline: \`
+                    gtag('consent', 'update', {
+                      'ad_storage': 'denied',
+                      'ad_user_data': 'denied',
+                      'ad_personalization': 'denied'
+                    });
+                    // Request non-personalized ads
+                    (adsbygoogle = window.adsbygoogle || []).requestNonPersonalizedAds = 1;
+                    (adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 0;
+                  \`,
+                }
+              ],
+            };
+          `}
+        </Script>
+        <Script
+          src="https://cdn.kiprotect.com/klaro/v0.7/klaro.js"
+          strategy="afterInteractive"
+          data-config="klaroConfig"
+        />
+
+        {/* Google AdSense */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2117029955778880"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+        <Script id="adsense-consent" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('consent', 'default', {
+              'ad_storage': 'denied',
+              'ad_user_data': 'denied',
+              'ad_personalization': 'denied'
+            });
+          `}
+        </Script>
+
+        <style>
+          {`
+
+            .klaro .cookie-modal .cm-header,
+            .klaro .cookie-modal .cm-body,
+            .klaro .cookie-modal .cm-footer {
+              padding: 2rem 3rem !important;
+            }
+
+            .klaro .cookie-modal .cm-list-label .slider {
+              background-color: #505050 !important;
+              box-shadow: none !important;
+            }
+
+            .klaro .cookie-modal .cm-caret a {
+              font-size: 0.75rem !important;
+            }
+
+            .klaro .cookie-modal a {
+              color: #9CA3AF !important;
+            }
+
+            .klaro .cookie-modal .cm-list-description {
+              padding-top: 0 !important;
+            }
+
+            /* Override Klaro button styles */
+            .klaro .cookie-modal .cm-btn {
+              font-weight: 500 !important;
+              transition: all 200ms ease-in-out !important;
+              background: transparent !important;
+              border-width: 1px !important;
+              border-style: solid !important;
+              padding: 0.5rem 1rem !important;
+            }
+
+            /* Decline button - grey */
+            .klaro .cookie-modal .cm-btn-danger {
+              color: #9CA3AF !important;
+              border-color: #9CA3AF !important;
+            }
+            .klaro .cookie-modal .cm-btn-danger:hover {
+              background: rgba(156, 163, 175, 0.1) !important;
+            }
+
+            /* Accept selected - red outline */
+            .klaro .cookie-modal .cm-btn-info {
+              color: #EF4444 !important;
+              border-color: #EF4444 !important;
+            }
+            .klaro .cookie-modal .cm-btn-info:hover {
+              background: rgba(239, 68, 68, 0.1) !important;
+            }
+
+            /* Accept all - red filled */
+            .klaro .cookie-modal .cm-btn-accept-all {
+              color: #FFFFFF !important;
+              border-color: #EF4444 !important;
+              background: #EF4444 !important;
+            }
+            .klaro .cookie-modal .cm-btn-accept-all:hover {
+              border-color: #DC2626 !important;
+              background: #DC2626 !important;
+            }
+
+            /* Hide powered by */
+            .klaro .cookie-modal .cm-powered-by {
+              display: none !important;
+            }
+          `}
+        </style>
       </head>
       <body>
         {children}
         <Analytics />
+        <Script id="klaro-init" strategy="afterInteractive">
+          {`
+            window.addEventListener('load', () => {
+              if (window.klaro) {
+                window.klaro.show(window.klaroConfig);
+              }
+            });
+          `}
+        </Script>
       </body>
     </html>
   )
