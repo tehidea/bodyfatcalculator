@@ -245,11 +245,49 @@ export default function RootLayout({
 
         <style>
           {`
+            /* Modal container */
+            .klaro .cookie-modal .cm-modal {
+              margin: 0 1rem !important;
+              max-width: calc(100% - 2rem) !important;
+              border-radius: 1rem !important;
+            }
 
+            @media (min-width: 640px) {
+              .klaro .cookie-modal .cm-modal {
+                max-width: 42rem !important;
+                margin: 2rem auto !important;
+                border-radius: 1rem !important;
+              }
+            }
+
+            /* Responsive padding */
             .klaro .cookie-modal .cm-header,
             .klaro .cookie-modal .cm-body,
             .klaro .cookie-modal .cm-footer {
-              padding: 2rem 3rem !important;
+              padding: 01.5rem !important;
+            }
+
+            @media (min-width: 640px) {
+              .klaro .cookie-modal .cm-header,
+              .klaro .cookie-modal .cm-body,
+              .klaro .cookie-modal .cm-footer {
+                padding: 1.5rem 2rem !important;
+              }
+            }
+
+            @media (min-width: 1024px) {
+              .klaro .cookie-modal .cm-header,
+              .klaro .cookie-modal .cm-body,
+              .klaro .cookie-modal .cm-footer {
+                padding: 2rem 3rem !important;
+              }
+            }
+
+            .klaro .cookie-modal .cm-header h1 {
+              font-size: 1.25rem !important;
+              line-height: 1.75rem !important;
+              font-weight: 600 !important;
+              margin-bottom: 1rem !important;
             }
 
             .klaro .cookie-modal .cm-list-label .slider {
@@ -269,6 +307,14 @@ export default function RootLayout({
               padding-top: 0 !important;
             }
 
+            /* Button container */
+            .klaro .cookie-modal .cm-footer-buttons {
+              display: flex !important;
+              flex-wrap: wrap !important;
+              gap: 0.75rem !important;
+              justify-content: flex-end !important;
+            }
+
             /* Override Klaro button styles */
             .klaro .cookie-modal .cm-btn {
               font-weight: 500 !important;
@@ -277,6 +323,15 @@ export default function RootLayout({
               border-width: 1px !important;
               border-style: solid !important;
               padding: 0.5rem 1rem !important;
+              border-radius: 0.5rem !important;
+              font-size: 0.875rem !important;
+              line-height: 1.5rem !important;
+            }
+
+            @media (min-width: 640px) {
+              .klaro .cookie-modal .cm-btn {
+                padding: 0.625rem 1.25rem !important;
+              }
             }
 
             /* Decline button - grey */
