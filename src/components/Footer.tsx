@@ -49,19 +49,19 @@ export function Footer() {
       <Container>
         <div className="flex flex-col items-center gap-y-8 py-12">
           {/* Logo */}
-          <div className="flex items-center gap-3">
-            <Link href="/" aria-label="Home">
+          <Link href="/" aria-label="Home">
+            <div className="flex items-center gap-3">
               <Logo className="h-10 w-auto" />
-            </Link>
-            <div className="flex h-8 items-center text-4xl">
-              <span className="font-extralight tracking-tighter text-white">
-                BODY
-              </span>
-              <span className="font-light tracking-tighter text-white">
-                FAT
-              </span>
+              <div className="flex h-8 items-center text-4xl">
+                <span className="font-extralight tracking-tighter text-white">
+                  BODY
+                </span>
+                <span className="font-light tracking-tighter text-white">
+                  FAT
+                </span>
+              </div>
             </div>
-          </div>
+          </Link>
 
           {/* Navigation Links */}
           <nav className="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
