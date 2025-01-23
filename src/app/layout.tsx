@@ -78,6 +78,11 @@ export default function RootLayout({
           hash={true}
           selfHosted={true}
         />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2117029955778880"
+          crossOrigin="anonymous"
+        />
         <Script id="klaro-config" strategy="beforeInteractive">
           {`
             window.klaroConfig = {
@@ -246,12 +251,6 @@ export default function RootLayout({
         />
 
         {/* Google AdSense */}
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2117029955778880"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
         <Script id="adsense-consent" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
