@@ -37,10 +37,10 @@ export default function ValidationStudies() {
               Validation Studies
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              Comprehensive collection of empirical validation studies comparing
-              field methods against laboratory standards like DEXA and
-              hydrostatic weighing, with detailed analysis of accuracy,
-              reliability, and practical implications.
+              Comprehensive analysis of validation studies comparing field
+              methods against laboratory standards, based on research by Jackson
+              & Pollock (1978), Durnin & Womersley (1974), and recent systematic
+              reviews (Wagner & Heyward, 1999).
             </p>
           </motion.div>
 
@@ -60,9 +60,8 @@ export default function ValidationStudies() {
                 </h2>
                 <div className="mt-8">
                   <p className="mb-6 text-gray-400">
-                    Scientific validation metrics from peer-reviewed research,
-                    showing statistical confidence intervals and reliability
-                    coefficients:
+                    Validation metrics from peer-reviewed research comparing
+                    field methods against hydrostatic weighing:
                   </p>
                   <div className="overflow-x-auto rounded-lg bg-black/20 ring-1 ring-white/10">
                     <table className="min-w-full">
@@ -72,79 +71,65 @@ export default function ValidationStudies() {
                             Method
                           </th>
                           <th className="border-b border-white/10 px-6 py-3 text-left text-sm font-semibold text-white">
-                            95% CI
+                            Accuracy Range
                           </th>
                           <th className="border-b border-white/10 px-6 py-3 text-left text-sm font-semibold text-white">
-                            Standard Error
+                            SEE
                           </th>
                           <th className="border-b border-white/10 px-6 py-3 text-left text-sm font-semibold text-white">
-                            Reliability
+                            Source
                           </th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-white/10">
                         <tr>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            7-Site Skinfold
+                            7-Site Jackson-Pollock
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            ±3.0-4.0%
+                            ±3.5-4.0%
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            1.7%
+                            3.4%
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            ICC = 0.94
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            3-Site Skinfold
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            ±4.0-5.0%
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            2.2%
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            ICC = 0.91
+                            Jackson & Pollock (1978)
                           </td>
                         </tr>
                         <tr>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            Navy Method
+                            Durnin-Womersley
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            ±4.5-6.0%
+                            ±3.5-5.0%
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            2.5%
+                            3.8%
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            ICC = 0.85
+                            Durnin & Womersley (1974)
                           </td>
                         </tr>
                         <tr>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            YMCA Method
+                            US Navy
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            ±5.0-7.0%
+                            ±3-6%
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            3.1%
+                            3.9%
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            ICC = 0.82
+                            Hodgdon & Beckett (1984)
                           </td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
                   <p className="mt-4 text-sm text-gray-400">
-                    CI = Confidence Interval, ICC = Intraclass Correlation
-                    Coefficient
+                    SEE = Standard Error of Estimate, validated against
+                    hydrostatic weighing
                   </p>
                 </div>
               </div>
@@ -168,34 +153,39 @@ export default function ValidationStudies() {
                       Technical Errors
                     </h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                      <li>Incorrect site location (±1.5-2.5% error)</li>
-                      <li>Inconsistent measurement pressure (±1.0-2.0%)</li>
-                      <li>Tool calibration issues (±0.5-1.5%)</li>
-                      <li>Recording/calculation errors (±0.5-1.0%)</li>
+                      <li>
+                        Site location and landmarking (Perini et al., 2005)
+                      </li>
+                      <li>
+                        Caliper pressure standardization (Ulijaszek & Kerr,
+                        1999)
+                      </li>
+                      <li>Equipment calibration (Gore et al., 1996)</li>
+                      <li>Inter-observer variation (Norton & Olds, 1996)</li>
                     </ul>
                     <div className="mt-4 rounded-lg bg-black/20 p-4">
                       <p className="text-sm text-gray-300">
-                        <strong>Impact:</strong> Technical errors can compound,
-                        potentially increasing total error by 2-4% body fat
-                        percentage points.
+                        <strong>Impact:</strong> Technical error of measurement
+                        (TEM) ranges from 3-7% for novice practitioners to 1-2%
+                        for experienced anthropometrists (Perini et al., 2005).
                       </p>
                     </div>
                   </article>
                   <article>
                     <h3 className="text-lg font-semibold text-white">
-                      Biological Variations
+                      Biological Factors
                     </h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                      <li>Hydration status (±1.0-2.0% variation)</li>
-                      <li>Time of day fluctuations (±0.5-1.5%)</li>
-                      <li>Recent exercise effects (±1.0-2.0%)</li>
-                      <li>Hormonal influences (±0.5-1.5%)</li>
+                      <li>Hydration status (Heyward & Wagner, 2004)</li>
+                      <li>Diurnal variation (Norton & Olds, 1996)</li>
+                      <li>Exercise effects (Lohman et al., 2000)</li>
+                      <li>Age and gender differences (Jackson et al., 2002)</li>
                     </ul>
                     <div className="mt-4 rounded-lg bg-black/20 p-4">
                       <p className="text-sm text-gray-300">
-                        <strong>Impact:</strong> Biological variations can
-                        affect measurements by up to 3% body fat percentage
-                        points throughout the day.
+                        <strong>Impact:</strong> Biological factors can affect
+                        measurements by 2-3% based on time of day and
+                        physiological state (Heyward & Wagner, 2004).
                       </p>
                     </div>
                   </article>
@@ -220,14 +210,13 @@ export default function ValidationStudies() {
                   </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Gold standard for body composition assessment, providing
-                      detailed regional and total body composition measurements:
+                      Modern reference method for body composition assessment
+                      (Prior et al., 1997):
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
-                      <li>Accuracy: ±1-2% body fat</li>
-                      <li>Precision: CV {'<'} 1%</li>
-                      <li>Radiation exposure: minimal (0.001 mSv)</li>
-                      <li>Scan time: 5-10 minutes</li>
+                      <li>Accuracy: ±1-2% body fat (Lohman et al., 2000)</li>
+                      <li>Precision: CV = 1-2% (Prior et al., 1997)</li>
+                      <li>Scan time: 5-20 minutes</li>
                     </ul>
                   </div>
                 </div>
@@ -238,14 +227,13 @@ export default function ValidationStudies() {
                   </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Traditional gold standard method based on Archimedes&apos;
-                      principle:
+                      Traditional reference method (Siri, 1961; Brozek et al.,
+                      1963):
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
-                      <li>Accuracy: ±2-2.5% body fat</li>
-                      <li>Precision: CV = 1.5%</li>
+                      <li>Accuracy: ±2.5% body fat (Siri, 1961)</li>
+                      <li>Precision: CV = 1.5-2% (Brozek et al., 1963)</li>
                       <li>Test duration: 20-30 minutes</li>
-                      <li>Requires full submersion</li>
                     </ul>
                   </div>
                 </div>

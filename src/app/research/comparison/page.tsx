@@ -37,16 +37,15 @@ export default function MethodComparison() {
               Method Comparison
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              Comprehensive comparison of body fat measurement methods,
-              analyzing accuracy, reliability, ease of use, and specific
-              applications. Compare different approaches to find the most
-              suitable method for your needs.
+              Evidence-based comparison of body fat measurement methods based on
+              systematic reviews by Wagner & Heyward (1999), validation studies
+              by Jackson & Pollock (1978), and Durnin & Womersley (1974).
             </p>
           </motion.div>
 
           {/* Content */}
           <div className="space-y-12">
-            {/* Quick Method Selection Guide */}
+            {/* Method Selection Guide */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -54,40 +53,39 @@ export default function MethodComparison() {
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
               <h2 className="text-2xl font-semibold text-white">
-                Quick Method Selection Guide
+                Method Selection Guide
               </h2>
               <div className="mt-6 space-y-6">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-lg bg-black/20 p-4">
                     <h3 className="text-lg font-semibold text-white">
-                      For General Population
+                      General Population Methods
                     </h3>
                     <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                       <li>
-                        Jackson & Pollock 3-Site (Good balance of time and
-                        accuracy)
+                        Durnin-Womersley (Validated for age-specific assessment)
                       </li>
-                      <li>Navy Method (Practical, no calipers needed)</li>
-                      <li>Modified YMCA (Simple circumference method)</li>
-                      <li>YMCA (Quickest assessment)</li>
+                      <li>US Navy Method (Validated for field use)</li>
+                      <li>
+                        Jackson-Pollock 3-Site (Balance of accuracy and time)
+                      </li>
                     </ul>
                   </div>
                   <div className="rounded-lg bg-black/20 p-4">
                     <h3 className="text-lg font-semibold text-white">
-                      For Athletes
+                      Research-Grade Methods
                     </h3>
                     <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                      <li>Jackson & Pollock 7-Site (High precision)</li>
-                      <li>Parrillo (Equally precise, bodybuilding focused)</li>
-                      <li>Durnin & Womersley (Scientific validation)</li>
-                      <li>Jackson & Pollock 3-Site (When time is limited)</li>
+                      <li>Jackson-Pollock 7-Site (Comprehensive assessment)</li>
+                      <li>DEXA (Laboratory reference method)</li>
+                      <li>Hydrostatic Weighing (Traditional reference)</li>
                     </ul>
                   </div>
                 </div>
               </div>
             </motion.section>
 
-            {/* Detailed Method Comparison */}
+            {/* Method Comparison */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -95,12 +93,11 @@ export default function MethodComparison() {
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
               <h2 className="text-2xl font-semibold text-white">
-                Practical Method Comparison
+                Validated Methods Comparison
               </h2>
               <p className="mb-6 mt-4 text-gray-400">
-                Compare methods based on real-world factors to find the most
-                suitable approach for your specific needs. For detailed
-                scientific validation data, see the Validation Studies section.
+                Comparison based on validation studies against hydrostatic
+                weighing and DEXA (Wagner & Heyward, 1999).
               </p>
               <div className="mt-6 overflow-x-auto">
                 <table className="w-full min-w-[800px] border-collapse text-left">
@@ -110,235 +107,74 @@ export default function MethodComparison() {
                         Method
                       </th>
                       <th className="px-4 py-3 text-sm font-semibold text-white">
-                        Accuracy
+                        Accuracy (SEE)
                       </th>
                       <th className="px-4 py-3 text-sm font-semibold text-white">
-                        Time
-                      </th>
-                      <th className="px-4 py-3 text-sm font-semibold text-white">
-                        Expertise
+                        Sites
                       </th>
                       <th className="px-4 py-3 text-sm font-semibold text-white">
                         Equipment
                       </th>
                       <th className="px-4 py-3 text-sm font-semibold text-white">
-                        Best For
+                        Source
                       </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/10">
-                    {/* PRO Methods */}
-                    <tr className="bg-[#1a1a1a]/20">
-                      <td className="px-4 py-3">
-                        <div>
-                          <div className="font-medium text-white">Parrillo</div>
-                          <div className="mt-1">
-                            <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
-                              <Lock size={10} /> PRO
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-[#4CAF50]">±3-4%</td>
-                      <td className="px-4 py-3 text-gray-300">10-12 min</td>
-                      <td className="px-4 py-3 text-gray-300">High</td>
-                      <td className="px-4 py-3 text-gray-300">
-                        Calipers (9 sites)
-                      </td>
-                      <td className="px-4 py-3 text-gray-300">Bodybuilders</td>
-                    </tr>
                     <tr>
                       <td className="px-4 py-3">
-                        <div>
-                          <div className="font-medium text-white">
-                            Jackson & Pollock 7-Site
-                          </div>
-                          <div className="mt-1">
-                            <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
-                              <Lock size={10} /> PRO
-                            </span>
-                          </div>
+                        <div className="font-medium text-white">
+                          Jackson-Pollock 7-Site
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-[#4CAF50]">±3-4%</td>
-                      <td className="px-4 py-3 text-gray-300">15-20 min</td>
-                      <td className="px-4 py-3 text-gray-300">High</td>
+                      <td className="px-4 py-3 text-[#4CAF50]">±3.4%</td>
+                      <td className="px-4 py-3 text-gray-300">7 skinfolds</td>
+                      <td className="px-4 py-3 text-gray-300">Calipers</td>
                       <td className="px-4 py-3 text-gray-300">
-                        Calipers (7 sites)
-                      </td>
-                      <td className="px-4 py-3 text-gray-300">
-                        Professional assessment
-                      </td>
-                    </tr>
-                    <tr className="bg-[#1a1a1a]/20">
-                      <td className="px-4 py-3">
-                        <div>
-                          <div className="font-medium text-white">
-                            Durnin & Womersley
-                          </div>
-                          <div className="mt-1">
-                            <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
-                              <Lock size={10} /> PRO
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-[#4CAF50]">±3.5-5%</td>
-                      <td className="px-4 py-3 text-gray-300">8-10 min</td>
-                      <td className="px-4 py-3 text-gray-300">Moderate</td>
-                      <td className="px-4 py-3 text-gray-300">
-                        Calipers (4 sites)
-                      </td>
-                      <td className="px-4 py-3 text-gray-300">
-                        Age-specific assessment
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-3">
-                        <div>
-                          <div className="font-medium text-white">
-                            Jackson & Pollock 4-Site
-                          </div>
-                          <div className="mt-1">
-                            <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
-                              <Lock size={10} /> PRO
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-[#FFC107]">±3.5-4.5%</td>
-                      <td className="px-4 py-3 text-gray-300">8-10 min</td>
-                      <td className="px-4 py-3 text-gray-300">Moderate</td>
-                      <td className="px-4 py-3 text-gray-300">
-                        Calipers (4 sites)
-                      </td>
-                      <td className="px-4 py-3 text-gray-300">
-                        Regular tracking
-                      </td>
-                    </tr>
-                    <tr className="bg-[#1a1a1a]/20">
-                      <td className="px-4 py-3">
-                        <div>
-                          <div className="font-medium text-white">
-                            Jackson & Pollock 3-Site
-                          </div>
-                          <div className="mt-1">
-                            <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
-                              <Lock size={10} /> PRO
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-[#FFC107]">±4-5%</td>
-                      <td className="px-4 py-3 text-gray-300">8-10 min</td>
-                      <td className="px-4 py-3 text-gray-300">Moderate</td>
-                      <td className="px-4 py-3 text-gray-300">
-                        Calipers (3 sites)
-                      </td>
-                      <td className="px-4 py-3 text-gray-300">
-                        Quick professional assessment
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-3">
-                        <div>
-                          <div className="font-medium text-white">
-                            Covert Bailey
-                          </div>
-                          <div className="mt-1">
-                            <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
-                              <Lock size={10} /> PRO
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-[#FFC107]">±4-5%</td>
-                      <td className="px-4 py-3 text-gray-300">5-7 min</td>
-                      <td className="px-4 py-3 text-gray-300">Low</td>
-                      <td className="px-4 py-3 text-gray-300">Tape measure</td>
-                      <td className="px-4 py-3 text-gray-300">
-                        Multiple measurements
-                      </td>
-                    </tr>
-                    {/* Free Methods */}
-                    <tr className="bg-[#1a1a1a]/20">
-                      <td className="px-4 py-3">
-                        <div className="font-medium text-white">US Navy</div>
-                      </td>
-                      <td className="px-4 py-3 text-[#FFC107]">±4-6%</td>
-                      <td className="px-4 py-3 text-gray-300">5-7 min</td>
-                      <td className="px-4 py-3 text-gray-300">Low</td>
-                      <td className="px-4 py-3 text-gray-300">Tape measure</td>
-                      <td className="px-4 py-3 text-gray-300">
-                        Convenient tracking
+                        Jackson & Pollock (1978)
                       </td>
                     </tr>
                     <tr>
                       <td className="px-4 py-3">
                         <div className="font-medium text-white">
-                          Modified YMCA
+                          Durnin-Womersley
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-[#FF5722]">±4-6%</td>
-                      <td className="px-4 py-3 text-gray-300">4-6 min</td>
-                      <td className="px-4 py-3 text-gray-300">Low</td>
-                      <td className="px-4 py-3 text-gray-300">Tape measure</td>
+                      <td className="px-4 py-3 text-[#4CAF50]">±3.8%</td>
+                      <td className="px-4 py-3 text-gray-300">4 skinfolds</td>
+                      <td className="px-4 py-3 text-gray-300">Calipers</td>
                       <td className="px-4 py-3 text-gray-300">
-                        Simple tracking
+                        Durnin & Womersley (1974)
                       </td>
                     </tr>
-                    <tr className="bg-[#1a1a1a]/20">
+                    <tr>
                       <td className="px-4 py-3">
-                        <div className="font-medium text-white">YMCA</div>
+                        <div className="font-medium text-white">
+                          Jackson-Pollock 3-Site
+                        </div>
                       </td>
-                      <td className="px-4 py-3 text-[#FF5722]">±5-7%</td>
-                      <td className="px-4 py-3 text-gray-300">3-5 min</td>
-                      <td className="px-4 py-3 text-gray-300">Low</td>
+                      <td className="px-4 py-3 text-[#FFC107]">±3.9%</td>
+                      <td className="px-4 py-3 text-gray-300">3 skinfolds</td>
+                      <td className="px-4 py-3 text-gray-300">Calipers</td>
+                      <td className="px-4 py-3 text-gray-300">
+                        Jackson & Pollock (1978)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3">
+                        <div className="font-medium text-white">US Navy</div>
+                      </td>
+                      <td className="px-4 py-3 text-[#FFC107]">±3.9%</td>
+                      <td className="px-4 py-3 text-gray-300">
+                        Circumferences
+                      </td>
                       <td className="px-4 py-3 text-gray-300">Tape measure</td>
                       <td className="px-4 py-3 text-gray-300">
-                        Basic screening
+                        Hodgdon & Beckett (1984)
                       </td>
                     </tr>
                   </tbody>
                 </table>
-              </div>
-            </motion.section>
-
-            {/* Selection Factors */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
-            >
-              <h2 className="text-2xl font-semibold text-white">
-                Selection Factors
-              </h2>
-              <div className="mt-6 space-y-6">
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Technical Considerations
-                    </h3>
-                    <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
-                      <li>Equipment availability</li>
-                      <li>Measurement expertise required</li>
-                      <li>Time constraints</li>
-                      <li>Cost considerations</li>
-                    </ul>
-                  </div>
-                  <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Population Factors
-                    </h3>
-                    <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
-                      <li>Age and gender specificity</li>
-                      <li>Athletic vs general population</li>
-                      <li>Body type variations</li>
-                      <li>Health conditions</li>
-                    </ul>
-                  </div>
-                </div>
               </div>
             </motion.section>
 
@@ -353,24 +189,26 @@ export default function MethodComparison() {
               <div className="mt-6">
                 <ul className="list-inside space-y-3 text-sm text-gray-300">
                   <li>
-                    Kuriyan, R., et al. (2022). &ldquo;Cross-Method Validation
-                    Study in Body Composition Assessment.&rdquo; International
-                    Journal of Body Composition Research, 20(2), 45-58.
+                    Wagner, D.R., & Heyward, V.H. (1999). &ldquo;Techniques of
+                    body composition assessment: a review of laboratory and
+                    field methods.&rdquo; Research Quarterly for Exercise and
+                    Sport, 70(2), 135-149.
                   </li>
                   <li>
-                    Peterson, M.J., et al. (2021). &ldquo;Comparative Analysis
-                    of Field Methods for Body Fat Assessment.&rdquo; Journal of
-                    Exercise Science & Fitness, 19(3), 112-124.
+                    Jackson, A.S., & Pollock, M.L. (1978). &ldquo;Generalized
+                    equations for predicting body density of men.&rdquo; British
+                    Journal of Nutrition, 40(3), 497-504.
                   </li>
                   <li>
-                    American College of Sports Medicine. (2021).
-                    &ldquo;Guidelines for Exercise Testing and
-                    Prescription.&rdquo; 11th Edition.
+                    Durnin, J.V.G.A., & Womersley, J. (1974). &ldquo;Body fat
+                    assessed from total body density and its estimation from
+                    skinfold thickness.&rdquo; British Journal of Nutrition,
+                    32(1), 77-97.
                   </li>
                   <li>
-                    International Society for Body Composition Research. (2020).
-                    &ldquo;Method Selection Guidelines for Body Composition
-                    Assessment.&rdquo; Position Statement.
+                    Hodgdon, J.A., & Beckett, M.B. (1984). &ldquo;Prediction of
+                    percent body fat for U.S. Navy men and women.&rdquo; Naval
+                    Health Research Center Report, No. 84-11.
                   </li>
                 </ul>
               </div>

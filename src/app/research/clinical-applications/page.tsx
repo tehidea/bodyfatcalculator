@@ -37,9 +37,9 @@ export default function ClinicalApplications() {
               Clinical Applications
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              Explore how body composition assessment methods are applied in
-              clinical practice, sports medicine, research, and public health
-              settings, with evidence-based outcomes and practical implications.
+              Evidence-based applications of body composition assessment in
+              clinical practice, based on research by Ellis (2000), Heymsfield
+              et al. (2005), and recent systematic reviews.
             </p>
           </motion.div>
 
@@ -53,92 +53,43 @@ export default function ClinicalApplications() {
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
               <h2 className="text-2xl font-semibold text-white">
-                Healthcare Applications
+                Clinical Applications
               </h2>
               <div className="mt-6 space-y-6">
                 <div>
                   <h3 className="text-lg font-semibold text-white">
-                    Primary Care Settings
+                    Primary Care Assessment
                   </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Implementation of body composition assessment in routine
-                      health screenings:
+                      Clinical applications of body composition assessment
+                      (Ellis, 2000):
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
-                      <li>Risk assessment for metabolic disorders</li>
-                      <li>Tracking intervention outcomes</li>
-                      <li>Preventive health screening</li>
-                      <li>Patient education and motivation</li>
+                      <li>Nutritional status evaluation</li>
+                      <li>Growth and development monitoring</li>
+                      <li>Disease state assessment</li>
+                      <li>Treatment response tracking</li>
                     </ul>
                   </div>
                 </div>
 
                 <div>
                   <h3 className="text-lg font-semibold text-white">
-                    Clinical Outcomes Research
+                    Clinical Validation
                   </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Studies demonstrating improved health outcomes with body
-                      composition monitoring:
+                      Validation studies in clinical settings (Heymsfield et
+                      al., 2005):
                     </p>
                     <div className="rounded-lg bg-black/20 p-4">
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                        <li>30% better intervention adherence</li>
-                        <li>Improved risk stratification accuracy</li>
-                        <li>Enhanced treatment customization</li>
-                        <li>Better long-term health outcomes</li>
+                        <li>Multi-component model validation</li>
+                        <li>Field method accuracy assessment</li>
+                        <li>Population-specific equations</li>
+                        <li>Method standardization protocols</li>
                       </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.section>
-
-            {/* Sports Medicine */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
-            >
-              <h2 className="text-2xl font-semibold text-white">
-                Sports Medicine Applications
-              </h2>
-              <div className="mt-6 space-y-6">
-                <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Athletic Performance
-                  </h3>
-                  <div className="mt-4 space-y-4">
-                    <p className="text-gray-300">
-                      Impact of body composition monitoring on athletic
-                      performance:
-                    </p>
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Training Optimization
-                        </h4>
-                        <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                          <li>Periodization adjustments</li>
-                          <li>Recovery monitoring</li>
-                          <li>Performance prediction</li>
-                          <li>Injury prevention</li>
-                        </ul>
-                      </div>
-                      <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Competition Preparation
-                        </h4>
-                        <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                          <li>Weight class optimization</li>
-                          <li>Peak performance timing</li>
-                          <li>Nutrition planning</li>
-                          <li>Recovery strategies</li>
-                        </ul>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -149,7 +100,7 @@ export default function ClinicalApplications() {
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
               <h2 className="text-2xl font-semibold text-white">
@@ -158,78 +109,69 @@ export default function ClinicalApplications() {
               <div className="mt-6 space-y-6">
                 <div>
                   <h3 className="text-lg font-semibold text-white">
-                    Clinical Trials
+                    Clinical Research
                   </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Implementation in pharmaceutical and intervention
-                      research:
+                      Applications in clinical trials and research (Wang et al.,
+                      1992):
                     </p>
-                    <div className="rounded-lg bg-black/20 p-4">
-                      <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                        <li>Drug efficacy assessment</li>
-                        <li>Treatment response monitoring</li>
-                        <li>Side effect profiling</li>
-                        <li>Long-term outcome tracking</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Population Studies
-                  </h3>
-                  <div className="mt-4 space-y-4">
-                    <p className="text-gray-300">
-                      Large-scale epidemiological research applications:
-                    </p>
-                    <div className="rounded-lg bg-black/20 p-4">
-                      <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                        <li>Health trend analysis</li>
-                        <li>Risk factor identification</li>
-                        <li>Intervention effectiveness</li>
-                        <li>Public health planning</li>
-                      </ul>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="rounded-lg bg-black/20 p-4">
+                        <h4 className="font-medium text-white">Study Design</h4>
+                        <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
+                          <li>Method selection criteria</li>
+                          <li>Protocol standardization</li>
+                          <li>Quality control measures</li>
+                          <li>Data validation procedures</li>
+                        </ul>
+                      </div>
+                      <div className="rounded-lg bg-black/20 p-4">
+                        <h4 className="font-medium text-white">
+                          Outcome Assessment
+                        </h4>
+                        <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
+                          <li>Treatment effect monitoring</li>
+                          <li>Longitudinal tracking</li>
+                          <li>Intervention evaluation</li>
+                          <li>Clinical endpoint assessment</li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </motion.section>
 
-            {/* Public Health Impact */}
+            {/* Population Studies */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
               <h2 className="text-2xl font-semibold text-white">
-                Public Health Impact
+                Population Studies
               </h2>
               <div className="mt-6 space-y-6">
-                <div className="rounded-lg bg-black/20 p-4">
+                <div>
                   <h3 className="text-lg font-semibold text-white">
-                    Population Health Management
+                    Epidemiological Research
                   </h3>
-                  <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
-                    <li>Community health assessment</li>
-                    <li>Health disparity identification</li>
-                    <li>Intervention program design</li>
-                    <li>Resource allocation optimization</li>
-                  </ul>
-                </div>
-
-                <div className="rounded-lg bg-black/20 p-4">
-                  <h3 className="text-lg font-semibold text-white">
-                    Economic Impact
-                  </h3>
-                  <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
-                    <li>Healthcare cost reduction</li>
-                    <li>Preventive care savings</li>
-                    <li>Workplace wellness ROI</li>
-                    <li>Public health program efficiency</li>
-                  </ul>
+                  <div className="mt-4 space-y-4">
+                    <p className="text-gray-300">
+                      Applications in population health research (Gallagher et
+                      al., 2000):
+                    </p>
+                    <div className="rounded-lg bg-black/20 p-4">
+                      <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
+                        <li>Reference data development</li>
+                        <li>Population norms establishment</li>
+                        <li>Health risk assessment</li>
+                        <li>Demographic analysis</li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.section>
@@ -238,36 +180,30 @@ export default function ClinicalApplications() {
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
               <h2 className="text-2xl font-semibold text-white">References</h2>
               <div className="mt-6">
                 <ul className="list-inside space-y-3 text-sm text-gray-300">
                   <li>
-                    American College of Sports Medicine. (2021).
-                    &ldquo;Guidelines for Exercise Testing and
-                    Prescription.&rdquo; 11th Edition.
+                    Ellis, K.J. (2000). &ldquo;Human body composition: in vivo
+                    methods.&rdquo; Physiological Reviews, 80(2), 649-680.
                   </li>
                   <li>
-                    World Health Organization. (2020). &ldquo;Body Composition
-                    Assessment in Population Health.&rdquo; Technical Report
-                    Series.
+                    Heymsfield, S.B., et al. (2005). &ldquo;Human Body
+                    Composition.&rdquo; Human Kinetics.
                   </li>
                   <li>
-                    National Institutes of Health. (2019). &ldquo;Clinical
-                    Applications of Body Composition Methods.&rdquo; NIH
-                    Publication.
+                    Wang, Z.M., et al. (1992). &ldquo;The five-level model: a
+                    new approach to organizing body-composition research.&rdquo;
+                    American Journal of Clinical Nutrition, 56(1), 19-28.
                   </li>
                   <li>
-                    International Olympic Committee. (2021). &ldquo;Body
-                    Composition in Elite Athletes: Assessment and Competitive
-                    Considerations.&rdquo; IOC Consensus Statement.
-                  </li>
-                  <li>
-                    Centers for Disease Control and Prevention. (2022).
-                    &ldquo;Public Health Applications of Body Composition
-                    Assessment.&rdquo; CDC Health Report.
+                    Gallagher, D., et al. (2000). &ldquo;Healthy percentage body
+                    fat ranges: an approach for developing guidelines based on
+                    body mass index.&rdquo; American Journal of Clinical
+                    Nutrition, 72(3), 694-701.
                   </li>
                 </ul>
               </div>

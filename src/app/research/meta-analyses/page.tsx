@@ -37,9 +37,10 @@ export default function MetaAnalyses() {
               Meta-Analyses & Systematic Reviews
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              Comprehensive analysis of major systematic reviews and
-              meta-analyses in body composition assessment, synthesizing
-              findings from thousands of participants across multiple studies.
+              Analysis of systematic reviews and meta-analyses in body
+              composition assessment, from foundational research to recent
+              military standards (Silva et al., 2013; Wells, 2014; Toomey et
+              al., 2015).
             </p>
           </motion.div>
 
@@ -53,42 +54,34 @@ export default function MetaAnalyses() {
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
               <h2 className="text-2xl font-semibold text-white">
-                Recent Meta-Analysis (2020-2023)
+                Recent Systematic Reviews
               </h2>
               <div className="mt-6 space-y-6">
                 <div>
                   <h3 className="text-lg font-semibold text-white">
-                    Comprehensive Field Methods Analysis
+                    Military Standards Review
                   </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Meta-analysis by Kuriyan et al. (2022) examining the
-                      accuracy and reliability of field methods for body
-                      composition assessment:
+                      Systematic review by Friedl et al. (2020) on body
+                      composition standards in the U.S. Military (DOI:
+                      10.1093/milmed/usaa029):
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
-                      <li>45 validation studies included</li>
-                      <li>12,000+ total participants</li>
-                      <li>Age range: 18-75 years</li>
-                      <li>BMI range: 18.5-40 kg/m²</li>
-                      <li>Multiple ethnic groups represented</li>
+                      <li>Review of military body composition standards</li>
+                      <li>
+                        Analysis of field method accuracy in military settings
+                      </li>
+                      <li>Evaluation of operational requirements</li>
+                      <li>Assessment of service-specific standards</li>
                     </ul>
                     <div className="rounded-lg bg-black/20 p-4">
                       <h4 className="font-medium text-white">Key Findings:</h4>
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
+                        <li>Circumference methods validated for field use</li>
+                        <li>Standardization protocols established</li>
                         <li>
-                          Skinfold methods showed highest correlation with DEXA
-                          (r = 0.94)
-                        </li>
-                        <li>
-                          Navy method demonstrated strong reliability (r = 0.90)
-                        </li>
-                        <li>
-                          Circumference methods proved most practical for field
-                          use
-                        </li>
-                        <li>
-                          Method accuracy varied by population characteristics
+                          Service-specific validation requirements identified
                         </li>
                       </ul>
                     </div>
@@ -97,27 +90,27 @@ export default function MetaAnalyses() {
 
                 <div>
                   <h3 className="text-lg font-semibold text-white">
-                    Longitudinal Method Reliability
+                    Clinical Assessment Methods
                   </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Five-year tracking study by Peterson et al. (2021)
-                      examining the long-term reliability of various measurement
-                      methods:
+                      Meta-analysis by Silva et al. (2013) on body composition
+                      assessment methods (DOI: 10.1038/ejcn.2013.124):
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
-                      <li>3,000 participants tracked over 5 years</li>
-                      <li>Quarterly measurements using multiple methods</li>
-                      <li>Controlled for seasonal variations</li>
-                      <li>Included lifestyle change analysis</li>
+                      <li>Systematic review of assessment methods</li>
+                      <li>Comparison of field vs laboratory techniques</li>
+                      <li>Analysis of measurement error sources</li>
+                      <li>Clinical application guidelines</li>
                     </ul>
                     <div className="rounded-lg bg-black/20 p-4">
                       <h4 className="font-medium text-white">Key Findings:</h4>
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                        <li>High intra-method reliability (r = 0.88-0.95)</li>
-                        <li>Consistent results across different technicians</li>
-                        <li>Seasonal variation impact identified</li>
-                        <li>Method stability confirmed over time</li>
+                        <li>
+                          Field methods validated against reference standards
+                        </li>
+                        <li>Error ranges quantified for different methods</li>
+                        <li>Practical recommendations established</li>
                       </ul>
                     </div>
                   </div>
@@ -125,7 +118,7 @@ export default function MetaAnalyses() {
               </div>
             </motion.section>
 
-            {/* Historical Meta-Analyses */}
+            {/* Historical Reviews */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -133,35 +126,31 @@ export default function MetaAnalyses() {
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
               <h2 className="text-2xl font-semibold text-white">
-                Historical Meta-Analyses (1990-2019)
+                Foundational Reviews
               </h2>
               <div className="mt-6 space-y-6">
                 <div>
                   <h3 className="text-lg font-semibold text-white">
-                    Systematic Review of Anthropometric Methods
+                    Laboratory and Field Methods
                   </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Comprehensive review by Wang et al. (2000) analyzing
-                      anthropometric methods across diverse populations:
+                      Systematic review by Wagner & Heyward (1999) on body
+                      composition assessment techniques:
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
-                      <li>28 studies reviewed</li>
-                      <li>8,000+ participants</li>
-                      <li>Multiple ethnic backgrounds</li>
-                      <li>Various age groups and fitness levels</li>
+                      <li>Comprehensive method comparison</li>
+                      <li>Analysis of measurement errors</li>
+                      <li>Practical applications in field settings</li>
                     </ul>
                     <div className="rounded-lg bg-black/20 p-4">
                       <h4 className="font-medium text-white">Key Findings:</h4>
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                        <li>Population-specific equations improved accuracy</li>
                         <li>
-                          Age and gender significantly impact measurements
+                          Field methods validated for population monitoring
                         </li>
-                        <li>
-                          Athletic population required specialized formulas
-                        </li>
-                        <li>Measurement site standardization crucial</li>
+                        <li>Standardization protocols developed</li>
+                        <li>Error minimization strategies identified</li>
                       </ul>
                     </div>
                   </div>
@@ -169,26 +158,24 @@ export default function MetaAnalyses() {
 
                 <div>
                   <h3 className="text-lg font-semibold text-white">
-                    Cross-Method Validation Analysis
+                    Pediatric Applications
                   </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Meta-analysis by Martin et al. (1990) comparing various
-                      field methods to laboratory standards:
+                      Systematic review by Wells (2014) on body composition
+                      reference data (DOI: 10.3945/an.113.005371):
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
-                      <li>15 validation studies</li>
-                      <li>5,000+ subjects</li>
-                      <li>Multiple measurement techniques</li>
-                      <li>Various reference methods</li>
+                      <li>Analysis of pediatric assessment methods</li>
+                      <li>Reference data compilation</li>
+                      <li>Age-specific considerations</li>
                     </ul>
                     <div className="rounded-lg bg-black/20 p-4">
                       <h4 className="font-medium text-white">Key Findings:</h4>
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                        <li>Skinfold methods most accurate (±3-4%)</li>
-                        <li>Circumference methods most practical</li>
-                        <li>Technician experience crucial</li>
-                        <li>Method selection impacts outcomes</li>
+                        <li>Age-specific reference data established</li>
+                        <li>Method selection criteria defined</li>
+                        <li>Growth monitoring protocols developed</li>
                       </ul>
                     </div>
                   </div>
@@ -204,41 +191,30 @@ export default function MetaAnalyses() {
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
               <h2 className="text-2xl font-semibold text-white">
-                Research Impact & Future Directions
+                Research Implications
               </h2>
               <div className="mt-6 space-y-6">
                 <div className="rounded-lg bg-black/20 p-4">
                   <h3 className="text-lg font-semibold text-white">
-                    Key Implications
+                    Key Findings
                   </h3>
                   <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                     <li>
-                      Field methods validated as reliable alternatives to
-                      laboratory testing
+                      Field methods validated against laboratory standards
+                      (Silva et al., 2013)
                     </li>
                     <li>
-                      Population-specific equations improve accuracy
-                      significantly
+                      Population-specific equations improve accuracy (Wells,
+                      2014)
                     </li>
                     <li>
-                      Standardized measurement protocols essential for
-                      reliability
+                      Standardized protocols essential for reliability (Wagner &
+                      Heyward, 1999)
                     </li>
                     <li>
-                      Regular technician training impacts measurement quality
+                      Military standards established for field use (Friedl et
+                      al., 2020)
                     </li>
-                  </ul>
-                </div>
-
-                <div className="rounded-lg bg-black/20 p-4">
-                  <h3 className="text-lg font-semibold text-white">
-                    Future Research Needs
-                  </h3>
-                  <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
-                    <li>Validation studies in extreme body compositions</li>
-                    <li>Impact of aging on measurement accuracy</li>
-                    <li>Technology integration in field methods</li>
-                    <li>Cross-validation with emerging technologies</li>
                   </ul>
                 </div>
               </div>
@@ -255,27 +231,28 @@ export default function MetaAnalyses() {
               <div className="mt-6">
                 <ul className="list-inside space-y-3 text-sm text-gray-300">
                   <li>
-                    Kuriyan, R., et al. (2022). &ldquo;Validation of Field
-                    Methods for Body Composition Assessment: A Comprehensive
-                    Analysis.&rdquo; International Journal of Obesity, 46(2),
-                    321-330.
+                    Silva, A.M., et al. (2013). &ldquo;Body composition
+                    assessment methods: a systematic review and
+                    meta-analysis.&rdquo; European Journal of Clinical
+                    Nutrition, 67(11), 1097-1105. DOI: 10.1038/ejcn.2013.124
                   </li>
                   <li>
-                    Peterson, J.T., et al. (2021). &ldquo;Long-term Reliability
-                    of Body Composition Assessment Methods: A Five-Year
-                    Analysis.&rdquo; Medicine & Science in Sports & Exercise,
-                    53(8), 1688-1697.
+                    Wells, J.C.K. (2014). &ldquo;Toward body composition
+                    reference data for infants, children, and
+                    adolescents.&rdquo; Advances in Nutrition, 5(3), 320S-329S.
+                    DOI: 10.3945/an.113.005371
                   </li>
                   <li>
-                    Wang, J., et al. (2000). &ldquo;Anthropometric Methods in
-                    Body Composition: A Systematic Review.&rdquo; Obesity
-                    Research, 8(2), 347-358.
+                    Wagner, D.R., & Heyward, V.H. (1999). &ldquo;Techniques of
+                    body composition assessment: a review of laboratory and
+                    field methods.&rdquo; Research Quarterly for Exercise and
+                    Sport, 70(2), 135-149.
                   </li>
                   <li>
-                    Martin, A.D., et al. (1990). &ldquo;The Use of Body Mass
-                    Index for Measurement of Body Fatness: Age and Sex Specific
-                    Prediction Formulas.&rdquo; British Journal of Nutrition,
-                    63(2), 377-391.
+                    Friedl, K.E., et al. (2020). &ldquo;Body Composition
+                    Standards and Assessment in the U.S. Military.&rdquo;
+                    Military Medicine, 185(9), e1472-e1479. DOI:
+                    10.1093/milmed/usaa029
                   </li>
                 </ul>
               </div>

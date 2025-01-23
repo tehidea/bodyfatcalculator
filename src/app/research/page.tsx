@@ -45,9 +45,10 @@ export default function Research() {
                   Meta-Analyses & Reviews
                 </h2>
                 <p className="mt-2 text-sm text-gray-400">
-                  Latest systematic reviews and meta-analyses of body fat
-                  measurement methods, covering over 15,000 participants across
-                  multiple studies.
+                  Systematic reviews and meta-analyses of body fat measurement
+                  methods, synthesizing findings from multiple validation
+                  studies (Silva et al., 2013; Wells, 2014; Toomey et al.,
+                  2015).
                 </p>
               </div>
             </Link>
@@ -64,8 +65,9 @@ export default function Research() {
                 </h2>
                 <p className="mt-2 text-sm text-gray-400">
                   Historical and modern validation studies comparing field
-                  methods against laboratory standards like DEXA and hydrostatic
-                  weighing, with comprehensive accuracy analysis.
+                  methods against laboratory standards, from foundational
+                  research (Durnin & Womersley, 1974) to recent military
+                  standards (Friedl et al., 2020).
                 </p>
               </div>
             </Link>
@@ -128,13 +130,14 @@ export default function Research() {
                   name: 'Jackson & Pollock',
                   href: '/research/methods/jackson-pollock',
                   description:
-                    'Studies on 3-site, 4-site, and 7-site protocols',
+                    'Foundational 3-site, 4-site and 7-site protocols (Jackson & Pollock, 1978)',
                   accuracy: '±3-5%',
                 },
                 {
                   name: 'Durnin & Womersley',
                   href: '/research/methods/durnin-womersley',
-                  description: 'Age-specific body composition research',
+                  description:
+                    'Age-specific equations (Durnin & Womersley, 1974)',
                   accuracy: '±3.5-5%',
                 },
                 {
@@ -146,14 +149,15 @@ export default function Research() {
                 {
                   name: 'US Navy Method',
                   href: '/research/methods/us-navy',
-                  description: 'Military and civilian validation research',
-                  accuracy: '±4-6%',
+                  description:
+                    'Military validation studies (Hodgdon & Beckett, 1984)',
+                  accuracy: '±3-6%',
                 },
                 {
-                  name: 'YMCA Methods',
+                  name: 'YMCA Method',
                   href: '/research/methods/ymca',
-                  description: 'Original and modified YMCA method studies',
-                  accuracy: '±4-7%',
+                  description: 'Standardized assessment protocols',
+                  accuracy: '±5-7%',
                 },
               ].map((method) => (
                 <Link
@@ -221,15 +225,15 @@ export default function Research() {
                         Meta-Analyses
                       </Link>
                     </td>
+                    <td className="px-4 py-3 text-gray-300">3 major reviews</td>
                     <td className="px-4 py-3 text-gray-300">
-                      12 systematic reviews
+                      Multiple cohorts
                     </td>
-                    <td className="px-4 py-3 text-gray-300">15,000+</td>
                     <td className="px-4 py-3 text-gray-300">
-                      Strong correlation between field methods and lab standards
-                      (r {'>'} 0.85)
+                      Field methods validated against laboratory standards
+                      (Silva et al., 2013)
                     </td>
-                    <td className="px-4 py-3 text-gray-300">2010-2024</td>
+                    <td className="px-4 py-3 text-gray-300">2013-2020</td>
                   </tr>
                   <tr>
                     <td className="px-4 py-3">
@@ -240,12 +244,17 @@ export default function Research() {
                         Validation Studies
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-gray-300">45+ studies</td>
-                    <td className="px-4 py-3 text-gray-300">8,000+</td>
                     <td className="px-4 py-3 text-gray-300">
-                      Field methods accurate within ±3-7% of DEXA/hydrostatic
+                      Original research
                     </td>
-                    <td className="px-4 py-3 text-gray-300">1974-2024</td>
+                    <td className="px-4 py-3 text-gray-300">
+                      481 subjects (Durnin & Womersley, 1974)
+                    </td>
+                    <td className="px-4 py-3 text-gray-300">
+                      Field methods accurate within ±3.5-5% of hydrostatic
+                      weighing
+                    </td>
+                    <td className="px-4 py-3 text-gray-300">1974-2020</td>
                   </tr>
                   <tr>
                     <td className="px-4 py-3">
@@ -256,12 +265,14 @@ export default function Research() {
                         Clinical Applications
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-gray-300">30+ trials</td>
-                    <td className="px-4 py-3 text-gray-300">5,000+</td>
                     <td className="px-4 py-3 text-gray-300">
-                      Effective for monitoring interventions and health outcomes
+                      Multiple studies
                     </td>
-                    <td className="px-4 py-3 text-gray-300">2000-2024</td>
+                    <td className="px-4 py-3 text-gray-300">Various cohorts</td>
+                    <td className="px-4 py-3 text-gray-300">
+                      Validated for clinical monitoring (Ellis, 2000)
+                    </td>
+                    <td className="px-4 py-3 text-gray-300">1990-2020</td>
                   </tr>
                   <tr>
                     <td className="px-4 py-3">
@@ -272,13 +283,16 @@ export default function Research() {
                         Method Comparisons
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-gray-300">25+ comparisons</td>
-                    <td className="px-4 py-3 text-gray-300">3,000+</td>
                     <td className="px-4 py-3 text-gray-300">
-                      Skinfold methods most accurate (±3-4%), circumference
-                      methods (±4-7%)
+                      Systematic reviews
                     </td>
-                    <td className="px-4 py-3 text-gray-300">1984-2024</td>
+                    <td className="px-4 py-3 text-gray-300">
+                      Multiple studies
+                    </td>
+                    <td className="px-4 py-3 text-gray-300">
+                      Comparative accuracy analysis (Wagner & Heyward, 1999)
+                    </td>
+                    <td className="px-4 py-3 text-gray-300">1974-2020</td>
                   </tr>
                 </tbody>
               </table>
