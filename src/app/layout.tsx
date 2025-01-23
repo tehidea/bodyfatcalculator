@@ -3,6 +3,7 @@ import { Montserrat } from 'next/font/google'
 import clsx from 'clsx'
 import PlausibleProvider from 'next-plausible'
 import Script from 'next/script'
+import { CSPostHogProvider } from './providers'
 
 import '@/styles/tailwind.css'
 import '@/styles/globals.css'
@@ -370,19 +371,21 @@ export default function RootLayout({
           `}
         </style>
       </head>
-      <body>
-        {children}
-        <Analytics />
-        <Script id="klaro-init" strategy="afterInteractive">
-          {`
-            window.addEventListener('load', () => {
-              if (window.klaro) {
-                window.klaro.show(window.klaroConfig);
-              }
-            });
-          `}
-        </Script>
-      </body>
+      <CSPostHogProvider>
+        <body>
+          {children}
+          <Analytics />
+          <Script id="klaro-init" strategy="afterInteractive">
+            {`
+              window.addEventListener('load', () => {
+                if (window.klaro) {
+                  window.klaro.show(window.klaroConfig);
+                }
+              });
+            `}
+          </Script>
+        </body>
+      </CSPostHogProvider>
     </html>
   )
 }
