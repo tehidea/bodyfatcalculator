@@ -90,6 +90,100 @@ const sections = [
             <li>IP address and basic analytics</li>
           </ul>
         </div>
+        <div>
+          <h3 className="text-lg font-medium text-white">
+            Analytics and Advertising
+          </h3>
+          <p className="mt-4">
+            We use several third-party services to analyze usage and serve
+            advertisements:
+          </p>
+          <ul className="mt-4 list-inside list-disc space-y-2 marker:text-[#FF0000]">
+            <li>
+              Plausible Analytics - Privacy-focused analytics service that
+              collects anonymous usage data
+            </li>
+            <li>
+              PostHog Analytics - Product analytics platform that helps us
+              understand user behavior
+            </li>
+            <li>
+              Vercel Analytics - Performance monitoring and usage statistics
+            </li>
+            <li>
+              Google AdSense - Advertising service that may use cookies and web
+              beacons
+            </li>
+          </ul>
+          <p className="mt-4">
+            These services may place cookies or use similar tracking
+            technologies on your device. You can manage your preferences for
+            these services through our Privacy Settings.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    title: 'Cookies and Tracking Technologies',
+    content: (
+      <div className="mt-4 space-y-4">
+        <p>
+          We and our third-party partners use cookies and similar tracking
+          technologies to analyze trends, administer the website, track
+          users&apos; movements around the site, and gather demographic
+          information about our user base as a whole.
+        </p>
+        <div>
+          <h3 className="text-lg font-medium text-white">Google AdSense</h3>
+          <p className="mt-2">
+            We use Google AdSense to display advertisements. Google may use
+            cookies, web beacons, and other storage technologies to collect or
+            receive information from our website and elsewhere on the internet.
+            This information may be used to provide measurement services and
+            target advertisements.
+          </p>
+          <p className="mt-2">
+            Google&apos;s use of advertising cookies enables it and its partners
+            to serve ads based on your visit to our site and/or other sites on
+            the Internet. You can opt out of personalized advertising by
+            visiting{' '}
+            <a
+              href="https://www.google.com/settings/ads"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-red-500 hover:text-red-400"
+            >
+              Google&apos;s Ads Settings
+            </a>
+            .
+          </p>
+          <p className="mt-2">
+            For more information about how Google uses information from sites or
+            apps that use their services, visit{' '}
+            <a
+              href="https://policies.google.com/technologies/partner-sites"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-red-500 hover:text-red-400"
+            >
+              How Google uses information from sites or apps that use our
+              services
+            </a>
+            .
+          </p>
+        </div>
+        <div>
+          <h3 className="text-lg font-medium text-white">Privacy Sandbox</h3>
+          <p className="mt-2">
+            Google&apos;s advertising services are experimenting with new
+            privacy-preserving technologies via the Privacy Sandbox initiative
+            on Chrome and Android. Users with Privacy Sandbox settings enabled
+            may see relevant ads based on Topics or Protected Audience data
+            stored on their device. Ad performance may be measured using
+            Attribution Reporting data stored locally.
+          </p>
+        </div>
       </div>
     ),
   },
@@ -104,6 +198,8 @@ const sections = [
           <li>Provide technical support</li>
           <li>Send important updates about the app</li>
           <li>Analyze usage patterns to enhance user experience</li>
+          <li>Deliver relevant advertisements</li>
+          <li>Measure the effectiveness of our marketing efforts</li>
         </ul>
       </>
     ),
@@ -152,7 +248,7 @@ const sections = [
     ),
   },
   {
-    title: 'Children&apos;s Privacy',
+    title: "Children's Privacy",
     content: (
       <p className="mt-4">
         Our service is not intended for users under 16 years of age. We do not
