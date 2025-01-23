@@ -125,7 +125,7 @@ export default function RootLayout({
               storageMethod: 'cookie',
               cookieName: 'klaro',
               cookieExpiresAfterDays: 365,
-              default: false,
+              default: true,
               mustConsent: true,
               acceptAll: true,
               hideDeclineAll: false,
@@ -162,7 +162,7 @@ export default function RootLayout({
                   title: 'Plausible Analytics',
                   purposes: ['analytics'],
                   required: false,
-                  default: false,
+                  default: true,
                   cookies: [
                     ['plausible_session', '', 'session']
                   ],
@@ -172,7 +172,7 @@ export default function RootLayout({
                   title: 'PostHog Analytics',
                   purposes: ['analytics'],
                   required: false,
-                  default: false,
+                  default: true,
                   cookies: [
                     ['ph_*', '', 'session']
                   ],
@@ -192,7 +192,7 @@ export default function RootLayout({
                   title: 'Vercel Analytics',
                   purposes: ['analytics'],
                   required: false,
-                  default: false,
+                  default: true,
                 },
                 {
                   name: 'google-adsense',
@@ -204,7 +204,7 @@ export default function RootLayout({
                     /^_gcl_au/
                   ],
                   required: false,
-                  default: false,
+                  default: true,
                   onInit: \`
                     window.dataLayer = window.dataLayer || [];
                     window.gtag = function(){dataLayer.push(arguments)};
