@@ -168,6 +168,26 @@ export default function RootLayout({
                   ],
                 },
                 {
+                  name: 'posthog',
+                  title: 'PostHog Analytics',
+                  purposes: ['analytics'],
+                  required: false,
+                  default: false,
+                  cookies: [
+                    ['ph_*', '', 'session']
+                  ],
+                  onAccept: \`
+                    if (typeof window !== 'undefined' && window.posthog) {
+                      window.posthog.opt_in_capturing();
+                    }
+                  \`,
+                  onDecline: \`
+                    if (typeof window !== 'undefined' && window.posthog) {
+                      window.posthog.opt_out_capturing();
+                    }
+                  \`,
+                },
+                {
                   name: 'vercel-analytics',
                   title: 'Vercel Analytics',
                   purposes: ['analytics'],
