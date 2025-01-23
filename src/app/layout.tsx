@@ -131,7 +131,7 @@ export default function RootLayout({
               cookieName: 'klaro',
               cookieExpiresAfterDays: 365,
               default: true,
-              mustConsent: true,
+              mustConsent: false,
               acceptAll: true,
               hideDeclineAll: false,
               hideLearnMore: false,
