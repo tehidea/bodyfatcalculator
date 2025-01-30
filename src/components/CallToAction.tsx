@@ -201,7 +201,9 @@ export function CallToAction() {
                 <div className="mt-8">
                   <div className="mt-4 flex items-center justify-between text-sm">
                     <span className="text-gray-500">One-time purchase</span>
-                    <span className="font-medium text-white">£10</span>
+                    <span className="font-medium text-white">
+                      £9.99 / $9.99 / €9.99
+                    </span>
                   </div>
                 </div>
               </div>

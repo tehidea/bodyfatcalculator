@@ -38,7 +38,7 @@ const faqs = [
     {
       question: 'Is there a subscription fee?',
       answer:
-        'No! The PRO version is a one-time purchase of £10. You get lifetime access to all premium measurement methods and future updates. No hidden fees or subscriptions.',
+        'No! The PRO version is a one-time purchase of £9.99 / $9.99 / €9.99. You get lifetime access to all premium measurement methods and future updates. No hidden fees or subscriptions.',
     },
     {
       question: 'What equipment do I need?',
