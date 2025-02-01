@@ -108,9 +108,6 @@ const sections = [
               understand user behavior
             </li>
             <li>
-              Vercel Analytics - Performance monitoring and usage statistics
-            </li>
-            <li>
               Google AdSense - Advertising service that may use cookies and web
               beacons
             </li>

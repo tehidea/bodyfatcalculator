@@ -1,4 +1,3 @@
-import { Analytics } from '@vercel/analytics/react'
 import { Montserrat } from 'next/font/google'
 import clsx from 'clsx'
 import PlausibleProvider from 'next-plausible'
@@ -191,13 +190,6 @@ export default function RootLayout({
                       window.posthog.opt_out_capturing();
                     }
                   \`,
-                },
-                {
-                  name: 'vercel-analytics',
-                  title: 'Vercel Analytics',
-                  purposes: ['analytics'],
-                  required: false,
-                  default: true,
                 },
                 {
                   name: 'google-adsense',
@@ -393,7 +385,6 @@ export default function RootLayout({
       <CSPostHogProvider>
         <body>
           {children}
-          <Analytics />
           <Script id="klaro-init" strategy="afterInteractive">
             {`
               window.addEventListener('load', () => {
