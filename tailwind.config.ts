@@ -46,7 +46,7 @@ export default {
         '5xl': '2.5rem',
       },
       fontFamily: {
-        sans: 'var(--font-inter)',
+        sans: 'var(--font-montserrat)',
       },
       keyframes: {
         'fade-in': {

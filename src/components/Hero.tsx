@@ -22,7 +22,6 @@ function PlayIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 export function Hero() {
   return (
     <div className="relative overflow-hidden bg-[#333333] py-20 sm:py-32 lg:pb-32 xl:pb-36">
-
       {/* Dynamic animated background */}
       <div className="absolute inset-0">
         <motion.div
@@ -66,31 +65,25 @@ export function Hero() {
               </span>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              <h1 className="mt-8">
-                <span className="block text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                  Professional
-                </span>
-                <span className="mt-2 block text-4xl font-bold tracking-tight sm:text-6xl">
-                  <span className="text-[#FF0000]">Body Fat</span> Analysis
-                </span>
-              </h1>
+            <h1 className="mt-8">
+              <span className="block text-4xl font-bold tracking-tight text-white sm:text-6xl">
+                Professional
+              </span>
+              <span className="mt-2 block text-4xl font-bold tracking-tight sm:text-6xl">
+                <span className="text-[#FF0000]">Body Fat</span> Analysis
+              </span>
+            </h1>
 
-              <p className="mt-6 text-lg leading-8 text-gray-300">
-                Get lab-grade accuracy with 9 scientifically validated methods.
-                Perfect for trainers, athletes, and fitness enthusiasts who
-                demand precision.
-              </p>
-            </motion.div>
+            <p className="mt-6 text-lg leading-8 text-gray-300">
+              Get lab-grade accuracy with 9 scientifically validated methods.
+              Perfect for trainers, athletes, and fitness enthusiasts who demand
+              precision.
+            </p>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{ duration: 0.3 }}
               className="mt-8 flex flex-wrap gap-4"
             >
               <div className="inline-flex items-center rounded-full bg-white/5 px-4 py-1 text-sm font-medium text-white ring-1 ring-inset ring-white/10 transition-colors hover:bg-white/10">
@@ -102,22 +95,12 @@ export function Hero() {
               </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="mt-10 flex flex-wrap items-center gap-6"
-            >
+            <div className="mt-10 flex flex-wrap items-center gap-6">
               <AppStoreLink size="large" color="white" />
               <GooglePlayLink size="large" color="white" />
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="mt-10 flex items-center gap-4"
-            >
+            <div className="mt-10 flex animate-fade-in items-center gap-4">
               <div className="flex -space-x-2">
                 <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#4CAF50] text-xs font-medium text-white">
                   5.0
@@ -132,7 +115,7 @@ export function Hero() {
               <p className="text-sm text-gray-400">
                 &quot;Exactly what I needed!&quot; - Michał
               </p>
-            </motion.div>
+            </div>
           </div>
 
           <div className="relative mt-16 sm:mt-20 lg:col-span-5 lg:row-span-2 lg:mt-0 xl:col-span-6">
@@ -210,6 +193,12 @@ export function Hero() {
 
             <div className="relative mx-auto w-full max-w-[366px]">
               <AppScreenshot
+                src="/screenshots/app-main.png"
+                alt="Body Fat Calculator (PRO) app interface"
+                position="center"
+              />
+
+              <AppScreenshot
                 src="/screenshots/app-method.png"
                 alt="Body Fat Calculator method selection"
                 position="left"
@@ -219,12 +208,6 @@ export function Hero() {
                 src="/screenshots/app-results.png"
                 alt="Body Fat Calculator results screen"
                 position="right"
-              />
-
-              <AppScreenshot
-                src="/screenshots/app-main.png"
-                alt="Body Fat Calculator (PRO) app interface"
-                position="center"
               />
             </div>
           </div>
