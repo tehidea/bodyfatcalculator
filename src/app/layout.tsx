@@ -12,6 +12,8 @@ const montserrat = Montserrat({
   subsets: ['latin'],
   weight: ['200', '300', '400', '500', '600', '700'],
   variable: '--font-montserrat',
+  display: 'swap',
+  preload: true,
 })
 
 export const metadata = {
@@ -130,9 +132,9 @@ export default function RootLayout({
               cookieName: 'klaro',
               cookieExpiresAfterDays: 365,
               default: true,
-              mustConsent: false,
+              mustConsent: true,
               acceptAll: true,
-              hideDeclineAll: false,
+              hideDeclineAll: true,
               hideLearnMore: false,
               translations: {
                 en: {
@@ -381,6 +383,30 @@ export default function RootLayout({
             }
           `}
         </style>
+
+        {/* Preconnect to required origins */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://pagead2.googlesyndication.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://cdn.kiprotect.com"
+          crossOrigin="anonymous"
+        />
+
+        {/* DNS prefetch for performance */}
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+        <link rel="dns-prefetch" href="https://cdn.kiprotect.com" />
       </head>
       <CSPostHogProvider>
         <body>
