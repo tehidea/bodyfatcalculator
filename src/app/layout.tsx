@@ -394,8 +394,37 @@ export default function RootLayout({
               border-radius: 0.5rem !important;
               border: 1px solid rgba(255, 255, 255, 0.1) !important;
               box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+              width: calc(100% - 2rem) !important;
               max-width: 42rem !important;
-              margin: 1rem !important;
+              margin: 1rem auto !important;
+              left: 0 !important;
+              right: 0 !important;
+              bottom: 0 !important;
+              padding: 1rem !important;
+            }
+
+            /* Cookie notice content */
+            .klaro .cookie-notice .cn-body {
+              padding: 0 !important;
+            }
+
+            .klaro .cookie-notice .cn-body p {
+              margin-bottom: 0.75rem !important;
+              font-size: 0.875rem !important;
+              line-height: 1.5 !important;
+            }
+
+            @media (max-width: 640px) {
+              .klaro .cookie-notice {
+                width: calc(100% - 1rem) !important;
+                margin: 0.5rem auto !important;
+                padding: 0.75rem !important;
+              }
+              
+              .klaro .cookie-notice .cn-body p {
+                font-size: 0.8125rem !important;
+                margin-bottom: 0.5rem !important;
+              }
             }
 
             /* Cookie Notice Buttons */
@@ -404,6 +433,26 @@ export default function RootLayout({
               flex-wrap: wrap !important;
               gap: 0.75rem !important;
               margin-top: 1rem !important;
+              align-items: center !important;
+            }
+
+            @media (max-width: 640px) {
+              .klaro .cookie-notice .cn-body .cn-ok {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 0.5rem !important;
+              }
+              
+              .klaro .cookie-notice .cn-body .cn-ok .cm-link {
+                margin-right: 0 !important;
+                margin-bottom: 0.5rem !important;
+                text-align: center !important;
+              }
+              
+              .klaro .cookie-notice .cn-body .cn-ok .cm-btn {
+                width: 100% !important;
+                padding: 0.75rem 1rem !important;
+              }
             }
 
             /* Learn More Link */
