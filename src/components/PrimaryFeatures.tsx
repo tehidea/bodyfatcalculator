@@ -421,7 +421,10 @@ function FeaturesDesktop() {
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <CircleBackground color="#13B5C8" className="animate-spin-slower" />
         </div>
-        <PhoneFrame className="z-10 mx-auto w-full max-w-[366px]">
+        <PhoneFrame
+          className="z-10 mx-auto w-full max-w-[366px]"
+          priority={true}
+        >
           <TabPanels as={Fragment}>
             <AnimatePresence
               initial={false}
@@ -500,7 +503,10 @@ function FeaturesMobile() {
                   className={featureIndex % 2 === 1 ? 'rotate-180' : undefined}
                 />
               </div>
-              <PhoneFrame className="relative mx-auto w-full max-w-[366px]">
+              <PhoneFrame
+                className="relative mx-auto w-full max-w-[366px]"
+                priority={true}
+              >
                 <feature.screen />
               </PhoneFrame>
               <div className="absolute inset-x-0 bottom-0 bg-gray-800/95 p-6 backdrop-blur sm:p-10">

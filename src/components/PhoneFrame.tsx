@@ -74,7 +74,7 @@ export function PhoneFrame({
           variant === 'dark' && '[filter:invert(1)_brightness(0.8)]',
         )}
         unoptimized
-        priority={priority}
+        priority={true}
       />
     </div>
   )
