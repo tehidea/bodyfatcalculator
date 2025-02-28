@@ -116,6 +116,12 @@ export default function RootLayout({
                   '--green1': '#EF4444',
                   '--green2': '#EF4444',
                   '--green3': '#DC2626',
+                  /* Additional green variables to ensure complete coverage */
+                  '--green4': '#EF4444',
+                  '--green5': '#DC2626',
+                  '--success': '#EF4444',
+                  '--success-bg': '#EF4444',
+                  /* Gray variables */
                   '--gray0': '#333333',
                   '--gray1': '#333333',
                   '--gray2': '#333333',
@@ -380,6 +386,57 @@ export default function RootLayout({
             /* Hide powered by */
             .klaro .cookie-modal .cm-powered-by {
               display: none !important;
+            }
+
+            /* Cookie Notice Styles (Bottom Banner) */
+            .klaro .cookie-notice {
+              background: #333333 !important;
+              border-radius: 0.5rem !important;
+              border: 1px solid rgba(255, 255, 255, 0.1) !important;
+              box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+              max-width: 42rem !important;
+              margin: 1rem !important;
+            }
+
+            /* Cookie Notice Buttons */
+            .klaro .cookie-notice .cn-body .cn-ok {
+              display: flex !important;
+              flex-wrap: wrap !important;
+              gap: 0.75rem !important;
+              margin-top: 1rem !important;
+            }
+
+            /* Learn More Link */
+            .klaro .cookie-notice .cn-body .cn-ok .cm-link {
+              color: #9CA3AF !important;
+              text-decoration: none !important;
+              font-size: 0.875rem !important;
+              line-height: 1.5rem !important;
+              font-weight: 500 !important;
+              margin-right: auto !important;
+            }
+
+            /* Button Styles for Notice */
+            .klaro .cookie-notice .cn-body .cn-ok .cm-btn {
+              font-weight: 500 !important;
+              transition: all 200ms ease-in-out !important;
+              border-width: 1px !important;
+              border-style: solid !important;
+              padding: 0.5rem 1rem !important;
+              border-radius: 0.5rem !important;
+              font-size: 0.875rem !important;
+              line-height: 1.5rem !important;
+            }
+
+            /* Success Button (Accept Selected) - should be red */
+            .klaro .cookie-notice .cn-body .cn-ok .cm-btn-success {
+              color: #FFFFFF !important;
+              border-color: #EF4444 !important;
+              background: #EF4444 !important;
+            }
+            .klaro .cookie-notice .cn-body .cn-ok .cm-btn-success:hover {
+              border-color: #DC2626 !important;
+              background: #DC2626 !important;
             }
           `}
         </style>
