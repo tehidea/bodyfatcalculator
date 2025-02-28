@@ -9,6 +9,12 @@ declare global {
       getManager?: () => {
         getConsent: (service: string) => boolean
       }
+      show: (config: any) => void
+    }
+    manageConsent?: {
+      showModal: () => void
+      resetConsent: () => void
+      hasConsent: (service: string) => boolean | null
     }
   }
 }
@@ -19,8 +25,33 @@ if (typeof window !== 'undefined') {
     person_profiles: 'always',
     loaded: (posthog) => {
       // Check if Klaro consent is already set
-      if (window.klaro?.getManager?.()?.getConsent('posthog') === false) {
-        posthog.opt_out_capturing()
+      if (window.klaro?.getManager?.()) {
+        const hasConsent = window.klaro.getManager().getConsent('posthog')
+        if (hasConsent === false) {
+          posthog.opt_out_capturing()
+        } else if (hasConsent === true) {
+          posthog.opt_in_capturing()
+        }
+      } else {
+        // If Klaro isn't loaded yet or consent isn't set, check for cookie directly
+        const consentCookie = document.cookie
+          .split('; ')
+          .find((row) => row.startsWith('klaro='))
+        if (consentCookie) {
+          try {
+            const consentData = JSON.parse(
+              decodeURIComponent(consentCookie.split('=')[1]),
+            )
+            if (
+              consentData.services &&
+              consentData.services.posthog === false
+            ) {
+              posthog.opt_out_capturing()
+            }
+          } catch (e) {
+            console.error('Error parsing Klaro consent cookie:', e)
+          }
+        }
       }
     },
   })

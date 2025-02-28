@@ -132,7 +132,7 @@ export default function RootLayout({
               cookieName: 'klaro',
               cookieExpiresAfterDays: 365,
               default: true,
-              mustConsent: true,
+              mustConsent: false,
               acceptAll: true,
               hideDeclineAll: true,
               hideLearnMore: false,
@@ -413,9 +413,39 @@ export default function RootLayout({
           {children}
           <Script id="klaro-init" strategy="afterInteractive">
             {`
+              // Add a utility function to the window object to manage Klaro consent
+              window.manageConsent = {
+                // Show the consent modal programmatically
+                showModal: function() {
+                  if (window.klaro) {
+                    window.klaro.show(window.klaroConfig);
+                  }
+                },
+                // Reset consent (useful when privacy policy changes)
+                resetConsent: function() {
+                  if (window.klaro) {
+                    // Delete the klaro cookie
+                    document.cookie = 'klaro=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                    // Show the modal again
+                    window.klaro.show(window.klaroConfig);
+                  }
+                },
+                // Check if consent has been given
+                hasConsent: function(service) {
+                  if (window.klaro?.getManager?.()) {
+                    return window.klaro.getManager().getConsent(service);
+                  }
+                  return null;
+                }
+              };
+              
               window.addEventListener('load', () => {
                 if (window.klaro) {
-                  window.klaro.show(window.klaroConfig);
+                  // Only show the consent modal if consent hasn't been given yet
+                  const consentCookie = document.cookie.split('; ').find(row => row.startsWith('klaro='));
+                  if (!consentCookie) {
+                    window.klaro.show(window.klaroConfig);
+                  }
                 }
               });
             `}
