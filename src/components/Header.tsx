@@ -190,9 +190,7 @@ export function Header() {
                                   Features
                                 </MobileNavLink>
                                 <MobileNavLink
-                                  onClick={() =>
-                                    scrollToSection('get-pro-version')
-                                  }
+                                  onClick={() => scrollToSection('pricing')}
                                 >
                                   Pricing
                                 </MobileNavLink>
@@ -207,7 +205,7 @@ export function Header() {
                                 <MobileNavLink href="/#features">
                                   Features
                                 </MobileNavLink>
-                                <MobileNavLink href="/#get-pro-version">
+                                <MobileNavLink href="/#pricing">
                                   Pricing
                                 </MobileNavLink>
                                 <MobileNavLink href="/#faqs">

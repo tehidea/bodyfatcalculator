@@ -27,7 +27,7 @@ export function NavLinks() {
             Features
           </button>
           <button
-            onClick={() => scrollToSection('get-pro-version')}
+            onClick={() => scrollToSection('pricing')}
             className="text-base font-medium leading-7 tracking-tight text-white hover:text-[#FF0000]"
           >
             Pricing
@@ -48,7 +48,7 @@ export function NavLinks() {
             Features
           </Link>
           <Link
-            href="/#get-pro-version"
+            href="/#pricing"
             className="text-base font-medium leading-7 tracking-tight text-white hover:text-[#FF0000]"
           >
             Pricing

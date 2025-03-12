@@ -43,7 +43,7 @@ export function CallToAction() {
 
   return (
     <section
-      id="get-pro-version"
+      id="pricing"
       className="relative overflow-hidden bg-[#000000] py-20 sm:py-28"
     >
       {/* Animated background elements */}
