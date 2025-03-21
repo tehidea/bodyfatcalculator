@@ -1,12 +1,61 @@
 # CHANGELOG
 
-- 1.4.2 (10) - Measurement values are now kept when switching between formulas.
-- 1.4.1 (9) - Big bang! (Android)
-- 1.4.0 (8) - Added restore purchase feature.
-- 1.3.0 (7) - Added formula references.
-- 1.2.0 (6) - Added missing formulas, measurement tooltips, and completed another major code refactoring.
-- 1.1.0 (5) - Improved typography scaling, added animations, fixed conversion issues & tests, and completed major code refactoring.
-- 1.0.3 (4) - Fixed formula selector bug.
-- 1.0.2 (3) - Improved formula selector, tweaked upgrade modals.
-- 1.0.1 (2) - Fixed random bugs.
-- 1.0.0 (1) - Big bang! (iOS)
+## Version 1.4.3 (Build 11)
+
+- Enhanced layout optimization for larger displays
+- Improved user experience on tablets and foldable devices
+
+## Version 1.4.2 (Build 10)
+
+- Public Android release
+- Added measurement persistence between formula switches
+- Improved user workflow when comparing different methods
+
+## Version 1.4.1 (Build 9)
+
+- Internal Android release
+- Full feature parity with iOS version
+
+## Version 1.4.0 (Build 8)
+
+- Public iOS release
+- Added restore purchase functionality
+- Improved PRO features management
+
+## Version 1.3.0 (Build 7)
+
+- Added scientific formula references
+- Enhanced educational content
+
+## Version 1.2.0 (Build 6)
+
+- Added additional calculation formulas
+- Implemented measurement tooltips
+- Major code architecture improvements
+
+## Version 1.1.0 (Build 5)
+
+- Enhanced typography scaling for better readability
+- Added smooth transitions and animations
+- Fixed measurement conversion accuracy
+- Improved overall performance and stability
+
+## Version 1.0.3 (Build 4)
+
+- Fixed formula selection interface issues
+- Improved method switching reliability
+
+## Version 1.0.2 (Build 3)
+
+- Enhanced formula selector interface
+- Refined upgrade experience
+
+## Version 1.0.1 (Build 2)
+
+- Various bug fixes and stability improvements
+
+## Version 1.0.0 (Build 1)
+
+- Internal iOS release
+- Core calculation features
+- Basic and PRO measurement methods
