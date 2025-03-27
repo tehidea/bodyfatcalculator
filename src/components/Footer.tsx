@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePlausible } from 'next-plausible'
 
 import { Container } from '@/components/Container'
 import { Logo } from '@/components/Logo'
@@ -24,24 +23,10 @@ function QrCodeBorder(props: React.ComponentPropsWithoutRef<'svg'>) {
 }
 
 export function Footer() {
-  const plausible = usePlausible()
-
   const handleAppStoreClick = () => {
-    plausible('App Store Click', {
-      props: {
-        location: 'footer',
-        platform: 'ios',
-      },
-    })
   }
 
   const handleGooglePlayClick = () => {
-    plausible('Google Play Click', {
-      props: {
-        location: 'footer',
-        platform: 'android',
-      },
-    })
   }
 
   return (

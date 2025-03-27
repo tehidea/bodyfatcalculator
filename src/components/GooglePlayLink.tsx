@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import clsx from 'clsx'
-import { usePlausible } from 'next-plausible'
 
 export function GooglePlayLink({
   color = 'black',
@@ -13,15 +12,7 @@ export function GooglePlayLink({
   className?: string
   size?: 'default' | 'large' | 'massive'
 }) {
-  const plausible = usePlausible()
-
   const handleClick = () => {
-    plausible('Google Play Click', {
-      props: {
-        location: 'website',
-        platform: 'android',
-      },
-    })
   }
 
   return (

@@ -100,10 +100,6 @@ const sections = [
           </p>
           <ul className="mt-4 list-inside list-disc space-y-2 marker:text-[#FF0000]">
             <li>
-              Plausible Analytics - Privacy-focused analytics service that
-              collects anonymous usage data
-            </li>
-            <li>
               PostHog Analytics - Product analytics platform that helps us
               understand user behavior
             </li>

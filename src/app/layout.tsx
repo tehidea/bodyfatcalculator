@@ -1,6 +1,5 @@
 import { Montserrat } from 'next/font/google'
 import clsx from 'clsx'
-import PlausibleProvider from 'next-plausible'
 import Script from 'next/script'
 import { CSPostHogProvider } from './providers'
 import UmamiProvider from 'next-umami'
@@ -69,17 +68,6 @@ export default function RootLayout({
       )}
     >
       <head>
-        <PlausibleProvider
-          domain="bodyfatcalculator.pro"
-          customDomain="https://plausible.tehidea.net"
-          trackOutboundLinks={true}
-          trackFileDownloads={true}
-          taggedEvents={true}
-          trackLocalhost={true}
-          revenue={true}
-          hash={true}
-          selfHosted={true}
-        />
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2117029955778880"
@@ -148,7 +136,7 @@ export default function RootLayout({
                   privacyPolicyUrl: '/privacy-policy',
                   consentModal: {
                     title: 'Cookie Settings',
-                    description: 'We use cookies for advertising purposes. You can choose to accept or decline these cookies at any time. Our analytics tools (Umami, Plausible, and PostHog) are privacy-focused and do not set cookies or track personal data.',
+                    description: 'We use cookies for advertising purposes. You can choose to accept or decline these cookies at any time. Our analytics tools (Umami and PostHog) are privacy-focused and do not set cookies or track personal data.',
                   },
                   purposes: {
                     advertising: 'Advertising',

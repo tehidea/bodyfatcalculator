@@ -8,7 +8,6 @@ import {
   PopoverPanel,
 } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { usePlausible } from 'next-plausible'
 import { usePathname } from 'next/navigation'
 
 import { Button } from '@/components/Button'
@@ -79,26 +78,15 @@ function MobileNavLink({
 }
 
 export function Header() {
-  const plausible = usePlausible()
   const pathname = usePathname()
   const isHomePage = pathname === '/'
 
   const handleAppStoreClick = () => {
-    plausible('App Store Click', {
-      props: {
-        location: 'header',
-        platform: 'ios',
-      },
-    })
+    // Removed Plausible tracking
   }
 
   const handleGooglePlayClick = () => {
-    plausible('Google Play Click', {
-      props: {
-        location: 'header',
-        platform: 'android',
-      },
-    })
+    // Removed Plausible tracking
   }
 
   const scrollToSection = (id: string) => {

@@ -26,7 +26,6 @@
     "katex": "^0.16.19",
     "next": "^14.0.4",
     "next-mdx-remote": "^5.0.0",
-    "next-plausible": "^3.12.4",
     "next-umami": "^1.0.0",
     "posthog-js": "^1.207.8",
     "react": "^18.2.0",

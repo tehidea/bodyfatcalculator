@@ -53,9 +53,6 @@ importers:
       next-mdx-remote:
         specifier: ^5.0.0
         version: 5.0.0(@types/react@18.3.20)(acorn@8.14.1)(react@18.3.1)
-      next-plausible:
-        specifier: ^3.12.4
-        version: 3.12.4(next@14.2.26(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       next-umami:
         specifier: ^1.0.0
         version: 1.0.0(next@14.2.26(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1870,13 +1867,6 @@ packages:
     engines: {node: '>=14', npm: '>=7'}
     peerDependencies:
       react: '>=16'
-
-  next-plausible@3.12.4:
-    resolution: {integrity: sha512-cD3+ixJxf8yBYvsideTxqli3fvrB7R4BXcvsNJz8Sm2X1QN039WfiXjCyNWkub4h5++rRs6fHhchUMnOuJokcg==}
-    peerDependencies:
-      next: '^11.1.0 || ^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0 '
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   next-sitemap@4.2.3:
     resolution: {integrity: sha512-vjdCxeDuWDzldhCnyFCQipw5bfpl4HmZA7uoo3GAaYGjGgfL4Cxb1CiztPuWGmS+auYs7/8OekRS8C2cjdAsjQ==}
@@ -4893,12 +4883,6 @@ snapshots:
       - '@types/react'
       - acorn
       - supports-color
-
-  next-plausible@3.12.4(next@14.2.26(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
-    dependencies:
-      next: 14.2.26(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
 
   next-sitemap@4.2.3(next@14.2.26(react-dom@18.3.1(react@18.3.1))(react@18.3.1)):
     dependencies:

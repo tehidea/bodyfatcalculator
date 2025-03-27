@@ -8,7 +8,7 @@ A professional-grade body fat measurement web application with multiple scientif
 - Professional-grade accuracy based on peer-reviewed research
 - Modern, responsive UI built with Tailwind CSS
 - Privacy-focused with configurable consent management
-- Analytics integration with Plausible and PostHog
+- Analytics integration with Umami and PostHog
 - Google AdSense integration
 
 ## Getting started

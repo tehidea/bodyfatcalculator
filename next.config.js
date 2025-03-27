@@ -1,8 +1,4 @@
 /** @type {import('next').NextConfig} */
-const { withPlausibleProxy } = require('next-plausible')
-
 const nextConfig = {}
 
-module.exports = withPlausibleProxy({
-  customDomain: 'https://plausible.tehidea.net',
-})(nextConfig)
+module.exports = nextConfig
