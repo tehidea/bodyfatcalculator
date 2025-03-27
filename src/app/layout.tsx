@@ -180,6 +180,28 @@ export default function RootLayout({
                   ],
                 },
                 {
+                  name: 'umami',
+                  title: 'Umami Analytics',
+                  purposes: ['analytics'],
+                  required: false,
+                  default: true,
+                  cookies: [
+                    ['umami.*', '', 'session']
+                  ],
+                  onAccept: \`
+                    const umamiScript = document.querySelector('script[data-website-id="08d37384-c0c6-4d05-9ed7-aac2e0fcbba7"]');
+                    if (umamiScript) {
+                      umamiScript.setAttribute('data-do-not-track', 'false');
+                    }
+                  \`,
+                  onDecline: \`
+                    const umamiScript = document.querySelector('script[data-website-id="08d37384-c0c6-4d05-9ed7-aac2e0fcbba7"]');
+                    if (umamiScript) {
+                      umamiScript.setAttribute('data-do-not-track', 'true');
+                    }
+                  \`,
+                },
+                {
                   name: 'posthog',
                   title: 'PostHog Analytics',
                   purposes: ['analytics'],
@@ -268,6 +290,7 @@ export default function RootLayout({
           defer
           src="https://umami.tehidea.cloud/hello.js"
           data-website-id="08d37384-c0c6-4d05-9ed7-aac2e0fcbba7"
+          data-do-not-track="true"
           strategy="afterInteractive"
         />
 
