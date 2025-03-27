@@ -263,6 +263,14 @@ export default function RootLayout({
           `}
         </Script>
 
+        {/* Umami Analytics */}
+        <Script
+          defer
+          src="https://umami.tehidea.cloud/hello.js"
+          data-website-id="08d37384-c0c6-4d05-9ed7-aac2e0fcbba7"
+          strategy="afterInteractive"
+        />
+
         <style>
           {`
             /* Modal container */
