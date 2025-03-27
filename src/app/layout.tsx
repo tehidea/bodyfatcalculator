@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import PlausibleProvider from 'next-plausible'
 import Script from 'next/script'
 import { CSPostHogProvider } from './providers'
+import UmamiProvider from 'next-umami'
 
 import '@/styles/tailwind.css'
 import '@/styles/globals.css'
@@ -189,15 +190,21 @@ export default function RootLayout({
                     ['umami.*', '', 'session']
                   ],
                   onAccept: \`
-                    const umamiScript = document.querySelector('script[data-website-id="08d37384-c0c6-4d05-9ed7-aac2e0fcbba7"]');
-                    if (umamiScript) {
-                      umamiScript.setAttribute('data-do-not-track', 'false');
+                    if (typeof window !== 'undefined') {
+                      if (window.umami) {
+                        window.umami.track = true;
+                      }
+                      // Handle case when umami loads after consent is given
+                      window.umamiTrackingEnabled = true;
                     }
                   \`,
                   onDecline: \`
-                    const umamiScript = document.querySelector('script[data-website-id="08d37384-c0c6-4d05-9ed7-aac2e0fcbba7"]');
-                    if (umamiScript) {
-                      umamiScript.setAttribute('data-do-not-track', 'true');
+                    if (typeof window !== 'undefined') {
+                      if (window.umami) {
+                        window.umami.track = false;
+                      }
+                      // Handle case when umami loads after consent is given
+                      window.umamiTrackingEnabled = false;
                     }
                   \`,
                 },
@@ -286,12 +293,18 @@ export default function RootLayout({
         </Script>
 
         {/* Umami Analytics */}
-        <Script
-          defer
+        <UmamiProvider
+          websiteId="08d37384-c0c6-4d05-9ed7-aac2e0fcbba7"
           src="https://umami.tehidea.cloud/hello.js"
-          data-website-id="08d37384-c0c6-4d05-9ed7-aac2e0fcbba7"
-          data-do-not-track="true"
-          strategy="afterInteractive"
+          domains={['bodyfatcalculator.pro']}
+          autoTrack={false}
+          onReady={() => {
+            if (typeof window !== 'undefined' && window.umamiTrackingEnabled) {
+              if (window.umami) {
+                window.umami.track = true
+              }
+            }
+          }}
         />
 
         <style>
