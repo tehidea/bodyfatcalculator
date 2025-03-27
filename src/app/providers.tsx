@@ -3,22 +3,6 @@
 import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 
-declare global {
-  interface Window {
-    klaro?: {
-      getManager?: () => {
-        getConsent: (service: string) => boolean
-      }
-      show: (config: any) => void
-    }
-    manageConsent?: {
-      showModal: () => void
-      resetConsent: () => void
-      hasConsent: (service: string) => boolean | null
-    }
-  }
-}
-
 if (typeof window !== 'undefined') {
   posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
     api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,

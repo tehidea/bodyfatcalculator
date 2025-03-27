@@ -9,7 +9,12 @@ declare global {
       ) => void
       pageView: (options?: { url?: string }) => void
     }
-    klaro?: any
+    klaro?: {
+      getManager?: () => {
+        getConsent: (service: string) => boolean
+      }
+      show: (config: any) => void
+    }
     klaroConfig?: any
     dataLayer?: any[]
     gtag?: (...args: any[]) => void
