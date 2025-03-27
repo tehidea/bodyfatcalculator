@@ -147,12 +147,10 @@ export default function RootLayout({
                 en: {
                   privacyPolicyUrl: '/privacy-policy',
                   consentModal: {
-                    title: 'Privacy Settings',
-                    description: 'We use cookies and similar technologies to provide you with the best possible experience. Some are essential for the site to work, while others help us improve the site and your experience.',
+                    title: 'Cookie Settings',
+                    description: 'We use cookies for advertising purposes. You can choose to accept or decline these cookies at any time. Our analytics tools (Umami, Plausible, and PostHog) are privacy-focused and do not set cookies or track personal data.',
                   },
                   purposes: {
-                    essential: 'Essential',
-                    analytics: 'Analytics',
                     advertising: 'Advertising',
                   },
                   ok: "Accept Selected",
@@ -170,64 +168,6 @@ export default function RootLayout({
                 },
               },
               services: [
-                {
-                  name: 'plausible',
-                  title: 'Plausible Analytics',
-                  purposes: ['analytics'],
-                  required: false,
-                  default: true,
-                  cookies: [
-                    ['plausible_session', '', 'session']
-                  ],
-                },
-                {
-                  name: 'umami',
-                  title: 'Umami Analytics',
-                  purposes: ['analytics'],
-                  required: false,
-                  default: true,
-                  cookies: [
-                    ['umami.*', '', 'session']
-                  ],
-                  onAccept: \`
-                    if (typeof window !== 'undefined') {
-                      if (window.umami) {
-                        window.umami.track = true;
-                      }
-                      // Handle case when umami loads after consent is given
-                      window.umamiTrackingEnabled = true;
-                    }
-                  \`,
-                  onDecline: \`
-                    if (typeof window !== 'undefined') {
-                      if (window.umami) {
-                        window.umami.track = false;
-                      }
-                      // Handle case when umami loads after consent is given
-                      window.umamiTrackingEnabled = false;
-                    }
-                  \`,
-                },
-                {
-                  name: 'posthog',
-                  title: 'PostHog Analytics',
-                  purposes: ['analytics'],
-                  required: false,
-                  default: true,
-                  cookies: [
-                    ['ph_*', '', 'session']
-                  ],
-                  onAccept: \`
-                    if (typeof window !== 'undefined' && window.posthog) {
-                      window.posthog.opt_in_capturing();
-                    }
-                  \`,
-                  onDecline: \`
-                    if (typeof window !== 'undefined' && window.posthog) {
-                      window.posthog.opt_out_capturing();
-                    }
-                  \`,
-                },
                 {
                   name: 'google-adsense',
                   title: 'Google AdSense',
@@ -297,14 +237,6 @@ export default function RootLayout({
           websiteId="08d37384-c0c6-4d05-9ed7-aac2e0fcbba7"
           src="https://umami.tehidea.cloud/hello.js"
           domains={['bodyfatcalculator.pro']}
-          autoTrack={false}
-          onReady={() => {
-            if (typeof window !== 'undefined' && window.umamiTrackingEnabled) {
-              if (window.umami) {
-                window.umami.track = true
-              }
-            }
-          }}
         />
 
         <style>

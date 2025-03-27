@@ -1,14 +1,5 @@
 declare global {
   interface Window {
-    umamiTrackingEnabled?: boolean
-    umami?: {
-      track: boolean
-      event: (
-        eventName: string,
-        eventData?: Record<string, string | number>,
-      ) => void
-      pageView: (options?: { url?: string }) => void
-    }
     klaro?: {
       getManager?: () => {
         getConsent: (service: string) => boolean
@@ -19,7 +10,6 @@ declare global {
     dataLayer?: any[]
     gtag?: (...args: any[]) => void
     adsbygoogle?: any[]
-    posthog?: any
     manageConsent?: {
       showModal: () => void
       resetConsent: () => void
