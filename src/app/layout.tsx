@@ -224,7 +224,6 @@ export default function RootLayout({
         <UmamiProvider
           websiteId="08d37384-c0c6-4d05-9ed7-aac2e0fcbba7"
           src="https://umami.tehidea.cloud/hello.js"
-          domains={['bodyfatcalculator.pro']}
         />
 
         <style>
