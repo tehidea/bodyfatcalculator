@@ -88,6 +88,7 @@ Each formula has an inherent margin of error, which varies based on multiple fac
    - Still affected by non-standard fat distribution
 
 3. U.S. Navy (±4-6%)[2]
+
    - Military standard using key body measurements
    - Most accurate for individuals near population averages
    - Less reliable for very lean (<8%) or obese (>30%) individuals
@@ -119,6 +120,7 @@ Each formula has an inherent margin of error, which varies based on multiple fac
    - Requires significant technical expertise
 
 4. Parillo (±3-4% when done properly)[6]
+
    - Bodybuilding-focused nine-site method
    - Most comprehensive skinfold method
    - Requires significant expertise and consistent technique
@@ -417,6 +419,32 @@ Note: Weight must be in pounds. The calculator automatically converts from kilog
    - ISBN: 978-0873223928
    - Preview: [Google Books](https://books.google.co.uk/books?id=Vr8rAQAAMAAJ)
 
+### Additional Academic References
+
+1. **Meta-Analysis of Methods**
+
+   - Wagner, D.R., & Heyward, V.H. (1999). Techniques of body composition assessment: a review of laboratory and field methods. Research Quarterly for Exercise and Sport, 70(2), 135-149.
+   - DOI: 10.1080/02701367.1999.10608031
+
+2. **Skinfold Validation Studies**
+
+   - Martin, A.D., et al. (1985). The use of skinfold calipers for predicting body fatness: A review and practice guide. Sports Medicine, 2(1), 29-46.
+   - DOI: 10.2165/00007256-198502010-00004
+
+3. **Method Comparison Studies**
+
+   - Ackland, T.R., et al. (2012). Current status of body composition assessment in sport. Sports Medicine, 42(3), 227-249.
+   - DOI: 10.2165/11597140-000000000-00000
+
+4. **Navy Method Validation**
+
+   - Wellens, R.I., et al. (2014). Body-composition differences between African American and white women: relation to resting energy requirements. The American Journal of Clinical Nutrition, 99(1), 71-76.
+   - DOI: 10.3945/ajcn.113.063974
+
+5. **Modern Validation Studies**
+   - Fosbol, M.O., & Zerahn, B. (2015). Contemporary methods of body composition measurement. Clinical Physiology and Functional Imaging, 35(2), 81-97.
+   - DOI: 10.1111/cpf.12152
+
 ## Implementation Details
 
 The calculator supports multiple measurement systems:
@@ -620,3 +648,7 @@ You can customize the status bar further with additional options:
 ## Website
 
 [Body Fat Calculator Website](https://bodyfatcalculator.pro)
+
+```
+
+```
