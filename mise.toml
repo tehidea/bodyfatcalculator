@@ -1,0 +1,4 @@
+[tools]
+java = "zulu-21"
+node = "22"
+ruby = "3"
