@@ -1,6 +1,7 @@
 import { Montserrat } from 'next/font/google'
 import clsx from 'clsx'
 import Script from 'next/script'
+import { GoogleTagManager } from '@next/third-parties/google'
 import { CSPostHogProvider } from './providers'
 import UmamiProvider from 'next-umami'
 
@@ -136,10 +137,11 @@ export default function RootLayout({
                   privacyPolicyUrl: '/privacy-policy',
                   consentModal: {
                     title: 'Cookie Settings',
-                    description: 'We use cookies for advertising purposes. You can choose to accept or decline these cookies at any time. Our analytics tools (Umami and PostHog) are privacy-focused and do not set cookies or track personal data.',
+                    description: 'We use cookies for advertising purposes and cross-platform analytics. You can choose to accept or decline these cookies at any time. Our analytics tools (Umami and PostHog) are privacy-focused and do not set cookies or track personal data.',
                   },
                   purposes: {
                     advertising: 'Advertising',
+                    analytics: 'Analytics',
                   },
                   ok: "Accept Selected",
                   acceptAll: "Accept All",
@@ -195,6 +197,47 @@ export default function RootLayout({
                     // Request non-personalized ads
                     (adsbygoogle = window.adsbygoogle || []).requestNonPersonalizedAds = 1;
                     (adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 0;
+                  \`,
+                },
+                {
+                  name: 'google-tag-manager',
+                  title: 'Google Tag Manager',
+                  purposes: ['analytics', 'advertising'],
+                  cookies: [
+                    /^_ga/,
+                    /^_gid/,
+                    /^_gat/,
+                    /^_gcl_/,
+                    /^_gac_/,
+                    /^_gtm/
+                  ],
+                  required: false,
+                  default: true,
+                  onInit: \`
+                    // GTM consent will be handled by the GTM component itself
+                    // This ensures proper initialization with consent framework
+                  \`,
+                  onAccept: \`
+                    // Update consent for GTM
+                    if (window.gtag) {
+                      gtag('consent', 'update', {
+                        'analytics_storage': 'granted',
+                        'ad_storage': 'granted',
+                        'ad_user_data': 'granted',
+                        'ad_personalization': 'granted'
+                      });
+                    }
+                  \`,
+                  onDecline: \`
+                    // Deny consent for GTM
+                    if (window.gtag) {
+                      gtag('consent', 'update', {
+                        'analytics_storage': 'denied',
+                        'ad_storage': 'denied',
+                        'ad_user_data': 'denied',
+                        'ad_personalization': 'denied'
+                      });
+                    }
                   \`,
                 }
               ],
@@ -470,15 +513,25 @@ export default function RootLayout({
           href="https://cdn.kiprotect.com"
           crossOrigin="anonymous"
         />
+        <link
+          rel="preconnect"
+          href="https://www.googletagmanager.com"
+          crossOrigin="anonymous"
+        />
 
         {/* DNS prefetch for performance */}
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
         <link rel="dns-prefetch" href="https://cdn.kiprotect.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
       </head>
       <CSPostHogProvider>
         <body>
+          {/* Google Tag Manager */}
+          {process.env.NEXT_PUBLIC_GTM_ID && (
+            <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
+          )}
           {children}
           <Script id="klaro-init" strategy="afterInteractive">
             {`
