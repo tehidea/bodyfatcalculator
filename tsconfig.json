@@ -1,6 +1,6 @@
 {
   "extends": "expo/tsconfig.base",
-  "include": [".expo/types/**/*.ts"],
+  "include": [],
   "compilerOptions": {
     "strict": true,
     "noUncheckedIndexedAccess": true,

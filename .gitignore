@@ -46,11 +46,13 @@ yarn-error.*
 ios/*
 android/*
 
-# Keep these files for Fastlane
+# Keep these files for Fastlane and dependency management
 
 !ios/fastlane/
 !ios/Gemfile
 !ios/Gemfile.lock
+!ios/Podfile
+!ios/Podfile.lock
 
 # Coverage
 coverage/
