@@ -1,5 +1,7 @@
 import React, { useState, useMemo, useCallback, useRef } from "react";
 import { View, Platform, Keyboard, TextInput, TouchableOpacity, Linking } from "react-native";
+
+import { useResponsive } from "../utils/responsiveContext";
 import { Text, Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView, KeyboardToolbar } from "react-native-keyboard-controller";
@@ -18,33 +20,52 @@ import {
 import Logo from "../images/logo";
 import { memo } from "react";
 import { calculateResults } from "../formulas";
-import { styles } from "./CalculatorScreen.styles";
+import { createStyles } from "./CalculatorScreen.styles";
 import { usePremiumStore } from "../store/premiumStore";
 import { COLORS } from "../constants/theme";
 
 // Extract Header into a separate component
-const Header = memo(() => (
-  <View style={styles.header}>
-    <Logo style={styles.logo} width={62} accessibilityLabel="Calculator logo" />
-    <View style={styles.headerTextContainer}>
-      <View style={styles.titleContainer}>
-        <Text
-          style={[styles.headerTitle, { fontFamily: "Montserrat-ExtraLight", fontWeight: 200 }]}
-        >
-          Body
-        </Text>
-        <Text style={[styles.headerTitle, { fontFamily: "Montserrat-Light", fontWeight: 300 }]}>
-          Fat
-        </Text>
+const Header = memo(() => {
+  const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, deviceType } =
+    useResponsive();
+  const styles = createStyles(
+    getResponsiveSpacing,
+    getResponsiveTypography,
+    getLineHeight,
+    deviceType
+  );
+
+  return (
+    <View style={styles.header}>
+      <Logo style={styles.logo} width={62} accessibilityLabel="Calculator logo" />
+      <View style={styles.headerTextContainer}>
+        <View style={styles.titleContainer}>
+          <Text
+            style={[styles.headerTitle, { fontFamily: "Montserrat-ExtraLight", fontWeight: 200 }]}
+          >
+            Body
+          </Text>
+          <Text style={[styles.headerTitle, { fontFamily: "Montserrat-Light", fontWeight: 300 }]}>
+            Fat
+          </Text>
+        </View>
+        <Text style={styles.strapline}>Body Fat Calculator for skinfold calipers</Text>
       </View>
-      <Text style={styles.strapline}>Body Fat Calculator for skinfold calipers</Text>
     </View>
-  </View>
-));
+  );
+});
 
 // Add References Display component
 const ReferencesDisplay = memo(() => {
   const { formula, gender, measurementSystem } = useCalculatorStore();
+  const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, deviceType } =
+    useResponsive();
+  const styles = createStyles(
+    getResponsiveSpacing,
+    getResponsiveTypography,
+    getLineHeight,
+    deviceType
+  );
 
   if (!isValidFormula(formula)) return null;
 
@@ -72,6 +93,15 @@ const ReferencesDisplay = memo(() => {
 // Add Version Display component
 const VersionDisplay = memo(() => {
   const { pro } = usePremiumStore();
+  const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, deviceType } =
+    useResponsive();
+  const styles = createStyles(
+    getResponsiveSpacing,
+    getResponsiveTypography,
+    getLineHeight,
+    deviceType
+  );
+
   const version = Constants.expoConfig?.version || "?.?.?";
   const buildNumber =
     Platform.select({
@@ -101,6 +131,16 @@ export const CalculatorScreen = () => {
     measurementSystem,
     fieldErrors,
   } = useCalculatorStore();
+
+  // Get responsive values for styles
+  const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, deviceType } =
+    useResponsive();
+  const styles = createStyles(
+    getResponsiveSpacing,
+    getResponsiveTypography,
+    getLineHeight,
+    deviceType
+  );
 
   const scrollViewRef = useRef<any>(null);
   const [isFocused, setIsFocused] = useState(false);
@@ -168,6 +208,7 @@ export const CalculatorScreen = () => {
     <SafeAreaView style={styles.container} edges={["top"]}>
       <View style={styles.innerContainer}>
         <Header />
+
         <View style={styles.content}>
           <KeyboardAwareScrollView
             ref={scrollViewRef}

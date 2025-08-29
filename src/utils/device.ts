@@ -1,16 +1,12 @@
-import { Platform, Dimensions } from "react-native";
+import { Platform, Dimensions, useWindowDimensions } from "react-native";
 
+// Static platform detection
 export const isIPad = Platform.OS === "ios" && Platform.isPad;
 export const isIOS = Platform.OS === "ios";
 export const isAndroid = Platform.OS === "android";
 
-const { width: WINDOW_WIDTH, height: WINDOW_HEIGHT } = Dimensions.get("window");
+// Static screen dimensions (for reference)
 export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("screen");
-
-export const WINDOW_DIMENSIONS = {
-  width: WINDOW_WIDTH,
-  height: WINDOW_HEIGHT,
-};
 
 export const SCREEN_DIMENSIONS = {
   width: SCREEN_WIDTH,
@@ -24,22 +20,57 @@ export const BREAKPOINTS = {
   desktop: 1024,
 };
 
-// Helper function to determine if the device is in landscape mode
+// Hook for dynamic window dimensions (iPadOS 26 windowing support)
+export function useResponsiveDimensions() {
+  const { width: windowWidth, height: windowHeight, fontScale, scale } = useWindowDimensions();
+
+  // Debug logging for iPadOS testing
+  console.log("🔍 useResponsiveDimensions called:", {
+    windowWidth,
+    windowHeight,
+    fontScale,
+    scale,
+    timestamp: new Date().toISOString(),
+  });
+
+  return {
+    width: windowWidth,
+    height: windowHeight,
+    fontScale,
+    scale,
+    isLandscape: windowWidth > windowHeight,
+    deviceType: getDeviceTypeFromWidth(windowWidth),
+    // Legacy compatibility
+    WINDOW_DIMENSIONS: {
+      width: windowWidth,
+      height: windowHeight,
+    },
+  };
+}
+
+// Helper function to get device type from width
+export function getDeviceTypeFromWidth(width: number): "phone" | "tablet" | "desktop" {
+  if (width >= BREAKPOINTS.desktop) return "desktop";
+  if (width >= BREAKPOINTS.tablet) return "tablet";
+  return "phone";
+}
+
+// Legacy static functions (deprecated - use hooks instead)
+const legacyDimensions = Dimensions.get("window");
+export const WINDOW_WIDTH = legacyDimensions.width;
+export const WINDOW_HEIGHT = legacyDimensions.height;
+export const WINDOW_DIMENSIONS = {
+  width: WINDOW_WIDTH,
+  height: WINDOW_HEIGHT,
+};
+
+// Legacy helper functions (use hooks for dynamic behavior)
 export function isLandscape(): boolean {
   return WINDOW_WIDTH > WINDOW_HEIGHT;
 }
 
-// Helper function to get the current device type based on screen width
 export function getDeviceType(): "phone" | "tablet" | "desktop" {
-  if (WINDOW_WIDTH >= BREAKPOINTS.desktop) return "desktop";
-  if (WINDOW_WIDTH >= BREAKPOINTS.tablet) return "tablet";
-  return "phone";
-}
-
-// Helper function to get dynamic spacing based on device type
-export function getResponsiveSpacing(base: number): number {
-  if (isIPad) return base * 1.5;
-  return base;
+  return getDeviceTypeFromWidth(WINDOW_WIDTH);
 }
 
 // Typography scale factors based on device type
@@ -65,16 +96,6 @@ export const BASE_TYPOGRAPHY = {
   "6xl": 48,
 } as const;
 
-// Helper function to get responsive typography size
-export function getResponsiveTypography(size: keyof typeof BASE_TYPOGRAPHY): number {
-  const baseSize = BASE_TYPOGRAPHY[size];
-  const deviceType = getDeviceType();
-  const scaleFactor = TYPOGRAPHY_SCALE[deviceType];
-
-  // Scale based on device type and apply minimum size protection
-  return Math.max(baseSize * scaleFactor, BASE_TYPOGRAPHY.xxxs);
-}
-
 // Line heights for each typography size
 const LINE_HEIGHTS = {
   xxxs: 12,
@@ -91,23 +112,86 @@ const LINE_HEIGHTS = {
   "6xl": 58,
 } as const;
 
-// Helper function to get dynamic line height based on font size
+// Hook for responsive spacing and typography with proper fontScale support
+export function useResponsiveDesign() {
+  const { width, deviceType, fontScale } = useResponsiveDimensions();
+
+  return {
+    // Responsive spacing
+    getResponsiveSpacing: (base: number) => {
+      // For iPad, add extra scaling if window is large enough
+      if (isIPad && width >= BREAKPOINTS.tablet) {
+        return base * 1.5;
+      }
+      return base;
+    },
+
+    // Responsive typography with accessibility font scaling
+    getResponsiveTypography: (size: keyof typeof BASE_TYPOGRAPHY) => {
+      const baseSize = BASE_TYPOGRAPHY[size];
+      const scaleFactor = TYPOGRAPHY_SCALE[deviceType];
+
+      // Apply device scaling, then respect user's accessibility font scale
+      const scaledSize = baseSize * scaleFactor;
+
+      // Apply fontScale but limit extreme scaling to prevent UI breakage
+      const fontScaleAdjusted = scaledSize * Math.min(fontScale, 1.3);
+
+      return Math.max(fontScaleAdjusted, BASE_TYPOGRAPHY.xxxs);
+    },
+
+    // Responsive line height with font scale consideration
+    getLineHeight: (size: number | keyof typeof BASE_TYPOGRAPHY) => {
+      if (typeof size === "number") {
+        const scaleFactor = TYPOGRAPHY_SCALE[deviceType];
+        const scaledSize = size * scaleFactor;
+        const fontScaleAdjusted = scaledSize * Math.min(fontScale, 1.3);
+        return Math.max(fontScaleAdjusted * 1.2, LINE_HEIGHTS.xxxs); // 1.2 is standard line-height ratio
+      }
+
+      const baseLineHeight = LINE_HEIGHTS[size];
+      const scaleFactor = TYPOGRAPHY_SCALE[deviceType];
+      const scaledHeight = baseLineHeight * scaleFactor;
+      const fontScaleAdjusted = scaledHeight * Math.min(fontScale, 1.3);
+      return Math.max(fontScaleAdjusted, LINE_HEIGHTS.xxxs);
+    },
+
+    // Letter spacing (scales with font size)
+    getLetterSpacing: (fontSize: number) => fontSize * 0.02,
+
+    // Direct access to responsive values
+    deviceType,
+    width,
+    fontScale,
+  };
+}
+
+// Legacy functions (deprecated - use hooks instead)
+export function getResponsiveSpacing(base: number): number {
+  if (isIPad) return base * 1.5;
+  return base;
+}
+
+export function getResponsiveTypography(size: keyof typeof BASE_TYPOGRAPHY): number {
+  const baseSize = BASE_TYPOGRAPHY[size];
+  const deviceType = getDeviceType();
+  const scaleFactor = TYPOGRAPHY_SCALE[deviceType];
+  return Math.max(baseSize * scaleFactor, BASE_TYPOGRAPHY.xxxs);
+}
+
 export function getLineHeight(size: number | keyof typeof BASE_TYPOGRAPHY): number {
-  // If a number is passed, use it directly with device scaling
   if (typeof size === "number") {
     const deviceType = getDeviceType();
     const scaleFactor = TYPOGRAPHY_SCALE[deviceType];
     return Math.max(size * scaleFactor, LINE_HEIGHTS.xxxs);
   }
 
-  // Get the line height for the typography key and apply device scaling
   const baseLineHeight = LINE_HEIGHTS[size];
   const deviceType = getDeviceType();
   const scaleFactor = TYPOGRAPHY_SCALE[deviceType];
   return Math.max(baseLineHeight * scaleFactor, LINE_HEIGHTS.xxxs);
 }
 
-// Helper function to get letter spacing based on font size
 export function getLetterSpacing(fontSize: number): number {
   return fontSize * 0.02;
 }

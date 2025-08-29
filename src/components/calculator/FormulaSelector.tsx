@@ -12,12 +12,7 @@ import { MeasurementVerticalIcon } from "../icons/MeasurementVerticalIcon";
 import { MeasuringTapeIcon } from "../icons/MeasuringTapeIcon";
 import { usePurchase } from "../../hooks/usePurchase";
 import { UpgradeModal } from "./UpgradeModal";
-import {
-  isIPad,
-  getResponsiveSpacing,
-  getResponsiveTypography,
-  getLineHeight,
-} from "../../utils/device";
+import { useResponsive } from "../../utils/responsiveContext";
 
 export const MeasurementIcon = ({
   type,
@@ -55,12 +50,22 @@ function getUniqueMeasurementTypes(fields: Array<{ type: string }>) {
 }
 
 export const FormulaSelector = () => {
-  const { formula, setFormula, gender, system } = useCalculatorStore();
+  const { formula, setFormula, gender, measurementSystem } = useCalculatorStore();
   const { pro, isLoading, checkEntitlements } = usePremiumStore();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isProModalVisible, setIsProModalVisible] = useState(false);
   const [pendingFormula, setPendingFormula] = useState<Formula | null>(null);
   const [checkError, setCheckError] = useState<string | null>(null);
+  const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, deviceType } =
+    useResponsive();
+
+  // Create styles with responsive values
+  const styles = createStyles(
+    getResponsiveSpacing,
+    getResponsiveTypography,
+    getLineHeight,
+    deviceType
+  );
 
   const { handlePurchase, isProcessing } = usePurchase({
     onSuccess: () => {
@@ -93,11 +98,14 @@ export const FormulaSelector = () => {
   });
 
   // Get formulas with metadata from Zod
-  const formulas = useMemo(() => getAllFormulasMetadata(system, gender), [system, gender]);
+  const formulas = useMemo(
+    () => getAllFormulasMetadata(measurementSystem, gender),
+    [measurementSystem, gender]
+  );
 
   const selectedFormula = useMemo(
-    () => getFormulaMetadata(formula, system, gender),
-    [formula, system, gender]
+    () => getFormulaMetadata(formula, measurementSystem, gender),
+    [formula, measurementSystem, gender]
   );
 
   // Initial and periodic entitlement check
@@ -148,7 +156,7 @@ export const FormulaSelector = () => {
 
   // Update accuracy color logic to use metadata
   const getAccuracyColor = (formula: Formula) => {
-    const metadata = getFormulaMetadata(formula, system, gender);
+    const metadata = getFormulaMetadata(formula, measurementSystem, gender);
     const { min } = metadata.accuracy;
 
     if (min >= 5) return COLORS.error; // ±5-7%
@@ -157,7 +165,7 @@ export const FormulaSelector = () => {
   };
 
   const renderAccuracyText = (formula: Formula) => {
-    const metadata = getFormulaMetadata(formula, system, gender);
+    const metadata = getFormulaMetadata(formula, measurementSystem, gender);
     const { min, max } = metadata.accuracy;
     return `±${min}-${max}%`;
   };
@@ -376,230 +384,237 @@ export const FormulaSelector = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: getResponsiveSpacing(16),
-  },
-  selector: {
-    backgroundColor: "#444",
-    borderRadius: 12,
-    padding: getResponsiveSpacing(12),
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.1)",
-  },
-  selectedFormula: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: getResponsiveSpacing(4),
-  },
-  formulaName: {
-    color: COLORS.text,
-    fontSize: getResponsiveTypography("lg"),
-    lineHeight: getLineHeight("lg"),
-    fontWeight: "bold",
-    flex: 1,
-  },
-  descriptionContainer: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-  },
-  description: {
-    color: COLORS.text,
-    fontSize: getResponsiveTypography("xs"),
-    lineHeight: getLineHeight("xs"),
-    opacity: 0.8,
-    flex: 1,
-    marginRight: getResponsiveSpacing(8),
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "flex-end",
-    backgroundColor: "transparent",
-  },
-  modalContent: {
-    backgroundColor: COLORS.white,
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-    height: isIPad ? "75%" : "85%",
-    maxWidth: isIPad ? 800 : undefined,
-    alignSelf: "center",
-    width: "100%",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -12 },
-    shadowOpacity: 0.75,
-    shadowRadius: 300,
-    elevation: 50,
-  },
-  modalHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: getResponsiveSpacing(14),
-    paddingHorizontal: getResponsiveSpacing(16),
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-    backgroundColor: COLORS.white,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-  },
-  closeButton: {
-    padding: getResponsiveSpacing(8),
-  },
-  formulaItem: {
-    paddingVertical: getResponsiveSpacing(14),
-    paddingHorizontal: getResponsiveSpacing(16),
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-  },
-  formulaItemHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 4,
-  },
-  activeFormula: {
-    backgroundColor: COLORS.primary + "10",
-  },
-  premiumFormula: {
-    backgroundColor: "#f8f8f8",
-  },
-  formulaItemNameContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  activeFormulaText: {
-    color: COLORS.primary,
-    fontWeight: "bold",
-  },
-  premiumFormulaText: {
-    color: "#666",
-  },
-  formulaItemDescription: {
-    flex: 1,
-    fontSize: getResponsiveTypography("xs"),
-    lineHeight: getLineHeight("xs"),
-    color: "#666",
-  },
-  premiumBadge: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#f0f0f0",
-    paddingHorizontal: getResponsiveSpacing(8),
-    paddingVertical: getResponsiveSpacing(4),
-    borderRadius: 12,
-    marginLeft: getResponsiveSpacing(8),
-  },
-  premiumBadgeText: {
-    fontSize: getResponsiveTypography("xxxs"),
-    lineHeight: getLineHeight("xxxs"),
-    fontWeight: "bold",
-    color: "#666",
-    marginLeft: getResponsiveSpacing(4),
-  },
-  measurementIcons: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: getResponsiveSpacing(8),
-    marginTop: getResponsiveSpacing(8),
-    opacity: 0.6,
-  },
-  formulaItemName: {
-    fontSize: getResponsiveTypography("md"),
-    lineHeight: getLineHeight("md"),
-    color: COLORS.textDark,
-    flex: 1,
-  },
-  accuracyInfoWrapper: {
-    backgroundColor: COLORS.white,
-    marginBottom: getResponsiveSpacing(16),
-  },
-  accuracyInfo: {
-    padding: getResponsiveSpacing(16),
-    paddingTop: getResponsiveSpacing(20),
-    backgroundColor: COLORS.white,
-  },
-  accuracyInfoTitle: {
-    fontSize: getResponsiveTypography("sm"),
-    lineHeight: getLineHeight("sm"),
-    fontWeight: "bold",
-    color: COLORS.textDark,
-    marginBottom: getResponsiveSpacing(12),
-    textAlign: "center",
-  },
-  accuracyLevels: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: getResponsiveSpacing(8),
-    marginBottom: getResponsiveSpacing(12),
-  },
-  accuracyLevel: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: getResponsiveSpacing(4),
-  },
-  accuracyDot: {
-    width: getResponsiveSpacing(8),
-    height: getResponsiveSpacing(8),
-    borderRadius: getResponsiveSpacing(4),
-  },
-  accuracyText: {
-    fontSize: getResponsiveTypography("xs"),
-    lineHeight: getLineHeight("xs"),
-    color: "#666",
-    marginLeft: getResponsiveSpacing(2),
-  },
-  accuracyNote: {
-    fontSize: getResponsiveTypography("xs"),
-    lineHeight: getLineHeight("xs"),
-    color: "#666",
-    textAlign: "center",
-    fontStyle: "italic",
-  },
-  formulaMetadata: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  accuracyIndicator: {
-    width: getResponsiveSpacing(8),
-    height: getResponsiveSpacing(8),
-    borderRadius: getResponsiveSpacing(4),
-    marginRight: getResponsiveSpacing(4),
-  },
-  formulaList: {
-    flex: 1,
-  },
-  selectorHint: {
-    color: COLORS.text,
-    fontSize: getResponsiveTypography("xs"),
-    lineHeight: getLineHeight("xs"),
-    opacity: 0.6,
-    textAlign: "left",
-    textTransform: "uppercase",
-    letterSpacing: 1,
-    fontWeight: "bold",
-  },
-  chevronContainer: {
-    backgroundColor: "rgba(255,255,255,0.1)",
-    borderRadius: getResponsiveSpacing(8),
-    paddingHorizontal: getResponsiveSpacing(4),
-    paddingTop: getResponsiveSpacing(4),
-    paddingBottom: getResponsiveSpacing(2),
-  },
-  labelRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  modalTitle: {
-    fontSize: getResponsiveTypography("sm"),
-    lineHeight: getLineHeight("sm"),
-    color: COLORS.textDark,
-    textTransform: "uppercase",
-    letterSpacing: 1,
-  },
-});
+// Move styles inside component to use responsive hooks
+const createStyles = (
+  getResponsiveSpacing: (base: number) => number,
+  getResponsiveTypography: (size: any) => number,
+  getLineHeight: (size: any) => number,
+  deviceType: string
+) =>
+  StyleSheet.create({
+    container: {
+      marginBottom: getResponsiveSpacing(16),
+    },
+    selector: {
+      backgroundColor: "#444",
+      borderRadius: 12,
+      padding: getResponsiveSpacing(12),
+      borderWidth: 1,
+      borderColor: "rgba(255,255,255,0.1)",
+    },
+    selectedFormula: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingVertical: getResponsiveSpacing(4),
+    },
+    formulaName: {
+      color: COLORS.text,
+      fontSize: getResponsiveTypography("lg"),
+      lineHeight: getLineHeight("lg"),
+      fontWeight: "bold",
+      flex: 1,
+    },
+    descriptionContainer: {
+      flexDirection: "row",
+      alignItems: "flex-start",
+      justifyContent: "space-between",
+    },
+    description: {
+      color: COLORS.text,
+      fontSize: getResponsiveTypography("xs"),
+      lineHeight: getLineHeight("xs"),
+      opacity: 0.8,
+      flex: 1,
+      marginRight: getResponsiveSpacing(8),
+    },
+    modalContainer: {
+      flex: 1,
+      justifyContent: "flex-end",
+      backgroundColor: "transparent",
+    },
+    modalContent: {
+      backgroundColor: COLORS.white,
+      borderTopLeftRadius: 12,
+      borderTopRightRadius: 12,
+      height: deviceType === "tablet" ? "75%" : "85%",
+      maxWidth: deviceType === "tablet" ? 800 : undefined,
+      alignSelf: "center",
+      width: "100%",
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: -12 },
+      shadowOpacity: 0.75,
+      shadowRadius: 300,
+      elevation: 50,
+    },
+    modalHeader: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingVertical: getResponsiveSpacing(14),
+      paddingHorizontal: getResponsiveSpacing(16),
+      borderBottomWidth: 1,
+      borderBottomColor: "#eee",
+      backgroundColor: COLORS.white,
+      borderTopLeftRadius: 24,
+      borderTopRightRadius: 24,
+    },
+    closeButton: {
+      padding: getResponsiveSpacing(8),
+    },
+    formulaItem: {
+      paddingVertical: getResponsiveSpacing(14),
+      paddingHorizontal: getResponsiveSpacing(16),
+      borderBottomWidth: 1,
+      borderBottomColor: "#eee",
+    },
+    formulaItemHeader: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 4,
+    },
+    activeFormula: {
+      backgroundColor: COLORS.primary + "10",
+    },
+    premiumFormula: {
+      backgroundColor: "#f8f8f8",
+    },
+    formulaItemNameContainer: {
+      flex: 1,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+    activeFormulaText: {
+      color: COLORS.primary,
+      fontWeight: "bold",
+    },
+    premiumFormulaText: {
+      color: "#666",
+    },
+    formulaItemDescription: {
+      flex: 1,
+      fontSize: getResponsiveTypography("xs"),
+      lineHeight: getLineHeight("xs"),
+      color: "#666",
+    },
+    premiumBadge: {
+      flexDirection: "row",
+      alignItems: "center",
+      backgroundColor: "#f0f0f0",
+      paddingHorizontal: getResponsiveSpacing(8),
+      paddingVertical: getResponsiveSpacing(4),
+      borderRadius: 12,
+      marginLeft: getResponsiveSpacing(8),
+    },
+    premiumBadgeText: {
+      fontSize: getResponsiveTypography("xxxs"),
+      lineHeight: getLineHeight("xxxs"),
+      fontWeight: "bold",
+      color: "#666",
+      marginLeft: getResponsiveSpacing(4),
+    },
+    measurementIcons: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: getResponsiveSpacing(8),
+      marginTop: getResponsiveSpacing(8),
+      opacity: 0.6,
+    },
+    formulaItemName: {
+      fontSize: getResponsiveTypography("md"),
+      lineHeight: getLineHeight("md"),
+      color: COLORS.textDark,
+      flex: 1,
+    },
+    accuracyInfoWrapper: {
+      backgroundColor: COLORS.white,
+      marginBottom: getResponsiveSpacing(16),
+    },
+    accuracyInfo: {
+      padding: getResponsiveSpacing(16),
+      paddingTop: getResponsiveSpacing(20),
+      backgroundColor: COLORS.white,
+    },
+    accuracyInfoTitle: {
+      fontSize: getResponsiveTypography("sm"),
+      lineHeight: getLineHeight("sm"),
+      fontWeight: "bold",
+      color: COLORS.textDark,
+      marginBottom: getResponsiveSpacing(12),
+      textAlign: "center",
+    },
+    accuracyLevels: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: getResponsiveSpacing(8),
+      marginBottom: getResponsiveSpacing(12),
+    },
+    accuracyLevel: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: getResponsiveSpacing(4),
+    },
+    accuracyDot: {
+      width: getResponsiveSpacing(8),
+      height: getResponsiveSpacing(8),
+      borderRadius: getResponsiveSpacing(4),
+    },
+    accuracyText: {
+      fontSize: getResponsiveTypography("xs"),
+      lineHeight: getLineHeight("xs"),
+      color: "#666",
+      marginLeft: getResponsiveSpacing(2),
+    },
+    accuracyNote: {
+      fontSize: getResponsiveTypography("xs"),
+      lineHeight: getLineHeight("xs"),
+      color: "#666",
+      textAlign: "center",
+      fontStyle: "italic",
+    },
+    formulaMetadata: {
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    accuracyIndicator: {
+      width: getResponsiveSpacing(8),
+      height: getResponsiveSpacing(8),
+      borderRadius: getResponsiveSpacing(4),
+      marginRight: getResponsiveSpacing(4),
+    },
+    formulaList: {
+      flex: 1,
+    },
+    selectorHint: {
+      color: COLORS.text,
+      fontSize: getResponsiveTypography("xs"),
+      lineHeight: getLineHeight("xs"),
+      opacity: 0.6,
+      textAlign: "left",
+      textTransform: "uppercase",
+      letterSpacing: 1,
+      fontWeight: "bold",
+    },
+    chevronContainer: {
+      backgroundColor: "rgba(255,255,255,0.1)",
+      borderRadius: getResponsiveSpacing(8),
+      paddingHorizontal: getResponsiveSpacing(4),
+      paddingTop: getResponsiveSpacing(4),
+      paddingBottom: getResponsiveSpacing(2),
+    },
+    labelRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+    modalTitle: {
+      fontSize: getResponsiveTypography("sm"),
+      lineHeight: getLineHeight("sm"),
+      color: COLORS.textDark,
+      textTransform: "uppercase",
+      letterSpacing: 1,
+    },
+  });

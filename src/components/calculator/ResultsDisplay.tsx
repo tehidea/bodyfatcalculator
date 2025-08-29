@@ -8,9 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { usePurchase } from "../../hooks/usePurchase";
 import { UpgradeModal } from "./UpgradeModal";
 import { getFormula } from "../../formulas";
-import { getResponsiveTypography, getLineHeight } from "../../utils/device";
-
-const { width } = Dimensions.get("window");
+import { useResponsive } from "../../utils/responsiveContext";
 
 interface ResultsDisplayProps {
   scrollViewRef: React.RefObject<ScrollView>;
@@ -21,6 +19,10 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
   const { pro } = usePremiumStore();
   const [showProModal, setShowProModal] = useState(false);
   const navigation = useNavigation();
+  const { getResponsiveTypography, getLineHeight, width } = useResponsive();
+
+  // Create styles with responsive values
+  const styles = createStyles(getResponsiveTypography, getLineHeight, width);
 
   const { handlePurchase, isProcessing } = usePurchase({
     successMessage:
@@ -206,119 +208,124 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 20,
-    backgroundColor: COLORS.white,
-    borderRadius: 16,
-    padding: 20,
-    width: width - 32,
-    alignSelf: "center",
-    elevation: 4,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-  },
-  title: {
-    color: COLORS.textDark,
-    fontSize: getResponsiveTypography("xl"),
-    marginBottom: 16,
-    lineHeight: getLineHeight("xl"),
-  },
-  mainResult: {
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  mainValueContainer: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "center",
-  },
-  mainValue: {
-    fontSize: getResponsiveTypography("6xl"),
-    fontWeight: "bold",
-    color: COLORS.textDark,
-    lineHeight: getLineHeight("6xl"),
-  },
-  premiumBadge: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#f0f0f0",
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
-    marginTop: 8,
-    marginBottom: 12,
-  },
-  premiumBadgeText: {
-    fontSize: getResponsiveTypography("xxxs"),
-    fontWeight: "bold",
-    color: "#666",
-    marginLeft: 4,
-    lineHeight: getLineHeight("xxxs"),
-  },
-  mainLabel: {
-    fontSize: getResponsiveTypography("md"),
-    color: COLORS.textLight,
-    marginBottom: 8,
-    lineHeight: getLineHeight("md"),
-  },
-  progressBar: {
-    width: "100%",
-    height: 8,
-    borderRadius: 4,
-    marginTop: 8,
-  },
-  classificationContainer: {
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 20,
-    alignItems: "center",
-  },
-  classification: {
-    fontSize: getResponsiveTypography("md"),
-    fontWeight: "600",
-    lineHeight: getLineHeight("md"),
-  },
-  breakdownContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "stretch",
-    marginBottom: 16,
-  },
-  breakdownItem: {
-    flex: 1,
-    alignItems: "center",
-  },
-  breakdownValue: {
-    fontSize: getResponsiveTypography("xl"),
-    fontWeight: "600",
-    color: COLORS.textDark,
-    marginBottom: 4,
-    lineHeight: getLineHeight("xl"),
-  },
-  breakdownLabel: {
-    fontSize: getResponsiveTypography("sm"),
-    color: COLORS.textLight,
-    marginBottom: 4,
-    lineHeight: getLineHeight("sm"),
-  },
-  breakdownPercentage: {
-    fontSize: getResponsiveTypography("md"),
-    color: COLORS.textDark,
-    lineHeight: getLineHeight("md"),
-  },
-  divider: {
-    width: 1,
-    backgroundColor: "#eee",
-    marginHorizontal: 16,
-  },
-  formulaName: {
-    fontSize: getResponsiveTypography("xs"),
-    color: COLORS.textLight,
-    textAlign: "center",
-    marginTop: 8,
-    lineHeight: getLineHeight("xs"),
-  },
-});
+const createStyles = (
+  getResponsiveTypography: (size: any) => number,
+  getLineHeight: (size: any) => number,
+  width: number
+) =>
+  StyleSheet.create({
+    container: {
+      marginTop: 20,
+      backgroundColor: COLORS.white,
+      borderRadius: 16,
+      padding: 20,
+      width: width - 32,
+      alignSelf: "center",
+      elevation: 4,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+    },
+    title: {
+      color: COLORS.textDark,
+      fontSize: getResponsiveTypography("xl"),
+      marginBottom: 16,
+      lineHeight: getLineHeight("xl"),
+    },
+    mainResult: {
+      alignItems: "center",
+      marginBottom: 20,
+    },
+    mainValueContainer: {
+      flexDirection: "row",
+      alignItems: "flex-start",
+      justifyContent: "center",
+    },
+    mainValue: {
+      fontSize: getResponsiveTypography("6xl"),
+      fontWeight: "bold",
+      color: COLORS.textDark,
+      lineHeight: getLineHeight("6xl"),
+    },
+    premiumBadge: {
+      flexDirection: "row",
+      alignItems: "center",
+      backgroundColor: "#f0f0f0",
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+      borderRadius: 12,
+      marginTop: 8,
+      marginBottom: 12,
+    },
+    premiumBadgeText: {
+      fontSize: getResponsiveTypography("xxxs"),
+      fontWeight: "bold",
+      color: "#666",
+      marginLeft: 4,
+      lineHeight: getLineHeight("xxxs"),
+    },
+    mainLabel: {
+      fontSize: getResponsiveTypography("md"),
+      color: COLORS.textLight,
+      marginBottom: 8,
+      lineHeight: getLineHeight("md"),
+    },
+    progressBar: {
+      width: "100%",
+      height: 8,
+      borderRadius: 4,
+      marginTop: 8,
+    },
+    classificationContainer: {
+      padding: 12,
+      borderRadius: 8,
+      marginBottom: 20,
+      alignItems: "center",
+    },
+    classification: {
+      fontSize: getResponsiveTypography("md"),
+      fontWeight: "600",
+      lineHeight: getLineHeight("md"),
+    },
+    breakdownContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "stretch",
+      marginBottom: 16,
+    },
+    breakdownItem: {
+      flex: 1,
+      alignItems: "center",
+    },
+    breakdownValue: {
+      fontSize: getResponsiveTypography("xl"),
+      fontWeight: "600",
+      color: COLORS.textDark,
+      marginBottom: 4,
+      lineHeight: getLineHeight("xl"),
+    },
+    breakdownLabel: {
+      fontSize: getResponsiveTypography("sm"),
+      color: COLORS.textLight,
+      marginBottom: 4,
+      lineHeight: getLineHeight("sm"),
+    },
+    breakdownPercentage: {
+      fontSize: getResponsiveTypography("md"),
+      color: COLORS.textDark,
+      lineHeight: getLineHeight("md"),
+    },
+    divider: {
+      width: 1,
+      backgroundColor: "#eee",
+      marginHorizontal: 16,
+    },
+    formulaName: {
+      fontSize: getResponsiveTypography("xs"),
+      color: COLORS.textLight,
+      textAlign: "center",
+      marginTop: 8,
+      lineHeight: getLineHeight("xs"),
+    },
+  });

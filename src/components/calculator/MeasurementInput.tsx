@@ -15,9 +15,9 @@ import { usePremiumStore } from "../../store/premiumStore";
 import { MeasurementIcon } from "./FormulaSelector";
 import { usePurchase } from "../../hooks/usePurchase";
 import { UpgradeModal } from "./UpgradeModal";
-import { styles } from "./MeasurementInput.styles";
+import { createStyles } from "./MeasurementInput.styles";
 import { COLORS } from "../../constants/theme";
-import { getResponsiveSpacing } from "../../utils/device";
+import { useResponsive } from "../../utils/responsiveContext";
 import { getFormulaMetadata, FieldMetadata } from "../../schemas/calculator";
 import { MeasurementHint } from "./MeasurementHint";
 
@@ -35,6 +35,11 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
   ({ field, label, unit, error, onSubmitEditing, isLastInput, onFocusChange }, ref) => {
     const { inputs, setInput, measurementSystem, formula, gender } = useCalculatorStore();
     const { pro } = usePremiumStore();
+    const { getResponsiveSpacing, getResponsiveTypography, getLineHeight } = useResponsive();
+
+    // Create styles with responsive values
+    const styles = createStyles(getResponsiveSpacing, getResponsiveTypography, getLineHeight);
+
     const [rawValue, setRawValue] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const [isProModalVisible, setIsProModalVisible] = useState(false);
@@ -132,8 +137,8 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       [pro, field, setInput]
     );
 
-    // Calculate the error container height outside the worklet
-    const ERROR_CONTAINER_HEIGHT = getResponsiveSpacing(20);
+    // Calculate the error container height dynamically
+    const errorContainerHeight = getResponsiveSpacing(20);
 
     useEffect(() => {
       if (error && !previousError.current) {
@@ -160,7 +165,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       const interpolatedHeight = interpolate(
         errorAnimation.value,
         [0, 1],
-        [0, ERROR_CONTAINER_HEIGHT],
+        [0, errorContainerHeight],
         Extrapolation.CLAMP
       );
 
