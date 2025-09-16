@@ -13,6 +13,12 @@ export function AppStoreLink({
   size?: 'default' | 'large' | 'massive'
 }) {
   const handleClick = () => {
+    // Event snippet for Submit lead form conversion page
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-17498006015/rTmzCJChy5obEP_D2ZdB'
+      });
+    }
   }
 
   return (
