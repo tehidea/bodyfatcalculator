@@ -23,27 +23,27 @@ This is the **React Native mobile app** component of the Body Fat Calculator pro
 
 ### Build & Run
 
-- `npm start` - Start Expo development server
-- `npm run android` - Run on Android
-- `npm run ios` - Run on iOS
-- `npm run web` - Run on web
+- `pnpm start` - Start Expo development server
+- `pnpm run android` - Run on Android
+- `pnpm run ios` - Run on iOS
+- `pnpm run web` - Run on web
 
 ### Code Quality
 
-- `npm run lint` - Run ESLint
-- `npm run lint:fix` - Fix ESLint issues automatically
-- `npm run format` - Format code with Prettier
-- `npm run format:check` - Check code formatting
+- `pnpm run lint` - Run ESLint
+- `pnpm run lint:fix` - Fix ESLint issues automatically
+- `pnpm run format` - Format code with Prettier
+- `pnpm run format:check` - Check code formatting
 
 ### Testing
 
-- `npm test` - Run Jest tests
-- `npm run test:watch` - Run tests in watch mode
-- `npm run test:coverage` - Run tests with coverage report
+- `pnpm test` - Run Jest tests
+- `pnpm run test:watch` - Run tests in watch mode
+- `pnpm run test:coverage` - Run tests with coverage report
 
 ### Other
 
-- `npm run check-versions` - Check Node.js version requirements
+- `pnpm run check-versions` - Check Node.js version requirements
 
 ## Architecture Overview
 
@@ -105,7 +105,7 @@ The app uses **Zustand** for state management with two main stores:
 ### Environment Setup
 
 - Node.js version: 22.11.0 (specified in package.json engines)
-- Package manager: NPM
+- Package manager: pnpm
 - Environment variables stored in `.env` files
 - RevenueCat API keys configured via Expo config
 
