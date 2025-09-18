@@ -54,11 +54,29 @@ function useInstallAttribution() {
           // Get initial URL (if app was opened via deep link)
           const initialUrl = await Linking.getInitialURL();
 
+          // Parse attribution from initial URL
+          let attribution = {
+            source: 'direct_install',
+            utm_source: null,
+            utm_medium: null,
+            utm_campaign: null,
+          };
+
+          if (initialUrl) {
+            const url = new URL(initialUrl);
+            attribution = {
+              source: 'deep_link',
+              utm_source: url.searchParams.get('utm_source'),
+              utm_medium: url.searchParams.get('utm_medium'),
+              utm_campaign: url.searchParams.get('utm_campaign'),
+            };
+          }
+
           // Track the install event with attribution data
           posthog?.capture('app_installed', {
             platform: Constants.platform?.ios ? 'ios' : 'android',
             initial_url: initialUrl,
-            source: initialUrl ? 'deep_link' : 'direct_install',
+            ...attribution,
             timestamp: new Date().toISOString(),
           });
 
@@ -70,8 +88,9 @@ function useInstallAttribution() {
           posthog?.identify(installId, {
             platform: 'mobile',
             app_version: Constants.expoConfig?.version,
-            install_source: initialUrl ? 'deep_link' : 'direct_install',
+            install_source: attribution.source,
             user_type: 'mobile_user',
+            ...attribution,
           });
         }
       } catch (error) {

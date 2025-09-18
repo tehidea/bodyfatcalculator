@@ -21,6 +21,35 @@ function trackPurchaseEvent(eventName: string, properties: any = {}) {
   }
 }
 
+// Update user properties in both PostHog and RevenueCat
+async function syncUserProperties(properties: any = {}) {
+  try {
+    const installId = await AsyncStorage.getItem('installId');
+
+    // Update PostHog user properties
+    if (posthogInstance && installId) {
+      posthogInstance.setPersonProperties({
+        ...properties,
+        platform: Platform.OS,
+        app_version: Constants.expoConfig?.version,
+        last_updated: new Date().toISOString(),
+      });
+    }
+
+    // Update RevenueCat subscriber attributes
+    const revenueCatAttributes: { [key: string]: string } = {};
+    Object.keys(properties).forEach(key => {
+      revenueCatAttributes[`$${key}`] = String(properties[key]);
+    });
+
+    if (Object.keys(revenueCatAttributes).length > 0) {
+      await Purchases.setAttributes(revenueCatAttributes);
+    }
+  } catch (error) {
+    console.warn('Error syncing user properties:', error);
+  }
+}
+
 // In development, use sandbox environment
 const isDevelopment = __DEV__;
 
@@ -118,6 +147,13 @@ export async function getUserEntitlements(): Promise<UserEntitlements> {
     // Track premium status check
     trackPurchaseEvent('premium_status_checked', {
       has_premium: isPro,
+      revenue_cat_user_id: customerInfo.originalAppUserId,
+    });
+
+    // Sync premium status to user properties
+    await syncUserProperties({
+      has_premium: isPro,
+      premium_status: isPro ? 'active' : 'free',
       revenue_cat_user_id: customerInfo.originalAppUserId,
     });
 
