@@ -649,6 +649,71 @@ You can customize the status bar further with additional options:
 
 [Body Fat Calculator Website](https://bodyfatcalculator.pro)
 
+## PostHog Analytics Events
+
+The following events are tracked using PostHog for analytics purposes:
+
+### App Lifecycle & Navigation
+
+- **`app_launched`**: (Automatic) When the app is first launched.
+- **`screen_viewed`**: (Automatic via PostHogProvider with React Navigation) When a user navigates to a new screen.
+  - Properties: `screen_name` (e.g., "Calculator", "FeatureComparison")
+- **`app_backgrounded`**: (Automatic) When the app goes to the background.
+- **`app_foregrounded`**: (Automatic) When the app returns from the background.
+
+### Calculator Screen (`CalculatorScreen.tsx`)
+
+- **`calculator_form_submitted`**
+  - Triggered: When the user successfully submits the calculator form.
+  - Properties:
+    - `formula_selected`: (string) The body fat calculation formula chosen by the user (e.g., "YMCA", "USNavy").
+    - `gender_selected`: (string) The gender selected by the user (e.g., "male", "female").
+    - `measurement_system`: (string) The unit system selected (e.g., "metric", "imperial").
+- **`unit_system_changed`**
+  - Triggered: When the user toggles between metric and imperial unit systems.
+  - Properties:
+    - `unit_system`: (string) The new unit system selected (e.g., "metric", "imperial").
+- **`reset_form_tapped`**
+  - Triggered: When the user taps the "Reset" button on the calculator form.
+
+### Feature Comparison Screen (`FeatureComparisonScreen.tsx`)
+
+- **`upgrade_to_pro_initiated`**
+  - Triggered: When the user initiates a purchase for any package (PRO, Premium, Bundle, Lifetime).
+  - Properties:
+    - `package_type`: (string) The type of package the user is attempting to purchase (e.g., "pro", "premium", "bundle", "lifetime").
+- **`purchase_successful`**
+  - Triggered: When a purchase is successfully completed.
+  - Properties:
+    - `package_type`: (string) The type of package successfully purchased.
+- **`purchase_failed`**
+  - Triggered: When a purchase attempt fails.
+  - Properties:
+    - `package_type`: (string) The type of package that failed to purchase.
+    - `error_message`: (string) The error message associated with the failure.
+- **`restore_purchases_tapped`**
+  - Triggered: When the user taps the "Restore Purchases" button.
+
+### Premium Feature Blocking Events
+
+- **`premium_formula_blocked`**
+  - Triggered: When a non-PRO user attempts to select a premium formula.
+  - Properties:
+    - `formula_attempted`: (string) The premium formula the user tried to select.
+    - `current_formula`: (string) The currently selected formula.
+- **`decimal_input_blocked`**
+  - Triggered: When a non-PRO user attempts to enter decimal values in input fields.
+  - Properties:
+    - `field_name`: (string) The name of the field where decimal input was attempted.
+    - `attempted_value`: (string) The decimal value the user tried to enter.
+    - `measurement_system`: (string) The current measurement system.
+- **`results_precision_tapped`**
+  - Triggered: When a non-PRO user taps the "Get more accurate results with PRO" banner in results.
+  - Properties:
+    - `current_formula`: (string) The formula used for the current calculation.
+    - `body_fat_percentage`: (number) The calculated body fat percentage.
+    - `measurement_system`: (string) The current measurement system.
+
 ```
 
 ```

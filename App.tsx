@@ -8,6 +8,7 @@ import {
   Montserrat_300Light,
   Montserrat_400Regular,
 } from "@expo-google-fonts/montserrat";
+import { usePostHog, PostHogProvider } from "posthog-react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { KeyboardProvider } from "react-native-keyboard-controller";
@@ -18,6 +19,7 @@ import { initializeStore } from "./src/config/store";
 import { ResponsiveProvider } from "./src/utils/responsiveContext";
 import { View } from "react-native";
 import { registerRootComponent } from "expo";
+import Constants from "expo-constants";
 
 // Configure splash screen options
 SplashScreen.setOptions({
@@ -73,27 +75,43 @@ function App() {
   }
 
   return (
-    <KeyboardProvider statusBarTranslucent>
-      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-        <SafeAreaProvider>
-          <ThemeProvider theme={theme}>
-            <ResponsiveProvider>
-              <NavigationContainer>
-                <Stack.Navigator
-                  screenOptions={{
-                    headerShown: false,
-                    animation: "slide_from_right",
-                  }}
-                >
-                  <Stack.Screen name="Calculator" component={CalculatorScreen} />
-                  <Stack.Screen name="FeatureComparison" component={FeatureComparisonScreen} />
-                </Stack.Navigator>
-              </NavigationContainer>
-            </ResponsiveProvider>
-          </ThemeProvider>
-        </SafeAreaProvider>
-      </View>
-    </KeyboardProvider>
+    <PostHogProvider
+      apiKey={Constants.expoConfig?.extra?.POSTHOG_API_KEY || "your_fallback_posthog_api_key"}
+      options={{
+        host: "https://eu.i.posthog.com",
+        disabled: __DEV__,
+      }}
+    >
+      <PostHogProvider
+        apiKey={Constants.expoConfig?.extra?.POSTHOG_API_KEY || "your_fallback_posthog_api_key"}
+        options={{
+          host: "https://eu.i.posthog.com",
+          disabled: __DEV__,
+        }}
+      >
+        <KeyboardProvider statusBarTranslucent>
+          <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+            <SafeAreaProvider>
+              <ThemeProvider theme={theme}>
+                <ResponsiveProvider>
+                  <NavigationContainer>
+                    <Stack.Navigator
+                      screenOptions={{
+                        headerShown: false,
+                        animation: "slide_from_right",
+                      }}
+                    >
+                      <Stack.Screen name="Calculator" component={CalculatorScreen} />
+                      <Stack.Screen name="FeatureComparison" component={FeatureComparisonScreen} />
+                    </Stack.Navigator>
+                  </NavigationContainer>
+                </ResponsiveProvider>
+              </ThemeProvider>
+            </SafeAreaProvider>
+          </View>
+        </KeyboardProvider>
+      </PostHogProvider>
+    </PostHogProvider>
   );
 }
 

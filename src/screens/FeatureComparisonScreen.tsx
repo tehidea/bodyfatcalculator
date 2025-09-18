@@ -1,6 +1,6 @@
 // TODO: This isn't technically implemented yet
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
 import { Text, Button, Icon } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -9,14 +9,19 @@ import { COLORS } from "../constants/theme";
 import { usePremiumStore } from "../store/premiumStore";
 import { purchasePackage, getOfferings } from "../config/store";
 import { getResponsiveTypography, getLineHeight, getResponsiveSpacing } from "../utils/device";
+import { usePostHog } from "posthog-react-native";
 
 export const FeatureComparisonScreen = () => {
-  const { pro, premium, setEntitlements } = usePremiumStore();
+  const posthog = usePostHog();
+  const { pro, setEntitlements } = usePremiumStore();
   const [loading, setLoading] = useState(false);
   const { restorePurchases } = usePremiumStore();
 
   const handlePurchase = async (type: "pro" | "premium" | "bundle" | "lifetime") => {
     setLoading(true);
+    if (posthog) {
+      posthog.capture("upgrade_to_pro_initiated", { package_type: type });
+    }
     try {
       const offerings = await getOfferings();
       let targetPackage;
@@ -42,18 +47,34 @@ export const FeatureComparisonScreen = () => {
 
       const entitlements = await purchasePackage(targetPackage);
       setEntitlements(entitlements);
+      if (posthog) {
+        posthog.capture("purchase_successful", { package_type: type });
+      }
     } catch (error) {
       console.error("Purchase failed:", error);
+      if (posthog) {
+        posthog.capture("purchase_failed", {
+          package_type: type,
+          error_message: error instanceof Error ? error.message : String(error),
+        });
+      }
     } finally {
       setLoading(false);
     }
   };
 
+  const handleRestorePurchases = async () => {
+    if (posthog) {
+      posthog.capture("restore_purchases_tapped");
+    }
+    await restorePurchases();
+  };
+
   const renderFeature = ({ id, name, description, availability }: (typeof FEATURES)[0]) => {
     const isAvailable =
       availability === "free" ||
-      (availability === "pro" && (pro || premium)) ||
-      (availability === "premium" && premium);
+      (availability === "pro" && pro) ||
+      (availability === "premium" && pro);
 
     return (
       <View key={id} style={styles.featureRow}>
@@ -144,9 +165,9 @@ export const FeatureComparisonScreen = () => {
 
           {/* Premium Card */}
           <TouchableOpacity
-            style={[styles.pricingCard, premium && styles.activeCard]}
-            onPress={() => !premium && handlePurchase("premium")}
-            disabled={premium || loading}
+            style={[styles.pricingCard, pro && styles.activeCard]}
+            onPress={() => !pro && handlePurchase("premium")}
+            disabled={pro || loading}
           >
             <Text style={styles.planName}>PREMIUM</Text>
             <Text style={styles.planPrice}>{PRICING.premium.annual.price}</Text>
@@ -160,16 +181,16 @@ export const FeatureComparisonScreen = () => {
               <Text style={styles.keyFeature}>• Priority support</Text>
             </View>
             <Button
-              title={premium ? "Subscribed" : "Subscribe"}
-              disabled={premium || loading}
+              title={pro ? "Subscribed" : "Subscribe"}
+              disabled={pro || loading}
               loading={loading}
-              buttonStyle={[styles.buyButton, premium && styles.purchasedButton]}
+              buttonStyle={[styles.buyButton, pro && styles.purchasedButton]}
               onPress={() => handlePurchase("premium")}
             />
           </TouchableOpacity>
 
           {/* Bundle Card */}
-          {!pro && !premium && (
+          {!pro && (
             <TouchableOpacity
               style={[styles.pricingCard, styles.bundleCard]}
               onPress={() => handlePurchase("bundle")}
@@ -209,7 +230,7 @@ export const FeatureComparisonScreen = () => {
             title="Restore Purchases"
             type="clear"
             loading={loading}
-            onPress={restorePurchases}
+            onPress={handleRestorePurchases}
             titleStyle={styles.restoreButtonText}
             icon={{
               name: "refresh-ccw",

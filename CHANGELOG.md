@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Version 1.5.0 (Build 12)
+
+- Unlocked deeper insights into your app experience
+
 ## Version 1.4.3 (Build 11)
 
 - Enhanced layout optimization for larger displays

@@ -1,3 +1,6 @@
 {
-  "cSpell.words": ["durnin", "midaxillary", "mymca", "parillo", "parillo", "suprailiac", "xxxs"]
+  "cSpell.words": ["durnin", "midaxillary", "mymca", "parillo", "parillo", "suprailiac", "xxxs"],
+  "debug.javascript.defaultRuntimeExecutable": {
+    "pwa-node": "/Users/designorant/.local/share/mise/shims/node"
+  }
 }

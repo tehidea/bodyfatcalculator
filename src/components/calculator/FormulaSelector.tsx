@@ -13,6 +13,7 @@ import { MeasuringTapeIcon } from "../icons/MeasuringTapeIcon";
 import { usePurchase } from "../../hooks/usePurchase";
 import { UpgradeModal } from "./UpgradeModal";
 import { useResponsive } from "../../utils/responsiveContext";
+import { usePostHog } from "posthog-react-native";
 
 export const MeasurementIcon = ({
   type,
@@ -52,6 +53,7 @@ function getUniqueMeasurementTypes(fields: Array<{ type: string }>) {
 export const FormulaSelector = () => {
   const { formula, setFormula, gender, measurementSystem } = useCalculatorStore();
   const { pro, isLoading, checkEntitlements } = usePremiumStore();
+  const posthog = usePostHog();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isProModalVisible, setIsProModalVisible] = useState(false);
   const [pendingFormula, setPendingFormula] = useState<Formula | null>(null);
@@ -209,6 +211,13 @@ export const FormulaSelector = () => {
       setFormula(selectedKey);
       setIsModalVisible(false);
     } else {
+      // Track premium formula blocked
+      if (posthog) {
+        posthog.capture("premium_formula_blocked", {
+          formula_attempted: selectedKey,
+          current_formula: formula,
+        });
+      }
       setIsModalVisible(false);
       setTimeout(() => {
         setPendingFormula(selectedKey);

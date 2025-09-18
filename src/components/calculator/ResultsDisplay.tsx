@@ -9,6 +9,7 @@ import { usePurchase } from "../../hooks/usePurchase";
 import { UpgradeModal } from "./UpgradeModal";
 import { getFormula } from "../../formulas";
 import { useResponsive } from "../../utils/responsiveContext";
+import { usePostHog } from "posthog-react-native";
 
 interface ResultsDisplayProps {
   scrollViewRef: React.RefObject<ScrollView>;
@@ -20,6 +21,7 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
   const [showProModal, setShowProModal] = useState(false);
   const navigation = useNavigation();
   const { getResponsiveTypography, getLineHeight, width } = useResponsive();
+  const posthog = usePostHog();
 
   // Create styles with responsive values
   const styles = createStyles(getResponsiveTypography, getLineHeight, width);
@@ -143,7 +145,20 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
             {pro && <Text style={styles.mainValue}>{decimal}%</Text>}
           </View>
           {!pro && (
-            <TouchableOpacity style={styles.premiumBadge} onPress={() => setShowProModal(true)}>
+            <TouchableOpacity
+              style={styles.premiumBadge}
+              onPress={() => {
+                // Track results precision banner tapped
+                if (posthog) {
+                  posthog.capture("results_precision_tapped", {
+                    current_formula: formula,
+                    body_fat_percentage: results?.bodyFatPercentage,
+                    measurement_system: measurementSystem,
+                  });
+                }
+                setShowProModal(true);
+              }}
+            >
               <Icon name="lock" type="feather" color="#666" size={14} />
               <Text style={styles.premiumBadgeText}>Get more accurate results with PRO</Text>
             </TouchableOpacity>

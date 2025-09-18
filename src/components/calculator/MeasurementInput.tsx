@@ -18,6 +18,7 @@ import { UpgradeModal } from "./UpgradeModal";
 import { createStyles } from "./MeasurementInput.styles";
 import { COLORS } from "../../constants/theme";
 import { useResponsive } from "../../utils/responsiveContext";
+import { usePostHog } from "posthog-react-native";
 import { getFormulaMetadata, FieldMetadata } from "../../schemas/calculator";
 import { MeasurementHint } from "./MeasurementHint";
 
@@ -36,6 +37,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
     const { inputs, setInput, measurementSystem, formula, gender } = useCalculatorStore();
     const { pro } = usePremiumStore();
     const { getResponsiveSpacing, getResponsiveTypography, getLineHeight } = useResponsive();
+    const posthog = usePostHog();
 
     // Create styles with responsive values
     const styles = createStyles(getResponsiveSpacing, getResponsiveTypography, getLineHeight);
@@ -115,6 +117,14 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
         }
 
         if (value.includes(".") && !pro) {
+          // Track decimal input blocked
+          if (posthog) {
+            posthog.capture("decimal_input_blocked", {
+              field_name: field,
+              attempted_value: value,
+              measurement_system: measurementSystem,
+            });
+          }
           setIsProModalVisible(true);
           return;
         }

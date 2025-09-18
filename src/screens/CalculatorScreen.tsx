@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useRef } from "react";
+import React, { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { View, Platform, Keyboard, TextInput, TouchableOpacity, Linking } from "react-native";
 
 import { useResponsive } from "../utils/responsiveContext";
@@ -23,6 +23,7 @@ import { calculateResults } from "../formulas";
 import { createStyles } from "./CalculatorScreen.styles";
 import { usePremiumStore } from "../store/premiumStore";
 import { COLORS } from "../constants/theme";
+import { usePostHog } from "posthog-react-native";
 
 // Extract Header into a separate component
 const Header = memo(() => {
@@ -117,6 +118,7 @@ const VersionDisplay = memo(() => {
 });
 
 export const CalculatorScreen = () => {
+  const posthog = usePostHog();
   const {
     formula,
     gender,
@@ -131,6 +133,17 @@ export const CalculatorScreen = () => {
     measurementSystem,
     fieldErrors,
   } = useCalculatorStore();
+
+  const prevMeasurementSystemRef = useRef(measurementSystem);
+
+  useEffect(() => {
+    if (posthog && prevMeasurementSystemRef.current !== measurementSystem) {
+      posthog.capture("unit_system_changed", {
+        unit_system: measurementSystem,
+      });
+    }
+    prevMeasurementSystemRef.current = measurementSystem;
+  }, [measurementSystem, posthog]);
 
   // Get responsive values for styles
   const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, deviceType } =
@@ -181,6 +194,14 @@ export const CalculatorScreen = () => {
         return;
       }
 
+      if (posthog) {
+        posthog.capture("calculator_form_submitted", {
+          formula_selected: formula,
+          gender_selected: gender,
+          measurement_system: measurementSystem,
+        });
+      }
+
       const results = await calculateResults(formula, gender, inputs, measurementSystem);
       setResults(results);
 
@@ -191,12 +212,15 @@ export const CalculatorScreen = () => {
     } catch (error) {
       setError(error instanceof Error ? error.message : "An unexpected error occurred");
     }
-  }, [formula, gender, inputs, measurementSystem]);
+  }, [formula, gender, inputs, measurementSystem, posthog]);
 
   const handleReset = useCallback(() => {
     setError(null);
     reset();
-  }, [reset]);
+    if (posthog) {
+      posthog.capture("reset_form_tapped");
+    }
+  }, [reset, posthog]);
 
   const buttonTitle = useMemo(() => {
     if (isCalculating) return "Calculating...";
