@@ -45,18 +45,18 @@ function useInstallAttribution() {
     const trackInstallAttribution = async () => {
       try {
         // Check if this is the first app launch
-        const hasLaunchedBefore = await AsyncStorage.getItem('hasLaunchedBefore');
+        const hasLaunchedBefore = await AsyncStorage.getItem("hasLaunchedBefore");
 
         if (!hasLaunchedBefore) {
           // Mark that we've launched before
-          await AsyncStorage.setItem('hasLaunchedBefore', 'true');
+          await AsyncStorage.setItem("hasLaunchedBefore", "true");
 
           // Get initial URL (if app was opened via deep link)
           const initialUrl = await Linking.getInitialURL();
 
           // Parse attribution from initial URL
           let attribution = {
-            source: 'direct_install',
+            source: "direct_install",
             utm_source: null,
             utm_medium: null,
             utm_campaign: null,
@@ -65,16 +65,16 @@ function useInstallAttribution() {
           if (initialUrl) {
             const url = new URL(initialUrl);
             attribution = {
-              source: 'deep_link',
-              utm_source: url.searchParams.get('utm_source'),
-              utm_medium: url.searchParams.get('utm_medium'),
-              utm_campaign: url.searchParams.get('utm_campaign'),
+              source: "deep_link",
+              utm_source: url.searchParams.get("utm_source"),
+              utm_medium: url.searchParams.get("utm_medium"),
+              utm_campaign: url.searchParams.get("utm_campaign"),
             };
           }
 
           // Track the install event with attribution data
-          posthog?.capture('app_installed', {
-            platform: Constants.platform?.ios ? 'ios' : 'android',
+          posthog?.capture("app_installed", {
+            platform: Constants.platform?.ios ? "ios" : "android",
             initial_url: initialUrl,
             ...attribution,
             timestamp: new Date().toISOString(),
@@ -82,19 +82,19 @@ function useInstallAttribution() {
 
           // Create a unique install ID for cross-platform tracking
           const installId = `install_${Date.now()}_${Math.random().toString(36).substring(2)}`;
-          await AsyncStorage.setItem('installId', installId);
+          await AsyncStorage.setItem("installId", installId);
 
           // Set user properties for cross-platform identification
           posthog?.identify(installId, {
-            platform: 'mobile',
+            platform: "mobile",
             app_version: Constants.expoConfig?.version,
             install_source: attribution.source,
-            user_type: 'mobile_user',
+            user_type: "mobile_user",
             ...attribution,
           });
         }
       } catch (error) {
-        console.warn('Error tracking install attribution:', error);
+        console.warn("Error tracking install attribution:", error);
       }
     };
 
@@ -185,9 +185,9 @@ function App() {
         disabled: __DEV__,
         // Enable cross-platform user tracking
         bootstrap: {
-          distinctID: `mobile_${Constants.platform?.ios ? 'ios' : 'android'}_${Date.now()}`,
+          distinctID: `mobile_${Constants.platform?.ios ? "ios" : "android"}_${Date.now()}`,
         },
-        persistence: 'memory',
+        persistence: "memory",
       }}
     >
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>

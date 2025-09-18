@@ -24,7 +24,7 @@ function trackPurchaseEvent(eventName: string, properties: any = {}) {
 // Update user properties in both PostHog and RevenueCat
 async function syncUserProperties(properties: any = {}) {
   try {
-    const installId = await AsyncStorage.getItem('installId');
+    const installId = await AsyncStorage.getItem("installId");
 
     // Update PostHog user properties
     if (posthogInstance && installId) {
@@ -46,7 +46,7 @@ async function syncUserProperties(properties: any = {}) {
       await Purchases.setAttributes(revenueCatAttributes);
     }
   } catch (error) {
-    console.warn('Error syncing user properties:', error);
+    console.warn("Error syncing user properties:", error);
   }
 }
 
@@ -92,13 +92,13 @@ export async function initializeStore() {
   }
 
   // Set up cross-platform user identification
-  const installId = await AsyncStorage.getItem('installId');
+  const installId = await AsyncStorage.getItem("installId");
   if (installId) {
     console.log("initializeStore - Setting RevenueCat app user ID:", installId);
-    Purchases.setLogInHandler(async (newAppUserId) => {
+    Purchases.setLogInHandler(async newAppUserId => {
       console.log("RevenueCat login handler called with:", newAppUserId);
       // Store the RevenueCat user ID for cross-platform sync
-      await AsyncStorage.setItem('revenueCatUserId', newAppUserId);
+      await AsyncStorage.setItem("revenueCatUserId", newAppUserId);
     });
   }
 
@@ -110,10 +110,10 @@ export async function initializeStore() {
   // Set PostHog user ID as RevenueCat subscriber attribute for integration
   if (installId) {
     await Purchases.setAttributes({
-      "$posthogUserId": installId,
-      "$posthogDistinctId": installId,
-      "$platform": Platform.OS,
-      "$appVersion": Constants.expoConfig?.version || "unknown",
+      $posthogUserId: installId,
+      $posthogDistinctId: installId,
+      $platform: Platform.OS,
+      $appVersion: Constants.expoConfig?.version || "unknown",
     });
   }
 
@@ -145,7 +145,7 @@ export async function getUserEntitlements(): Promise<UserEntitlements> {
     });
 
     // Track premium status check
-    trackPurchaseEvent('premium_status_checked', {
+    trackPurchaseEvent("premium_status_checked", {
       has_premium: isPro,
       revenue_cat_user_id: customerInfo.originalAppUserId,
     });
@@ -153,15 +153,15 @@ export async function getUserEntitlements(): Promise<UserEntitlements> {
     // Sync premium status to user properties
     await syncUserProperties({
       has_premium: isPro,
-      premium_status: isPro ? 'active' : 'free',
+      premium_status: isPro ? "active" : "free",
       revenue_cat_user_id: customerInfo.originalAppUserId,
     });
 
     return entitlements;
   } catch (error) {
     console.error("getUserEntitlements - Error:", error);
-    trackPurchaseEvent('premium_status_check_failed', {
-      error: error instanceof Error ? error.message : 'Unknown error',
+    trackPurchaseEvent("premium_status_check_failed", {
+      error: error instanceof Error ? error.message : "Unknown error",
     });
     return { pro: false };
   }
@@ -185,7 +185,7 @@ export async function purchasePackage(package_: PurchasesPackage): Promise<UserE
   console.log("purchasePackage - Starting purchase");
 
   // Track purchase attempt (RevenueCat integration will handle success/completion events)
-  trackPurchaseEvent('purchase_attempt', {
+  trackPurchaseEvent("purchase_attempt", {
     product_id: package_.product.identifier,
     product_price: package_.product.price,
     product_currency: package_.product.currencyCode,
@@ -217,7 +217,7 @@ export async function purchasePackage(package_: PurchasesPackage): Promise<UserE
 
       // RevenueCat's PostHog integration will automatically send purchase events
       // We only track activation success for internal debugging
-      trackPurchaseEvent('entitlement_activated', {
+      trackPurchaseEvent("entitlement_activated", {
         revenue_cat_user_id: customerInfo.originalAppUserId,
         activated_immediately: true,
       });
