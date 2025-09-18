@@ -10,7 +10,9 @@
       "revenuecat": {
         "ios": "${process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY}",
         "android": "${process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY}"
-      }
+      },
+      "POSTHOG_API_KEY": "${process.env.EXPO_PUBLIC_POSTHOG_API_KEY}",
+      "POSTHOG_HOST": "${process.env.EXPO_PUBLIC_POSTHOG_HOST}"
     },
     "version": "1.4.3",
     "orientation": "portrait",
