@@ -2872,7 +2872,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - RNSVG (13.14.0):
+  - RNSVG (15.13.0):
     - boost
     - DoubleConversion
     - fast_float
@@ -2898,10 +2898,10 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNSVG/common (= 13.14.0)
+    - RNSVG/common (= 15.13.0)
     - SocketRocket
     - Yoga
-  - RNSVG/common (13.14.0):
+  - RNSVG/common (15.13.0):
     - boost
     - DoubleConversion
     - fast_float
@@ -3145,7 +3145,7 @@ DEPENDENCIES:
   - "RNPurchases (from `../node_modules/.pnpm/react-native-purchases@8.11.10_react-native@0.81.4_@babel+core@7.28.4_@react-native+met_425ec9ec8376710f496653723e1c7729/node_modules/react-native-purchases`)"
   - "RNReanimated (from `../node_modules/.pnpm/react-native-reanimated@4.1.0_@babel+core@7.28.4_react-native-worklets@0.5.1_@babel+cor_81aa2fdfab62c9ce29fab332bc6b5715/node_modules/react-native-reanimated`)"
   - "RNScreens (from `../node_modules/.pnpm/react-native-screens@4.16.0_react-native@0.81.4_@babel+core@7.28.4_@react-native+metro-_b2596bf5207632d244fb29e43848e149/node_modules/react-native-screens`)"
-  - "RNSVG (from `../node_modules/.pnpm/react-native-svg@13.14.0_react-native@0.81.4_@babel+core@7.28.4_@react-native+metro-con_34ef4f1f6494f886ec7c0e6c04511e64/node_modules/react-native-svg`)"
+  - "RNSVG (from `../node_modules/.pnpm/react-native-svg@15.13.0_react-native@0.81.4_@babel+core@7.28.4_@react-native+metro-con_95341e2c6271d4706359597008f42775/node_modules/react-native-svg`)"
   - "RNVectorIcons (from `../node_modules/.pnpm/react-native-vector-icons@10.3.0/node_modules/react-native-vector-icons`)"
   - "RNWorklets (from `../node_modules/.pnpm/react-native-worklets@0.5.1_@babel+core@7.28.4_react-native@0.81.4_@babel+core@7.28.4_@_33c54e3b2fc6b2eafe4a96603049bb68/node_modules/react-native-worklets`)"
   - SocketRocket (~> 0.7.1)
@@ -3348,7 +3348,7 @@ EXTERNAL SOURCES:
   RNScreens:
     :path: "../node_modules/.pnpm/react-native-screens@4.16.0_react-native@0.81.4_@babel+core@7.28.4_@react-native+metro-_b2596bf5207632d244fb29e43848e149/node_modules/react-native-screens"
   RNSVG:
-    :path: "../node_modules/.pnpm/react-native-svg@13.14.0_react-native@0.81.4_@babel+core@7.28.4_@react-native+metro-con_34ef4f1f6494f886ec7c0e6c04511e64/node_modules/react-native-svg"
+    :path: "../node_modules/.pnpm/react-native-svg@15.13.0_react-native@0.81.4_@babel+core@7.28.4_@react-native+metro-con_95341e2c6271d4706359597008f42775/node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/.pnpm/react-native-vector-icons@10.3.0/node_modules/react-native-vector-icons"
   RNWorklets:
@@ -3453,7 +3453,7 @@ SPEC CHECKSUMS:
   RNPurchases: f465d1bc4cc84c2ea46c528930ac602275e047b6
   RNReanimated: d28279a187332f90e0673c7a54c69137bb12d979
   RNScreens: 0bbf16c074ae6bb1058a7bf2d1ae017f4306797c
-  RNSVG: c1737c828cc2090c13de45c604efa8107148b601
+  RNSVG: 6c39befcfad06eec55b40c19a030b2d9eca63334
   RNVectorIcons: 791f13226ec4a3fd13062eda9e892159f0981fae
   RNWorklets: bf576ef99e511658cf551c8c1cb79bafb2e4d50f
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
