@@ -3,6 +3,7 @@
     "name": "Body Fat",
     "slug": "body-fat-calculator",
     "owner": "tehidea",
+    "scheme": "bodyfatcalculator",
     "extra": {
       "eas": {
         "projectId": "9f81ba56-4efb-41b5-8cb7-a310221df724"
@@ -36,7 +37,8 @@
       "versionCode": 11
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     },
     "plugins": [
       [

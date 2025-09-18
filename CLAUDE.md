@@ -45,6 +45,11 @@ This is the **React Native mobile app** component of the Body Fat Calculator pro
 
 - `pnpm run check-versions` - Check Node.js version requirements
 
+### Package Execution
+
+- Use `pnpx` instead of `npx` for executing packages
+- For Expo packages, always use `pnpx expo install <package>` instead of `pnpm add <package>` to ensure compatible versions
+
 ## Architecture Overview
 
 This is a React Native Expo app that calculates body fat percentage using various scientific formulas.

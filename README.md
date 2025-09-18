@@ -645,6 +645,25 @@ You can customize the status bar further with additional options:
 - `--batteryLevel 0-100` - Set battery percentage
 - `--dataNetwork "wifi"` - Set network type
 
+## Development Commands
+
+### Native Project Management
+
+If you encounter crashes or configuration issues during development:
+
+```bash
+# Clean and regenerate native projects (iOS/Android folders)
+pnpx expo prebuild --clean
+
+# Run on iOS simulator
+pnpm expo run:ios
+
+# Run on Android emulator
+pnpm expo run:android
+```
+
+Note: Use `pnpx` instead of `npx` for package execution in this project.
+
 ## Website
 
 [Body Fat Calculator Website](https://bodyfatcalculator.pro)

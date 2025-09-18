@@ -44,6 +44,9 @@ importers:
       expo-font:
         specifier: ~14.0.8
         version: 14.0.8(expo@54.0.8(@babel/core@7.28.4)(react-native@0.81.4(@babel/core@7.28.4)(@react-native/metro-config@0.81.1(@babel/core@7.28.4))(@types/react@19.1.13)(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.28.4)(@react-native/metro-config@0.81.1(@babel/core@7.28.4))(@types/react@19.1.13)(react@19.1.0))(react@19.1.0)
+      expo-linking:
+        specifier: ~8.0.8
+        version: 8.0.8(expo@54.0.8(@babel/core@7.28.4)(react-native@0.81.4(@babel/core@7.28.4)(@react-native/metro-config@0.81.1(@babel/core@7.28.4))(@types/react@19.1.13)(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.28.4)(@react-native/metro-config@0.81.1(@babel/core@7.28.4))(@types/react@19.1.13)(react@19.1.0))(react@19.1.0)
       expo-localization:
         specifier: ~17.0.7
         version: 17.0.7(expo@54.0.8(@babel/core@7.28.4)(react-native@0.81.4(@babel/core@7.28.4)(@react-native/metro-config@0.81.1(@babel/core@7.28.4))(@types/react@19.1.13)(react@19.1.0))(react@19.1.0))(react@19.1.0)
@@ -2312,6 +2315,12 @@ packages:
     peerDependencies:
       expo: '*'
       react: '*'
+
+  expo-linking@8.0.8:
+    resolution: {integrity: sha512-MyeMcbFDKhXh4sDD1EHwd0uxFQNAc6VCrwBkNvvvufUsTYFq3glTA9Y8a+x78CPpjNqwNAamu74yIaIz7IEJyg==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
 
   expo-localization@17.0.7:
     resolution: {integrity: sha512-ACg1B0tJLNa+f8mZfAaNrMyNzrrzHAARVH1sHHvh+LolKdQpgSKX69Uroz1Llv4C71furpwBklVStbNcEwVVVA==}
@@ -7595,6 +7604,16 @@ snapshots:
     dependencies:
       expo: 54.0.8(@babel/core@7.28.4)(react-native@0.81.4(@babel/core@7.28.4)(@react-native/metro-config@0.81.1(@babel/core@7.28.4))(@types/react@19.1.13)(react@19.1.0))(react@19.1.0)
       react: 19.1.0
+
+  expo-linking@8.0.8(expo@54.0.8(@babel/core@7.28.4)(react-native@0.81.4(@babel/core@7.28.4)(@react-native/metro-config@0.81.1(@babel/core@7.28.4))(@types/react@19.1.13)(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.28.4)(@react-native/metro-config@0.81.1(@babel/core@7.28.4))(@types/react@19.1.13)(react@19.1.0))(react@19.1.0):
+    dependencies:
+      expo-constants: 18.0.9(expo@54.0.8(@babel/core@7.28.4)(react-native@0.81.4(@babel/core@7.28.4)(@react-native/metro-config@0.81.1(@babel/core@7.28.4))(@types/react@19.1.13)(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.28.4)(@react-native/metro-config@0.81.1(@babel/core@7.28.4))(@types/react@19.1.13)(react@19.1.0))
+      invariant: 2.2.4
+      react: 19.1.0
+      react-native: 0.81.4(@babel/core@7.28.4)(@react-native/metro-config@0.81.1(@babel/core@7.28.4))(@types/react@19.1.13)(react@19.1.0)
+    transitivePeerDependencies:
+      - expo
+      - supports-color
 
   expo-localization@17.0.7(expo@54.0.8(@babel/core@7.28.4)(react-native@0.81.4(@babel/core@7.28.4)(@react-native/metro-config@0.81.1(@babel/core@7.28.4))(@types/react@19.1.13)(react@19.1.0))(react@19.1.0))(react@19.1.0):
     dependencies:
