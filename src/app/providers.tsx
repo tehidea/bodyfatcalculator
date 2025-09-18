@@ -11,7 +11,6 @@ if (typeof window !== 'undefined') {
     persistence: 'localStorage+cookie',
     session_recording: {
       maskAllInputs: true,
-      maskTextContent: true,
     },
     bootstrap: {
       distinctID: 'web_' + Math.random().toString(36).substring(2),
