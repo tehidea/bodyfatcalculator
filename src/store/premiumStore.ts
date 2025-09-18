@@ -7,6 +7,7 @@ import {
 } from "../config/store";
 import { Alert } from "react-native";
 import Purchases, { PurchasesError } from "react-native-purchases";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface PremiumStore {
   pro: boolean;

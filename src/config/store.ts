@@ -1,5 +1,25 @@
 import Purchases, { PurchasesPackage } from "react-native-purchases";
 import { Platform } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Constants from "expo-constants";
+
+// PostHog instance for tracking (will be set by App component)
+let posthogInstance: any = null;
+
+export function setPostHogInstance(instance: any) {
+  posthogInstance = instance;
+}
+
+// Utility to track purchase events
+function trackPurchaseEvent(eventName: string, properties: any = {}) {
+  if (posthogInstance) {
+    posthogInstance.capture(eventName, {
+      ...properties,
+      platform: Platform.OS,
+      timestamp: new Date().toISOString(),
+    });
+  }
+}
 
 // In development, use sandbox environment
 const isDevelopment = __DEV__;
@@ -42,9 +62,31 @@ export async function initializeStore() {
     Purchases.setLogLevel(Purchases.LOG_LEVEL.DEBUG);
   }
 
+  // Set up cross-platform user identification
+  const installId = await AsyncStorage.getItem('installId');
+  if (installId) {
+    console.log("initializeStore - Setting RevenueCat app user ID:", installId);
+    Purchases.setLogInHandler(async (newAppUserId) => {
+      console.log("RevenueCat login handler called with:", newAppUserId);
+      // Store the RevenueCat user ID for cross-platform sync
+      await AsyncStorage.setItem('revenueCatUserId', newAppUserId);
+    });
+  }
+
   await Purchases.configure({
     apiKey: API_KEY,
+    appUserID: installId || undefined, // Use install ID as RevenueCat user ID
   });
+
+  // Set PostHog user ID as RevenueCat subscriber attribute for integration
+  if (installId) {
+    await Purchases.setAttributes({
+      "$posthogUserId": installId,
+      "$posthogDistinctId": installId,
+      "$platform": Platform.OS,
+      "$appVersion": Constants.expoConfig?.version || "unknown",
+    });
+  }
 
   const entitlements = await getUserEntitlements();
   console.log("initializeStore - Initial entitlements:", entitlements);
@@ -72,9 +114,19 @@ export async function getUserEntitlements(): Promise<UserEntitlements> {
       activeEntitlements: customerInfo.entitlements.active,
       entitlementId: ENTITLEMENTS.pro, // Log the actual entitlement ID we're checking
     });
+
+    // Track premium status check
+    trackPurchaseEvent('premium_status_checked', {
+      has_premium: isPro,
+      revenue_cat_user_id: customerInfo.originalAppUserId,
+    });
+
     return entitlements;
   } catch (error) {
     console.error("getUserEntitlements - Error:", error);
+    trackPurchaseEvent('premium_status_check_failed', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
     return { pro: false };
   }
 }
@@ -95,6 +147,14 @@ export async function getOfferings() {
 
 export async function purchasePackage(package_: PurchasesPackage): Promise<UserEntitlements> {
   console.log("purchasePackage - Starting purchase");
+
+  // Track purchase attempt (RevenueCat integration will handle success/completion events)
+  trackPurchaseEvent('purchase_attempt', {
+    product_id: package_.product.identifier,
+    product_price: package_.product.price,
+    product_currency: package_.product.currencyCode,
+  });
+
   try {
     // Make the purchase
     const { customerInfo } = await Purchases.purchasePackage(package_);
@@ -118,6 +178,14 @@ export async function purchasePackage(package_: PurchasesPackage): Promise<UserE
 
     if (hasProProduct || hasProEntitlement) {
       console.log("purchasePackage - Product/Entitlement activated immediately");
+
+      // RevenueCat's PostHog integration will automatically send purchase events
+      // We only track activation success for internal debugging
+      trackPurchaseEvent('entitlement_activated', {
+        revenue_cat_user_id: customerInfo.originalAppUserId,
+        activated_immediately: true,
+      });
+
       return { pro: true };
     }
 

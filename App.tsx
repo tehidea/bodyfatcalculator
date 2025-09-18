@@ -16,7 +16,7 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 import { CalculatorScreen } from "./src/screens/CalculatorScreen";
 import { FeatureComparisonScreen } from "./src/screens/FeatureComparisonScreen";
 import { theme } from "./src/constants/theme";
-import { initializeStore } from "./src/config/store";
+import { initializeStore, setPostHogInstance } from "./src/config/store";
 import { ResponsiveProvider } from "./src/utils/responsiveContext";
 import { View } from "react-native";
 import { registerRootComponent } from "expo";
@@ -66,7 +66,13 @@ function useInstallAttribution() {
           const installId = `install_${Date.now()}_${Math.random().toString(36).substring(2)}`;
           await AsyncStorage.setItem('installId', installId);
 
-          posthog?.identify(installId);
+          // Set user properties for cross-platform identification
+          posthog?.identify(installId, {
+            platform: 'mobile',
+            app_version: Constants.expoConfig?.version,
+            install_source: initialUrl ? 'deep_link' : 'direct_install',
+            user_type: 'mobile_user',
+          });
         }
       } catch (error) {
         console.warn('Error tracking install attribution:', error);
@@ -79,6 +85,15 @@ function useInstallAttribution() {
 }
 
 function AppContent() {
+  const posthog = usePostHog();
+
+  useEffect(() => {
+    // Set PostHog instance for purchase tracking
+    if (posthog) {
+      setPostHogInstance(posthog);
+    }
+  }, [posthog]);
+
   useInstallAttribution();
 
   return (
