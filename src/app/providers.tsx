@@ -14,7 +14,15 @@ if (typeof window !== 'undefined') {
       maskTextContent: true,
     },
     bootstrap: {
-      distinctID: 'anonymous-web-' + Math.random().toString(36).substring(2),
+      distinctID: 'web_' + Math.random().toString(36).substring(2),
+    },
+    loaded: (posthog) => {
+      // Set user properties for web users
+      posthog.identify(undefined, {
+        platform: 'web',
+        user_type: 'web_visitor',
+        source: 'website',
+      });
     },
   })
 }
