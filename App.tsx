@@ -10,6 +10,7 @@ import {
 } from "@expo-google-fonts/montserrat";
 import { usePostHog, PostHogProvider } from "posthog-react-native";
 import * as SplashScreen from "expo-splash-screen";
+import * as Linking from "expo-linking";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { CalculatorScreen } from "./src/screens/CalculatorScreen";
@@ -20,6 +21,7 @@ import { ResponsiveProvider } from "./src/utils/responsiveContext";
 import { View } from "react-native";
 import { registerRootComponent } from "expo";
 import Constants from "expo-constants";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Configure splash screen options
 SplashScreen.setOptions({
@@ -34,6 +36,73 @@ SplashScreen.preventAutoHideAsync().catch(() => {
 
 // Create the navigator
 const Stack = createNativeStackNavigator();
+
+// Hook to track install attribution
+function useInstallAttribution() {
+  const posthog = usePostHog();
+
+  useEffect(() => {
+    const trackInstallAttribution = async () => {
+      try {
+        // Check if this is the first app launch
+        const hasLaunchedBefore = await AsyncStorage.getItem('hasLaunchedBefore');
+
+        if (!hasLaunchedBefore) {
+          // Mark that we've launched before
+          await AsyncStorage.setItem('hasLaunchedBefore', 'true');
+
+          // Get initial URL (if app was opened via deep link)
+          const initialUrl = await Linking.getInitialURL();
+
+          // Track the install event with attribution data
+          posthog?.capture('app_installed', {
+            platform: Constants.platform?.ios ? 'ios' : 'android',
+            initial_url: initialUrl,
+            source: initialUrl ? 'deep_link' : 'direct_install',
+            timestamp: new Date().toISOString(),
+          });
+
+          // Create a unique install ID for cross-platform tracking
+          const installId = `install_${Date.now()}_${Math.random().toString(36).substring(2)}`;
+          await AsyncStorage.setItem('installId', installId);
+
+          posthog?.identify(installId);
+        }
+      } catch (error) {
+        console.warn('Error tracking install attribution:', error);
+      }
+    };
+
+    // Delay to ensure PostHog is initialized
+    setTimeout(trackInstallAttribution, 1000);
+  }, [posthog]);
+}
+
+function AppContent() {
+  useInstallAttribution();
+
+  return (
+    <KeyboardProvider statusBarTranslucent>
+      <SafeAreaProvider>
+        <ThemeProvider theme={theme}>
+          <ResponsiveProvider>
+            <NavigationContainer>
+              <Stack.Navigator
+                screenOptions={{
+                  headerShown: false,
+                  animation: "slide_from_right",
+                }}
+              >
+                <Stack.Screen name="Calculator" component={CalculatorScreen} />
+                <Stack.Screen name="FeatureComparison" component={FeatureComparisonScreen} />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </ResponsiveProvider>
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </KeyboardProvider>
+  );
+}
 
 function App() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -80,37 +149,16 @@ function App() {
       options={{
         host: "https://eu.i.posthog.com",
         disabled: __DEV__,
+        // Enable cross-platform user tracking
+        bootstrap: {
+          distinctID: `mobile_${Constants.platform?.ios ? 'ios' : 'android'}_${Date.now()}`,
+        },
+        persistence: 'memory',
       }}
     >
-      <PostHogProvider
-        apiKey={Constants.expoConfig?.extra?.POSTHOG_API_KEY || "your_fallback_posthog_api_key"}
-        options={{
-          host: "https://eu.i.posthog.com",
-          disabled: __DEV__,
-        }}
-      >
-        <KeyboardProvider statusBarTranslucent>
-          <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-            <SafeAreaProvider>
-              <ThemeProvider theme={theme}>
-                <ResponsiveProvider>
-                  <NavigationContainer>
-                    <Stack.Navigator
-                      screenOptions={{
-                        headerShown: false,
-                        animation: "slide_from_right",
-                      }}
-                    >
-                      <Stack.Screen name="Calculator" component={CalculatorScreen} />
-                      <Stack.Screen name="FeatureComparison" component={FeatureComparisonScreen} />
-                    </Stack.Navigator>
-                  </NavigationContainer>
-                </ResponsiveProvider>
-              </ThemeProvider>
-            </SafeAreaProvider>
-          </View>
-        </KeyboardProvider>
-      </PostHogProvider>
+      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        <AppContent />
+      </View>
     </PostHogProvider>
   );
 }
