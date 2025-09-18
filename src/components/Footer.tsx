@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePostHog } from 'posthog-js/react'
 
 import { Container } from '@/components/Container'
 import { Logo } from '@/components/Logo'
@@ -23,10 +24,30 @@ function QrCodeBorder(props: React.ComponentPropsWithoutRef<'svg'>) {
 }
 
 export function Footer() {
+  const posthog = usePostHog()
+
   const handleAppStoreClick = () => {
+    posthog?.capture('app_download_clicked', {
+      platform: 'ios',
+      source: 'website',
+      link_type: 'app_store',
+      location: 'footer',
+      utm_source: 'website',
+      utm_medium: 'footer_link',
+      utm_campaign: 'app_store_ios'
+    })
   }
 
   const handleGooglePlayClick = () => {
+    posthog?.capture('app_download_clicked', {
+      platform: 'android',
+      source: 'website',
+      link_type: 'google_play',
+      location: 'footer',
+      utm_source: 'website',
+      utm_medium: 'footer_link',
+      utm_campaign: 'google_play_android'
+    })
   }
 
   return (
@@ -125,12 +146,14 @@ export function Footer() {
           <div className="flex flex-col items-center gap-4 sm:hidden">
             <Link
               href="https://apps.apple.com/us/app/body-fat-calculator-pro/id6738918673"
+              onClick={handleAppStoreClick}
               className="text-sm text-gray-400 hover:text-white"
             >
               Download from App Store
             </Link>
             <Link
               href="https://play.google.com/store/apps/details?id=com.tehidea.bodyfatcalculator"
+              onClick={handleGooglePlayClick}
               className="text-sm text-gray-400 hover:text-white"
             >
               Get it on Google Play

@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import clsx from 'clsx'
+import { usePostHog } from 'posthog-js/react'
 
 export function AppStoreLink({
   color = 'black',
@@ -12,7 +13,19 @@ export function AppStoreLink({
   className?: string
   size?: 'default' | 'large' | 'massive'
 }) {
+  const posthog = usePostHog()
+
   const handleClick = () => {
+    // PostHog attribution tracking
+    posthog?.capture('app_download_clicked', {
+      platform: 'ios',
+      source: 'website',
+      link_type: 'app_store',
+      utm_source: 'website',
+      utm_medium: 'download_button',
+      utm_campaign: 'app_store_ios'
+    })
+
     // Event snippet for Submit lead form conversion page
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', 'conversion', {

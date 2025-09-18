@@ -7,6 +7,15 @@ if (typeof window !== 'undefined') {
   posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
     api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
     person_profiles: 'always',
+    cross_subdomain_cookie: true,
+    persistence: 'localStorage+cookie',
+    session_recording: {
+      maskAllInputs: true,
+      maskTextContent: true,
+    },
+    bootstrap: {
+      distinctID: 'anonymous-web-' + Math.random().toString(36).substring(2),
+    },
   })
 }
 
