@@ -85,8 +85,7 @@ export default function Methods() {
                       <span className="text-[#4CAF50]">±3-4%</span>
                     </div>
                     <p className="mt-2 text-sm text-gray-400">
-                      9-site skinfold method optimized for bodybuilders and
-                      athletes
+                      9-site skinfold method used in bodybuilding contexts
                     </p>
                   </div>
                 </Link>
@@ -106,7 +105,7 @@ export default function Methods() {
                       <span className="text-[#4CAF50]">±3-4%</span>
                     </div>
                     <p className="mt-2 text-sm text-gray-400">
-                      Gold standard for professional body fat assessment
+                      Comprehensive 7-site skinfold protocol
                     </p>
                   </div>
                 </Link>
@@ -146,7 +145,7 @@ export default function Methods() {
                       <span className="text-[#4CAF50]">±3.5-5%</span>
                     </div>
                     <p className="mt-2 text-sm text-gray-400">
-                      Age-specific equations for improved accuracy
+                      Age-specific equations
                     </p>
                   </div>
                 </Link>
@@ -166,7 +165,7 @@ export default function Methods() {
                       <span className="text-[#FFC107]">±4-5%</span>
                     </div>
                     <p className="mt-2 text-sm text-gray-400">
-                      Quick but reliable skinfold method
+                      Quick skinfold method for regular tracking
                     </p>
                   </div>
                 </Link>
@@ -217,7 +216,7 @@ export default function Methods() {
                       <span className="text-[#FF5722]">±4-6%</span>
                     </div>
                     <p className="mt-2 text-sm text-gray-400">
-                      Enhanced accuracy over standard YMCA method
+                      Adds extra measurements compared to the YMCA method
                     </p>
                   </div>
                 </Link>
@@ -232,7 +231,7 @@ export default function Methods() {
                       <span className="text-[#FF5722]">±5-7%</span>
                     </div>
                     <p className="mt-2 text-sm text-gray-400">
-                      Quickest basic screening method
+                      Simple basic screening method
                     </p>
                   </div>
                 </Link>

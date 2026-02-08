@@ -41,10 +41,9 @@ export default function JacksonPollock3() {
               </span>
             </div>
             <p className="mt-4 text-base text-gray-400">
-              A simplified version of the 7-site method, providing quick but
-              accurate body fat measurements. Perfect balance between accuracy
-              and practicality, validated extensively against laboratory
-              standards.
+              A simplified version of the 7-site method, providing quick body
+              fat measurements. A practical balance between accuracy and
+              measurement time.
             </p>
           </motion.div>
 
@@ -62,17 +61,15 @@ export default function JacksonPollock3() {
               <div className="mt-6">
                 <p className="text-gray-300">
                   Developed as a streamlined alternative to the 7-site method,
-                  this protocol maintains high accuracy while significantly
-                  reducing measurement time. Uses gender-specific sites to
-                  account for different fat distribution patterns in men and
-                  women.
+                  this protocol balances accuracy with measurement time. Uses
+                  gender-specific sites to account for different fat
+                  distribution patterns in men and women.
                 </p>
                 <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                  <li>Accuracy: ±4-5% compared to hydrostatic weighing</li>
+                  <li>Accuracy: ±4-5% with proper technique</li>
                   <li>Ideal for quick assessments</li>
                   <li>Gender-specific measurement sites</li>
-                  <li>Validated on 1,500+ subjects</li>
-                  <li>Excellent for tracking changes</li>
+                  <li>Useful for tracking changes over time</li>
                 </ul>
               </div>
             </motion.section>
@@ -117,11 +114,9 @@ export default function JacksonPollock3() {
                       Take measurements standing, with skin dry and unmarked
                     </li>
                     <li>Measure on the right side of the body</li>
-                    <li>Wait 2 seconds after applying caliper</li>
-                    <li>Take 2-3 measurements at each site</li>
-                    <li>
-                      Use the average if measurements differ by more than 1mm
-                    </li>
+                    <li>Wait briefly after applying the caliper</li>
+                    <li>Take multiple measurements at each site</li>
+                    <li>Use the average of your readings</li>
                   </ul>
                 </div>
               </div>

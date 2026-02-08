@@ -65,10 +65,10 @@ export default function NavyMethod() {
                       Research Center:
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
-                      <li>Initial study with 1,585 Navy personnel</li>
-                      <li>Comparison with hydrostatic weighing</li>
+                      <li>Developed at the Naval Health Research Center</li>
                       <li>Gender-specific equation development</li>
-                      <li>Focus on field practicality</li>
+                      <li>Based on circumference measurements and height</li>
+                      <li>Designed for field practicality</li>
                     </ul>
                   </div>
                 </div>
@@ -84,8 +84,7 @@ export default function NavyMethod() {
                     <div className="rounded-lg bg-black/20 p-4">
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                         <li>1984: Original equations published</li>
-                        <li>1990s: Expanded civilian validation</li>
-                        <li>2000s: Cross-validation with DEXA</li>
+                        <li>Ongoing use in military field settings</li>
                         <li>2020: Updated military standards</li>
                       </ul>
                     </div>
@@ -118,7 +117,7 @@ export default function NavyMethod() {
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Height</li>
                           <li>Neck circumference</li>
-                          <li>Abdominal circumference</li>
+                          <li>Waist circumference</li>
                           <li>Standardized posture</li>
                         </ul>
                       </div>
@@ -142,30 +141,19 @@ export default function NavyMethod() {
                     Statistical Validation
                   </h3>
                   <div className="mt-4 space-y-4">
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Military Population
-                        </h4>
-                        <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                          <li>Correlation with HW: r = 0.90 (men)</li>
-                          <li>Correlation with HW: r = 0.85 (women)</li>
-                          <li>SEE: ±3.0% men, ±3.5% women</li>
-                          <li>High test-retest reliability</li>
-                        </ul>
-                      </div>
-                      <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Civilian Population
-                        </h4>
-                        <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                          <li>2,300+ subjects tested</li>
-                          <li>Cross-validated with DEXA</li>
-                          <li>Consistent accuracy across ages</li>
-                          <li>Valid for multiple ethnicities</li>
-                        </ul>
-                      </div>
-                    </div>
+                    <p className="text-gray-300">
+                      Reported accuracy ranges and limitations:
+                    </p>
+                    <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                      <li>Typical accuracy range: ±4-6%</li>
+                      <li>
+                        Most accurate for individuals near population averages
+                      </li>
+                      <li>
+                        Less reliable for very lean or obese individuals
+                      </li>
+                      <li>Accuracy depends on measurement technique</li>
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -261,22 +249,16 @@ export default function NavyMethod() {
                     Hodgdon, J.A., & Beckett, M.B. (1984). &ldquo;Prediction of
                     percent body fat for U.S. Navy men and women from body
                     circumferences and height.&rdquo; Naval Health Research
-                    Center Report, No. 84-11.
+                    Center Report, No. 84-29.
+                  </li>
+                  <li>
+                    Heyward, V.H., & Wagner, D.R. (2004). &ldquo;Applied Body
+                    Composition Assessment (2nd ed.).&rdquo; Human Kinetics.
                   </li>
                   <li>
                     Friedl, K.E., et al. (2020). &ldquo;Body Composition
                     Standards and Assessment in the U.S. Military.&rdquo;
                     Military Medicine, 185(9), e1472-e1479.
-                  </li>
-                  <li>
-                    Shake, C.L., et al. (2018). &ldquo;Validation of the US Navy
-                    Circumference Method for Percent Body Fat Assessment.&rdquo;
-                    Journal of Strength and Conditioning Research, 32(4),
-                    1098-1104.
-                  </li>
-                  <li>
-                    Department of Defense. (2020). &ldquo;DOD Physical Fitness
-                    and Body Fat Program.&rdquo; DOD Instruction 1308.3.
                   </li>
                 </ul>
               </div>

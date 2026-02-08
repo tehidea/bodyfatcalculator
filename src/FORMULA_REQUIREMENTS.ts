@@ -51,9 +51,9 @@ export const FORMULA_REQUIREMENTS = {
   navy: {
     name: 'U.S. Navy',
     description:
-      "The military's method using your weight, height, and key body measurements",
+      "The military's method using height and key body measurements",
     fields: [
-      { key: 'weight', label: 'Weight', unit: 'kg', required: true },
+      { key: 'weight', label: 'Weight', unit: 'kg', required: false },
       { key: 'height', label: 'Height', unit: 'cm', required: true },
       {
         key: 'neckCircumference',
@@ -79,9 +79,9 @@ export const FORMULA_REQUIREMENTS = {
   covert: {
     name: 'Covert Bailey',
     description:
-      'A comprehensive method using your weight, age, and several body measurements for accuracy',
+      'A comprehensive method using age and several body measurements for accuracy',
     fields: [
-      { key: 'weight', label: 'Weight', unit: 'kg', required: true },
+      { key: 'weight', label: 'Weight', unit: 'kg', required: false },
       { key: 'age', label: 'Age', unit: 'years', required: true },
       {
         key: 'hipsCircumference',
@@ -100,7 +100,6 @@ export const FORMULA_REQUIREMENTS = {
         label: 'Waist (at navel)',
         unit: 'cm',
         required: true,
-        genderSpecific: 'male',
       },
       {
         key: 'forearmCircumference',
@@ -151,6 +150,7 @@ export const FORMULA_REQUIREMENTS = {
         label: 'Abdomen Skinfold',
         unit: 'mm',
         required: true,
+        genderSpecific: 'male',
       },
       {
         key: 'thighSkinfold',

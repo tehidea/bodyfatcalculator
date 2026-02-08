@@ -37,9 +37,8 @@ export default function ClinicalApplications() {
               Clinical Applications
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              Evidence-based applications of body composition assessment in
-              clinical practice, based on research by Ellis (2000), Heymsfield
-              et al. (2005), and recent systematic reviews.
+              Overview of clinical and research applications of body
+              composition assessment in practice.
             </p>
           </motion.div>
 
@@ -62,8 +61,7 @@ export default function ClinicalApplications() {
                   </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Clinical applications of body composition assessment
-                      (Ellis, 2000):
+                      Clinical applications of body composition assessment:
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
                       <li>Nutritional status evaluation</li>
@@ -80,8 +78,7 @@ export default function ClinicalApplications() {
                   </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Validation studies in clinical settings (Heymsfield et
-                      al., 2005):
+                      Validation considerations in clinical settings:
                     </p>
                     <div className="rounded-lg bg-black/20 p-4">
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
@@ -113,8 +110,7 @@ export default function ClinicalApplications() {
                   </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Applications in clinical trials and research (Wang et al.,
-                      1992):
+                      Applications in clinical trials and research:
                     </p>
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="rounded-lg bg-black/20 p-4">
@@ -160,8 +156,7 @@ export default function ClinicalApplications() {
                   </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Applications in population health research (Gallagher et
-                      al., 2000):
+                      Applications in population health research:
                     </p>
                     <div className="rounded-lg bg-black/20 p-4">
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
@@ -187,23 +182,14 @@ export default function ClinicalApplications() {
               <div className="mt-6">
                 <ul className="list-inside space-y-3 text-sm text-gray-300">
                   <li>
-                    Ellis, K.J. (2000). &ldquo;Human body composition: in vivo
-                    methods.&rdquo; Physiological Reviews, 80(2), 649-680.
+                    Wang, Z.M., Pierson, R.N., & Heymsfield, S.B. (1992).
+                    &ldquo;The five-level model: a new approach to organizing
+                    body-composition research.&rdquo; American Journal of
+                    Clinical Nutrition, 56(1), 19-28.
                   </li>
                   <li>
-                    Heymsfield, S.B., et al. (2005). &ldquo;Human Body
-                    Composition.&rdquo; Human Kinetics.
-                  </li>
-                  <li>
-                    Wang, Z.M., et al. (1992). &ldquo;The five-level model: a
-                    new approach to organizing body-composition research.&rdquo;
-                    American Journal of Clinical Nutrition, 56(1), 19-28.
-                  </li>
-                  <li>
-                    Gallagher, D., et al. (2000). &ldquo;Healthy percentage body
-                    fat ranges: an approach for developing guidelines based on
-                    body mass index.&rdquo; American Journal of Clinical
-                    Nutrition, 72(3), 694-701.
+                    Heyward, V.H., & Wagner, D.R. (2004). &ldquo;Applied Body
+                    Composition Assessment (2nd ed.).&rdquo; Human Kinetics.
                   </li>
                 </ul>
               </div>

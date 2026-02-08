@@ -41,10 +41,9 @@ export default function JacksonPollock7() {
               </span>
             </div>
             <p className="mt-4 text-base text-gray-400">
-              The gold standard in skinfold-based body fat assessment, using
-              seven strategic measurement sites for maximum accuracy. Validated
-              extensively against hydrostatic weighing with exceptional
-              correlation.
+              A comprehensive skinfold-based method using seven measurement
+              sites for a more detailed assessment. Commonly used in field
+              assessments.
             </p>
           </motion.div>
 
@@ -62,16 +61,15 @@ export default function JacksonPollock7() {
               <div className="mt-6">
                 <p className="text-gray-300">
                   Developed by Jackson and Pollock, this method represents the
-                  most comprehensive approach to skinfold-based body fat
+                  comprehensive approach to skinfold-based body fat
                   assessment. Uses seven strategic measurement sites to account
                   for various fat distribution patterns.
                 </p>
                 <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                  <li>Accuracy: ±3-4% compared to hydrostatic weighing</li>
-                  <li>Highest correlation with hydrostatic weighing</li>
-                  <li>Most comprehensive skinfold method</li>
-                  <li>Excellent for research and clinical applications</li>
-                  <li>Gold standard for field testing</li>
+                  <li>Accuracy: ±3-4% with proper technique</li>
+                  <li>Comprehensive skinfold method</li>
+                  <li>Commonly used in field assessments</li>
+                  <li>Requires consistent technique across sites</li>
                 </ul>
               </div>
             </motion.section>
@@ -108,9 +106,7 @@ export default function JacksonPollock7() {
                     </li>
                     <li>Apply caliper perpendicular to skinfold</li>
                     <li>Take measurements on the right side of the body</li>
-                    <li>
-                      Wait 1-2 seconds after applying caliper before reading
-                    </li>
+                    <li>Wait briefly after applying the caliper before reading</li>
                     <li>
                       Take multiple measurements at each site for accuracy
                     </li>

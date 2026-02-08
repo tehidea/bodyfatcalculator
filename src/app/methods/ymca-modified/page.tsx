@@ -36,10 +36,9 @@ export default function ModifiedYMCAMethod() {
               Modified YMCA Method
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              An enhanced version of the YMCA method, incorporating additional
-              measurements for improved accuracy. Designed to provide better
-              results while maintaining the simplicity of circumference
-              measurements.
+              An adapted version of the YMCA method that incorporates
+              additional measurements. Designed to maintain the simplicity of
+              circumference measurements.
             </p>
           </motion.div>
 
@@ -56,17 +55,14 @@ export default function ModifiedYMCAMethod() {
               </h2>
               <div className="mt-6">
                 <p className="text-gray-300">
-                  An enhanced version of the YMCA method, incorporating
-                  additional measurements for improved accuracy, particularly
-                  for women. Validated against hydrostatic weighing with
-                  correlation coefficients of 0.80-0.85.
+                  An adapted version of the YMCA method that adds additional
+                  measurements for the women&apos;s equation.
                 </p>
                 <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                  <li>Accuracy: ±4-6% compared to DEXA</li>
-                  <li>Enhanced accuracy for women</li>
-                  <li>Accounts for body frame size</li>
-                  <li>Uses multiple circumference measurements</li>
-                  <li>Better for diverse body types</li>
+                  <li>Accuracy: ±4-6% with proper technique</li>
+                  <li>Additional measurements for the women&apos;s equation</li>
+                  <li>Uses additional circumference measurements</li>
+                  <li>Still affected by fat distribution patterns</li>
                 </ul>
               </div>
             </motion.section>
@@ -91,12 +87,11 @@ export default function ModifiedYMCAMethod() {
                         Required Measurements:
                       </h4>
                       <ul className="mt-2 list-inside list-disc space-y-1">
-                        <li>Height</li>
                         <li>Weight</li>
-                        <li>Waist circumference (at narrowest point)</li>
-                        <li>Hip circumference (at widest point)</li>
-                        <li>Forearm circumference (at widest point)</li>
-                        <li>Wrist circumference (for frame size)</li>
+                        <li>Waist circumference</li>
+                        <li>Hip circumference (women)</li>
+                        <li>Forearm circumference (women)</li>
+                        <li>Wrist circumference (women)</li>
                       </ul>
                     </div>
                   </div>
@@ -107,7 +102,7 @@ export default function ModifiedYMCAMethod() {
                     <li>Take all measurements in the same order each time</li>
                     <li>Ensure consistent tension on the measuring tape</li>
                     <li>Measure at the specified anatomical points</li>
-                    <li>Record measurements to the nearest 0.5 cm</li>
+                    <li>Record measurements consistently</li>
                     <li>Take each measurement twice for accuracy</li>
                   </ul>
                 </div>

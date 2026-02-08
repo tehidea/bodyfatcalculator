@@ -166,10 +166,10 @@ export function CallToAction() {
                       <CheckIcon className="h-5 w-5 text-[#4CAF50]" />
                       <span>6 Additional Professional Methods</span>
                     </div>
-                    <div className="flex items-center gap-3 text-white">
-                      <CheckIcon className="h-5 w-5 text-[#4CAF50]" />
-                      <span>±3-4% Accuracy</span>
-                    </div>
+                  <div className="flex items-center gap-3 text-white">
+                    <CheckIcon className="h-5 w-5 text-[#4CAF50]" />
+                    <span>±3-5% Accuracy</span>
+                  </div>
                     <div className="flex items-center gap-3 text-white">
                       <CheckIcon className="h-5 w-5 text-[#4CAF50]" />
                       <span>Enhanced Precision</span>

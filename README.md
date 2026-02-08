@@ -73,7 +73,7 @@ window.manageConsent?.showModal()
 window.manageConsent?.resetConsent()
 
 // Check if a service has consent
-const hasAnalyticsConsent = window.manageConsent?.hasConsent('posthog')
+const hasAnalyticsConsent = window.manageConsent?.hasConsent('google-tag-manager')
 ```
 
 ## Customizing
@@ -92,4 +92,3 @@ To learn more about the technologies used in this project, see the following res
 - [Tailwind CSS](https://tailwindcss.com/docs) - the utility-first CSS framework
 - [Klaro](https://heyklaro.com/docs/) - the consent management platform
 - [PostHog](https://posthog.com/docs) - product analytics platform
-- [Plausible](https://plausible.io/docs) - privacy-friendly analytics

@@ -42,8 +42,8 @@ export default function ParrilloMethod() {
             </div>
             <p className="mt-4 text-base text-gray-400">
               A comprehensive skinfold measurement method developed specifically
-              for bodybuilding applications, offering maximum precision for
-              competition preparation and detailed progress tracking.
+              for bodybuilding applications, designed to track changes in
+              trained individuals.
             </p>
           </motion.div>
 
@@ -62,15 +62,13 @@ export default function ParrilloMethod() {
                 <p className="text-gray-300">
                   Developed by John Parrillo specifically for bodybuilding
                   applications. Uses nine skinfold sites to account for various
-                  fat distribution patterns. Particularly effective for athletic
-                  populations.
+                  fat distribution patterns.
                 </p>
                 <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                   <li>Accuracy: ±3-4% when performed correctly</li>
                   <li>Most comprehensive skinfold method</li>
-                  <li>Excellent for trained individuals</li>
-                  <li>Accounts for athletic body types</li>
-                  <li>Best for bodybuilding applications</li>
+                  <li>Useful for trained individuals</li>
+                  <li>Best for bodybuilding-focused tracking</li>
                 </ul>
               </div>
             </motion.section>
@@ -91,14 +89,14 @@ export default function ParrilloMethod() {
                   </h3>
                   <ul className="mt-4 list-inside list-disc space-y-2">
                     <li>Chest</li>
-                    <li>Axilla (armpit area)</li>
+                    <li>Abdomen</li>
+                    <li>Thigh</li>
+                    <li>Bicep</li>
                     <li>Triceps</li>
                     <li>Subscapular (below shoulder blade)</li>
-                    <li>Abdominal</li>
                     <li>Suprailiac (above hip bone)</li>
                     <li>Lower back</li>
                     <li>Calf</li>
-                    <li>Quadriceps</li>
                   </ul>
                 </div>
                 <div className="mt-6 rounded-lg bg-black/20 p-4 text-sm text-gray-300">
@@ -111,9 +109,7 @@ export default function ParrilloMethod() {
                     <li>Use high-quality calipers for consistent readings</li>
                     <li>Ensure proper site identification for accuracy</li>
                     <li>Take measurements on the right side of the body</li>
-                    <li>
-                      Wait 1-2 seconds after applying caliper before reading
-                    </li>
+                    <li>Wait briefly after applying the caliper before reading</li>
                   </ul>
                 </div>
               </div>

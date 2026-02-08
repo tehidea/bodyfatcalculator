@@ -1,3 +1,6 @@
 {
-  "cSpell.words": ["bodyfatcalcpro"]
+  "cSpell.words": ["bodyfatcalcpro"],
+  "debug.javascript.defaultRuntimeExecutable": {
+    "pwa-node": "/Users/designorant/.local/share/mise/shims/node"
+  }
 }

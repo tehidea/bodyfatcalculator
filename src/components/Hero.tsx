@@ -75,9 +75,9 @@ export function Hero() {
             </h1>
 
             <p className="mt-6 text-lg leading-8 text-gray-300">
-              Get lab-grade accuracy with 9 scientifically validated methods.
-              Perfect for trainers, athletes, and fitness enthusiasts who demand
-              precision.
+              Get research-backed accuracy ranges across 9 validated methods.
+              Perfect for trainers, athletes, and fitness enthusiasts who want
+              consistent estimates.
             </p>
 
             <motion.div
@@ -87,7 +87,8 @@ export function Hero() {
               className="mt-8 flex flex-wrap gap-4"
             >
               <div className="inline-flex items-center rounded-full bg-white/5 px-4 py-1 text-sm font-medium text-white ring-1 ring-inset ring-white/10 transition-colors hover:bg-white/10">
-                <span className="mr-2 text-[#4CAF50]">✓</span> ±3-4% Accuracy
+                <span className="mr-2 text-[#4CAF50]">✓</span> ±3-5% PRO
+                Accuracy
               </div>
               <div className="inline-flex items-center rounded-full bg-white/5 px-4 py-1 text-sm font-medium text-white ring-1 ring-inset ring-white/10 transition-colors hover:bg-white/10">
                 <span className="mr-2 text-[#4CAF50]">✓</span> 6 Professional

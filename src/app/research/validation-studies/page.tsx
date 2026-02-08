@@ -56,12 +56,12 @@ export default function ValidationStudies() {
               <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
               <div className="relative">
                 <h2 className="text-2xl font-semibold text-white">
-                  Statistical Validation Data
+                  Validation Overview
                 </h2>
                 <div className="mt-8">
                   <p className="mb-6 text-gray-400">
-                    Validation metrics from peer-reviewed research comparing
-                    field methods against hydrostatic weighing:
+                    Typical accuracy ranges reported for field methods when
+                    measured correctly:
                   </p>
                   <div className="overflow-x-auto rounded-lg bg-black/20 ring-1 ring-white/10">
                     <table className="min-w-full">
@@ -74,37 +74,28 @@ export default function ValidationStudies() {
                             Accuracy Range
                           </th>
                           <th className="border-b border-white/10 px-6 py-3 text-left text-sm font-semibold text-white">
-                            SEE
-                          </th>
-                          <th className="border-b border-white/10 px-6 py-3 text-left text-sm font-semibold text-white">
-                            Source
+                            Primary Reference
                           </th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-white/10">
                         <tr>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            7-Site Jackson-Pollock
+                            Jackson &amp; Pollock 7-Site
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            ±3.5-4.0%
+                            ±3-4%
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            3.4%
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            Jackson & Pollock (1978)
+                            Jackson &amp; Pollock (1985)
                           </td>
                         </tr>
                         <tr>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            Durnin-Womersley
+                            Durnin &amp; Womersley
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            ±3.5-5.0%
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            3.8%
+                            ±3.5-5%
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-300">
                             Durnin & Womersley (1974)
@@ -112,13 +103,10 @@ export default function ValidationStudies() {
                         </tr>
                         <tr>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            US Navy
+                            U.S. Navy
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-300">
-                            ±3-6%
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            3.9%
+                            ±4-6%
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-300">
                             Hodgdon & Beckett (1984)
@@ -128,8 +116,8 @@ export default function ValidationStudies() {
                     </table>
                   </div>
                   <p className="mt-4 text-sm text-gray-400">
-                    SEE = Standard Error of Estimate, validated against
-                    hydrostatic weighing
+                    Accuracy ranges assume proper measurement technique and
+                    calibrated tools.
                   </p>
                 </div>
               </div>
@@ -153,21 +141,15 @@ export default function ValidationStudies() {
                       Technical Errors
                     </h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                      <li>
-                        Site location and landmarking (Perini et al., 2005)
-                      </li>
-                      <li>
-                        Caliper pressure standardization (Ulijaszek & Kerr,
-                        1999)
-                      </li>
-                      <li>Equipment calibration (Gore et al., 1996)</li>
-                      <li>Inter-observer variation (Norton & Olds, 1996)</li>
+                      <li>Site location and landmarking</li>
+                      <li>Caliper pressure and timing</li>
+                      <li>Equipment calibration</li>
+                      <li>Inter-observer variation</li>
                     </ul>
                     <div className="mt-4 rounded-lg bg-black/20 p-4">
                       <p className="text-sm text-gray-300">
                         <strong>Impact:</strong> Technical error of measurement
-                        (TEM) ranges from 3-7% for novice practitioners to 1-2%
-                        for experienced anthropometrists (Perini et al., 2005).
+                        varies with training and consistency in technique.
                       </p>
                     </div>
                   </article>
@@ -176,16 +158,16 @@ export default function ValidationStudies() {
                       Biological Factors
                     </h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                      <li>Hydration status (Heyward & Wagner, 2004)</li>
-                      <li>Diurnal variation (Norton & Olds, 1996)</li>
-                      <li>Exercise effects (Lohman et al., 2000)</li>
-                      <li>Age and gender differences (Jackson et al., 2002)</li>
+                      <li>Hydration status</li>
+                      <li>Time of day</li>
+                      <li>Recent exercise</li>
+                      <li>Age and gender differences</li>
                     </ul>
                     <div className="mt-4 rounded-lg bg-black/20 p-4">
                       <p className="text-sm text-gray-300">
                         <strong>Impact:</strong> Biological factors can affect
-                        measurements by 2-3% based on time of day and
-                        physiological state (Heyward & Wagner, 2004).
+                        measurements between sessions, so consistent conditions
+                        matter.
                       </p>
                     </div>
                   </article>
@@ -210,13 +192,12 @@ export default function ValidationStudies() {
                   </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Modern reference method for body composition assessment
-                      (Prior et al., 1997):
+                      Common reference method for body composition assessment:
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
-                      <li>Accuracy: ±1-2% body fat (Lohman et al., 2000)</li>
-                      <li>Precision: CV = 1-2% (Prior et al., 1997)</li>
-                      <li>Scan time: 5-20 minutes</li>
+                      <li>Used in research and clinical settings</li>
+                      <li>Provides regional and whole-body composition data</li>
+                      <li>Often used to validate field methods</li>
                     </ul>
                   </div>
                 </div>
@@ -227,13 +208,12 @@ export default function ValidationStudies() {
                   </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Traditional reference method (Siri, 1961; Brozek et al.,
-                      1963):
+                      Long-standing reference method:
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
-                      <li>Accuracy: ±2.5% body fat (Siri, 1961)</li>
-                      <li>Precision: CV = 1.5-2% (Brozek et al., 1963)</li>
-                      <li>Test duration: 20-30 minutes</li>
+                      <li>Requires water immersion and proper technique</li>
+                      <li>Often used as a comparison standard</li>
+                      <li>Supports body density-based equations</li>
                     </ul>
                   </div>
                 </div>
@@ -260,35 +240,21 @@ export default function ValidationStudies() {
                     </h3>
                     <div className="mt-4 space-y-4">
                       <p className="text-gray-300">
-                        Comprehensive validation across multiple studies
-                        (1978-2020):
+                        Key findings from the original publications and
+                        follow-up validations:
                       </p>
-                      <div className="grid gap-4 sm:grid-cols-2">
-                        <div className="rounded-lg bg-black/20 p-4">
-                          <h4 className="font-medium text-white">
-                            7-Site Protocol
-                          </h4>
-                          <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                            <li>Original validation (n=1,500+)</li>
-                            <li>Correlation with HW: r = 0.94</li>
-                            <li>SEE: ±3.0% body fat</li>
-                            <li>Test-retest reliability: r = 0.98</li>
-                            <li>DEXA cross-validation (2010-2020)</li>
-                          </ul>
-                        </div>
-                        <div className="rounded-lg bg-black/20 p-4">
-                          <h4 className="font-medium text-white">
-                            3-Site Protocol
-                          </h4>
-                          <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                            <li>Validation sample (n=900+)</li>
-                            <li>Correlation with HW: r = 0.91</li>
-                            <li>SEE: ±3.9% body fat</li>
-                            <li>Test-retest reliability: r = 0.96</li>
-                            <li>Population-specific validations</li>
-                          </ul>
-                        </div>
-                      </div>
+                      <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                        <li>
+                          3-site method: ±4-5% accuracy when measured correctly
+                        </li>
+                        <li>
+                          7-site method: ±3-4% accuracy when measured correctly
+                        </li>
+                        <li>
+                          Accuracy generally improves with more measurement
+                          sites
+                        </li>
+                      </ul>
                     </div>
                   </div>
 
@@ -299,34 +265,14 @@ export default function ValidationStudies() {
                     </h3>
                     <div className="mt-4 space-y-4">
                       <p className="text-gray-300">
-                        Age-specific validation studies (1974-2020):
+                        Age- and gender-specific equations based on four
+                        skinfold sites:
                       </p>
-                      <div className="grid gap-4 sm:grid-cols-2">
-                        <div className="rounded-lg bg-black/20 p-4">
-                          <h4 className="font-medium text-white">
-                            Original Research
-                          </h4>
-                          <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                            <li>Sample size: 481 subjects</li>
-                            <li>Age range: 16-72 years</li>
-                            <li>Correlation with HW: r = 0.90</li>
-                            <li>SEE: ±3.5-5% body fat</li>
-                            <li>Gender-specific equations</li>
-                          </ul>
-                        </div>
-                        <div className="rounded-lg bg-black/20 p-4">
-                          <h4 className="font-medium text-white">
-                            Modern Validation
-                          </h4>
-                          <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                            <li>DEXA comparisons (n=2,000+)</li>
-                            <li>Ethnic group validations</li>
-                            <li>Athletic population studies</li>
-                            <li>Age-specific accuracy verified</li>
-                            <li>Multiple population studies</li>
-                          </ul>
-                        </div>
-                      </div>
+                      <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                        <li>Typical accuracy range: ±3.5-5%</li>
+                        <li>Results depend on caliper technique and consistency</li>
+                        <li>Used widely in field assessments and research</li>
+                      </ul>
                     </div>
                   </div>
 
@@ -337,34 +283,13 @@ export default function ValidationStudies() {
                     </h3>
                     <div className="mt-4 space-y-4">
                       <p className="text-gray-300">
-                        Specialized validation for athletic populations:
+                        Nine-site method commonly used in bodybuilding contexts:
                       </p>
-                      <div className="grid gap-4 sm:grid-cols-2">
-                        <div className="rounded-lg bg-black/20 p-4">
-                          <h4 className="font-medium text-white">
-                            Athletic Population
-                          </h4>
-                          <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                            <li>Correlation with DEXA: r = 0.94</li>
-                            <li>SEE: ±1.5-2% body fat</li>
-                            <li>Test-retest reliability: r = 0.98</li>
-                            <li>Sample: 500+ athletes</li>
-                            <li>Bodybuilder-specific validation</li>
-                          </ul>
-                        </div>
-                        <div className="rounded-lg bg-black/20 p-4">
-                          <h4 className="font-medium text-white">
-                            General Population
-                          </h4>
-                          <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                            <li>Correlation with HW: r = 0.86</li>
-                            <li>SEE: ±3-4% body fat</li>
-                            <li>Test-retest reliability: r = 0.95</li>
-                            <li>Sample: 300+ individuals</li>
-                            <li>Cross-validated with DEXA</li>
-                          </ul>
-                        </div>
-                      </div>
+                      <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                        <li>Typical accuracy range: ±3-4%</li>
+                        <li>Best for tracking changes in trained individuals</li>
+                        <li>Consistency in site location is essential</li>
+                      </ul>
                     </div>
                   </div>
                 </div>
@@ -391,35 +316,19 @@ export default function ValidationStudies() {
                     </h3>
                     <div className="mt-4 space-y-4">
                       <p className="text-gray-300">
-                        Extensive validation in military and civilian
-                        populations:
+                        Circumference-based method used by the U.S. military:
                       </p>
-                      <div className="grid gap-4 sm:grid-cols-2">
-                        <div className="rounded-lg bg-black/20 p-4">
-                          <h4 className="font-medium text-white">
-                            Military Studies
-                          </h4>
-                          <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                            <li>Sample size: 1,585 personnel</li>
-                            <li>Correlation (men): r = 0.90</li>
-                            <li>Correlation (women): r = 0.85</li>
-                            <li>SEE: ±3.0% men, ±3.5% women</li>
-                            <li>High test-retest reliability</li>
-                          </ul>
-                        </div>
-                        <div className="rounded-lg bg-black/20 p-4">
-                          <h4 className="font-medium text-white">
-                            Civilian Studies
-                          </h4>
-                          <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                            <li>Sample size: 2,300+ subjects</li>
-                            <li>Cross-validated with DEXA</li>
-                            <li>Multi-ethnic validation</li>
-                            <li>Age range: 17-62 years</li>
-                            <li>Updated equations (2020)</li>
-                          </ul>
-                        </div>
-                      </div>
+                      <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                        <li>Typical accuracy range: ±4-6%</li>
+                        <li>
+                          Most accurate for individuals near population
+                          averages
+                        </li>
+                        <li>
+                          Less reliable for very lean or obese individuals
+                        </li>
+                        <li>Accuracy depends on measurement technique</li>
+                      </ul>
                     </div>
                   </div>
 
@@ -430,35 +339,18 @@ export default function ValidationStudies() {
                     </h3>
                     <div className="mt-4 space-y-4">
                       <p className="text-gray-300">
-                        Evolution and validation of original and modified
-                        protocols:
+                        Simple circumference-based equations with two variants:
                       </p>
-                      <div className="grid gap-4 sm:grid-cols-2">
-                        <div className="rounded-lg bg-black/20 p-4">
-                          <h4 className="font-medium text-white">
-                            Original Method
-                          </h4>
-                          <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                            <li>Sample size: 1,200+ subjects</li>
-                            <li>Correlation with HW: r = 0.82</li>
-                            <li>SEE: ±5-7% body fat</li>
-                            <li>Test-retest: r = 0.92</li>
-                            <li>General population focus</li>
-                          </ul>
-                        </div>
-                        <div className="rounded-lg bg-black/20 p-4">
-                          <h4 className="font-medium text-white">
-                            Modified Method
-                          </h4>
-                          <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                            <li>Sample size: 1,500+ subjects</li>
-                            <li>Correlation with HW: r = 0.88</li>
-                            <li>SEE: ±4-6% body fat</li>
-                            <li>Test-retest: r = 0.95</li>
-                            <li>Enhanced female accuracy</li>
-                          </ul>
-                        </div>
-                      </div>
+                      <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                        <li>YMCA: ±5-7% accuracy, best for tracking trends</li>
+                        <li>
+                          Modified YMCA: ±4-6% accuracy with added measurements
+                          for women
+                        </li>
+                        <li>
+                          Less accurate for athletic or non-standard body types
+                        </li>
+                      </ul>
                     </div>
                   </div>
 
@@ -469,34 +361,13 @@ export default function ValidationStudies() {
                     </h3>
                     <div className="mt-4 space-y-4">
                       <p className="text-gray-300">
-                        Validation studies for simplified circumference method:
+                        Age- and gender-specific circumference method:
                       </p>
-                      <div className="grid gap-4 sm:grid-cols-2">
-                        <div className="rounded-lg bg-black/20 p-4">
-                          <h4 className="font-medium text-white">
-                            Initial Studies
-                          </h4>
-                          <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                            <li>Sample size: 800+ subjects</li>
-                            <li>Correlation with HW: r = 0.85</li>
-                            <li>SEE: ±4-5% body fat</li>
-                            <li>Test-retest: r = 0.93</li>
-                            <li>Practical field application</li>
-                          </ul>
-                        </div>
-                        <div className="rounded-lg bg-black/20 p-4">
-                          <h4 className="font-medium text-white">
-                            Modern Validation
-                          </h4>
-                          <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                            <li>DEXA comparisons</li>
-                            <li>Gender-specific studies</li>
-                            <li>Age-group analysis</li>
-                            <li>Population-based studies</li>
-                            <li>Simplified protocol validation</li>
-                          </ul>
-                        </div>
-                      </div>
+                      <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                        <li>Typical accuracy range: ±4-5%</li>
+                        <li>More reliable across different body types</li>
+                        <li>Requires precise measurement technique</li>
+                      </ul>
                     </div>
                   </div>
                 </div>
@@ -556,6 +427,12 @@ export default function ValidationStudies() {
                     Journal of Nutrition, 40(3), 497-504.
                   </li>
                   <li>
+                    Jackson, A.S., Pollock, M.L., & Ward, A. (1980).
+                    &ldquo;Generalized equations for predicting body density of
+                    women.&rdquo; Medicine and Science in Sports and Exercise,
+                    12(3), 175-181.
+                  </li>
+                  <li>
                     Durnin, J.V.G.A., & Womersley, J. (1974). &ldquo;Body fat
                     assessed from total body density and its estimation from
                     skinfold thickness.&rdquo; British Journal of Nutrition,
@@ -564,11 +441,16 @@ export default function ValidationStudies() {
                   <li>
                     Hodgdon, J.A., & Beckett, M.B. (1984). &ldquo;Prediction of
                     percent body fat for U.S. Navy men and women.&rdquo; Naval
-                    Health Research Center Report, No. 84-11.
+                    Health Research Center Report, No. 84-29.
                   </li>
                   <li>
-                    YMCA. (2000). &ldquo;YMCA Body Composition and Additional
-                    Analyses Manual.&rdquo; Human Kinetics.
+                    Golding, L.A., Myers, C.R., & Sinning, W.E. (1999).
+                    &ldquo;Y&apos;s Way to Physical Fitness: The Complete Guide
+                    to Fitness Testing and Instruction.&rdquo; Human Kinetics.
+                  </li>
+                  <li>
+                    YMCA of the USA. (2000). &ldquo;YMCA Fitness Testing and
+                    Assessment Manual (4th ed.).&rdquo; YMCA of the USA.
                   </li>
                   <li>
                     Friedl, K.E., et al. (2020). &ldquo;Body Composition

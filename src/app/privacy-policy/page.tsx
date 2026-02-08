@@ -58,9 +58,9 @@ const sections = [
       <p className="mt-4">
         Tehidea Ltd (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;),
         operating as Body Fat Calculator, is committed to protecting your
-        privacy. This Privacy Policy explains how we collect, use, disclose, and
-        safeguard your information when you use our mobile application and
-        related services.
+        privacy. This Privacy Policy explains how we collect, use, disclose,
+        and safeguard your information when you use our website, mobile
+        application, and related services.
       </p>
     ),
   },
@@ -72,6 +72,9 @@ const sections = [
           <h3 className="text-lg font-medium text-white">
             Information You Provide
           </h3>
+          <p className="mt-2 text-sm text-gray-400">
+            If you use the mobile app, you may provide:
+          </p>
           <ul className="mt-4 list-inside list-disc space-y-2 marker:text-[#FF0000]">
             <li>Body measurements and physical characteristics</li>
             <li>Gender and age information</li>
@@ -102,6 +105,10 @@ const sections = [
             <li>
               PostHog Analytics - Product analytics platform that helps us
               understand user behavior
+            </li>
+            <li>
+              Umami Analytics - Privacy-focused analytics for website usage
+              trends
             </li>
             <li>
               Google AdSense - Advertising service that may use cookies and web
@@ -186,7 +193,7 @@ const sections = [
       <>
         <p className="mt-4">We use the collected information to:</p>
         <ul className="mt-4 list-inside list-disc space-y-2 marker:text-[#FF0000]">
-          <li>Calculate and track your body fat percentage</li>
+          <li>Calculate your body fat percentage and show results</li>
           <li>Improve and optimize our app&apos;s performance</li>
           <li>Provide technical support</li>
           <li>Send important updates about the app</li>
@@ -201,9 +208,11 @@ const sections = [
     title: 'Data Storage and Security',
     content: (
       <p className="mt-4">
-        Your data is stored securely on our servers located in the European
-        Economic Area (EEA). We implement appropriate technical and
-        organizational measures to protect your personal information.
+        Measurement data is stored locally on your device when you use the
+        mobile app. We do not store body measurements on our servers. Analytics
+        and advertising data may be processed by our third-party providers. We
+        implement appropriate technical and organizational measures to protect
+        your personal information.
       </p>
     ),
   },

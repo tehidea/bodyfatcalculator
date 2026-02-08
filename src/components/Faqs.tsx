@@ -26,7 +26,7 @@ const faqs = [
     {
       question: 'How accurate are the measurements?',
       answer:
-        'When measurements are done right, you can expect accuracy of ±3-4%. The key is consistent technique and site location. For best results, take measurements in the morning before eating or drinking.',
+        'Accuracy depends on the method and technique. Free methods typically fall around ±4-7%, while PRO skinfold methods are usually ±3-5% when performed correctly. Consistent technique and site location matter most.',
     },
   ],
   [
@@ -42,7 +42,7 @@ const faqs = [
     },
     {
       question: 'What equipment do I need?',
-      answer: `You'll need a body fat caliper (also known as skinfold calipers). We recommend using professional-grade calipers like <a href='https://www.amazon.co.uk/Harpenden-Skinfold-Caliper-Calibration-Dowel/dp/B00289EHA0?crid=179GKCY0GZSID&nsdOptOutParam=true&sprefix=harpenden+calipers%2Caps%2C75&sr=8-5&linkCode=ll1&tag=bodyfatcalculator-21&linkId=2943e66b7223012cef58d3c029243c7c&language=en_GB&ref_=as_li_ss_tl' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>Harpenden</a> or <a href='https://www.amazon.co.uk/Lange-Calibration-Instruction-Percentage-Professional/dp/B00DD631G8?crid=179GKCY0GZSID&nsdOptOutParam=true&sprefix=harpenden+calipers%2Caps%2C75&sr=8-8&linkCode=ll1&tag=bodyfatcalculator-21&linkId=f30e96b3850d39000e3d1c53c74f8235&language=en_GB&ref_=as_li_ss_tl' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>Lange</a> for best results, though any calipers (like <a href='https://www.amazon.co.uk/CALIPER-MEASURING-Skinfold-Caliper-Measure/dp/B07B9Y5J7N?crid=2IU4GPJB8C0U0&nsdOptOutParam=true&refinements=p_85%3A20930949031&rnid=20930948031&rps=1&sprefix=body+calipers%2Caps%2C70&sr=8-5&linkCode=ll1&tag=bodyfatcalculator-21&linkId=60fe659fe6cb7399b48d403e938d77a8&language=en_GB&ref_=as_li_ss_tl' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>BOZEERA</a>) will work for getting started.`,
+      answer: `Circumference methods only need a soft tape measure. Skinfold methods require calipers. We recommend professional-grade calipers like <a href='https://www.amazon.co.uk/Harpenden-Skinfold-Caliper-Calibration-Dowel/dp/B00289EHA0?crid=179GKCY0GZSID&nsdOptOutParam=true&sprefix=harpenden+calipers%2Caps%2C75&sr=8-5&linkCode=ll1&tag=bodyfatcalculator-21&linkId=2943e66b7223012cef58d3c029243c7c&language=en_GB&ref_=as_li_ss_tl' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>Harpenden</a> or <a href='https://www.amazon.co.uk/Lange-Calibration-Instruction-Percentage-Professional/dp/B00DD631G8?crid=179GKCY0GZSID&nsdOptOutParam=true&sprefix=harpenden+calipers%2Caps%2C75&sr=8-8&linkCode=ll1&tag=bodyfatcalculator-21&linkId=f30e96b3850d39000e3d1c53c74f8235&language=en_GB&ref_=as_li_ss_tl' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>Lange</a> for best results, though any calipers (like <a href='https://www.amazon.co.uk/CALIPER-MEASURING-Skinfold-Caliper-Measure/dp/B07B9Y5J7N?crid=2IU4GPJB8C0U0&nsdOptOutParam=true&refinements=p_85%3A20930949031&rnid=20930948031&rps=1&sprefix=body+calipers%2Caps%2C70&sr=8-5&linkCode=ll1&tag=bodyfatcalculator-21&linkId=60fe659fe6cb7399b48d403e938d77a8&language=en_GB&ref_=as_li_ss_tl' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>BOZEERA</a>) will work for getting started.`,
     },
   ],
   [

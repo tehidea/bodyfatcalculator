@@ -6,9 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is the **Next.js website** component of the Body Fat Calculator project. There's also a companion **React Native mobile app** at `../bodyfatcalculator-app/` that provides:
 - Cross-platform mobile app (iOS/Android) with native UI
-- Premium subscription features via RevenueCat
+- One-time PRO purchase via RevenueCat
 - Offline calculation capabilities
-- Push notifications and app-specific features
 - Advanced formula implementations with paywall
 
 **Cross-Platform Integration:**
@@ -86,8 +85,8 @@ This is a Next.js 14 App Router application for body fat calculation using multi
 ### Privacy & Compliance
 - Comprehensive consent management with Klaro
 - GDPR-compliant cookie handling
-- Analytics tools are privacy-focused (Umami, PostHog)
-- Consent required for advertising but analytics run without cookies
+- Analytics tools include Umami and PostHog
+- Consent required for advertising; analytics may use cookies or local storage
 
 ### Performance Optimizations
 - Font preloading and display optimization

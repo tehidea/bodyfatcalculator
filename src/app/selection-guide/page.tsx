@@ -69,7 +69,7 @@ export default function SelectionGuide() {
                         </span>
                       </div>
                       <p className="mt-1 text-sm text-gray-400">
-                        9-site skinfold method optimized for bodybuilders
+                        9-site skinfold method used in bodybuilding contexts
                       </p>
                     </div>
                     <span className="text-[#4CAF50]">±3-4%</span>
@@ -87,7 +87,7 @@ export default function SelectionGuide() {
                         </span>
                       </div>
                       <p className="mt-1 text-sm text-gray-400">
-                        Gold standard for professional assessment
+                        Comprehensive 7-site skinfold protocol
                       </p>
                     </div>
                     <span className="text-[#4CAF50]">±3-4%</span>
@@ -147,7 +147,7 @@ export default function SelectionGuide() {
                         </span>
                       </div>
                       <p className="mt-1 text-sm text-gray-400">
-                        Quick but reliable skinfold method
+                        Quick skinfold method for regular tracking
                       </p>
                     </div>
                     <span className="text-[#FFC107]">±4-5%</span>
@@ -211,7 +211,7 @@ export default function SelectionGuide() {
                     <div>
                       <h3 className="font-medium text-white">Modified YMCA</h3>
                       <p className="mt-1 text-sm text-gray-400">
-                        Enhanced accuracy over standard YMCA
+                        Adds extra measurements compared to YMCA
                       </p>
                     </div>
                     <span className="text-[#FF5722]">±4-6%</span>
@@ -222,7 +222,7 @@ export default function SelectionGuide() {
                     <div>
                       <h3 className="font-medium text-white">YMCA Method</h3>
                       <p className="mt-1 text-sm text-gray-400">
-                        Fastest basic screening method
+                        Simple basic screening method
                       </p>
                     </div>
                     <span className="text-[#FF5722]">±5-7%</span>

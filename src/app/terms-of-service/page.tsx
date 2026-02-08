@@ -90,9 +90,9 @@ const sections = [
     title: '3. The Service',
     content: (
       <p className="mt-4">
-        The App provides body fat calculation and tracking services. While we
-        strive to provide accurate calculations, the results should be
-        considered estimates and not medical advice.
+        The App provides body fat calculation services. While we strive to
+        provide accurate calculations, the results should be considered
+        estimates and not medical advice.
       </p>
     ),
   },

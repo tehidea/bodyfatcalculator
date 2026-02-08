@@ -30,17 +30,17 @@ const faqs = [
     {
       question: 'How accurate are the measurements?',
       answer:
-        'When measurements are done right, you can expect accuracy of ±3-4%. The key is consistent technique and site location. For best results, take measurements in the morning before eating or drinking.',
+        'Accuracy depends on the method and technique. Free methods typically fall around ±4-7%, while PRO skinfold methods are usually ±3-5% when performed correctly. Consistent technique and site location matter most.',
     },
     {
       question: 'What equipment do I need?',
       answer:
-        "You'll need a body fat caliper (also known as skinfold calipers). We recommend using professional-grade calipers like Harpenden or Lange for best results, though any calipers (like <a href='https://www.amazon.co.uk/CALIPER-MEASURING-Skinfold-Caliper-Measure/dp/B07B9Y5J7N?crid=2IU4GPJB8C0U0&nsdOptOutParam=true&refinements=p_85%3A20930949031&rnid=20930948031&rps=1&sprefix=body+calipers%2Caps%2C70&sr=8-5&linkCode=ll1&tag=bodyfatcalculator-21&linkId=60fe659fe6cb7399b48d403e938d77a8&language=en_GB&ref_=as_li_ss_tl' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>BOZEERA</a> etc) will work.",
+        "Circumference methods only need a soft tape measure. Skinfold methods require calipers. We recommend professional-grade calipers like Harpenden or Lange for best results, though any calipers (like <a href='https://www.amazon.co.uk/CALIPER-MEASURING-Skinfold-Caliper-Measure/dp/B07B9Y5J7N?crid=2IU4GPJB8C0U0&nsdOptOutParam=true&refinements=p_85%3A20930949031&rnid=20930948031&rps=1&sprefix=body+calipers%2Caps%2C70&sr=8-5&linkCode=ll1&tag=bodyfatcalculator-21&linkId=60fe659fe6cb7399b48d403e938d77a8&language=en_GB&ref_=as_li_ss_tl' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>BOZEERA</a> etc) will work.",
     },
     {
       question: 'Which measurement method should I choose?',
       answer:
-        'For most people, we recommend starting with the Jackson & Pollock 3-site method. It provides a good balance of accuracy and simplicity. As you get more comfortable with measurements, you can try the 7-site method for potentially better accuracy.',
+        'Start with the method that matches your tools and comfort level. Tape-based methods are easiest. If you have calipers, the 3-site method is a good balance of accuracy and simplicity. More sites can improve accuracy with proper technique.',
     },
   ],
   [
@@ -52,7 +52,7 @@ const faqs = [
     {
       question: 'How often should I measure?',
       answer:
-        'We recommend measuring every 2-4 weeks. This interval allows enough time to see meaningful changes while maintaining consistent progress tracking. Always measure at the same time of day (preferably morning) for best results.',
+        'Measurement frequency depends on your goals. Many people measure every few weeks to spot trends. Consistency matters most, so try to measure at the same time of day.',
     },
     {
       question: 'Why do different methods give different results?',
@@ -79,7 +79,7 @@ const faqs = [
     {
       question: 'How do I know if I&apos;m measuring correctly?',
       answer:
-        'Key indicators of proper technique include: consistent readings across multiple measurements (within 1-2mm), comfortable grip on the skinfold, and measurements that align with visual assessment. Consider having a professional demonstrate proper technique initially.',
+        'Look for consistent readings across repeated measurements and a stable technique at the same sites. If you&apos;re unsure, having a professional demonstrate the method can help.',
     },
     {
       question: 'Do you offer support?',
@@ -91,22 +91,22 @@ const faqs = [
     {
       question: 'What are the advantages over bioelectrical impedance?',
       answer:
-        'Skinfold measurements are generally more accurate and consistent than bioelectrical impedance (BIA). They&apos;re less affected by hydration status and recent meals, providing more reliable day-to-day tracking.',
+        'Skinfolds and bioelectrical impedance (BIA) can produce different estimates. BIA is sensitive to hydration and recent intake, while skinfolds can be more consistent when measured correctly.',
     },
     {
       question: 'How do results compare to DEXA scans?',
       answer:
-        'When performed correctly, our methods correlate strongly with DEXA results (r > 0.94). While DEXA remains the gold standard, our methods provide a practical, cost-effective alternative for regular tracking.',
+        'DEXA is a reference method for body composition. Field methods provide practical, lower-cost estimates that can differ from DEXA, so focus on consistent technique and trends over time.',
     },
     {
       question: 'Can I track measurements over time?',
       answer:
-        'Yes! The app includes a progress tracking feature that lets you monitor changes over time. You can view trends, export data, and analyze your progress with detailed charts and statistics.',
+        'The current app focuses on single-session calculations and does not include history or export yet.',
     },
     {
       question: 'Are the formulas scientifically validated?',
       answer:
-        'Yes, all formulas in our app are based on peer-reviewed research and have been validated against gold standard methods like hydrostatic weighing and DEXA. Each formula includes references to the original research.',
+        'Yes, the formulas are based on peer-reviewed research and standard field protocols. We provide references to the original sources, and accuracy ranges assume proper measurement technique.',
     },
   ],
   [
@@ -145,7 +145,7 @@ const faqs = [
     {
       question: 'What&apos;s the best time to measure?',
       answer:
-        'Morning measurements, before eating or drinking, provide the most consistent results. Avoid measuring after exercise or sauna use, as this can affect skin thickness and hydration status.',
+        'Morning measurements, before eating or drinking, are often the most consistent. Avoid measuring immediately after exercise, as this can affect readings.',
     },
     {
       question: 'How do I maintain my measurement tools?',

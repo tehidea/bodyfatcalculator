@@ -39,8 +39,7 @@ export default function MetaAnalyses() {
             <p className="mt-4 text-base text-gray-400">
               Analysis of systematic reviews and meta-analyses in body
               composition assessment, from foundational research to recent
-              military standards (Silva et al., 2013; Wells, 2014; Toomey et
-              al., 2015).
+              military standards.
             </p>
           </motion.div>
 
@@ -76,13 +75,13 @@ export default function MetaAnalyses() {
                       <li>Assessment of service-specific standards</li>
                     </ul>
                     <div className="rounded-lg bg-black/20 p-4">
-                      <h4 className="font-medium text-white">Key Findings:</h4>
+                      <h4 className="font-medium text-white">
+                        Topics covered:
+                      </h4>
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                        <li>Circumference methods validated for field use</li>
-                        <li>Standardization protocols established</li>
-                        <li>
-                          Service-specific validation requirements identified
-                        </li>
+                        <li>Military body composition standards</li>
+                        <li>Field method use in operational settings</li>
+                        <li>Standardization and service-specific requirements</li>
                       </ul>
                     </div>
                   </div>
@@ -104,13 +103,13 @@ export default function MetaAnalyses() {
                       <li>Clinical application guidelines</li>
                     </ul>
                     <div className="rounded-lg bg-black/20 p-4">
-                      <h4 className="font-medium text-white">Key Findings:</h4>
+                      <h4 className="font-medium text-white">
+                        Topics covered:
+                      </h4>
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                        <li>
-                          Field methods validated against reference standards
-                        </li>
-                        <li>Error ranges quantified for different methods</li>
-                        <li>Practical recommendations established</li>
+                        <li>Field vs laboratory techniques</li>
+                        <li>Sources of measurement error</li>
+                        <li>Clinical application considerations</li>
                       </ul>
                     </div>
                   </div>
@@ -144,13 +143,13 @@ export default function MetaAnalyses() {
                       <li>Practical applications in field settings</li>
                     </ul>
                     <div className="rounded-lg bg-black/20 p-4">
-                      <h4 className="font-medium text-white">Key Findings:</h4>
+                      <h4 className="font-medium text-white">
+                        Topics covered:
+                      </h4>
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                        <li>
-                          Field methods validated for population monitoring
-                        </li>
-                        <li>Standardization protocols developed</li>
-                        <li>Error minimization strategies identified</li>
+                        <li>Method comparisons across settings</li>
+                        <li>Standardization and reliability considerations</li>
+                        <li>Error sources and mitigation strategies</li>
                       </ul>
                     </div>
                   </div>
@@ -171,11 +170,13 @@ export default function MetaAnalyses() {
                       <li>Age-specific considerations</li>
                     </ul>
                     <div className="rounded-lg bg-black/20 p-4">
-                      <h4 className="font-medium text-white">Key Findings:</h4>
+                      <h4 className="font-medium text-white">
+                        Topics covered:
+                      </h4>
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                        <li>Age-specific reference data established</li>
-                        <li>Method selection criteria defined</li>
-                        <li>Growth monitoring protocols developed</li>
+                        <li>Age-specific reference data and considerations</li>
+                        <li>Method selection criteria</li>
+                        <li>Growth and development considerations</li>
                       </ul>
                     </div>
                   </div>
@@ -196,25 +197,13 @@ export default function MetaAnalyses() {
               <div className="mt-6 space-y-6">
                 <div className="rounded-lg bg-black/20 p-4">
                   <h3 className="text-lg font-semibold text-white">
-                    Key Findings
+                    Common Themes
                   </h3>
                   <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
-                    <li>
-                      Field methods validated against laboratory standards
-                      (Silva et al., 2013)
-                    </li>
-                    <li>
-                      Population-specific equations improve accuracy (Wells,
-                      2014)
-                    </li>
-                    <li>
-                      Standardized protocols essential for reliability (Wagner &
-                      Heyward, 1999)
-                    </li>
-                    <li>
-                      Military standards established for field use (Friedl et
-                      al., 2020)
-                    </li>
+                    <li>Field methods compared against laboratory standards</li>
+                    <li>Population-specific equations and accuracy trade-offs</li>
+                    <li>Standardized protocols and reliability considerations</li>
+                    <li>Operational standards for field use</li>
                   </ul>
                 </div>
               </div>

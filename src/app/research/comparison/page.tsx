@@ -37,9 +37,8 @@ export default function MethodComparison() {
               Method Comparison
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              Evidence-based comparison of body fat measurement methods based on
-              systematic reviews by Wagner & Heyward (1999), validation studies
-              by Jackson & Pollock (1978), and Durnin & Womersley (1974).
+              Comparison of body fat measurement methods based on published
+              research and commonly reported accuracy ranges.
             </p>
           </motion.div>
 
@@ -63,9 +62,9 @@ export default function MethodComparison() {
                     </h3>
                     <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                       <li>
-                        Durnin-Womersley (Validated for age-specific assessment)
+                        Durnin-Womersley (age-specific equations)
                       </li>
-                      <li>US Navy Method (Validated for field use)</li>
+                      <li>U.S. Navy Method (field-friendly circumference)</li>
                       <li>
                         Jackson-Pollock 3-Site (Balance of accuracy and time)
                       </li>
@@ -96,8 +95,8 @@ export default function MethodComparison() {
                 Validated Methods Comparison
               </h2>
               <p className="mb-6 mt-4 text-gray-400">
-                Comparison based on validation studies against hydrostatic
-                weighing and DEXA (Wagner & Heyward, 1999).
+                Comparison based on reported accuracy ranges and method
+                requirements. Results depend on measurement technique.
               </p>
               <div className="mt-6 overflow-x-auto">
                 <table className="w-full min-w-[800px] border-collapse text-left">
@@ -107,7 +106,7 @@ export default function MethodComparison() {
                         Method
                       </th>
                       <th className="px-4 py-3 text-sm font-semibold text-white">
-                        Accuracy (SEE)
+                        Accuracy Range
                       </th>
                       <th className="px-4 py-3 text-sm font-semibold text-white">
                         Sites
@@ -127,7 +126,7 @@ export default function MethodComparison() {
                           Jackson-Pollock 7-Site
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-[#4CAF50]">±3.4%</td>
+                      <td className="px-4 py-3 text-[#4CAF50]">±3-4%</td>
                       <td className="px-4 py-3 text-gray-300">7 skinfolds</td>
                       <td className="px-4 py-3 text-gray-300">Calipers</td>
                       <td className="px-4 py-3 text-gray-300">
@@ -140,7 +139,7 @@ export default function MethodComparison() {
                           Durnin-Womersley
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-[#4CAF50]">±3.8%</td>
+                      <td className="px-4 py-3 text-[#4CAF50]">±3.5-5%</td>
                       <td className="px-4 py-3 text-gray-300">4 skinfolds</td>
                       <td className="px-4 py-3 text-gray-300">Calipers</td>
                       <td className="px-4 py-3 text-gray-300">
@@ -153,7 +152,7 @@ export default function MethodComparison() {
                           Jackson-Pollock 3-Site
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-[#FFC107]">±3.9%</td>
+                      <td className="px-4 py-3 text-[#FFC107]">±4-5%</td>
                       <td className="px-4 py-3 text-gray-300">3 skinfolds</td>
                       <td className="px-4 py-3 text-gray-300">Calipers</td>
                       <td className="px-4 py-3 text-gray-300">
@@ -164,7 +163,7 @@ export default function MethodComparison() {
                       <td className="px-4 py-3">
                         <div className="font-medium text-white">US Navy</div>
                       </td>
-                      <td className="px-4 py-3 text-[#FFC107]">±3.9%</td>
+                      <td className="px-4 py-3 text-[#FFC107]">±4-6%</td>
                       <td className="px-4 py-3 text-gray-300">
                         Circumferences
                       </td>
@@ -208,7 +207,7 @@ export default function MethodComparison() {
                   <li>
                     Hodgdon, J.A., & Beckett, M.B. (1984). &ldquo;Prediction of
                     percent body fat for U.S. Navy men and women.&rdquo; Naval
-                    Health Research Center Report, No. 84-11.
+                    Health Research Center Report, No. 84-29.
                   </li>
                 </ul>
               </div>

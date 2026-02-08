@@ -3,7 +3,7 @@ import { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Meta-Analyses & Systematic Reviews | Body Fat Calculator Research',
   description:
-    'Comprehensive analysis of major systematic reviews and meta-analyses in body composition assessment. Explore findings from 15,000+ participants across multiple validation studies.',
+    'Overview of major systematic reviews and meta-analyses in body composition assessment and field method accuracy.',
   keywords: [
     'body fat meta-analysis',
     'body composition systematic review',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Meta-Analyses & Systematic Reviews | Body Fat Calculator Research',
     description:
-      'Comprehensive analysis of major systematic reviews and meta-analyses in body composition assessment. Explore findings from 15,000+ participants across multiple validation studies.',
+      'Overview of major systematic reviews and meta-analyses in body composition assessment and field method accuracy.',
     type: 'article',
   },
 }

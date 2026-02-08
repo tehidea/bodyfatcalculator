@@ -4,39 +4,39 @@ import { Container } from '@/components/Container'
 
 const features = [
   {
-    name: 'Invest any amount',
+    name: 'Multiple methods',
     description:
-      'Whether it’s $1 or $1,000,000, we can put your money to work for you.',
+      'Use skinfold or circumference methods depending on your equipment.',
     icon: DeviceArrowIcon,
   },
   {
-    name: 'Build a balanced portfolio',
+    name: 'Clear guidance',
     description:
-      'Invest in different industries to find the most opportunities to win huge.',
+      'Simple steps help you measure consistently and avoid common errors.',
     icon: DeviceCardsIcon,
   },
   {
-    name: 'Trade in real-time',
+    name: 'Unit conversion',
     description:
-      'Get insider tips on big stock moves and act on them within seconds.',
+      'Switch between metric and imperial measurements at any time.',
     icon: DeviceClockIcon,
   },
   {
-    name: 'Profit from your network',
+    name: 'Method selection',
     description:
-      'Invite new insiders to get tips faster and beat even other Pocket users.',
+      'Choose a protocol based on accuracy, time, and tools you have.',
     icon: DeviceListIcon,
   },
   {
-    name: 'Encrypted and anonymized',
+    name: 'Privacy controls',
     description:
-      'Cutting-edge security technology that even the NSA doesn’t know about keeps you hidden.',
+      'Consent settings let you manage advertising preferences.',
     icon: DeviceLockIcon,
   },
   {
-    name: 'Portfolio tracking',
+    name: 'Results breakdown',
     description:
-      'Watch your investments grow exponentially, leaving other investors in the dust.',
+      'See body fat percentage alongside fat and lean mass.',
     icon: DeviceChartIcon,
   },
 ]
@@ -200,7 +200,7 @@ export function SecondaryFeatures() {
           </h2>
           <p className="mt-2 text-lg text-gray-700">
             Our app focuses on providing accurate body fat measurements using
-            the most reliable caliper-based methods available.
+            skinfold and circumference methods.
           </p>
         </div>
         <ul

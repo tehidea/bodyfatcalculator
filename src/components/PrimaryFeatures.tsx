@@ -47,23 +47,23 @@ interface CustomAnimationProps {
 
 const features = [
   {
-    name: 'Caliper Measurements',
+    name: 'Guided Measurements',
     description:
-      'Get the most accurate body fat measurements using the industry-standard Jackson & Pollock methods with 3, 4, or 7 sites. Perfect for fitness professionals and serious athletes.',
+      'Enter weight, waist, or skinfolds with clear inputs and units.',
     icon: DeviceUserIcon,
     screen: InviteScreen,
   },
   {
-    name: 'US Navy Method',
+    name: 'Method Selection',
     description:
-      "Quick and reliable measurements using the US Navy circumference method. Ideal for tracking progress when calipers aren't available.",
+      'Choose between YMCA, U.S. Navy, Jackson & Pollock, Durnin, and more.',
     icon: DeviceNotificationIcon,
     screen: StocksScreen,
   },
   {
-    name: 'Advanced Analytics',
+    name: 'Results Breakdown',
     description:
-      'Track your progress over time with detailed charts, trends, and comprehensive body composition analysis. Export your data for professional analysis.',
+      'See body fat percentage with fat and lean mass. PRO unlocks decimal precision.',
     icon: DeviceTouchIcon,
     screen: InvestScreen,
   },
@@ -204,10 +204,9 @@ function InviteScreen(props: ScreenProps) {
   return (
     <AppScreen className="w-full">
       <MotionAppScreenHeader {...(props.animated ? headerAnimation : {})}>
-        <AppScreen.Title>Invite people</AppScreen.Title>
+        <AppScreen.Title>Measurements</AppScreen.Title>
         <AppScreen.Subtitle>
-          Get tips <span className="text-white">5s sooner</span> for every
-          invite.
+          Enter your measurements to calculate body fat.
         </AppScreen.Subtitle>
       </MotionAppScreenHeader>
       <MotionAppScreenBody
@@ -216,8 +215,8 @@ function InviteScreen(props: ScreenProps) {
         <div className="px-4 py-6">
           <div className="space-y-6">
             {[
-              { label: 'Full name', value: 'Albert H. Wiggin' },
-              { label: 'Email address', value: 'awiggin@chase.com' },
+              { label: 'Weight', value: '72 kg' },
+              { label: 'Waist circumference', value: '84 cm' },
             ].map((field) => (
               <div key={field.label}>
                 <div className="text-sm text-gray-500">{field.label}</div>
@@ -228,7 +227,7 @@ function InviteScreen(props: ScreenProps) {
             ))}
           </div>
           <div className="mt-6 rounded-lg bg-cyan-500 px-3 py-2 text-center text-sm font-semibold text-white">
-            Invite person
+            Calculate
           </div>
         </div>
       </MotionAppScreenBody>
@@ -240,8 +239,8 @@ function StocksScreen(props: ScreenProps) {
   return (
     <AppScreen className="w-full">
       <MotionAppScreenHeader {...(props.animated ? headerAnimation : {})}>
-        <AppScreen.Title>Stocks</AppScreen.Title>
-        <AppScreen.Subtitle>March 9, 2022</AppScreen.Subtitle>
+        <AppScreen.Title>Methods</AppScreen.Title>
+        <AppScreen.Subtitle>Select a protocol</AppScreen.Subtitle>
       </MotionAppScreenHeader>
       <MotionAppScreenBody
         {...(props.animated ? { ...bodyAnimation, custom: props.custom } : {})}
@@ -249,23 +248,23 @@ function StocksScreen(props: ScreenProps) {
         <div className="divide-y divide-gray-100">
           {[
             {
-              name: 'Bodyweight',
-              change: '+4.98%',
+              name: 'YMCA',
+              change: '±5-7%',
               color: '#F9322C',
             },
             {
-              name: 'Height',
-              change: '-3.38%',
+              name: 'Modified YMCA',
+              change: '±4-6%',
               color: '#5A67D8',
             },
             {
-              name: 'Skinfold',
-              change: '+6.25%',
+              name: 'U.S. Navy',
+              change: '±4-6%',
               color: '#2563EB',
             },
             {
-              name: 'Circumference',
-              change: '-2.54%',
+              name: 'Jackson & Pollock 3-Site',
+              change: '±4-5%',
               color: '#16A34A',
             },
           ].map((stock) => (
@@ -306,9 +305,9 @@ function InvestScreen(props: ScreenProps) {
   return (
     <AppScreen className="w-full">
       <MotionAppScreenHeader {...(props.animated ? headerAnimation : {})}>
-        <AppScreen.Title>Buy $LA</AppScreen.Title>
+        <AppScreen.Title>Results</AppScreen.Title>
         <AppScreen.Subtitle>
-          <span className="text-white">$34.28</span> per share
+          <span className="text-white">Body fat</span> overview
         </AppScreen.Subtitle>
       </MotionAppScreenHeader>
       <MotionAppScreenBody
@@ -317,25 +316,12 @@ function InvestScreen(props: ScreenProps) {
         <div className="px-4 py-6">
           <div className="space-y-4">
             {[
-              { label: 'Number of shares', value: '100' },
               {
-                label: 'Current market price',
-                value: (
-                  <div className="flex">
-                    $34.28
-                    <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
-                      <path
-                        d="M17 15V7H9M17 7 7 17"
-                        stroke="#06B6D4"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </div>
-                ),
+                label: 'Body fat',
+                value: '18.5%',
               },
-              { label: 'Estimated cost', value: '$3,428.00' },
+              { label: 'Fat mass', value: '13.2 kg' },
+              { label: 'Lean mass', value: '58.8 kg' },
             ].map((item) => (
               <div
                 key={item.label}
@@ -348,7 +334,7 @@ function InvestScreen(props: ScreenProps) {
               </div>
             ))}
             <div className="rounded-lg bg-cyan-500 px-3 py-2 text-center text-sm font-semibold text-white">
-              Buy shares
+              View details
             </div>
           </div>
         </div>
@@ -578,7 +564,7 @@ export function PrimaryFeatures() {
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <div className="flex items-center rounded-lg bg-white/10 px-4 py-2">
-              <span className="font-medium text-[#4CAF50]">±3-4%</span>
+              <span className="font-medium text-[#4CAF50]">±3-5%</span>
               <span className="ml-2 text-sm text-gray-300">PRO Accuracy</span>
             </div>
             <div className="flex items-center rounded-lg bg-white/10 px-4 py-2">

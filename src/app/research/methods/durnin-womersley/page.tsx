@@ -66,10 +66,9 @@ export default function DurninWomersley() {
                       body composition:
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
-                      <li>481 subjects studied (272 males, 209 females)</li>
-                      <li>Age range: 16-72 years</li>
-                      <li>First method to account for age differences</li>
-                      <li>Validated against hydrostatic weighing</li>
+                      <li>Developed age- and gender-specific equations</li>
+                      <li>Based on four-site skinfold measurements</li>
+                      <li>Designed to account for age-related changes</li>
                     </ul>
                   </div>
                 </div>
@@ -85,9 +84,8 @@ export default function DurninWomersley() {
                     <div className="rounded-lg bg-black/20 p-4">
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                         <li>1974: Original equations published</li>
-                        <li>1980s: Population-specific validations</li>
-                        <li>1990s: Cross-validation studies</li>
-                        <li>2000s: DEXA comparison studies</li>
+                        <li>Subsequent validation across populations</li>
+                        <li>Continued use in field assessments</li>
                       </ul>
                     </div>
                   </div>
@@ -128,6 +126,7 @@ export default function DurninWomersley() {
                           Age Categories
                         </h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
+                          <li>Under 17 years</li>
                           <li>17-19 years</li>
                           <li>20-29 years</li>
                           <li>30-39 years</li>
@@ -144,30 +143,14 @@ export default function DurninWomersley() {
                     Statistical Validation
                   </h3>
                   <div className="mt-4 space-y-4">
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Original Validation
-                        </h4>
-                        <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                          <li>Correlation with HW: r = 0.90</li>
-                          <li>SEE: ±3.5-5% body fat</li>
-                          <li>Test-retest reliability: r = 0.97</li>
-                          <li>Age-specific accuracy verified</li>
-                        </ul>
-                      </div>
-                      <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Modern Validation
-                        </h4>
-                        <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                          <li>DEXA comparisons</li>
-                          <li>Multiple population studies</li>
-                          <li>Ethnic group validations</li>
-                          <li>Athletic population studies</li>
-                        </ul>
-                      </div>
-                    </div>
+                    <p className="text-gray-300">
+                      Reported accuracy range and practical notes:
+                    </p>
+                    <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                      <li>Typical accuracy range: ±3.5-5%</li>
+                      <li>Age- and gender-specific equations</li>
+                      <li>Accuracy depends on caliper technique</li>
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -265,23 +248,6 @@ export default function DurninWomersley() {
                     skinfold thickness: measurements on 481 men and women aged
                     from 16 to 72 years.&rdquo; British Journal of Nutrition,
                     32(1), 77-97.
-                  </li>
-                  <li>
-                    Eston, R.G., & Reilly, T. (2009). &ldquo;Kinanthropometry
-                    and Exercise Physiology Laboratory Manual: Tests, Procedures
-                    and Data.&rdquo; Routledge, 3rd Edition.
-                  </li>
-                  <li>
-                    Martin, A.D., et al. (1985). &ldquo;The use of body mass
-                    index for measurement of body fatness in men and women: age
-                    specific prediction formulas.&rdquo; International Journal
-                    of Obesity, 9(2), 147-153.
-                  </li>
-                  <li>
-                    Reilly, J.J., et al. (1995). &ldquo;Determination of body
-                    composition from skinfold thickness: a validation
-                    study.&rdquo; Archives of Disease in Childhood, 73(4),
-                    305-310.
                   </li>
                 </ul>
               </div>

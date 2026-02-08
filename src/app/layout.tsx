@@ -137,7 +137,7 @@ export default function RootLayout({
                   privacyPolicyUrl: '/privacy-policy',
                   consentModal: {
                     title: 'Cookie Settings',
-                    description: 'We use cookies for advertising purposes and cross-platform analytics. You can choose to accept or decline these cookies at any time. Our analytics tools (Umami and PostHog) are privacy-focused and do not set cookies or track personal data.',
+                    description: 'We use cookies for advertising and analytics. You can choose to accept or decline these cookies at any time. Some analytics services may use cookies or local storage to understand usage.',
                   },
                   purposes: {
                     advertising: 'Advertising',

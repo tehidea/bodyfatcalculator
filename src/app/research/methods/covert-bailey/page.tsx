@@ -66,10 +66,9 @@ export default function CovertBaileyMethod() {
                       research and practical application:
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
-                      <li>Developed in the late 1970s</li>
-                      <li>Focus on practical fitness assessment</li>
-                      <li>Integration with metabolic studies</li>
-                      <li>Emphasis on accessibility</li>
+                      <li>Developed as a practical fitness assessment method</li>
+                      <li>Focus on accessible field measurements</li>
+                      <li>Designed for general fitness settings</li>
                     </ul>
                   </div>
                 </div>
@@ -117,11 +116,13 @@ export default function CovertBaileyMethod() {
                           Primary Measurements
                         </h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                          <li>Waist circumference</li>
-                          <li>Hip circumference</li>
-                          <li>Thigh circumference</li>
-                          <li>Upper arm circumference</li>
+                          <li>Age</li>
                           <li>Wrist circumference</li>
+                          <li>Hip circumference</li>
+                          <li>Waist circumference</li>
+                          <li>Forearm circumference (men)</li>
+                          <li>Thigh circumference (women)</li>
+                          <li>Calf circumference (women)</li>
                         </ul>
                       </div>
                       <div className="rounded-lg bg-black/20 p-4">
@@ -130,9 +131,8 @@ export default function CovertBaileyMethod() {
                         </h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Age considerations</li>
-                          <li>Gender adjustments</li>
-                          <li>Activity level</li>
-                          <li>Body frame size</li>
+                          <li>Gender-specific equations</li>
+                          <li>Consistency in measurement technique</li>
                         </ul>
                       </div>
                     </div>
@@ -144,30 +144,14 @@ export default function CovertBaileyMethod() {
                     Statistical Validation
                   </h3>
                   <div className="mt-4 space-y-4">
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Initial Studies
-                        </h4>
-                        <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                          <li>Correlation with HW: r = 0.85</li>
-                          <li>SEE: ±4-5% body fat</li>
-                          <li>Test-retest reliability: r = 0.93</li>
-                          <li>Sample size: 800+ individuals</li>
-                        </ul>
-                      </div>
-                      <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Follow-up Research
-                        </h4>
-                        <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                          <li>DEXA comparisons</li>
-                          <li>Population studies</li>
-                          <li>Gender-specific validation</li>
-                          <li>Age-group analysis</li>
-                        </ul>
-                      </div>
-                    </div>
+                    <p className="text-gray-300">
+                      Reported accuracy ranges and practical considerations:
+                    </p>
+                    <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                      <li>Typical accuracy range: ±4-5%</li>
+                      <li>Age- and gender-specific equations</li>
+                      <li>Requires precise measurement technique</li>
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -260,21 +244,10 @@ export default function CovertBaileyMethod() {
               <div className="mt-6">
                 <ul className="list-inside space-y-3 text-sm text-gray-300">
                   <li>
-                    Bailey, C. (1991). &ldquo;Smart Exercise: Burning Fat,
-                    Getting Fit.&rdquo; Houghton Mifflin.
-                  </li>
-                  <li>
-                    Bailey, C., & Bishop, P. (1987). &ldquo;Fit or Fat? A New
-                    Way to Live.&rdquo; Houghton Mifflin.
-                  </li>
-                  <li>
-                    Williams, M.H. (2002). &ldquo;Nutrition for Health, Fitness,
-                    and Sport.&rdquo; McGraw-Hill, 6th Edition.
-                  </li>
-                  <li>
-                    McArdle, W.D., et al. (2010). &ldquo;Exercise Physiology:
-                    Nutrition, Energy, and Human Performance.&rdquo; Lippincott
-                    Williams & Wilkins, 7th Edition.
+                    Bailey, C. (1999). &ldquo;The Ultimate Fit or Fat: Get in
+                    Shape and Stay in Shape with America&apos;s Best-Loved and
+                    Most Effective Fitness Teacher.&rdquo; Houghton Mifflin
+                    Harcourt.
                   </li>
                 </ul>
               </div>

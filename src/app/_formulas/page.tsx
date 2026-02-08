@@ -49,10 +49,9 @@ export default function Formulas() {
                       Historical Context
                     </h3>
                     <p className="mt-4 text-gray-300">
-                      Developed by the YMCA in the 1980s as a simple, accessible
-                      method for estimating body fat percentage. Validated
-                      through extensive YMCA fitness research programs and
-                      widely adopted in fitness centers worldwide.
+                      Developed by the YMCA as a simple, accessible method for
+                      estimating body fat percentage and used in many fitness
+                      settings.
                     </p>
                   </div>
 
@@ -102,17 +101,14 @@ export default function Formulas() {
                     </h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                       <li>
-                        Accuracy range: ±5-7% compared to hydrostatic weighing
+                        Accuracy range: ±5-7% with proper technique
                       </li>
                       <li>
-                        Validated on 1,000+ subjects across diverse populations
+                        Designed for general-population estimates; accuracy can
+                        drop at extremes
                       </li>
                       <li>
-                        Most accurate for individuals with typical body fat
-                        distribution
-                      </li>
-                      <li>
-                        Less accurate for athletic or highly muscular
+                        May be less accurate for athletic or highly muscular
                         individuals
                       </li>
                     </ul>
@@ -155,10 +151,8 @@ export default function Formulas() {
                       Research Background
                     </h3>
                     <p className="mt-4 text-gray-300">
-                      An enhanced version of the YMCA method developed to
-                      improve accuracy for women. Incorporates additional
-                      measurements to account for different body composition
-                      patterns between genders.
+                      An adapted version of the YMCA method that adds
+                      additional measurements for the women&apos;s equation.
                     </p>
                   </div>
 
@@ -217,15 +211,13 @@ export default function Formulas() {
                     </h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                       <li>
-                        Accuracy range: ±4-6% compared to hydrostatic weighing
+                        Accuracy range: ±4-6% with proper technique
                       </li>
                       <li>
-                        Improved accuracy for women compared to original YMCA
-                        method
+                        Additional measurements for the women&apos;s equation
                       </li>
-                      <li>Validated on diverse female populations</li>
                       <li>
-                        Accounts for gender-specific fat distribution patterns
+                        Consistent site placement improves repeatability
                       </li>
                     </ul>
                   </div>
@@ -268,9 +260,7 @@ export default function Formulas() {
                     </h3>
                     <p className="mt-4 text-gray-300">
                       Developed by Hodgdon and Beckett at the Naval Health
-                      Research Center in 1984. Based on extensive research with
-                      over 5,000 military personnel and validated against
-                      hydrostatic weighing.
+                      Research Center for U.S. Navy body fat screening.
                     </p>
                   </div>
 
@@ -329,11 +319,10 @@ export default function Formulas() {
                     </h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                       <li>
-                        Accuracy range: ±4-6% compared to hydrostatic weighing
+                        Accuracy range: ±4-6% with proper technique
                       </li>
-                      <li>Validated on 5,000+ military personnel</li>
-                      <li>Cross-validated against DEXA scans</li>
-                      <li>Effective for population-level screening</li>
+                      <li>Designed for population-level screening</li>
+                      <li>Simple circumference measurements, no calipers</li>
                     </ul>
                   </div>
 
@@ -378,10 +367,9 @@ export default function Formulas() {
                       Research Background
                     </h3>
                     <p className="mt-4 text-gray-300">
-                      Developed by fitness researcher Covert Bailey to provide
-                      accurate body fat estimates using multiple body
-                      measurements. The method accounts for age and gender
-                      differences in body composition.
+                      Developed by fitness researcher Covert Bailey to estimate
+                      body fat using multiple body measurements. The method
+                      uses age and gender-specific equations.
                     </p>
                   </div>
 
@@ -461,17 +449,10 @@ export default function Formulas() {
                     </h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                       <li>
-                        Accuracy range: ±4-5% compared to hydrostatic weighing
+                        Accuracy range: ±4-5% with proper technique
                       </li>
-                      <li>
-                        Validated across different age groups and body types
-                      </li>
-                      <li>
-                        Accounts for age-related changes in body composition
-                      </li>
-                      <li>
-                        Effective for both athletic and general populations
-                      </li>
+                      <li>Uses age-specific equations</li>
+                      <li>Different measurement sites for men and women</li>
                     </ul>
                   </div>
 
@@ -512,9 +493,7 @@ export default function Formulas() {
                     </h3>
                     <p className="mt-4 text-gray-300">
                       A simplified version of the 7-site method, developed to
-                      provide quick but accurate body fat measurements.
-                      Published in 1978, it has been extensively validated in
-                      both research and clinical settings.
+                      provide quicker body fat measurements in field settings.
                     </p>
                   </div>
 
@@ -563,13 +542,10 @@ export default function Formulas() {
                     </h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                       <li>
-                        Accuracy range: ±4-5% compared to hydrostatic weighing
+                        Accuracy range: ±4-5% with proper technique
                       </li>
-                      <li>Validated on 1,500+ subjects</li>
-                      <li>
-                        Strong correlation with 7-site method (r {'>'} 0.90)
-                      </li>
-                      <li>Excellent for tracking changes over time</li>
+                      <li>Consistent site placement improves repeatability</li>
+                      <li>Useful for tracking changes over time</li>
                     </ul>
                   </div>
 
@@ -614,9 +590,8 @@ export default function Formulas() {
                     </h3>
                     <p className="mt-4 text-gray-300">
                       Published in 1974, this method pioneered age-specific
-                      equations for body fat calculation. Based on research with
-                      481 subjects aged 16-72 years and validated against
-                      hydrostatic weighing.
+                      equations for body fat calculation based on four
+                      skinfold sites.
                     </p>
                   </div>
 
@@ -655,6 +630,15 @@ export default function Formulas() {
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-white/10">
+                            <tr>
+                              <td className="py-2 text-gray-400">Under 17</td>
+                              <td className="py-2 text-gray-400">
+                                1.1533, 0.0643
+                              </td>
+                              <td className="py-2 text-gray-400">
+                                1.1369, 0.0598
+                              </td>
+                            </tr>
                             <tr>
                               <td className="py-2 text-gray-400">17-19</td>
                               <td className="py-2 text-gray-400">
@@ -721,13 +705,10 @@ export default function Formulas() {
                     </h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                       <li>
-                        Accuracy range: ±3.5-5% compared to hydrostatic weighing
+                        Accuracy range: ±3.5-5% with proper technique
                       </li>
                       <li>Age and gender-specific equations</li>
-                      <li>Validated across five age groups</li>
-                      <li>
-                        Accounts for age-related changes in body composition
-                      </li>
+                      <li>Uses four-site skinfold measurements</li>
                     </ul>
                   </div>
 
@@ -787,13 +768,13 @@ export default function Formulas() {
                     <div className="mt-4 rounded-lg bg-black/20 p-6 ring-1 ring-white/10">
                       <p className="mb-4 text-sm text-gray-400">For men:</p>
                       <Formula
-                        formula={`\\text{Body Density} = 1.10938 - (0.0008267 \\times \\sum\\text{SF}) + (0.0000016 \\times \\sum\\text{SF}^2) - (0.0002574 \\times \\text{Age})`}
+                        formula={`\\text{Body Fat}\\% = 0.29288 \\times \\sum\\text{SF} - 0.0005 \\times \\sum\\text{SF}^2 + 0.15845 \\times \\text{Age} - 5.76377`}
                       />
                       <p className="mb-4 mt-4 text-sm text-gray-400">
                         For women:
                       </p>
                       <Formula
-                        formula={`\\text{Body Density} = 1.0994921 - (0.0009929 \\times \\sum\\text{SF}) + (0.0000023 \\times \\sum\\text{SF}^2) - (0.0001392 \\times \\text{Age})`}
+                        formula={`\\text{Body Fat}\\% = 0.29669 \\times \\sum\\text{SF} - 0.00043 \\times \\sum\\text{SF}^2 + 0.02963 \\times \\text{Age} + 1.4072`}
                       />
                       <p className="mt-4 text-sm text-gray-400">
                         Where:
@@ -801,21 +782,10 @@ export default function Formulas() {
                         <Formula inline formula="\\sum\\text{SF}" /> = Sum of
                         four skinfold measurements (mm)
                         <br />
-                        For men: triceps, subscapular, suprailiac, abdomen
-                        <br />
-                        For women: triceps, subscapular, suprailiac, thigh
+                        triceps, abdomen, suprailiac, and thigh
                         <br />
                         <Formula inline formula="\\text{Age}" /> = age in years
                       </p>
-                      <div className="mt-4 border-t border-white/10 pt-4">
-                        <p className="text-sm text-gray-400">
-                          Convert to body fat percentage using Siri&apos;s
-                          equation:
-                        </p>
-                        <Formula
-                          formula={`\\text{Body Fat}\\% = \\frac{495}{\\text{Body Density}} - 450`}
-                        />
-                      </div>
                     </div>
                   </div>
 
@@ -825,12 +795,10 @@ export default function Formulas() {
                     </h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                       <li>
-                        Accuracy range: ±3.5-4.5% compared to hydrostatic
-                        weighing
+                        Accuracy range: ±3.5-4.5% with proper technique
                       </li>
-                      <li>Validated on 1,500+ subjects</li>
-                      <li>Better accuracy than 3-site method</li>
-                      <li>Excellent balance of accuracy and practicality</li>
+                      <li>Uses four-site skinfold sum with age adjustment</li>
+                      <li>Often chosen for a balance of detail and time</li>
                     </ul>
                   </div>
 
@@ -874,10 +842,8 @@ export default function Formulas() {
                       Research Background
                     </h3>
                     <p className="mt-4 text-gray-300">
-                      The gold standard in skinfold-based body fat assessment,
-                      published in 1978. Extensively validated against
-                      hydrostatic weighing with correlation coefficients
-                      exceeding 0.94.
+                      Published in 1978 as the full 7-site Jackson & Pollock
+                      protocol for estimating body density.
                     </p>
                   </div>
 
@@ -886,8 +852,15 @@ export default function Formulas() {
                       Formula
                     </h3>
                     <div className="mt-4 rounded-lg bg-black/20 p-6 ring-1 ring-white/10">
+                      <p className="mb-4 text-sm text-gray-400">For men:</p>
                       <Formula
                         formula={`\\text{Body Density} = 1.112 - (0.00043499 \\times \\sum\\text{SF}) + (0.00000055 \\times \\sum\\text{SF}^2) - (0.00028826 \\times \\text{Age})`}
+                      />
+                      <p className="mb-4 mt-4 text-sm text-gray-400">
+                        For women:
+                      </p>
+                      <Formula
+                        formula={`\\text{Body Density} = 1.097 - (0.00046971 \\times \\sum\\text{SF}) + (0.00000056 \\times \\sum\\text{SF}^2) - (0.00012828 \\times \\text{Age})`}
                       />
                       <p className="mt-4 text-sm text-gray-400">
                         Where:
@@ -918,11 +891,10 @@ export default function Formulas() {
                     </h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                       <li>
-                        Accuracy range: ±3-4% compared to hydrostatic weighing
+                        Accuracy range: ±3-4% with proper technique
                       </li>
-                      <li>Highest correlation with hydrostatic weighing</li>
-                      <li>Most comprehensive skinfold method available</li>
-                      <li>Excellent for research and clinical applications</li>
+                      <li>Most comprehensive of the Jackson & Pollock methods</li>
+                      <li>Requires consistent site location and caliper use</li>
                     </ul>
                   </div>
 
@@ -968,8 +940,8 @@ export default function Formulas() {
                     <p className="mt-4 text-gray-300">
                       Developed by John Parrillo specifically for bodybuilding
                       applications. Uses nine skinfold sites to account for
-                      various fat distribution patterns, particularly effective
-                      for athletic populations.
+                      various fat distribution patterns in bodybuilding
+                      contexts.
                     </p>
                   </div>
 
@@ -979,7 +951,7 @@ export default function Formulas() {
                     </h3>
                     <div className="mt-4 rounded-lg bg-black/20 p-6 ring-1 ring-white/10">
                       <Formula
-                        formula={`\\text{Body Fat}\\% = \\frac{\\sum\\text{SF} \\times 27}{\\text{Weight}_{lb}} \\times 100`}
+                        formula={`\\text{Body Fat}\\% = \\frac{\\sum\\text{SF} \\times 27}{\\text{Weight}_{lb}}`}
                       />
                       <p className="mt-4 text-sm text-gray-400">
                         Where:
@@ -987,8 +959,8 @@ export default function Formulas() {
                         <Formula inline formula="\\sum\\text{SF}" /> = Sum of
                         nine skinfold measurements (mm):
                         <br />
-                        cheek, chin, pectoral, tricep, subscapular, abdominal,
-                        suprailiac, quadriceps, knee
+                        chest, abdomen, thigh, bicep, tricep, subscapular,
+                        suprailiac, lower back, calf
                         <br />
                         <Formula inline formula="\\text{Weight}_{lb}" /> = body
                         weight in pounds
@@ -1002,11 +974,10 @@ export default function Formulas() {
                     </h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                       <li>
-                        Accuracy range: ±3-4% compared to hydrostatic weighing
+                        Accuracy range: ±3-4% with proper technique
                       </li>
-                      <li>Specifically validated for athletic populations</li>
-                      <li>Most comprehensive site selection</li>
-                      <li>Excellent for bodybuilding applications</li>
+                      <li>Uses nine-site skinfold sum</li>
+                      <li>Commonly used for bodybuilding tracking</li>
                     </ul>
                   </div>
 
@@ -1047,11 +1018,9 @@ export default function Formulas() {
                       Research Background
                     </h3>
                     <p className="mt-4 text-gray-300">
-                      Most skinfold methods calculate body density first, which
-                      is then converted to body fat percentage. This two-step
-                      process has been extensively validated through hydrostatic
-                      weighing studies and forms the foundation of modern body
-                      composition assessment.
+                      Many skinfold methods calculate body density first, then
+                      convert it to body fat percentage using a standard
+                      equation.
                     </p>
                   </div>
 
@@ -1087,9 +1056,8 @@ export default function Formulas() {
                       />
 
                       <p className="mt-6 text-sm text-gray-400">
-                        Note: Siri and Brozek equations are most commonly used
-                        and generally provide similar results (within ±1%) for
-                        most populations.
+                        Note: Siri and Brozek equations are commonly used and
+                        generally provide similar results for many users.
                       </p>
                     </div>
                   </div>
@@ -1105,20 +1073,18 @@ export default function Formulas() {
                         </h4>
                         <ul className="mt-2 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                           <li>
-                            Based on analysis of only 4 cadavers, limiting its
-                            generalizability
+                            Derived from a two-component body density model
                           </li>
                           <li>
-                            Assumes constant densities of fat (0.9007 g/cm³) and
-                            fat-free mass (1.1000 g/cm³)
+                            Assumes constant densities of fat and fat-free mass
                           </li>
                           <li>
-                            May underestimate body fat in very lean individuals
-                            (&lt;8%)
+                            Can diverge for very lean or very muscular
+                            individuals
                           </li>
                           <li>
-                            Less accurate for populations with different bone
-                            densities or muscle mass
+                            Population differences in bone density or hydration
+                            can shift results
                           </li>
                         </ul>
                       </div>
@@ -1129,18 +1095,18 @@ export default function Formulas() {
                         </h4>
                         <ul className="mt-2 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                           <li>
-                            Study based on small sample size (n=19) of African
-                            American men
+                            Developed for a specific population; applicability
+                            outside that group is uncertain
                           </li>
                           <li>
-                            Limited to college-aged subjects (17-25 years)
+                            Focused on African American men; not validated for
+                            women or other groups
                           </li>
                           <li>
-                            No validation for women or other ethnic groups
+                            Smaller cohorts can limit generalizability
                           </li>
                           <li>
-                            May not account for variations within African
-                            American populations
+                            Use with caution outside the intended population
                           </li>
                         </ul>
                       </div>
@@ -1151,18 +1117,12 @@ export default function Formulas() {
                         </h4>
                         <ul className="mt-2 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                           <li>
-                            Validated only on African American men aged 19-45
-                            years
+                            Developed for a specific population; not validated
+                            for women or other groups
                           </li>
-                          <li>Sample excluded highly trained athletes</li>
-                          <li>
-                            May not be accurate for individuals with extreme
-                            body compositions
-                          </li>
-                          <li>
-                            Limited cross-validation with modern imaging
-                            techniques
-                          </li>
+                          <li>Evidence outside the intended population is limited</li>
+                          <li>May be less accurate at extreme body compositions</li>
+                          <li>Use with caution outside the intended population</li>
                         </ul>
                       </div>
                     </div>
@@ -1177,9 +1137,7 @@ export default function Formulas() {
                       formula for several reasons:
                     </p>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                      <li>
-                        Most widely used and validated in research settings
-                      </li>
+                      <li>Widely cited in body composition literature</li>
                       <li>
                         Original equation used in the development and validation
                         of Jackson & Pollock methods
@@ -1188,14 +1146,7 @@ export default function Formulas() {
                         Simpler coefficients (495/450) make it easier to
                         remember and calculate manually
                       </li>
-                      <li>
-                        More extensively cross-validated against modern methods
-                        like DEXA
-                      </li>
-                      <li>
-                        Provides nearly identical results to Brozek for body fat
-                        ranges of 6-30%, which covers most users
-                      </li>
+                      <li>Provides similar results to Brozek for many users</li>
                     </ul>
                   </div>
 
@@ -1205,20 +1156,12 @@ export default function Formulas() {
                     </h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                       <li>
-                        Siri equation assumes body density of fat = 0.900 g/cm³
+                        These equations assume constant densities of fat and
+                        fat-free mass
                       </li>
-                      <li>
-                        Brozek equation uses slightly different assumed
-                        densities
-                      </li>
-                      <li>
-                        Schutte and Wagner equations account for differences in
-                        bone density and body composition in African American
-                        populations
-                      </li>
-                      <li>
-                        Age, ethnicity, and athletic status may affect accuracy
-                      </li>
+                      <li>Alternative equations exist for specific populations</li>
+                      <li>Age, ethnicity, and athletic status can affect results</li>
+                      <li>Choose the equation that matches the intended population</li>
                     </ul>
                   </div>
 
@@ -1273,9 +1216,8 @@ export default function Formulas() {
                     <p className="mt-4 text-gray-300">
                       While widely used, BMI is not a measure of body fat
                       percentage. It only considers height and weight, making it
-                      inaccurate for athletes, elderly, and those with unusual
-                      body compositions. Error range can exceed ±10% for body
-                      fat estimation.
+                      prone to misclassification for muscular, older, or
+                      atypical body compositions.
                     </p>
                   </div>
 
@@ -1284,11 +1226,12 @@ export default function Formulas() {
                       Bioelectrical Impedance (BIA)
                     </h3>
                     <p className="mt-4 text-gray-300">
-                      Consumer-grade BIA devices can have error ranges of
-                      ±8-12%. Results are highly influenced by hydration status,
-                      recent exercise, meal timing, and environmental factors.
-                      Professional multi-frequency devices can achieve better
-                      accuracy but are expensive and require trained operators.
+                      Consumer-grade BIA devices can vary widely in accuracy.
+                      Results are influenced by hydration status, recent
+                      exercise, meal timing, and environmental factors.
+                      Professional multi-frequency devices can be more
+                      consistent but require trained operators and controlled
+                      conditions.
                     </p>
                   </div>
 
@@ -1298,9 +1241,8 @@ export default function Formulas() {
                     </h3>
                     <p className="mt-4 text-gray-300">
                       Uses infrared light reflection to estimate body fat. While
-                      non-invasive, it has limited research validation and
-                      accuracy can vary significantly (±7-11%) depending on skin
-                      color, hydration, and measurement site.
+                      non-invasive, published validation is limited and results
+                      can vary with skin tone, hydration, and measurement site.
                     </p>
                   </div>
 
@@ -1309,9 +1251,9 @@ export default function Formulas() {
                       Air Displacement (Bod Pod)
                     </h3>
                     <p className="mt-4 text-gray-300">
-                      More accurate than the above methods (±2-3%) but requires
-                      expensive equipment and controlled conditions. Results can
-                      be affected by facial hair, moisture, and temperature.
+                      Requires specialized equipment and controlled conditions.
+                      Results can be affected by factors like facial hair,
+                      moisture, clothing, and temperature.
                     </p>
                   </div>
 
@@ -1320,10 +1262,9 @@ export default function Formulas() {
                       DEXA (Dual-Energy X-ray Absorptiometry)
                     </h3>
                     <p className="mt-4 text-gray-300">
-                      Considered the current gold standard (±1-2% accuracy) but
-                      requires expensive equipment, trained operators, and
-                      exposes subjects to small amounts of radiation. Not
-                      practical for regular tracking.
+                      A laboratory reference method that requires expensive
+                      equipment and trained operators, and involves low-dose
+                      radiation. Not practical for frequent tracking.
                     </p>
                   </div>
 

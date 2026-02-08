@@ -66,10 +66,9 @@ export default function JacksonPollock() {
                       comprehensive research:
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
-                      <li>Over 1,500 subjects studied</li>
-                      <li>Age range: 18-61 years</li>
-                      <li>Multiple ethnic groups included</li>
-                      <li>Validated against hydrostatic weighing</li>
+                      <li>Developed generalized equations for men and women</li>
+                      <li>Based on multiple skinfold sites</li>
+                      <li>Designed for practical field assessment</li>
                     </ul>
                   </div>
                 </div>
@@ -84,12 +83,10 @@ export default function JacksonPollock() {
                     </p>
                     <div className="rounded-lg bg-black/20 p-4">
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                        <li>
-                          7-site method (1978): Original comprehensive protocol
-                        </li>
-                        <li>4-site method (1979): Optimized for efficiency</li>
-                        <li>3-site method (1980): Simplified for field use</li>
-                        <li>Population-specific equations (1985)</li>
+                        <li>7-site method: original comprehensive protocol</li>
+                        <li>4-site method: balanced accuracy and efficiency</li>
+                        <li>3-site method: simplified for field use</li>
+                        <li>Later refinements to equations and guidance</li>
                       </ul>
                     </div>
                   </div>
@@ -130,13 +127,12 @@ export default function JacksonPollock() {
                       </div>
                       <div className="rounded-lg bg-black/20 p-4">
                         <h4 className="font-medium text-white">
-                          Statistical Validity
+                          Accuracy Range
                         </h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                          <li>R² = 0.90-0.92</li>
-                          <li>SEE: ±3.0% body fat</li>
-                          <li>Test-retest reliability: r = 0.98</li>
-                          <li>Cross-validated with DEXA</li>
+                          <li>Typical accuracy: ±3-4%</li>
+                          <li>Most thorough with seven sites</li>
+                          <li>Requires consistent technique</li>
                         </ul>
                       </div>
                     </div>
@@ -162,13 +158,12 @@ export default function JacksonPollock() {
                       </div>
                       <div className="rounded-lg bg-black/20 p-4">
                         <h4 className="font-medium text-white">
-                          Statistical Validity
+                          Accuracy Range
                         </h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                          <li>R² = 0.88-0.90</li>
-                          <li>SEE: ±3.4% body fat</li>
-                          <li>Test-retest reliability: r = 0.96</li>
-                          <li>Validated across populations</li>
+                          <li>Typical accuracy: ±3.5-4.5%</li>
+                          <li>Balanced accuracy and efficiency</li>
+                          <li>Requires consistent technique</li>
                         </ul>
                       </div>
                     </div>
@@ -193,13 +188,12 @@ export default function JacksonPollock() {
                       </div>
                       <div className="rounded-lg bg-black/20 p-4">
                         <h4 className="font-medium text-white">
-                          Statistical Validity
+                          Accuracy Range
                         </h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                          <li>R² = 0.85-0.88</li>
-                          <li>SEE: ±3.9% body fat</li>
-                          <li>Test-retest reliability: r = 0.94</li>
-                          <li>Good field reliability</li>
+                          <li>Typical accuracy: ±4-5%</li>
+                          <li>Quick method for field use</li>
+                          <li>Consistent technique is important</li>
                         </ul>
                       </div>
                     </div>
@@ -268,15 +262,9 @@ export default function JacksonPollock() {
                     12(3), 175-182.
                   </li>
                   <li>
-                    Peterson, M.J., et al. (2003). &ldquo;Development and
-                    Validation of Skinfold-Thickness Prediction Equations with a
-                    4-Compartment Model.&rdquo; American Journal of Clinical
-                    Nutrition, 77(5), 1186-1191.
-                  </li>
-                  <li>
-                    Eston, R.G., & Reilly, T. (2009). &ldquo;Kinanthropometry
-                    and Exercise Physiology Laboratory Manual: Tests, Procedures
-                    and Data.&rdquo; Routledge, 3rd Edition.
+                    Jackson, A.S., & Pollock, M.L. (1985). &ldquo;Practical
+                    assessment of body composition.&rdquo; The Physician and
+                    Sportsmedicine, 13(5), 76-90.
                   </li>
                 </ul>
               </div>

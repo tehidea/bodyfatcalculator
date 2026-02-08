@@ -61,8 +61,8 @@ export default function YMCAMethod() {
                   basic screening and monitoring changes over time.
                 </p>
                 <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                  <li>Accuracy: ±5-7% compared to hydrostatic weighing</li>
-                  <li>Quickest assessment method</li>
+                  <li>Accuracy: ±5-7% with proper technique</li>
+                  <li>Quick assessment method</li>
                   <li>Minimal equipment needed</li>
                   <li>Easy to perform</li>
                   <li>Suitable for basic screening</li>
@@ -90,7 +90,6 @@ export default function YMCAMethod() {
                         Required Measurements:
                       </h4>
                       <ul className="mt-2 list-inside list-disc space-y-1">
-                        <li>Height</li>
                         <li>Weight</li>
                         <li>Waist circumference (at navel)</li>
                       </ul>
@@ -104,7 +103,7 @@ export default function YMCAMethod() {
                     <li>Stand straight with muscles relaxed</li>
                     <li>Keep tape measure parallel to the floor</li>
                     <li>Take measurements twice for consistency</li>
-                    <li>Record to the nearest 0.5 cm</li>
+                    <li>Record measurements consistently</li>
                   </ul>
                 </div>
               </div>

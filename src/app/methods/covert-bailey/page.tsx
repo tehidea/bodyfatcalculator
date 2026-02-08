@@ -61,7 +61,7 @@ export default function CovertBailey() {
                   accessibility and accuracy.
                 </p>
                 <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                  <li>Accuracy: ±4-5% compared to hydrostatic weighing</li>
+                  <li>Accuracy: ±4-5% with proper technique</li>
                   <li>Uses multiple measurement sites</li>
                   <li>No specialized equipment needed</li>
                   <li>Gender-specific equations</li>
@@ -90,12 +90,12 @@ export default function CovertBailey() {
                         Required Measurements:
                       </h4>
                       <ul className="mt-2 list-inside list-disc space-y-1">
-                        <li>Height</li>
-                        <li>Weight</li>
-                        <li>Waist (at narrowest point)</li>
-                        <li>Hip (at widest point)</li>
-                        <li>Forearm (at widest point)</li>
+                        <li>Age</li>
                         <li>Wrist (minimum circumference)</li>
+                        <li>Waist (at navel)</li>
+                        <li>Hips (widest point)</li>
+                        <li>Men: forearm (widest point)</li>
+                        <li>Women: thigh, calf</li>
                       </ul>
                     </div>
                   </div>
@@ -107,7 +107,7 @@ export default function CovertBailey() {
                     <li>Keep tape measure parallel to floor</li>
                     <li>Apply consistent tension</li>
                     <li>Take measurements twice</li>
-                    <li>Record to nearest 0.5 cm</li>
+                    <li>Record measurements consistently</li>
                   </ul>
                 </div>
               </div>

@@ -37,8 +37,9 @@ export default function USNavyMethod() {
             </h1>
             <p className="mt-4 text-base text-gray-400">
               A practical circumference-based method developed by the US Navy
-              for field use. Requires only a tape measure and provides reliable
-              body fat estimates without the need for specialized equipment.
+              for field use. Requires only a tape measure and provides
+              practical body fat estimates without the need for specialized
+              equipment.
             </p>
           </motion.div>
 
@@ -57,14 +58,13 @@ export default function USNavyMethod() {
                 <p className="text-gray-300">
                   Developed by Hodgdon and Beckett (1984) at the Naval Health
                   Research Center. Uses circumference measurements and height to
-                  estimate body fat percentage. Validated against hydrostatic
-                  weighing with correlation coefficients of 0.85-0.88.
+                  estimate body fat percentage.
                 </p>
                 <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                  <li>Accuracy: ±4-6% compared to hydrostatic weighing</li>
-                  <li>Validated on 5,000+ military personnel</li>
+                  <li>Accuracy: ±4-6% with proper technique</li>
                   <li>Gender-specific equations</li>
-                  <li>Accounts for body shape variations</li>
+                  <li>Designed for population-level screening</li>
+                  <li>May be less accurate for very lean or obese individuals</li>
                   <li>Used in military fitness assessments</li>
                 </ul>
               </div>

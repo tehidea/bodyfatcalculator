@@ -46,9 +46,7 @@ export default function Research() {
                 </h2>
                 <p className="mt-2 text-sm text-gray-400">
                   Systematic reviews and meta-analyses of body fat measurement
-                  methods, synthesizing findings from multiple validation
-                  studies (Silva et al., 2013; Wells, 2014; Toomey et al.,
-                  2015).
+                  methods, synthesizing findings across multiple studies.
                 </p>
               </div>
             </Link>
@@ -65,9 +63,7 @@ export default function Research() {
                 </h2>
                 <p className="mt-2 text-sm text-gray-400">
                   Historical and modern validation studies comparing field
-                  methods against laboratory standards, from foundational
-                  research (Durnin & Womersley, 1974) to recent military
-                  standards (Friedl et al., 2020).
+                  methods against laboratory standards.
                 </p>
               </div>
             </Link>
@@ -83,8 +79,8 @@ export default function Research() {
                   Clinical Applications
                 </h2>
                 <p className="mt-2 text-sm text-gray-400">
-                  Research on practical applications in healthcare, fitness, and
-                  sports medicine, including intervention effectiveness studies.
+                  Practical applications in healthcare, fitness, and sports
+                  medicine.
                 </p>
               </div>
             </Link>
@@ -100,8 +96,8 @@ export default function Research() {
                   Method Comparison
                 </h2>
                 <p className="mt-2 text-sm text-gray-400">
-                  Detailed comparison of all methods, including accuracy rates,
-                  reliability coefficients, and practical considerations.
+                  Comparison of methods, including accuracy ranges and
+                  practical considerations.
                 </p>
               </div>
             </Link>
@@ -123,40 +119,40 @@ export default function Research() {
                   name: 'Parrillo Method',
                   href: '/research/methods/parrillo',
                   description:
-                    'Research on the 9-site method optimized for bodybuilders',
+                    'Nine-site method optimized for trained individuals',
                   accuracy: '±3-4%',
                 },
                 {
                   name: 'Jackson & Pollock',
                   href: '/research/methods/jackson-pollock',
                   description:
-                    'Foundational 3-site, 4-site and 7-site protocols (Jackson & Pollock, 1978)',
+                    'Foundational 3-site, 4-site, and 7-site protocols',
                   accuracy: '±3-5%',
                 },
                 {
                   name: 'Durnin & Womersley',
                   href: '/research/methods/durnin-womersley',
                   description:
-                    'Age-specific equations (Durnin & Womersley, 1974)',
+                    'Age-specific four-site skinfold equations',
                   accuracy: '±3.5-5%',
                 },
                 {
                   name: 'Covert Bailey',
                   href: '/research/methods/covert-bailey',
-                  description: 'Validation studies for middle-aged adults',
+                  description: 'Age- and gender-specific circumference method',
                   accuracy: '±4-5%',
                 },
                 {
                   name: 'US Navy Method',
                   href: '/research/methods/us-navy',
                   description:
-                    'Military validation studies (Hodgdon & Beckett, 1984)',
-                  accuracy: '±3-6%',
+                    'Circumference method using height and key measurements',
+                  accuracy: '±4-6%',
                 },
                 {
                   name: 'YMCA Method',
                   href: '/research/methods/ymca',
-                  description: 'Standardized assessment protocols',
+                  description: 'Simple circumference-based assessment',
                   accuracy: '±5-7%',
                 },
               ].map((method) => (
@@ -202,16 +198,16 @@ export default function Research() {
                       Category
                     </th>
                     <th className="px-4 py-3 text-sm font-semibold text-white">
-                      Studies
+                      Scope
                     </th>
                     <th className="px-4 py-3 text-sm font-semibold text-white">
-                      Sample Size
+                      Sources
                     </th>
                     <th className="px-4 py-3 text-sm font-semibold text-white">
-                      Key Findings
+                      Topics
                     </th>
                     <th className="px-4 py-3 text-sm font-semibold text-white">
-                      Publication Years
+                      Timeframe
                     </th>
                   </tr>
                 </thead>
@@ -225,15 +221,16 @@ export default function Research() {
                         Meta-Analyses
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-gray-300">3 major reviews</td>
+                    <td className="px-4 py-3 text-gray-300">Major reviews</td>
                     <td className="px-4 py-3 text-gray-300">
                       Multiple cohorts
                     </td>
                     <td className="px-4 py-3 text-gray-300">
-                      Field methods validated against laboratory standards
-                      (Silva et al., 2013)
+                      Field vs laboratory method comparisons
                     </td>
-                    <td className="px-4 py-3 text-gray-300">2013-2020</td>
+                    <td className="px-4 py-3 text-gray-300">
+                      Recent and foundational reviews
+                    </td>
                   </tr>
                   <tr>
                     <td className="px-4 py-3">
@@ -245,16 +242,15 @@ export default function Research() {
                       </Link>
                     </td>
                     <td className="px-4 py-3 text-gray-300">
-                      Original research
+                      Original and follow-up studies
                     </td>
                     <td className="px-4 py-3 text-gray-300">
-                      481 subjects (Durnin & Womersley, 1974)
+                      Multiple populations
                     </td>
                     <td className="px-4 py-3 text-gray-300">
-                      Field methods accurate within ±3.5-5% of hydrostatic
-                      weighing
+                      Accuracy ranges and method limitations
                     </td>
-                    <td className="px-4 py-3 text-gray-300">1974-2020</td>
+                    <td className="px-4 py-3 text-gray-300">1970s-present</td>
                   </tr>
                   <tr>
                     <td className="px-4 py-3">
@@ -266,13 +262,13 @@ export default function Research() {
                       </Link>
                     </td>
                     <td className="px-4 py-3 text-gray-300">
-                      Multiple studies
+                      Clinical and population studies
                     </td>
                     <td className="px-4 py-3 text-gray-300">Various cohorts</td>
                     <td className="px-4 py-3 text-gray-300">
-                      Validated for clinical monitoring (Ellis, 2000)
+                      Screening and monitoring use cases
                     </td>
-                    <td className="px-4 py-3 text-gray-300">1990-2020</td>
+                    <td className="px-4 py-3 text-gray-300">Ongoing</td>
                   </tr>
                   <tr>
                     <td className="px-4 py-3">
@@ -284,15 +280,15 @@ export default function Research() {
                       </Link>
                     </td>
                     <td className="px-4 py-3 text-gray-300">
-                      Systematic reviews
+                      Comparative reviews
                     </td>
                     <td className="px-4 py-3 text-gray-300">
-                      Multiple studies
+                      Multiple methods
                     </td>
                     <td className="px-4 py-3 text-gray-300">
-                      Comparative accuracy analysis (Wagner & Heyward, 1999)
+                      Trade-offs in accuracy, time, and equipment
                     </td>
-                    <td className="px-4 py-3 text-gray-300">1974-2020</td>
+                    <td className="px-4 py-3 text-gray-300">Ongoing</td>
                   </tr>
                 </tbody>
               </table>

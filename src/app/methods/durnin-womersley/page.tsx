@@ -41,9 +41,8 @@ export default function DurninWomersley() {
               </span>
             </div>
             <p className="mt-4 text-base text-gray-400">
-              A scientifically validated 4-site skinfold method that accounts
-              for age-related changes in body composition. Particularly accurate
-              for adults across different age groups.
+              A 4-site skinfold method that accounts for age-related changes in
+              body composition using age-specific equations.
             </p>
           </motion.div>
 
@@ -62,15 +61,12 @@ export default function DurninWomersley() {
                 <p className="text-gray-300">
                   Developed by Durnin and Womersley in 1974, this method uses
                   age-specific equations to account for changes in fat
-                  distribution patterns across different age groups. The method
-                  has been extensively validated in research settings.
+                  distribution patterns across different age groups.
                 </p>
                 <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                  <li>Accuracy: ±3.5-5% compared to hydrostatic weighing</li>
-                  <li>Age-specific equations for better accuracy</li>
-                  <li>Validated across age groups 17-72</li>
+                  <li>Accuracy: ±3.5-5% with proper technique</li>
+                  <li>Age-specific equations</li>
                   <li>Accounts for age-related changes</li>
-                  <li>Strong scientific validation</li>
                 </ul>
               </div>
             </motion.section>
@@ -109,7 +105,7 @@ export default function DurninWomersley() {
                     <li>Take measurements on the right side</li>
                     <li>Mark measurement sites before starting</li>
                     <li>Use consistent caliper pressure</li>
-                    <li>Take readings 2 seconds after applying pressure</li>
+                    <li>Wait briefly before reading the caliper</li>
                     <li>Record age accurately for equation selection</li>
                   </ul>
                 </div>

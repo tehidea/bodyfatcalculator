@@ -42,8 +42,8 @@ export default function JacksonPollock4() {
             </div>
             <p className="mt-4 text-base text-gray-400">
               A balanced approach between accuracy and practicality, using four
-              skinfold sites. Offers excellent reliability while being more
-              time-efficient than the 7-site method.
+              skinfold sites. Designed to balance detail and time compared to
+              the 7-site method.
             </p>
           </motion.div>
 
@@ -62,14 +62,13 @@ export default function JacksonPollock4() {
                 <p className="text-gray-300">
                   The 4-site method provides a practical compromise between the
                   comprehensive 7-site protocol and the quicker 3-site version.
-                  It maintains high accuracy while reducing measurement time,
-                  making it ideal for regular tracking.
+                  It balances accuracy and measurement time, making it suitable
+                  for regular tracking.
                 </p>
                 <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                  <li>Accuracy: ±3.5-4.5% compared to hydrostatic weighing</li>
-                  <li>Validated across diverse populations</li>
+                  <li>Accuracy: ±3.5-4.5% with proper technique</li>
                   <li>Gender-specific equations</li>
-                  <li>Excellent for tracking changes</li>
+                  <li>Useful for tracking changes</li>
                   <li>Good balance of time and precision</li>
                 </ul>
               </div>
@@ -93,18 +92,18 @@ export default function JacksonPollock4() {
                     <div>
                       <h4 className="font-medium text-white">For Men:</h4>
                       <ul className="mt-2 list-inside list-disc space-y-1">
-                        <li>Chest</li>
-                        <li>Abdomen</li>
-                        <li>Thigh</li>
                         <li>Triceps</li>
+                        <li>Abdomen</li>
+                        <li>Suprailiac</li>
+                        <li>Thigh</li>
                       </ul>
                     </div>
                     <div>
                       <h4 className="font-medium text-white">For Women:</h4>
                       <ul className="mt-2 list-inside list-disc space-y-1">
                         <li>Triceps</li>
-                        <li>Suprailiac</li>
                         <li>Abdomen</li>
+                        <li>Suprailiac</li>
                         <li>Thigh</li>
                       </ul>
                     </div>
@@ -116,8 +115,8 @@ export default function JacksonPollock4() {
                     <li>Take measurements on the right side</li>
                     <li>Pinch skin and fat only, not muscle</li>
                     <li>Hold caliper perpendicular to skinfold</li>
-                    <li>Read after 2-second compression</li>
-                    <li>Take 2-3 measurements at each site</li>
+                    <li>Wait briefly before reading the caliper</li>
+                    <li>Take multiple measurements at each site</li>
                   </ul>
                 </div>
               </div>

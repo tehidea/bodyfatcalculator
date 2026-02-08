@@ -7,7 +7,7 @@ export const metadata: Metadata = {
       'Body Fat Calculator (PRO) - Professional Body Fat Measurement Tool',
   },
   description:
-    'The most accurate body fat calculator app with multiple measurement methods including calipers and US Navy. Get professional-grade accuracy with our advanced algorithms.',
+    'The most comprehensive body fat calculator app with multiple measurement methods including calipers and US Navy. Get professional-grade estimates with research-validated formulas.',
   openGraph: {
     title: 'Body Fat Calculator (PRO)',
     description: 'Professional Body Fat Measurement Tool',

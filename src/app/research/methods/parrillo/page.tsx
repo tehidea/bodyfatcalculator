@@ -37,9 +37,8 @@ export default function ParrilloMethod() {
             </h1>
             <p className="mt-4 text-base text-gray-400">
               Comprehensive analysis of the Parrillo body fat assessment method,
-              developed specifically for bodybuilders and athletes. Explore its
-              unique approach to measuring body composition in lean individuals
-              and its applications in competitive sports.
+              developed for bodybuilding contexts. Explore its nine-site
+              approach and its use for tracking changes in trained individuals.
             </p>
           </motion.div>
 
@@ -66,10 +65,9 @@ export default function ParrilloMethod() {
                       bodybuilding experience:
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
-                      <li>Created by John Parrillo in the 1980s</li>
-                      <li>Focus on competitive bodybuilders</li>
-                      <li>Emphasis on lean mass assessment</li>
-                      <li>Integration with training protocols</li>
+                      <li>Developed for bodybuilding-focused assessment</li>
+                      <li>Uses multiple skinfold sites for detail</li>
+                      <li>Best suited to tracking trained individuals</li>
                     </ul>
                   </div>
                 </div>
@@ -84,10 +82,8 @@ export default function ParrilloMethod() {
                     </p>
                     <div className="rounded-lg bg-black/20 p-4">
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                        <li>Initial bodybuilding focus</li>
-                        <li>Expansion to other sports</li>
-                        <li>Competition preparation protocols</li>
-                        <li>Integration with nutrition planning</li>
+                        <li>Bodybuilding-focused origins</li>
+                        <li>Adopted for tracking changes in trained athletes</li>
                       </ul>
                     </div>
                   </div>
@@ -117,15 +113,15 @@ export default function ParrilloMethod() {
                           Measurement Sites
                         </h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                          <li>Quadriceps</li>
-                          <li>Hamstrings</li>
-                          <li>Suprailiac</li>
-                          <li>Lower back</li>
-                          <li>Abdominal</li>
                           <li>Chest</li>
+                          <li>Abdomen</li>
+                          <li>Thigh</li>
+                          <li>Bicep</li>
                           <li>Triceps</li>
                           <li>Subscapular</li>
-                          <li>Axilla</li>
+                          <li>Suprailiac</li>
+                          <li>Lower back</li>
+                          <li>Calf</li>
                         </ul>
                       </div>
                       <div className="rounded-lg bg-black/20 p-4">
@@ -134,9 +130,9 @@ export default function ParrilloMethod() {
                         </h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Multiple site measurements</li>
-                          <li>Lean tissue emphasis</li>
-                          <li>Competition timing</li>
-                          <li>Hydration status</li>
+                          <li>Consistent site location and technique</li>
+                          <li>Caliper quality and calibration</li>
+                          <li>Hydration status can affect readings</li>
                         </ul>
                       </div>
                     </div>
@@ -148,30 +144,14 @@ export default function ParrilloMethod() {
                     Statistical Validation
                   </h3>
                   <div className="mt-4 space-y-4">
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Athletic Population
-                        </h4>
-                        <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                          <li>Correlation with DEXA: r = 0.94</li>
-                          <li>SEE: ±1.5-2% body fat</li>
-                          <li>Test-retest reliability: r = 0.98</li>
-                          <li>Sample size: 500+ athletes</li>
-                        </ul>
-                      </div>
-                      <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          General Population
-                        </h4>
-                        <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
-                          <li>Correlation with HW: r = 0.86</li>
-                          <li>SEE: ±3-4% body fat</li>
-                          <li>Test-retest reliability: r = 0.95</li>
-                          <li>Sample size: 300+ individuals</li>
-                        </ul>
-                      </div>
-                    </div>
+                    <p className="text-gray-300">
+                      Reported accuracy range and practical notes:
+                    </p>
+                    <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
+                      <li>Typical accuracy range: ±3-4%</li>
+                      <li>Best for tracking changes in trained individuals</li>
+                      <li>Requires consistent technique across all sites</li>
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -232,10 +212,10 @@ export default function ParrilloMethod() {
                       Key Advantages
                     </h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
-                      <li>High accuracy for athletes</li>
-                      <li>Comprehensive assessment</li>
-                      <li>Competition-specific</li>
-                      <li>Detailed body mapping</li>
+                      <li>Comprehensive nine-site assessment</li>
+                      <li>Useful for tracking changes in trained individuals</li>
+                      <li>Detailed subcutaneous fat mapping</li>
+                      <li>Works best with consistent technique</li>
                     </ul>
                   </div>
                   <div className="rounded-lg bg-black/20 p-4">
@@ -264,25 +244,8 @@ export default function ParrilloMethod() {
               <div className="mt-6">
                 <ul className="list-inside space-y-3 text-sm text-gray-300">
                   <li>
-                    Parrillo, J. (1993). &ldquo;High-Performance
-                    Body-Building.&rdquo; Parrillo Performance Press.
-                  </li>
-                  <li>
-                    Clark, N., et al. (2000). &ldquo;Comparison of the Parrillo
-                    method with hydrostatic weighing in competitive
-                    bodybuilders.&rdquo; Journal of Strength and Conditioning
-                    Research, 14(4), 457-461.
-                  </li>
-                  <li>
-                    Norton, L., & Wilson, G. (2009). &ldquo;Optimal body
-                    composition measurements in athletes.&rdquo; Strength and
-                    Conditioning Journal, 31(1), 78-85.
-                  </li>
-                  <li>
-                    Helms, E., et al. (2014). &ldquo;Evidence-based
-                    recommendations for natural bodybuilding contest
-                    preparation.&rdquo; Journal of the International Society of
-                    Sports Nutrition, 11(1), 20.
+                    Parrillo, J., & Greenwood-Robinson, M. (1993).
+                    &ldquo;High-Performance Body-Building.&rdquo; Perigee Books.
                   </li>
                 </ul>
               </div>

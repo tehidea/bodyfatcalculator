@@ -47,12 +47,10 @@ export default function Guides() {
                   </p>
                   <ul className="list-disc pl-6 text-gray-300 marker:text-[#FF0000]">
                     <li>Measure in the morning before eating or drinking</li>
-                    <li>Wait at least 4 hours after exercise</li>
+                    <li>Avoid measuring immediately after exercise</li>
                     <li>Use the same measurement tools consistently</li>
                     <li>Take measurements on the right side of the body</li>
-                    <li>
-                      Take each measurement 2-3 times and average the results
-                    </li>
+                    <li>Take multiple measurements and average the results</li>
                     <li>Record measurements immediately</li>
                   </ul>
                 </div>
@@ -84,12 +82,10 @@ export default function Guides() {
                       <li>Pull the fold away from the underlying muscle</li>
                       <li>
                         Place caliper jaws perpendicular to the fold,
-                        approximately 1 cm below your fingers
+                        slightly below your fingers
                       </li>
-                      <li>
-                        Release caliper pressure and read within 2 seconds
-                      </li>
-                      <li>Take 2-3 measurements at each site</li>
+                      <li>Release caliper pressure and read after a brief pause</li>
+                      <li>Take multiple measurements at each site</li>
                     </ul>
                   </div>
 
@@ -127,7 +123,7 @@ export default function Guides() {
                         <ul className="mt-4 list-disc pl-6 text-gray-300 marker:text-[#FF0000]">
                           <li>Suprailiac: Diagonal fold just above hip bone</li>
                           <li>
-                            Abdominal: Vertical fold 2cm to right of navel
+                            Abdominal: Vertical fold near the navel
                           </li>
                           <li>
                             Thigh: Vertical fold on front of thigh, halfway
