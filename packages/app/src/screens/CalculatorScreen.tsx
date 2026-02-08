@@ -19,7 +19,7 @@ import {
 } from "../schemas/calculator";
 import Logo from "../images/logo";
 import { memo } from "react";
-import { calculateResults } from "../formulas";
+import { calculateResults } from "@bodyfat/shared/formulas";
 import { createStyles } from "./CalculatorScreen.styles";
 import { usePremiumStore } from "../store/premiumStore";
 import { COLORS } from "../constants/theme";

@@ -1,58 +1,35 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { z } from "zod";
-import {
-  formulaSchemas,
-  validateFormula as validateInputs,
-  isValidFormula,
-} from "../schemas/calculator";
-import { convertMeasurement, ConversionType } from "../utils/conversions";
-import { getFormula } from "../formulas";
-
-// Map input fields to their conversion types
-// Note: Skinfold measurements are always in mm, so they don't need conversion
-const INPUT_CONVERSION_MAP: Partial<
-  Record<keyof z.infer<(typeof formulaSchemas)["ymca"]>, ConversionType>
-> = {
-  weight: "weight",
-  height: "length",
-  neckCircumference: "length",
-  waistCircumference: "length",
-  hipsCircumference: "length",
-  chestCircumference: "length",
-  abdomenCircumference: "length",
-  thighCircumference: "length",
-  calfCircumference: "length",
-  bicepCircumference: "length",
-  tricepCircumference: "length",
-  forearmCircumference: "length",
-  wristCircumference: "length",
-};
+import type { Formula, Gender, MeasurementSystem, CalculationResult, StandardizedInputs } from "@bodyfat/shared/types";
+import { convertMeasurement, type ConversionType } from "@bodyfat/shared/conversions";
+import { INPUT_CONVERSION_MAP } from "@bodyfat/shared/conversions/constants";
+import { getFormula } from "@bodyfat/shared/formulas";
+import { validateFormula as validateInputs } from "../schemas/calculator";
 
 export interface CalculatorStore {
   // State
-  formula: z.infer<typeof formulaSchemas.formula>;
-  gender: z.infer<typeof formulaSchemas.gender>;
-  inputs: z.infer<typeof formulaSchemas.inputs>;
+  formula: Formula;
+  gender: Gender;
+  inputs: StandardizedInputs;
   error: string | null;
   isCalculating: boolean;
   isResultsStale: boolean;
-  results: z.infer<typeof formulaSchemas.results> | null;
-  measurementSystem: z.infer<typeof formulaSchemas.measurementSystem>;
+  results: CalculationResult | null;
+  measurementSystem: MeasurementSystem;
   fieldErrors: Record<string, string>;
   _hasHydrated: boolean;
 
   // Actions
-  setFormula: (formula: z.infer<typeof formulaSchemas.formula>) => void;
-  setGender: (gender: z.infer<typeof formulaSchemas.gender>) => void;
-  setMeasurementSystem: (system: z.infer<typeof formulaSchemas.measurementSystem>) => void;
+  setFormula: (formula: Formula) => void;
+  setGender: (gender: Gender) => void;
+  setMeasurementSystem: (system: MeasurementSystem) => void;
   setInput: (
-    key: keyof z.infer<typeof formulaSchemas.inputs>,
+    key: string,
     value: number | null,
     options?: { keepResults?: boolean }
   ) => void;
-  setResults: (results: z.infer<typeof formulaSchemas.results> | null) => void;
+  setResults: (results: CalculationResult | null) => void;
   setError: (error: string | null, fieldErrors?: Record<string, string>) => void;
   setHasHydrated: (state: boolean) => void;
   setResultsStale: (isStale: boolean) => void;
@@ -65,30 +42,28 @@ export interface CalculatorStore {
  * Note: Skinfold measurements are always in mm and don't need conversion
  */
 function convertToMetric(
-  inputs: z.infer<typeof formulaSchemas.inputs>,
-  currentSystem: z.infer<typeof formulaSchemas.measurementSystem>,
-  gender: z.infer<typeof formulaSchemas.gender>
-): z.infer<typeof formulaSchemas.inputs> {
+  inputs: StandardizedInputs,
+  currentSystem: MeasurementSystem,
+  gender: Gender
+): StandardizedInputs {
   if (currentSystem === "metric") return { ...inputs, gender };
 
-  const metricInputs: Partial<z.infer<typeof formulaSchemas.inputs>> = {
+  const metricInputs: StandardizedInputs = {
     gender,
     age: inputs.age,
   };
 
-  // Convert each input to metric
   Object.entries(inputs).forEach(([key, value]) => {
     if (value == null || key === "gender" || key === "age") return;
 
-    const conversionType = INPUT_CONVERSION_MAP[key as keyof typeof inputs];
+    const conversionType = INPUT_CONVERSION_MAP[key];
     if (!conversionType) {
-      // If no conversion type is specified (e.g., skinfolds), keep the value as is
-      metricInputs[key as keyof typeof inputs] = value;
+      metricInputs[key] = value;
       return;
     }
 
     if (typeof value === "number") {
-      metricInputs[key as keyof typeof inputs] = convertMeasurement(
+      metricInputs[key] = convertMeasurement(
         value,
         conversionType,
         "imperial",
@@ -97,7 +72,7 @@ function convertToMetric(
     }
   });
 
-  return metricInputs as z.infer<typeof formulaSchemas.inputs>;
+  return metricInputs;
 }
 
 /**
@@ -105,30 +80,28 @@ function convertToMetric(
  * Note: Skinfold measurements are always in mm and don't need conversion
  */
 function convertToDisplaySystem(
-  inputs: z.infer<typeof formulaSchemas.inputs>,
-  targetSystem: z.infer<typeof formulaSchemas.measurementSystem>,
-  gender: z.infer<typeof formulaSchemas.gender>
-): z.infer<typeof formulaSchemas.inputs> {
+  inputs: StandardizedInputs,
+  targetSystem: MeasurementSystem,
+  gender: Gender
+): StandardizedInputs {
   if (targetSystem === "metric") return { ...inputs, gender };
 
-  const displayInputs: Partial<z.infer<typeof formulaSchemas.inputs>> = {
+  const displayInputs: StandardizedInputs = {
     gender,
     age: inputs.age,
   };
 
-  // Convert each input to display system
   Object.entries(inputs).forEach(([key, value]) => {
     if (value == null || key === "gender" || key === "age") return;
 
-    const conversionType = INPUT_CONVERSION_MAP[key as keyof typeof inputs];
+    const conversionType = INPUT_CONVERSION_MAP[key];
     if (!conversionType) {
-      // If no conversion type is specified (e.g., skinfolds), keep the value as is
-      displayInputs[key as keyof typeof inputs] = value;
+      displayInputs[key] = value;
       return;
     }
 
     if (typeof value === "number") {
-      displayInputs[key as keyof typeof inputs] = convertMeasurement(
+      displayInputs[key] = convertMeasurement(
         value,
         conversionType,
         "metric",
@@ -137,7 +110,7 @@ function convertToDisplaySystem(
     }
   });
 
-  return displayInputs as z.infer<typeof formulaSchemas.inputs>;
+  return displayInputs;
 }
 
 export const useCalculatorStore = create<CalculatorStore>()(
