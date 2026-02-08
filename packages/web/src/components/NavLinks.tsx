@@ -19,18 +19,21 @@ export function NavLinks() {
       {isHomePage ? (
         <>
           <button
+            type="button"
             onClick={() => scrollToSection('features')}
             className="text-base font-medium leading-7 tracking-tight text-white hover:text-[#FF0000]"
           >
             Features
           </button>
           <button
+            type="button"
             onClick={() => scrollToSection('pricing')}
             className="text-base font-medium leading-7 tracking-tight text-white hover:text-[#FF0000]"
           >
             Pricing
           </button>
           <button
+            type="button"
             onClick={() => scrollToSection('faqs')}
             className="text-base font-medium leading-7 tracking-tight text-white hover:text-[#FF0000]"
           >

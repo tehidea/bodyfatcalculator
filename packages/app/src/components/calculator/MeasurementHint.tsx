@@ -1,11 +1,9 @@
 import { Icon, Text } from '@rneui/themed'
 import { useState } from 'react'
-import { Dimensions, Modal, Pressable, StyleSheet, View } from 'react-native'
+import { Modal, Pressable, StyleSheet, View } from 'react-native'
 import { COLORS } from '../../constants/theme'
 import { useResponsive } from '../../utils/responsiveContext'
 import { MeasurementIcon } from './FormulaSelector'
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window')
 
 interface MeasurementHintProps {
   hint: string

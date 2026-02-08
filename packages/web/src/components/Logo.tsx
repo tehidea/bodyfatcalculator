@@ -1,6 +1,7 @@
 export function Logomark(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 367 367" {...props}>
+      <title>Body Fat Calculator</title>
       <defs>
         <circle id="a" cx={183.5} cy={183.5} r={183.5} />
       </defs>
@@ -26,6 +27,7 @@ export function Logomark(props: React.ComponentPropsWithoutRef<'svg'>) {
 export function Logo(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 367 367" {...props}>
+      <title>Body Fat Calculator</title>
       <defs>
         <circle id="a" cx={183.5} cy={183.5} r={183.5} />
       </defs>

@@ -32,7 +32,10 @@ interface MeasurementInputProps {
 }
 
 export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
-  ({ field, label, unit, error, onSubmitEditing, isLastInput, onFocusChange }, ref) => {
+  (
+    { field, label: _label, unit: _unit, error, onSubmitEditing, isLastInput, onFocusChange },
+    ref,
+  ) => {
     const { inputs, setInput, measurementSystem, formula, gender } = useCalculatorStore()
     const { pro } = usePremiumStore()
     const { getResponsiveSpacing, getResponsiveTypography, getLineHeight } = useResponsive()

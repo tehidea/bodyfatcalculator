@@ -10,7 +10,7 @@ interface MeasurementSelectorProps {
   style?: ViewStyle
 }
 
-export const MeasurementSelector: React.FC<MeasurementSelectorProps> = ({ style, ...props }) => {
+export const MeasurementSelector: React.FC<MeasurementSelectorProps> = ({ style }) => {
   const { measurementSystem, setMeasurementSystem, setResults } = useCalculatorStore()
   const { getResponsiveTypography, getLineHeight } = useResponsive()
 

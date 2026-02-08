@@ -122,13 +122,6 @@ export interface FormulaMetadata {
   }
 }
 
-// Add a type helper for schema with metadata
-type SchemaWithMetadata<T> = z.ZodObject<any, any, any> & {
-  _def: {
-    metadata?: T
-  }
-}
-
 // Type for schema definition
 type SchemaDefinition = (
   system: MeasurementSystem,

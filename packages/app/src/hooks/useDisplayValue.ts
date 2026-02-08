@@ -1,4 +1,8 @@
-import { type ConversionType, convertMeasurement, formatMeasurement } from '@bodyfat/shared/conversions'
+import {
+  type ConversionType,
+  convertMeasurement,
+  formatMeasurement,
+} from '@bodyfat/shared/conversions'
 import { INPUT_CONVERSION_MAP } from '@bodyfat/shared/conversions/constants'
 import { useCallback } from 'react'
 import { useCalculatorStore } from '../store/calculatorStore'

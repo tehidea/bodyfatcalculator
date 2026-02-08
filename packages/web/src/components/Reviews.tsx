@@ -176,7 +176,7 @@ function ReviewColumn({
     >
       {reviews.concat(reviews).map((review, reviewIndex) => (
         <Review
-          key={reviewIndex}
+          key={`${review.title}-${reviewIndex}`}
           aria-hidden={reviewIndex >= reviews.length}
           className={reviewClassName?.(reviewIndex % reviews.length)}
           {...review}

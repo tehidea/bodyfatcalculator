@@ -197,7 +197,7 @@ export function UpgradeModal({
           <View style={styles.featureList}>
             {features.map((feature, index) => (
               <Animated.View
-                key={index}
+                key={feature.title}
                 entering={FadeIn.delay(300 + index * 50).duration(400)}
                 style={styles.feature}
               >

@@ -433,7 +433,7 @@ function _FeaturesMobile() {
       >
         {features.map((feature, featureIndex) => (
           <div
-            key={featureIndex}
+            key={feature.name}
             ref={(ref) => {
               if (ref) {
                 slideRefs.current[featureIndex] = ref
@@ -461,17 +461,17 @@ function _FeaturesMobile() {
         ))}
       </div>
       <div className="mt-6 flex justify-center gap-3">
-        {features.map((_, featureIndex) => (
+        {features.map((feature, _featureIndex) => (
           <button
             type="button"
-            key={featureIndex}
+            key={feature.name}
             className={clsx(
               'relative h-0.5 w-4 rounded-full',
-              featureIndex === activeIndex ? 'bg-gray-300' : 'bg-gray-500',
+              _featureIndex === activeIndex ? 'bg-gray-300' : 'bg-gray-500',
             )}
-            aria-label={`Go to slide ${featureIndex + 1}`}
+            aria-label={`Go to slide ${_featureIndex + 1}`}
             onClick={() => {
-              slideRefs.current[featureIndex].scrollIntoView({
+              slideRefs.current[_featureIndex].scrollIntoView({
                 block: 'nearest',
                 inline: 'nearest',
               })

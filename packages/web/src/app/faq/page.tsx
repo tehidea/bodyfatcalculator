@@ -12,7 +12,10 @@ function FaqText({ text }: { text: string }) {
     ALLOWED_ATTR: ['href', 'target', 'rel', 'class'],
   })
 
-  return <p className="mt-4 text-gray-300" dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />
+  return (
+    // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is sanitized via DOMPurify with a strict allowlist (ALLOWED_TAGS: ['a'])
+    <p className="mt-4 text-gray-300" dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />
+  )
 }
 
 const faqs = [
@@ -178,11 +181,11 @@ export default function FAQ() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <ul className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:max-w-none lg:grid-cols-3">
-              {faqs.map((column, columnIndex) => (
-                <li key={columnIndex}>
+              {faqs.map((column) => (
+                <li key={column[0].question}>
                   <ul className="space-y-10">
-                    {column.map((faq, faqIndex) => (
-                      <li key={faqIndex}>
+                    {column.map((faq) => (
+                      <li key={faq.question}>
                         <article className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10 transition-colors duration-300 hover:bg-white/[0.04]">
                           <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
                           <div className="relative">

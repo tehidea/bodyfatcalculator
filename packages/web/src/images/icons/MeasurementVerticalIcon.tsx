@@ -14,6 +14,8 @@ export function MeasurementVerticalIcon({
       xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
+      role="img"
+      aria-label="Height measurement"
     >
       <path
         fill={color}

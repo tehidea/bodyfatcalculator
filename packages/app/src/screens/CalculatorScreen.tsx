@@ -68,7 +68,7 @@ const ReferencesDisplay = memo(() => {
   if (!isValidFormula(formula)) return null
 
   const metadata = getFormulaMetadata(formula, measurementSystem, gender)
-  const { primary, validations } = metadata.reference
+  const { primary } = metadata.reference
 
   if (!primary) return null
 

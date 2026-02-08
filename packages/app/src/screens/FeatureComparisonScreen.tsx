@@ -4,6 +4,7 @@ import { Button, Icon, Text } from '@rneui/themed'
 import { usePostHog } from 'posthog-react-native'
 import { useState } from 'react'
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import type { PurchasesPackage } from 'react-native-purchases'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { getOfferings, purchasePackage } from '../config/store'
 import { FEATURES, PRICING } from '../constants/features'
@@ -24,7 +25,7 @@ export const FeatureComparisonScreen = () => {
     }
     try {
       const offerings = await getOfferings()
-      let targetPackage
+      let targetPackage: PurchasesPackage | undefined
 
       switch (type) {
         case 'pro':

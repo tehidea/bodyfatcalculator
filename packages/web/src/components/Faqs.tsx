@@ -9,6 +9,7 @@ function FaqText({ text }: { text: string }) {
   })
 
   return (
+    // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is sanitized via DOMPurify with a strict allowlist (ALLOWED_TAGS: ['a'])
     <p className="mt-4 text-sm text-gray-600" dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />
   )
 }
@@ -79,11 +80,11 @@ export function Faqs() {
           </p>
         </div>
         <ul className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 sm:mt-20 lg:max-w-none lg:grid-cols-3">
-          {faqs.map((column, columnIndex) => (
-            <li key={columnIndex}>
+          {faqs.map((column) => (
+            <li key={column[0].question}>
               <ul className="space-y-10">
-                {column.map((faq, faqIndex) => (
-                  <li key={faqIndex}>
+                {column.map((faq) => (
+                  <li key={faq.question}>
                     <h3 className="text-lg font-semibold leading-6 text-gray-900">
                       {faq.question}
                     </h3>
