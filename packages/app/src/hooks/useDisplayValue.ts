@@ -1,21 +1,20 @@
-import { convertMeasurement } from '@bodyfat/shared/conversions'
+import { type ConversionType, convertMeasurement, formatMeasurement } from '@bodyfat/shared/conversions'
 import { INPUT_CONVERSION_MAP } from '@bodyfat/shared/conversions/constants'
 import { useCallback } from 'react'
 import { useCalculatorStore } from '../store/calculatorStore'
-import type { CalculatorInputs } from '../types/calculator'
 
 /**
  * Hook for handling display values with automatic unit conversions
  */
-export function useDisplayValue(field: keyof CalculatorInputs) {
+export function useDisplayValue(field: string) {
   const measurementSystem = useCalculatorStore((state) => state.measurementSystem)
   const value = useCalculatorStore((state) => state.inputs[field])
   const setInput = useCalculatorStore((state) => state.setInput)
 
-  const conversionType = INPUT_CONVERSION_MAP[field]
+  const conversionType = INPUT_CONVERSION_MAP[field] as ConversionType | undefined
 
   const displayValue =
-    value != null && conversionType
+    value != null && typeof value === 'number' && conversionType
       ? convertMeasurement(value, conversionType, 'metric', measurementSystem)
       : value
 

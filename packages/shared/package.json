@@ -8,7 +8,8 @@
     "./schemas": "./src/schemas/index.ts",
     "./definitions": "./src/definitions/index.ts",
     "./formulas": "./src/formulas/index.ts",
-    "./conversions": "./src/conversions/index.ts"
+    "./conversions": "./src/conversions/index.ts",
+    "./conversions/constants": "./src/conversions/constants.ts"
   },
   "dependencies": {
     "zod": "^3.23.8"

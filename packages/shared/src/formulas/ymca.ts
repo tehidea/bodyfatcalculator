@@ -1,6 +1,6 @@
-import { convertMeasurement } from '../conversions/index.ts'
-import type { FormulaResult, MeasurementSystem, StandardizedInputs } from '../types/index.ts'
-import { calculateBodyFat } from './utils.ts'
+import { convertMeasurement } from '../conversions/index'
+import type { FormulaResult, MeasurementSystem, StandardizedInputs } from '../types/index'
+import { calculateBodyFat } from './utils'
 
 export const ymcaFormula = {
   calculate: (inputs: StandardizedInputs, measurementSystem: MeasurementSystem): FormulaResult => {

@@ -37,7 +37,7 @@ export interface StandardizedInputs {
   height?: number
   age?: number
   gender?: Gender
-  [key: string]: number | string | undefined
+  [key: string]: number | string | null | undefined
 }
 
 export interface FormulaImplementation {

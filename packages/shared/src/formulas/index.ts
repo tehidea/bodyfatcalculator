@@ -5,17 +5,17 @@ import type {
   Gender,
   MeasurementSystem,
   StandardizedInputs,
-} from '../types/index.ts'
-import { covertFormula } from './covert.ts'
-import { durninFormula } from './durnin.ts'
-import { jackson3Formula } from './jackson3.ts'
-import { jackson4Formula } from './jackson4.ts'
-import { jackson7Formula } from './jackson7.ts'
-import { mymcaFormula } from './mymca.ts'
-import { navyFormula } from './navy.ts'
-import { parrilloFormula } from './parrillo.ts'
-import { getClassification, validateBodyFat } from './utils.ts'
-import { ymcaFormula } from './ymca.ts'
+} from '../types/index'
+import { covertFormula } from './covert'
+import { durninFormula } from './durnin'
+import { jackson3Formula } from './jackson3'
+import { jackson4Formula } from './jackson4'
+import { jackson7Formula } from './jackson7'
+import { mymcaFormula } from './mymca'
+import { navyFormula } from './navy'
+import { parrilloFormula } from './parrillo'
+import { getClassification, validateBodyFat } from './utils'
+import { ymcaFormula } from './ymca'
 
 interface FormulaImpl {
   calculate: (inputs: StandardizedInputs, measurementSystem: MeasurementSystem) => FormulaResult
@@ -100,4 +100,4 @@ export function isFormulaAvailable(formula: Formula): boolean {
   return formula in FORMULAS
 }
 
-export { calculateBodyFat, getClassification, validateBodyFat } from './utils.ts'
+export { calculateBodyFat, getClassification, validateBodyFat } from './utils'

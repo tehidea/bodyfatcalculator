@@ -1,4 +1,4 @@
-import type { Formula, Gender } from '../types/index.ts'
+import type { Formula, Gender } from '../types/index'
 
 export interface MeasurementField {
   key: string

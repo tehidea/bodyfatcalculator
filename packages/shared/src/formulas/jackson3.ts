@@ -1,5 +1,5 @@
-import type { FormulaResult, MeasurementSystem, StandardizedInputs } from '../types/index.ts'
-import { calculateBodyFat } from './utils.ts'
+import type { FormulaResult, MeasurementSystem, StandardizedInputs } from '../types/index'
+import { calculateBodyFat } from './utils'
 
 export const jackson3Formula = {
   calculate: (inputs: StandardizedInputs, _measurementSystem: MeasurementSystem): FormulaResult => {

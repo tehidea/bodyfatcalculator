@@ -1,4 +1,4 @@
-import type { FormulaResult, Gender } from '../types/index.ts'
+import type { FormulaResult, Gender } from '../types/index'
 
 export function calculateBodyFat(
   bodyFatPercentage: number,

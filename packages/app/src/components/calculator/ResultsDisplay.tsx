@@ -5,7 +5,7 @@ import type React from 'react'
 import { useEffect, useState } from 'react'
 import { type ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { COLORS } from '../../constants/theme'
-import { getFormula } from '../../formulas'
+import { FORMULA_DEFINITIONS } from '@bodyfat/shared/definitions'
 import { usePurchase } from '../../hooks/usePurchase'
 import { useCalculatorStore } from '../../store/calculatorStore'
 import { usePremiumStore } from '../../store/premiumStore'
@@ -131,8 +131,8 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
     }, 100)
   }
 
-  const formulaImpl = getFormula(formula)
-  const marginOfError = formulaImpl.marginOfError || '3-7'
+  const formulaDef = FORMULA_DEFINITIONS[formula]
+  const marginOfError = formulaDef ? `${formulaDef.accuracy.min}-${formulaDef.accuracy.max}` : '3-7'
 
   return (
     <>
@@ -210,7 +210,7 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
         </View>
 
         {/* Formula Name */}
-        <Text style={styles.formulaName}>{formulaImpl.name || formula.toUpperCase()}</Text>
+        <Text style={styles.formulaName}>{formulaDef?.name || formula.toUpperCase()}</Text>
       </Card>
 
       <UpgradeModal

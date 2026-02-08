@@ -52,7 +52,7 @@ function convertToMetric(
 
   const metricInputs: StandardizedInputs = {
     gender,
-    age: inputs.age,
+    ...(inputs.age !== undefined && { age: inputs.age }),
   }
 
   Object.entries(inputs).forEach(([key, value]) => {
@@ -85,7 +85,7 @@ function convertToDisplaySystem(
 
   const displayInputs: StandardizedInputs = {
     gender,
-    age: inputs.age,
+    ...(inputs.age !== undefined && { age: inputs.age }),
   }
 
   Object.entries(inputs).forEach(([key, value]) => {

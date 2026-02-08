@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import type { Formula, ValidationResult } from '../types/index.ts'
-import { isValidFormula } from '../types/index.ts'
+import type { Formula, ValidationResult } from '../types/index'
+import { isValidFormula } from '../types/index'
 
 export const calculationResultSchema = z
   .object({

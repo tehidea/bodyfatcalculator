@@ -17,6 +17,8 @@ packages/
 - **Biome** — linting and formatting (`pnpm lint`, `pnpm format`)
 - **mise** — Node.js version management
 
+**Important:** Always use `pnpm` (not npm) and `pnpx` (not npx) for all commands. This is a strict requirement.
+
 ## Key Commands
 
 ```bash

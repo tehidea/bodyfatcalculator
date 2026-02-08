@@ -1,4 +1,4 @@
-import type { ConversionType } from './index.ts'
+import type { ConversionType } from './index'
 
 /**
  * Maps input field names to their conversion types

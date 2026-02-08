@@ -3,7 +3,7 @@
  * All internal calculations use metric system, conversions happen at the edges of the system.
  */
 
-import type { MeasurementSystem } from '../types/index.ts'
+import type { MeasurementSystem } from '../types/index'
 
 export type MetricUnit = 'kg' | 'cm' | 'mm' | 'years'
 export type ImperialUnit = 'lb' | 'in' | 'years'
