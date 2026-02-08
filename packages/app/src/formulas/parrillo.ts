@@ -3,7 +3,7 @@ import { formulaSchemas, MeasurementSystem } from "../schemas/calculator";
 import { convertMeasurement } from "../utils/conversions";
 import { calculateBodyFat } from "./utils";
 
-type ParilloInputs = z.infer<ReturnType<ReturnType<(typeof formulaSchemas)["parillo"]>>>;
+type ParrilloInputs = z.infer<ReturnType<ReturnType<(typeof formulaSchemas)["parrillo"]>>>;
 type FormulaResult = { bodyFatPercentage: number; fatMass: number; leanMass: number };
 
 /**
@@ -12,8 +12,8 @@ type FormulaResult = { bodyFatPercentage: number; fatMass: number; leanMass: num
  * body fat percentage. It's particularly popular in bodybuilding circles
  * and is known for its comprehensive approach to measuring subcutaneous fat.
  */
-export const parilloFormula = {
-  calculate: (inputs: ParilloInputs, measurementSystem: MeasurementSystem): FormulaResult => {
+export const parrilloFormula = {
+  calculate: (inputs: ParrilloInputs, measurementSystem: MeasurementSystem): FormulaResult => {
     const {
       weight = 0,
       chestSkinfold = 0,

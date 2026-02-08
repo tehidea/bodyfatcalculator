@@ -1,4 +1,4 @@
-import { parilloFormula } from "../../formulas/parillo";
+import { parrilloFormula } from "../../formulas/parrillo";
 import { MeasurementSystem } from "../../schemas/calculator";
 import { parse } from "../../schemas/calculator";
 
@@ -18,7 +18,7 @@ describe("Parillo Formula", () => {
     };
 
     it("should calculate body fat percentage correctly for metric inputs", () => {
-      const result = parilloFormula.calculate(basicInputs, "metric");
+      const result = parrilloFormula.calculate(basicInputs, "metric");
       // Sum of skinfolds = 12 + 20 + 15 + 8 + 10 + 14 + 16 + 18 + 12 = 125
       // Body Fat % = (125 * 27) / 176.37
       // = 19.12
@@ -40,7 +40,7 @@ describe("Parillo Formula", () => {
         lowerBackSkinfold: 18,
         calfSkinfold: 12,
       };
-      const result = parilloFormula.calculate(imperialInputs, "imperial");
+      const result = parrilloFormula.calculate(imperialInputs, "imperial");
       expect(result.bodyFatPercentage).toBeCloseTo(19.12, 1);
       expect(result.fatMass).toBeCloseTo(15.31, 1);
       expect(result.leanMass).toBeCloseTo(64.69, 1);
@@ -60,7 +60,7 @@ describe("Parillo Formula", () => {
         lowerBackSkinfold: 5,
         calfSkinfold: 5,
       };
-      expect(() => parse("parillo", minimalInputs, "metric")).toThrow();
+      expect(() => parse("parrillo", minimalInputs, "metric")).toThrow();
     });
   });
 
@@ -78,7 +78,7 @@ describe("Parillo Formula", () => {
         lowerBackSkinfold: 0,
         calfSkinfold: 0,
       };
-      expect(() => parse("parillo", zeroInputs, "metric")).toThrow();
+      expect(() => parse("parrillo", zeroInputs, "metric")).toThrow();
     });
 
     it("should throw error for extreme measurement combinations", () => {
@@ -94,7 +94,7 @@ describe("Parillo Formula", () => {
         lowerBackSkinfold: 100,
         calfSkinfold: 100,
       };
-      expect(() => parse("parillo", extremeInputs, "metric")).toThrow();
+      expect(() => parse("parrillo", extremeInputs, "metric")).toThrow();
     });
 
     it("should throw error for floating point precision edge cases", () => {
@@ -110,7 +110,7 @@ describe("Parillo Formula", () => {
         lowerBackSkinfold: 2.10987654,
         calfSkinfold: 1.09876543,
       };
-      expect(() => parse("parillo", inputs, "metric")).toThrow();
+      expect(() => parse("parrillo", inputs, "metric")).toThrow();
     });
   });
 
@@ -142,8 +142,8 @@ describe("Parillo Formula", () => {
         calfSkinfold: 12,
       };
 
-      const metricResult = parilloFormula.calculate(metricInputs, "metric");
-      const imperialResult = parilloFormula.calculate(imperialInputs, "imperial");
+      const metricResult = parrilloFormula.calculate(metricInputs, "metric");
+      const imperialResult = parrilloFormula.calculate(imperialInputs, "imperial");
 
       expect(metricResult.bodyFatPercentage).toBeCloseTo(imperialResult.bodyFatPercentage, 1);
       expect(metricResult.fatMass).toBeCloseTo(imperialResult.fatMass, 1);
@@ -165,7 +165,7 @@ describe("Parillo Formula", () => {
         lowerBackSkinfold: 99.99,
         calfSkinfold: 99.99,
       };
-      expect(() => parse("parillo", largeInputs, "metric")).toThrow();
+      expect(() => parse("parrillo", largeInputs, "metric")).toThrow();
     });
 
     it("should handle very small valid measurements without underflow", () => {
@@ -181,7 +181,7 @@ describe("Parillo Formula", () => {
         lowerBackSkinfold: 1.01,
         calfSkinfold: 1.01,
       };
-      expect(() => parse("parillo", smallInputs, "metric")).toThrow();
+      expect(() => parse("parrillo", smallInputs, "metric")).toThrow();
     });
   });
 });

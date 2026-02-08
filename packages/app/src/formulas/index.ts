@@ -7,7 +7,7 @@ import { durninFormula } from "./durnin";
 import { jackson7Formula } from "./jackson7";
 import { jackson4Formula } from "./jackson4";
 import { jackson3Formula } from "./jackson3";
-import { parilloFormula } from "./parillo";
+import { parrilloFormula } from "./parrillo";
 import { validateBodyFat, getClassification } from "./utils";
 import {
   StandardizedInputs,
@@ -28,7 +28,7 @@ const FORMULA_ORDER: Formula[] = [
   "durnin",
   "jack4",
   "jack7",
-  "parillo",
+  "parrillo",
 ];
 
 /**
@@ -43,7 +43,7 @@ export const FORMULAS: Record<Formula, FormulaImplementation> = {
   jack7: jackson7Formula,
   jack4: jackson4Formula,
   jack3: jackson3Formula,
-  parillo: parilloFormula,
+  parrillo: parrilloFormula,
 };
 
 /**

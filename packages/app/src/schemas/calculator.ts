@@ -70,7 +70,7 @@ const validFormulas = [
   "durnin",
   "jack4",
   "jack7",
-  "parillo",
+  "parrillo",
 ] as const;
 
 // Export the isValidFormula function
@@ -569,7 +569,7 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
         },
       }),
 
-  parillo: (system: MeasurementSystem) => (_gender: Gender) =>
+  parrillo: (system: MeasurementSystem) => (_gender: Gender) =>
     z
       .object({
         weight: createWeightSchema(system),

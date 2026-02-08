@@ -307,7 +307,17 @@ export const useCalculatorStore = create<CalculatorStore>()(
     }),
     {
       name: "calculator-storage",
+      version: 1,
       storage: createJSONStorage(() => AsyncStorage),
+      migrate: (persistedState: any, version: number) => {
+        if (version === 0) {
+          // Migrate parillo → parrillo (correct spelling)
+          if (persistedState?.formula === "parillo") {
+            persistedState.formula = "parrillo";
+          }
+        }
+        return persistedState;
+      },
       onRehydrateStorage: () => (state, error) => {
         if (error) {
           console.error("Hydration failed:", error);
