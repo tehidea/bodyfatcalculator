@@ -1,0 +1,66 @@
+{
+  "expo": {
+    "name": "Body Fat",
+    "slug": "body-fat-calculator",
+    "owner": "tehidea",
+    "scheme": "bodyfatcalculator",
+    "extra": {
+      "eas": {
+        "projectId": "9f81ba56-4efb-41b5-8cb7-a310221df724"
+      },
+      "revenuecat": {
+        "ios": "${process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY}",
+        "android": "${process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY}"
+      },
+      "POSTHOG_API_KEY": "${process.env.EXPO_PUBLIC_POSTHOG_API_KEY}",
+      "POSTHOG_HOST": "${process.env.EXPO_PUBLIC_POSTHOG_HOST}"
+    },
+    "version": "1.4.3",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tehidea.bodyfatcalculator",
+      "buildNumber": "11",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.tehidea.bodyfatcalculator",
+      "versionCode": 11
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "node_modules/@expo-google-fonts/montserrat/Montserrat_200ExtraLight.ttf",
+            "node_modules/@expo-google-fonts/montserrat/Montserrat_300Light.ttf",
+            "node_modules/@expo-google-fonts/montserrat/Montserrat_400Regular.ttf"
+          ]
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff",
+          "imageResizeMode": "contain"
+        }
+      ],
+      "expo-localization"
+    ]
+  }
+}

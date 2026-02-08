@@ -1,0 +1,38 @@
+{
+  "cli": {
+    "version": ">= 13.4.2",
+    "appVersionSource": "local"
+  },
+  "build": {
+    "development": {
+      "node": "22.11.0",
+      "developmentClient": true,
+      "distribution": "internal",
+      "autoIncrement": false
+    },
+    "development-simulator": {
+      "node": "22.11.0",
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      }
+    },
+    "preview": {
+      "node": "22.11.0",
+      "distribution": "internal"
+    },
+    "production": {
+      "node": "22.11.0",
+      "autoIncrement": false
+    }
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "../Expo/Google/body-fat-calculator-445413-49ea032c4367.json",
+        "track": "internal"
+      }
+    }
+  }
+}

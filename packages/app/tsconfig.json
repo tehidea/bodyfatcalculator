@@ -1,0 +1,9 @@
+{
+  "extends": "expo/tsconfig.base",
+  "include": [],
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true
+  }
+}
