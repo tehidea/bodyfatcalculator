@@ -12,10 +12,7 @@ export function useAnalytics() {
    * @param eventName The name of the event
    * @param eventData Optional data to associate with the event
    */
-  const trackEvent = (
-    eventName: string,
-    eventData?: Record<string, string | number>,
-  ) => {
+  const trackEvent = (eventName: string, eventData?: Record<string, string | number>) => {
     if (umami) {
       umami.event(eventName, eventData)
     }

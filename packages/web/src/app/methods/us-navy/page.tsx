@@ -1,11 +1,11 @@
 'use client'
 
-import { Container } from '@/components/Container'
-import { Layout } from '@/components/Layout'
-import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'react-feather'
+import { CirclesBackground } from '@/components/CirclesBackground'
+import { Container } from '@/components/Container'
+import { Layout } from '@/components/Layout'
 
 export default function USNavyMethod() {
   return (
@@ -36,10 +36,9 @@ export default function USNavyMethod() {
               US Navy Method
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              A practical circumference-based method developed by the US Navy
-              for field use. Requires only a tape measure and provides
-              practical body fat estimates without the need for specialized
-              equipment.
+              A practical circumference-based method developed by the US Navy for field use.
+              Requires only a tape measure and provides practical body fat estimates without the
+              need for specialized equipment.
             </p>
           </motion.div>
 
@@ -51,14 +50,11 @@ export default function USNavyMethod() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Method Overview
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Method Overview</h2>
               <div className="mt-6">
                 <p className="text-gray-300">
-                  Developed by Hodgdon and Beckett (1984) at the Naval Health
-                  Research Center. Uses circumference measurements and height to
-                  estimate body fat percentage.
+                  Developed by Hodgdon and Beckett (1984) at the Naval Health Research Center. Uses
+                  circumference measurements and height to estimate body fat percentage.
                 </p>
                 <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                   <li>Accuracy: ±4-6% with proper technique</li>
@@ -76,14 +72,10 @@ export default function USNavyMethod() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Measurement Protocol
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Measurement Protocol</h2>
               <div className="mt-6">
                 <div className="rounded-lg bg-black/20 p-4 text-gray-300">
-                  <h3 className="text-lg font-semibold text-white">
-                    Measurement Sites
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Measurement Sites</h3>
                   <div className="mt-4 space-y-6">
                     <div>
                       <h4 className="font-medium text-white">For Men:</h4>
@@ -123,20 +115,16 @@ export default function USNavyMethod() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Research & Validation
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Research & Validation</h2>
               <div className="mt-6">
                 <Link
                   href="/research/methods/us-navy"
                   className="group block rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30"
                 >
-                  <h3 className="text-lg font-semibold text-white">
-                    View Research Studies
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">View Research Studies</h3>
                   <p className="mt-2 text-sm text-gray-400">
-                    Access detailed validation studies, accuracy assessments,
-                    and comparative analyses.
+                    Access detailed validation studies, accuracy assessments, and comparative
+                    analyses.
                   </p>
                 </Link>
               </div>

@@ -1,6 +1,6 @@
-import type { MeasurementSystem, FormulaResult, StandardizedInputs } from "../types/index.ts";
-import { convertMeasurement } from "../conversions/index.ts";
-import { calculateBodyFat } from "./utils.ts";
+import { convertMeasurement } from '../conversions/index.ts'
+import type { FormulaResult, MeasurementSystem, StandardizedInputs } from '../types/index.ts'
+import { calculateBodyFat } from './utils.ts'
 
 export const parrilloFormula = {
   calculate: (inputs: StandardizedInputs, measurementSystem: MeasurementSystem): FormulaResult => {
@@ -15,12 +15,12 @@ export const parrilloFormula = {
       suprailiacSkinfold = 0,
       lowerBackSkinfold = 0,
       calfSkinfold = 0,
-    } = inputs;
+    } = inputs
 
     const weightLbs =
-      measurementSystem === "metric"
-        ? convertMeasurement(weight, "weight", "metric", "imperial")
-        : weight;
+      measurementSystem === 'metric'
+        ? convertMeasurement(weight, 'weight', 'metric', 'imperial')
+        : weight
 
     const sumOfSkinfolds =
       (chestSkinfold as number) +
@@ -31,17 +31,17 @@ export const parrilloFormula = {
       (subscapularSkinfold as number) +
       (suprailiacSkinfold as number) +
       (lowerBackSkinfold as number) +
-      (calfSkinfold as number);
+      (calfSkinfold as number)
 
-    const bodyFatPercentage = (sumOfSkinfolds * 27) / weightLbs;
+    const bodyFatPercentage = (sumOfSkinfolds * 27) / weightLbs
 
     const weightKg =
-      measurementSystem === "metric"
+      measurementSystem === 'metric'
         ? weight
-        : convertMeasurement(weight, "weight", "imperial", "metric");
+        : convertMeasurement(weight, 'weight', 'imperial', 'metric')
 
-    const { fatMass, leanMass } = calculateBodyFat(bodyFatPercentage, weightKg);
+    const { fatMass, leanMass } = calculateBodyFat(bodyFatPercentage, weightKg)
 
-    return { bodyFatPercentage, fatMass, leanMass };
+    return { bodyFatPercentage, fatMass, leanMass }
   },
-};
+}

@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
 import clsx from 'clsx'
 import { useInView } from 'framer-motion'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { Container } from '@/components/Container'
 
@@ -84,10 +84,7 @@ function StarRating({ rating }: { rating: Review['rating'] }) {
       {[...Array(5).keys()].map((index) => (
         <StarIcon
           key={index}
-          className={clsx(
-            'h-5 w-5',
-            rating > index ? 'fill-cyan-500' : 'fill-gray-300',
-          )}
+          className={clsx('h-5 w-5', rating > index ? 'fill-cyan-500' : 'fill-gray-300')}
         />
       ))}
     </div>
@@ -102,11 +99,9 @@ function Review({
   className,
   ...props
 }: Omit<React.ComponentPropsWithoutRef<'figure'>, keyof Review> & Review) {
-  let animationDelay = useMemo(() => {
-    let possibleAnimationDelays = ['0s', '0.1s', '0.2s', '0.3s', '0.4s', '0.5s']
-    return possibleAnimationDelays[
-      Math.floor(Math.random() * possibleAnimationDelays.length)
-    ]
+  const animationDelay = useMemo(() => {
+    const possibleAnimationDelays = ['0s', '0.1s', '0.2s', '0.3s', '0.4s', '0.5s']
+    return possibleAnimationDelays[Math.floor(Math.random() * possibleAnimationDelays.length)]
   }, [])
 
   return (
@@ -125,17 +120,15 @@ function Review({
         </p>
         <p className="mt-3 text-base leading-7">{body}</p>
       </blockquote>
-      <figcaption className="mt-3 text-sm text-gray-600 before:content-['–_']">
-        {author}
-      </figcaption>
+      <figcaption className="mt-3 text-sm text-gray-600 before:content-['–_']">{author}</figcaption>
     </figure>
   )
 }
 
 function splitArray<T>(array: Array<T>, numParts: number) {
-  let result: Array<Array<T>> = []
+  const result: Array<Array<T>> = []
   for (let i = 0; i < array.length; i++) {
-    let index = i % numParts
+    const index = i % numParts
     if (!result[index]) {
       result[index] = []
     }
@@ -155,16 +148,16 @@ function ReviewColumn({
   reviewClassName?: (reviewIndex: number) => string
   msPerPixel?: number
 }) {
-  let columnRef = useRef<React.ElementRef<'div'>>(null)
-  let [columnHeight, setColumnHeight] = useState(0)
-  let duration = `${columnHeight * msPerPixel}ms`
+  const columnRef = useRef<React.ElementRef<'div'>>(null)
+  const [columnHeight, setColumnHeight] = useState(0)
+  const duration = `${columnHeight * msPerPixel}ms`
 
   useEffect(() => {
     if (!columnRef.current) {
       return
     }
 
-    let resizeObserver = new window.ResizeObserver(() => {
+    const resizeObserver = new window.ResizeObserver(() => {
       setColumnHeight(columnRef.current?.offsetHeight ?? 0)
     })
 
@@ -194,12 +187,12 @@ function ReviewColumn({
 }
 
 function ReviewGrid() {
-  let containerRef = useRef<React.ElementRef<'div'>>(null)
-  let isInView = useInView(containerRef, { once: true, amount: 0.4 })
-  let columns = splitArray(reviews, 3)
-  let column1 = columns[0]
-  let column2 = columns[1]
-  let column3 = splitArray(columns[2], 2)
+  const containerRef = useRef<React.ElementRef<'div'>>(null)
+  const isInView = useInView(containerRef, { once: true, amount: 0.4 })
+  const columns = splitArray(reviews, 3)
+  const column1 = columns[0]
+  const column2 = columns[1]
+  const column3 = splitArray(columns[2], 2)
 
   return (
     <div
@@ -212,8 +205,7 @@ function ReviewGrid() {
             reviews={[...column1, ...column3.flat(), ...column2]}
             reviewClassName={(reviewIndex) =>
               clsx(
-                reviewIndex >= column1.length + column3[0].length &&
-                  'md:hidden',
+                reviewIndex >= column1.length + column3[0].length && 'md:hidden',
                 reviewIndex >= column1.length && 'lg:hidden',
               )
             }
@@ -222,16 +214,10 @@ function ReviewGrid() {
           <ReviewColumn
             reviews={[...column2, ...column3[1]]}
             className="hidden md:block"
-            reviewClassName={(reviewIndex) =>
-              reviewIndex >= column2.length ? 'lg:hidden' : ''
-            }
+            reviewClassName={(reviewIndex) => (reviewIndex >= column2.length ? 'lg:hidden' : '')}
             msPerPixel={15}
           />
-          <ReviewColumn
-            reviews={column3.flat()}
-            className="hidden lg:block"
-            msPerPixel={10}
-          />
+          <ReviewColumn reviews={column3.flat()} className="hidden lg:block" msPerPixel={10} />
         </>
       )}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-gray-50" />
@@ -242,11 +228,7 @@ function ReviewGrid() {
 
 export function Reviews() {
   return (
-    <section
-      id="reviews"
-      aria-labelledby="reviews-title"
-      className="pb-16 pt-20 sm:pb-24 sm:pt-32"
-    >
+    <section id="reviews" aria-labelledby="reviews-title" className="pb-16 pt-20 sm:pb-24 sm:pt-32">
       <Container>
         <h2
           id="reviews-title"

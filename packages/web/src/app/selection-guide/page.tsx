@@ -1,11 +1,11 @@
 'use client'
 
-import { Container } from '@/components/Container'
-import { Layout } from '@/components/Layout'
-import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, Lock } from 'react-feather'
+import { CirclesBackground } from '@/components/CirclesBackground'
+import { Container } from '@/components/Container'
+import { Layout } from '@/components/Layout'
 
 export default function SelectionGuide() {
   return (
@@ -36,8 +36,8 @@ export default function SelectionGuide() {
               Method Selection Guide
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              Find the most suitable method based on your needs, available
-              equipment, and accuracy requirements.
+              Find the most suitable method based on your needs, available equipment, and accuracy
+              requirements.
             </p>
           </motion.div>
 
@@ -49,21 +49,16 @@ export default function SelectionGuide() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                For Athletes & Bodybuilders
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">For Athletes & Bodybuilders</h2>
               <p className="mt-4 text-gray-300">
-                When maximum precision is required for competition or detailed
-                progress tracking.
+                When maximum precision is required for competition or detailed progress tracking.
               </p>
               <div className="mt-6 space-y-4">
                 <Link href="/methods/parrillo" className="block">
                   <div className="flex items-center justify-between rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30">
                     <div>
                       <div className="flex items-center gap-2">
-                        <h3 className="font-medium text-white">
-                          Parrillo Method
-                        </h3>
+                        <h3 className="font-medium text-white">Parrillo Method</h3>
                         <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
                           <Lock size={10} /> PRO
                         </span>
@@ -79,9 +74,7 @@ export default function SelectionGuide() {
                   <div className="flex items-center justify-between rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30">
                     <div>
                       <div className="flex items-center gap-2">
-                        <h3 className="font-medium text-white">
-                          Jackson & Pollock 7-Site
-                        </h3>
+                        <h3 className="font-medium text-white">Jackson & Pollock 7-Site</h3>
                         <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
                           <Lock size={10} /> PRO
                         </span>
@@ -94,9 +87,7 @@ export default function SelectionGuide() {
                   </div>
                 </Link>
                 <div className="mt-6 rounded-lg bg-black/20 p-4">
-                  <h4 className="font-medium text-white">
-                    Research & Validation
-                  </h4>
+                  <h4 className="font-medium text-white">Research & Validation</h4>
                   <div className="mt-3 space-y-2">
                     <Link
                       href="/research/methods/parrillo"
@@ -128,9 +119,7 @@ export default function SelectionGuide() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                For Regular Progress Tracking
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">For Regular Progress Tracking</h2>
               <p className="mt-4 text-gray-300">
                 When you need a good balance between accuracy and convenience.
               </p>
@@ -139,9 +128,7 @@ export default function SelectionGuide() {
                   <div className="flex items-center justify-between rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30">
                     <div>
                       <div className="flex items-center gap-2">
-                        <h3 className="font-medium text-white">
-                          Jackson & Pollock 3-Site
-                        </h3>
+                        <h3 className="font-medium text-white">Jackson & Pollock 3-Site</h3>
                         <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
                           <Lock size={10} /> PRO
                         </span>
@@ -165,9 +152,7 @@ export default function SelectionGuide() {
                   </div>
                 </Link>
                 <div className="mt-6 rounded-lg bg-black/20 p-4">
-                  <h4 className="font-medium text-white">
-                    Research & Validation
-                  </h4>
+                  <h4 className="font-medium text-white">Research & Validation</h4>
                   <div className="mt-3 space-y-2">
                     <Link
                       href="/research/methods/jackson-pollock"
@@ -199,9 +184,7 @@ export default function SelectionGuide() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                For Quick Assessments
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">For Quick Assessments</h2>
               <p className="mt-4 text-gray-300">
                 When speed and simplicity are priorities over maximum precision.
               </p>
@@ -221,17 +204,13 @@ export default function SelectionGuide() {
                   <div className="flex items-center justify-between rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30">
                     <div>
                       <h3 className="font-medium text-white">YMCA Method</h3>
-                      <p className="mt-1 text-sm text-gray-400">
-                        Simple basic screening method
-                      </p>
+                      <p className="mt-1 text-sm text-gray-400">Simple basic screening method</p>
                     </div>
                     <span className="text-[#FF5722]">±5-7%</span>
                   </div>
                 </Link>
                 <div className="mt-6 rounded-lg bg-black/20 p-4">
-                  <h4 className="font-medium text-white">
-                    Research & Validation
-                  </h4>
+                  <h4 className="font-medium text-white">Research & Validation</h4>
                   <div className="mt-3 space-y-2">
                     <Link
                       href="/research/methods/ymca"

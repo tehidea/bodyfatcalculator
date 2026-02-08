@@ -1,11 +1,11 @@
 'use client'
 
-import { Container } from '@/components/Container'
-import { Layout } from '@/components/Layout'
-import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'react-feather'
+import { CirclesBackground } from '@/components/CirclesBackground'
+import { Container } from '@/components/Container'
+import { Layout } from '@/components/Layout'
 
 export default function NavyMethod() {
   return (
@@ -36,9 +36,9 @@ export default function NavyMethod() {
               US Navy Method
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              Comprehensive analysis of the US Navy circumference-based body fat
-              assessment method, including its development, validation studies,
-              and widespread adoption in military and civilian applications.
+              Comprehensive analysis of the US Navy circumference-based body fat assessment method,
+              including its development, validation studies, and widespread adoption in military and
+              civilian applications.
             </p>
           </motion.div>
 
@@ -51,18 +51,13 @@ export default function NavyMethod() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Historical Development
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Historical Development</h2>
               <div className="mt-6 space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Original Research (1984)
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Original Research (1984)</h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Development by Hodgdon and Beckett at the Naval Health
-                      Research Center:
+                      Development by Hodgdon and Beckett at the Naval Health Research Center:
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
                       <li>Developed at the Naval Health Research Center</li>
@@ -74,13 +69,9 @@ export default function NavyMethod() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Method Evolution
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Method Evolution</h3>
                   <div className="mt-4 space-y-4">
-                    <p className="text-gray-300">
-                      Refinement and validation over decades:
-                    </p>
+                    <p className="text-gray-300">Refinement and validation over decades:</p>
                     <div className="rounded-lg bg-black/20 p-4">
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                         <li>1984: Original equations published</li>
@@ -100,20 +91,14 @@ export default function NavyMethod() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Method Details
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Method Details</h2>
               <div className="mt-6 space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Measurement Protocol
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Measurement Protocol</h3>
                   <div className="mt-4 space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Male Measurements
-                        </h4>
+                        <h4 className="font-medium text-white">Male Measurements</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Height</li>
                           <li>Neck circumference</li>
@@ -122,9 +107,7 @@ export default function NavyMethod() {
                         </ul>
                       </div>
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Female Measurements
-                        </h4>
+                        <h4 className="font-medium text-white">Female Measurements</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Height</li>
                           <li>Neck circumference</li>
@@ -137,21 +120,13 @@ export default function NavyMethod() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Statistical Validation
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Statistical Validation</h3>
                   <div className="mt-4 space-y-4">
-                    <p className="text-gray-300">
-                      Reported accuracy ranges and limitations:
-                    </p>
+                    <p className="text-gray-300">Reported accuracy ranges and limitations:</p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                       <li>Typical accuracy range: ±4-6%</li>
-                      <li>
-                        Most accurate for individuals near population averages
-                      </li>
-                      <li>
-                        Less reliable for very lean or obese individuals
-                      </li>
+                      <li>Most accurate for individuals near population averages</li>
+                      <li>Less reliable for very lean or obese individuals</li>
                       <li>Accuracy depends on measurement technique</li>
                     </ul>
                   </div>
@@ -166,15 +141,11 @@ export default function NavyMethod() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Practical Applications
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Practical Applications</h2>
               <div className="mt-6 space-y-6">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Military Use
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Military Use</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Physical fitness standards</li>
                       <li>Combat readiness assessment</li>
@@ -183,9 +154,7 @@ export default function NavyMethod() {
                     </ul>
                   </div>
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Civilian Applications
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Civilian Applications</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Public health screening</li>
                       <li>Fitness center assessments</li>
@@ -204,15 +173,11 @@ export default function NavyMethod() {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Advantages and Limitations
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Advantages and Limitations</h2>
               <div className="mt-6 space-y-6">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Key Advantages
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Key Advantages</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>No special equipment needed</li>
                       <li>Quick and non-invasive</li>
@@ -221,9 +186,7 @@ export default function NavyMethod() {
                     </ul>
                   </div>
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Limitations
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Limitations</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Less accurate for extreme body types</li>
                       <li>Affected by hydration status</li>
@@ -246,19 +209,17 @@ export default function NavyMethod() {
               <div className="mt-6">
                 <ul className="list-inside space-y-3 text-sm text-gray-300">
                   <li>
-                    Hodgdon, J.A., & Beckett, M.B. (1984). &ldquo;Prediction of
-                    percent body fat for U.S. Navy men and women from body
-                    circumferences and height.&rdquo; Naval Health Research
-                    Center Report, No. 84-29.
+                    Hodgdon, J.A., & Beckett, M.B. (1984). &ldquo;Prediction of percent body fat for
+                    U.S. Navy men and women from body circumferences and height.&rdquo; Naval Health
+                    Research Center Report, No. 84-29.
                   </li>
                   <li>
-                    Heyward, V.H., & Wagner, D.R. (2004). &ldquo;Applied Body
-                    Composition Assessment (2nd ed.).&rdquo; Human Kinetics.
+                    Heyward, V.H., & Wagner, D.R. (2004). &ldquo;Applied Body Composition Assessment
+                    (2nd ed.).&rdquo; Human Kinetics.
                   </li>
                   <li>
-                    Friedl, K.E., et al. (2020). &ldquo;Body Composition
-                    Standards and Assessment in the U.S. Military.&rdquo;
-                    Military Medicine, 185(9), e1472-e1479.
+                    Friedl, K.E., et al. (2020). &ldquo;Body Composition Standards and Assessment in
+                    the U.S. Military.&rdquo; Military Medicine, 185(9), e1472-e1479.
                   </li>
                 </ul>
               </div>

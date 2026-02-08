@@ -1,11 +1,10 @@
 'use client'
 
-import { Container } from '@/components/Container'
-import { Layout } from '@/components/Layout'
-import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { Breadcrumbs } from '@/components/Breadcrumbs'
+import { CirclesBackground } from '@/components/CirclesBackground'
+import { Container } from '@/components/Container'
+import { Layout } from '@/components/Layout'
 
 export default function Research() {
   return (
@@ -25,10 +24,9 @@ export default function Research() {
               Body Fat Research & Validation Studies
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              Comprehensive scientific research, validation studies, and
-              systematic reviews of body fat measurement methods. Explore
-              detailed analyses of accuracy, reliability, and practical
-              applications.
+              Comprehensive scientific research, validation studies, and systematic reviews of body
+              fat measurement methods. Explore detailed analyses of accuracy, reliability, and
+              practical applications.
             </p>
           </motion.div>
 
@@ -41,12 +39,10 @@ export default function Research() {
             >
               <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               <div className="relative">
-                <h2 className="text-xl font-semibold text-white">
-                  Meta-Analyses & Reviews
-                </h2>
+                <h2 className="text-xl font-semibold text-white">Meta-Analyses & Reviews</h2>
                 <p className="mt-2 text-sm text-gray-400">
-                  Systematic reviews and meta-analyses of body fat measurement
-                  methods, synthesizing findings across multiple studies.
+                  Systematic reviews and meta-analyses of body fat measurement methods, synthesizing
+                  findings across multiple studies.
                 </p>
               </div>
             </Link>
@@ -58,12 +54,10 @@ export default function Research() {
             >
               <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               <div className="relative">
-                <h2 className="text-xl font-semibold text-white">
-                  Validation Studies
-                </h2>
+                <h2 className="text-xl font-semibold text-white">Validation Studies</h2>
                 <p className="mt-2 text-sm text-gray-400">
-                  Historical and modern validation studies comparing field
-                  methods against laboratory standards.
+                  Historical and modern validation studies comparing field methods against
+                  laboratory standards.
                 </p>
               </div>
             </Link>
@@ -75,12 +69,9 @@ export default function Research() {
             >
               <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               <div className="relative">
-                <h2 className="text-xl font-semibold text-white">
-                  Clinical Applications
-                </h2>
+                <h2 className="text-xl font-semibold text-white">Clinical Applications</h2>
                 <p className="mt-2 text-sm text-gray-400">
-                  Practical applications in healthcare, fitness, and sports
-                  medicine.
+                  Practical applications in healthcare, fitness, and sports medicine.
                 </p>
               </div>
             </Link>
@@ -92,12 +83,9 @@ export default function Research() {
             >
               <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               <div className="relative">
-                <h2 className="text-xl font-semibold text-white">
-                  Method Comparison
-                </h2>
+                <h2 className="text-xl font-semibold text-white">Method Comparison</h2>
                 <p className="mt-2 text-sm text-gray-400">
-                  Comparison of methods, including accuracy ranges and
-                  practical considerations.
+                  Comparison of methods, including accuracy ranges and practical considerations.
                 </p>
               </div>
             </Link>
@@ -110,30 +98,25 @@ export default function Research() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h2 className="text-2xl font-semibold text-white">
-              Method-Specific Research
-            </h2>
+            <h2 className="text-2xl font-semibold text-white">Method-Specific Research</h2>
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {[
                 {
                   name: 'Parrillo Method',
                   href: '/research/methods/parrillo',
-                  description:
-                    'Nine-site method optimized for trained individuals',
+                  description: 'Nine-site method optimized for trained individuals',
                   accuracy: '±3-4%',
                 },
                 {
                   name: 'Jackson & Pollock',
                   href: '/research/methods/jackson-pollock',
-                  description:
-                    'Foundational 3-site, 4-site, and 7-site protocols',
+                  description: 'Foundational 3-site, 4-site, and 7-site protocols',
                   accuracy: '±3-5%',
                 },
                 {
                   name: 'Durnin & Womersley',
                   href: '/research/methods/durnin-womersley',
-                  description:
-                    'Age-specific four-site skinfold equations',
+                  description: 'Age-specific four-site skinfold equations',
                   accuracy: '±3.5-5%',
                 },
                 {
@@ -145,8 +128,7 @@ export default function Research() {
                 {
                   name: 'US Navy Method',
                   href: '/research/methods/us-navy',
-                  description:
-                    'Circumference method using height and key measurements',
+                  description: 'Circumference method using height and key measurements',
                   accuracy: '±4-6%',
                 },
                 {
@@ -164,16 +146,10 @@ export default function Research() {
                   <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   <div className="relative">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-sm font-semibold text-white">
-                        {method.name}
-                      </h3>
-                      <span className="text-xs text-[#4CAF50]">
-                        {method.accuracy}
-                      </span>
+                      <h3 className="text-sm font-semibold text-white">{method.name}</h3>
+                      <span className="text-xs text-[#4CAF50]">{method.accuracy}</span>
                     </div>
-                    <p className="mt-2 text-xs text-gray-400">
-                      {method.description}
-                    </p>
+                    <p className="mt-2 text-xs text-gray-400">{method.description}</p>
                   </div>
                 </Link>
               ))}
@@ -187,28 +163,16 @@ export default function Research() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <h2 className="text-2xl font-semibold text-white">
-              Research Overview
-            </h2>
+            <h2 className="text-2xl font-semibold text-white">Research Overview</h2>
             <div className="mt-6 overflow-x-auto">
               <table className="w-full min-w-[800px] border-collapse text-left">
                 <thead>
                   <tr className="border-b border-white/10">
-                    <th className="px-4 py-3 text-sm font-semibold text-white">
-                      Category
-                    </th>
-                    <th className="px-4 py-3 text-sm font-semibold text-white">
-                      Scope
-                    </th>
-                    <th className="px-4 py-3 text-sm font-semibold text-white">
-                      Sources
-                    </th>
-                    <th className="px-4 py-3 text-sm font-semibold text-white">
-                      Topics
-                    </th>
-                    <th className="px-4 py-3 text-sm font-semibold text-white">
-                      Timeframe
-                    </th>
+                    <th className="px-4 py-3 text-sm font-semibold text-white">Category</th>
+                    <th className="px-4 py-3 text-sm font-semibold text-white">Scope</th>
+                    <th className="px-4 py-3 text-sm font-semibold text-white">Sources</th>
+                    <th className="px-4 py-3 text-sm font-semibold text-white">Topics</th>
+                    <th className="px-4 py-3 text-sm font-semibold text-white">Timeframe</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/10">
@@ -222,15 +186,11 @@ export default function Research() {
                       </Link>
                     </td>
                     <td className="px-4 py-3 text-gray-300">Major reviews</td>
-                    <td className="px-4 py-3 text-gray-300">
-                      Multiple cohorts
-                    </td>
+                    <td className="px-4 py-3 text-gray-300">Multiple cohorts</td>
                     <td className="px-4 py-3 text-gray-300">
                       Field vs laboratory method comparisons
                     </td>
-                    <td className="px-4 py-3 text-gray-300">
-                      Recent and foundational reviews
-                    </td>
+                    <td className="px-4 py-3 text-gray-300">Recent and foundational reviews</td>
                   </tr>
                   <tr>
                     <td className="px-4 py-3">
@@ -241,12 +201,8 @@ export default function Research() {
                         Validation Studies
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-gray-300">
-                      Original and follow-up studies
-                    </td>
-                    <td className="px-4 py-3 text-gray-300">
-                      Multiple populations
-                    </td>
+                    <td className="px-4 py-3 text-gray-300">Original and follow-up studies</td>
+                    <td className="px-4 py-3 text-gray-300">Multiple populations</td>
                     <td className="px-4 py-3 text-gray-300">
                       Accuracy ranges and method limitations
                     </td>
@@ -261,13 +217,9 @@ export default function Research() {
                         Clinical Applications
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-gray-300">
-                      Clinical and population studies
-                    </td>
+                    <td className="px-4 py-3 text-gray-300">Clinical and population studies</td>
                     <td className="px-4 py-3 text-gray-300">Various cohorts</td>
-                    <td className="px-4 py-3 text-gray-300">
-                      Screening and monitoring use cases
-                    </td>
+                    <td className="px-4 py-3 text-gray-300">Screening and monitoring use cases</td>
                     <td className="px-4 py-3 text-gray-300">Ongoing</td>
                   </tr>
                   <tr>
@@ -279,12 +231,8 @@ export default function Research() {
                         Method Comparisons
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-gray-300">
-                      Comparative reviews
-                    </td>
-                    <td className="px-4 py-3 text-gray-300">
-                      Multiple methods
-                    </td>
+                    <td className="px-4 py-3 text-gray-300">Comparative reviews</td>
+                    <td className="px-4 py-3 text-gray-300">Multiple methods</td>
                     <td className="px-4 py-3 text-gray-300">
                       Trade-offs in accuracy, time, and equipment
                     </td>

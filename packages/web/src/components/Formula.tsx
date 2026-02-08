@@ -1,7 +1,7 @@
 'use client'
 
 import 'katex/dist/katex.min.css'
-import { InlineMath, BlockMath } from 'react-katex'
+import { BlockMath, InlineMath } from 'react-katex'
 
 interface FormulaProps {
   formula: string
@@ -14,12 +14,7 @@ export function Formula({ formula, inline = false }: FormulaProps) {
   }
 
   return (
-    <div
-      className="overflow-x-auto"
-      role="math"
-      aria-label="Mathematical formula"
-      tabIndex={0}
-    >
+    <div className="overflow-x-auto" role="math" aria-label="Mathematical formula">
       <div className="min-w-fit">
         <BlockMath math={formula} />
       </div>

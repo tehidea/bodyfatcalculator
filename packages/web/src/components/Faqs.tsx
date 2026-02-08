@@ -1,6 +1,6 @@
-import { Container } from '@/components/Container'
 import DOMPurify from 'isomorphic-dompurify'
 import Link from 'next/link'
+import { Container } from '@/components/Container'
 
 function FaqText({ text }: { text: string }) {
   const sanitizedHtml = DOMPurify.sanitize(text, {
@@ -9,10 +9,7 @@ function FaqText({ text }: { text: string }) {
   })
 
   return (
-    <p
-      className="mt-4 text-sm text-gray-600"
-      dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
-    />
+    <p className="mt-4 text-sm text-gray-600" dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />
   )
 }
 
@@ -60,25 +57,15 @@ const faqs = [
 
 export function Faqs() {
   return (
-    <section
-      id="faqs"
-      aria-labelledby="faqs-title"
-      className="bg-gray-50 py-20 sm:py-32"
-    >
+    <section id="faqs" aria-labelledby="faqs-title" className="bg-gray-50 py-20 sm:py-32">
       <Container>
         <div className="mx-auto max-w-2xl lg:mx-0">
-          <h2
-            id="faqs-title"
-            className="text-3xl font-semibold tracking-tight text-gray-900"
-          >
+          <h2 id="faqs-title" className="text-3xl font-semibold tracking-tight text-gray-900">
             Frequently asked questions
           </h2>
           <p className="mt-2 text-lg text-gray-700">
             Have more questions?{' '}
-            <Link
-              href="/faq"
-              className="text-[#FF0000] hover:text-[#FF0000]/90"
-            >
+            <Link href="/faq" className="text-[#FF0000] hover:text-[#FF0000]/90">
               View all FAQs
             </Link>{' '}
             or{' '}
@@ -91,13 +78,10 @@ export function Faqs() {
             .
           </p>
         </div>
-        <ul
-          role="list"
-          className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 sm:mt-20 lg:max-w-none lg:grid-cols-3"
-        >
+        <ul className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 sm:mt-20 lg:max-w-none lg:grid-cols-3">
           {faqs.map((column, columnIndex) => (
             <li key={columnIndex}>
-              <ul role="list" className="space-y-10">
+              <ul className="space-y-10">
                 {column.map((faq, faqIndex) => (
                   <li key={faqIndex}>
                     <h3 className="text-lg font-semibold leading-6 text-gray-900">

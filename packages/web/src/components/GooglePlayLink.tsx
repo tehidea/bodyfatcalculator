@@ -1,7 +1,7 @@
 'use client'
 
-import Link from 'next/link'
 import clsx from 'clsx'
+import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
 
 export function GooglePlayLink({
@@ -23,14 +23,14 @@ export function GooglePlayLink({
       link_type: 'google_play',
       utm_source: 'website',
       utm_medium: 'download_button',
-      utm_campaign: 'google_play_android'
+      utm_campaign: 'google_play_android',
     })
 
     // Event snippet for Submit lead form conversion page
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', 'conversion', {
-        'send_to': 'AW-17498006015/rTmzCJChy5obEP_D2ZdB'
-      });
+        send_to: 'AW-17498006015/rTmzCJChy5obEP_D2ZdB',
+      })
     }
   }
 

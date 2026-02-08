@@ -1,28 +1,28 @@
-import React, { useState } from "react";
-import { View, Pressable, Modal, Dimensions, StyleSheet } from "react-native";
-import { Text, Icon } from "@rneui/themed";
-import { COLORS } from "../../constants/theme";
-import { useResponsive } from "../../utils/responsiveContext";
-import { MeasurementIcon } from "./FormulaSelector";
+import { Icon, Text } from '@rneui/themed'
+import { useState } from 'react'
+import { Dimensions, Modal, Pressable, StyleSheet, View } from 'react-native'
+import { COLORS } from '../../constants/theme'
+import { useResponsive } from '../../utils/responsiveContext'
+import { MeasurementIcon } from './FormulaSelector'
 
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
+const { width: SCREEN_WIDTH } = Dimensions.get('window')
 
 interface MeasurementHintProps {
-  hint: string;
-  type: "weight" | "height" | "skinfold" | "age" | "circumference";
+  hint: string
+  type: 'weight' | 'height' | 'skinfold' | 'age' | 'circumference'
 }
 
 export function MeasurementHint({ hint, type }: MeasurementHintProps) {
-  const [isVisible, setIsVisible] = useState(false);
-  const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, width } = useResponsive();
+  const [isVisible, setIsVisible] = useState(false)
+  const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, width } = useResponsive()
 
   // Create styles with responsive values
   const styles = createMeasurementHintStyles(
     getResponsiveSpacing,
     getResponsiveTypography,
     getLineHeight,
-    width
-  );
+    width,
+  )
 
   return (
     <>
@@ -63,14 +63,14 @@ export function MeasurementHint({ hint, type }: MeasurementHintProps) {
         </Pressable>
       </Modal>
     </>
-  );
+  )
 }
 
 const createMeasurementHintStyles = (
   getResponsiveSpacing: (base: number) => number,
   getResponsiveTypography: (size: any) => number,
   getLineHeight: (size: any) => number,
-  screenWidth: number
+  screenWidth: number,
 ) =>
   StyleSheet.create({
     infoButton: {
@@ -79,19 +79,19 @@ const createMeasurementHintStyles = (
     },
     modalContainer: {
       flex: 1,
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-      justifyContent: "center",
-      alignItems: "center",
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      justifyContent: 'center',
+      alignItems: 'center',
       padding: getResponsiveSpacing(20),
     },
     modalContent: {
-      backgroundColor: "white",
+      backgroundColor: 'white',
       borderRadius: 24,
       padding: getResponsiveSpacing(24),
       width: Math.min(screenWidth - 48, 400),
-      alignItems: "center",
+      alignItems: 'center',
       minHeight: getResponsiveSpacing(200),
-      shadowColor: "#000",
+      shadowColor: '#000',
       shadowOffset: {
         width: 0,
         height: 12,
@@ -99,33 +99,33 @@ const createMeasurementHintStyles = (
       shadowOpacity: 0.25,
       shadowRadius: 16,
       elevation: 24,
-      maxHeight: "80%",
+      maxHeight: '80%',
     },
     iconContainer: {
       width: getResponsiveSpacing(64),
       height: getResponsiveSpacing(64),
       borderRadius: getResponsiveSpacing(32),
-      backgroundColor: COLORS.primary + "20",
-      justifyContent: "center",
-      alignItems: "center",
+      backgroundColor: `${COLORS.primary}20`,
+      justifyContent: 'center',
+      alignItems: 'center',
       marginBottom: getResponsiveSpacing(16),
     },
     hintTitle: {
-      fontSize: getResponsiveTypography("lg"),
-      lineHeight: getLineHeight("lg"),
-      fontWeight: "600",
+      fontSize: getResponsiveTypography('lg'),
+      lineHeight: getLineHeight('lg'),
+      fontWeight: '600',
       color: COLORS.textDark,
       marginBottom: getResponsiveSpacing(12),
-      textAlign: "center",
+      textAlign: 'center',
     },
     hintTextContainer: {
-      width: "100%",
+      width: '100%',
       marginBottom: getResponsiveSpacing(24),
     },
     hintText: {
-      fontSize: getResponsiveTypography("md"),
-      lineHeight: getLineHeight("md"),
-      textAlign: "center",
+      fontSize: getResponsiveTypography('md'),
+      lineHeight: getLineHeight('md'),
+      textAlign: 'center',
       color: COLORS.textDark,
     },
     closeButton: {
@@ -133,13 +133,13 @@ const createMeasurementHintStyles = (
       paddingHorizontal: getResponsiveSpacing(24),
       backgroundColor: COLORS.primary,
       borderRadius: 12,
-      width: "100%",
+      width: '100%',
     },
     closeButtonText: {
-      color: "white",
-      fontSize: getResponsiveTypography("md"),
-      lineHeight: getLineHeight("md"),
-      fontWeight: "600",
-      textAlign: "center",
+      color: 'white',
+      fontSize: getResponsiveTypography('md'),
+      lineHeight: getLineHeight('md'),
+      fontWeight: '600',
+      textAlign: 'center',
     },
-  });
+  })

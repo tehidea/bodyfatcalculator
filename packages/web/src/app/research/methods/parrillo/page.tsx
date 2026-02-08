@@ -1,11 +1,11 @@
 'use client'
 
-import { Container } from '@/components/Container'
-import { Layout } from '@/components/Layout'
-import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'react-feather'
+import { CirclesBackground } from '@/components/CirclesBackground'
+import { Container } from '@/components/Container'
+import { Layout } from '@/components/Layout'
 
 export default function ParrilloMethod() {
   return (
@@ -36,9 +36,9 @@ export default function ParrilloMethod() {
               Parrillo Method
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              Comprehensive analysis of the Parrillo body fat assessment method,
-              developed for bodybuilding contexts. Explore its nine-site
-              approach and its use for tracking changes in trained individuals.
+              Comprehensive analysis of the Parrillo body fat assessment method, developed for
+              bodybuilding contexts. Explore its nine-site approach and its use for tracking changes
+              in trained individuals.
             </p>
           </motion.div>
 
@@ -51,18 +51,14 @@ export default function ParrilloMethod() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Historical Development
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Historical Development</h2>
               <div className="mt-6 space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Method Origins
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Method Origins</h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Development of the Parrillo method through competitive
-                      bodybuilding experience:
+                      Development of the Parrillo method through competitive bodybuilding
+                      experience:
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
                       <li>Developed for bodybuilding-focused assessment</li>
@@ -73,13 +69,9 @@ export default function ParrilloMethod() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Method Evolution
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Method Evolution</h3>
                   <div className="mt-4 space-y-4">
-                    <p className="text-gray-300">
-                      Refinement through practical application:
-                    </p>
+                    <p className="text-gray-300">Refinement through practical application:</p>
                     <div className="rounded-lg bg-black/20 p-4">
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                         <li>Bodybuilding-focused origins</li>
@@ -98,20 +90,14 @@ export default function ParrilloMethod() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Method Details
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Method Details</h2>
               <div className="mt-6 space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Measurement Protocol
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Measurement Protocol</h3>
                   <div className="mt-4 space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Measurement Sites
-                        </h4>
+                        <h4 className="font-medium text-white">Measurement Sites</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Chest</li>
                           <li>Abdomen</li>
@@ -125,9 +111,7 @@ export default function ParrilloMethod() {
                         </ul>
                       </div>
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Special Considerations
-                        </h4>
+                        <h4 className="font-medium text-white">Special Considerations</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Multiple site measurements</li>
                           <li>Consistent site location and technique</li>
@@ -140,13 +124,9 @@ export default function ParrilloMethod() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Statistical Validation
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Statistical Validation</h3>
                   <div className="mt-4 space-y-4">
-                    <p className="text-gray-300">
-                      Reported accuracy range and practical notes:
-                    </p>
+                    <p className="text-gray-300">Reported accuracy range and practical notes:</p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                       <li>Typical accuracy range: ±3-4%</li>
                       <li>Best for tracking changes in trained individuals</li>
@@ -164,15 +144,11 @@ export default function ParrilloMethod() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Athletic Applications
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Athletic Applications</h2>
               <div className="mt-6 space-y-6">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Competition Preparation
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Competition Preparation</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Peak week monitoring</li>
                       <li>Progress tracking</li>
@@ -181,9 +157,7 @@ export default function ParrilloMethod() {
                     </ul>
                   </div>
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Training Applications
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Training Applications</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Program optimization</li>
                       <li>Nutrition planning</li>
@@ -202,15 +176,11 @@ export default function ParrilloMethod() {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Advantages and Limitations
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Advantages and Limitations</h2>
               <div className="mt-6 space-y-6">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Key Advantages
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Key Advantages</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Comprehensive nine-site assessment</li>
                       <li>Useful for tracking changes in trained individuals</li>
@@ -219,9 +189,7 @@ export default function ParrilloMethod() {
                     </ul>
                   </div>
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Limitations
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Limitations</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Time-intensive protocol</li>
                       <li>Requires expertise</li>
@@ -244,8 +212,8 @@ export default function ParrilloMethod() {
               <div className="mt-6">
                 <ul className="list-inside space-y-3 text-sm text-gray-300">
                   <li>
-                    Parrillo, J., & Greenwood-Robinson, M. (1993).
-                    &ldquo;High-Performance Body-Building.&rdquo; Perigee Books.
+                    Parrillo, J., & Greenwood-Robinson, M. (1993). &ldquo;High-Performance
+                    Body-Building.&rdquo; Perigee Books.
                   </li>
                 </ul>
               </div>

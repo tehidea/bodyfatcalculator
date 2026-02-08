@@ -3,10 +3,6 @@ export const metadata = {
   description: 'Privacy Policy for Body Fat Calculator (PRO) app.',
 }
 
-export default function PrivacyPolicyLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function PrivacyPolicyLayout({ children }: { children: React.ReactNode }) {
   return children
 }

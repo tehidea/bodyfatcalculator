@@ -1,17 +1,16 @@
 'use client'
 
-import { Lock, Unlock } from 'react-feather'
-import { AppStoreLink } from '@/components/AppStoreLink'
-import { GooglePlayLink } from '@/components/GooglePlayLink'
-import { CircleBackground } from '@/components/CircleBackground'
-import { Container } from '@/components/Container'
-import { CheckIcon } from '@heroicons/react/24/solid'
 import { FORMULA_DEFINITIONS } from '@bodyfat/shared/definitions'
+import { CheckIcon } from '@heroicons/react/24/solid'
+import { motion } from 'framer-motion'
+import { Unlock } from 'react-feather'
+import { AppStoreLink } from '@/components/AppStoreLink'
+import { Container } from '@/components/Container'
+import { GooglePlayLink } from '@/components/GooglePlayLink'
 import { BodyWeightScalesIcon } from '@/images/icons/BodyWeightScalesIcon'
+import { MeasurementVerticalIcon } from '@/images/icons/MeasurementVerticalIcon'
 import { MeasuringTapeIcon } from '@/images/icons/MeasuringTapeIcon'
 import { SkinfoldIcon } from '@/images/icons/SkinfoldIcon'
-import { MeasurementVerticalIcon } from '@/images/icons/MeasurementVerticalIcon'
-import { motion } from 'framer-motion'
 
 // Helper function to check if formula needs specific measurements
 function getRequiredMeasurements(formula: keyof typeof FORMULA_DEFINITIONS) {
@@ -42,10 +41,7 @@ export function CallToAction() {
   const premiumRequirements = premiumFormulas.map(getRequiredMeasurements)
 
   return (
-    <section
-      id="pricing"
-      className="relative overflow-hidden bg-[#000000] py-20 sm:py-28"
-    >
+    <section id="pricing" className="relative overflow-hidden bg-[#000000] py-20 sm:py-28">
       {/* Animated background elements */}
       <div className="absolute inset-0">
         <motion.div
@@ -84,8 +80,8 @@ export function CallToAction() {
             Free or PRO - Your Choice
           </h2>
           <p className="mt-4 text-lg text-gray-400">
-            Start with our free version or unlock all features with a one-time
-            PRO upgrade and enjoy lifetime access
+            Start with our free version or unlock all features with a one-time PRO upgrade and enjoy
+            lifetime access
           </p>
         </div>
 
@@ -94,9 +90,7 @@ export function CallToAction() {
           <div className="relative rounded-2xl bg-[#1a1a1a] p-8 shadow-xl transition-transform duration-300 hover:scale-[1.02]">
             <div className="flex flex-col">
               <h3 className="text-xl font-semibold text-white">Free Version</h3>
-              <p className="mt-2 text-gray-400">
-                Perfect for casual measurements
-              </p>
+              <p className="mt-2 text-gray-400">Perfect for casual measurements</p>
 
               <div className="mt-8 flex-1 space-y-6">
                 <div className="space-y-4">
@@ -119,10 +113,7 @@ export function CallToAction() {
                     <BodyWeightScalesIcon size="12" className="text-gray-400" />
                   )}
                   {freeRequirements.some((r) => r.needsHeight) && (
-                    <MeasurementVerticalIcon
-                      size="12"
-                      className="text-gray-400"
-                    />
+                    <MeasurementVerticalIcon size="12" className="text-gray-400" />
                   )}
                   {freeRequirements.some((r) => r.needsCircumference) && (
                     <MeasuringTapeIcon size="12" className="text-gray-400" />
@@ -148,17 +139,13 @@ export function CallToAction() {
 
               <div className="flex flex-col">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xl font-semibold text-white">
-                    PRO Version
-                  </h3>
+                  <h3 className="text-xl font-semibold text-white">PRO Version</h3>
                   <div className="font-large inline-flex items-center gap-1.5 rounded-full border-2 border-gray-400 px-3 py-1 text-sm text-white">
                     <Unlock size={16} />
                     Lifetime Access
                   </div>
                 </div>
-                <p className="mt-2 text-gray-400">
-                  For professionals and enthusiasts
-                </p>
+                <p className="mt-2 text-gray-400">For professionals and enthusiasts</p>
 
                 <div className="mt-8 flex-1 space-y-6">
                   <div className="space-y-4">
@@ -166,10 +153,10 @@ export function CallToAction() {
                       <CheckIcon className="h-5 w-5 text-[#4CAF50]" />
                       <span>6 Additional Professional Methods</span>
                     </div>
-                  <div className="flex items-center gap-3 text-white">
-                    <CheckIcon className="h-5 w-5 text-[#4CAF50]" />
-                    <span>±3-5% Accuracy</span>
-                  </div>
+                    <div className="flex items-center gap-3 text-white">
+                      <CheckIcon className="h-5 w-5 text-[#4CAF50]" />
+                      <span>±3-5% Accuracy</span>
+                    </div>
                     <div className="flex items-center gap-3 text-white">
                       <CheckIcon className="h-5 w-5 text-[#4CAF50]" />
                       <span>Enhanced Precision</span>
@@ -178,16 +165,10 @@ export function CallToAction() {
 
                   <div className="flex items-center gap-3">
                     {premiumRequirements.some((r) => r.needsWeight) && (
-                      <BodyWeightScalesIcon
-                        size="12"
-                        className="text-gray-400"
-                      />
+                      <BodyWeightScalesIcon size="12" className="text-gray-400" />
                     )}
                     {premiumRequirements.some((r) => r.needsHeight) && (
-                      <MeasurementVerticalIcon
-                        size="12"
-                        className="text-gray-400"
-                      />
+                      <MeasurementVerticalIcon size="12" className="text-gray-400" />
                     )}
                     {premiumRequirements.some((r) => r.needsCircumference) && (
                       <MeasuringTapeIcon size="12" className="text-gray-400" />
@@ -201,9 +182,7 @@ export function CallToAction() {
                 <div className="mt-8">
                   <div className="mt-4 flex items-center justify-between text-sm">
                     <span className="text-gray-500">One-time purchase</span>
-                    <span className="font-medium text-white">
-                      £9.99 / $9.99 / €9.99
-                    </span>
+                    <span className="font-medium text-white">£9.99 / $9.99 / €9.99</span>
                   </div>
                 </div>
               </div>
@@ -214,12 +193,8 @@ export function CallToAction() {
         {/* MASSIVE Download Button */}
         <div className="mt-20 flex flex-col items-center justify-center">
           <div className="mb-6 text-center">
-            <p className="text-xl font-medium text-white">
-              Ready to get started?
-            </p>
-            <p className="mt-2 text-gray-400">
-              Download now and start measuring
-            </p>
+            <p className="text-xl font-medium text-white">Ready to get started?</p>
+            <p className="mt-2 text-gray-400">Download now and start measuring</p>
           </div>
           <div className="flex flex-col items-center gap-8 sm:flex-row sm:gap-20">
             <AppStoreLink className="scale-150 transform transition-all duration-300 hover:scale-[1.6]" />

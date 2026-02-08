@@ -1,9 +1,8 @@
-import Link from 'next/link'
 import clsx from 'clsx'
+import Link from 'next/link'
 
 const baseStyles = {
-  solid:
-    'inline-flex justify-center rounded-lg py-2 px-3 text-sm font-semibold transition-colors',
+  solid: 'inline-flex justify-center rounded-lg py-2 px-3 text-sm font-semibold transition-colors',
   outline:
     'inline-flex justify-center rounded-lg border py-[calc(theme(spacing.2)-1px)] px-[calc(theme(spacing.3)-1px)] text-sm transition-colors',
 }
@@ -17,8 +16,7 @@ const variantStyles = {
   },
   outline: {
     red: 'border-primary text-white hover:border-primary/80 active:bg-primary/10 active:text-white/80',
-    white:
-      'border-white text-white hover:border-white/80 active:bg-white/10 active:text-white/80',
+    white: 'border-white text-white hover:border-white/80 active:bg-white/10 active:text-white/80',
     dark: 'border-background text-white hover:border-background/80 active:bg-background/10 active:text-white/80',
   },
 }
@@ -40,17 +38,10 @@ type ButtonProps = (
       })
   )
 
-export function Button({
-  variant = 'solid',
-  color = 'red',
-  className,
-  ...props
-}: ButtonProps) {
+export function Button({ variant = 'solid', color = 'red', className, ...props }: ButtonProps) {
   className = clsx(
     baseStyles[variant],
-    variantStyles[variant][
-      color as keyof (typeof variantStyles)[typeof variant]
-    ],
+    variantStyles[variant][color as keyof (typeof variantStyles)[typeof variant]],
     className,
   )
 

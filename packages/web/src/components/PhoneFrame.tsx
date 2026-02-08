@@ -1,5 +1,5 @@
-import Image from 'next/image'
 import clsx from 'clsx'
+import Image from 'next/image'
 
 import frame from '@/images/phone-frame.svg'
 
@@ -9,12 +9,7 @@ function PlaceholderFrame({
   ...props
 }: React.ComponentPropsWithoutRef<'svg'> & { variant?: 'light' | 'dark' }) {
   return (
-    <svg
-      viewBox="0 0 366 729"
-      aria-hidden="true"
-      className={className}
-      {...props}
-    >
+    <svg viewBox="0 0 366 729" aria-hidden="true" className={className} {...props}>
       <path
         fill={variant === 'light' ? '#F2F2F2' : '#1a1a1a'}
         fillRule="evenodd"

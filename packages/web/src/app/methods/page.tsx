@@ -1,11 +1,11 @@
 'use client'
 
-import { Container } from '@/components/Container'
-import { Layout } from '@/components/Layout'
-import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Lock } from 'react-feather'
+import { CirclesBackground } from '@/components/CirclesBackground'
+import { Container } from '@/components/Container'
+import { Layout } from '@/components/Layout'
 
 export default function Methods() {
   return (
@@ -24,9 +24,9 @@ export default function Methods() {
               Body Fat Measurement Methods
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              A comprehensive guide to body fat measurement methods, from
-              field-testing techniques to laboratory standards, with detailed
-              accuracy assessments and practical applications.
+              A comprehensive guide to body fat measurement methods, from field-testing techniques
+              to laboratory standards, with detailed accuracy assessments and practical
+              applications.
             </p>
           </motion.div>
 
@@ -41,16 +41,12 @@ export default function Methods() {
                 <div className="group relative overflow-hidden rounded-2xl bg-white/[0.02] transition-colors hover:bg-white/[0.04]">
                   <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
                   <div className="relative p-6">
-                    <h2 className="text-2xl font-semibold text-white">
-                      Method Selection Guide
-                    </h2>
+                    <h2 className="text-2xl font-semibold text-white">Method Selection Guide</h2>
                     <p className="mt-2 text-gray-400">
-                      Find the most suitable method based on your needs,
-                      available equipment, and accuracy requirements.
+                      Find the most suitable method based on your needs, available equipment, and
+                      accuracy requirements.
                     </p>
-                    <div className="mt-4 text-sm font-medium text-white">
-                      View Guide →
-                    </div>
+                    <div className="mt-4 text-sm font-medium text-white">View Guide →</div>
                   </div>
                 </div>
               </Link>
@@ -65,8 +61,7 @@ export default function Methods() {
             >
               <h2 className="text-2xl font-semibold text-white">All Methods</h2>
               <p className="mt-4 text-gray-300">
-                Comprehensive list of all available body fat measurement
-                methods.
+                Comprehensive list of all available body fat measurement methods.
               </p>
 
               <div className="mt-8 grid gap-6 sm:grid-cols-2">
@@ -75,9 +70,7 @@ export default function Methods() {
                   <div className="h-full rounded-lg bg-black/20 p-6 transition-colors duration-200 hover:bg-black/30">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <h3 className="font-medium text-white">
-                          Parrillo Method
-                        </h3>
+                        <h3 className="font-medium text-white">Parrillo Method</h3>
                         <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
                           <Lock size={10} /> PRO
                         </span>
@@ -95,9 +88,7 @@ export default function Methods() {
                   <div className="h-full rounded-lg bg-black/20 p-6 transition-colors duration-200 hover:bg-black/30">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <h3 className="font-medium text-white">
-                          Jackson & Pollock 7-Site
-                        </h3>
+                        <h3 className="font-medium text-white">Jackson & Pollock 7-Site</h3>
                         <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
                           <Lock size={10} /> PRO
                         </span>
@@ -115,9 +106,7 @@ export default function Methods() {
                   <div className="h-full rounded-lg bg-black/20 p-6 transition-colors duration-200 hover:bg-black/30">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <h3 className="font-medium text-white">
-                          Jackson & Pollock 4-Site
-                        </h3>
+                        <h3 className="font-medium text-white">Jackson & Pollock 4-Site</h3>
                         <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
                           <Lock size={10} /> PRO
                         </span>
@@ -135,18 +124,14 @@ export default function Methods() {
                   <div className="h-full rounded-lg bg-black/20 p-6 transition-colors duration-200 hover:bg-black/30">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <h3 className="font-medium text-white">
-                          Durnin & Womersley
-                        </h3>
+                        <h3 className="font-medium text-white">Durnin & Womersley</h3>
                         <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
                           <Lock size={10} /> PRO
                         </span>
                       </div>
                       <span className="text-[#4CAF50]">±3.5-5%</span>
                     </div>
-                    <p className="mt-2 text-sm text-gray-400">
-                      Age-specific equations
-                    </p>
+                    <p className="mt-2 text-sm text-gray-400">Age-specific equations</p>
                   </div>
                 </Link>
 
@@ -155,9 +140,7 @@ export default function Methods() {
                   <div className="h-full rounded-lg bg-black/20 p-6 transition-colors duration-200 hover:bg-black/30">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <h3 className="font-medium text-white">
-                          Jackson & Pollock 3-Site
-                        </h3>
+                        <h3 className="font-medium text-white">Jackson & Pollock 3-Site</h3>
                         <span className="inline-flex items-center gap-1 rounded-full bg-gray-100/10 px-2 py-1 text-xs font-medium text-gray-400">
                           <Lock size={10} /> PRO
                         </span>
@@ -175,9 +158,7 @@ export default function Methods() {
                   <div className="h-full rounded-lg bg-black/20 p-6 transition-colors duration-200 hover:bg-black/30">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <h3 className="font-medium text-white">
-                          Covert Bailey
-                        </h3>
+                        <h3 className="font-medium text-white">Covert Bailey</h3>
                       </div>
                       <span className="text-[#FFC107]">±4-5%</span>
                     </div>
@@ -192,9 +173,7 @@ export default function Methods() {
                   <div className="h-full rounded-lg bg-black/20 p-6 transition-colors duration-200 hover:bg-black/30">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <h3 className="font-medium text-white">
-                          US Navy Method
-                        </h3>
+                        <h3 className="font-medium text-white">US Navy Method</h3>
                       </div>
                       <span className="text-[#FFC107]">±4-6%</span>
                     </div>
@@ -209,9 +188,7 @@ export default function Methods() {
                   <div className="h-full rounded-lg bg-black/20 p-6 transition-colors duration-200 hover:bg-black/30">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <h3 className="font-medium text-white">
-                          Modified YMCA
-                        </h3>
+                        <h3 className="font-medium text-white">Modified YMCA</h3>
                       </div>
                       <span className="text-[#FF5722]">±4-6%</span>
                     </div>
@@ -230,9 +207,7 @@ export default function Methods() {
                       </div>
                       <span className="text-[#FF5722]">±5-7%</span>
                     </div>
-                    <p className="mt-2 text-sm text-gray-400">
-                      Simple basic screening method
-                    </p>
+                    <p className="mt-2 text-sm text-gray-400">Simple basic screening method</p>
                   </div>
                 </Link>
               </div>

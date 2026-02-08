@@ -1,11 +1,11 @@
 'use client'
 
-import { Container } from '@/components/Container'
-import { Layout } from '@/components/Layout'
-import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'react-feather'
+import { CirclesBackground } from '@/components/CirclesBackground'
+import { Container } from '@/components/Container'
+import { Layout } from '@/components/Layout'
 
 export default function YMCAMethod() {
   return (
@@ -36,10 +36,9 @@ export default function YMCAMethod() {
               YMCA Method
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              Comprehensive analysis of the YMCA body fat assessment method,
-              including both original and modified protocols. Explore its
-              development, validation studies, and widespread adoption in
-              fitness and health assessment settings.
+              Comprehensive analysis of the YMCA body fat assessment method, including both original
+              and modified protocols. Explore its development, validation studies, and widespread
+              adoption in fitness and health assessment settings.
             </p>
           </motion.div>
 
@@ -52,9 +51,7 @@ export default function YMCAMethod() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Historical Development
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Historical Development</h2>
               <div className="mt-6 space-y-6">
                 <div>
                   <h3 className="text-lg font-semibold text-white">
@@ -62,8 +59,7 @@ export default function YMCAMethod() {
                   </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Evolution of the YMCA method through research and
-                      practical application:
+                      Evolution of the YMCA method through research and practical application:
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
                       <li>Developed for practical field testing</li>
@@ -78,9 +74,7 @@ export default function YMCAMethod() {
                     Modified Protocol Development
                   </h3>
                   <div className="mt-4 space-y-4">
-                    <p className="text-gray-300">
-                      Enhancement of the original method:
-                    </p>
+                    <p className="text-gray-300">Enhancement of the original method:</p>
                     <div className="rounded-lg bg-black/20 p-4">
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                         <li>Added gender-specific measurements for women</li>
@@ -100,29 +94,21 @@ export default function YMCAMethod() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Method Details
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Method Details</h2>
               <div className="mt-6 space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Original YMCA Protocol
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Original YMCA Protocol</h3>
                   <div className="mt-4 space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Basic Measurements
-                        </h4>
+                        <h4 className="font-medium text-white">Basic Measurements</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Weight measurement</li>
                           <li>Waist circumference</li>
                         </ul>
                       </div>
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Calculation Factors
-                        </h4>
+                        <h4 className="font-medium text-white">Calculation Factors</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Gender-specific equations</li>
                           <li>Weight and waist measurements</li>
@@ -133,15 +119,11 @@ export default function YMCAMethod() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Modified YMCA Protocol
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Modified YMCA Protocol</h3>
                   <div className="mt-4 space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Enhanced Measurements
-                        </h4>
+                        <h4 className="font-medium text-white">Enhanced Measurements</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Weight and waist circumference (all users)</li>
                           <li>Wrist circumference (women)</li>
@@ -150,9 +132,7 @@ export default function YMCAMethod() {
                         </ul>
                       </div>
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Advanced Factors
-                        </h4>
+                        <h4 className="font-medium text-white">Advanced Factors</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Refined gender equations</li>
                           <li>Additional circumference inputs for women</li>
@@ -164,19 +144,12 @@ export default function YMCAMethod() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Accuracy Considerations
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Accuracy Considerations</h3>
                   <div className="mt-4 space-y-4">
                     <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                       <li>YMCA: ±5-7% accuracy, best for tracking trends</li>
-                      <li>
-                        Modified YMCA: ±4-6% accuracy with added measurements
-                        for women
-                      </li>
-                      <li>
-                        Less accurate for athletic or non-standard body types
-                      </li>
+                      <li>Modified YMCA: ±4-6% accuracy with added measurements for women</li>
+                      <li>Less accurate for athletic or non-standard body types</li>
                     </ul>
                   </div>
                 </div>
@@ -190,15 +163,11 @@ export default function YMCAMethod() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Statistical Validation
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Statistical Validation</h2>
               <div className="mt-6 space-y-6">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Original Method Validation
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Original Method Validation</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Typical accuracy range: ±5-7%</li>
                       <li>Best for tracking personal trends</li>
@@ -206,9 +175,7 @@ export default function YMCAMethod() {
                     </ul>
                   </div>
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Modified Method Validation
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Modified Method Validation</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Typical accuracy range: ±4-6%</li>
                       <li>Improved accuracy for women</li>
@@ -226,15 +193,11 @@ export default function YMCAMethod() {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Practical Applications
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Practical Applications</h2>
               <div className="mt-6 space-y-6">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Fitness Centers
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Fitness Centers</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Initial fitness assessments</li>
                       <li>Progress monitoring</li>
@@ -243,9 +206,7 @@ export default function YMCAMethod() {
                     </ul>
                   </div>
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Health Screening
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Health Screening</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Wellness programs</li>
                       <li>Corporate health initiatives</li>
@@ -264,15 +225,11 @@ export default function YMCAMethod() {
               transition={{ duration: 0.5, delay: 0.5 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Advantages and Limitations
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Advantages and Limitations</h2>
               <div className="mt-6 space-y-6">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Key Advantages
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Key Advantages</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Simple to perform</li>
                       <li>Minimal equipment needed</li>
@@ -281,9 +238,7 @@ export default function YMCAMethod() {
                     </ul>
                   </div>
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Limitations
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Limitations</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Lower accuracy than skinfold</li>
                       <li>Affected by body shape</li>
@@ -306,13 +261,13 @@ export default function YMCAMethod() {
               <div className="mt-6">
                 <ul className="list-inside space-y-3 text-sm text-gray-300">
                   <li>
-                    Golding, L.A., Myers, C.R., & Sinning, W.E. (1999).
-                    &ldquo;Y&apos;s Way to Physical Fitness: The Complete Guide
-                    to Fitness Testing and Instruction.&rdquo; Human Kinetics.
+                    Golding, L.A., Myers, C.R., & Sinning, W.E. (1999). &ldquo;Y&apos;s Way to
+                    Physical Fitness: The Complete Guide to Fitness Testing and Instruction.&rdquo;
+                    Human Kinetics.
                   </li>
                   <li>
-                    YMCA of the USA. (2000). &ldquo;YMCA Fitness Testing and
-                    Assessment Manual (4th ed.).&rdquo; YMCA of the USA.
+                    YMCA of the USA. (2000). &ldquo;YMCA Fitness Testing and Assessment Manual (4th
+                    ed.).&rdquo; YMCA of the USA.
                   </li>
                 </ul>
               </div>

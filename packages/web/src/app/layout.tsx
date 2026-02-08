@@ -1,9 +1,9 @@
-import { Montserrat } from 'next/font/google'
-import clsx from 'clsx'
-import Script from 'next/script'
 import { GoogleTagManager } from '@next/third-parties/google'
-import { CSPostHogProvider } from './providers'
+import clsx from 'clsx'
+import { Montserrat } from 'next/font/google'
+import Script from 'next/script'
 import UmamiProvider from 'next-umami'
+import { CSPostHogProvider } from './providers'
 
 import '@/styles/tailwind.css'
 import '@/styles/globals.css'
@@ -55,19 +55,9 @@ export const metadata = {
   },
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={clsx(
-        'bg-[#333333] text-white antialiased',
-        montserrat.className,
-      )}
-    >
+    <html lang="en" className={clsx('bg-[#333333] text-white antialiased', montserrat.className)}>
       <head>
         <script
           async
@@ -498,26 +488,14 @@ export default function RootLayout({
 
         {/* Preconnect to required origins */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           rel="preconnect"
           href="https://pagead2.googlesyndication.com"
           crossOrigin="anonymous"
         />
-        <link
-          rel="preconnect"
-          href="https://cdn.kiprotect.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preconnect"
-          href="https://www.googletagmanager.com"
-          crossOrigin="anonymous"
-        />
+        <link rel="preconnect" href="https://cdn.kiprotect.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
 
         {/* DNS prefetch for performance */}
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />

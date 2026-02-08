@@ -1,10 +1,9 @@
-import { type Metadata } from 'next'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: {
     template: '%s - Body Fat Calculator (PRO)',
-    default:
-      'Body Fat Calculator (PRO) - Professional Body Fat Measurement Tool',
+    default: 'Body Fat Calculator (PRO) - Professional Body Fat Measurement Tool',
   },
   description:
     'The most comprehensive body fat calculator app with multiple measurement methods including calipers and US Navy. Get professional-grade estimates with research-validated formulas.',

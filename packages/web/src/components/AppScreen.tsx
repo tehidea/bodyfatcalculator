@@ -1,5 +1,5 @@
-import { forwardRef } from 'react'
 import clsx from 'clsx'
+import { forwardRef } from 'react'
 
 function Logo(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -61,48 +61,42 @@ export function AppScreen({
   )
 }
 
-AppScreen.Header = forwardRef<
-  React.ElementRef<'div'>,
-  { children: React.ReactNode }
->(function AppScreenHeader({ children }, ref) {
-  return (
-    <div ref={ref} className="mt-6 px-4 text-white">
-      {children}
-    </div>
-  )
-})
+AppScreen.Header = forwardRef<React.ElementRef<'div'>, { children: React.ReactNode }>(
+  function AppScreenHeader({ children }, ref) {
+    return (
+      <div ref={ref} className="mt-6 px-4 text-white">
+        {children}
+      </div>
+    )
+  },
+)
 
-AppScreen.Title = forwardRef<
-  React.ElementRef<'div'>,
-  { children: React.ReactNode }
->(function AppScreenTitle({ children }, ref) {
-  return (
-    <div ref={ref} className="text-2xl text-white">
-      {children}
-    </div>
-  )
-})
+AppScreen.Title = forwardRef<React.ElementRef<'div'>, { children: React.ReactNode }>(
+  function AppScreenTitle({ children }, ref) {
+    return (
+      <div ref={ref} className="text-2xl text-white">
+        {children}
+      </div>
+    )
+  },
+)
 
-AppScreen.Subtitle = forwardRef<
-  React.ElementRef<'div'>,
-  { children: React.ReactNode }
->(function AppScreenSubtitle({ children }, ref) {
-  return (
-    <div ref={ref} className="text-sm text-gray-500">
-      {children}
-    </div>
-  )
-})
+AppScreen.Subtitle = forwardRef<React.ElementRef<'div'>, { children: React.ReactNode }>(
+  function AppScreenSubtitle({ children }, ref) {
+    return (
+      <div ref={ref} className="text-sm text-gray-500">
+        {children}
+      </div>
+    )
+  },
+)
 
 AppScreen.Body = forwardRef<
   React.ElementRef<'div'>,
   { className?: string; children: React.ReactNode }
 >(function AppScreenBody({ children, className }, ref) {
   return (
-    <div
-      ref={ref}
-      className={clsx('mt-6 flex-auto rounded-t-2xl bg-white', className)}
-    >
+    <div ref={ref} className={clsx('mt-6 flex-auto rounded-t-2xl bg-white', className)}>
       {children}
     </div>
   )

@@ -1,11 +1,11 @@
 'use client'
 
-import { Container } from '@/components/Container'
-import { Layout } from '@/components/Layout'
-import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'react-feather'
+import { CirclesBackground } from '@/components/CirclesBackground'
+import { Container } from '@/components/Container'
+import { Layout } from '@/components/Layout'
 
 export default function JacksonPollock() {
   return (
@@ -36,10 +36,9 @@ export default function JacksonPollock() {
               Jackson & Pollock Methods
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              Comprehensive analysis of the Jackson & Pollock skinfold
-              protocols, including their development, validation, and practical
-              applications. Explore the scientific basis and accuracy of the
-              7-site, 4-site, and 3-site methods.
+              Comprehensive analysis of the Jackson & Pollock skinfold protocols, including their
+              development, validation, and practical applications. Explore the scientific basis and
+              accuracy of the 7-site, 4-site, and 3-site methods.
             </p>
           </motion.div>
 
@@ -52,9 +51,7 @@ export default function JacksonPollock() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Historical Development
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Historical Development</h2>
               <div className="mt-6 space-y-6">
                 <div>
                   <h3 className="text-lg font-semibold text-white">
@@ -62,8 +59,8 @@ export default function JacksonPollock() {
                   </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Development of generalized body density equations through
-                      comprehensive research:
+                      Development of generalized body density equations through comprehensive
+                      research:
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
                       <li>Developed generalized equations for men and women</li>
@@ -74,9 +71,7 @@ export default function JacksonPollock() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Method Evolution
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Method Evolution</h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
                       Progressive development of simplified protocols:
@@ -101,20 +96,14 @@ export default function JacksonPollock() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Protocol Details
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Protocol Details</h2>
               <div className="mt-6 space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    7-Site Protocol
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">7-Site Protocol</h3>
                   <div className="mt-4 space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Measurement Sites
-                        </h4>
+                        <h4 className="font-medium text-white">Measurement Sites</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Chest</li>
                           <li>Midaxillary</li>
@@ -126,9 +115,7 @@ export default function JacksonPollock() {
                         </ul>
                       </div>
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Accuracy Range
-                        </h4>
+                        <h4 className="font-medium text-white">Accuracy Range</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Typical accuracy: ±3-4%</li>
                           <li>Most thorough with seven sites</li>
@@ -140,15 +127,11 @@ export default function JacksonPollock() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    4-Site Protocol
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">4-Site Protocol</h3>
                   <div className="mt-4 space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Measurement Sites
-                        </h4>
+                        <h4 className="font-medium text-white">Measurement Sites</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Abdomen</li>
                           <li>Triceps</li>
@@ -157,9 +140,7 @@ export default function JacksonPollock() {
                         </ul>
                       </div>
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Accuracy Range
-                        </h4>
+                        <h4 className="font-medium text-white">Accuracy Range</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Typical accuracy: ±3.5-4.5%</li>
                           <li>Balanced accuracy and efficiency</li>
@@ -171,15 +152,11 @@ export default function JacksonPollock() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    3-Site Protocol
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">3-Site Protocol</h3>
                   <div className="mt-4 space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Measurement Sites
-                        </h4>
+                        <h4 className="font-medium text-white">Measurement Sites</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Chest (men) / Triceps (women)</li>
                           <li>Abdomen (men) / Suprailiac (women)</li>
@@ -187,9 +164,7 @@ export default function JacksonPollock() {
                         </ul>
                       </div>
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Accuracy Range
-                        </h4>
+                        <h4 className="font-medium text-white">Accuracy Range</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Typical accuracy: ±4-5%</li>
                           <li>Quick method for field use</li>
@@ -209,15 +184,11 @@ export default function JacksonPollock() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Modern Applications
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Modern Applications</h2>
               <div className="mt-6 space-y-6">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Clinical Settings
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Clinical Settings</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Health risk assessment</li>
                       <li>Nutritional counseling</li>
@@ -226,9 +197,7 @@ export default function JacksonPollock() {
                     </ul>
                   </div>
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Athletic Applications
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Athletic Applications</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Performance optimization</li>
                       <li>Training program design</li>
@@ -251,20 +220,18 @@ export default function JacksonPollock() {
               <div className="mt-6">
                 <ul className="list-inside space-y-3 text-sm text-gray-300">
                   <li>
-                    Jackson, A.S., & Pollock, M.L. (1978). &ldquo;Generalized
-                    equations for predicting body density of men.&rdquo; British
-                    Journal of Nutrition, 40(3), 497-504.
+                    Jackson, A.S., & Pollock, M.L. (1978). &ldquo;Generalized equations for
+                    predicting body density of men.&rdquo; British Journal of Nutrition, 40(3),
+                    497-504.
                   </li>
                   <li>
-                    Jackson, A.S., Pollock, M.L., & Ward, A. (1980).
-                    &ldquo;Generalized equations for predicting body density of
-                    women.&rdquo; Medicine and Science in Sports and Exercise,
-                    12(3), 175-182.
+                    Jackson, A.S., Pollock, M.L., & Ward, A. (1980). &ldquo;Generalized equations
+                    for predicting body density of women.&rdquo; Medicine and Science in Sports and
+                    Exercise, 12(3), 175-182.
                   </li>
                   <li>
-                    Jackson, A.S., & Pollock, M.L. (1985). &ldquo;Practical
-                    assessment of body composition.&rdquo; The Physician and
-                    Sportsmedicine, 13(5), 76-90.
+                    Jackson, A.S., & Pollock, M.L. (1985). &ldquo;Practical assessment of body
+                    composition.&rdquo; The Physician and Sportsmedicine, 13(5), 76-90.
                   </li>
                 </ul>
               </div>

@@ -1,11 +1,11 @@
 'use client'
 
-import { Container } from '@/components/Container'
-import { Layout } from '@/components/Layout'
-import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, Lock } from 'react-feather'
+import { CirclesBackground } from '@/components/CirclesBackground'
+import { Container } from '@/components/Container'
+import { Layout } from '@/components/Layout'
 
 export default function JacksonPollock3() {
   return (
@@ -41,9 +41,8 @@ export default function JacksonPollock3() {
               </span>
             </div>
             <p className="mt-4 text-base text-gray-400">
-              A simplified version of the 7-site method, providing quick body
-              fat measurements. A practical balance between accuracy and
-              measurement time.
+              A simplified version of the 7-site method, providing quick body fat measurements. A
+              practical balance between accuracy and measurement time.
             </p>
           </motion.div>
 
@@ -55,15 +54,12 @@ export default function JacksonPollock3() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Method Overview
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Method Overview</h2>
               <div className="mt-6">
                 <p className="text-gray-300">
-                  Developed as a streamlined alternative to the 7-site method,
-                  this protocol balances accuracy with measurement time. Uses
-                  gender-specific sites to account for different fat
-                  distribution patterns in men and women.
+                  Developed as a streamlined alternative to the 7-site method, this protocol
+                  balances accuracy with measurement time. Uses gender-specific sites to account for
+                  different fat distribution patterns in men and women.
                 </p>
                 <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                   <li>Accuracy: ±4-5% with proper technique</li>
@@ -80,14 +76,10 @@ export default function JacksonPollock3() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Measurement Protocol
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Measurement Protocol</h2>
               <div className="mt-6">
                 <div className="rounded-lg bg-black/20 p-4 text-gray-300">
-                  <h3 className="text-lg font-semibold text-white">
-                    Measurement Sites
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Measurement Sites</h3>
                   <div className="mt-4 space-y-6">
                     <div>
                       <h4 className="font-medium text-white">For Men:</h4>
@@ -110,9 +102,7 @@ export default function JacksonPollock3() {
                 <div className="mt-6 rounded-lg bg-black/20 p-4 text-sm text-gray-300">
                   <strong>Measurement Tips:</strong>
                   <ul className="mt-2 list-inside list-disc space-y-1">
-                    <li>
-                      Take measurements standing, with skin dry and unmarked
-                    </li>
+                    <li>Take measurements standing, with skin dry and unmarked</li>
                     <li>Measure on the right side of the body</li>
                     <li>Wait briefly after applying the caliper</li>
                     <li>Take multiple measurements at each site</li>
@@ -128,20 +118,16 @@ export default function JacksonPollock3() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Research & Validation
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Research & Validation</h2>
               <div className="mt-6">
                 <Link
                   href="/research/methods/jackson-pollock"
                   className="group block rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30"
                 >
-                  <h3 className="text-lg font-semibold text-white">
-                    View Research Studies
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">View Research Studies</h3>
                   <p className="mt-2 text-sm text-gray-400">
-                    Access detailed validation studies, accuracy assessments,
-                    and comparative analyses.
+                    Access detailed validation studies, accuracy assessments, and comparative
+                    analyses.
                   </p>
                 </Link>
               </div>

@@ -1,12 +1,12 @@
 'use client'
 
-import { Container } from '@/components/Container'
-import { Layout } from '@/components/Layout'
-import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'react-feather'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
+import { CirclesBackground } from '@/components/CirclesBackground'
+import { Container } from '@/components/Container'
+import { Layout } from '@/components/Layout'
 
 export default function ValidationStudies() {
   return (
@@ -37,10 +37,9 @@ export default function ValidationStudies() {
               Validation Studies
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              Comprehensive analysis of validation studies comparing field
-              methods against laboratory standards, based on research by Jackson
-              & Pollock (1978), Durnin & Womersley (1974), and recent systematic
-              reviews (Wagner & Heyward, 1999).
+              Comprehensive analysis of validation studies comparing field methods against
+              laboratory standards, based on research by Jackson & Pollock (1978), Durnin &
+              Womersley (1974), and recent systematic reviews (Wagner & Heyward, 1999).
             </p>
           </motion.div>
 
@@ -55,13 +54,10 @@ export default function ValidationStudies() {
             >
               <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
               <div className="relative">
-                <h2 className="text-2xl font-semibold text-white">
-                  Validation Overview
-                </h2>
+                <h2 className="text-2xl font-semibold text-white">Validation Overview</h2>
                 <div className="mt-8">
                   <p className="mb-6 text-gray-400">
-                    Typical accuracy ranges reported for field methods when
-                    measured correctly:
+                    Typical accuracy ranges reported for field methods when measured correctly:
                   </p>
                   <div className="overflow-x-auto rounded-lg bg-black/20 ring-1 ring-white/10">
                     <table className="min-w-full">
@@ -83,9 +79,7 @@ export default function ValidationStudies() {
                           <td className="px-6 py-4 text-sm text-gray-300">
                             Jackson &amp; Pollock 7-Site
                           </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            ±3-4%
-                          </td>
+                          <td className="px-6 py-4 text-sm text-gray-300">±3-4%</td>
                           <td className="px-6 py-4 text-sm text-gray-300">
                             Jackson &amp; Pollock (1985)
                           </td>
@@ -94,20 +88,14 @@ export default function ValidationStudies() {
                           <td className="px-6 py-4 text-sm text-gray-300">
                             Durnin &amp; Womersley
                           </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            ±3.5-5%
-                          </td>
+                          <td className="px-6 py-4 text-sm text-gray-300">±3.5-5%</td>
                           <td className="px-6 py-4 text-sm text-gray-300">
                             Durnin & Womersley (1974)
                           </td>
                         </tr>
                         <tr>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            U.S. Navy
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            ±4-6%
-                          </td>
+                          <td className="px-6 py-4 text-sm text-gray-300">U.S. Navy</td>
+                          <td className="px-6 py-4 text-sm text-gray-300">±4-6%</td>
                           <td className="px-6 py-4 text-sm text-gray-300">
                             Hodgdon & Beckett (1984)
                           </td>
@@ -116,8 +104,7 @@ export default function ValidationStudies() {
                     </table>
                   </div>
                   <p className="mt-4 text-sm text-gray-400">
-                    Accuracy ranges assume proper measurement technique and
-                    calibrated tools.
+                    Accuracy ranges assume proper measurement technique and calibrated tools.
                   </p>
                 </div>
               </div>
@@ -132,14 +119,10 @@ export default function ValidationStudies() {
             >
               <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
               <div className="relative">
-                <h2 className="text-2xl font-semibold text-white">
-                  Sources of Measurement Error
-                </h2>
+                <h2 className="text-2xl font-semibold text-white">Sources of Measurement Error</h2>
                 <div className="mt-8 grid gap-8 sm:grid-cols-2">
                   <article>
-                    <h3 className="text-lg font-semibold text-white">
-                      Technical Errors
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Technical Errors</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                       <li>Site location and landmarking</li>
                       <li>Caliper pressure and timing</li>
@@ -148,15 +131,13 @@ export default function ValidationStudies() {
                     </ul>
                     <div className="mt-4 rounded-lg bg-black/20 p-4">
                       <p className="text-sm text-gray-300">
-                        <strong>Impact:</strong> Technical error of measurement
-                        varies with training and consistency in technique.
+                        <strong>Impact:</strong> Technical error of measurement varies with training
+                        and consistency in technique.
                       </p>
                     </div>
                   </article>
                   <article>
-                    <h3 className="text-lg font-semibold text-white">
-                      Biological Factors
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Biological Factors</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                       <li>Hydration status</li>
                       <li>Time of day</li>
@@ -165,9 +146,8 @@ export default function ValidationStudies() {
                     </ul>
                     <div className="mt-4 rounded-lg bg-black/20 p-4">
                       <p className="text-sm text-gray-300">
-                        <strong>Impact:</strong> Biological factors can affect
-                        measurements between sessions, so consistent conditions
-                        matter.
+                        <strong>Impact:</strong> Biological factors can affect measurements between
+                        sessions, so consistent conditions matter.
                       </p>
                     </div>
                   </article>
@@ -182,9 +162,7 @@ export default function ValidationStudies() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Laboratory Standards
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Laboratory Standards</h2>
               <div className="mt-6 space-y-6">
                 <div>
                   <h3 className="text-lg font-semibold text-white">
@@ -203,13 +181,9 @@ export default function ValidationStudies() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Hydrostatic Weighing
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Hydrostatic Weighing</h3>
                   <div className="mt-4 space-y-4">
-                    <p className="text-gray-300">
-                      Long-standing reference method:
-                    </p>
+                    <p className="text-gray-300">Long-standing reference method:</p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
                       <li>Requires water immersion and proper technique</li>
                       <li>Often used as a comparison standard</li>
@@ -229,9 +203,7 @@ export default function ValidationStudies() {
             >
               <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
               <div className="relative">
-                <h2 className="text-2xl font-semibold text-white">
-                  Skinfold Methods Validation
-                </h2>
+                <h2 className="text-2xl font-semibold text-white">Skinfold Methods Validation</h2>
                 <div className="mt-6 space-y-6">
                   {/* Jackson & Pollock Studies */}
                   <div>
@@ -240,20 +212,12 @@ export default function ValidationStudies() {
                     </h3>
                     <div className="mt-4 space-y-4">
                       <p className="text-gray-300">
-                        Key findings from the original publications and
-                        follow-up validations:
+                        Key findings from the original publications and follow-up validations:
                       </p>
                       <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                        <li>
-                          3-site method: ±4-5% accuracy when measured correctly
-                        </li>
-                        <li>
-                          7-site method: ±3-4% accuracy when measured correctly
-                        </li>
-                        <li>
-                          Accuracy generally improves with more measurement
-                          sites
-                        </li>
+                        <li>3-site method: ±4-5% accuracy when measured correctly</li>
+                        <li>7-site method: ±3-4% accuracy when measured correctly</li>
+                        <li>Accuracy generally improves with more measurement sites</li>
                       </ul>
                     </div>
                   </div>
@@ -265,8 +229,7 @@ export default function ValidationStudies() {
                     </h3>
                     <div className="mt-4 space-y-4">
                       <p className="text-gray-300">
-                        Age- and gender-specific equations based on four
-                        skinfold sites:
+                        Age- and gender-specific equations based on four skinfold sites:
                       </p>
                       <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                         <li>Typical accuracy range: ±3.5-5%</li>
@@ -278,9 +241,7 @@ export default function ValidationStudies() {
 
                   {/* Parrillo Method Studies */}
                   <div>
-                    <h3 className="text-lg font-semibold text-white">
-                      Parrillo Method Validation
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Parrillo Method Validation</h3>
                     <div className="mt-4 space-y-4">
                       <p className="text-gray-300">
                         Nine-site method commonly used in bodybuilding contexts:
@@ -305,28 +266,19 @@ export default function ValidationStudies() {
             >
               <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
               <div className="relative">
-                <h2 className="text-2xl font-semibold text-white">
-                  Circumference Methods
-                </h2>
+                <h2 className="text-2xl font-semibold text-white">Circumference Methods</h2>
                 <div className="mt-6 space-y-6">
                   {/* US Navy Method */}
                   <div>
-                    <h3 className="text-lg font-semibold text-white">
-                      US Navy Method Validation
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">US Navy Method Validation</h3>
                     <div className="mt-4 space-y-4">
                       <p className="text-gray-300">
                         Circumference-based method used by the U.S. military:
                       </p>
                       <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                         <li>Typical accuracy range: ±4-6%</li>
-                        <li>
-                          Most accurate for individuals near population
-                          averages
-                        </li>
-                        <li>
-                          Less reliable for very lean or obese individuals
-                        </li>
+                        <li>Most accurate for individuals near population averages</li>
+                        <li>Less reliable for very lean or obese individuals</li>
                         <li>Accuracy depends on measurement technique</li>
                       </ul>
                     </div>
@@ -334,31 +286,22 @@ export default function ValidationStudies() {
 
                   {/* YMCA Method */}
                   <div>
-                    <h3 className="text-lg font-semibold text-white">
-                      YMCA Method Studies
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">YMCA Method Studies</h3>
                     <div className="mt-4 space-y-4">
                       <p className="text-gray-300">
                         Simple circumference-based equations with two variants:
                       </p>
                       <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                         <li>YMCA: ±5-7% accuracy, best for tracking trends</li>
-                        <li>
-                          Modified YMCA: ±4-6% accuracy with added measurements
-                          for women
-                        </li>
-                        <li>
-                          Less accurate for athletic or non-standard body types
-                        </li>
+                        <li>Modified YMCA: ±4-6% accuracy with added measurements for women</li>
+                        <li>Less accurate for athletic or non-standard body types</li>
                       </ul>
                     </div>
                   </div>
 
                   {/* Covert Bailey Method */}
                   <div>
-                    <h3 className="text-lg font-semibold text-white">
-                      Covert Bailey Validation
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Covert Bailey Validation</h3>
                     <div className="mt-4 space-y-4">
                       <p className="text-gray-300">
                         Age- and gender-specific circumference method:
@@ -381,14 +324,10 @@ export default function ValidationStudies() {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Validation Considerations
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Validation Considerations</h2>
               <div className="mt-6 space-y-6">
                 <div className="rounded-lg bg-black/20 p-4">
-                  <h3 className="text-lg font-semibold text-white">
-                    Population Specificity
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Population Specificity</h3>
                   <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                     <li>Athletic vs general population accuracy differences</li>
                     <li>Age-related measurement variations</li>
@@ -398,9 +337,7 @@ export default function ValidationStudies() {
                 </div>
 
                 <div className="rounded-lg bg-black/20 p-4">
-                  <h3 className="text-lg font-semibold text-white">
-                    Technical Factors
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Technical Factors</h3>
                   <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                     <li>Measurement site standardization</li>
                     <li>Technician training impact</li>
@@ -422,40 +359,36 @@ export default function ValidationStudies() {
               <div className="mt-6">
                 <ul className="list-inside space-y-3 text-sm text-gray-300">
                   <li>
-                    Jackson, A.S., & Pollock, M.L. (1978). &ldquo;Generalized
-                    equations for predicting body density of men.&rdquo; British
-                    Journal of Nutrition, 40(3), 497-504.
+                    Jackson, A.S., & Pollock, M.L. (1978). &ldquo;Generalized equations for
+                    predicting body density of men.&rdquo; British Journal of Nutrition, 40(3),
+                    497-504.
                   </li>
                   <li>
-                    Jackson, A.S., Pollock, M.L., & Ward, A. (1980).
-                    &ldquo;Generalized equations for predicting body density of
-                    women.&rdquo; Medicine and Science in Sports and Exercise,
-                    12(3), 175-181.
+                    Jackson, A.S., Pollock, M.L., & Ward, A. (1980). &ldquo;Generalized equations
+                    for predicting body density of women.&rdquo; Medicine and Science in Sports and
+                    Exercise, 12(3), 175-181.
                   </li>
                   <li>
-                    Durnin, J.V.G.A., & Womersley, J. (1974). &ldquo;Body fat
-                    assessed from total body density and its estimation from
-                    skinfold thickness.&rdquo; British Journal of Nutrition,
-                    32(1), 77-97.
+                    Durnin, J.V.G.A., & Womersley, J. (1974). &ldquo;Body fat assessed from total
+                    body density and its estimation from skinfold thickness.&rdquo; British Journal
+                    of Nutrition, 32(1), 77-97.
                   </li>
                   <li>
-                    Hodgdon, J.A., & Beckett, M.B. (1984). &ldquo;Prediction of
-                    percent body fat for U.S. Navy men and women.&rdquo; Naval
-                    Health Research Center Report, No. 84-29.
+                    Hodgdon, J.A., & Beckett, M.B. (1984). &ldquo;Prediction of percent body fat for
+                    U.S. Navy men and women.&rdquo; Naval Health Research Center Report, No. 84-29.
                   </li>
                   <li>
-                    Golding, L.A., Myers, C.R., & Sinning, W.E. (1999).
-                    &ldquo;Y&apos;s Way to Physical Fitness: The Complete Guide
-                    to Fitness Testing and Instruction.&rdquo; Human Kinetics.
+                    Golding, L.A., Myers, C.R., & Sinning, W.E. (1999). &ldquo;Y&apos;s Way to
+                    Physical Fitness: The Complete Guide to Fitness Testing and Instruction.&rdquo;
+                    Human Kinetics.
                   </li>
                   <li>
-                    YMCA of the USA. (2000). &ldquo;YMCA Fitness Testing and
-                    Assessment Manual (4th ed.).&rdquo; YMCA of the USA.
+                    YMCA of the USA. (2000). &ldquo;YMCA Fitness Testing and Assessment Manual (4th
+                    ed.).&rdquo; YMCA of the USA.
                   </li>
                   <li>
-                    Friedl, K.E., et al. (2020). &ldquo;Body Composition
-                    Standards and Assessment in the U.S. Military.&rdquo;
-                    Military Medicine, 185(9), e1472-e1479.
+                    Friedl, K.E., et al. (2020). &ldquo;Body Composition Standards and Assessment in
+                    the U.S. Military.&rdquo; Military Medicine, 185(9), e1472-e1479.
                   </li>
                 </ul>
               </div>

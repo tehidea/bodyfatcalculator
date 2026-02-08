@@ -1,80 +1,80 @@
 // TODO: This isn't technically implemented yet
 
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
-import { Text, Button, Icon } from "@rneui/themed";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { FEATURES, PRICING } from "../constants/features";
-import { COLORS } from "../constants/theme";
-import { usePremiumStore } from "../store/premiumStore";
-import { purchasePackage, getOfferings } from "../config/store";
-import { getResponsiveTypography, getLineHeight, getResponsiveSpacing } from "../utils/device";
-import { usePostHog } from "posthog-react-native";
+import { Button, Icon, Text } from '@rneui/themed'
+import { usePostHog } from 'posthog-react-native'
+import { useState } from 'react'
+import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { getOfferings, purchasePackage } from '../config/store'
+import { FEATURES, PRICING } from '../constants/features'
+import { COLORS } from '../constants/theme'
+import { usePremiumStore } from '../store/premiumStore'
+import { getLineHeight, getResponsiveSpacing, getResponsiveTypography } from '../utils/device'
 
 export const FeatureComparisonScreen = () => {
-  const posthog = usePostHog();
-  const { pro, setEntitlements } = usePremiumStore();
-  const [loading, setLoading] = useState(false);
-  const { restorePurchases } = usePremiumStore();
+  const posthog = usePostHog()
+  const { pro, setEntitlements } = usePremiumStore()
+  const [loading, setLoading] = useState(false)
+  const { restorePurchases } = usePremiumStore()
 
-  const handlePurchase = async (type: "pro" | "premium" | "bundle" | "lifetime") => {
-    setLoading(true);
+  const handlePurchase = async (type: 'pro' | 'premium' | 'bundle' | 'lifetime') => {
+    setLoading(true)
     if (posthog) {
-      posthog.capture("upgrade_to_pro_initiated", { package_type: type });
+      posthog.capture('upgrade_to_pro_initiated', { package_type: type })
     }
     try {
-      const offerings = await getOfferings();
-      let targetPackage;
+      const offerings = await getOfferings()
+      let targetPackage
 
       switch (type) {
-        case "pro":
-          targetPackage = offerings.find(p => p.identifier === "pro_lifetime");
-          break;
-        case "premium":
-          targetPackage = offerings.find(p => p.identifier === "premium_annual");
-          break;
-        case "bundle":
-          targetPackage = offerings.find(p => p.identifier === "pro_premium_bundle");
-          break;
-        case "lifetime":
-          targetPackage = offerings.find(p => p.identifier === "premium_lifetime");
-          break;
+        case 'pro':
+          targetPackage = offerings.find((p) => p.identifier === 'pro_lifetime')
+          break
+        case 'premium':
+          targetPackage = offerings.find((p) => p.identifier === 'premium_annual')
+          break
+        case 'bundle':
+          targetPackage = offerings.find((p) => p.identifier === 'pro_premium_bundle')
+          break
+        case 'lifetime':
+          targetPackage = offerings.find((p) => p.identifier === 'premium_lifetime')
+          break
       }
 
       if (!targetPackage) {
-        throw new Error("Package not found");
+        throw new Error('Package not found')
       }
 
-      const entitlements = await purchasePackage(targetPackage);
-      setEntitlements(entitlements);
+      const entitlements = await purchasePackage(targetPackage)
+      setEntitlements(entitlements)
       if (posthog) {
-        posthog.capture("purchase_successful", { package_type: type });
+        posthog.capture('purchase_successful', { package_type: type })
       }
     } catch (error) {
-      console.error("Purchase failed:", error);
+      console.error('Purchase failed:', error)
       if (posthog) {
-        posthog.capture("purchase_failed", {
+        posthog.capture('purchase_failed', {
           package_type: type,
           error_message: error instanceof Error ? error.message : String(error),
-        });
+        })
       }
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleRestorePurchases = async () => {
     if (posthog) {
-      posthog.capture("restore_purchases_tapped");
+      posthog.capture('restore_purchases_tapped')
     }
-    await restorePurchases();
-  };
+    await restorePurchases()
+  }
 
   const renderFeature = ({ id, name, description, availability }: (typeof FEATURES)[0]) => {
     const isAvailable =
-      availability === "free" ||
-      (availability === "pro" && pro) ||
-      (availability === "premium" && pro);
+      availability === 'free' ||
+      (availability === 'pro' && pro) ||
+      (availability === 'premium' && pro)
 
     return (
       <View key={id} style={styles.featureRow}>
@@ -90,8 +90,8 @@ export const FeatureComparisonScreen = () => {
           )}
         </View>
       </View>
-    );
-  };
+    )
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -140,7 +140,7 @@ export const FeatureComparisonScreen = () => {
           {/* PRO Card */}
           <TouchableOpacity
             style={[styles.pricingCard, pro && styles.activeCard]}
-            onPress={() => !pro && handlePurchase("pro")}
+            onPress={() => !pro && handlePurchase('pro')}
             disabled={pro || loading}
           >
             <Text style={styles.planName}>PRO</Text>
@@ -155,18 +155,18 @@ export const FeatureComparisonScreen = () => {
               <Text style={styles.keyFeature}>• Family Sharing enabled</Text>
             </View>
             <Button
-              title={pro ? "Purchased" : "Buy Now"}
+              title={pro ? 'Purchased' : 'Buy Now'}
               disabled={pro || loading}
               loading={loading}
               buttonStyle={[styles.buyButton, pro && styles.purchasedButton]}
-              onPress={() => handlePurchase("pro")}
+              onPress={() => handlePurchase('pro')}
             />
           </TouchableOpacity>
 
           {/* Premium Card */}
           <TouchableOpacity
             style={[styles.pricingCard, pro && styles.activeCard]}
-            onPress={() => !pro && handlePurchase("premium")}
+            onPress={() => !pro && handlePurchase('premium')}
             disabled={pro || loading}
           >
             <Text style={styles.planName}>PREMIUM</Text>
@@ -181,11 +181,11 @@ export const FeatureComparisonScreen = () => {
               <Text style={styles.keyFeature}>• Priority support</Text>
             </View>
             <Button
-              title={pro ? "Subscribed" : "Subscribe"}
+              title={pro ? 'Subscribed' : 'Subscribe'}
               disabled={pro || loading}
               loading={loading}
               buttonStyle={[styles.buyButton, pro && styles.purchasedButton]}
-              onPress={() => handlePurchase("premium")}
+              onPress={() => handlePurchase('premium')}
             />
           </TouchableOpacity>
 
@@ -193,7 +193,7 @@ export const FeatureComparisonScreen = () => {
           {!pro && (
             <TouchableOpacity
               style={[styles.pricingCard, styles.bundleCard]}
-              onPress={() => handlePurchase("bundle")}
+              onPress={() => handlePurchase('bundle')}
               disabled={loading}
             >
               <View style={styles.saveBadge}>
@@ -213,7 +213,7 @@ export const FeatureComparisonScreen = () => {
                 title="Get Bundle"
                 loading={loading}
                 buttonStyle={styles.buyButton}
-                onPress={() => handlePurchase("bundle")}
+                onPress={() => handlePurchase('bundle')}
               />
             </TouchableOpacity>
           )}
@@ -233,8 +233,8 @@ export const FeatureComparisonScreen = () => {
             onPress={handleRestorePurchases}
             titleStyle={styles.restoreButtonText}
             icon={{
-              name: "refresh-ccw",
-              type: "feather",
+              name: 'refresh-ccw',
+              type: 'feather',
               size: 16,
               color: COLORS.primary,
             }}
@@ -243,29 +243,29 @@ export const FeatureComparisonScreen = () => {
         </View>
       </ScrollView>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   header: {
     padding: 20,
-    alignItems: "center",
+    alignItems: 'center',
   },
   title: {
-    fontSize: getResponsiveTypography("2xl"),
-    lineHeight: getLineHeight("2xl"),
-    fontWeight: "bold",
+    fontSize: getResponsiveTypography('2xl'),
+    lineHeight: getLineHeight('2xl'),
+    fontWeight: 'bold',
     color: COLORS.textDark,
     marginBottom: getResponsiveSpacing(8),
   },
   description: {
-    fontSize: getResponsiveTypography("md"),
-    lineHeight: getLineHeight("md"),
-    color: "#666",
+    fontSize: getResponsiveTypography('md'),
+    lineHeight: getLineHeight('md'),
+    color: '#666',
     marginBottom: getResponsiveSpacing(24),
   },
   section: {
@@ -273,120 +273,120 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   sectionTitle: {
-    fontSize: getResponsiveTypography("xl"),
-    lineHeight: getLineHeight("xl"),
-    fontWeight: "bold",
+    fontSize: getResponsiveTypography('xl'),
+    lineHeight: getLineHeight('xl'),
+    fontWeight: 'bold',
     color: COLORS.textDark,
     marginBottom: getResponsiveSpacing(16),
   },
   accuracyComparison: {
-    flexDirection: "row",
-    backgroundColor: "#f8f8f8",
+    flexDirection: 'row',
+    backgroundColor: '#f8f8f8',
     borderRadius: 12,
     padding: 16,
     gap: 16,
   },
   accuracyColumn: {
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
     padding: 12,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderRadius: 8,
     elevation: 1,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 2,
   },
   planLabel: {
-    fontSize: getResponsiveTypography("sm"),
-    fontWeight: "bold",
+    fontSize: getResponsiveTypography('sm'),
+    fontWeight: 'bold',
     color: COLORS.textDark,
     marginBottom: 4,
   },
   accuracyRange: {
-    fontSize: getResponsiveTypography("2xl"),
-    fontWeight: "bold",
+    fontSize: getResponsiveTypography('2xl'),
+    fontWeight: 'bold',
     color: COLORS.primary,
     marginBottom: 4,
   },
   accuracyNote: {
-    fontSize: getResponsiveTypography("xs"),
-    lineHeight: getLineHeight("xs"),
-    color: "#666",
+    fontSize: getResponsiveTypography('xs'),
+    lineHeight: getLineHeight('xs'),
+    color: '#666',
     marginBottom: getResponsiveSpacing(12),
   },
   methodList: {
-    width: "100%",
-    alignItems: "flex-start",
+    width: '100%',
+    alignItems: 'flex-start',
   },
   methodItem: {
-    fontSize: getResponsiveTypography("xs"),
-    lineHeight: getLineHeight("xs"),
-    color: "#666",
+    fontSize: getResponsiveTypography('xs'),
+    lineHeight: getLineHeight('xs'),
+    color: '#666',
     marginBottom: getResponsiveSpacing(4),
   },
   accuracyDisclaimer: {
-    fontSize: getResponsiveTypography("xs"),
-    lineHeight: getLineHeight("xs"),
-    color: "#666",
-    fontStyle: "italic",
+    fontSize: getResponsiveTypography('xs'),
+    lineHeight: getLineHeight('xs'),
+    color: '#666',
+    fontStyle: 'italic',
     marginTop: getResponsiveSpacing(12),
-    textAlign: "center",
+    textAlign: 'center',
     paddingHorizontal: getResponsiveSpacing(16),
   },
   pricingCards: {
     padding: 20,
   },
   pricingCard: {
-    backgroundColor: "#f8f8f8",
+    backgroundColor: '#f8f8f8',
     borderRadius: 12,
     padding: 20,
     marginBottom: 16,
-    alignItems: "center",
+    alignItems: 'center',
   },
   activeCard: {
-    backgroundColor: COLORS.primary + "10",
+    backgroundColor: `${COLORS.primary}10`,
   },
   bundleCard: {
-    backgroundColor: "#f0f8ff",
+    backgroundColor: '#f0f8ff',
     borderWidth: 2,
     borderColor: COLORS.primary,
   },
   planName: {
-    fontSize: getResponsiveTypography("xl"),
-    lineHeight: getLineHeight("xl"),
-    fontWeight: "bold",
+    fontSize: getResponsiveTypography('xl'),
+    lineHeight: getLineHeight('xl'),
+    fontWeight: 'bold',
     color: COLORS.textDark,
     marginBottom: getResponsiveSpacing(8),
   },
   planPrice: {
-    fontSize: getResponsiveTypography("3xl"),
-    lineHeight: getLineHeight("3xl"),
-    fontWeight: "bold",
+    fontSize: getResponsiveTypography('3xl'),
+    lineHeight: getLineHeight('3xl'),
+    fontWeight: 'bold',
     color: COLORS.primary,
     marginBottom: getResponsiveSpacing(4),
   },
   planType: {
-    fontSize: getResponsiveTypography("sm"),
-    lineHeight: getLineHeight("sm"),
-    color: "#666",
+    fontSize: getResponsiveTypography('sm'),
+    lineHeight: getLineHeight('sm'),
+    color: '#666',
     marginBottom: getResponsiveSpacing(16),
   },
   monthlyPrice: {
-    fontSize: getResponsiveTypography("xs"),
-    lineHeight: getLineHeight("xs"),
-    color: "#666",
+    fontSize: getResponsiveTypography('xs'),
+    lineHeight: getLineHeight('xs'),
+    color: '#666',
     marginBottom: getResponsiveSpacing(16),
   },
   keyFeatures: {
-    width: "100%",
+    width: '100%',
     marginBottom: 16,
   },
   keyFeature: {
-    fontSize: getResponsiveTypography("sm"),
-    lineHeight: getLineHeight("sm"),
-    color: "#444",
+    fontSize: getResponsiveTypography('sm'),
+    lineHeight: getLineHeight('sm'),
+    color: '#444',
     marginBottom: getResponsiveSpacing(4),
   },
   buyButton: {
@@ -394,10 +394,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   purchasedButton: {
-    backgroundColor: "#4CAF50",
+    backgroundColor: '#4CAF50',
   },
   saveBadge: {
-    position: "absolute",
+    position: 'absolute',
     top: -12,
     paddingHorizontal: 12,
     paddingVertical: 4,
@@ -405,47 +405,47 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   saveBadgeText: {
-    color: "#fff",
-    fontSize: getResponsiveTypography("xs"),
-    lineHeight: getLineHeight("xs"),
-    fontWeight: "bold",
+    color: '#fff',
+    fontSize: getResponsiveTypography('xs'),
+    lineHeight: getLineHeight('xs'),
+    fontWeight: 'bold',
   },
   featuresSection: {
     padding: 20,
   },
   featureRow: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+    borderBottomColor: '#eee',
   },
   featureInfo: {
     flex: 1,
   },
   featureName: {
-    fontSize: getResponsiveTypography("md"),
-    lineHeight: getLineHeight("md"),
+    fontSize: getResponsiveTypography('md'),
+    lineHeight: getLineHeight('md'),
     color: COLORS.textDark,
     marginBottom: getResponsiveSpacing(2),
   },
   featureDescription: {
-    fontSize: getResponsiveTypography("xs"),
-    lineHeight: getLineHeight("xs"),
-    color: "#666",
+    fontSize: getResponsiveTypography('xs'),
+    lineHeight: getLineHeight('xs'),
+    color: '#666',
   },
   availabilityIndicator: {
     marginLeft: 16,
   },
   restoreContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     paddingVertical: 20,
     marginTop: 10,
   },
   restoreButtonText: {
     color: COLORS.primary,
-    fontSize: getResponsiveTypography("xs"),
-    lineHeight: getLineHeight("xs"),
+    fontSize: getResponsiveTypography('xs'),
+    lineHeight: getLineHeight('xs'),
     marginLeft: getResponsiveSpacing(8),
   },
-});
+})

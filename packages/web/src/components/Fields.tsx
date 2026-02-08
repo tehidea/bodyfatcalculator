@@ -1,5 +1,5 @@
-import { useId } from 'react'
 import clsx from 'clsx'
+import { useId } from 'react'
 
 const formClasses =
   'block w-full appearance-none rounded-lg border bg-background py-[calc(theme(spacing.2)-1px)] px-[calc(theme(spacing.3)-1px)] text-white placeholder:text-gray-400 focus:border-primary focus:outline-none focus:ring-primary sm:text-sm'
@@ -18,7 +18,7 @@ export function TextField({
   className,
   ...props
 }: Omit<React.ComponentPropsWithoutRef<'input'>, 'id'> & { label?: string }) {
-  let id = useId()
+  const id = useId()
 
   return (
     <div className={className}>
@@ -33,7 +33,7 @@ export function SelectField({
   className,
   ...props
 }: Omit<React.ComponentPropsWithoutRef<'select'>, 'id'> & { label?: string }) {
-  let id = useId()
+  const id = useId()
 
   return (
     <div className={className}>

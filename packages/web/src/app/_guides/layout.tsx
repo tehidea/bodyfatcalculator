@@ -1,4 +1,4 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Body Fat Measurement Guides | Body Fat Calculator (PRO)',
@@ -8,10 +8,6 @@ export const metadata: Metadata = {
     'body fat measurement guide, skinfold measurement, caliper technique, circumference measurements, body fat testing guide',
 }
 
-export default function GuidesLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function GuidesLayout({ children }: { children: React.ReactNode }) {
   return children
 }

@@ -1,40 +1,37 @@
-import React, { useState, useMemo, useCallback, useRef, useEffect } from "react";
-import { View, Platform, Keyboard, TextInput, TouchableOpacity, Linking } from "react-native";
-
-import { useResponsive } from "../utils/responsiveContext";
-import { Text, Button } from "@rneui/themed";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { KeyboardAwareScrollView, KeyboardToolbar } from "react-native-keyboard-controller";
-import Constants from "expo-constants";
-import { FormulaSelector } from "../components/calculator/FormulaSelector";
-import { GenderSelector } from "../components/calculator/GenderSelector";
-import { MeasurementSelector } from "../components/calculator/MeasurementSelector";
-import { MeasurementInput } from "../components/calculator/MeasurementInput";
-import { ResultsDisplay } from "../components/calculator/ResultsDisplay";
-import { useCalculatorStore } from "../store/calculatorStore";
+import { calculateResults } from '@bodyfat/shared/formulas'
+import { Button, Text } from '@rneui/themed'
+import Constants from 'expo-constants'
+import { usePostHog } from 'posthog-react-native'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Keyboard, Linking, Platform, type TextInput, View } from 'react-native'
+import { KeyboardAwareScrollView, KeyboardToolbar } from 'react-native-keyboard-controller'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { FormulaSelector } from '../components/calculator/FormulaSelector'
+import { GenderSelector } from '../components/calculator/GenderSelector'
+import { MeasurementInput } from '../components/calculator/MeasurementInput'
+import { MeasurementSelector } from '../components/calculator/MeasurementSelector'
+import { ResultsDisplay } from '../components/calculator/ResultsDisplay'
+import Logo from '../images/logo'
 import {
-  validateFormula as validateInputs,
   getFormulaMetadata,
   isValidFormula,
-} from "../schemas/calculator";
-import Logo from "../images/logo";
-import { memo } from "react";
-import { calculateResults } from "@bodyfat/shared/formulas";
-import { createStyles } from "./CalculatorScreen.styles";
-import { usePremiumStore } from "../store/premiumStore";
-import { COLORS } from "../constants/theme";
-import { usePostHog } from "posthog-react-native";
+  validateFormula as validateInputs,
+} from '../schemas/calculator'
+import { useCalculatorStore } from '../store/calculatorStore'
+import { usePremiumStore } from '../store/premiumStore'
+import { useResponsive } from '../utils/responsiveContext'
+import { createStyles } from './CalculatorScreen.styles'
 
 // Extract Header into a separate component
 const Header = memo(() => {
   const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, deviceType } =
-    useResponsive();
+    useResponsive()
   const styles = createStyles(
     getResponsiveSpacing,
     getResponsiveTypography,
     getLineHeight,
-    deviceType
-  );
+    deviceType,
+  )
 
   return (
     <View style={styles.header}>
@@ -42,42 +39,42 @@ const Header = memo(() => {
       <View style={styles.headerTextContainer}>
         <View style={styles.titleContainer}>
           <Text
-            style={[styles.headerTitle, { fontFamily: "Montserrat-ExtraLight", fontWeight: 200 }]}
+            style={[styles.headerTitle, { fontFamily: 'Montserrat-ExtraLight', fontWeight: 200 }]}
           >
             Body
           </Text>
-          <Text style={[styles.headerTitle, { fontFamily: "Montserrat-Light", fontWeight: 300 }]}>
+          <Text style={[styles.headerTitle, { fontFamily: 'Montserrat-Light', fontWeight: 300 }]}>
             Fat
           </Text>
         </View>
         <Text style={styles.strapline}>Body Fat Calculator for skinfold calipers</Text>
       </View>
     </View>
-  );
-});
+  )
+})
 
 // Add References Display component
 const ReferencesDisplay = memo(() => {
-  const { formula, gender, measurementSystem } = useCalculatorStore();
+  const { formula, gender, measurementSystem } = useCalculatorStore()
   const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, deviceType } =
-    useResponsive();
+    useResponsive()
   const styles = createStyles(
     getResponsiveSpacing,
     getResponsiveTypography,
     getLineHeight,
-    deviceType
-  );
+    deviceType,
+  )
 
-  if (!isValidFormula(formula)) return null;
+  if (!isValidFormula(formula)) return null
 
-  const metadata = getFormulaMetadata(formula, measurementSystem, gender);
-  const { primary, validations } = metadata.reference;
+  const metadata = getFormulaMetadata(formula, measurementSystem, gender)
+  const { primary, validations } = metadata.reference
 
-  if (!primary) return null;
+  if (!primary) return null
 
-  const handleDoiPress = (doi: string) => {
-    Linking.openURL(`https://doi.org/${doi}`);
-  };
+  const _handleDoiPress = (doi: string) => {
+    Linking.openURL(`https://doi.org/${doi}`)
+  }
 
   return (
     <View style={styles.referencesContainer}>
@@ -88,37 +85,37 @@ const ReferencesDisplay = memo(() => {
         </TouchableOpacity>
       )} */}
     </View>
-  );
-});
+  )
+})
 
 // Add Version Display component
 const VersionDisplay = memo(() => {
-  const { pro } = usePremiumStore();
+  const { pro } = usePremiumStore()
   const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, deviceType } =
-    useResponsive();
+    useResponsive()
   const styles = createStyles(
     getResponsiveSpacing,
     getResponsiveTypography,
     getLineHeight,
-    deviceType
-  );
+    deviceType,
+  )
 
-  const version = Constants.expoConfig?.version || "?.?.?";
+  const version = Constants.expoConfig?.version || '?.?.?'
   const buildNumber =
     Platform.select({
       ios: Constants.expoConfig?.ios?.buildNumber,
       android: Constants.expoConfig?.android?.versionCode?.toString(),
-    }) || null;
+    }) || null
   return (
     <Text style={styles.versionText}>
       v{version}
-      {buildNumber ? ` (${buildNumber})` : ""} {pro ? "PRO" : ""}
+      {buildNumber ? ` (${buildNumber})` : ''} {pro ? 'PRO' : ''}
     </Text>
-  );
-});
+  )
+})
 
 export const CalculatorScreen = () => {
-  const posthog = usePostHog();
+  const posthog = usePostHog()
   const {
     formula,
     gender,
@@ -132,104 +129,104 @@ export const CalculatorScreen = () => {
     reset,
     measurementSystem,
     fieldErrors,
-  } = useCalculatorStore();
+  } = useCalculatorStore()
 
-  const prevMeasurementSystemRef = useRef(measurementSystem);
+  const prevMeasurementSystemRef = useRef(measurementSystem)
 
   useEffect(() => {
     if (posthog && prevMeasurementSystemRef.current !== measurementSystem) {
-      posthog.capture("unit_system_changed", {
+      posthog.capture('unit_system_changed', {
         unit_system: measurementSystem,
-      });
+      })
     }
-    prevMeasurementSystemRef.current = measurementSystem;
-  }, [measurementSystem, posthog]);
+    prevMeasurementSystemRef.current = measurementSystem
+  }, [measurementSystem, posthog])
 
   // Get responsive values for styles
   const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, deviceType } =
-    useResponsive();
+    useResponsive()
   const styles = createStyles(
     getResponsiveSpacing,
     getResponsiveTypography,
     getLineHeight,
-    deviceType
-  );
+    deviceType,
+  )
 
-  const scrollViewRef = useRef<any>(null);
-  const [isFocused, setIsFocused] = useState(false);
-  const [currentInputIndex, setCurrentInputIndex] = useState<number | null>(null);
-  const inputRefs = useRef<(TextInput | null)[]>([]);
+  const scrollViewRef = useRef<any>(null)
+  const [_isFocused, setIsFocused] = useState(false)
+  const [_currentInputIndex, setCurrentInputIndex] = useState<number | null>(null)
+  const inputRefs = useRef<(TextInput | null)[]>([])
 
   const formulaFields = useMemo(() => {
-    if (!isValidFormula(formula)) return [];
+    if (!isValidFormula(formula)) return []
 
-    const metadata = getFormulaMetadata(formula, measurementSystem, gender);
-    return metadata.fields.map(field => ({
+    const metadata = getFormulaMetadata(formula, measurementSystem, gender)
+    return metadata.fields.map((field) => ({
       key: field.key,
       label: field.label,
       unit: field.unit,
       required: field.required,
-    }));
-  }, [formula, gender, measurementSystem]);
+    }))
+  }, [formula, gender, measurementSystem])
 
   const handleFocusChange = useCallback((focused: boolean, index: number) => {
-    setIsFocused(focused);
+    setIsFocused(focused)
     if (focused) {
-      setCurrentInputIndex(index);
+      setCurrentInputIndex(index)
     }
-  }, []);
+  }, [])
 
   const getFieldError = (fieldKey: string): string | undefined => {
-    return fieldErrors[fieldKey];
-  };
+    return fieldErrors[fieldKey]
+  }
 
   const handleCalculate = useCallback(async () => {
-    Keyboard.dismiss();
-    setError(null);
+    Keyboard.dismiss()
+    setError(null)
 
     try {
-      const validation = validateInputs(formula, inputs, measurementSystem, gender);
+      const validation = validateInputs(formula, inputs, measurementSystem, gender)
       if (!validation.success) {
-        setError("Please correct the input errors", validation.errors);
-        return;
+        setError('Please correct the input errors', validation.errors)
+        return
       }
 
       if (posthog) {
-        posthog.capture("calculator_form_submitted", {
+        posthog.capture('calculator_form_submitted', {
           formula_selected: formula,
           gender_selected: gender,
           measurement_system: measurementSystem,
-        });
+        })
       }
 
-      const results = await calculateResults(formula, gender, inputs, measurementSystem);
-      setResults(results);
+      const results = await calculateResults(formula, gender, inputs, measurementSystem)
+      setResults(results)
 
       // Scroll to show results if needed
       setTimeout(() => {
-        scrollViewRef.current?.scrollToEnd({ animated: true });
-      }, 100);
+        scrollViewRef.current?.scrollToEnd({ animated: true })
+      }, 100)
     } catch (error) {
-      setError(error instanceof Error ? error.message : "An unexpected error occurred");
+      setError(error instanceof Error ? error.message : 'An unexpected error occurred')
     }
-  }, [formula, gender, inputs, measurementSystem, posthog]);
+  }, [formula, gender, inputs, measurementSystem, posthog, setError, setResults])
 
   const handleReset = useCallback(() => {
-    setError(null);
-    reset();
+    setError(null)
+    reset()
     if (posthog) {
-      posthog.capture("reset_form_tapped");
+      posthog.capture('reset_form_tapped')
     }
-  }, [reset, posthog]);
+  }, [reset, posthog, setError])
 
   const buttonTitle = useMemo(() => {
-    if (isCalculating) return "Calculating...";
-    if (results && isResultsStale) return "Recalculate";
-    return "Calculate";
-  }, [isCalculating, results, isResultsStale]);
+    if (isCalculating) return 'Calculating...'
+    if (results && isResultsStale) return 'Recalculate'
+    return 'Calculate'
+  }, [isCalculating, results, isResultsStale])
 
   return (
-    <SafeAreaView style={styles.container} edges={["top"]}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.innerContainer}>
         <Header />
 
@@ -255,12 +252,12 @@ export const CalculatorScreen = () => {
                 key={field.key}
                 field={field.key}
                 label={field.label}
-                unit={field.unit || ""}
-                error={getFieldError(field.key) ?? ""}
-                ref={ref => {
-                  inputRefs.current[index] = ref;
+                unit={field.unit || ''}
+                error={getFieldError(field.key) ?? ''}
+                ref={(ref) => {
+                  inputRefs.current[index] = ref
                 }}
-                onFocusChange={focused => handleFocusChange(focused, index)}
+                onFocusChange={(focused) => handleFocusChange(focused, index)}
                 isLastInput={index === formulaFields.length - 1}
               />
             ))}
@@ -299,5 +296,5 @@ export const CalculatorScreen = () => {
       </View>
       <KeyboardToolbar />
     </SafeAreaView>
-  );
-};
+  )
+}

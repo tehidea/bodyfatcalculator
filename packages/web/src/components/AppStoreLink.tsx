@@ -1,7 +1,7 @@
 'use client'
 
-import Link from 'next/link'
 import clsx from 'clsx'
+import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
 
 export function AppStoreLink({
@@ -23,14 +23,14 @@ export function AppStoreLink({
       link_type: 'app_store',
       utm_source: 'website',
       utm_medium: 'download_button',
-      utm_campaign: 'app_store_ios'
+      utm_campaign: 'app_store_ios',
     })
 
     // Event snippet for Submit lead form conversion page
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', 'conversion', {
-        'send_to': 'AW-17498006015/rTmzCJChy5obEP_D2ZdB'
-      });
+        send_to: 'AW-17498006015/rTmzCJChy5obEP_D2ZdB',
+      })
     }
   }
 

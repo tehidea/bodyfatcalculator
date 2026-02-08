@@ -13,7 +13,7 @@ if (typeof window !== 'undefined') {
       maskAllInputs: true,
     },
     bootstrap: {
-      distinctID: 'web_' + Math.random().toString(36).substring(2),
+      distinctID: `web_${Math.random().toString(36).substring(2)}`,
     },
     loaded: (posthog) => {
       // Set user properties for web users
@@ -21,7 +21,7 @@ if (typeof window !== 'undefined') {
         platform: 'web',
         user_type: 'web_visitor',
         source: 'website',
-      });
+      })
     },
   })
 }

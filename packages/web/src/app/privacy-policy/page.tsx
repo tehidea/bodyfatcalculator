@@ -1,9 +1,9 @@
 'use client'
 
+import { motion } from 'framer-motion'
+import { CirclesBackground } from '@/components/CirclesBackground'
 import { Container } from '@/components/Container'
 import { Layout } from '@/components/Layout'
-import { CirclesBackground } from '@/components/CirclesBackground'
-import { motion } from 'framer-motion'
 
 export default function PrivacyPolicy() {
   return (
@@ -37,9 +37,7 @@ export default function PrivacyPolicy() {
               >
                 <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
                 <div className="relative">
-                  <h2 className="text-2xl font-semibold text-white">
-                    {section.title}
-                  </h2>
+                  <h2 className="text-2xl font-semibold text-white">{section.title}</h2>
                   {section.content}
                 </div>
               </motion.section>
@@ -56,10 +54,9 @@ const sections = [
     title: 'Introduction',
     content: (
       <p className="mt-4">
-        Tehidea Ltd (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;),
-        operating as Body Fat Calculator, is committed to protecting your
-        privacy. This Privacy Policy explains how we collect, use, disclose,
-        and safeguard your information when you use our website, mobile
+        Tehidea Ltd (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;), operating as Body Fat
+        Calculator, is committed to protecting your privacy. This Privacy Policy explains how we
+        collect, use, disclose, and safeguard your information when you use our website, mobile
         application, and related services.
       </p>
     ),
@@ -69,12 +66,8 @@ const sections = [
     content: (
       <div className="mt-6 space-y-6">
         <div>
-          <h3 className="text-lg font-medium text-white">
-            Information You Provide
-          </h3>
-          <p className="mt-2 text-sm text-gray-400">
-            If you use the mobile app, you may provide:
-          </p>
+          <h3 className="text-lg font-medium text-white">Information You Provide</h3>
+          <p className="mt-2 text-sm text-gray-400">If you use the mobile app, you may provide:</p>
           <ul className="mt-4 list-inside list-disc space-y-2 marker:text-[#FF0000]">
             <li>Body measurements and physical characteristics</li>
             <li>Gender and age information</li>
@@ -83,9 +76,7 @@ const sections = [
           </ul>
         </div>
         <div>
-          <h3 className="text-lg font-medium text-white">
-            Automatically Collected Information
-          </h3>
+          <h3 className="text-lg font-medium text-white">Automatically Collected Information</h3>
           <ul className="mt-4 list-inside list-disc space-y-2 marker:text-[#FF0000]">
             <li>Device information (model, operating system)</li>
             <li>App usage statistics</li>
@@ -94,31 +85,20 @@ const sections = [
           </ul>
         </div>
         <div>
-          <h3 className="text-lg font-medium text-white">
-            Analytics and Advertising
-          </h3>
+          <h3 className="text-lg font-medium text-white">Analytics and Advertising</h3>
           <p className="mt-4">
-            We use several third-party services to analyze usage and serve
-            advertisements:
+            We use several third-party services to analyze usage and serve advertisements:
           </p>
           <ul className="mt-4 list-inside list-disc space-y-2 marker:text-[#FF0000]">
             <li>
-              PostHog Analytics - Product analytics platform that helps us
-              understand user behavior
+              PostHog Analytics - Product analytics platform that helps us understand user behavior
             </li>
-            <li>
-              Umami Analytics - Privacy-focused analytics for website usage
-              trends
-            </li>
-            <li>
-              Google AdSense - Advertising service that may use cookies and web
-              beacons
-            </li>
+            <li>Umami Analytics - Privacy-focused analytics for website usage trends</li>
+            <li>Google AdSense - Advertising service that may use cookies and web beacons</li>
           </ul>
           <p className="mt-4">
-            These services may place cookies or use similar tracking
-            technologies on your device. You can manage your preferences for
-            these services through our Privacy Settings.
+            These services may place cookies or use similar tracking technologies on your device.
+            You can manage your preferences for these services through our Privacy Settings.
           </p>
         </div>
       </div>
@@ -129,25 +109,22 @@ const sections = [
     content: (
       <div className="mt-4 space-y-4">
         <p>
-          We and our third-party partners use cookies and similar tracking
-          technologies to analyze trends, administer the website, track
-          users&apos; movements around the site, and gather demographic
-          information about our user base as a whole.
+          We and our third-party partners use cookies and similar tracking technologies to analyze
+          trends, administer the website, track users&apos; movements around the site, and gather
+          demographic information about our user base as a whole.
         </p>
         <div>
           <h3 className="text-lg font-medium text-white">Google AdSense</h3>
           <p className="mt-2">
-            We use Google AdSense to display advertisements. Google may use
-            cookies, web beacons, and other storage technologies to collect or
-            receive information from our website and elsewhere on the internet.
-            This information may be used to provide measurement services and
-            target advertisements.
+            We use Google AdSense to display advertisements. Google may use cookies, web beacons,
+            and other storage technologies to collect or receive information from our website and
+            elsewhere on the internet. This information may be used to provide measurement services
+            and target advertisements.
           </p>
           <p className="mt-2">
-            Google&apos;s use of advertising cookies enables it and its partners
-            to serve ads based on your visit to our site and/or other sites on
-            the Internet. You can opt out of personalized advertising by
-            visiting{' '}
+            Google&apos;s use of advertising cookies enables it and its partners to serve ads based
+            on your visit to our site and/or other sites on the Internet. You can opt out of
+            personalized advertising by visiting{' '}
             <a
               href="https://www.google.com/settings/ads"
               target="_blank"
@@ -159,16 +136,15 @@ const sections = [
             .
           </p>
           <p className="mt-2">
-            For more information about how Google uses information from sites or
-            apps that use their services, visit{' '}
+            For more information about how Google uses information from sites or apps that use their
+            services, visit{' '}
             <a
               href="https://policies.google.com/technologies/partner-sites"
               target="_blank"
               rel="noopener noreferrer"
               className="text-red-500 hover:text-red-400"
             >
-              How Google uses information from sites or apps that use our
-              services
+              How Google uses information from sites or apps that use our services
             </a>
             .
           </p>
@@ -176,12 +152,11 @@ const sections = [
         <div>
           <h3 className="text-lg font-medium text-white">Privacy Sandbox</h3>
           <p className="mt-2">
-            Google&apos;s advertising services are experimenting with new
-            privacy-preserving technologies via the Privacy Sandbox initiative
-            on Chrome and Android. Users with Privacy Sandbox settings enabled
-            may see relevant ads based on Topics or Protected Audience data
-            stored on their device. Ad performance may be measured using
-            Attribution Reporting data stored locally.
+            Google&apos;s advertising services are experimenting with new privacy-preserving
+            technologies via the Privacy Sandbox initiative on Chrome and Android. Users with
+            Privacy Sandbox settings enabled may see relevant ads based on Topics or Protected
+            Audience data stored on their device. Ad performance may be measured using Attribution
+            Reporting data stored locally.
           </p>
         </div>
       </div>
@@ -208,11 +183,10 @@ const sections = [
     title: 'Data Storage and Security',
     content: (
       <p className="mt-4">
-        Measurement data is stored locally on your device when you use the
-        mobile app. We do not store body measurements on our servers. Analytics
-        and advertising data may be processed by our third-party providers. We
-        implement appropriate technical and organizational measures to protect
-        your personal information.
+        Measurement data is stored locally on your device when you use the mobile app. We do not
+        store body measurements on our servers. Analytics and advertising data may be processed by
+        our third-party providers. We implement appropriate technical and organizational measures to
+        protect your personal information.
       </p>
     ),
   },
@@ -235,9 +209,7 @@ const sections = [
     title: 'Your Rights',
     content: (
       <>
-        <p className="mt-4">
-          Under GDPR and UK data protection law, you have the right to:
-        </p>
+        <p className="mt-4">Under GDPR and UK data protection law, you have the right to:</p>
         <ul className="mt-4 list-inside list-disc space-y-2 marker:text-[#FF0000]">
           <li>Access your personal data</li>
           <li>Correct inaccurate data</li>
@@ -253,8 +225,8 @@ const sections = [
     title: "Children's Privacy",
     content: (
       <p className="mt-4">
-        Our service is not intended for users under 16 years of age. We do not
-        knowingly collect data from children under 16.
+        Our service is not intended for users under 16 years of age. We do not knowingly collect
+        data from children under 16.
       </p>
     ),
   },
@@ -262,9 +234,8 @@ const sections = [
     title: 'Changes to This Policy',
     content: (
       <p className="mt-4">
-        We may update this Privacy Policy periodically. We will notify you of
-        any changes by posting the new Privacy Policy on this page and updating
-        the &quot;Last updated&quot; date.
+        We may update this Privacy Policy periodically. We will notify you of any changes by posting
+        the new Privacy Policy on this page and updating the &quot;Last updated&quot; date.
       </p>
     ),
   },

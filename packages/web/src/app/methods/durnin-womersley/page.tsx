@@ -1,11 +1,11 @@
 'use client'
 
-import { Container } from '@/components/Container'
-import { Layout } from '@/components/Layout'
-import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, Lock } from 'react-feather'
+import { CirclesBackground } from '@/components/CirclesBackground'
+import { Container } from '@/components/Container'
+import { Layout } from '@/components/Layout'
 
 export default function DurninWomersley() {
   return (
@@ -41,8 +41,8 @@ export default function DurninWomersley() {
               </span>
             </div>
             <p className="mt-4 text-base text-gray-400">
-              A 4-site skinfold method that accounts for age-related changes in
-              body composition using age-specific equations.
+              A 4-site skinfold method that accounts for age-related changes in body composition
+              using age-specific equations.
             </p>
           </motion.div>
 
@@ -54,14 +54,11 @@ export default function DurninWomersley() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Method Overview
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Method Overview</h2>
               <div className="mt-6">
                 <p className="text-gray-300">
-                  Developed by Durnin and Womersley in 1974, this method uses
-                  age-specific equations to account for changes in fat
-                  distribution patterns across different age groups.
+                  Developed by Durnin and Womersley in 1974, this method uses age-specific equations
+                  to account for changes in fat distribution patterns across different age groups.
                 </p>
                 <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                   <li>Accuracy: ±3.5-5% with proper technique</li>
@@ -77,19 +74,13 @@ export default function DurninWomersley() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Measurement Protocol
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Measurement Protocol</h2>
               <div className="mt-6">
                 <div className="rounded-lg bg-black/20 p-4 text-gray-300">
-                  <h3 className="text-lg font-semibold text-white">
-                    Measurement Sites
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Measurement Sites</h3>
                   <div className="mt-4 space-y-6">
                     <div>
-                      <h4 className="font-medium text-white">
-                        Required Sites:
-                      </h4>
+                      <h4 className="font-medium text-white">Required Sites:</h4>
                       <ul className="mt-2 list-inside list-disc space-y-1">
                         <li>Biceps (front of upper arm)</li>
                         <li>Triceps (back of upper arm)</li>
@@ -118,20 +109,16 @@ export default function DurninWomersley() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Research & Validation
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Research & Validation</h2>
               <div className="mt-6">
                 <Link
                   href="/research/methods/durnin-womersley"
                   className="group block rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30"
                 >
-                  <h3 className="text-lg font-semibold text-white">
-                    View Research Studies
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">View Research Studies</h3>
                   <p className="mt-2 text-sm text-gray-400">
-                    Access detailed validation studies, accuracy assessments,
-                    and comparative analyses.
+                    Access detailed validation studies, accuracy assessments, and comparative
+                    analyses.
                   </p>
                 </Link>
               </div>

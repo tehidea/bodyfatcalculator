@@ -1,176 +1,176 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { StyleSheet, View, TouchableOpacity, Modal, FlatList, Alert } from "react-native";
-import { Text, Icon, Button } from "@rneui/themed";
-import { useCalculatorStore } from "../../store/calculatorStore";
-import { usePremiumStore } from "../../store/premiumStore";
-import { Formula, getAllFormulasMetadata, getFormulaMetadata } from "../../schemas/calculator";
-import { COLORS } from "../../constants/theme";
-import { SkinfoldIcon } from "../icons/SkinfoldIcon";
-import { BodyWeightScalesIcon } from "../icons/BodyWeightScalesIcon";
-import { CalendarIcon } from "../icons/CalendarIcon";
-import { MeasurementVerticalIcon } from "../icons/MeasurementVerticalIcon";
-import { MeasuringTapeIcon } from "../icons/MeasuringTapeIcon";
-import { usePurchase } from "../../hooks/usePurchase";
-import { UpgradeModal } from "./UpgradeModal";
-import { useResponsive } from "../../utils/responsiveContext";
-import { usePostHog } from "posthog-react-native";
+import { Icon, Text } from '@rneui/themed'
+import { usePostHog } from 'posthog-react-native'
+import { useEffect, useMemo, useState } from 'react'
+import { Alert, FlatList, Modal, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { COLORS } from '../../constants/theme'
+import { usePurchase } from '../../hooks/usePurchase'
+import { type Formula, getAllFormulasMetadata, getFormulaMetadata } from '../../schemas/calculator'
+import { useCalculatorStore } from '../../store/calculatorStore'
+import { usePremiumStore } from '../../store/premiumStore'
+import { useResponsive } from '../../utils/responsiveContext'
+import { BodyWeightScalesIcon } from '../icons/BodyWeightScalesIcon'
+import { CalendarIcon } from '../icons/CalendarIcon'
+import { MeasurementVerticalIcon } from '../icons/MeasurementVerticalIcon'
+import { MeasuringTapeIcon } from '../icons/MeasuringTapeIcon'
+import { SkinfoldIcon } from '../icons/SkinfoldIcon'
+import { UpgradeModal } from './UpgradeModal'
 
 export const MeasurementIcon = ({
   type,
   size,
   color,
 }: {
-  type: string;
-  size: number;
-  color: string;
+  type: string
+  size: number
+  color: string
 }) => {
   switch (type) {
-    case "weight":
-      return <BodyWeightScalesIcon size={size} color={color} />;
-    case "circumference":
-      return <MeasuringTapeIcon size={size} color={color} />;
-    case "skinfold":
-      return <SkinfoldIcon size={size} color={color} />;
-    case "height":
-      return <MeasurementVerticalIcon size={size} color={color} />;
-    case "age":
-      return <CalendarIcon size={size} color={color} />;
+    case 'weight':
+      return <BodyWeightScalesIcon size={size} color={color} />
+    case 'circumference':
+      return <MeasuringTapeIcon size={size} color={color} />
+    case 'skinfold':
+      return <SkinfoldIcon size={size} color={color} />
+    case 'height':
+      return <MeasurementVerticalIcon size={size} color={color} />
+    case 'age':
+      return <CalendarIcon size={size} color={color} />
     default:
-      return null;
+      return null
   }
-};
+}
 
 // Helper to get unique measurement types while preserving order
 function getUniqueMeasurementTypes(fields: Array<{ type: string }>) {
-  const seen = new Set<string>();
-  return fields.filter(field => {
-    if (seen.has(field.type)) return false;
-    seen.add(field.type);
-    return true;
-  });
+  const seen = new Set<string>()
+  return fields.filter((field) => {
+    if (seen.has(field.type)) return false
+    seen.add(field.type)
+    return true
+  })
 }
 
 export const FormulaSelector = () => {
-  const { formula, setFormula, gender, measurementSystem } = useCalculatorStore();
-  const { pro, isLoading, checkEntitlements } = usePremiumStore();
-  const posthog = usePostHog();
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isProModalVisible, setIsProModalVisible] = useState(false);
-  const [pendingFormula, setPendingFormula] = useState<Formula | null>(null);
-  const [checkError, setCheckError] = useState<string | null>(null);
+  const { formula, setFormula, gender, measurementSystem } = useCalculatorStore()
+  const { pro, isLoading, checkEntitlements } = usePremiumStore()
+  const posthog = usePostHog()
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isProModalVisible, setIsProModalVisible] = useState(false)
+  const [pendingFormula, setPendingFormula] = useState<Formula | null>(null)
+  const [checkError, setCheckError] = useState<string | null>(null)
   const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, deviceType } =
-    useResponsive();
+    useResponsive()
 
   // Create styles with responsive values
   const styles = createStyles(
     getResponsiveSpacing,
     getResponsiveTypography,
     getLineHeight,
-    deviceType
-  );
+    deviceType,
+  )
 
   const { handlePurchase, isProcessing } = usePurchase({
     onSuccess: () => {
-      setIsProModalVisible(false);
+      setIsProModalVisible(false)
       if (pendingFormula) {
         setTimeout(() => {
-          setFormula(pendingFormula);
-          setPendingFormula(null);
+          setFormula(pendingFormula)
+          setPendingFormula(null)
           setTimeout(() => {
-            setIsModalVisible(false);
-          }, 100);
-        }, 100);
+            setIsModalVisible(false)
+          }, 100)
+        }, 100)
       }
     },
-    successMessage: "Thank you for upgrading! You now have access to all PRO Formulas!",
+    successMessage: 'Thank you for upgrading! You now have access to all PRO Formulas!',
     onCancel: () => {
-      setIsProModalVisible(false);
-      setPendingFormula(null);
+      setIsProModalVisible(false)
+      setPendingFormula(null)
       setTimeout(() => {
-        setIsModalVisible(false);
-      }, 100);
+        setIsModalVisible(false)
+      }, 100)
     },
     onError: () => {
-      setIsProModalVisible(false);
-      setPendingFormula(null);
+      setIsProModalVisible(false)
+      setPendingFormula(null)
       setTimeout(() => {
-        setIsModalVisible(false);
-      }, 100);
+        setIsModalVisible(false)
+      }, 100)
     },
-  });
+  })
 
   // Get formulas with metadata from Zod
   const formulas = useMemo(
     () => getAllFormulasMetadata(measurementSystem, gender),
-    [measurementSystem, gender]
-  );
+    [measurementSystem, gender],
+  )
 
   const selectedFormula = useMemo(
     () => getFormulaMetadata(formula, measurementSystem, gender),
-    [formula, measurementSystem, gender]
-  );
+    [formula, measurementSystem, gender],
+  )
 
   // Initial and periodic entitlement check
   useEffect(() => {
-    let isMounted = true;
+    let isMounted = true
 
     const checkWithErrorHandling = async () => {
-      if (!isMounted) return;
+      if (!isMounted) return
 
       try {
-        setCheckError(null);
-        await checkEntitlements();
+        setCheckError(null)
+        await checkEntitlements()
       } catch (error) {
-        if (!isMounted) return;
-        console.error("FormulaSelector - Entitlement check failed:", error);
-        setCheckError("Failed to verify PRO status");
+        if (!isMounted) return
+        console.error('FormulaSelector - Entitlement check failed:', error)
+        setCheckError('Failed to verify PRO status')
       }
-    };
+    }
 
-    console.log("FormulaSelector - Initial entitlements check");
-    checkWithErrorHandling();
+    console.log('FormulaSelector - Initial entitlements check')
+    checkWithErrorHandling()
 
-    const interval = setInterval(checkWithErrorHandling, 5 * 60 * 1000);
+    const interval = setInterval(checkWithErrorHandling, 5 * 60 * 1000)
 
     return () => {
-      isMounted = false;
-      clearInterval(interval);
-    };
-  }, [checkEntitlements]);
+      isMounted = false
+      clearInterval(interval)
+    }
+  }, [checkEntitlements])
 
   // Show error if entitlement check fails
   useEffect(() => {
     if (checkError) {
       Alert.alert(
-        "Verification Error",
-        "Unable to verify PRO status. Some features may be unavailable.",
-        [{ text: "Retry", onPress: () => checkEntitlements() }]
-      );
+        'Verification Error',
+        'Unable to verify PRO status. Some features may be unavailable.',
+        [{ text: 'Retry', onPress: () => checkEntitlements() }],
+      )
     }
-  }, [checkError]);
+  }, [checkError, checkEntitlements])
 
   // Safeguard for premium formula without PRO status
   useEffect(() => {
     if (!pro && selectedFormula?.premium) {
-      setFormula("ymca");
+      setFormula('ymca')
     }
-  }, [pro, formula, setFormula, selectedFormula]);
+  }, [pro, setFormula, selectedFormula])
 
   // Update accuracy color logic to use metadata
   const getAccuracyColor = (formula: Formula) => {
-    const metadata = getFormulaMetadata(formula, measurementSystem, gender);
-    const { min } = metadata.accuracy;
+    const metadata = getFormulaMetadata(formula, measurementSystem, gender)
+    const { min } = metadata.accuracy
 
-    if (min >= 5) return COLORS.error; // ±5-7%
-    if (min >= 4) return COLORS.warning; // ±4-5%
-    return COLORS.success; // ±3-4%
-  };
+    if (min >= 5) return COLORS.error // ±5-7%
+    if (min >= 4) return COLORS.warning // ±4-5%
+    return COLORS.success // ±3-4%
+  }
 
   const renderAccuracyText = (formula: Formula) => {
-    const metadata = getFormulaMetadata(formula, measurementSystem, gender);
-    const { min, max } = metadata.accuracy;
-    return `±${min}-${max}%`;
-  };
+    const metadata = getFormulaMetadata(formula, measurementSystem, gender)
+    const { min, max } = metadata.accuracy
+    return `±${min}-${max}%`
+  }
 
   // Update accuracy info to use actual ranges
   const renderAccuracyInfo = () => (
@@ -194,45 +194,45 @@ export const FormulaSelector = () => {
           </View>
         </View>
         <Text style={styles.accuracyNote}>
-          Lower % means more accurate results.{"\n"}PRO formulas typically offer better accuracy.
+          Lower % means more accurate results.{'\n'}PRO formulas typically offer better accuracy.
         </Text>
       </View>
     </View>
-  );
+  )
 
   const handleFormulaSelect = (selectedKey: Formula, isPremiumFormula: boolean) => {
-    if (isLoading || isProcessing) return;
+    if (isLoading || isProcessing) return
 
-    console.log("handleFormulaSelect - Selected formula:", selectedKey);
-    console.log("handleFormulaSelect - Is premium formula:", isPremiumFormula);
-    console.log("handleFormulaSelect - Current PRO status:", pro);
+    console.log('handleFormulaSelect - Selected formula:', selectedKey)
+    console.log('handleFormulaSelect - Is premium formula:', isPremiumFormula)
+    console.log('handleFormulaSelect - Current PRO status:', pro)
 
     if (!isPremiumFormula || pro) {
-      setFormula(selectedKey);
-      setIsModalVisible(false);
+      setFormula(selectedKey)
+      setIsModalVisible(false)
     } else {
       // Track premium formula blocked
       if (posthog) {
-        posthog.capture("premium_formula_blocked", {
+        posthog.capture('premium_formula_blocked', {
           formula_attempted: selectedKey,
           current_formula: formula,
-        });
+        })
       }
-      setIsModalVisible(false);
+      setIsModalVisible(false)
       setTimeout(() => {
-        setPendingFormula(selectedKey);
-        setIsProModalVisible(true);
-      }, 300);
+        setPendingFormula(selectedKey)
+        setIsProModalVisible(true)
+      }, 300)
     }
-  };
+  }
 
   const handleMaybeLater = () => {
-    setIsProModalVisible(false);
-    setPendingFormula(null);
+    setIsProModalVisible(false)
+    setPendingFormula(null)
     setTimeout(() => {
-      setIsModalVisible(false);
-    }, 100);
-  };
+      setIsModalVisible(false)
+    }, 100)
+  }
 
   return (
     <View style={styles.container}>
@@ -267,7 +267,7 @@ export const FormulaSelector = () => {
           </Text>
         </View>
         <View style={styles.measurementIcons}>
-          {getUniqueMeasurementTypes(selectedFormula.fields).map(field => (
+          {getUniqueMeasurementTypes(selectedFormula.fields).map((field) => (
             <MeasurementIcon
               key={field.type}
               size={getResponsiveSpacing(12)}
@@ -300,13 +300,13 @@ export const FormulaSelector = () => {
             <FlatList
               data={[
                 ...formulas,
-                { key: "accuracy_info", name: "", description: "", premium: false, fields: [] },
+                { key: 'accuracy_info', name: '', description: '', premium: false, fields: [] },
               ]}
-              keyExtractor={item => item.key}
+              keyExtractor={(item) => item.key}
               style={styles.formulaList}
               renderItem={({ item }) => {
-                if (item.key === "accuracy_info") {
-                  return renderAccuracyInfo();
+                if (item.key === 'accuracy_info') {
+                  return renderAccuracyInfo()
                 }
 
                 return (
@@ -365,7 +365,7 @@ export const FormulaSelector = () => {
                       </Text>
                     </View>
                     <View style={styles.measurementIcons}>
-                      {getUniqueMeasurementTypes(item.fields).map(field => (
+                      {getUniqueMeasurementTypes(item.fields).map((field) => (
                         <MeasurementIcon
                           key={field.type}
                           size={getResponsiveSpacing(12)}
@@ -375,7 +375,7 @@ export const FormulaSelector = () => {
                       ))}
                     </View>
                   </TouchableOpacity>
-                );
+                )
               }}
             />
           </View>
@@ -390,80 +390,80 @@ export const FormulaSelector = () => {
         onClose={handleMaybeLater}
       />
     </View>
-  );
-};
+  )
+}
 
 // Move styles inside component to use responsive hooks
 const createStyles = (
   getResponsiveSpacing: (base: number) => number,
   getResponsiveTypography: (size: any) => number,
   getLineHeight: (size: any) => number,
-  deviceType: string
+  deviceType: string,
 ) =>
   StyleSheet.create({
     container: {
       marginBottom: getResponsiveSpacing(16),
     },
     selector: {
-      backgroundColor: "#444",
+      backgroundColor: '#444',
       borderRadius: 12,
       padding: getResponsiveSpacing(12),
       borderWidth: 1,
-      borderColor: "rgba(255,255,255,0.1)",
+      borderColor: 'rgba(255,255,255,0.1)',
     },
     selectedFormula: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       paddingVertical: getResponsiveSpacing(4),
     },
     formulaName: {
       color: COLORS.text,
-      fontSize: getResponsiveTypography("lg"),
-      lineHeight: getLineHeight("lg"),
-      fontWeight: "bold",
+      fontSize: getResponsiveTypography('lg'),
+      lineHeight: getLineHeight('lg'),
+      fontWeight: 'bold',
       flex: 1,
     },
     descriptionContainer: {
-      flexDirection: "row",
-      alignItems: "flex-start",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      justifyContent: 'space-between',
     },
     description: {
       color: COLORS.text,
-      fontSize: getResponsiveTypography("xs"),
-      lineHeight: getLineHeight("xs"),
+      fontSize: getResponsiveTypography('xs'),
+      lineHeight: getLineHeight('xs'),
       opacity: 0.8,
       flex: 1,
       marginRight: getResponsiveSpacing(8),
     },
     modalContainer: {
       flex: 1,
-      justifyContent: "flex-end",
-      backgroundColor: "transparent",
+      justifyContent: 'flex-end',
+      backgroundColor: 'transparent',
     },
     modalContent: {
       backgroundColor: COLORS.white,
       borderTopLeftRadius: 12,
       borderTopRightRadius: 12,
-      height: deviceType === "tablet" ? "75%" : "85%",
-      maxWidth: deviceType === "tablet" ? 800 : undefined,
-      alignSelf: "center",
-      width: "100%",
-      shadowColor: "#000",
+      height: deviceType === 'tablet' ? '75%' : '85%',
+      maxWidth: deviceType === 'tablet' ? 800 : undefined,
+      alignSelf: 'center',
+      width: '100%',
+      shadowColor: '#000',
       shadowOffset: { width: 0, height: -12 },
       shadowOpacity: 0.75,
       shadowRadius: 300,
       elevation: 50,
     },
     modalHeader: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       paddingVertical: getResponsiveSpacing(14),
       paddingHorizontal: getResponsiveSpacing(16),
       borderBottomWidth: 1,
-      borderBottomColor: "#eee",
+      borderBottomColor: '#eee',
       backgroundColor: COLORS.white,
       borderTopLeftRadius: 24,
       borderTopRightRadius: 24,
@@ -475,65 +475,65 @@ const createStyles = (
       paddingVertical: getResponsiveSpacing(14),
       paddingHorizontal: getResponsiveSpacing(16),
       borderBottomWidth: 1,
-      borderBottomColor: "#eee",
+      borderBottomColor: '#eee',
     },
     formulaItemHeader: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       marginBottom: 4,
     },
     activeFormula: {
-      backgroundColor: COLORS.primary + "10",
+      backgroundColor: `${COLORS.primary}10`,
     },
     premiumFormula: {
-      backgroundColor: "#f8f8f8",
+      backgroundColor: '#f8f8f8',
     },
     formulaItemNameContainer: {
       flex: 1,
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
     },
     activeFormulaText: {
       color: COLORS.primary,
-      fontWeight: "bold",
+      fontWeight: 'bold',
     },
     premiumFormulaText: {
-      color: "#666",
+      color: '#666',
     },
     formulaItemDescription: {
       flex: 1,
-      fontSize: getResponsiveTypography("xs"),
-      lineHeight: getLineHeight("xs"),
-      color: "#666",
+      fontSize: getResponsiveTypography('xs'),
+      lineHeight: getLineHeight('xs'),
+      color: '#666',
     },
     premiumBadge: {
-      flexDirection: "row",
-      alignItems: "center",
-      backgroundColor: "#f0f0f0",
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: '#f0f0f0',
       paddingHorizontal: getResponsiveSpacing(8),
       paddingVertical: getResponsiveSpacing(4),
       borderRadius: 12,
       marginLeft: getResponsiveSpacing(8),
     },
     premiumBadgeText: {
-      fontSize: getResponsiveTypography("xxxs"),
-      lineHeight: getLineHeight("xxxs"),
-      fontWeight: "bold",
-      color: "#666",
+      fontSize: getResponsiveTypography('xxxs'),
+      lineHeight: getLineHeight('xxxs'),
+      fontWeight: 'bold',
+      color: '#666',
       marginLeft: getResponsiveSpacing(4),
     },
     measurementIcons: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: getResponsiveSpacing(8),
       marginTop: getResponsiveSpacing(8),
       opacity: 0.6,
     },
     formulaItemName: {
-      fontSize: getResponsiveTypography("md"),
-      lineHeight: getLineHeight("md"),
+      fontSize: getResponsiveTypography('md'),
+      lineHeight: getLineHeight('md'),
       color: COLORS.textDark,
       flex: 1,
     },
@@ -547,23 +547,23 @@ const createStyles = (
       backgroundColor: COLORS.white,
     },
     accuracyInfoTitle: {
-      fontSize: getResponsiveTypography("sm"),
-      lineHeight: getLineHeight("sm"),
-      fontWeight: "bold",
+      fontSize: getResponsiveTypography('sm'),
+      lineHeight: getLineHeight('sm'),
+      fontWeight: 'bold',
       color: COLORS.textDark,
       marginBottom: getResponsiveSpacing(12),
-      textAlign: "center",
+      textAlign: 'center',
     },
     accuracyLevels: {
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
       gap: getResponsiveSpacing(8),
       marginBottom: getResponsiveSpacing(12),
     },
     accuracyLevel: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: getResponsiveSpacing(4),
     },
     accuracyDot: {
@@ -572,21 +572,21 @@ const createStyles = (
       borderRadius: getResponsiveSpacing(4),
     },
     accuracyText: {
-      fontSize: getResponsiveTypography("xs"),
-      lineHeight: getLineHeight("xs"),
-      color: "#666",
+      fontSize: getResponsiveTypography('xs'),
+      lineHeight: getLineHeight('xs'),
+      color: '#666',
       marginLeft: getResponsiveSpacing(2),
     },
     accuracyNote: {
-      fontSize: getResponsiveTypography("xs"),
-      lineHeight: getLineHeight("xs"),
-      color: "#666",
-      textAlign: "center",
-      fontStyle: "italic",
+      fontSize: getResponsiveTypography('xs'),
+      lineHeight: getLineHeight('xs'),
+      color: '#666',
+      textAlign: 'center',
+      fontStyle: 'italic',
     },
     formulaMetadata: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
     },
     accuracyIndicator: {
       width: getResponsiveSpacing(8),
@@ -599,31 +599,31 @@ const createStyles = (
     },
     selectorHint: {
       color: COLORS.text,
-      fontSize: getResponsiveTypography("xs"),
-      lineHeight: getLineHeight("xs"),
+      fontSize: getResponsiveTypography('xs'),
+      lineHeight: getLineHeight('xs'),
       opacity: 0.6,
-      textAlign: "left",
-      textTransform: "uppercase",
+      textAlign: 'left',
+      textTransform: 'uppercase',
       letterSpacing: 1,
-      fontWeight: "bold",
+      fontWeight: 'bold',
     },
     chevronContainer: {
-      backgroundColor: "rgba(255,255,255,0.1)",
+      backgroundColor: 'rgba(255,255,255,0.1)',
       borderRadius: getResponsiveSpacing(8),
       paddingHorizontal: getResponsiveSpacing(4),
       paddingTop: getResponsiveSpacing(4),
       paddingBottom: getResponsiveSpacing(2),
     },
     labelRow: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
     },
     modalTitle: {
-      fontSize: getResponsiveTypography("sm"),
-      lineHeight: getLineHeight("sm"),
+      fontSize: getResponsiveTypography('sm'),
+      lineHeight: getLineHeight('sm'),
       color: COLORS.textDark,
-      textTransform: "uppercase",
+      textTransform: 'uppercase',
       letterSpacing: 1,
     },
-  });
+  })

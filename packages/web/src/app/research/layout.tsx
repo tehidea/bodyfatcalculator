@@ -1,8 +1,7 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title:
-    'Body Fat Research & Scientific Validation | Body Fat Calculator (PRO)',
+  title: 'Body Fat Research & Scientific Validation | Body Fat Calculator (PRO)',
   description:
     'Comprehensive analysis of scientific research, validation studies, and academic references supporting body fat measurement methods. Includes meta-analyses, clinical trials, field studies, and peer-reviewed research.',
   keywords:
@@ -24,10 +23,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function ResearchLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function ResearchLayout({ children }: { children: React.ReactNode }) {
   return children
 }

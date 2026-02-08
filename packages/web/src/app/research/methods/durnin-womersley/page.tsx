@@ -1,11 +1,11 @@
 'use client'
 
-import { Container } from '@/components/Container'
-import { Layout } from '@/components/Layout'
-import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'react-feather'
+import { CirclesBackground } from '@/components/CirclesBackground'
+import { Container } from '@/components/Container'
+import { Layout } from '@/components/Layout'
 
 export default function DurninWomersley() {
   return (
@@ -36,10 +36,9 @@ export default function DurninWomersley() {
               Durnin & Womersley Method
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              Comprehensive analysis of the Durnin & Womersley skinfold method,
-              featuring age-specific equations and extensive validation across
-              different populations. Explore its unique approach to accounting
-              for age-related changes in body composition.
+              Comprehensive analysis of the Durnin & Womersley skinfold method, featuring
+              age-specific equations and extensive validation across different populations. Explore
+              its unique approach to accounting for age-related changes in body composition.
             </p>
           </motion.div>
 
@@ -52,18 +51,13 @@ export default function DurninWomersley() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Historical Development
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Historical Development</h2>
               <div className="mt-6 space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Original Research (1974)
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Original Research (1974)</h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Groundbreaking study addressing age-related variations in
-                      body composition:
+                      Groundbreaking study addressing age-related variations in body composition:
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
                       <li>Developed age- and gender-specific equations</li>
@@ -74,13 +68,9 @@ export default function DurninWomersley() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Method Evolution
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Method Evolution</h3>
                   <div className="mt-4 space-y-4">
-                    <p className="text-gray-300">
-                      Development and refinement over time:
-                    </p>
+                    <p className="text-gray-300">Development and refinement over time:</p>
                     <div className="rounded-lg bg-black/20 p-4">
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                         <li>1974: Original equations published</li>
@@ -100,20 +90,14 @@ export default function DurninWomersley() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Method Details
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Method Details</h2>
               <div className="mt-6 space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Measurement Protocol
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Measurement Protocol</h3>
                   <div className="mt-4 space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Measurement Sites
-                        </h4>
+                        <h4 className="font-medium text-white">Measurement Sites</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Biceps</li>
                           <li>Triceps</li>
@@ -122,9 +106,7 @@ export default function DurninWomersley() {
                         </ul>
                       </div>
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Age Categories
-                        </h4>
+                        <h4 className="font-medium text-white">Age Categories</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Under 17 years</li>
                           <li>17-19 years</li>
@@ -139,13 +121,9 @@ export default function DurninWomersley() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Statistical Validation
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Statistical Validation</h3>
                   <div className="mt-4 space-y-4">
-                    <p className="text-gray-300">
-                      Reported accuracy range and practical notes:
-                    </p>
+                    <p className="text-gray-300">Reported accuracy range and practical notes:</p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                       <li>Typical accuracy range: ±3.5-5%</li>
                       <li>Age- and gender-specific equations</li>
@@ -163,15 +141,11 @@ export default function DurninWomersley() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Age-Specific Considerations
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Age-Specific Considerations</h2>
               <div className="mt-6 space-y-6">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Age-Related Changes
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Age-Related Changes</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Fat distribution patterns</li>
                       <li>Skin elasticity variations</li>
@@ -180,9 +154,7 @@ export default function DurninWomersley() {
                     </ul>
                   </div>
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Equation Adjustments
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Equation Adjustments</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Age-specific constants</li>
                       <li>Gender-specific factors</li>
@@ -201,15 +173,11 @@ export default function DurninWomersley() {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Clinical Applications
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Clinical Applications</h2>
               <div className="mt-6 space-y-6">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Research Applications
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Research Applications</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Aging studies</li>
                       <li>Longitudinal monitoring</li>
@@ -218,9 +186,7 @@ export default function DurninWomersley() {
                     </ul>
                   </div>
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Practical Uses
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Practical Uses</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Geriatric assessment</li>
                       <li>Health screening</li>
@@ -243,11 +209,10 @@ export default function DurninWomersley() {
               <div className="mt-6">
                 <ul className="list-inside space-y-3 text-sm text-gray-300">
                   <li>
-                    Durnin, J.V.G.A., & Womersley, J. (1974). &ldquo;Body fat
-                    assessed from total body density and its estimation from
-                    skinfold thickness: measurements on 481 men and women aged
-                    from 16 to 72 years.&rdquo; British Journal of Nutrition,
-                    32(1), 77-97.
+                    Durnin, J.V.G.A., & Womersley, J. (1974). &ldquo;Body fat assessed from total
+                    body density and its estimation from skinfold thickness: measurements on 481 men
+                    and women aged from 16 to 72 years.&rdquo; British Journal of Nutrition, 32(1),
+                    77-97.
                   </li>
                 </ul>
               </div>

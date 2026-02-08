@@ -1,6 +1,6 @@
-import type { MeasurementSystem, FormulaResult, StandardizedInputs } from "../types/index.ts";
-import { convertMeasurement } from "../conversions/index.ts";
-import { calculateBodyFat } from "./utils.ts";
+import { convertMeasurement } from '../conversions/index.ts'
+import type { FormulaResult, MeasurementSystem, StandardizedInputs } from '../types/index.ts'
+import { calculateBodyFat } from './utils.ts'
 
 export const covertFormula = {
   calculate: (inputs: StandardizedInputs, measurementSystem: MeasurementSystem): FormulaResult => {
@@ -14,51 +14,51 @@ export const covertFormula = {
       wristCircumference = 0,
       thighCircumference = 0,
       calfCircumference = 0,
-    } = inputs;
+    } = inputs
 
     const waistInches =
-      measurementSystem === "metric"
-        ? convertMeasurement(waistCircumference as number, "length", "metric", "imperial")
-        : (waistCircumference as number);
+      measurementSystem === 'metric'
+        ? convertMeasurement(waistCircumference as number, 'length', 'metric', 'imperial')
+        : (waistCircumference as number)
     const hipsInches =
-      measurementSystem === "metric"
-        ? convertMeasurement(hipsCircumference as number, "length", "metric", "imperial")
-        : (hipsCircumference as number);
+      measurementSystem === 'metric'
+        ? convertMeasurement(hipsCircumference as number, 'length', 'metric', 'imperial')
+        : (hipsCircumference as number)
     const forearmInches =
-      measurementSystem === "metric"
-        ? convertMeasurement(forearmCircumference as number, "length", "metric", "imperial")
-        : (forearmCircumference as number);
+      measurementSystem === 'metric'
+        ? convertMeasurement(forearmCircumference as number, 'length', 'metric', 'imperial')
+        : (forearmCircumference as number)
     const wristInches =
-      measurementSystem === "metric"
-        ? convertMeasurement(wristCircumference as number, "length", "metric", "imperial")
-        : (wristCircumference as number);
+      measurementSystem === 'metric'
+        ? convertMeasurement(wristCircumference as number, 'length', 'metric', 'imperial')
+        : (wristCircumference as number)
     const thighInches =
-      measurementSystem === "metric"
-        ? convertMeasurement(thighCircumference as number, "length", "metric", "imperial")
-        : (thighCircumference as number);
+      measurementSystem === 'metric'
+        ? convertMeasurement(thighCircumference as number, 'length', 'metric', 'imperial')
+        : (thighCircumference as number)
     const calfInches =
-      measurementSystem === "metric"
-        ? convertMeasurement(calfCircumference as number, "length", "metric", "imperial")
-        : (calfCircumference as number);
+      measurementSystem === 'metric'
+        ? convertMeasurement(calfCircumference as number, 'length', 'metric', 'imperial')
+        : (calfCircumference as number)
 
-    let bodyFatPercentage: number;
+    let bodyFatPercentage: number
 
-    if (gender === "male") {
-      const forearmMultiplier = age <= 30 ? 3 : 2.7;
+    if (gender === 'male') {
+      const forearmMultiplier = age <= 30 ? 3 : 2.7
       bodyFatPercentage =
-        waistInches + 0.5 * hipsInches - forearmMultiplier * forearmInches - wristInches;
+        waistInches + 0.5 * hipsInches - forearmMultiplier * forearmInches - wristInches
     } else {
-      const thighMultiplier = age <= 30 ? 0.8 : 1;
-      bodyFatPercentage = hipsInches + thighMultiplier * thighInches - 2 * calfInches - wristInches;
+      const thighMultiplier = age <= 30 ? 0.8 : 1
+      bodyFatPercentage = hipsInches + thighMultiplier * thighInches - 2 * calfInches - wristInches
     }
 
     const weightKg =
-      measurementSystem === "metric"
+      measurementSystem === 'metric'
         ? weight
-        : convertMeasurement(weight, "weight", "imperial", "metric");
+        : convertMeasurement(weight, 'weight', 'imperial', 'metric')
 
-    const { fatMass, leanMass } = calculateBodyFat(bodyFatPercentage, weightKg);
+    const { fatMass, leanMass } = calculateBodyFat(bodyFatPercentage, weightKg)
 
-    return { bodyFatPercentage, fatMass, leanMass };
+    return { bodyFatPercentage, fatMass, leanMass }
   },
-};
+}

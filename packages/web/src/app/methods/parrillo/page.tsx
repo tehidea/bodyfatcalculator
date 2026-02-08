@@ -1,11 +1,11 @@
 'use client'
 
-import { Container } from '@/components/Container'
-import { Layout } from '@/components/Layout'
-import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, Lock } from 'react-feather'
+import { CirclesBackground } from '@/components/CirclesBackground'
+import { Container } from '@/components/Container'
+import { Layout } from '@/components/Layout'
 
 export default function ParrilloMethod() {
   return (
@@ -41,9 +41,8 @@ export default function ParrilloMethod() {
               </span>
             </div>
             <p className="mt-4 text-base text-gray-400">
-              A comprehensive skinfold measurement method developed specifically
-              for bodybuilding applications, designed to track changes in
-              trained individuals.
+              A comprehensive skinfold measurement method developed specifically for bodybuilding
+              applications, designed to track changes in trained individuals.
             </p>
           </motion.div>
 
@@ -55,14 +54,11 @@ export default function ParrilloMethod() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Method Overview
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Method Overview</h2>
               <div className="mt-6">
                 <p className="text-gray-300">
-                  Developed by John Parrillo specifically for bodybuilding
-                  applications. Uses nine skinfold sites to account for various
-                  fat distribution patterns.
+                  Developed by John Parrillo specifically for bodybuilding applications. Uses nine
+                  skinfold sites to account for various fat distribution patterns.
                 </p>
                 <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
                   <li>Accuracy: ±3-4% when performed correctly</li>
@@ -79,14 +75,10 @@ export default function ParrilloMethod() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Measurement Protocol
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Measurement Protocol</h2>
               <div className="mt-6">
                 <div className="rounded-lg bg-black/20 p-4 text-gray-300">
-                  <h3 className="text-lg font-semibold text-white">
-                    Measurement Sites
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Measurement Sites</h3>
                   <ul className="mt-4 list-inside list-disc space-y-2">
                     <li>Chest</li>
                     <li>Abdomen</li>
@@ -103,8 +95,7 @@ export default function ParrilloMethod() {
                   <strong>Measurement Tips:</strong>
                   <ul className="mt-2 list-inside list-disc space-y-1">
                     <li>
-                      Take measurements in a rotational sequence to allow skin
-                      to return to normal
+                      Take measurements in a rotational sequence to allow skin to return to normal
                     </li>
                     <li>Use high-quality calipers for consistent readings</li>
                     <li>Ensure proper site identification for accuracy</li>
@@ -121,20 +112,16 @@ export default function ParrilloMethod() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Research & Validation
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Research & Validation</h2>
               <div className="mt-6">
                 <Link
                   href="/research/methods/parrillo"
                   className="group block rounded-lg bg-black/20 p-4 transition-colors duration-200 hover:bg-black/30"
                 >
-                  <h3 className="text-lg font-semibold text-white">
-                    View Research Studies
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">View Research Studies</h3>
                   <p className="mt-2 text-sm text-gray-400">
-                    Access detailed validation studies, accuracy assessments,
-                    and comparative analyses.
+                    Access detailed validation studies, accuracy assessments, and comparative
+                    analyses.
                   </p>
                 </Link>
               </div>

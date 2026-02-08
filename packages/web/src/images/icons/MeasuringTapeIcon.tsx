@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 export function MeasuringTapeIcon({
   className,
   size = '24',

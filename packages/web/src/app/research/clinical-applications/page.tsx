@@ -1,12 +1,12 @@
 'use client'
 
-import { Container } from '@/components/Container'
-import { Layout } from '@/components/Layout'
-import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'react-feather'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
+import { CirclesBackground } from '@/components/CirclesBackground'
+import { Container } from '@/components/Container'
+import { Layout } from '@/components/Layout'
 
 export default function ClinicalApplications() {
   return (
@@ -37,8 +37,8 @@ export default function ClinicalApplications() {
               Clinical Applications
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              Overview of clinical and research applications of body
-              composition assessment in practice.
+              Overview of clinical and research applications of body composition assessment in
+              practice.
             </p>
           </motion.div>
 
@@ -51,14 +51,10 @@ export default function ClinicalApplications() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Clinical Applications
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Clinical Applications</h2>
               <div className="mt-6 space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Primary Care Assessment
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Primary Care Assessment</h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
                       Clinical applications of body composition assessment:
@@ -73,13 +69,9 @@ export default function ClinicalApplications() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Clinical Validation
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Clinical Validation</h3>
                   <div className="mt-4 space-y-4">
-                    <p className="text-gray-300">
-                      Validation considerations in clinical settings:
-                    </p>
+                    <p className="text-gray-300">Validation considerations in clinical settings:</p>
                     <div className="rounded-lg bg-black/20 p-4">
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                         <li>Multi-component model validation</li>
@@ -100,18 +92,12 @@ export default function ClinicalApplications() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Research Applications
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Research Applications</h2>
               <div className="mt-6 space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Clinical Research
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Clinical Research</h3>
                   <div className="mt-4 space-y-4">
-                    <p className="text-gray-300">
-                      Applications in clinical trials and research:
-                    </p>
+                    <p className="text-gray-300">Applications in clinical trials and research:</p>
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="rounded-lg bg-black/20 p-4">
                         <h4 className="font-medium text-white">Study Design</h4>
@@ -123,9 +109,7 @@ export default function ClinicalApplications() {
                         </ul>
                       </div>
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Outcome Assessment
-                        </h4>
+                        <h4 className="font-medium text-white">Outcome Assessment</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Treatment effect monitoring</li>
                           <li>Longitudinal tracking</li>
@@ -146,18 +130,12 @@ export default function ClinicalApplications() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Population Studies
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Population Studies</h2>
               <div className="mt-6 space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Epidemiological Research
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Epidemiological Research</h3>
                   <div className="mt-4 space-y-4">
-                    <p className="text-gray-300">
-                      Applications in population health research:
-                    </p>
+                    <p className="text-gray-300">Applications in population health research:</p>
                     <div className="rounded-lg bg-black/20 p-4">
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                         <li>Reference data development</li>
@@ -182,14 +160,13 @@ export default function ClinicalApplications() {
               <div className="mt-6">
                 <ul className="list-inside space-y-3 text-sm text-gray-300">
                   <li>
-                    Wang, Z.M., Pierson, R.N., & Heymsfield, S.B. (1992).
-                    &ldquo;The five-level model: a new approach to organizing
-                    body-composition research.&rdquo; American Journal of
-                    Clinical Nutrition, 56(1), 19-28.
+                    Wang, Z.M., Pierson, R.N., & Heymsfield, S.B. (1992). &ldquo;The five-level
+                    model: a new approach to organizing body-composition research.&rdquo; American
+                    Journal of Clinical Nutrition, 56(1), 19-28.
                   </li>
                   <li>
-                    Heyward, V.H., & Wagner, D.R. (2004). &ldquo;Applied Body
-                    Composition Assessment (2nd ed.).&rdquo; Human Kinetics.
+                    Heyward, V.H., & Wagner, D.R. (2004). &ldquo;Applied Body Composition Assessment
+                    (2nd ed.).&rdquo; Human Kinetics.
                   </li>
                 </ul>
               </div>

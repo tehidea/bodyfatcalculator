@@ -1,4 +1,4 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Method Comparison | Body Fat Calculator Research',
@@ -22,10 +22,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function MethodComparisonLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function MethodComparisonLayout({ children }: { children: React.ReactNode }) {
   return children
 }

@@ -1,6 +1,4 @@
-export function CirclesBackground(
-  props: React.ComponentPropsWithoutRef<'svg'>,
-) {
+export function CirclesBackground(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg
       viewBox="0 0 1090 1090"

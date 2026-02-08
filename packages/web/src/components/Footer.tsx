@@ -6,7 +6,6 @@ import { usePostHog } from 'posthog-js/react'
 
 import { Container } from '@/components/Container'
 import { Logo } from '@/components/Logo'
-import { NavLinks } from '@/components/NavLinks'
 import qrCodeApple from '@/images/qr-code-apple.svg'
 import qrCodeGoogle from '@/images/qr-code-google.svg'
 
@@ -34,7 +33,7 @@ export function Footer() {
       location: 'footer',
       utm_source: 'website',
       utm_medium: 'footer_link',
-      utm_campaign: 'app_store_ios'
+      utm_campaign: 'app_store_ios',
     })
   }
 
@@ -46,7 +45,7 @@ export function Footer() {
       location: 'footer',
       utm_source: 'website',
       utm_medium: 'footer_link',
-      utm_campaign: 'google_play_android'
+      utm_campaign: 'google_play_android',
     })
   }
 
@@ -59,12 +58,8 @@ export function Footer() {
             <div className="flex items-center gap-3">
               <Logo className="h-10 w-auto" />
               <div className="flex h-8 items-center text-4xl">
-                <span className="font-extralight tracking-tighter text-white">
-                  BODY
-                </span>
-                <span className="font-light tracking-tighter text-white">
-                  FAT
-                </span>
+                <span className="font-extralight tracking-tighter text-white">BODY</span>
+                <span className="font-light tracking-tighter text-white">FAT</span>
               </div>
             </div>
           </Link>
@@ -94,11 +89,7 @@ export function Footer() {
               <div className="group relative flex items-center self-stretch p-4 transition-colors sm:self-auto sm:rounded-2xl lg:self-auto lg:p-6">
                 <div className="relative flex h-24 w-24 flex-none items-center justify-center">
                   <QrCodeBorder className="absolute inset-0 h-full w-full" />
-                  <Image
-                    src={qrCodeApple}
-                    alt="Download app QR code"
-                    unoptimized
-                  />
+                  <Image src={qrCodeApple} alt="Download app QR code" unoptimized />
                 </div>
                 <div className="ml-8 text-left lg:w-64">
                   <p className="text-base font-semibold text-white">
@@ -132,11 +123,7 @@ export function Footer() {
                 </div>
                 <div className="relative flex h-24 w-24 flex-none items-center justify-center">
                   <QrCodeBorder className="absolute inset-0 h-full w-full" />
-                  <Image
-                    src={qrCodeGoogle}
-                    alt="Download app QR code"
-                    unoptimized
-                  />
+                  <Image src={qrCodeGoogle} alt="Download app QR code" unoptimized />
                 </div>
               </div>
             </div>
@@ -163,8 +150,7 @@ export function Footer() {
           {/* Copyright */}
           <div className="border-t border-gray-700/50 pt-8 text-center">
             <p className="text-sm text-gray-400">
-              &copy; {new Date().getFullYear()} BodyFat Calculator. All rights
-              reserved.
+              &copy; {new Date().getFullYear()} BodyFat Calculator. All rights reserved.
             </p>
           </div>
         </div>

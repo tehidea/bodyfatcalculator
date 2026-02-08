@@ -3,10 +3,6 @@ export const metadata = {
   description: 'Terms of Service for Body Fat Calculator (PRO) app.',
 }
 
-export default function TermsOfServiceLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function TermsOfServiceLayout({ children }: { children: React.ReactNode }) {
   return children
 }

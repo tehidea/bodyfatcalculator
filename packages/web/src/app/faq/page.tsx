@@ -1,10 +1,10 @@
 'use client'
 
-import { Container } from '@/components/Container'
-import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
-import { Layout } from '@/components/Layout'
 import DOMPurify from 'isomorphic-dompurify'
+import { CirclesBackground } from '@/components/CirclesBackground'
+import { Container } from '@/components/Container'
+import { Layout } from '@/components/Layout'
 
 function FaqText({ text }: { text: string }) {
   const sanitizedHtml = DOMPurify.sanitize(text, {
@@ -12,12 +12,7 @@ function FaqText({ text }: { text: string }) {
     ALLOWED_ATTR: ['href', 'target', 'rel', 'class'],
   })
 
-  return (
-    <p
-      className="mt-4 text-gray-300"
-      dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
-    />
-  )
+  return <p className="mt-4 text-gray-300" dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />
 }
 
 const faqs = [
@@ -172,8 +167,8 @@ export default function FAQ() {
               Frequently Asked Questions
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              Common questions and answers about body fat measurement methods,
-              accuracy, and best practices.
+              Common questions and answers about body fat measurement methods, accuracy, and best
+              practices.
             </p>
           </motion.div>
 
@@ -182,21 +177,16 @@ export default function FAQ() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <ul
-              role="list"
-              className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:max-w-none lg:grid-cols-3"
-            >
+            <ul className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:max-w-none lg:grid-cols-3">
               {faqs.map((column, columnIndex) => (
                 <li key={columnIndex}>
-                  <ul role="list" className="space-y-10">
+                  <ul className="space-y-10">
                     {column.map((faq, faqIndex) => (
                       <li key={faqIndex}>
                         <article className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10 transition-colors duration-300 hover:bg-white/[0.04]">
                           <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
                           <div className="relative">
-                            <h3 className="text-lg font-semibold text-white">
-                              {faq.question}
-                            </h3>
+                            <h3 className="text-lg font-semibold text-white">{faq.question}</h3>
                             <FaqText text={faq.answer} />
                           </div>
                         </article>

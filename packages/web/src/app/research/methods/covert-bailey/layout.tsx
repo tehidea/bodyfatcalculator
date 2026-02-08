@@ -1,4 +1,4 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Covert Bailey Method | Body Fat Calculator Research',
@@ -22,10 +22,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function CovertBaileyMethodLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function CovertBaileyMethodLayout({ children }: { children: React.ReactNode }) {
   return children
 }

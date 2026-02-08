@@ -1,29 +1,27 @@
 'use client'
 
-import { Fragment, useEffect, useId, useRef, useState } from 'react'
+import { FORMULA_DEFINITIONS } from '@bodyfat/shared/definitions'
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 import clsx from 'clsx'
 import {
+  AnimatePresence,
   type MotionProps,
+  motion,
   type Variant,
   type Variants,
-  AnimatePresence,
-  motion,
 } from 'framer-motion'
+import { Fragment, useEffect, useId, useRef, useState } from 'react'
+import { Lock } from 'react-feather'
 import { useDebouncedCallback } from 'use-debounce'
-import { CheckIcon } from '@heroicons/react/24/solid'
-import { Lock, Unlock } from 'react-feather'
-
 import { AppScreen } from '@/components/AppScreen'
 import { CircleBackground } from '@/components/CircleBackground'
 import { Container } from '@/components/Container'
 import { PhoneFrame } from '@/components/PhoneFrame'
-import { FORMULA_DEFINITIONS } from '@bodyfat/shared/definitions'
 import { BodyWeightScalesIcon } from '@/images/icons/BodyWeightScalesIcon'
+import { CalendarIcon } from '@/images/icons/CalendarIcon'
+import { MeasurementVerticalIcon } from '@/images/icons/MeasurementVerticalIcon'
 import { MeasuringTapeIcon } from '@/images/icons/MeasuringTapeIcon'
 import { SkinfoldIcon } from '@/images/icons/SkinfoldIcon'
-import { MeasurementVerticalIcon } from '@/images/icons/MeasurementVerticalIcon'
-import { CalendarIcon } from '@/images/icons/CalendarIcon'
 
 // Helper function to check if formula needs specific measurements
 function getRequiredMeasurements(formula: keyof typeof FORMULA_DEFINITIONS) {
@@ -48,22 +46,19 @@ interface CustomAnimationProps {
 const features = [
   {
     name: 'Guided Measurements',
-    description:
-      'Enter weight, waist, or skinfolds with clear inputs and units.',
+    description: 'Enter weight, waist, or skinfolds with clear inputs and units.',
     icon: DeviceUserIcon,
     screen: InviteScreen,
   },
   {
     name: 'Method Selection',
-    description:
-      'Choose between YMCA, U.S. Navy, Jackson & Pollock, Durnin, and more.',
+    description: 'Choose between YMCA, U.S. Navy, Jackson & Pollock, Durnin, and more.',
     icon: DeviceNotificationIcon,
     screen: StocksScreen,
   },
   {
     name: 'Results Breakdown',
-    description:
-      'See body fat percentage with fat and lean mass. PRO unlocks decimal precision.',
+    description: 'See body fat percentage with fat and lean mass. PRO unlocks decimal precision.',
     icon: DeviceTouchIcon,
     screen: InvestScreen,
   },
@@ -99,16 +94,13 @@ function DeviceNotificationIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
         d="M9 0a4 4 0 00-4 4v24a4 4 0 004 4h14a4 4 0 004-4V4a4 4 0 00-4-4H9zm0 2a2 2 0 00-2 2v24a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2h-1.382a1 1 0 00-.894.553l-.448.894a1 1 0 01-.894.553h-6.764a1 1 0 01-.894-.553l-.448-.894A1 1 0 0010.382 2H9z"
         fill="#A3A3A3"
       />
-      <path
-        d="M9 8a2 2 0 012-2h10a2 2 0 012 2v2a2 2 0 01-2 2H11a2 2 0 01-2-2V8z"
-        fill="#737373"
-      />
+      <path d="M9 8a2 2 0 012-2h10a2 2 0 012 2v2a2 2 0 01-2 2H11a2 2 0 01-2-2V8z" fill="#737373" />
     </svg>
   )
 }
 
 function DeviceTouchIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  let id = useId()
+  const id = useId()
 
   return (
     <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" {...props}>
@@ -175,9 +167,7 @@ const bodyAnimation: MotionProps = {
   exit: 'exit',
   variants: {
     initial: (custom: CustomAnimationProps, ...props) =>
-      custom.isForwards
-        ? bodyVariantForwards(custom, ...props)
-        : bodyVariantBackwards,
+      custom.isForwards ? bodyVariantForwards(custom, ...props) : bodyVariantBackwards,
     animate: (custom: CustomAnimationProps) => ({
       y: '0%',
       opacity: 1,
@@ -187,9 +177,7 @@ const bodyAnimation: MotionProps = {
       transition: { duration: 0.4 },
     }),
     exit: (custom: CustomAnimationProps, ...props) =>
-      custom.isForwards
-        ? bodyVariantBackwards
-        : bodyVariantForwards(custom, ...props),
+      custom.isForwards ? bodyVariantBackwards : bodyVariantForwards(custom, ...props),
   },
 }
 
@@ -205,13 +193,9 @@ function InviteScreen(props: ScreenProps) {
     <AppScreen className="w-full">
       <MotionAppScreenHeader {...(props.animated ? headerAnimation : {})}>
         <AppScreen.Title>Measurements</AppScreen.Title>
-        <AppScreen.Subtitle>
-          Enter your measurements to calculate body fat.
-        </AppScreen.Subtitle>
+        <AppScreen.Subtitle>Enter your measurements to calculate body fat.</AppScreen.Subtitle>
       </MotionAppScreenHeader>
-      <MotionAppScreenBody
-        {...(props.animated ? { ...bodyAnimation, custom: props.custom } : {})}
-      >
+      <MotionAppScreenBody {...(props.animated ? { ...bodyAnimation, custom: props.custom } : {})}>
         <div className="px-4 py-6">
           <div className="space-y-6">
             {[
@@ -242,9 +226,7 @@ function StocksScreen(props: ScreenProps) {
         <AppScreen.Title>Methods</AppScreen.Title>
         <AppScreen.Subtitle>Select a protocol</AppScreen.Subtitle>
       </MotionAppScreenHeader>
-      <MotionAppScreenBody
-        {...(props.animated ? { ...bodyAnimation, custom: props.custom } : {})}
-      >
+      <MotionAppScreenBody {...(props.animated ? { ...bodyAnimation, custom: props.custom } : {})}>
         <div className="divide-y divide-gray-100">
           {[
             {
@@ -269,25 +251,16 @@ function StocksScreen(props: ScreenProps) {
             },
           ].map((stock) => (
             <div key={stock.name} className="flex items-center gap-4 px-4 py-3">
-              <div
-                className="flex-none rounded-full"
-                style={{ backgroundColor: stock.color }}
-              >
+              <div className="flex-none rounded-full" style={{ backgroundColor: stock.color }}>
                 <BodyWeightScalesIcon size="20" className="text-gray-600" />
               </div>
-              <div className="flex-auto text-sm text-gray-900">
-                {stock.name}
-              </div>
+              <div className="flex-auto text-sm text-gray-900">{stock.name}</div>
               <div className="flex-none text-right">
-                <div className="text-sm font-medium text-gray-900">
-                  {stock.change}
-                </div>
+                <div className="text-sm font-medium text-gray-900">{stock.change}</div>
                 <div
                   className={clsx(
                     'text-xs leading-5',
-                    stock.change.startsWith('+')
-                      ? 'text-cyan-500'
-                      : 'text-gray-500',
+                    stock.change.startsWith('+') ? 'text-cyan-500' : 'text-gray-500',
                   )}
                 >
                   {stock.change}
@@ -310,9 +283,7 @@ function InvestScreen(props: ScreenProps) {
           <span className="text-white">Body fat</span> overview
         </AppScreen.Subtitle>
       </MotionAppScreenHeader>
-      <MotionAppScreenBody
-        {...(props.animated ? { ...bodyAnimation, custom: props.custom } : {})}
-      >
+      <MotionAppScreenBody {...(props.animated ? { ...bodyAnimation, custom: props.custom } : {})}>
         <div className="px-4 py-6">
           <div className="space-y-4">
             {[
@@ -323,14 +294,9 @@ function InvestScreen(props: ScreenProps) {
               { label: 'Fat mass', value: '13.2 kg' },
               { label: 'Lean mass', value: '58.8 kg' },
             ].map((item) => (
-              <div
-                key={item.label}
-                className="flex justify-between border-b border-gray-100 pb-4"
-              >
+              <div key={item.label} className="flex justify-between border-b border-gray-100 pb-4">
                 <div className="text-sm text-gray-500">{item.label}</div>
-                <div className="text-sm font-semibold text-gray-900">
-                  {item.value}
-                </div>
+                <div className="text-sm font-semibold text-gray-900">{item.value}</div>
               </div>
             ))}
             <div className="rounded-lg bg-cyan-500 px-3 py-2 text-center text-sm font-semibold text-white">
@@ -344,7 +310,7 @@ function InvestScreen(props: ScreenProps) {
 }
 
 function usePrevious<T>(value: T) {
-  let ref = useRef<T>()
+  const ref = useRef<T>()
 
   useEffect(() => {
     ref.current = value
@@ -353,13 +319,13 @@ function usePrevious<T>(value: T) {
   return ref.current
 }
 
-function FeaturesDesktop() {
-  let [changeCount, setChangeCount] = useState(0)
-  let [selectedIndex, setSelectedIndex] = useState(0)
-  let prevIndex = usePrevious(selectedIndex)
-  let isForwards = prevIndex === undefined ? true : selectedIndex > prevIndex
+function _FeaturesDesktop() {
+  const [changeCount, setChangeCount] = useState(0)
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const prevIndex = usePrevious(selectedIndex)
+  const isForwards = prevIndex === undefined ? true : selectedIndex > prevIndex
 
-  let onChange = useDebouncedCallback(
+  const onChange = useDebouncedCallback(
     (selectedIndex) => {
       setSelectedIndex(selectedIndex)
       setChangeCount((changeCount) => changeCount + 1)
@@ -396,9 +362,7 @@ function FeaturesDesktop() {
                   {feature.name}
                 </Tab>
               </h3>
-              <p className="mt-2 text-sm text-gray-400">
-                {feature.description}
-              </p>
+              <p className="mt-2 text-sm text-gray-400">{feature.description}</p>
             </div>
           </div>
         ))}
@@ -407,15 +371,9 @@ function FeaturesDesktop() {
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <CircleBackground color="#13B5C8" className="animate-spin-slower" />
         </div>
-        <PhoneFrame
-          className="z-10 mx-auto w-full max-w-[366px]"
-          priority={true}
-        >
+        <PhoneFrame className="z-10 mx-auto w-full max-w-[366px]" priority={true}>
           <TabPanels as={Fragment}>
-            <AnimatePresence
-              initial={false}
-              custom={{ isForwards, changeCount }}
-            >
+            <AnimatePresence initial={false} custom={{ isForwards, changeCount }}>
               {features.map((feature, featureIndex) =>
                 selectedIndex === featureIndex ? (
                   <TabPanel
@@ -423,10 +381,7 @@ function FeaturesDesktop() {
                     key={feature.name + changeCount}
                     className="col-start-1 row-start-1 flex focus:outline-offset-[32px] ui-not-focus-visible:outline-none"
                   >
-                    <feature.screen
-                      animated
-                      custom={{ isForwards, changeCount }}
-                    />
+                    <feature.screen animated custom={{ isForwards, changeCount }} />
                   </TabPanel>
                 ) : null,
               )}
@@ -438,15 +393,15 @@ function FeaturesDesktop() {
   )
 }
 
-function FeaturesMobile() {
-  let [activeIndex, setActiveIndex] = useState(0)
-  let slideContainerRef = useRef<React.ElementRef<'div'>>(null)
-  let slideRefs = useRef<Array<React.ElementRef<'div'>>>([])
+function _FeaturesMobile() {
+  const [activeIndex, setActiveIndex] = useState(0)
+  const slideContainerRef = useRef<React.ElementRef<'div'>>(null)
+  const slideRefs = useRef<Array<React.ElementRef<'div'>>>([])
 
   useEffect(() => {
-    let observer = new window.IntersectionObserver(
+    const observer = new window.IntersectionObserver(
       (entries) => {
-        for (let entry of entries) {
+        for (const entry of entries) {
           if (entry.isIntersecting && entry.target instanceof HTMLDivElement) {
             setActiveIndex(slideRefs.current.indexOf(entry.target))
             break
@@ -459,7 +414,7 @@ function FeaturesMobile() {
       },
     )
 
-    for (let slide of slideRefs.current) {
+    for (const slide of slideRefs.current) {
       if (slide) {
         observer.observe(slide)
       }
@@ -468,7 +423,7 @@ function FeaturesMobile() {
     return () => {
       observer.disconnect()
     }
-  }, [slideContainerRef, slideRefs])
+  }, [])
 
   return (
     <>
@@ -493,20 +448,13 @@ function FeaturesMobile() {
                   className={featureIndex % 2 === 1 ? 'rotate-180' : undefined}
                 />
               </div>
-              <PhoneFrame
-                className="relative mx-auto w-full max-w-[366px]"
-                priority={true}
-              >
+              <PhoneFrame className="relative mx-auto w-full max-w-[366px]" priority={true}>
                 <feature.screen />
               </PhoneFrame>
               <div className="absolute inset-x-0 bottom-0 bg-gray-800/95 p-6 backdrop-blur sm:p-10">
                 <feature.icon className="h-8 w-8" />
-                <h3 className="mt-6 text-sm font-semibold text-white sm:text-lg">
-                  {feature.name}
-                </h3>
-                <p className="mt-2 text-sm text-gray-400">
-                  {feature.description}
-                </p>
+                <h3 className="mt-6 text-sm font-semibold text-white sm:text-lg">{feature.name}</h3>
+                <p className="mt-2 text-sm text-gray-400">{feature.description}</p>
               </div>
             </div>
           </div>
@@ -556,11 +504,10 @@ export function PrimaryFeatures() {
             Choose Your Perfect Method
           </h2>
           <p className="mt-6 text-xl text-gray-400">
-            From quick estimates to gold-standard measurements, we offer the
-            most comprehensive selection of scientifically validated formulas.
-            Each method is{' '}
-            <span className="text-white">optimized for different needs</span>{' '}
-            and equipment availability.
+            From quick estimates to gold-standard measurements, we offer the most comprehensive
+            selection of scientifically validated formulas. Each method is{' '}
+            <span className="text-white">optimized for different needs</span> and equipment
+            availability.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <div className="flex items-center rounded-lg bg-white/10 px-4 py-2">
@@ -614,9 +561,7 @@ export function PrimaryFeatures() {
             <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             <div className="relative z-10">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-white">
-                  Jackson & Pollock 7-Site
-                </h3>
+                <h3 className="text-lg font-semibold text-white">Jackson & Pollock 7-Site</h3>
                 <span className="text-sm text-[#4CAF50]">±3-4%</span>
               </div>
               <div className="mt-2">
@@ -633,9 +578,7 @@ export function PrimaryFeatures() {
                 return (
                   <div className="mt-4 flex gap-3">
                     <BodyWeightScalesIcon size="20" className="text-gray-600" />
-                    {measurements.needsAge && (
-                      <CalendarIcon size="20" className="text-gray-600" />
-                    )}
+                    {measurements.needsAge && <CalendarIcon size="20" className="text-gray-600" />}
                     {measurements.needsSkinfold && (
                       <SkinfoldIcon size="20" className="text-gray-600" />
                     )}
@@ -650,9 +593,7 @@ export function PrimaryFeatures() {
             <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             <div className="relative z-10">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-white">
-                  Jackson & Pollock 4-Site
-                </h3>
+                <h3 className="text-lg font-semibold text-white">Jackson & Pollock 4-Site</h3>
                 <span className="text-sm text-[#4CAF50]">±3.5-4.5%</span>
               </div>
               <div className="mt-2">
@@ -669,9 +610,7 @@ export function PrimaryFeatures() {
                 return (
                   <div className="mt-4 flex gap-3">
                     <BodyWeightScalesIcon size="20" className="text-gray-600" />
-                    {measurements.needsAge && (
-                      <CalendarIcon size="20" className="text-gray-600" />
-                    )}
+                    {measurements.needsAge && <CalendarIcon size="20" className="text-gray-600" />}
                     {measurements.needsSkinfold && (
                       <SkinfoldIcon size="20" className="text-gray-600" />
                     )}
@@ -686,9 +625,7 @@ export function PrimaryFeatures() {
             <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             <div className="relative z-10">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-white">
-                  Durnin & Womersley
-                </h3>
+                <h3 className="text-lg font-semibold text-white">Durnin & Womersley</h3>
                 <span className="text-sm text-[#4CAF50]">±3.5-5%</span>
               </div>
               <div className="mt-2">
@@ -705,9 +642,7 @@ export function PrimaryFeatures() {
                 return (
                   <div className="mt-4 flex gap-3">
                     <BodyWeightScalesIcon size="20" className="text-gray-600" />
-                    {measurements.needsAge && (
-                      <CalendarIcon size="20" className="text-gray-600" />
-                    )}
+                    {measurements.needsAge && <CalendarIcon size="20" className="text-gray-600" />}
                     {measurements.needsSkinfold && (
                       <SkinfoldIcon size="20" className="text-gray-600" />
                     )}
@@ -722,9 +657,7 @@ export function PrimaryFeatures() {
             <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             <div className="relative z-10">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-white">
-                  Jackson & Pollock 3-Site
-                </h3>
+                <h3 className="text-lg font-semibold text-white">Jackson & Pollock 3-Site</h3>
                 <span className="text-sm text-[#FFC107]">±4-5%</span>
               </div>
               <div className="mt-2">
@@ -741,9 +674,7 @@ export function PrimaryFeatures() {
                 return (
                   <div className="mt-4 flex gap-3">
                     <BodyWeightScalesIcon size="20" className="text-gray-600" />
-                    {measurements.needsAge && (
-                      <CalendarIcon size="20" className="text-gray-600" />
-                    )}
+                    {measurements.needsAge && <CalendarIcon size="20" className="text-gray-600" />}
                     {measurements.needsSkinfold && (
                       <SkinfoldIcon size="20" className="text-gray-600" />
                     )}
@@ -758,9 +689,7 @@ export function PrimaryFeatures() {
             <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             <div className="relative z-10">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-white">
-                  Covert Bailey
-                </h3>
+                <h3 className="text-lg font-semibold text-white">Covert Bailey</h3>
                 <span className="text-sm text-[#FFC107]">±4-5%</span>
               </div>
               <div className="mt-2">
@@ -777,9 +706,7 @@ export function PrimaryFeatures() {
                 return (
                   <div className="mt-4 flex gap-3">
                     <BodyWeightScalesIcon size="20" className="text-gray-600" />
-                    {measurements.needsAge && (
-                      <CalendarIcon size="20" className="text-gray-600" />
-                    )}
+                    {measurements.needsAge && <CalendarIcon size="20" className="text-gray-600" />}
                     {measurements.needsCircumference && (
                       <MeasuringTapeIcon size="20" className="text-gray-600" />
                     )}
@@ -806,10 +733,7 @@ export function PrimaryFeatures() {
                   <div className="mt-4 flex gap-3">
                     <BodyWeightScalesIcon size="20" className="text-gray-600" />
                     {measurements.needsHeight && (
-                      <MeasurementVerticalIcon
-                        size="20"
-                        className="text-gray-600"
-                      />
+                      <MeasurementVerticalIcon size="20" className="text-gray-600" />
                     )}
                     {measurements.needsCircumference && (
                       <MeasuringTapeIcon size="20" className="text-gray-600" />
@@ -825,9 +749,7 @@ export function PrimaryFeatures() {
             <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             <div className="relative z-10">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-white">
-                  Modified YMCA
-                </h3>
+                <h3 className="text-lg font-semibold text-white">Modified YMCA</h3>
                 <span className="text-sm text-[#FFC107]">±4-6%</span>
               </div>
               <p className="mt-3 text-sm text-gray-400">

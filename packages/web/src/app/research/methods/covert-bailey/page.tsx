@@ -1,11 +1,11 @@
 'use client'
 
-import { Container } from '@/components/Container'
-import { Layout } from '@/components/Layout'
-import { CirclesBackground } from '@/components/CirclesBackground'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'react-feather'
+import { CirclesBackground } from '@/components/CirclesBackground'
+import { Container } from '@/components/Container'
+import { Layout } from '@/components/Layout'
 
 export default function CovertBaileyMethod() {
   return (
@@ -36,10 +36,9 @@ export default function CovertBaileyMethod() {
               Covert Bailey Method
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              Comprehensive analysis of the Covert Bailey body fat assessment
-              method, known for its practical approach to fitness and body
-              composition measurement. Explore its development, validation
-              studies, and applications in general fitness assessment.
+              Comprehensive analysis of the Covert Bailey body fat assessment method, known for its
+              practical approach to fitness and body composition measurement. Explore its
+              development, validation studies, and applications in general fitness assessment.
             </p>
           </motion.div>
 
@@ -52,18 +51,14 @@ export default function CovertBaileyMethod() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Historical Development
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Historical Development</h2>
               <div className="mt-6 space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Method Origins
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Method Origins</h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Development of the Covert Bailey method through fitness
-                      research and practical application:
+                      Development of the Covert Bailey method through fitness research and practical
+                      application:
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300">
                       <li>Developed as a practical fitness assessment method</li>
@@ -74,13 +69,9 @@ export default function CovertBaileyMethod() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Method Evolution
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Method Evolution</h3>
                   <div className="mt-4 space-y-4">
-                    <p className="text-gray-300">
-                      Refinement and validation over time:
-                    </p>
+                    <p className="text-gray-300">Refinement and validation over time:</p>
                     <div className="rounded-lg bg-black/20 p-4">
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                         <li>Initial fitness center implementation</li>
@@ -101,20 +92,14 @@ export default function CovertBaileyMethod() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Method Details
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Method Details</h2>
               <div className="mt-6 space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Measurement Protocol
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Measurement Protocol</h3>
                   <div className="mt-4 space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Primary Measurements
-                        </h4>
+                        <h4 className="font-medium text-white">Primary Measurements</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Age</li>
                           <li>Wrist circumference</li>
@@ -126,9 +111,7 @@ export default function CovertBaileyMethod() {
                         </ul>
                       </div>
                       <div className="rounded-lg bg-black/20 p-4">
-                        <h4 className="font-medium text-white">
-                          Additional Factors
-                        </h4>
+                        <h4 className="font-medium text-white">Additional Factors</h4>
                         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                           <li>Age considerations</li>
                           <li>Gender-specific equations</li>
@@ -140,9 +123,7 @@ export default function CovertBaileyMethod() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Statistical Validation
-                  </h3>
+                  <h3 className="text-lg font-semibold text-white">Statistical Validation</h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
                       Reported accuracy ranges and practical considerations:
@@ -164,15 +145,11 @@ export default function CovertBaileyMethod() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Practical Applications
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Practical Applications</h2>
               <div className="mt-6 space-y-6">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Fitness Assessment
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Fitness Assessment</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>General health screening</li>
                       <li>Fitness program design</li>
@@ -181,9 +158,7 @@ export default function CovertBaileyMethod() {
                     </ul>
                   </div>
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Health Applications
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Health Applications</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Weight management</li>
                       <li>Health risk assessment</li>
@@ -202,15 +177,11 @@ export default function CovertBaileyMethod() {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="relative rounded-2xl bg-white/[0.02] p-6 ring-1 ring-white/10"
             >
-              <h2 className="text-2xl font-semibold text-white">
-                Advantages and Limitations
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Advantages and Limitations</h2>
               <div className="mt-6 space-y-6">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Key Advantages
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Key Advantages</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Simple to perform</li>
                       <li>Minimal equipment needed</li>
@@ -219,9 +190,7 @@ export default function CovertBaileyMethod() {
                     </ul>
                   </div>
                   <div className="rounded-lg bg-black/20 p-4">
-                    <h3 className="text-lg font-semibold text-white">
-                      Limitations
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">Limitations</h3>
                     <ul className="mt-4 list-inside list-disc space-y-2 text-gray-300">
                       <li>Moderate accuracy</li>
                       <li>Body type variations</li>
@@ -244,10 +213,9 @@ export default function CovertBaileyMethod() {
               <div className="mt-6">
                 <ul className="list-inside space-y-3 text-sm text-gray-300">
                   <li>
-                    Bailey, C. (1999). &ldquo;The Ultimate Fit or Fat: Get in
-                    Shape and Stay in Shape with America&apos;s Best-Loved and
-                    Most Effective Fitness Teacher.&rdquo; Houghton Mifflin
-                    Harcourt.
+                    Bailey, C. (1999). &ldquo;The Ultimate Fit or Fat: Get in Shape and Stay in
+                    Shape with America&apos;s Best-Loved and Most Effective Fitness Teacher.&rdquo;
+                    Houghton Mifflin Harcourt.
                   </li>
                 </ul>
               </div>

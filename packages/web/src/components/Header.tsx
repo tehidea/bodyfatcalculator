@@ -1,13 +1,8 @@
 'use client'
 
-import Link from 'next/link'
-import {
-  Popover,
-  PopoverButton,
-  PopoverBackdrop,
-  PopoverPanel,
-} from '@headlessui/react'
+import { Popover, PopoverBackdrop, PopoverButton, PopoverPanel } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { Button } from '@/components/Button'
@@ -100,19 +95,11 @@ export function Header() {
     <header className="bg-[#333333]">
       <nav>
         <Container className="relative z-50 flex items-center justify-between py-8">
-          <Link
-            href="/"
-            aria-label="Home"
-            className="flex flex-1 items-center gap-3"
-          >
+          <Link href="/" aria-label="Home" className="flex flex-1 items-center gap-3">
             <Logo className="h-10 w-auto" />
             <div className="flex h-8 items-center text-3xl">
-              <span className="font-extralight tracking-tighter text-white">
-                BODY
-              </span>
-              <span className="font-light tracking-tighter text-white">
-                FAT
-              </span>
+              <span className="font-extralight tracking-tighter text-white">BODY</span>
+              <span className="font-light tracking-tighter text-white">FAT</span>
             </div>
           </Link>
           <div className="hidden flex-1 items-center justify-center lg:flex">
@@ -172,33 +159,21 @@ export function Header() {
 
                             {isHomePage ? (
                               <>
-                                <MobileNavLink
-                                  onClick={() => scrollToSection('features')}
-                                >
+                                <MobileNavLink onClick={() => scrollToSection('features')}>
                                   Features
                                 </MobileNavLink>
-                                <MobileNavLink
-                                  onClick={() => scrollToSection('pricing')}
-                                >
+                                <MobileNavLink onClick={() => scrollToSection('pricing')}>
                                   Pricing
                                 </MobileNavLink>
-                                <MobileNavLink
-                                  onClick={() => scrollToSection('faqs')}
-                                >
+                                <MobileNavLink onClick={() => scrollToSection('faqs')}>
                                   FAQs
                                 </MobileNavLink>
                               </>
                             ) : (
                               <>
-                                <MobileNavLink href="/#features">
-                                  Features
-                                </MobileNavLink>
-                                <MobileNavLink href="/#pricing">
-                                  Pricing
-                                </MobileNavLink>
-                                <MobileNavLink href="/#faqs">
-                                  FAQs
-                                </MobileNavLink>
+                                <MobileNavLink href="/#features">Features</MobileNavLink>
+                                <MobileNavLink href="/#pricing">Pricing</MobileNavLink>
+                                <MobileNavLink href="/#faqs">FAQs</MobileNavLink>
                               </>
                             )}
 

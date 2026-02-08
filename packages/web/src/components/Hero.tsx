@@ -1,12 +1,11 @@
 'use client'
 import { motion } from 'framer-motion'
-
-import { AppStoreLink } from '@/components/AppStoreLink'
-import { GooglePlayLink } from '@/components/GooglePlayLink'
-import { Container } from '@/components/Container'
 import { AppScreenshot } from '@/components/AppScreenshot'
+import { AppStoreLink } from '@/components/AppStoreLink'
+import { Container } from '@/components/Container'
+import { GooglePlayLink } from '@/components/GooglePlayLink'
 
-function PlayIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+function _PlayIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
       <circle cx="12" cy="12" r="11.5" stroke="#D4D4D4" />
@@ -60,9 +59,7 @@ export function Hero() {
               className="inline-flex flex-wrap items-center rounded-full bg-[#FF0000]/10 px-4 py-2 text-sm font-medium text-[#FF0000] ring-1 ring-inset ring-[#FF0000]/20 sm:px-6"
             >
               <span className="mr-2 whitespace-nowrap">★★★★★</span>
-              <span className="whitespace-nowrap">
-                Available on App Store & Google Play!
-              </span>
+              <span className="whitespace-nowrap">Available on App Store & Google Play!</span>
             </motion.div>
 
             <h1 className="mt-8">
@@ -75,9 +72,8 @@ export function Hero() {
             </h1>
 
             <p className="mt-6 text-lg leading-8 text-gray-300">
-              Get research-backed accuracy ranges across 9 validated methods.
-              Perfect for trainers, athletes, and fitness enthusiasts who want
-              consistent estimates.
+              Get research-backed accuracy ranges across 9 validated methods. Perfect for trainers,
+              athletes, and fitness enthusiasts who want consistent estimates.
             </p>
 
             <motion.div
@@ -87,12 +83,10 @@ export function Hero() {
               className="mt-8 flex flex-wrap gap-4"
             >
               <div className="inline-flex items-center rounded-full bg-white/5 px-4 py-1 text-sm font-medium text-white ring-1 ring-inset ring-white/10 transition-colors hover:bg-white/10">
-                <span className="mr-2 text-[#4CAF50]">✓</span> ±3-5% PRO
-                Accuracy
+                <span className="mr-2 text-[#4CAF50]">✓</span> ±3-5% PRO Accuracy
               </div>
               <div className="inline-flex items-center rounded-full bg-white/5 px-4 py-1 text-sm font-medium text-white ring-1 ring-inset ring-white/10 transition-colors hover:bg-white/10">
-                <span className="mr-2 text-[#4CAF50]">✓</span> 6 Professional
-                Methods
+                <span className="mr-2 text-[#4CAF50]">✓</span> 6 Professional Methods
               </div>
             </motion.div>
 
@@ -113,9 +107,7 @@ export function Hero() {
                   PRO
                 </div>
               </div>
-              <p className="text-sm text-gray-400">
-                &quot;Exactly what I needed!&quot; - Michał
-              </p>
+              <p className="text-sm text-gray-400">&quot;Exactly what I needed!&quot; - Michał</p>
             </div>
           </div>
 
@@ -145,21 +137,11 @@ export function Hero() {
                 <div className="absolute inset-0 flex items-center justify-center p-6">
                   <div className="text-center text-yellow-900">
                     <p className="text-xs font-bold leading-tight">
-                      <span className="mb-1/2 block text-[10px]">
-                        Start for FREE
-                      </span>
-                      <span className="text-md -mb-2 block text-sm font-extrabold">
-                        ONE TIME
-                      </span>
-                      <span className="text-md -mb-2 block text-sm font-extrabold">
-                        PURCHASE
-                      </span>
-                      <span className="text-md mb-1/2 block text-sm font-extrabold">
-                        FOR PRO
-                      </span>
-                      <span className="mb-0 block text-[10px]">
-                        FOREVER Yours
-                      </span>
+                      <span className="mb-1/2 block text-[10px]">Start for FREE</span>
+                      <span className="text-md -mb-2 block text-sm font-extrabold">ONE TIME</span>
+                      <span className="text-md -mb-2 block text-sm font-extrabold">PURCHASE</span>
+                      <span className="text-md mb-1/2 block text-sm font-extrabold">FOR PRO</span>
+                      <span className="mb-0 block text-[10px]">FOREVER Yours</span>
                     </p>
                   </div>
                 </div>
