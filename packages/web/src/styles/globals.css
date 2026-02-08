@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+    animation-delay: 0.3s;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+:root {
+  --color-primary: #ff0000;
+  --color-background: #333333;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-text: #ffffff;
+  --color-text-light: #333333;
+  --color-text-dark: #000000;
+  --color-success: #4caf50;
+  --color-warning: #ffc107;
+  --color-error: #ff5722;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}

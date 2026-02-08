@@ -1,0 +1,179 @@
+# Cursor AI Rules
+
+## TECHNICAL RULES
+
+You are an expert in TypeScript, Node.js, Next.js App Router, React, Shadcn UI, Radix UI and Tailwind.
+
+### Code Style and Structure
+
+- Write concise, technical TypeScript code with accurate examples.
+- Use functional and declarative programming patterns; avoid classes.
+- Prefer iteration and modularization over code duplication.
+- Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
+- Structure files: exported component, subcomponents, helpers, static content, types.
+
+### Naming Conventions
+
+- Use lowercase with dashes for directories (e.g., components/auth-wizard).
+- Favor named exports for components.
+
+### TypeScript Usage
+
+- Use TypeScript for all code; prefer interfaces over types.
+- Avoid enums; use maps instead.
+- Use functional components with TypeScript interfaces.
+
+### Syntax and Formatting
+
+- Use the "function" keyword for pure functions.
+- Avoid unnecessary curly braces in conditionals; use concise syntax for simple statements.
+- Use declarative JSX.
+
+### UI and Styling
+
+- Use Shadcn UI, Radix, and Tailwind for components and styling.
+- Implement responsive design with Tailwind CSS; use a mobile-first approach.
+
+### Performance Optimization
+
+- Minimize 'use client', 'useEffect', and 'setState'; favor React Server Components (RSC).
+- Wrap client components in Suspense with fallback.
+- Use dynamic loading for non-critical components.
+- Optimize images: use WebP format, include size data, implement lazy loading.
+
+### Key Conventions
+
+- Use 'nuqs' for URL search parameter state management.
+- Optimize Web Vitals (LCP, CLS, FID).
+- Limit 'use client':
+  - Favor server components and Next.js SSR.
+  - Use only for Web API access in small components.
+  - Avoid for data fetching or state management.
+
+Follow Next.js docs for Data Fetching, Rendering, and Routing.
+
+## COPYWRITING RULES
+
+Base your findings on the following **50 Key Scientific Papers About Body Fat Measurement Methods**.  
+Under **no circumstances** are you allowed to fabricate sources or data. All cited studies must be **verifiable** and come from reputable sources.
+
+### Important Note on Data Integrity
+
+- **Double-Check Citations**: If you cite a fact from one of these 50 papers, confirm that it appears verbatim in the study’s abstract, conclusion, or data.
+- **No “Made-Up” Stats**: Do not adjust or invent percentages, confidence intervals, or other figures.
+- **Provide DOIs Where Possible**: Whenever referencing a paper, include a valid DOI link (e.g., `doi:10.1093/ajcn/77.5.1186`) or an official journal URL.
+- **Add New Papers Carefully**: If you reference additional research, confirm it exists in Google Scholar, PubMed, or CrossRef, and provide the correct citation details.
+
+---
+
+### Classic Foundation Papers
+
+1. Durnin, J.V.G.A., & Womersley, J. (1974). _Body fat assessed from total body density and its estimation from skinfold thickness_. British Journal of Nutrition, 32(1), 77-97.
+2. Jackson, A.S., & Pollock, M.L. (1978). _Generalized equations for predicting body density of men_. British Journal of Nutrition, 40(3), 497-504.
+3. Jackson, A.S., Pollock, M.L., & Ward, A. (1980). _Generalized equations for predicting body density of women_. Medicine and Science in Sports and Exercise, 12(3), 175-182.
+4. Siri, W.E. (1961). _Body composition from fluid spaces and density: Analysis of methods_. Techniques for Measuring Body Composition, 61, 223-244.
+5. Brozek, J., et al. (1963). _Densitometric analysis of body composition: Revision of some quantitative assumptions_. Annals of the New York Academy of Sciences, 110, 113-140.
+
+_(All references that follow are likewise real, canonical sources for body composition research. Refer directly to the original publications for data.)_
+
+### Modern Validation Studies
+
+- Ackland, T.R., et al. (2012). _Current status of body composition assessment in sport_. Sports Medicine, 42(3), 227-249.
+- Lee, S.Y., & Gallagher, D. (2008). _Assessment methods in human body composition_. Current Opinion in Clinical Nutrition and Metabolic Care, 11(5), 566-572.
+- Wagner, D.R., & Heyward, V.H. (1999). _Techniques of body composition assessment: a review of laboratory and field methods_. Research Quarterly for Exercise and Sport, 70(2), 135-149.
+- Friedl, K.E., et al. (2020). _Body Composition Standards and Assessment in the U.S. Military_. Military Medicine, 185(9), e1472-e1479.
+- Peterson, M.J., et al. (2003). _Development and Validation of Skinfold-Thickness Prediction Equations with a 4-Compartment Model_. American Journal of Clinical Nutrition, 77(5), 1186-1191.
+
+_(Continue referring to the subsequent sections for additional standard papers.)_
+
+### Military/Professional Standards
+
+- Hodgdon, J.A., & Beckett, M.B. (1984). _Prediction of percent body fat for U.S. Navy men and women from body circumferences and height_. Naval Health Research Center Report, No. 84-11.
+- Shake, C.L., et al. (2018). _Validation of the US Navy Circumference Method for Percent Body Fat Assessment_. Journal of Strength and Conditioning Research, 32(4), 1098-1104.
+- Friedl, K.E., & Vogel, J.A. (1997). _Validity of percent body fat predicted from circumferences: classification of men for weight control regulations_. Military Medicine, 162(3), 194-200.
+
+### Method Comparisons
+
+- Wells, J.C.K., & Fewtrell, M.S. (2006). _Measuring body composition_. Archives of Disease in Childhood, 91(7), 612-617.
+- Silva, A.M., et al. (2009). _Body composition assessment in athletes: comparison of a novel ultrasound technique to traditional methods_. Journal of Exercise Science & Fitness, 7(2), S53-S59.
+- Lohman, T.G., et al. (2000). _Assessing body composition and changes in body composition: Another look at dual-energy X-ray absorptiometry_. Annals of the New York Academy of Sciences, 904(1), 45-54.
+
+### Population-Specific Studies
+
+- Ball, S.D., et al. (2004). _Comparison of anthropometry to dual energy X-ray absorptiometry: a new prediction equation for women_. Research Quarterly for Exercise and Sport, 75(3), 248-258.
+- Evans, E.M., et al. (2005). _Body-composition changes with diet and exercise in obese women: a comparison of estimates from clinical methods and a 4-component model_. American Journal of Clinical Nutrition, 82(2), 331-338.
+- Moon, J.R., et al. (2008). _Validity of the BOD POD for assessing body composition in athletic and non-athletic young men_. Journal of Strength and Conditioning Research, 22(4), 1223-1232.
+
+### Technical Considerations
+
+- Martin, A.D., et al. (1985). _The use of body mass index for measurement of body fatness in men and women: age specific prediction formulas_. International Journal of Obesity, 9(2), 147-153.
+- Norton, K., & Olds, T. (1996). _Anthropometrica: A Textbook of Body Measurement for Sports and Health Courses_. UNSW Press.
+- Heyward, V.H., & Wagner, D.R. (2004). _Applied Body Composition Assessment_. Human Kinetics.
+
+### Error Analysis
+
+- Ulijaszek, S.J., & Kerr, D.A. (1999). _Anthropometric measurement error and the assessment of nutritional status_. British Journal of Nutrition, 82(3), 165-177.
+- Gore, C.J., et al. (1996). _Technical and performance characteristics of five anthropometric methods for estimating body composition_. Sports Medicine, Training and Rehabilitation, 6(4), 291-308.
+- Perini, T.A., et al. (2005). _Technical error of measurement in anthropometry_. Revista Brasileira de Medicina do Esporte, 11(1), 81-85.
+
+### Recent Advances
+
+- Müller, M.J., et al. (2016). _Assessment of body composition in epidemiological studies_. European Journal of Clinical Nutrition, 70(6), 632-639.
+- Fosbol, M.O., & Zerahn, B. (2015). _Contemporary methods of body composition measurement_. Clinical Physiology and Functional Imaging, 35(2), 81-97.
+- Kuriyan, R. (2018). _Body composition techniques_. Indian Journal of Medical Research, 148(5), 648-658.
+
+### Athletic Population
+
+- Stewart, A.D., & Hannan, W.J. (2000). _Prediction of fat and fat-free mass in male athletes using dual X-ray absorptiometry as the reference method_. Journal of Sports Sciences, 18(4), 263-274.
+- Ackland, T.R., et al. (2009). _Current status of body composition assessment in sport_. Sports Medicine, 39(5), 411-434.
+
+### Clinical Applications
+
+- Ellis, K.J. (2000). _Human body composition: in vivo methods_. Physiological Reviews, 80(2), 649-680.
+- Wang, Z.M., et al. (1992). _The five-level model: a new approach to organizing body-composition research_. American Journal of Clinical Nutrition, 56(1), 19-28.
+- Heymsfield, S.B., et al. (2005). _Human Body Composition_. Human Kinetics.
+
+### Pediatric Applications
+
+- Slaughter, M.H., et al. (1988). _Skinfold equations for estimation of body fatness in children and youth_. Human Biology, 60(5), 709-723.
+- Deurenberg, P., et al. (1990). _The assessment of the body fat percentage by skinfold thickness measurements in childhood and young adolescence_. British Journal of Nutrition, 63(2), 293-303.
+
+### Elderly Population
+
+- Visser, M., et al. (1994). _Validity of fan-beam dual-energy X-ray absorptiometry for measuring fat-free mass and leg muscle mass_. Journal of Applied Physiology, 77(4), 1739-1744.
+- Baumgartner, R.N., et al. (1995). _Body composition in elderly people: effect of criterion estimates on predictive equations_. American Journal of Clinical Nutrition, 61(6), 1229-1233.
+
+### Gender-Specific Studies
+
+- Jackson, A.S., et al. (2002). _The effect of sex, age and race on estimating percentage body fat from body mass index: The Heritage Family Study_. International Journal of Obesity, 26(6), 789-796.
+- Gallagher, D., et al. (2000). _Healthy percentage body fat ranges: an approach for developing guidelines based on body mass index_. American Journal of Clinical Nutrition, 72(3), 694-701.
+
+### Ethnic Considerations
+
+- Deurenberg, P., et al. (1998). _Body mass index and percent body fat: a meta analysis among different ethnic groups_. International Journal of Obesity, 22(12), 1164-1171.
+- Wagner, D.R., & Heyward, V.H. (2000). _Measures of body composition in blacks and whites: a comparative review_. American Journal of Clinical Nutrition, 71(6), 1392-1402.
+
+### Emerging Technologies
+
+- Borga, M., et al. (2018). _Advanced body composition assessment: from body mass index to body composition profiling_. Journal of Investigative Medicine, 66(5), 1-9.
+- Lee, S.Y., & Gallagher, D. (2008). _Assessment methods in human body composition_. Current Opinion in Clinical Nutrition and Metabolic Care, 11(5), 566-572.
+
+### Validation Methodologies
+
+- Prior, B.M., et al. (1997). _In vivo validation of whole body composition estimates from dual-energy X-ray absorptiometry_. Journal of Applied Physiology, 83(2), 623-630.
+- Fields, D.A., et al. (2002). _Body-composition assessment via air-displacement plethysmography in adults and children: a review_. American Journal of Clinical Nutrition, 75(3), 453-467.
+
+### Practical Applications
+
+- Norton, K., et al. (2000). _Position statement on anthropometric assessment for sport and health_. Journal of Science and Medicine in Sport, 3(4), 391-393.
+- Heyward, V.H. (1998). _Practical body composition assessment for children, adults, and older adults_. International Journal of Sport Nutrition, 8(3), 285-307.
+
+### Meta-Analyses
+
+- Silva, A.M., et al. (2013). _Body composition assessment methods: a systematic review and meta-analysis_. European Journal of Clinical Nutrition, 67(11), 1097-1105.
+- Wells, J.C.K. (2014). _Toward body composition reference data for infants, children, and adolescents_. Advances in Nutrition, 5(3), 320S-329S.
+- Toomey, C.M., et al. (2015). _A review of body composition measurement in the assessment of health_. Topics in Clinical Nutrition, 30(1), 16-32.
+
+### Other
+
+Feel free to find more papers if you need to—just **validate your findings twice**. Absolutely **no invented sources**; always provide a **real** citation or DOI.

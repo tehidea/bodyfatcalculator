@@ -1,0 +1,61 @@
+{
+  "name": "bodyfatcalculator-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "postbuild": "next-sitemap",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "browserslist": "defaults, not ie <= 11",
+  "dependencies": {
+    "@headlessui/react": "^2.2.9",
+    "@headlessui/tailwindcss": "^0.2.2",
+    "@heroicons/react": "^2.2.0",
+    "@mdx-js/react": "^3.1.1",
+    "@next/third-parties": "^15.5.7",
+    "@tailwindcss/forms": "^0.5.10",
+    "@types/node": "^20.19.25",
+    "@types/react": "^18.3.27",
+    "@types/react-dom": "^18.3.7",
+    "autoprefixer": "^10.4.22",
+    "clsx": "^2.1.1",
+    "framer-motion": "^10.18.0",
+    "isomorphic-dompurify": "^2.33.0",
+    "katex": "^0.16.25",
+    "next": "^14.2.33",
+    "next-mdx-remote": "^5.0.0",
+    "next-umami": "^1.0.0",
+    "posthog-js": "^1.302.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-feather": "^2.0.10",
+    "react-katex": "^3.1.0",
+    "tailwindcss": "^3.4.18",
+    "typescript": "^5.9.3",
+    "use-debounce": "^10.0.6"
+  },
+  "devDependencies": {
+    "@types/react-katex": "^3.0.4",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.33",
+    "next-sitemap": "^4.2.3",
+    "prettier": "^3.7.4",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "sharp": "^0.33.5"
+  },
+  "packageManager": "pnpm@10.6.2+sha512.47870716bea1572b53df34ad8647b42962bc790ce2bf4562ba0f643237d7302a3d6a8ecef9e4bdfc01d23af1969aa90485d4cebb0b9638fa5ef1daef656f6c1b",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "core-js",
+      "unrs-resolver"
+    ],
+    "overrides": {
+      "js-yaml@>=4.0.0 <4.1.1": ">=4.1.1",
+      "glob@>=10.2.0 <10.5.0": ">=10.5.0",
+      "mdast-util-to-hast@>=13.0.0 <13.2.1": ">=13.2.1"
+    }
+  }
+}
