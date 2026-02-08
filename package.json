@@ -1,0 +1,25 @@
+{
+  "name": "bodyfatcalculator",
+  "private": true,
+  "packageManager": "pnpm@10.6.2",
+  "engines": { "node": ">=22.11.0" },
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "test": "turbo test",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0",
+    "typescript": "~5.9.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["core-js", "unrs-resolver"],
+    "overrides": {
+      "js-yaml@>=4.0.0 <4.1.1": ">=4.1.1",
+      "glob@>=10.2.0 <10.5.0": ">=10.5.0",
+      "mdast-util-to-hast@>=13.0.0 <13.2.1": ">=13.2.1"
+    }
+  }
+}
