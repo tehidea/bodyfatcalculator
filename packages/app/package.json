@@ -1,9 +1,10 @@
 {
-  "name": "body-fat-calculator",
+  "name": "@bodyfat/app",
   "version": "1.0.0",
   "main": "App.tsx",
   "scripts": {
     "start": "expo start",
+    "dev": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
@@ -12,6 +13,7 @@
     "test": "jest",
     "test:watch": "jest --watchAll",
     "test:coverage": "jest --coverage --verbose",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "check-versions": "node scripts/check-versions.js",
