@@ -6,7 +6,7 @@ import { GooglePlayLink } from '@/components/GooglePlayLink'
 import { CircleBackground } from '@/components/CircleBackground'
 import { Container } from '@/components/Container'
 import { CheckIcon } from '@heroicons/react/24/solid'
-import { FORMULA_REQUIREMENTS } from '@/FORMULA_REQUIREMENTS'
+import { FORMULA_DEFINITIONS } from '@bodyfat/shared/definitions'
 import { BodyWeightScalesIcon } from '@/images/icons/BodyWeightScalesIcon'
 import { MeasuringTapeIcon } from '@/images/icons/MeasuringTapeIcon'
 import { SkinfoldIcon } from '@/images/icons/SkinfoldIcon'
@@ -14,8 +14,8 @@ import { MeasurementVerticalIcon } from '@/images/icons/MeasurementVerticalIcon'
 import { motion } from 'framer-motion'
 
 // Helper function to check if formula needs specific measurements
-function getRequiredMeasurements(formula: keyof typeof FORMULA_REQUIREMENTS) {
-  const fields = FORMULA_REQUIREMENTS[formula].fields
+function getRequiredMeasurements(formula: keyof typeof FORMULA_DEFINITIONS) {
+  const fields = FORMULA_DEFINITIONS[formula].fields
   return {
     needsWeight: fields.some((f) => f.key === 'weight'),
     needsHeight: fields.some((f) => f.key === 'height'),
