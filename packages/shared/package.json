@@ -1,0 +1,22 @@
+{
+  "name": "@bodyfat/shared",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./types": "./src/types/index.ts",
+    "./schemas": "./src/schemas/index.ts",
+    "./definitions": "./src/definitions/index.ts",
+    "./formulas": "./src/formulas/index.ts",
+    "./conversions": "./src/conversions/index.ts"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.2"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  }
+}
