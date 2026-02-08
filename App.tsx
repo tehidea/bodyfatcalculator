@@ -37,12 +37,20 @@ SplashScreen.preventAutoHideAsync().catch(() => {
 // Create the navigator
 const Stack = createNativeStackNavigator();
 
-// Hook to track install attribution
-function useInstallAttribution() {
+function AppNavigator() {
   const posthog = usePostHog();
 
   useEffect(() => {
+    // Set PostHog instance for purchase tracking
+    if (posthog) {
+      setPostHogInstance(posthog);
+    }
+  }, [posthog]);
+
+  useEffect(() => {
     const trackInstallAttribution = async () => {
+      if (!posthog) return;
+
       try {
         // Check if this is the first app launch
         const hasLaunchedBefore = await AsyncStorage.getItem("hasLaunchedBefore");
@@ -73,7 +81,7 @@ function useInstallAttribution() {
           }
 
           // Track the install event with attribution data
-          posthog?.capture("app_installed", {
+          posthog.capture("app_installed", {
             platform: Constants.platform?.ios ? "ios" : "android",
             initial_url: initialUrl,
             ...attribution,
@@ -85,7 +93,7 @@ function useInstallAttribution() {
           await AsyncStorage.setItem("installId", installId);
 
           // Set user properties for cross-platform identification
-          posthog?.identify(installId, {
+          posthog.identify(installId, {
             platform: "mobile",
             app_version: Constants.expoConfig?.version,
             install_source: attribution.source,
@@ -101,42 +109,28 @@ function useInstallAttribution() {
     // Delay to ensure PostHog is initialized
     setTimeout(trackInstallAttribution, 1000);
   }, [posthog]);
-}
-
-function AppContent() {
-  const posthog = usePostHog();
-
-  useEffect(() => {
-    // Set PostHog instance for purchase tracking
-    if (posthog) {
-      setPostHogInstance(posthog);
-    }
-  }, [posthog]);
-
-  useInstallAttribution();
 
   return (
     <KeyboardProvider statusBarTranslucent>
       <SafeAreaProvider>
         <ThemeProvider theme={theme}>
           <ResponsiveProvider>
-            <NavigationContainer>
-              <Stack.Navigator
-                screenOptions={{
-                  headerShown: false,
-                  animation: "slide_from_right",
-                }}
-              >
-                <Stack.Screen name="Calculator" component={CalculatorScreen} />
-                <Stack.Screen name="FeatureComparison" component={FeatureComparisonScreen} />
-              </Stack.Navigator>
-            </NavigationContainer>
+            <Stack.Navigator
+              screenOptions={{
+                headerShown: false,
+                animation: "slide_from_right",
+              }}
+            >
+              <Stack.Screen name="Calculator" component={CalculatorScreen} />
+              <Stack.Screen name="FeatureComparison" component={FeatureComparisonScreen} />
+            </Stack.Navigator>
           </ResponsiveProvider>
         </ThemeProvider>
       </SafeAreaProvider>
     </KeyboardProvider>
   );
 }
+
 
 function App() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -178,22 +172,28 @@ function App() {
   }
 
   return (
-    <PostHogProvider
-      apiKey={Constants.expoConfig?.extra?.POSTHOG_API_KEY || "your_fallback_posthog_api_key"}
-      options={{
-        host: "https://eu.i.posthog.com",
-        disabled: __DEV__,
-        // Enable cross-platform user tracking
-        bootstrap: {
-          distinctID: `mobile_${Constants.platform?.ios ? "ios" : "android"}_${Date.now()}`,
-        },
-        persistence: "memory",
-      }}
-    >
-      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-        <AppContent />
-      </View>
-    </PostHogProvider>
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <NavigationContainer>
+        <PostHogProvider
+          apiKey={Constants.expoConfig?.extra?.POSTHOG_API_KEY || "your_fallback_posthog_api_key"}
+          options={{
+            host: "https://eu.i.posthog.com",
+            disabled: __DEV__,
+            // Enable cross-platform user tracking
+            bootstrap: {
+              distinctID: `mobile_${Constants.platform?.ios ? "ios" : "android"}_${Date.now()}`,
+            },
+            persistence: "memory",
+          }}
+          autocapture={{
+            captureScreens: false, // Disable automatic screen tracking to prevent navigation hook errors
+            captureLifecycleEvents: false, // Disable lifecycle event tracking
+          }}
+        >
+          <AppNavigator />
+        </PostHogProvider>
+      </NavigationContainer>
+    </View>
   );
 }
 

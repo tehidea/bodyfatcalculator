@@ -85,27 +85,43 @@ export interface UserEntitlements {
   pro: boolean;
 }
 
+let isRevenueCatConfigured = false;
+
 export async function initializeStore() {
   console.log("initializeStore - Starting initialization");
-  if (isDevelopment) {
-    Purchases.setLogLevel(Purchases.LOG_LEVEL.DEBUG);
-  }
 
   // Set up cross-platform user identification
   const installId = await AsyncStorage.getItem("installId");
-  if (installId) {
-    console.log("initializeStore - Setting RevenueCat app user ID:", installId);
-    Purchases.setLogInHandler(async newAppUserId => {
-      console.log("RevenueCat login handler called with:", newAppUserId);
-      // Store the RevenueCat user ID for cross-platform sync
-      await AsyncStorage.setItem("revenueCatUserId", newAppUserId);
-    });
-  }
 
-  await Purchases.configure({
-    apiKey: API_KEY,
-    appUserID: installId || undefined, // Use install ID as RevenueCat user ID
-  });
+  // Only configure RevenueCat once
+  if (!isRevenueCatConfigured) {
+    try {
+      if (isDevelopment) {
+        Purchases.setLogLevel(Purchases.LOG_LEVEL.DEBUG);
+      }
+
+      if (installId) {
+        console.log("initializeStore - Setting RevenueCat app user ID:", installId);
+      }
+
+      await Purchases.configure({
+        apiKey: API_KEY,
+        appUserID: installId || undefined, // Use install ID as RevenueCat user ID
+      });
+
+      isRevenueCatConfigured = true;
+      console.log("initializeStore - RevenueCat configured successfully");
+    } catch (error) {
+      // If already configured, just log and continue
+      if (error instanceof Error && error.message.includes("already set")) {
+        console.log("initializeStore - RevenueCat already configured, continuing...");
+        isRevenueCatConfigured = true;
+      } else {
+        console.error("initializeStore - Error configuring RevenueCat:", error);
+        throw error;
+      }
+    }
+  }
 
   // Set PostHog user ID as RevenueCat subscriber attribute for integration
   if (installId) {

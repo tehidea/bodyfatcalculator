@@ -2,6 +2,17 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 🚨 CRITICAL RULE #1: ALWAYS VERIFY WITH OFFICIAL DOCUMENTATION
+
+**NEVER make assumptions about APIs, methods, or configurations. ALWAYS:**
+
+1. **Check official documentation first** - Use WebFetch/WebSearch to verify API methods, configuration options, and current best practices
+2. **Verify package versions** - Check package.json for exact versions and look up version-specific documentation
+3. **Search for deprecation notes** - Many methods get deprecated between versions
+4. **Look up error messages** - Search for the exact error message in official docs/GitHub issues
+
+**This rule overrides everything else. When in doubt, look it up. No exceptions.**
+
 ## Project Ecosystem
 
 This is the **React Native mobile app** component of the Body Fat Calculator project. There's also a companion **Next.js website** at `../bodyfatcalculator-web/` that serves as:
