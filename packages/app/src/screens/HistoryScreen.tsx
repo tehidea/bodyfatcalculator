@@ -5,6 +5,7 @@ import { Alert, FlatList, StyleSheet, TouchableOpacity, View } from 'react-nativ
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PaywallModal } from '../components/calculator/PaywallModal'
 import { COLORS } from '../constants/theme'
+import { useCloudSync } from '../hooks/useCloudSync'
 import type { MeasurementRecord } from '../store/historyStore'
 import { useHistoryStore } from '../store/historyStore'
 import { usePremiumStore } from '../store/premiumStore'
@@ -111,6 +112,7 @@ function MeasurementCard({
 export function HistoryScreen() {
   const { isPremium } = usePremiumStore()
   const { getActiveMeasurements, deleteMeasurement } = useHistoryStore()
+  const { status: syncStatus, isEnabled: syncEnabled, sync } = useCloudSync()
   const { getResponsiveTypography, getLineHeight, getResponsiveSpacing } = useResponsive()
   const styles = createStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing)
   const [showPaywall, setShowPaywall] = useState(false)
@@ -144,9 +146,27 @@ export function HistoryScreen() {
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.header}>
         <Text style={styles.title}>History</Text>
-        {measurements.length > 0 && (
-          <Text style={styles.count}>{measurements.length} measurements</Text>
-        )}
+        <View style={styles.headerRight}>
+          {measurements.length > 0 && (
+            <Text style={styles.count}>{measurements.length} measurements</Text>
+          )}
+          {syncEnabled && (
+            <TouchableOpacity onPress={sync} disabled={syncStatus === 'syncing'} hitSlop={8}>
+              <Icon
+                name={syncStatus === 'error' ? 'alert-circle' : 'cloud'}
+                type="feather"
+                color={
+                  syncStatus === 'syncing'
+                    ? '#ccc'
+                    : syncStatus === 'error'
+                      ? '#FF5722'
+                      : COLORS.success
+                }
+                size={18}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
 
       {measurements.length === 0 ? (
@@ -181,12 +201,17 @@ const createStyles = (
     header: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'baseline',
+      alignItems: 'center',
       paddingHorizontal: getResponsiveSpacing(20),
       paddingVertical: getResponsiveSpacing(16),
       backgroundColor: COLORS.white,
       borderBottomWidth: 1,
       borderBottomColor: '#e0e0e0',
+    },
+    headerRight: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: getResponsiveSpacing(12),
     },
     title: {
       fontSize: getResponsiveTypography('2xl'),

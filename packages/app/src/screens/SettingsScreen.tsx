@@ -13,7 +13,9 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PaywallModal } from '../components/calculator/PaywallModal'
 import { COLORS } from '../constants/theme'
+import { useCloudSync } from '../hooks/useCloudSync'
 import { useCalculatorStore } from '../store/calculatorStore'
+import { useHistoryStore } from '../store/historyStore'
 import { usePremiumStore } from '../store/premiumStore'
 import { useResponsive } from '../utils/responsiveContext'
 
@@ -70,9 +72,24 @@ function SettingsSection({ title, children }: { title: string; children: React.R
   )
 }
 
+function formatLastSynced(isoString: string | null): string {
+  if (!isoString) return 'Never'
+  const date = new Date(isoString)
+  const now = new Date()
+  const diffMs = now.getTime() - date.getTime()
+  const diffMins = Math.floor(diffMs / 60000)
+  if (diffMins < 1) return 'Just now'
+  if (diffMins < 60) return `${diffMins}m ago`
+  const diffHours = Math.floor(diffMins / 60)
+  if (diffHours < 24) return `${diffHours}h ago`
+  return date.toLocaleDateString()
+}
+
 export function SettingsScreen() {
   const { isPremium, isLegacyPro, restorePurchases, isLoading } = usePremiumStore()
   const { measurementSystem, setMeasurementSystem } = useCalculatorStore()
+  const { cloudSyncEnabled, setCloudSyncEnabled } = useHistoryStore()
+  const { status: syncStatus, lastSyncedAt, sync, cloudAvailable } = useCloudSync()
   const { getResponsiveTypography, getLineHeight, getResponsiveSpacing } = useResponsive()
   const styles = createStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing)
   const [showPaywall, setShowPaywall] = useState(false)
@@ -87,12 +104,29 @@ export function SettingsScreen() {
     await restorePurchases()
   }
 
-  const handleCloudSync = () => {
+  const handleToggleCloudSync = () => {
     if (!isPremium) {
       setShowPaywall(true)
       return
     }
-    Alert.alert('Coming Soon', 'Cloud sync will be available in a future update.', [{ text: 'OK' }])
+    const newEnabled = !cloudSyncEnabled
+    setCloudSyncEnabled(newEnabled)
+    if (newEnabled) {
+      sync()
+    }
+  }
+
+  const handleSyncNow = async () => {
+    if (!isPremium) {
+      setShowPaywall(true)
+      return
+    }
+    const result = await sync()
+    if (result && result.errors.length === 0) {
+      Alert.alert('Sync Complete', `Pushed ${result.pushed}, pulled ${result.pulled} measurements.`)
+    } else if (result && result.errors.length > 0) {
+      Alert.alert('Sync Partial', `Completed with ${result.errors.length} error(s).`)
+    }
   }
 
   const handleReminders = () => {
@@ -168,14 +202,39 @@ export function SettingsScreen() {
           />
         </SettingsSection>
 
-        <SettingsSection title="Premium Features">
+        <SettingsSection title="Cloud Sync">
           <SettingsRow
             icon="cloud"
-            label="Cloud Sync"
-            value={isPremium ? 'Coming Soon' : undefined}
-            onPress={handleCloudSync}
-            showChevron
+            label="Enable Cloud Sync"
+            rightElement={
+              <Switch
+                value={cloudSyncEnabled && isPremium}
+                onValueChange={handleToggleCloudSync}
+                trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
+                thumbColor={cloudSyncEnabled && isPremium ? COLORS.primary : '#f4f3f4'}
+              />
+            }
           />
+          {cloudSyncEnabled && isPremium && (
+            <>
+              <SettingsRow
+                icon="refresh-cw"
+                label="Sync Now"
+                value={syncStatus === 'syncing' ? 'Syncing...' : formatLastSynced(lastSyncedAt)}
+                onPress={handleSyncNow}
+              />
+              {cloudAvailable === false && (
+                <SettingsRow
+                  icon="alert-circle"
+                  label="Cloud Not Available"
+                  value={Platform.OS === 'ios' ? 'Sign in to iCloud' : 'Sign in to Google'}
+                />
+              )}
+            </>
+          )}
+        </SettingsSection>
+
+        <SettingsSection title="Premium Features">
           <SettingsRow
             icon="bell"
             label="Reminders"

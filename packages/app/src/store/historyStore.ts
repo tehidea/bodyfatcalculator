@@ -21,10 +21,13 @@ export interface MeasurementRecord {
   version: string
   appVersion: string
   platform: string
+  syncedAt: string | null
 }
 
 interface HistoryStore {
   measurements: MeasurementRecord[]
+  cloudSyncEnabled: boolean
+  lastSyncedAt: string | null
   _hasHydrated: boolean
 
   addMeasurement: (params: {
@@ -40,6 +43,11 @@ interface HistoryStore {
 
   deleteMeasurement: (clientId: string) => void
   getActiveMeasurements: () => MeasurementRecord[]
+  getUnsyncedMeasurements: () => MeasurementRecord[]
+  markSynced: (clientIds: string[]) => void
+  mergeFromCloud: (records: MeasurementRecord[]) => void
+  setCloudSyncEnabled: (enabled: boolean) => void
+  setLastSyncedAt: (timestamp: string) => void
   setHasHydrated: (state: boolean) => void
 }
 
@@ -47,6 +55,8 @@ export const useHistoryStore = create<HistoryStore>()(
   persist(
     (set, get) => ({
       measurements: [],
+      cloudSyncEnabled: false,
+      lastSyncedAt: null,
       _hasHydrated: false,
 
       addMeasurement: (params) => {
@@ -59,6 +69,7 @@ export const useHistoryStore = create<HistoryStore>()(
           version: now,
           appVersion: Constants.expoConfig?.version || 'unknown',
           platform: Platform.OS,
+          syncedAt: null,
         }
         set((state) => ({
           measurements: [record, ...state.measurements],
@@ -69,7 +80,9 @@ export const useHistoryStore = create<HistoryStore>()(
       deleteMeasurement: (clientId) => {
         set((state) => ({
           measurements: state.measurements.map((m) =>
-            m.clientId === clientId ? { ...m, deletedAt: new Date().toISOString() } : m,
+            m.clientId === clientId
+              ? { ...m, deletedAt: new Date().toISOString(), syncedAt: null }
+              : m,
           ),
         }))
       },
@@ -78,6 +91,48 @@ export const useHistoryStore = create<HistoryStore>()(
         return get().measurements.filter((m) => m.deletedAt === null)
       },
 
+      getUnsyncedMeasurements: () => {
+        return get().measurements.filter((m) => m.syncedAt === null)
+      },
+
+      markSynced: (clientIds) => {
+        const now = new Date().toISOString()
+        set((state) => ({
+          measurements: state.measurements.map((m) =>
+            clientIds.includes(m.clientId) ? { ...m, syncedAt: now } : m,
+          ),
+        }))
+      },
+
+      mergeFromCloud: (records) => {
+        set((state) => {
+          const existingIds = new Set(state.measurements.map((m) => m.clientId))
+          const newRecords: MeasurementRecord[] = []
+
+          for (const record of records) {
+            if (existingIds.has(record.clientId)) {
+              // Update existing: apply cloud deletedAt if newer
+              const existing = state.measurements.find((m) => m.clientId === record.clientId)
+              if (existing && record.deletedAt && !existing.deletedAt) {
+                // Cloud says deleted, local doesn't — apply deletion
+                existing.deletedAt = record.deletedAt
+                existing.syncedAt = new Date().toISOString()
+              }
+            } else {
+              newRecords.push({ ...record, syncedAt: new Date().toISOString() })
+            }
+          }
+
+          return {
+            measurements: [...newRecords, ...state.measurements].sort(
+              (a, b) => new Date(b.measuredAt).getTime() - new Date(a.measuredAt).getTime(),
+            ),
+          }
+        })
+      },
+
+      setCloudSyncEnabled: (enabled) => set({ cloudSyncEnabled: enabled }),
+      setLastSyncedAt: (timestamp) => set({ lastSyncedAt: timestamp }),
       setHasHydrated: (state: boolean) => set({ _hasHydrated: state }),
     }),
     {

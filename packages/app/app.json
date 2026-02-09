@@ -60,7 +60,14 @@
           "imageResizeMode": "contain"
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      [
+        "react-native-cloud-storage",
+        {
+          "iCloudContainerEnvironment": "Production",
+          "iCloudContainerIdentifier": "iCloud.com.tehidea.bodyfatcalculator"
+        }
+      ]
     ]
   }
 }
