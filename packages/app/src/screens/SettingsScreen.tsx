@@ -12,6 +12,7 @@ import {
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PaywallModal } from '../components/calculator/PaywallModal'
+import { ReminderSettings } from '../components/settings/ReminderSettings'
 import { COLORS } from '../constants/theme'
 import { useCloudSync } from '../hooks/useCloudSync'
 import { useHealthIntegration } from '../hooks/useHealthIntegration'
@@ -136,16 +137,6 @@ export function SettingsScreen() {
     }
   }
 
-  const handleReminders = () => {
-    if (!isPremium) {
-      setShowPaywall(true)
-      return
-    }
-    Alert.alert('Coming Soon', 'Measurement reminders will be available in a future update.', [
-      { text: 'OK' },
-    ])
-  }
-
   const handleToggleHealth = async () => {
     if (!isPremium) {
       setShowPaywall(true)
@@ -251,13 +242,7 @@ export function SettingsScreen() {
         </SettingsSection>
 
         <SettingsSection title="Premium Features">
-          <SettingsRow
-            icon="bell"
-            label="Reminders"
-            value={isPremium ? 'Coming Soon' : undefined}
-            onPress={handleReminders}
-            showChevron
-          />
+          <ReminderSettings isPremium={isPremium} onShowPaywall={() => setShowPaywall(true)} />
           {healthAvailable !== false && (
             <SettingsRow
               icon="heart"
