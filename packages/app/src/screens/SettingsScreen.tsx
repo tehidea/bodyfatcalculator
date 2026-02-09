@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native'
 import { Icon, Text } from '@rneui/themed'
 import Constants from 'expo-constants'
 import { useState } from 'react'
@@ -104,6 +105,7 @@ export function SettingsScreen() {
     enable: enableHealth,
     disable: disableHealth,
   } = useHealthIntegration()
+  const navigation = useNavigation<any>()
   const { getResponsiveTypography, getLineHeight, getResponsiveSpacing } = useResponsive()
   const styles = createStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing)
   const [showPaywall, setShowPaywall] = useState(false)
@@ -335,6 +337,17 @@ export function SettingsScreen() {
               value={`${version}${buildNumber ? ` (${buildNumber})` : ''}`}
             />
           </SettingsSection>
+
+          {__DEV__ && (
+            <SettingsSection title="Developer">
+              <SettingsRow
+                icon="image"
+                label="Illustration Gallery"
+                onPress={() => navigation.navigate('IllustrationGallery')}
+                showChevron
+              />
+            </SettingsSection>
+          )}
         </ScrollView>
 
         <PaywallModal

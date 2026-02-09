@@ -1,18 +1,24 @@
+import type { Gender } from '@bodyfat/shared/types'
 import { Icon, Text } from '@rneui/themed'
 import { useState } from 'react'
-import { Modal, Pressable, StyleSheet, View } from 'react-native'
+import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 import { COLORS } from '../../constants/theme'
 import { useResponsive } from '../../utils/responsiveContext'
+import { measurementIllustrationMap } from '../illustrations/measurements/fieldMap'
 import { MeasurementIcon } from './FormulaSelector'
 
 interface MeasurementHintProps {
   hint: string
   type: 'weight' | 'height' | 'skinfold' | 'age' | 'circumference'
+  fieldKey?: string
+  gender?: Gender
 }
 
-export function MeasurementHint({ hint, type }: MeasurementHintProps) {
+export function MeasurementHint({ hint, type, fieldKey, gender }: MeasurementHintProps) {
   const [isVisible, setIsVisible] = useState(false)
   const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, width } = useResponsive()
+
+  const Illustration = fieldKey ? measurementIllustrationMap[fieldKey] : undefined
 
   // Create styles with responsive values
   const styles = createMeasurementHintStyles(
@@ -42,13 +48,32 @@ export function MeasurementHint({ hint, type }: MeasurementHintProps) {
       >
         <Pressable style={styles.modalContainer} onPress={() => setIsVisible(false)}>
           <Pressable style={styles.modalContent}>
-            <View style={styles.iconContainer}>
-              <MeasurementIcon type={type} size={getResponsiveSpacing(32)} color={COLORS.primary} />
-            </View>
-            <Text style={styles.hintTitle}>How to Measure</Text>
-            <View style={styles.hintTextContainer}>
-              <Text style={styles.hintText}>{hint}</Text>
-            </View>
+            <ScrollView
+              contentContainerStyle={styles.scrollContent}
+              showsVerticalScrollIndicator={false}
+            >
+              <View style={styles.iconContainer}>
+                <MeasurementIcon
+                  type={type}
+                  size={getResponsiveSpacing(32)}
+                  color={COLORS.primary}
+                />
+              </View>
+              <Text style={styles.hintTitle}>How to Measure</Text>
+              {Illustration && (
+                <View style={styles.illustrationContainer}>
+                  <Illustration
+                    size={getResponsiveSpacing(160)}
+                    color={COLORS.textDark}
+                    highlightColor={COLORS.primary}
+                    gender={gender}
+                  />
+                </View>
+              )}
+              <View style={styles.hintTextContainer}>
+                <Text style={styles.hintText}>{hint}</Text>
+              </View>
+            </ScrollView>
             <Pressable
               style={styles.closeButton}
               onPress={() => setIsVisible(false)}
@@ -88,7 +113,6 @@ const createMeasurementHintStyles = (
       padding: getResponsiveSpacing(24),
       width: Math.min(screenWidth - 48, 400),
       alignItems: 'center',
-      minHeight: getResponsiveSpacing(200),
       shadowColor: '#000',
       shadowOffset: {
         width: 0,
@@ -99,6 +123,9 @@ const createMeasurementHintStyles = (
       elevation: 24,
       maxHeight: '80%',
     },
+    scrollContent: {
+      alignItems: 'center',
+    },
     iconContainer: {
       width: getResponsiveSpacing(64),
       height: getResponsiveSpacing(64),
@@ -107,6 +134,12 @@ const createMeasurementHintStyles = (
       justifyContent: 'center',
       alignItems: 'center',
       marginBottom: getResponsiveSpacing(16),
+    },
+    illustrationContainer: {
+      marginBottom: getResponsiveSpacing(16),
+      padding: getResponsiveSpacing(8),
+      backgroundColor: '#f8f8f8',
+      borderRadius: 16,
     },
     hintTitle: {
       fontSize: getResponsiveTypography('lg'),

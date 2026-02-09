@@ -4,6 +4,7 @@ import { Icon } from '@rneui/themed'
 import { COLORS } from '../constants/theme'
 import { CalculatorScreen } from '../screens/CalculatorScreen'
 import { HistoryScreen } from '../screens/HistoryScreen'
+import { IllustrationGalleryScreen } from '../screens/IllustrationGalleryScreen'
 import { PaywallScreen } from '../screens/PaywallScreen'
 import { SettingsScreen } from '../screens/SettingsScreen'
 
@@ -40,6 +41,11 @@ function SettingsStackScreen() {
       <SettingsStack.Screen
         name="Paywall"
         component={PaywallScreen}
+        options={{ animation: 'slide_from_right' }}
+      />
+      <SettingsStack.Screen
+        name="IllustrationGallery"
+        component={IllustrationGalleryScreen}
         options={{ animation: 'slide_from_right' }}
       />
     </SettingsStack.Navigator>

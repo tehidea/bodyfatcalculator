@@ -195,13 +195,12 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
           <View style={styles.labelContainer}>
             <Text style={styles.label}>{fieldMetadata.label}</Text>
             {fieldMetadata.accessibilityHint && (
-              <>
-                {console.log('MeasurementInput - Hint data:', {
-                  hint: fieldMetadata.accessibilityHint,
-                  type: fieldMetadata.type,
-                })}
-                <MeasurementHint hint={fieldMetadata.accessibilityHint} type={fieldMetadata.type} />
-              </>
+              <MeasurementHint
+                hint={fieldMetadata.accessibilityHint}
+                type={fieldMetadata.type}
+                fieldKey={field}
+                gender={gender}
+              />
             )}
           </View>
           <Animated.View

@@ -1,0 +1,5 @@
+export { femaleBack } from './femaleBack'
+export { femaleFront } from './femaleFront'
+export { maleBack } from './maleBack'
+export { maleFront } from './maleFront'
+export type { BodyPartData } from './types'
