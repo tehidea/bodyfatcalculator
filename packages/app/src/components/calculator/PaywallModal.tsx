@@ -24,7 +24,7 @@ const FEATURE_CONTENT = {
   precision: [
     {
       title: 'Decimal Precision',
-      description: 'Get exact measurements to\u00A02\u00A0decimal places',
+      description: 'Results accurate to 2 decimals',
     },
     {
       title: 'Advanced Formulas',
@@ -50,7 +50,7 @@ const FEATURE_CONTENT = {
     },
     {
       title: 'Decimal Precision',
-      description: 'Get exact measurements to\u00A02\u00A0decimal places',
+      description: 'Results accurate to 2 decimals',
     },
     {
       title: 'Progress Tracking',
@@ -83,9 +83,9 @@ export function PaywallModal({ visible, variant, onClose }: PaywallModalProps) {
   const { isRestoring, handleRestore } = usePurchaseRestore()
   const isPremium = usePremiumStore((state) => state.isPremium)
   const [isClosing, setIsClosing] = useState(false)
-  const { getResponsiveTypography, getLineHeight, deviceType } = useResponsive()
+  const { getResponsiveTypography, getLineHeight, getResponsiveSpacing, deviceType } = useResponsive()
 
-  const styles = createPaywallModalStyles(getResponsiveTypography, getLineHeight, deviceType)
+  const styles = createPaywallModalStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing, deviceType)
   const scale = useSharedValue(0.95)
   const opacity = useSharedValue(0)
   const backdropOpacity = useSharedValue(0)
@@ -161,7 +161,7 @@ export function PaywallModal({ visible, variant, onClose }: PaywallModalProps) {
           <View style={styles.header}>
             <View style={styles.iconWrapper}>
               <Animated.View entering={FadeIn.duration(600)} style={styles.iconContainer}>
-                <Icon name="star" type="feather" color={COLORS.primary} size={32} />
+                <Icon name="star" type="feather" color={COLORS.primary} size={24} />
               </Animated.View>
               <View style={styles.iconGlow} />
             </View>
@@ -169,12 +169,11 @@ export function PaywallModal({ visible, variant, onClose }: PaywallModalProps) {
             <Text style={styles.modalTitle}>
               <Text style={styles.highlight}>Premium</Text>{' '}
               {variant === 'precision' ? 'Precision' : 'Formulas'}
-              {'\n'}
-              <Text style={styles.titleSecondary}>
-                {variant === 'precision'
-                  ? 'Unlock Your Full Potential'
-                  : 'Enhanced Accuracy & Precision'}
-              </Text>
+            </Text>
+            <Text style={styles.titleSecondary}>
+              {variant === 'precision'
+                ? 'Unlock Your Full Potential'
+                : 'Enhanced Accuracy & Precision'}
             </Text>
           </View>
 
@@ -190,7 +189,7 @@ export function PaywallModal({ visible, variant, onClose }: PaywallModalProps) {
                     name={icons[index % icons.length] as string}
                     type="feather"
                     color={COLORS.primary}
-                    size={20}
+                    size={16}
                   />
                 </View>
                 <View style={styles.featureContent}>
@@ -273,6 +272,7 @@ function getModalMaxWidth(deviceType: string): number {
 const createPaywallModalStyles = (
   getResponsiveTypography: (size: any) => number,
   getLineHeight: (size: any) => number,
+  getResponsiveSpacing: (base: number) => number,
   deviceType: string,
 ) =>
   StyleSheet.create({
@@ -308,22 +308,22 @@ const createPaywallModalStyles = (
     },
     header: {
       padding: 24,
-      paddingTop: 36,
-      paddingBottom: 20,
+      paddingTop: 28,
+      paddingBottom: 14,
       alignItems: 'center',
       backgroundColor: `${COLORS.primary}08`,
     },
     iconWrapper: {
-      marginTop: 18,
-      marginBottom: 16,
+      marginTop: 8,
+      marginBottom: 14,
       alignItems: 'center',
       justifyContent: 'center',
     },
     iconContainer: {
       backgroundColor: COLORS.white,
-      borderRadius: 56,
-      width: 56,
-      height: 56,
+      borderRadius: 22,
+      width: 44,
+      height: 44,
       justifyContent: 'center',
       alignItems: 'center',
       shadowColor: COLORS.primary,
@@ -334,19 +334,18 @@ const createPaywallModalStyles = (
     },
     iconGlow: {
       position: 'absolute',
-      width: 80,
-      height: 80,
-      borderRadius: 40,
+      width: 64,
+      height: 64,
+      borderRadius: 32,
       backgroundColor: `${COLORS.primary}20`,
       transform: [{ scale: 1.2 }],
     },
     modalTitle: {
       fontSize: 24,
-      marginTop: 16,
+      marginTop: 10,
       color: COLORS.textDark,
       fontFamily: 'Montserrat-Regular',
       textAlign: 'center',
-      lineHeight: 24,
     },
     highlight: {
       color: COLORS.primary,
@@ -354,26 +353,28 @@ const createPaywallModalStyles = (
     },
     titleSecondary: {
       fontSize: 16,
+      marginTop: 2,
       color: '#666',
       fontFamily: 'Montserrat-Light',
+      textAlign: 'center',
     },
     featureList: {
-      padding: 20,
-      paddingHorizontal: 32,
+      padding: 14,
+      paddingHorizontal: 12 + getResponsiveSpacing(16),
     },
     feature: {
       flexDirection: 'row',
       alignItems: 'center',
-      marginBottom: 12,
+      marginBottom: 8,
     },
     featureIconContainer: {
-      width: 36,
-      height: 36,
-      borderRadius: 10,
+      width: 30,
+      height: 30,
+      borderRadius: 8,
       backgroundColor: `${COLORS.primary}10`,
       justifyContent: 'center',
       alignItems: 'center',
-      marginRight: 12,
+      marginRight: getResponsiveSpacing(12),
     },
     featureContent: {
       flex: 1,
@@ -396,8 +397,8 @@ const createPaywallModalStyles = (
     upgradeButton: {
       backgroundColor: COLORS.primary,
       borderRadius: 16,
-      paddingVertical: 16,
-      marginTop: 16,
+      paddingVertical: 14,
+      marginTop: 12,
     },
     upgradeButtonText: {
       fontSize: getResponsiveTypography('lg'),

@@ -121,7 +121,7 @@ const createStyles = (
 ) =>
   StyleSheet.create({
     container: {
-      gap: getResponsiveSpacing(8),
+      gap: getResponsiveSpacing(6),
     },
     loyaltyBadge: {
       flexDirection: 'row',
@@ -144,7 +144,7 @@ const createStyles = (
       borderWidth: 2,
       borderColor: '#e0e0e0',
       borderRadius: 12,
-      paddingVertical: getResponsiveSpacing(14),
+      paddingVertical: getResponsiveSpacing(10),
       paddingHorizontal: getResponsiveSpacing(16),
     },
     planCardSelected: {
