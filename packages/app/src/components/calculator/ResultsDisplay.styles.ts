@@ -7,21 +7,25 @@ export const createStyles = (
   width: number,
 ) =>
   StyleSheet.create({
-    // Card container
-    container: {
+    // Outer wrapper: holds shadow + animation (excluded from capture)
+    cardShadow: {
       marginTop: getResponsiveSpacing(20),
-      backgroundColor: '#2A2A2A',
-      borderRadius: 20,
-      borderWidth: 1,
-      borderColor: 'rgba(255,255,255,0.06)',
-      padding: getResponsiveSpacing(24),
       width: width - 32,
-      alignSelf: 'center',
+      alignSelf: 'center' as const,
       elevation: 8,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 6 },
       shadowOpacity: 0.3,
       shadowRadius: 12,
+    },
+    // Inner card: capture target
+    card: {
+      backgroundColor: '#2A2A2A',
+      borderRadius: 20,
+      borderWidth: 1,
+      borderColor: 'rgba(255,255,255,0.06)',
+      padding: getResponsiveSpacing(24),
+      overflow: 'hidden' as const,
     },
 
     // Arc gauge section
@@ -182,6 +186,28 @@ export const createStyles = (
       gap: getResponsiveSpacing(4),
     },
     saveButtonText: {
+      fontSize: getResponsiveTypography('xs'),
+      lineHeight: getLineHeight('xs'),
+      fontFamily: 'Montserrat-Light',
+      color: 'rgba(255,255,255,0.5)',
+    },
+    footerRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: getResponsiveSpacing(10),
+    },
+    shareButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: getResponsiveSpacing(6),
+      paddingHorizontal: getResponsiveSpacing(12),
+      backgroundColor: 'rgba(255,255,255,0.08)',
+      borderRadius: 12,
+      gap: getResponsiveSpacing(4),
+    },
+    shareButtonText: {
       fontSize: getResponsiveTypography('xs'),
       lineHeight: getLineHeight('xs'),
       fontFamily: 'Montserrat-Light',

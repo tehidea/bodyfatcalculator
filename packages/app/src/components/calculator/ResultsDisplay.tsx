@@ -1,8 +1,9 @@
 import { FORMULA_DEFINITIONS } from '@bodyfat/shared/definitions'
 import { Icon } from '@rneui/themed'
+import { shareAsync } from 'expo-sharing'
 import { usePostHog } from 'posthog-react-native'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Alert, TouchableOpacity, View } from 'react-native'
 import Animated, {
   Easing,
   runOnJS,
@@ -13,6 +14,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated'
+import { captureRef } from 'react-native-view-shot'
 import { useHealthIntegration } from '../../hooks/useHealthIntegration'
 import { useCalculatorStore } from '../../store/calculatorStore'
 import { useHistoryStore } from '../../store/historyStore'
@@ -65,7 +67,9 @@ export const ResultsDisplay = () => {
   const { writeBodyFat } = useHealthIntegration()
   const [showPaywall, setShowPaywall] = useState(false)
   const [savedId, setSavedId] = useState<string | null>(null)
+  const [isSharing, setIsSharing] = useState(false)
   const lastResultRef = useRef(results)
+  const cardCaptureRef = useRef<View>(null)
   const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, width } = useResponsive()
   const posthog = usePostHog()
 
@@ -98,6 +102,35 @@ export const ResultsDisplay = () => {
     setDisplayValue(Math.floor(value).toString())
     setDisplayDecimal((value % 1).toFixed(2).substring(1))
   }, [])
+
+  const handleShare = useCallback(async () => {
+    if (isSharing || !cardCaptureRef.current || !results) return
+
+    try {
+      // Capture before setting spinner so the button looks normal in the image
+      const uri = await captureRef(cardCaptureRef, { format: 'png', result: 'tmpfile' })
+      setIsSharing(true)
+
+      if (posthog) {
+        posthog.capture('results_shared', {
+          formula,
+          body_fat_percentage: results.bodyFatPercentage,
+          classification: getClassificationForGender(results.bodyFatPercentage, gender),
+          measurement_system: measurementSystem,
+        })
+      }
+
+      await shareAsync(uri, { mimeType: 'image/png' })
+    } catch (error: unknown) {
+      // Don't alert on share-sheet dismissal
+      const message = error instanceof Error ? error.message : ''
+      if (!message.includes('cancel') && !message.includes('dismiss')) {
+        Alert.alert('Share failed', 'Unable to share the image. Please try again.')
+      }
+    } finally {
+      setIsSharing(false)
+    }
+  }, [isSharing, results, posthog, formula, gender, measurementSystem])
 
   // Reset savedId when results change
   useEffect(() => {
@@ -269,117 +302,152 @@ export const ResultsDisplay = () => {
 
   return (
     <>
-      <Animated.View style={[styles.container, cardStyle]}>
-        {/* Arc Gauge with overlaid percentage */}
-        <Animated.View style={[styles.gaugeContainer, gaugeStyle]}>
-          <ArcGauge size={gaugeSize} progress={gaugeProgress} color={classificationColor} />
-          <View style={[styles.gaugeOverlay, { height: gaugeSize }]}>
-            <View style={styles.mainValueContainer}>
-              {!isPremium && <Animated.Text style={styles.mainValueDecimal}>~</Animated.Text>}
-              <Animated.Text style={styles.mainValueWhole}>{displayValue}</Animated.Text>
-              {isPremium ? (
-                <Animated.Text style={styles.mainValueDecimal}>{displayDecimal}%</Animated.Text>
-              ) : (
-                <Animated.Text style={styles.mainValuePercent}>%</Animated.Text>
-              )}
+      <Animated.View style={[styles.cardShadow, cardStyle]}>
+        <View ref={cardCaptureRef} style={styles.card} collapsable={false}>
+          {/* Arc Gauge with overlaid percentage */}
+          <Animated.View style={[styles.gaugeContainer, gaugeStyle]}>
+            <ArcGauge size={gaugeSize} progress={gaugeProgress} color={classificationColor} />
+            <View style={[styles.gaugeOverlay, { height: gaugeSize }]}>
+              <View style={styles.mainValueContainer}>
+                {!isPremium && <Animated.Text style={styles.mainValueDecimal}>~</Animated.Text>}
+                <Animated.Text style={styles.mainValueWhole}>{displayValue}</Animated.Text>
+                {isPremium ? (
+                  <Animated.Text style={styles.mainValueDecimal}>{displayDecimal}%</Animated.Text>
+                ) : (
+                  <Animated.Text style={styles.mainValuePercent}>%</Animated.Text>
+                )}
+              </View>
+              <Animated.Text
+                style={[styles.classification, classificationStyle, { color: classificationColor }]}
+              >
+                {classification}
+              </Animated.Text>
             </View>
-            <Animated.Text
-              style={[styles.classification, classificationStyle, { color: classificationColor }]}
+          </Animated.View>
+
+          {/* Precision badge or margin of error */}
+          {isPremium ? (
+            <Animated.Text style={styles.marginOfError}>
+              Margin of error ±{marginOfError}%
+            </Animated.Text>
+          ) : (
+            <TouchableOpacity
+              style={styles.premiumBadge}
+              onPress={() => {
+                if (posthog) {
+                  posthog.capture('results_precision_tapped', {
+                    current_formula: formula,
+                    body_fat_percentage: results.bodyFatPercentage,
+                    measurement_system: measurementSystem,
+                  })
+                }
+                setShowPaywall(true)
+              }}
             >
-              {classification}
-            </Animated.Text>
-          </View>
-        </Animated.View>
-
-        {/* Precision badge or margin of error */}
-        {isPremium ? (
-          <Animated.Text style={styles.marginOfError}>
-            Margin of error ±{marginOfError}%
-          </Animated.Text>
-        ) : (
-          <TouchableOpacity
-            style={styles.premiumBadge}
-            onPress={() => {
-              if (posthog) {
-                posthog.capture('results_precision_tapped', {
-                  current_formula: formula,
-                  body_fat_percentage: results.bodyFatPercentage,
-                  measurement_system: measurementSystem,
-                })
-              }
-              setShowPaywall(true)
-            }}
-          >
-            <Icon name="lock" type="feather" color="rgba(255,255,255,0.5)" size={11} />
-            <Animated.Text style={styles.premiumBadgeText}>
-              Precise results with Premium
-            </Animated.Text>
-          </TouchableOpacity>
-        )}
-
-        {/* Breakdown: Fat Mass / Lean Mass */}
-        <View style={styles.breakdownContainer}>
-          <Animated.View style={[styles.breakdownColumn, fatColumnStyle]}>
-            <View style={[styles.breakdownBar, { backgroundColor: 'rgba(255,255,255,0.06)' }]}>
-              <View
-                style={[
-                  styles.breakdownBarFill,
-                  { width: `${fatBarWidth * 100}%`, backgroundColor: classificationColor },
-                ]}
-              />
-            </View>
-            <Animated.Text style={styles.breakdownValue}>
-              {isPremium ? results.fatMass.toFixed(2) : Math.round(results.fatMass)} {weightUnit}
-            </Animated.Text>
-            <Animated.Text style={styles.breakdownLabel}>Fat Mass</Animated.Text>
-            <Animated.Text style={styles.breakdownPercentage}>
-              {isPremium
-                ? results.bodyFatPercentage.toFixed(2)
-                : Math.round(results.bodyFatPercentage)}
-              %
-            </Animated.Text>
-          </Animated.View>
-
-          <View style={styles.divider} />
-
-          <Animated.View style={[styles.breakdownColumn, leanColumnStyle]}>
-            <View style={[styles.breakdownBar, { backgroundColor: 'rgba(255,255,255,0.06)' }]}>
-              <View
-                style={[
-                  styles.breakdownBarFill,
-                  { width: `${leanBarWidth * 100}%`, backgroundColor: 'rgba(255,255,255,0.25)' },
-                ]}
-              />
-            </View>
-            <Animated.Text style={styles.breakdownValue}>
-              {isPremium ? results.leanMass.toFixed(2) : Math.round(results.leanMass)} {weightUnit}
-            </Animated.Text>
-            <Animated.Text style={styles.breakdownLabel}>Lean Mass</Animated.Text>
-            <Animated.Text style={styles.breakdownPercentage}>
-              {isPremium ? leanMassPercentage.toFixed(2) : Math.round(leanMassPercentage)}%
-            </Animated.Text>
-          </Animated.View>
-        </View>
-
-        {/* Footer: formula + save status */}
-        <Animated.View style={[styles.footerContainer, footerStyle]}>
-          <Animated.Text style={styles.formulaName}>
-            {formulaDef?.name || formula.toUpperCase()}
-          </Animated.Text>
-
-          {isPremium && savedId && (
-            <View style={styles.savedIndicator}>
-              <Icon name="check" type="feather" color="#4CAF50" size={14} />
-              <Animated.Text style={styles.savedText}>Saved to history</Animated.Text>
-            </View>
-          )}
-          {!isPremium && (
-            <TouchableOpacity style={styles.saveButton} onPress={() => setShowPaywall(true)}>
-              <Icon name="lock" type="feather" color="rgba(255,255,255,0.5)" size={14} />
-              <Animated.Text style={styles.saveButtonText}>Save to History</Animated.Text>
+              <Icon name="lock" type="feather" color="rgba(255,255,255,0.5)" size={11} />
+              <Animated.Text style={styles.premiumBadgeText}>
+                Precise results with Premium
+              </Animated.Text>
             </TouchableOpacity>
           )}
-        </Animated.View>
+
+          {/* Breakdown: Fat Mass / Lean Mass */}
+          <View style={styles.breakdownContainer}>
+            <Animated.View style={[styles.breakdownColumn, fatColumnStyle]}>
+              <View style={[styles.breakdownBar, { backgroundColor: 'rgba(255,255,255,0.06)' }]}>
+                <View
+                  style={[
+                    styles.breakdownBarFill,
+                    { width: `${fatBarWidth * 100}%`, backgroundColor: classificationColor },
+                  ]}
+                />
+              </View>
+              <Animated.Text style={styles.breakdownValue}>
+                {isPremium ? results.fatMass.toFixed(2) : Math.round(results.fatMass)} {weightUnit}
+              </Animated.Text>
+              <Animated.Text style={styles.breakdownLabel}>Fat Mass</Animated.Text>
+              <Animated.Text style={styles.breakdownPercentage}>
+                {isPremium
+                  ? results.bodyFatPercentage.toFixed(2)
+                  : Math.round(results.bodyFatPercentage)}
+                %
+              </Animated.Text>
+            </Animated.View>
+
+            <View style={styles.divider} />
+
+            <Animated.View style={[styles.breakdownColumn, leanColumnStyle]}>
+              <View style={[styles.breakdownBar, { backgroundColor: 'rgba(255,255,255,0.06)' }]}>
+                <View
+                  style={[
+                    styles.breakdownBarFill,
+                    { width: `${leanBarWidth * 100}%`, backgroundColor: 'rgba(255,255,255,0.25)' },
+                  ]}
+                />
+              </View>
+              <Animated.Text style={styles.breakdownValue}>
+                {isPremium ? results.leanMass.toFixed(2) : Math.round(results.leanMass)}{' '}
+                {weightUnit}
+              </Animated.Text>
+              <Animated.Text style={styles.breakdownLabel}>Lean Mass</Animated.Text>
+              <Animated.Text style={styles.breakdownPercentage}>
+                {isPremium ? leanMassPercentage.toFixed(2) : Math.round(leanMassPercentage)}%
+              </Animated.Text>
+            </Animated.View>
+          </View>
+
+          {/* Footer: formula + save status + share */}
+          <Animated.View style={[styles.footerContainer, footerStyle]}>
+            <Animated.Text style={styles.formulaName}>
+              {formulaDef?.name || formula.toUpperCase()}
+            </Animated.Text>
+
+            {isPremium && savedId && (
+              <View style={styles.footerRow}>
+                <View style={styles.savedIndicator}>
+                  <Icon name="check" type="feather" color="#4CAF50" size={14} />
+                  <Animated.Text style={styles.savedText}>Saved to history</Animated.Text>
+                </View>
+                <TouchableOpacity
+                  style={styles.shareButton}
+                  onPress={handleShare}
+                  disabled={isSharing}
+                >
+                  {isSharing ? (
+                    <ActivityIndicator size={14} color="rgba(255,255,255,0.5)" />
+                  ) : (
+                    <Icon name="share" type="feather" color="rgba(255,255,255,0.5)" size={14} />
+                  )}
+                  <Animated.Text style={styles.shareButtonText}>Share</Animated.Text>
+                </TouchableOpacity>
+              </View>
+            )}
+            {!isPremium && (
+              <View style={styles.footerRow}>
+                <TouchableOpacity style={styles.saveButton} onPress={() => setShowPaywall(true)}>
+                  <Icon name="lock" type="feather" color="rgba(255,255,255,0.5)" size={14} />
+                  <Animated.Text style={styles.saveButtonText}>Save to History</Animated.Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.shareButton}
+                  onPress={() => {
+                    if (posthog) {
+                      posthog.capture('results_share_locked_tapped', {
+                        current_formula: formula,
+                        body_fat_percentage: results.bodyFatPercentage,
+                        measurement_system: measurementSystem,
+                      })
+                    }
+                    setShowPaywall(true)
+                  }}
+                >
+                  <Icon name="lock" type="feather" color="rgba(255,255,255,0.5)" size={14} />
+                  <Animated.Text style={styles.shareButtonText}>Share</Animated.Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </Animated.View>
+        </View>
       </Animated.View>
 
       <PaywallModal
