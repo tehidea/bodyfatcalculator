@@ -70,6 +70,7 @@ export const ResultsDisplay = () => {
   const [showPaywall, setShowPaywall] = useState(false)
   const [savedId, setSavedId] = useState<string | null>(null)
   const [isSharing, setIsSharing] = useState(false)
+  const [isCapturing, setIsCapturing] = useState(false)
   const lastResultRef = useRef(results)
   const cardCaptureRef = useRef<View>(null)
   const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, width } = useResponsive()
@@ -109,8 +110,11 @@ export const ResultsDisplay = () => {
     if (isSharing || !cardCaptureRef.current || !results) return
 
     try {
-      // Capture before setting spinner so the button looks normal in the image
+      // Hide interactive elements, wait a frame for React to re-render, then capture
+      setIsCapturing(true)
+      await new Promise((resolve) => requestAnimationFrame(resolve))
       const uri = await captureRef(cardCaptureRef, { format: 'png', result: 'tmpfile' })
+      setIsCapturing(false)
       setIsSharing(true)
 
       if (posthog) {
@@ -130,6 +134,7 @@ export const ResultsDisplay = () => {
         Alert.alert('Share failed', 'Unable to share the image. Please try again.')
       }
     } finally {
+      setIsCapturing(false)
       setIsSharing(false)
     }
   }, [isSharing, results, posthog, formula, gender, measurementSystem])
@@ -330,14 +335,14 @@ export const ResultsDisplay = () => {
             </View>
           </Animated.View>
 
-          {/* Precision badge or margin of error */}
+          {/* Precision badge or margin of error (invisible during capture for non-premium) */}
           {isPremium ? (
             <Animated.Text style={styles.marginOfError}>
               Margin of error ±{marginOfError}%
             </Animated.Text>
           ) : (
             <TouchableOpacity
-              style={styles.premiumBadge}
+              style={[styles.premiumBadge, isCapturing && { opacity: 0 }]}
               onPress={() => {
                 if (posthog) {
                   posthog.capture('results_precision_tapped', {
@@ -407,8 +412,9 @@ export const ResultsDisplay = () => {
               {formulaDef?.name || formula.toUpperCase()}
             </Animated.Text>
 
+            {/* Action buttons (invisible during capture) */}
             {isPremium && savedId && (
-              <View style={styles.footerRow}>
+              <View style={[styles.footerRow, isCapturing && { opacity: 0 }]}>
                 <View style={styles.savedIndicator}>
                   <Icon name="check" type="feather" color="#4CAF50" size={14} />
                   <Animated.Text style={styles.savedText}>Saved to history</Animated.Text>
@@ -427,26 +433,23 @@ export const ResultsDisplay = () => {
                 </TouchableOpacity>
               </View>
             )}
+            {/* TODO: revert — temporarily unlocked for testing */}
             {!isPremium && (
-              <View style={styles.footerRow}>
+              <View style={[styles.footerRow, isCapturing && { opacity: 0 }]}>
                 <TouchableOpacity style={styles.saveButton} onPress={() => setShowPaywall(true)}>
                   <Icon name="lock" type="feather" color="rgba(255,255,255,0.5)" size={14} />
                   <Animated.Text style={styles.saveButtonText}>Save to History</Animated.Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.shareButton}
-                  onPress={() => {
-                    if (posthog) {
-                      posthog.capture('results_share_locked_tapped', {
-                        current_formula: formula,
-                        body_fat_percentage: results.bodyFatPercentage,
-                        measurement_system: measurementSystem,
-                      })
-                    }
-                    setShowPaywall(true)
-                  }}
+                  onPress={handleShare}
+                  disabled={isSharing}
                 >
-                  <Icon name="lock" type="feather" color="rgba(255,255,255,0.5)" size={14} />
+                  {isSharing ? (
+                    <ActivityIndicator size={14} color="rgba(255,255,255,0.5)" />
+                  ) : (
+                    <Icon name="share" type="feather" color="rgba(255,255,255,0.5)" size={14} />
+                  )}
                   <Animated.Text style={styles.shareButtonText}>Share</Animated.Text>
                 </TouchableOpacity>
               </View>
