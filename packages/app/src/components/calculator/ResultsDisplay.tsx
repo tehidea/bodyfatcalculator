@@ -16,6 +16,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { captureRef } from 'react-native-view-shot'
 import { useHealthIntegration } from '../../hooks/useHealthIntegration'
+import Logo from '../../images/logo'
 import { useCalculatorStore } from '../../store/calculatorStore'
 import { useHistoryStore } from '../../store/historyStore'
 import { usePremiumStore } from '../../store/premiumStore'
@@ -306,6 +307,8 @@ export const ResultsDisplay = () => {
     <>
       <Animated.View style={[styles.cardShadow, cardStyle]}>
         <View ref={cardCaptureRef} style={styles.card} collapsable={false}>
+          <Animated.Text style={styles.cardTitle}>Body Composition</Animated.Text>
+
           {/* Arc Gauge with overlaid percentage */}
           <Animated.View style={[styles.gaugeContainer, gaugeStyle]}>
             <ArcGauge size={gaugeSize} progress={gaugeProgress} color={classificationColor} />
@@ -448,6 +451,12 @@ export const ResultsDisplay = () => {
                 </TouchableOpacity>
               </View>
             )}
+          </Animated.View>
+
+          {/* Branding strip for share snapshots */}
+          <Animated.View style={[styles.brandingRow, footerStyle]}>
+            <Logo width={16} height={16} />
+            <Animated.Text style={styles.brandingUrl}>www.bodyfatcalculator.pro</Animated.Text>
           </Animated.View>
         </View>
       </Animated.View>

@@ -28,6 +28,18 @@ export const createStyles = (
       overflow: 'hidden' as const,
     },
 
+    // Card title
+    cardTitle: {
+      fontSize: getResponsiveTypography('sm'),
+      lineHeight: getLineHeight('sm'),
+      fontFamily: 'Montserrat-Light',
+      color: 'rgba(255,255,255,0.5)',
+      textAlign: 'center',
+      textTransform: 'uppercase',
+      letterSpacing: 2.5,
+      marginBottom: getResponsiveSpacing(8),
+    },
+
     // Arc gauge section
     gaugeContainer: {
       alignItems: 'center',
@@ -212,5 +224,23 @@ export const createStyles = (
       lineHeight: getLineHeight('xs'),
       fontFamily: 'Montserrat-Light',
       color: 'rgba(255,255,255,0.5)',
+    },
+
+    // Branding strip (visible in share snapshots)
+    brandingRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: getResponsiveSpacing(12),
+      paddingTop: getResponsiveSpacing(12),
+      borderTopWidth: 1,
+      borderTopColor: 'rgba(255,255,255,0.06)',
+      gap: getResponsiveSpacing(6),
+    },
+    brandingUrl: {
+      fontSize: getResponsiveTypography('xxs'),
+      lineHeight: getLineHeight('xxs'),
+      fontFamily: 'Montserrat-Light',
+      color: 'rgba(255,255,255,0.35)',
     },
   })
