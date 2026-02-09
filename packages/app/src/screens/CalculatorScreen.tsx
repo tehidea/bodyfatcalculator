@@ -5,7 +5,14 @@ import { usePostHog } from 'posthog-react-native'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Keyboard, type TextInput, TouchableOpacity, View } from 'react-native'
 import { KeyboardAwareScrollView, KeyboardToolbar } from 'react-native-keyboard-controller'
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
+import Animated, {
+  FadeIn,
+  FadeOut,
+  LinearTransition,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { BrandHeader } from '../components/BrandHeader'
 import { CalculationAnimation } from '../components/calculator/CalculationAnimation'
@@ -200,18 +207,24 @@ export const CalculatorScreen = () => {
               <FormulaSelector />
             </View>
             {formulaFields.map((field, index) => (
-              <MeasurementInput
+              <Animated.View
                 key={field.key}
-                field={field.key}
-                label={field.label}
-                unit={field.unit || ''}
-                error={getFieldError(field.key) ?? ''}
-                ref={(ref) => {
-                  inputRefs.current[index] = ref
-                }}
-                onFocusChange={(focused) => handleFocusChange(focused, index)}
-                isLastInput={index === formulaFields.length - 1}
-              />
+                entering={FadeIn.duration(300).delay(index * 50)}
+                exiting={FadeOut.duration(200)}
+                layout={LinearTransition.duration(250)}
+              >
+                <MeasurementInput
+                  field={field.key}
+                  label={field.label}
+                  unit={field.unit || ''}
+                  error={getFieldError(field.key) ?? ''}
+                  ref={(ref) => {
+                    inputRefs.current[index] = ref
+                  }}
+                  onFocusChange={(focused) => handleFocusChange(focused, index)}
+                  isLastInput={index === formulaFields.length - 1}
+                />
+              </Animated.View>
             ))}
             <View style={styles.buttonContainer}>
               <Animated.View style={[{ width: '100%' }, buttonAnimatedStyle]}>

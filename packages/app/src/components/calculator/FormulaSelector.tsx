@@ -2,6 +2,7 @@ import { Icon, Text } from '@rneui/themed'
 import { usePostHog } from 'posthog-react-native'
 import { useEffect, useMemo, useState } from 'react'
 import { Alert, FlatList, Keyboard, Modal, StyleSheet, TouchableOpacity, View } from 'react-native'
+import Animated, { FadeIn } from 'react-native-reanimated'
 import { COLORS } from '../../constants/theme'
 import { type Formula, getAllFormulasMetadata, getFormulaMetadata } from '../../schemas/calculator'
 import { useCalculatorStore } from '../../store/calculatorStore'
@@ -248,15 +249,27 @@ export const FormulaSelector = () => {
               onPress={handleToggleGender}
               haptic="selection"
             >
-              <GenderIcon size={getResponsiveSpacing(10)} color="#fff" />
-              <Text style={styles.toggleLabel}>{genderLabel}</Text>
+              <Animated.View
+                key={gender}
+                entering={FadeIn.duration(200)}
+                style={styles.togglePillContent}
+              >
+                <GenderIcon size={getResponsiveSpacing(10)} color="#fff" />
+                <Text style={styles.toggleLabel}>{genderLabel}</Text>
+              </Animated.View>
             </SpringPressable>
             <SpringPressable
               style={styles.togglePill}
               onPress={handleToggleUnits}
               haptic="selection"
             >
-              <Text style={styles.toggleLabel}>{unitsLabel}</Text>
+              <Animated.View
+                key={measurementSystem}
+                entering={FadeIn.duration(200)}
+                style={styles.togglePillContent}
+              >
+                <Text style={styles.toggleLabel}>{unitsLabel}</Text>
+              </Animated.View>
             </SpringPressable>
           </View>
           <View style={styles.chevronContainer}>
@@ -635,12 +648,16 @@ const createStyles = (
       marginLeft: 'auto',
     },
     togglePill: {
-      flexDirection: 'row',
       alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: getResponsiveSpacing(4) + getResponsiveSpacing(20) + getResponsiveSpacing(2),
       backgroundColor: 'rgba(255,255,255,0.12)',
       borderRadius: getResponsiveSpacing(6),
-      paddingVertical: getResponsiveSpacing(3),
       paddingHorizontal: getResponsiveSpacing(8),
+    },
+    togglePillContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: getResponsiveSpacing(4),
     },
     toggleLabel: {
