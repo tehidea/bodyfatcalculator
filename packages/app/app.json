@@ -7,15 +7,9 @@
     "extra": {
       "eas": {
         "projectId": "9f81ba56-4efb-41b5-8cb7-a310221df724"
-      },
-      "revenuecat": {
-        "ios": "${process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY}",
-        "android": "${process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY}"
-      },
-      "POSTHOG_API_KEY": "${process.env.EXPO_PUBLIC_POSTHOG_API_KEY}",
-      "POSTHOG_HOST": "${process.env.EXPO_PUBLIC_POSTHOG_HOST}"
+      }
     },
-    "version": "1.4.3",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -23,7 +17,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.tehidea.bodyfatcalculator",
-      "buildNumber": "11",
+      "buildNumber": "12",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -34,7 +28,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.tehidea.bodyfatcalculator",
-      "versionCode": 11
+      "versionCode": 12
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -45,9 +39,9 @@
         "expo-font",
         {
           "fonts": [
-            "node_modules/@expo-google-fonts/montserrat/Montserrat_200ExtraLight.ttf",
-            "node_modules/@expo-google-fonts/montserrat/Montserrat_300Light.ttf",
-            "node_modules/@expo-google-fonts/montserrat/Montserrat_400Regular.ttf"
+            "../../node_modules/@expo-google-fonts/montserrat/Montserrat_200ExtraLight.ttf",
+            "../../node_modules/@expo-google-fonts/montserrat/Montserrat_300Light.ttf",
+            "../../node_modules/@expo-google-fonts/montserrat/Montserrat_400Regular.ttf"
           ]
         }
       ],
