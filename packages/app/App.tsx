@@ -6,7 +6,6 @@ import {
 } from '@expo-google-fonts/montserrat'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { NavigationContainer } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { ThemeProvider } from '@rneui/themed'
 import { registerRootComponent } from 'expo'
 import Constants from 'expo-constants'
@@ -19,8 +18,7 @@ import { KeyboardProvider } from 'react-native-keyboard-controller'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { initializeStore, setPostHogInstance } from './src/config/store'
 import { theme } from './src/constants/theme'
-import { CalculatorScreen } from './src/screens/CalculatorScreen'
-import { PaywallScreen } from './src/screens/PaywallScreen'
+import { TabNavigator } from './src/navigation/TabNavigator'
 import { ResponsiveProvider } from './src/utils/responsiveContext'
 
 // Configure splash screen options
@@ -33,9 +31,6 @@ SplashScreen.setOptions({
 SplashScreen.preventAutoHideAsync().catch(() => {
   /* reloading the app might trigger some race conditions, ignore them */
 })
-
-// Create the navigator
-const Stack = createNativeStackNavigator()
 
 function AppNavigator() {
   const posthog = usePostHog()
@@ -115,15 +110,7 @@ function AppNavigator() {
       <SafeAreaProvider>
         <ThemeProvider theme={theme}>
           <ResponsiveProvider>
-            <Stack.Navigator
-              screenOptions={{
-                headerShown: false,
-                animation: 'slide_from_right',
-              }}
-            >
-              <Stack.Screen name="Calculator" component={CalculatorScreen} />
-              <Stack.Screen name="Paywall" component={PaywallScreen} />
-            </Stack.Navigator>
+            <TabNavigator />
           </ResponsiveProvider>
         </ThemeProvider>
       </SafeAreaProvider>

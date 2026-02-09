@@ -1,0 +1,353 @@
+import { Icon, Text } from '@rneui/themed'
+import Constants from 'expo-constants'
+import { useState } from 'react'
+import {
+  Alert,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Switch,
+  TouchableOpacity,
+  View,
+} from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { PaywallModal } from '../components/calculator/PaywallModal'
+import { COLORS } from '../constants/theme'
+import { useCalculatorStore } from '../store/calculatorStore'
+import { usePremiumStore } from '../store/premiumStore'
+import { useResponsive } from '../utils/responsiveContext'
+
+function SettingsRow({
+  icon,
+  label,
+  value,
+  onPress,
+  showChevron = false,
+  rightElement,
+}: {
+  icon: string
+  label: string
+  value?: string | undefined
+  onPress?: (() => void) | (() => Promise<void>) | undefined
+  showChevron?: boolean | undefined
+  rightElement?: React.ReactNode | undefined
+}) {
+  const { getResponsiveTypography, getLineHeight, getResponsiveSpacing } = useResponsive()
+  const styles = createRowStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing)
+
+  const content = (
+    <View style={styles.row}>
+      <Icon name={icon} type="feather" color="#666" size={20} />
+      <Text style={styles.label}>{label}</Text>
+      <View style={styles.rightSide}>
+        {value && <Text style={styles.value}>{value}</Text>}
+        {rightElement}
+        {showChevron && <Icon name="chevron-right" type="feather" color="#ccc" size={20} />}
+      </View>
+    </View>
+  )
+
+  if (onPress) {
+    return (
+      <TouchableOpacity onPress={onPress} activeOpacity={0.6}>
+        {content}
+      </TouchableOpacity>
+    )
+  }
+
+  return content
+}
+
+function SettingsSection({ title, children }: { title: string; children: React.ReactNode }) {
+  const { getResponsiveTypography, getLineHeight, getResponsiveSpacing } = useResponsive()
+  const styles = createSectionStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing)
+
+  return (
+    <View style={styles.section}>
+      <Text style={styles.sectionTitle}>{title}</Text>
+      <View style={styles.sectionContent}>{children}</View>
+    </View>
+  )
+}
+
+export function SettingsScreen() {
+  const { isPremium, isLegacyPro, restorePurchases, isLoading } = usePremiumStore()
+  const { measurementSystem, setMeasurementSystem } = useCalculatorStore()
+  const { getResponsiveTypography, getLineHeight, getResponsiveSpacing } = useResponsive()
+  const styles = createStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing)
+  const [showPaywall, setShowPaywall] = useState(false)
+
+  const isMetric = measurementSystem === 'metric'
+
+  const handleToggleUnits = () => {
+    setMeasurementSystem(isMetric ? 'imperial' : 'metric')
+  }
+
+  const handleRestore = async () => {
+    await restorePurchases()
+  }
+
+  const handleCloudSync = () => {
+    if (!isPremium) {
+      setShowPaywall(true)
+      return
+    }
+    Alert.alert('Coming Soon', 'Cloud sync will be available in a future update.', [{ text: 'OK' }])
+  }
+
+  const handleReminders = () => {
+    if (!isPremium) {
+      setShowPaywall(true)
+      return
+    }
+    Alert.alert('Coming Soon', 'Measurement reminders will be available in a future update.', [
+      { text: 'OK' },
+    ])
+  }
+
+  const handleHealthIntegration = () => {
+    if (!isPremium) {
+      setShowPaywall(true)
+      return
+    }
+    Alert.alert('Coming Soon', 'Health integration will be available in a future update.', [
+      { text: 'OK' },
+    ])
+  }
+
+  const version = Constants.expoConfig?.version || '?.?.?'
+  const buildNumber =
+    Platform.select({
+      ios: Constants.expoConfig?.ios?.buildNumber,
+      android: Constants.expoConfig?.android?.versionCode?.toString(),
+    }) || null
+
+  return (
+    <SafeAreaView style={styles.container} edges={['top']}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Settings</Text>
+      </View>
+
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        {!isPremium && (
+          <TouchableOpacity style={styles.premiumBanner} onPress={() => setShowPaywall(true)}>
+            <View style={styles.premiumBannerContent}>
+              <Icon name="star" type="feather" color={COLORS.primary} size={24} />
+              <View style={styles.premiumBannerText}>
+                <Text style={styles.premiumBannerTitle}>Upgrade to Premium</Text>
+                <Text style={styles.premiumBannerSubtitle}>
+                  Unlock history, cloud sync, and more
+                </Text>
+              </View>
+            </View>
+            <Icon name="chevron-right" type="feather" color={COLORS.primary} size={20} />
+          </TouchableOpacity>
+        )}
+
+        {isPremium && (
+          <View style={styles.premiumStatus}>
+            <Icon name="check-circle" type="feather" color={COLORS.success} size={20} />
+            <Text style={styles.premiumStatusText}>
+              {isLegacyPro ? 'Legacy Pro (Grandfathered)' : 'Premium Active'}
+            </Text>
+          </View>
+        )}
+
+        <SettingsSection title="General">
+          <SettingsRow
+            icon="globe"
+            label="Metric Units"
+            rightElement={
+              <Switch
+                value={isMetric}
+                onValueChange={handleToggleUnits}
+                trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
+                thumbColor={isMetric ? COLORS.primary : '#f4f3f4'}
+              />
+            }
+          />
+        </SettingsSection>
+
+        <SettingsSection title="Premium Features">
+          <SettingsRow
+            icon="cloud"
+            label="Cloud Sync"
+            value={isPremium ? 'Coming Soon' : undefined}
+            onPress={handleCloudSync}
+            showChevron
+          />
+          <SettingsRow
+            icon="bell"
+            label="Reminders"
+            value={isPremium ? 'Coming Soon' : undefined}
+            onPress={handleReminders}
+            showChevron
+          />
+          <SettingsRow
+            icon="heart"
+            label="Health Integration"
+            value={isPremium ? 'Coming Soon' : undefined}
+            onPress={handleHealthIntegration}
+            showChevron
+          />
+        </SettingsSection>
+
+        <SettingsSection title="Account">
+          <SettingsRow
+            icon="refresh-cw"
+            label="Restore Purchases"
+            onPress={handleRestore}
+            showChevron={!isLoading}
+            value={isLoading ? 'Restoring...' : undefined}
+          />
+        </SettingsSection>
+
+        <SettingsSection title="About">
+          <SettingsRow
+            icon="info"
+            label="Version"
+            value={`${version}${buildNumber ? ` (${buildNumber})` : ''}`}
+          />
+        </SettingsSection>
+      </ScrollView>
+
+      <PaywallModal
+        visible={showPaywall}
+        variant="precision"
+        onClose={() => setShowPaywall(false)}
+      />
+    </SafeAreaView>
+  )
+}
+
+const createStyles = (
+  getResponsiveTypography: (size: any) => number,
+  getLineHeight: (size: any) => number,
+  getResponsiveSpacing: (base: number) => number,
+) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#f5f5f5',
+    },
+    header: {
+      paddingHorizontal: getResponsiveSpacing(20),
+      paddingVertical: getResponsiveSpacing(16),
+      backgroundColor: COLORS.white,
+      borderBottomWidth: 1,
+      borderBottomColor: '#e0e0e0',
+    },
+    title: {
+      fontSize: getResponsiveTypography('2xl'),
+      lineHeight: getLineHeight('2xl'),
+      fontWeight: 'bold',
+      color: COLORS.textDark,
+    },
+    content: {
+      padding: getResponsiveSpacing(16),
+      gap: getResponsiveSpacing(16),
+    },
+    premiumBanner: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      backgroundColor: COLORS.white,
+      borderRadius: 12,
+      padding: getResponsiveSpacing(16),
+      borderWidth: 2,
+      borderColor: COLORS.primary,
+    },
+    premiumBannerContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: getResponsiveSpacing(12),
+    },
+    premiumBannerText: {
+      gap: getResponsiveSpacing(2),
+    },
+    premiumBannerTitle: {
+      fontSize: getResponsiveTypography('md'),
+      lineHeight: getLineHeight('md'),
+      fontWeight: '600',
+      color: COLORS.textDark,
+    },
+    premiumBannerSubtitle: {
+      fontSize: getResponsiveTypography('sm'),
+      lineHeight: getLineHeight('sm'),
+      color: '#666',
+    },
+    premiumStatus: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: `${COLORS.success}10`,
+      borderRadius: 12,
+      padding: getResponsiveSpacing(12),
+      gap: getResponsiveSpacing(8),
+    },
+    premiumStatusText: {
+      fontSize: getResponsiveTypography('sm'),
+      lineHeight: getLineHeight('sm'),
+      fontWeight: '600',
+      color: COLORS.success,
+    },
+  })
+
+const createSectionStyles = (
+  getResponsiveTypography: (size: any) => number,
+  getLineHeight: (size: any) => number,
+  getResponsiveSpacing: (base: number) => number,
+) =>
+  StyleSheet.create({
+    section: {
+      gap: getResponsiveSpacing(4),
+    },
+    sectionTitle: {
+      fontSize: getResponsiveTypography('xs'),
+      lineHeight: getLineHeight('xs'),
+      fontWeight: '600',
+      color: '#999',
+      textTransform: 'uppercase',
+      letterSpacing: 0.5,
+      paddingHorizontal: getResponsiveSpacing(4),
+      marginBottom: getResponsiveSpacing(4),
+    },
+    sectionContent: {
+      backgroundColor: COLORS.white,
+      borderRadius: 12,
+      overflow: 'hidden',
+    },
+  })
+
+const createRowStyles = (
+  getResponsiveTypography: (size: any) => number,
+  getLineHeight: (size: any) => number,
+  getResponsiveSpacing: (base: number) => number,
+) =>
+  StyleSheet.create({
+    row: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: getResponsiveSpacing(16),
+      paddingVertical: getResponsiveSpacing(14),
+      gap: getResponsiveSpacing(12),
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: '#e0e0e0',
+    },
+    label: {
+      flex: 1,
+      fontSize: getResponsiveTypography('md'),
+      lineHeight: getLineHeight('md'),
+      color: COLORS.textDark,
+    },
+    rightSide: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: getResponsiveSpacing(8),
+    },
+    value: {
+      fontSize: getResponsiveTypography('sm'),
+      lineHeight: getLineHeight('sm'),
+      color: '#999',
+    },
+  })

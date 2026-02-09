@@ -1,25 +1,43 @@
 import { FORMULA_DEFINITIONS } from '@bodyfat/shared/definitions'
-import { useNavigation } from '@react-navigation/native'
 import { Card, Icon, LinearProgress, Text } from '@rneui/themed'
 import { usePostHog } from 'posthog-react-native'
 import type React from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { type ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { COLORS } from '../../constants/theme'
 import { useCalculatorStore } from '../../store/calculatorStore'
+import { useHistoryStore } from '../../store/historyStore'
 import { usePremiumStore } from '../../store/premiumStore'
 import { useResponsive } from '../../utils/responsiveContext'
 import { PaywallModal } from './PaywallModal'
+
+function getClassificationForGender(bodyFatPercentage: number, gender: string): string {
+  if (gender === 'male') {
+    if (bodyFatPercentage < 6) return 'Essential Fat'
+    if (bodyFatPercentage < 14) return 'Athletic'
+    if (bodyFatPercentage < 18) return 'Fitness'
+    if (bodyFatPercentage < 25) return 'Acceptable'
+    return 'Obese'
+  }
+  if (bodyFatPercentage < 14) return 'Essential Fat'
+  if (bodyFatPercentage < 21) return 'Athletic'
+  if (bodyFatPercentage < 25) return 'Fitness'
+  if (bodyFatPercentage < 32) return 'Acceptable'
+  return 'Obese'
+}
 
 interface ResultsDisplayProps {
   scrollViewRef: React.RefObject<ScrollView>
 }
 
 export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
-  const { results, measurementSystem, isResultsStale, gender, formula } = useCalculatorStore()
+  const { results, measurementSystem, isResultsStale, gender, formula, inputs } =
+    useCalculatorStore()
   const { isPremium } = usePremiumStore()
+  const addMeasurement = useHistoryStore((s) => s.addMeasurement)
   const [showPaywall, setShowPaywall] = useState(false)
-  const _navigation = useNavigation()
+  const [savedId, setSavedId] = useState<string | null>(null)
+  const lastResultRef = useRef(results)
   const { getResponsiveTypography, getLineHeight, width } = useResponsive()
   const posthog = usePostHog()
 
@@ -46,6 +64,41 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
       isMounted = false
     }
   }, [results, isResultsStale, scrollViewRef])
+
+  // Reset savedId when results change (new calculation)
+  useEffect(() => {
+    if (results !== lastResultRef.current) {
+      setSavedId(null)
+      lastResultRef.current = results
+    }
+  }, [results])
+
+  // Auto-save for premium users when results arrive
+  useEffect(() => {
+    if (results && !isResultsStale && isPremium && !savedId) {
+      const record = addMeasurement({
+        formula,
+        gender,
+        measurementSystem,
+        inputs,
+        bodyFatPercentage: results.bodyFatPercentage,
+        fatMass: results.fatMass,
+        leanMass: results.leanMass,
+        classification: getClassificationForGender(results.bodyFatPercentage, gender),
+      })
+      setSavedId(record.clientId)
+    }
+  }, [
+    results,
+    isResultsStale,
+    isPremium,
+    savedId,
+    formula,
+    gender,
+    measurementSystem,
+    inputs,
+    addMeasurement,
+  ])
 
   if (!results || isResultsStale) return null
 
@@ -78,24 +131,8 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
     }
   }
 
-  const getClassification = (bodyFatPercentage: number) => {
-    if (gender === 'male') {
-      if (bodyFatPercentage < 6) return 'Essential Fat'
-      if (bodyFatPercentage < 14) return 'Athletic'
-      if (bodyFatPercentage < 18) return 'Fitness'
-      if (bodyFatPercentage < 25) return 'Acceptable'
-      return 'Obese'
-    } else {
-      if (bodyFatPercentage < 14) return 'Essential Fat'
-      if (bodyFatPercentage < 21) return 'Athletic'
-      if (bodyFatPercentage < 25) return 'Fitness'
-      if (bodyFatPercentage < 32) return 'Acceptable'
-      return 'Obese'
-    }
-  }
-
   const classificationColor = getClassificationColor(results.bodyFatPercentage)
-  const classification = getClassification(results.bodyFatPercentage)
+  const classification = getClassificationForGender(results.bodyFatPercentage, gender)
 
   // Split body fat into whole and decimal parts
   const wholeNumber = Math.floor(results.bodyFatPercentage)
@@ -189,6 +226,21 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
 
         {/* Formula Name */}
         <Text style={styles.formulaName}>{formulaDef?.name || formula.toUpperCase()}</Text>
+
+        {/* Save / Saved indicator */}
+        {isPremium && savedId && (
+          <View style={styles.savedIndicator}>
+            <Icon name="check" type="feather" color={COLORS.success} size={14} />
+            <Text style={styles.savedText}>Saved to history</Text>
+          </View>
+        )}
+        {!isPremium && (
+          <TouchableOpacity style={styles.saveButton} onPress={() => setShowPaywall(true)}>
+            <Icon name="clock" type="feather" color="#666" size={14} />
+            <Text style={styles.saveButtonText}>Save to History</Text>
+            <Icon name="lock" type="feather" color="#999" size={12} />
+          </TouchableOpacity>
+        )}
       </Card>
 
       <PaywallModal visible={showPaywall} variant="precision" onClose={handlePaywallClose} />
@@ -315,5 +367,36 @@ const createStyles = (
       textAlign: 'center',
       marginTop: 8,
       lineHeight: getLineHeight('xs'),
+    },
+    savedIndicator: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 12,
+      gap: 6,
+    },
+    savedText: {
+      fontSize: getResponsiveTypography('xs'),
+      lineHeight: getLineHeight('xs'),
+      color: COLORS.success,
+      fontWeight: '500',
+    },
+    saveButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 12,
+      paddingVertical: 8,
+      paddingHorizontal: 16,
+      backgroundColor: '#f5f5f5',
+      borderRadius: 8,
+      gap: 6,
+      alignSelf: 'center',
+    },
+    saveButtonText: {
+      fontSize: getResponsiveTypography('xs'),
+      lineHeight: getLineHeight('xs'),
+      color: '#666',
+      fontWeight: '500',
     },
   })

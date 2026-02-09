@@ -32,5 +32,8 @@
       "glob@>=10.2.0 <10.5.0": ">=10.5.0",
       "mdast-util-to-hast@>=13.0.0 <13.2.1": ">=13.2.1"
     }
+  },
+  "dependencies": {
+    "@react-navigation/bottom-tabs": "^7.12.0"
   }
 }
