@@ -122,68 +122,74 @@ export function HistoryScreen() {
   if (!isPremium) {
     return (
       <SafeAreaView style={styles.container} edges={['top']}>
-        <View style={styles.header}>
-          <Text style={styles.title}>History</Text>
+        <View style={styles.innerContainer}>
+          <View style={styles.header}>
+            <Text style={styles.title}>History</Text>
+          </View>
+          <View style={styles.emptyState}>
+            <Icon name="lock" type="feather" color="#ccc" size={48} />
+            <Text style={styles.emptyTitle}>Premium Feature</Text>
+            <Text style={styles.emptySubtitle}>Track your measurements over time with Premium</Text>
+            <TouchableOpacity style={styles.upgradeButton} onPress={() => setShowPaywall(true)}>
+              <Text style={styles.upgradeButtonText}>Unlock Premium</Text>
+            </TouchableOpacity>
+          </View>
+          <PaywallModal
+            visible={showPaywall}
+            variant="precision"
+            onClose={() => setShowPaywall(false)}
+          />
         </View>
-        <View style={styles.emptyState}>
-          <Icon name="lock" type="feather" color="#ccc" size={48} />
-          <Text style={styles.emptyTitle}>Premium Feature</Text>
-          <Text style={styles.emptySubtitle}>Track your measurements over time with Premium</Text>
-          <TouchableOpacity style={styles.upgradeButton} onPress={() => setShowPaywall(true)}>
-            <Text style={styles.upgradeButtonText}>Unlock Premium</Text>
-          </TouchableOpacity>
-        </View>
-        <PaywallModal
-          visible={showPaywall}
-          variant="precision"
-          onClose={() => setShowPaywall(false)}
-        />
       </SafeAreaView>
     )
   }
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <View style={styles.header}>
-        <Text style={styles.title}>History</Text>
-        <View style={styles.headerRight}>
-          {measurements.length > 0 && (
-            <Text style={styles.count}>{measurements.length} measurements</Text>
-          )}
-          {syncEnabled && (
-            <TouchableOpacity onPress={sync} disabled={syncStatus === 'syncing'} hitSlop={8}>
-              <Icon
-                name={syncStatus === 'error' ? 'alert-circle' : 'cloud'}
-                type="feather"
-                color={
-                  syncStatus === 'syncing'
-                    ? '#ccc'
-                    : syncStatus === 'error'
-                      ? '#FF5722'
-                      : COLORS.success
-                }
-                size={18}
-              />
-            </TouchableOpacity>
-          )}
+      <View style={styles.innerContainer}>
+        <View style={styles.header}>
+          <Text style={styles.title}>History</Text>
+          <View style={styles.headerRight}>
+            {measurements.length > 0 && (
+              <Text style={styles.count}>{measurements.length} measurements</Text>
+            )}
+            {syncEnabled && (
+              <TouchableOpacity onPress={sync} disabled={syncStatus === 'syncing'} hitSlop={8}>
+                <Icon
+                  name={syncStatus === 'error' ? 'alert-circle' : 'cloud'}
+                  type="feather"
+                  color={
+                    syncStatus === 'syncing'
+                      ? '#ccc'
+                      : syncStatus === 'error'
+                        ? '#FF5722'
+                        : COLORS.success
+                  }
+                  size={18}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
-      </View>
 
-      {measurements.length === 0 ? (
-        <View style={styles.emptyState}>
-          <Icon name="clock" type="feather" color="#ccc" size={48} />
-          <Text style={styles.emptyTitle}>No Measurements Yet</Text>
-          <Text style={styles.emptySubtitle}>Your saved measurements will appear here</Text>
-        </View>
-      ) : (
-        <FlatList
-          data={measurements}
-          keyExtractor={(item) => item.clientId}
-          renderItem={({ item }) => <MeasurementCard record={item} onDelete={deleteMeasurement} />}
-          contentContainerStyle={styles.list}
-          showsVerticalScrollIndicator={false}
-        />
-      )}
+        {measurements.length === 0 ? (
+          <View style={styles.emptyState}>
+            <Icon name="clock" type="feather" color="#ccc" size={48} />
+            <Text style={styles.emptyTitle}>No Measurements Yet</Text>
+            <Text style={styles.emptySubtitle}>Your saved measurements will appear here</Text>
+          </View>
+        ) : (
+          <FlatList
+            data={measurements}
+            keyExtractor={(item) => item.clientId}
+            renderItem={({ item }) => (
+              <MeasurementCard record={item} onDelete={deleteMeasurement} />
+            )}
+            contentContainerStyle={styles.list}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
+      </View>
     </SafeAreaView>
   )
 }
@@ -195,6 +201,10 @@ const createStyles = (
 ) =>
   StyleSheet.create({
     container: {
+      flex: 1,
+      backgroundColor: COLORS.white,
+    },
+    innerContainer: {
       flex: 1,
       backgroundColor: '#f5f5f5',
     },

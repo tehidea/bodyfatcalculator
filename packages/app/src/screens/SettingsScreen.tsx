@@ -170,168 +170,172 @@ export function SettingsScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Settings</Text>
-      </View>
+      <View style={styles.innerContainer}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Settings</Text>
+        </View>
 
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        {!isPremium && (
-          <TouchableOpacity style={styles.premiumBanner} onPress={() => setShowPaywall(true)}>
-            <View style={styles.premiumBannerContent}>
-              <Icon name="star" type="feather" color={COLORS.primary} size={24} />
-              <View style={styles.premiumBannerText}>
-                <Text style={styles.premiumBannerTitle}>Upgrade to Premium</Text>
-                <Text style={styles.premiumBannerSubtitle}>
-                  Unlock history, cloud sync, and more
-                </Text>
+        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+          {!isPremium && (
+            <TouchableOpacity style={styles.premiumBanner} onPress={() => setShowPaywall(true)}>
+              <View style={styles.premiumBannerContent}>
+                <Icon name="star" type="feather" color={COLORS.primary} size={24} />
+                <View style={styles.premiumBannerText}>
+                  <Text style={styles.premiumBannerTitle}>Upgrade to Premium</Text>
+                  <Text style={styles.premiumBannerSubtitle}>
+                    Unlock history, cloud sync, and more
+                  </Text>
+                </View>
               </View>
-            </View>
-            <Icon name="chevron-right" type="feather" color={COLORS.primary} size={20} />
-          </TouchableOpacity>
-        )}
-
-        {isPremium && (
-          <View style={styles.premiumStatus}>
-            <Icon name="check-circle" type="feather" color={COLORS.success} size={20} />
-            <Text style={styles.premiumStatusText}>
-              {isLegacyPro ? 'Legacy Pro (Grandfathered)' : 'Premium Active'}
-            </Text>
-          </View>
-        )}
-
-        <SettingsSection title="General">
-          <SettingsRow
-            icon="user"
-            label="Gender"
-            rightElement={
-              <View style={styles.segmentedControl}>
-                <TouchableOpacity
-                  style={[styles.segment, gender === 'male' && styles.segmentActive]}
-                  onPress={() => handleGenderChange('male')}
-                  activeOpacity={0.7}
-                >
-                  <MaleIcon size={12} color={gender === 'male' ? '#fff' : '#666'} />
-                  <Text style={[styles.segmentText, gender === 'male' && styles.segmentTextActive]}>
-                    Male
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.segment, gender === 'female' && styles.segmentActive]}
-                  onPress={() => handleGenderChange('female')}
-                  activeOpacity={0.7}
-                >
-                  <FemaleIcon size={12} color={gender === 'female' ? '#fff' : '#666'} />
-                  <Text
-                    style={[styles.segmentText, gender === 'female' && styles.segmentTextActive]}
-                  >
-                    Female
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            }
-          />
-          <SettingsRow
-            icon="globe"
-            label="Units"
-            rightElement={
-              <View style={styles.segmentedControl}>
-                <TouchableOpacity
-                  style={[styles.segment, isMetric && styles.segmentActive]}
-                  onPress={() => setMeasurementSystem('metric')}
-                  activeOpacity={0.7}
-                >
-                  <Text style={[styles.segmentText, isMetric && styles.segmentTextActive]}>
-                    kg / cm
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.segment, !isMetric && styles.segmentActive]}
-                  onPress={() => setMeasurementSystem('imperial')}
-                  activeOpacity={0.7}
-                >
-                  <Text style={[styles.segmentText, !isMetric && styles.segmentTextActive]}>
-                    lb / in
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            }
-          />
-        </SettingsSection>
-
-        <SettingsSection title="Cloud Sync">
-          <SettingsRow
-            icon="cloud"
-            label="Enable Cloud Sync"
-            rightElement={
-              <Switch
-                value={cloudSyncEnabled && isPremium}
-                onValueChange={handleToggleCloudSync}
-                trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
-                thumbColor={cloudSyncEnabled && isPremium ? COLORS.primary : '#f4f3f4'}
-              />
-            }
-          />
-          {cloudSyncEnabled && isPremium && (
-            <>
-              <SettingsRow
-                icon="refresh-cw"
-                label="Sync Now"
-                value={syncStatus === 'syncing' ? 'Syncing...' : formatLastSynced(lastSyncedAt)}
-                onPress={handleSyncNow}
-              />
-              {cloudAvailable === false && (
-                <SettingsRow
-                  icon="alert-circle"
-                  label="Cloud Not Available"
-                  value={Platform.OS === 'ios' ? 'Sign in to iCloud' : 'Sign in to Google'}
-                />
-              )}
-            </>
+              <Icon name="chevron-right" type="feather" color={COLORS.primary} size={20} />
+            </TouchableOpacity>
           )}
-        </SettingsSection>
 
-        <SettingsSection title="Premium Features">
-          <ReminderSettings isPremium={isPremium} onShowPaywall={() => setShowPaywall(true)} />
-          {healthAvailable !== false && (
+          {isPremium && (
+            <View style={styles.premiumStatus}>
+              <Icon name="check-circle" type="feather" color={COLORS.success} size={20} />
+              <Text style={styles.premiumStatusText}>
+                {isLegacyPro ? 'Legacy Pro (Grandfathered)' : 'Premium Active'}
+              </Text>
+            </View>
+          )}
+
+          <SettingsSection title="General">
             <SettingsRow
-              icon="heart"
-              label={Platform.OS === 'ios' ? 'Apple Health' : 'Health Connect'}
+              icon="user"
+              label="Gender"
+              rightElement={
+                <View style={styles.segmentedControl}>
+                  <TouchableOpacity
+                    style={[styles.segment, gender === 'male' && styles.segmentActive]}
+                    onPress={() => handleGenderChange('male')}
+                    activeOpacity={0.7}
+                  >
+                    <MaleIcon size={12} color={gender === 'male' ? '#fff' : '#666'} />
+                    <Text
+                      style={[styles.segmentText, gender === 'male' && styles.segmentTextActive]}
+                    >
+                      Male
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.segment, gender === 'female' && styles.segmentActive]}
+                    onPress={() => handleGenderChange('female')}
+                    activeOpacity={0.7}
+                  >
+                    <FemaleIcon size={12} color={gender === 'female' ? '#fff' : '#666'} />
+                    <Text
+                      style={[styles.segmentText, gender === 'female' && styles.segmentTextActive]}
+                    >
+                      Female
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              }
+            />
+            <SettingsRow
+              icon="globe"
+              label="Units"
+              rightElement={
+                <View style={styles.segmentedControl}>
+                  <TouchableOpacity
+                    style={[styles.segment, isMetric && styles.segmentActive]}
+                    onPress={() => setMeasurementSystem('metric')}
+                    activeOpacity={0.7}
+                  >
+                    <Text style={[styles.segmentText, isMetric && styles.segmentTextActive]}>
+                      kg / cm
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.segment, !isMetric && styles.segmentActive]}
+                    onPress={() => setMeasurementSystem('imperial')}
+                    activeOpacity={0.7}
+                  >
+                    <Text style={[styles.segmentText, !isMetric && styles.segmentTextActive]}>
+                      lb / in
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              }
+            />
+          </SettingsSection>
+
+          <SettingsSection title="Cloud Sync">
+            <SettingsRow
+              icon="cloud"
+              label="Enable Cloud Sync"
               rightElement={
                 <Switch
-                  value={healthEnabled}
-                  onValueChange={handleToggleHealth}
+                  value={cloudSyncEnabled && isPremium}
+                  onValueChange={handleToggleCloudSync}
                   trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
-                  thumbColor={healthEnabled ? COLORS.primary : '#f4f3f4'}
+                  thumbColor={cloudSyncEnabled && isPremium ? COLORS.primary : '#f4f3f4'}
                 />
               }
             />
-          )}
-        </SettingsSection>
+            {cloudSyncEnabled && isPremium && (
+              <>
+                <SettingsRow
+                  icon="refresh-cw"
+                  label="Sync Now"
+                  value={syncStatus === 'syncing' ? 'Syncing...' : formatLastSynced(lastSyncedAt)}
+                  onPress={handleSyncNow}
+                />
+                {cloudAvailable === false && (
+                  <SettingsRow
+                    icon="alert-circle"
+                    label="Cloud Not Available"
+                    value={Platform.OS === 'ios' ? 'Sign in to iCloud' : 'Sign in to Google'}
+                  />
+                )}
+              </>
+            )}
+          </SettingsSection>
 
-        <SettingsSection title="Account">
-          <SettingsRow
-            icon="refresh-cw"
-            label="Restore Purchases"
-            onPress={handleRestore}
-            showChevron={!isLoading}
-            value={isLoading ? 'Restoring...' : undefined}
-          />
-        </SettingsSection>
+          <SettingsSection title="Premium Features">
+            <ReminderSettings isPremium={isPremium} onShowPaywall={() => setShowPaywall(true)} />
+            {healthAvailable !== false && (
+              <SettingsRow
+                icon="heart"
+                label={Platform.OS === 'ios' ? 'Apple Health' : 'Health Connect'}
+                rightElement={
+                  <Switch
+                    value={healthEnabled}
+                    onValueChange={handleToggleHealth}
+                    trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
+                    thumbColor={healthEnabled ? COLORS.primary : '#f4f3f4'}
+                  />
+                }
+              />
+            )}
+          </SettingsSection>
 
-        <SettingsSection title="About">
-          <SettingsRow
-            icon="info"
-            label="Version"
-            value={`${version}${buildNumber ? ` (${buildNumber})` : ''}`}
-          />
-        </SettingsSection>
-      </ScrollView>
+          <SettingsSection title="Account">
+            <SettingsRow
+              icon="refresh-cw"
+              label="Restore Purchases"
+              onPress={handleRestore}
+              showChevron={!isLoading}
+              value={isLoading ? 'Restoring...' : undefined}
+            />
+          </SettingsSection>
 
-      <PaywallModal
-        visible={showPaywall}
-        variant="precision"
-        onClose={() => setShowPaywall(false)}
-      />
+          <SettingsSection title="About">
+            <SettingsRow
+              icon="info"
+              label="Version"
+              value={`${version}${buildNumber ? ` (${buildNumber})` : ''}`}
+            />
+          </SettingsSection>
+        </ScrollView>
+
+        <PaywallModal
+          visible={showPaywall}
+          variant="precision"
+          onClose={() => setShowPaywall(false)}
+        />
+      </View>
     </SafeAreaView>
   )
 }
@@ -343,6 +347,10 @@ const createStyles = (
 ) =>
   StyleSheet.create({
     container: {
+      flex: 1,
+      backgroundColor: COLORS.white,
+    },
+    innerContainer: {
       flex: 1,
       backgroundColor: '#f5f5f5',
     },
