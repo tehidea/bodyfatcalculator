@@ -75,44 +75,23 @@ export const createStyles = (
       borderRadius: 12,
     },
     buttonContainer: {
+      alignItems: 'center',
       marginTop: getResponsiveSpacing(24),
       marginBottom: getResponsiveSpacing(16),
     },
-    resetButton: {
+    buttonWrapperFullWidth: {
+      width: '100%',
       borderRadius: 12,
-      borderWidth: 0,
       overflow: 'hidden',
-      backgroundColor: '#444',
+    },
+    resetLink: {
       paddingVertical: getResponsiveSpacing(12),
-      paddingHorizontal: getResponsiveSpacing(24),
     },
-    resetButtonText: {
-      color: COLORS.white,
-      fontSize: getResponsiveTypography('lg'),
-      lineHeight: getLineHeight('lg'),
-    },
-    halfWidth: {
-      flex: 1,
-    },
-    buttonWrapper: {
-      borderRadius: 12,
-      overflow: 'hidden',
-    },
-    buttonWrapperFlex: {
-      borderRadius: 12,
-      overflow: 'hidden',
-      flex: 1,
-    },
-    button: {
-      paddingVertical: getResponsiveSpacing(12),
-      paddingHorizontal: getResponsiveSpacing(24),
-      borderRadius: 14,
-    },
-    buttonRow: {
-      flexDirection: 'row',
-      gap: getResponsiveSpacing(8),
-      marginTop: getResponsiveSpacing(24),
-      marginBottom: getResponsiveSpacing(16),
+    resetLinkText: {
+      color: 'rgba(255, 255, 255, 0.5)',
+      fontSize: getResponsiveTypography('sm'),
+      lineHeight: getLineHeight('sm'),
+      fontFamily: 'Montserrat-Light',
     },
     primaryButton: {
       paddingVertical: getResponsiveSpacing(12),

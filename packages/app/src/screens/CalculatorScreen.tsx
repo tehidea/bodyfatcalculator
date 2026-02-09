@@ -1,11 +1,13 @@
 import { calculateResults } from '@bodyfat/shared/formulas'
+import type { CalculationResult } from '@bodyfat/shared/types'
 import { Button, Text } from '@rneui/themed'
 import Constants from 'expo-constants'
 import { usePostHog } from 'posthog-react-native'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Keyboard, Linking, Platform, type TextInput, View } from 'react-native'
+import { Keyboard, Linking, Platform, type TextInput, TouchableOpacity, View } from 'react-native'
 import { KeyboardAwareScrollView, KeyboardToolbar } from 'react-native-keyboard-controller'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { CalculationAnimation } from '../components/calculator/CalculationAnimation'
 import { FormulaSelector } from '../components/calculator/FormulaSelector'
 import { MeasurementInput } from '../components/calculator/MeasurementInput'
 import { ResultsDisplay } from '../components/calculator/ResultsDisplay'
@@ -119,7 +121,6 @@ export const CalculatorScreen = () => {
     gender,
     inputs,
     error: globalError,
-    isCalculating,
     isResultsStale,
     results,
     setResults,
@@ -153,6 +154,9 @@ export const CalculatorScreen = () => {
   const scrollViewRef = useRef<any>(null)
   const [_isFocused, setIsFocused] = useState(false)
   const [_currentInputIndex, setCurrentInputIndex] = useState<number | null>(null)
+  const [isAnimating, setIsAnimating] = useState(false)
+  const [pendingResults, setPendingResults] = useState<CalculationResult | null>(null)
+  const resultsYRef = useRef(0)
   const inputRefs = useRef<(TextInput | null)[]>([])
 
   const formulaFields = useMemo(() => {
@@ -197,17 +201,25 @@ export const CalculatorScreen = () => {
         })
       }
 
-      const results = await calculateResults(formula, gender, inputs, measurementSystem)
-      setResults(results)
-
-      // Scroll to show results if needed
-      setTimeout(() => {
-        scrollViewRef.current?.scrollToEnd({ animated: true })
-      }, 100)
+      const computed = await calculateResults(formula, gender, inputs, measurementSystem)
+      setPendingResults(computed)
+      setIsAnimating(true)
     } catch (error) {
       setError(error instanceof Error ? error.message : 'An unexpected error occurred')
     }
-  }, [formula, gender, inputs, measurementSystem, posthog, setError, setResults])
+  }, [formula, gender, inputs, measurementSystem, posthog, setError])
+
+  const handleAnimationComplete = useCallback(() => {
+    if (pendingResults) {
+      setResults(pendingResults)
+      setPendingResults(null)
+    }
+    setIsAnimating(false)
+
+    setTimeout(() => {
+      scrollViewRef.current?.scrollTo({ y: resultsYRef.current, animated: true })
+    }, 100)
+  }, [pendingResults, setResults])
 
   const handleReset = useCallback(() => {
     setError(null)
@@ -218,10 +230,10 @@ export const CalculatorScreen = () => {
   }, [reset, posthog, setError])
 
   const buttonTitle = useMemo(() => {
-    if (isCalculating) return 'Calculating...'
+    if (isAnimating) return 'Calculating...'
     if (results && isResultsStale) return 'Recalculate'
     return 'Calculate'
-  }, [isCalculating, results, isResultsStale])
+  }, [isAnimating, results, isResultsStale])
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -255,34 +267,46 @@ export const CalculatorScreen = () => {
                 isLastInput={index === formulaFields.length - 1}
               />
             ))}
-            <View style={styles.buttonRow}>
+            <View style={styles.buttonContainer}>
               <Button
                 title={buttonTitle}
                 onPress={handleCalculate}
-                loading={isCalculating}
-                disabled={isCalculating}
+                disabled={isAnimating}
                 buttonStyle={styles.primaryButton}
-                containerStyle={styles.buttonWrapperFlex}
+                disabledStyle={styles.primaryButton}
+                containerStyle={styles.buttonWrapperFullWidth}
                 titleStyle={styles.primaryButtonText}
+                disabledTitleStyle={styles.primaryButtonText}
                 testID="calculate-button"
               />
-              <Button
-                title="Reset"
-                type="outline"
+              <TouchableOpacity
+                style={styles.resetLink}
                 onPress={handleReset}
-                disabled={isCalculating}
-                titleStyle={styles.resetButtonText}
-                containerStyle={styles.buttonWrapperFlex}
-                buttonStyle={styles.resetButton}
+                disabled={isAnimating}
                 testID="reset-button"
-              />
+              >
+                <Text style={styles.resetLinkText}>Reset</Text>
+              </TouchableOpacity>
             </View>
+            {pendingResults && (
+              <CalculationAnimation
+                targetValue={pendingResults.bodyFatPercentage}
+                isAnimating={isAnimating}
+                onAnimationComplete={handleAnimationComplete}
+              />
+            )}
             {globalError && (
               <View style={styles.errorContainer}>
                 <Text style={styles.errorText}>{globalError}</Text>
               </View>
             )}
-            <ResultsDisplay scrollViewRef={scrollViewRef} />
+            <View
+              onLayout={(e) => {
+                resultsYRef.current = e.nativeEvent.layout.y
+              }}
+            >
+              <ResultsDisplay />
+            </View>
             <ReferencesDisplay />
             <VersionDisplay />
           </KeyboardAwareScrollView>

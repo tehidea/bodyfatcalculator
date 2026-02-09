@@ -1,9 +1,9 @@
 import { FORMULA_DEFINITIONS } from '@bodyfat/shared/definitions'
 import { Card, Icon, LinearProgress, Text } from '@rneui/themed'
 import { usePostHog } from 'posthog-react-native'
-import type React from 'react'
 import { useEffect, useRef, useState } from 'react'
-import { type ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import Animated, { FadeIn } from 'react-native-reanimated'
 import { COLORS } from '../../constants/theme'
 import { useHealthIntegration } from '../../hooks/useHealthIntegration'
 import { useCalculatorStore } from '../../store/calculatorStore'
@@ -27,11 +27,7 @@ function getClassificationForGender(bodyFatPercentage: number, gender: string): 
   return 'Obese'
 }
 
-interface ResultsDisplayProps {
-  scrollViewRef: React.RefObject<ScrollView>
-}
-
-export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
+export const ResultsDisplay = () => {
   const { results, measurementSystem, isResultsStale, gender, formula, inputs } =
     useCalculatorStore()
   const { isPremium } = usePremiumStore()
@@ -45,27 +41,6 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
 
   // Create styles with responsive values
   const styles = createStyles(getResponsiveTypography, getLineHeight, width)
-
-  useEffect(() => {
-    let isMounted = true
-
-    if (results && !isResultsStale && isMounted) {
-      const timer = setTimeout(() => {
-        if (isMounted && scrollViewRef.current) {
-          scrollViewRef.current.scrollToEnd({ animated: true })
-        }
-      }, 100)
-
-      return () => {
-        isMounted = false
-        clearTimeout(timer)
-      }
-    }
-
-    return () => {
-      isMounted = false
-    }
-  }, [results, isResultsStale, scrollViewRef])
 
   // Reset savedId when results change (new calculation)
   useEffect(() => {
@@ -152,101 +127,107 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
 
   return (
     <>
-      <Card containerStyle={styles.container}>
-        <Card.Title style={styles.title}>Your Body Composition</Card.Title>
+      <Animated.View entering={FadeIn.duration(400)}>
+        <Card containerStyle={styles.container}>
+          <Card.Title style={styles.title}>Your Body Composition</Card.Title>
 
-        {/* Body Fat Percentage with Progress Bar */}
-        <View style={styles.mainResult}>
-          <View style={styles.mainValueContainer}>
-            <Text style={styles.mainValue}>
-              {isPremium ? `${wholeNumber}` : `~${wholeNumber}%`}
+          {/* Body Fat Percentage with Progress Bar */}
+          <View style={styles.mainResult}>
+            <View style={styles.mainValueContainer}>
+              <Text style={styles.mainValue}>
+                {isPremium ? `${wholeNumber}` : `~${wholeNumber}%`}
+              </Text>
+              {isPremium && <Text style={styles.mainValue}>{decimal}%</Text>}
+            </View>
+            {!isPremium && (
+              <TouchableOpacity
+                style={styles.premiumBadge}
+                onPress={() => {
+                  if (posthog) {
+                    posthog.capture('results_precision_tapped', {
+                      current_formula: formula,
+                      body_fat_percentage: results?.bodyFatPercentage,
+                      measurement_system: measurementSystem,
+                    })
+                  }
+                  setShowPaywall(true)
+                }}
+              >
+                <Icon name="lock" type="feather" color="#666" size={14} />
+                <Text style={styles.premiumBadgeText}>Get more accurate results with Premium</Text>
+              </TouchableOpacity>
+            )}
+            <Text style={styles.mainLabel}>
+              Body Fat {isPremium ? `(±${marginOfError}%)` : '(estimated)'}
             </Text>
-            {isPremium && <Text style={styles.mainValue}>{decimal}%</Text>}
+            <LinearProgress
+              style={styles.progressBar}
+              value={bodyFatProgress}
+              color={classificationColor}
+              variant="determinate"
+            />
           </View>
+
+          {/* Classification */}
+          <View
+            style={[
+              styles.classificationContainer,
+              { backgroundColor: `${classificationColor}15` },
+            ]}
+          >
+            <Text style={[styles.classification, { color: classificationColor }]}>
+              {classification}
+            </Text>
+          </View>
+
+          {/* Detailed Breakdown */}
+          <View style={styles.breakdownContainer}>
+            <View style={styles.breakdownItem}>
+              <Text style={styles.breakdownValue}>
+                {isPremium ? results.fatMass.toFixed(2) : Math.round(results.fatMass)} {weightUnit}
+              </Text>
+              <Text style={styles.breakdownLabel}>Fat Mass</Text>
+              <Text style={styles.breakdownPercentage}>
+                {isPremium
+                  ? results.bodyFatPercentage.toFixed(2)
+                  : Math.round(results.bodyFatPercentage)}
+                %
+              </Text>
+            </View>
+
+            <View style={styles.divider} />
+
+            <View style={styles.breakdownItem}>
+              <Text style={styles.breakdownValue}>
+                {isPremium ? results.leanMass.toFixed(2) : Math.round(results.leanMass)}{' '}
+                {weightUnit}
+              </Text>
+              <Text style={styles.breakdownLabel}>Lean Mass</Text>
+              <Text style={styles.breakdownPercentage}>
+                {isPremium ? leanMassPercentage.toFixed(2) : Math.round(leanMassPercentage)}%
+              </Text>
+            </View>
+          </View>
+
+          {/* Formula Name */}
+          <Text style={styles.formulaName}>{formulaDef?.name || formula.toUpperCase()}</Text>
+
+          {/* Save / Saved indicator */}
+          {isPremium && savedId && (
+            <View style={styles.savedIndicator}>
+              <Icon name="check" type="feather" color={COLORS.success} size={14} />
+              <Text style={styles.savedText}>Saved to history</Text>
+            </View>
+          )}
           {!isPremium && (
-            <TouchableOpacity
-              style={styles.premiumBadge}
-              onPress={() => {
-                if (posthog) {
-                  posthog.capture('results_precision_tapped', {
-                    current_formula: formula,
-                    body_fat_percentage: results?.bodyFatPercentage,
-                    measurement_system: measurementSystem,
-                  })
-                }
-                setShowPaywall(true)
-              }}
-            >
-              <Icon name="lock" type="feather" color="#666" size={14} />
-              <Text style={styles.premiumBadgeText}>Get more accurate results with Premium</Text>
+            <TouchableOpacity style={styles.saveButton} onPress={() => setShowPaywall(true)}>
+              <Icon name="clock" type="feather" color="#666" size={14} />
+              <Text style={styles.saveButtonText}>Save to History</Text>
+              <Icon name="lock" type="feather" color="#999" size={12} />
             </TouchableOpacity>
           )}
-          <Text style={styles.mainLabel}>
-            Body Fat {isPremium ? `(±${marginOfError}%)` : '(estimated)'}
-          </Text>
-          <LinearProgress
-            style={styles.progressBar}
-            value={bodyFatProgress}
-            color={classificationColor}
-            variant="determinate"
-          />
-        </View>
-
-        {/* Classification */}
-        <View
-          style={[styles.classificationContainer, { backgroundColor: `${classificationColor}15` }]}
-        >
-          <Text style={[styles.classification, { color: classificationColor }]}>
-            {classification}
-          </Text>
-        </View>
-
-        {/* Detailed Breakdown */}
-        <View style={styles.breakdownContainer}>
-          <View style={styles.breakdownItem}>
-            <Text style={styles.breakdownValue}>
-              {isPremium ? results.fatMass.toFixed(2) : Math.round(results.fatMass)} {weightUnit}
-            </Text>
-            <Text style={styles.breakdownLabel}>Fat Mass</Text>
-            <Text style={styles.breakdownPercentage}>
-              {isPremium
-                ? results.bodyFatPercentage.toFixed(2)
-                : Math.round(results.bodyFatPercentage)}
-              %
-            </Text>
-          </View>
-
-          <View style={styles.divider} />
-
-          <View style={styles.breakdownItem}>
-            <Text style={styles.breakdownValue}>
-              {isPremium ? results.leanMass.toFixed(2) : Math.round(results.leanMass)} {weightUnit}
-            </Text>
-            <Text style={styles.breakdownLabel}>Lean Mass</Text>
-            <Text style={styles.breakdownPercentage}>
-              {isPremium ? leanMassPercentage.toFixed(2) : Math.round(leanMassPercentage)}%
-            </Text>
-          </View>
-        </View>
-
-        {/* Formula Name */}
-        <Text style={styles.formulaName}>{formulaDef?.name || formula.toUpperCase()}</Text>
-
-        {/* Save / Saved indicator */}
-        {isPremium && savedId && (
-          <View style={styles.savedIndicator}>
-            <Icon name="check" type="feather" color={COLORS.success} size={14} />
-            <Text style={styles.savedText}>Saved to history</Text>
-          </View>
-        )}
-        {!isPremium && (
-          <TouchableOpacity style={styles.saveButton} onPress={() => setShowPaywall(true)}>
-            <Icon name="clock" type="feather" color="#666" size={14} />
-            <Text style={styles.saveButtonText}>Save to History</Text>
-            <Icon name="lock" type="feather" color="#999" size={12} />
-          </TouchableOpacity>
-        )}
-      </Card>
+        </Card>
+      </Animated.View>
 
       <PaywallModal visible={showPaywall} variant="precision" onClose={handlePaywallClose} />
     </>
