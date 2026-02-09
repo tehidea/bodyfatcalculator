@@ -153,8 +153,8 @@ export const ResultsDisplay = () => {
                   setShowPaywall(true)
                 }}
               >
-                <Icon name="lock" type="feather" color="#666" size={14} />
-                <Text style={styles.premiumBadgeText}>Get more accurate results with Premium</Text>
+                <Icon name="lock" type="feather" color="#666" size={12} />
+                <Text style={styles.premiumBadgeText}>Precise results with Premium</Text>
               </TouchableOpacity>
             )}
             <Text style={styles.mainLabel}>
@@ -221,9 +221,8 @@ export const ResultsDisplay = () => {
           )}
           {!isPremium && (
             <TouchableOpacity style={styles.saveButton} onPress={() => setShowPaywall(true)}>
-              <Icon name="clock" type="feather" color="#666" size={14} />
+              <Icon name="lock" type="feather" color="#666" size={14} />
               <Text style={styles.saveButtonText}>Save to History</Text>
-              <Icon name="lock" type="feather" color="#999" size={12} />
             </TouchableOpacity>
           )}
         </Card>
@@ -283,12 +282,12 @@ const createStyles = (
       borderRadius: 12,
       marginTop: 8,
       marginBottom: 12,
+      gap: 4,
     },
     premiumBadgeText: {
       fontSize: getResponsiveTypography('xxxs'),
-      fontWeight: 'bold',
+      fontWeight: '600',
       color: '#666',
-      marginLeft: 4,
       lineHeight: getLineHeight('xxxs'),
     },
     mainLabel: {
@@ -372,17 +371,17 @@ const createStyles = (
       alignItems: 'center',
       justifyContent: 'center',
       marginTop: 12,
-      paddingVertical: 8,
-      paddingHorizontal: 16,
-      backgroundColor: '#f5f5f5',
-      borderRadius: 8,
-      gap: 6,
+      paddingVertical: 6,
+      paddingHorizontal: 12,
+      backgroundColor: '#f0f0f0',
+      borderRadius: 12,
+      gap: 4,
       alignSelf: 'center',
     },
     saveButtonText: {
       fontSize: getResponsiveTypography('xs'),
       lineHeight: getLineHeight('xs'),
       color: '#666',
-      fontWeight: '500',
+      fontWeight: '600',
     },
   })
