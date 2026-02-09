@@ -433,7 +433,6 @@ export const ResultsDisplay = () => {
                 </TouchableOpacity>
               </View>
             )}
-            {/* TODO: revert — temporarily unlocked for testing */}
             {!isPremium && (
               <View style={[styles.footerRow, isCapturing && { opacity: 0 }]}>
                 <TouchableOpacity style={styles.saveButton} onPress={() => setShowPaywall(true)}>
@@ -442,14 +441,18 @@ export const ResultsDisplay = () => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.shareButton}
-                  onPress={handleShare}
-                  disabled={isSharing}
+                  onPress={() => {
+                    if (posthog) {
+                      posthog.capture('results_share_locked_tapped', {
+                        current_formula: formula,
+                        body_fat_percentage: results.bodyFatPercentage,
+                        measurement_system: measurementSystem,
+                      })
+                    }
+                    setShowPaywall(true)
+                  }}
                 >
-                  {isSharing ? (
-                    <ActivityIndicator size={14} color="rgba(255,255,255,0.5)" />
-                  ) : (
-                    <Icon name="share" type="feather" color="rgba(255,255,255,0.5)" size={14} />
-                  )}
+                  <Icon name="lock" type="feather" color="rgba(255,255,255,0.5)" size={14} />
                   <Animated.Text style={styles.shareButtonText}>Share</Animated.Text>
                 </TouchableOpacity>
               </View>
