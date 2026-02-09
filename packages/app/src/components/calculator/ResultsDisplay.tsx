@@ -5,6 +5,7 @@ import type React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { type ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { COLORS } from '../../constants/theme'
+import { useHealthIntegration } from '../../hooks/useHealthIntegration'
 import { useCalculatorStore } from '../../store/calculatorStore'
 import { useHistoryStore } from '../../store/historyStore'
 import { usePremiumStore } from '../../store/premiumStore'
@@ -35,6 +36,7 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
     useCalculatorStore()
   const { isPremium } = usePremiumStore()
   const addMeasurement = useHistoryStore((s) => s.addMeasurement)
+  const { writeBodyFat } = useHealthIntegration()
   const [showPaywall, setShowPaywall] = useState(false)
   const [savedId, setSavedId] = useState<string | null>(null)
   const lastResultRef = useRef(results)
@@ -87,6 +89,8 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
         classification: getClassificationForGender(results.bodyFatPercentage, gender),
       })
       setSavedId(record.clientId)
+      // Also write to Health (Apple Health / Health Connect) if enabled
+      writeBodyFat(results.bodyFatPercentage)
     }
   }, [
     results,
@@ -98,6 +102,7 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
     measurementSystem,
     inputs,
     addMeasurement,
+    writeBodyFat,
   ])
 
   if (!results || isResultsStale) return null

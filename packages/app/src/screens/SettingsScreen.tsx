@@ -14,6 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { PaywallModal } from '../components/calculator/PaywallModal'
 import { COLORS } from '../constants/theme'
 import { useCloudSync } from '../hooks/useCloudSync'
+import { useHealthIntegration } from '../hooks/useHealthIntegration'
 import { useCalculatorStore } from '../store/calculatorStore'
 import { useHistoryStore } from '../store/historyStore'
 import { usePremiumStore } from '../store/premiumStore'
@@ -90,6 +91,12 @@ export function SettingsScreen() {
   const { measurementSystem, setMeasurementSystem } = useCalculatorStore()
   const { cloudSyncEnabled, setCloudSyncEnabled } = useHistoryStore()
   const { status: syncStatus, lastSyncedAt, sync, cloudAvailable } = useCloudSync()
+  const {
+    isEnabled: healthEnabled,
+    available: healthAvailable,
+    enable: enableHealth,
+    disable: disableHealth,
+  } = useHealthIntegration()
   const { getResponsiveTypography, getLineHeight, getResponsiveSpacing } = useResponsive()
   const styles = createStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing)
   const [showPaywall, setShowPaywall] = useState(false)
@@ -139,14 +146,23 @@ export function SettingsScreen() {
     ])
   }
 
-  const handleHealthIntegration = () => {
+  const handleToggleHealth = async () => {
     if (!isPremium) {
       setShowPaywall(true)
       return
     }
-    Alert.alert('Coming Soon', 'Health integration will be available in a future update.', [
-      { text: 'OK' },
-    ])
+    if (healthEnabled) {
+      disableHealth()
+    } else {
+      const granted = await enableHealth()
+      if (!granted) {
+        Alert.alert(
+          'Permission Required',
+          `Please allow access to ${Platform.OS === 'ios' ? 'Apple Health' : 'Health Connect'} to enable this feature.`,
+          [{ text: 'OK' }],
+        )
+      }
+    }
   }
 
   const version = Constants.expoConfig?.version || '?.?.?'
@@ -242,13 +258,20 @@ export function SettingsScreen() {
             onPress={handleReminders}
             showChevron
           />
-          <SettingsRow
-            icon="heart"
-            label="Health Integration"
-            value={isPremium ? 'Coming Soon' : undefined}
-            onPress={handleHealthIntegration}
-            showChevron
-          />
+          {healthAvailable !== false && (
+            <SettingsRow
+              icon="heart"
+              label={Platform.OS === 'ios' ? 'Apple Health' : 'Health Connect'}
+              rightElement={
+                <Switch
+                  value={healthEnabled}
+                  onValueChange={handleToggleHealth}
+                  trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
+                  thumbColor={healthEnabled ? COLORS.primary : '#f4f3f4'}
+                />
+              }
+            />
+          )}
         </SettingsSection>
 
         <SettingsSection title="Account">
