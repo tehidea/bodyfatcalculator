@@ -53,18 +53,22 @@ async function syncUserProperties(properties: any = {}) {
 // In development, use sandbox environment
 const isDevelopment = __DEV__
 
-const API_KEY =
-  Platform.select({
-    ios: process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY,
-    android: process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY,
-  }) || 'default_key'
+const API_KEY = Platform.select({
+  ios: process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY,
+  android: process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY,
+})
+
+if (!API_KEY) {
+  console.error(
+    `❌ RevenueCat API key for ${Platform.OS} is missing. ` +
+      `Add EXPO_PUBLIC_REVENUECAT_${Platform.OS === 'ios' ? 'IOS' : 'ANDROID'}_KEY to your .env file. ` +
+      'Premium features will be disabled.',
+  )
+}
 
 if (isDevelopment) {
   console.log('🛠️ Running in development mode - using sandbox environment')
   console.log(`📱 Platform: ${Platform.OS}`)
-  if (API_KEY === 'default_key') {
-    console.warn(`⚠️ RevenueCat API key for ${Platform.OS} is not configured in .env`)
-  }
 }
 
 // Single source of truth for entitlement IDs
@@ -107,6 +111,11 @@ let isRevenueCatConfigured = false
 
 export async function initializeStore() {
   console.log('initializeStore - Starting initialization')
+
+  if (!API_KEY) {
+    console.warn('initializeStore - Skipping RevenueCat (no API key). Running in free mode.')
+    return { isPremium: false, isLegacyPro: false }
+  }
 
   // Set up cross-platform user identification
   const installId = await AsyncStorage.getItem('installId')
@@ -157,6 +166,9 @@ export async function initializeStore() {
 }
 
 export async function getUserEntitlements(): Promise<UserEntitlements> {
+  if (!isRevenueCatConfigured) {
+    return { isPremium: false, isLegacyPro: false }
+  }
   console.log('getUserEntitlements - Checking entitlements')
   try {
     const customerInfo = await Purchases.getCustomerInfo()
@@ -211,6 +223,9 @@ export async function getUserEntitlements(): Promise<UserEntitlements> {
 }
 
 export async function getOfferings(isLegacyPro = false) {
+  if (!isRevenueCatConfigured) {
+    return []
+  }
   try {
     const offerings = await Purchases.getOfferings()
     const offeringId = isLegacyPro ? OFFERINGS.grandfatheredPro : OFFERINGS.default
@@ -226,6 +241,9 @@ export async function getOfferings(isLegacyPro = false) {
 }
 
 export async function purchasePackage(package_: PurchasesPackage): Promise<UserEntitlements> {
+  if (!isRevenueCatConfigured) {
+    throw new Error('RevenueCat is not configured. Check your API key in .env.')
+  }
   console.log('purchasePackage - Starting purchase')
 
   // Track purchase attempt (RevenueCat integration will handle success/completion events)
