@@ -3,7 +3,6 @@ import { usePostHog } from 'posthog-react-native'
 import { useEffect, useMemo, useState } from 'react'
 import { Alert, FlatList, Modal, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { COLORS } from '../../constants/theme'
-import { usePurchase } from '../../hooks/usePurchase'
 import { type Formula, getAllFormulasMetadata, getFormulaMetadata } from '../../schemas/calculator'
 import { useCalculatorStore } from '../../store/calculatorStore'
 import { usePremiumStore } from '../../store/premiumStore'
@@ -13,7 +12,7 @@ import { CalendarIcon } from '../icons/CalendarIcon'
 import { MeasurementVerticalIcon } from '../icons/MeasurementVerticalIcon'
 import { MeasuringTapeIcon } from '../icons/MeasuringTapeIcon'
 import { SkinfoldIcon } from '../icons/SkinfoldIcon'
-import { UpgradeModal } from './UpgradeModal'
+import { PaywallModal } from './PaywallModal'
 
 export const MeasurementIcon = ({
   type,
@@ -52,10 +51,10 @@ function getUniqueMeasurementTypes(fields: Array<{ type: string }>) {
 
 export const FormulaSelector = () => {
   const { formula, setFormula, gender, measurementSystem } = useCalculatorStore()
-  const { pro, isLoading, checkEntitlements } = usePremiumStore()
+  const { isPremium, isLoading, checkEntitlements } = usePremiumStore()
   const posthog = usePostHog()
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [isProModalVisible, setIsProModalVisible] = useState(false)
+  const [isPaywallVisible, setIsPaywallVisible] = useState(false)
   const [pendingFormula, setPendingFormula] = useState<Formula | null>(null)
   const [checkError, setCheckError] = useState<string | null>(null)
   const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, deviceType } =
@@ -68,36 +67,6 @@ export const FormulaSelector = () => {
     getLineHeight,
     deviceType,
   )
-
-  const { handlePurchase, isProcessing } = usePurchase({
-    onSuccess: () => {
-      setIsProModalVisible(false)
-      if (pendingFormula) {
-        setTimeout(() => {
-          setFormula(pendingFormula)
-          setPendingFormula(null)
-          setTimeout(() => {
-            setIsModalVisible(false)
-          }, 100)
-        }, 100)
-      }
-    },
-    successMessage: 'Thank you for upgrading! You now have access to all PRO Formulas!',
-    onCancel: () => {
-      setIsProModalVisible(false)
-      setPendingFormula(null)
-      setTimeout(() => {
-        setIsModalVisible(false)
-      }, 100)
-    },
-    onError: () => {
-      setIsProModalVisible(false)
-      setPendingFormula(null)
-      setTimeout(() => {
-        setIsModalVisible(false)
-      }, 100)
-    },
-  })
 
   // Get formulas with metadata from Zod
   const formulas = useMemo(
@@ -143,18 +112,18 @@ export const FormulaSelector = () => {
     if (checkError) {
       Alert.alert(
         'Verification Error',
-        'Unable to verify PRO status. Some features may be unavailable.',
+        'Unable to verify premium status. Some features may be unavailable.',
         [{ text: 'Retry', onPress: () => checkEntitlements() }],
       )
     }
   }, [checkError, checkEntitlements])
 
-  // Safeguard for premium formula without PRO status
+  // Safeguard for premium formula without premium status
   useEffect(() => {
-    if (!pro && selectedFormula?.premium) {
+    if (!isPremium && selectedFormula?.premium) {
       setFormula('ymca')
     }
-  }, [pro, setFormula, selectedFormula])
+  }, [isPremium, setFormula, selectedFormula])
 
   // Update accuracy color logic to use metadata
   const getAccuracyColor = (formula: Formula) => {
@@ -201,17 +170,16 @@ export const FormulaSelector = () => {
   )
 
   const handleFormulaSelect = (selectedKey: Formula, isPremiumFormula: boolean) => {
-    if (isLoading || isProcessing) return
+    if (isLoading) return
 
     console.log('handleFormulaSelect - Selected formula:', selectedKey)
     console.log('handleFormulaSelect - Is premium formula:', isPremiumFormula)
-    console.log('handleFormulaSelect - Current PRO status:', pro)
+    console.log('handleFormulaSelect - Current premium status:', isPremium)
 
-    if (!isPremiumFormula || pro) {
+    if (!isPremiumFormula || isPremium) {
       setFormula(selectedKey)
       setIsModalVisible(false)
     } else {
-      // Track premium formula blocked
       if (posthog) {
         posthog.capture('premium_formula_blocked', {
           formula_attempted: selectedKey,
@@ -221,17 +189,18 @@ export const FormulaSelector = () => {
       setIsModalVisible(false)
       setTimeout(() => {
         setPendingFormula(selectedKey)
-        setIsProModalVisible(true)
+        setIsPaywallVisible(true)
       }, 300)
     }
   }
 
-  const handleMaybeLater = () => {
-    setIsProModalVisible(false)
+  const handlePaywallClose = () => {
+    setIsPaywallVisible(false)
+    // If user purchased and there was a pending formula, apply it
+    if (usePremiumStore.getState().isPremium && pendingFormula) {
+      setFormula(pendingFormula)
+    }
     setPendingFormula(null)
-    setTimeout(() => {
-      setIsModalVisible(false)
-    }, 100)
   }
 
   return (
@@ -254,7 +223,7 @@ export const FormulaSelector = () => {
         </View>
         <View style={styles.selectedFormula}>
           <Text style={styles.formulaName}>{selectedFormula.name}</Text>
-          {selectedFormula.premium && !pro && (
+          {selectedFormula.premium && !isPremium && (
             <View style={styles.premiumBadge}>
               <Icon name="lock" type="feather" color="#666" size={getResponsiveSpacing(14)} />
               <Text style={styles.premiumBadgeText}>PRO</Text>
@@ -314,7 +283,7 @@ export const FormulaSelector = () => {
                     style={[
                       styles.formulaItem,
                       item.key === formula && styles.activeFormula,
-                      item.premium && !pro && styles.premiumFormula,
+                      item.premium && !isPremium && styles.premiumFormula,
                     ]}
                     onPress={() => handleFormulaSelect(item.key as Formula, item.premium)}
                   >
@@ -324,7 +293,7 @@ export const FormulaSelector = () => {
                           style={[
                             styles.formulaItemName,
                             item.key === formula && styles.activeFormulaText,
-                            item.premium && !pro && styles.premiumFormulaText,
+                            item.premium && !isPremium && styles.premiumFormulaText,
                           ]}
                         >
                           {item.name}
@@ -341,7 +310,7 @@ export const FormulaSelector = () => {
                           </Text>
                         </View>
                       </View>
-                      {item.premium && !pro && (
+                      {item.premium && !isPremium && (
                         <View style={styles.premiumBadge}>
                           <Icon
                             name="lock"
@@ -357,7 +326,7 @@ export const FormulaSelector = () => {
                       <Text
                         style={[
                           styles.formulaItemDescription,
-                          item.premium && !pro && styles.premiumFormulaText,
+                          item.premium && !isPremium && styles.premiumFormulaText,
                         ]}
                         numberOfLines={6}
                       >
@@ -382,13 +351,7 @@ export const FormulaSelector = () => {
         </View>
       </Modal>
 
-      <UpgradeModal
-        visible={isProModalVisible}
-        isProcessing={isProcessing}
-        variant="formula"
-        onUpgrade={handlePurchase}
-        onClose={handleMaybeLater}
-      />
+      <PaywallModal visible={isPaywallVisible} variant="formula" onClose={handlePaywallClose} />
     </View>
   )
 }

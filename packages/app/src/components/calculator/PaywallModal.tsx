@@ -5,22 +5,23 @@ import Animated, {
   FadeIn,
   useAnimatedStyle,
   useSharedValue,
-  withDelay,
   withSpring,
   withTiming,
 } from 'react-native-reanimated'
 import { COLORS } from '../../constants/theme'
+import { usePaywall } from '../../hooks/usePaywall'
 import { usePurchaseRestore } from '../../hooks/usePurchaseRestore'
 import { usePremiumStore } from '../../store/premiumStore'
 import { useResponsive } from '../../utils/responsiveContext'
+import { PlanSelector } from '../paywall/PlanSelector'
 
 const FEATURE_ICONS = {
-  pro: ['sliders', 'trending-up', 'activity', 'users'] as const,
+  precision: ['sliders', 'trending-up', 'activity', 'users'] as const,
   formula: ['activity', 'percent', 'sliders', 'users'] as const,
 }
 
 const FEATURE_CONTENT = {
-  pro: [
+  precision: [
     {
       title: 'Decimal Precision',
       description: 'Get exact measurements to\u00A02\u00A0decimal places',
@@ -30,12 +31,12 @@ const FEATURE_CONTENT = {
       description: 'Research-grade calculation methods',
     },
     {
-      title: 'Skinfold Methods',
-      description: 'Professional measurement techniques',
+      title: 'Measurement History',
+      description: 'Track your progress over time',
     },
     {
-      title: 'Family Sharing',
-      description: 'Share with up to 5 family members',
+      title: 'Cloud Sync',
+      description: 'Access your data across devices',
     },
   ],
   formula: [
@@ -52,66 +53,56 @@ const FEATURE_CONTENT = {
       description: 'Get exact measurements to\u00A02\u00A0decimal places',
     },
     {
-      title: 'Family Sharing',
-      description: 'Share with up to 5 family members',
+      title: 'Progress Tracking',
+      description: 'Visual graphs and trend analysis',
     },
   ],
 }
 
-interface UpgradeModalProps {
+interface PaywallModalProps {
   visible: boolean
-  isProcessing: boolean
-  variant: 'pro' | 'formula'
-  onUpgrade: () => void
+  variant: 'precision' | 'formula'
   onClose: () => void
 }
 
-export function UpgradeModal({
-  visible,
-  isProcessing,
-  variant,
-  onUpgrade,
-  onClose,
-}: UpgradeModalProps) {
+export function PaywallModal({ visible, variant, onClose }: PaywallModalProps) {
+  const {
+    isLegacyPro,
+    isProcessing,
+    packages,
+    selectedPlan,
+    setSelectedPlan,
+    fetchOfferings,
+    handlePurchase,
+  } = usePaywall({
+    onSuccess: () => onClose(),
+    onCancel: () => onClose(),
+    onError: () => onClose(),
+  })
+
   const { isRestoring, handleRestore } = usePurchaseRestore()
-  const isPro = usePremiumStore((state) => state.pro)
+  const isPremium = usePremiumStore((state) => state.isPremium)
   const [isClosing, setIsClosing] = useState(false)
   const { getResponsiveTypography, getLineHeight, deviceType } = useResponsive()
 
-  // Create styles with responsive values
-  const styles = createUpgradeModalStyles(getResponsiveTypography, getLineHeight, deviceType)
-  const rotation = useSharedValue('0deg')
+  const styles = createPaywallModalStyles(getResponsiveTypography, getLineHeight, deviceType)
   const scale = useSharedValue(0.95)
   const opacity = useSharedValue(0)
   const backdropOpacity = useSharedValue(0)
 
   useEffect(() => {
     if (visible) {
-      // Reset values immediately
       scale.value = 0.95
       opacity.value = 0
       backdropOpacity.value = 0
-      rotation.value = '0deg'
 
-      // Start animations
       backdropOpacity.value = withTiming(1, { duration: 150 })
       scale.value = withSpring(1, { damping: 20, stiffness: 90 })
       opacity.value = withTiming(1, { duration: 200 })
-      rotation.value = withDelay(
-        200,
-        withSpring('5deg', {
-          damping: 15,
-          stiffness: 100,
-        }),
-      )
+
+      fetchOfferings()
     }
-  }, [
-    visible, // Start animations
-    backdropOpacity,
-    opacity,
-    rotation,
-    scale,
-  ])
+  }, [visible, backdropOpacity, opacity, scale, fetchOfferings])
 
   const animatedContainerStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
@@ -123,16 +114,9 @@ export function UpgradeModal({
     opacity: backdropOpacity.value,
   }))
 
-  const animatedBadgeStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: rotation.value }],
-  }))
-
-  // Handle restore action
   const handleRestorePress = useCallback(async () => {
     const result = await handleRestore()
-
     if (result.success && result.wasUpgraded) {
-      // If successfully upgraded, wait for alert to be seen
       setIsClosing(true)
       setTimeout(() => {
         setIsClosing(false)
@@ -141,17 +125,15 @@ export function UpgradeModal({
     }
   }, [handleRestore, onClose])
 
-  // Handle modal close request
   const handleClose = useCallback(() => {
     if (isProcessing || isRestoring || isClosing) return
     onClose()
   }, [isProcessing, isRestoring, isClosing, onClose])
 
-  // Handle upgrade action
-  const handleUpgradePress = useCallback(() => {
+  const handleContinue = useCallback(() => {
     if (isProcessing || isRestoring || isClosing) return
-    onUpgrade()
-  }, [isProcessing, isRestoring, isClosing, onUpgrade])
+    handlePurchase()
+  }, [isProcessing, isRestoring, isClosing, handlePurchase])
 
   if (!visible) return null
 
@@ -177,19 +159,21 @@ export function UpgradeModal({
           </TouchableOpacity>
 
           <View style={styles.header}>
-            <View style={[styles.iconWrapper]}>
+            <View style={styles.iconWrapper}>
               <Animated.View entering={FadeIn.duration(600)} style={styles.iconContainer}>
-                <Icon name="lock" type="feather" color={COLORS.primary} size={32} />
+                <Icon name="star" type="feather" color={COLORS.primary} size={32} />
               </Animated.View>
               <View style={styles.iconGlow} />
             </View>
 
             <Text style={styles.modalTitle}>
-              <Text style={styles.highlight}>PRO</Text>{' '}
-              {variant === 'pro' ? 'Precision' : 'Formulas'}
+              <Text style={styles.highlight}>Premium</Text>{' '}
+              {variant === 'precision' ? 'Precision' : 'Formulas'}
               {'\n'}
               <Text style={styles.titleSecondary}>
-                {variant === 'pro' ? 'Unlock Your Full Potential' : 'Enhanced Accuracy & Precision'}
+                {variant === 'precision'
+                  ? 'Unlock Your Full Potential'
+                  : 'Enhanced Accuracy & Precision'}
               </Text>
             </Text>
           </View>
@@ -203,7 +187,7 @@ export function UpgradeModal({
               >
                 <View style={styles.featureIconContainer}>
                   <Icon
-                    name={icons[index % icons.length]}
+                    name={icons[index % icons.length] as string}
                     type="feather"
                     color={COLORS.primary}
                     size={20}
@@ -218,19 +202,21 @@ export function UpgradeModal({
           </View>
 
           <Animated.View entering={FadeIn.delay(500).duration(400)} style={styles.ctaContainer}>
-            <Animated.Text style={[styles.lifetimeBadge, animatedBadgeStyle]}>
-              LIFETIME ACCESS
-            </Animated.Text>
-
-            <Button
-              title={isProcessing ? 'Processing...' : 'Upgrade to PRO'}
-              buttonStyle={[styles.upgradeButton]}
-              titleStyle={styles.upgradeButtonText}
-              onPress={handleUpgradePress}
-              disabled={isProcessing || isRestoring || isClosing}
+            <PlanSelector
+              selectedPlan={selectedPlan}
+              onSelectPlan={setSelectedPlan}
+              isLegacyPro={isLegacyPro}
+              packages={packages}
             />
 
-            <Text style={styles.lifetimeText}>One-time purchase • No subscription</Text>
+            <Button
+              title={isProcessing ? 'Processing...' : 'Continue'}
+              buttonStyle={styles.upgradeButton}
+              titleStyle={styles.upgradeButtonText}
+              onPress={handleContinue}
+              disabled={isProcessing || isRestoring || isClosing}
+              loading={isProcessing}
+            />
 
             <View style={styles.secondaryButtonsContainer}>
               <Button
@@ -249,7 +235,7 @@ export function UpgradeModal({
                 iconPosition="left"
               />
 
-              {!isPro && (
+              {!isPremium && (
                 <Button
                   title="Restore Purchases"
                   type="clear"
@@ -275,7 +261,7 @@ export function UpgradeModal({
   )
 }
 
-const BASE_MODAL_WIDTH = 340
+const BASE_MODAL_WIDTH = 360
 
 function getModalMaxWidth(deviceType: string): number {
   if (deviceType === 'desktop' || deviceType === 'tablet') {
@@ -284,14 +270,7 @@ function getModalMaxWidth(deviceType: string): number {
   return BASE_MODAL_WIDTH
 }
 
-function getLifetimeBadgeMarginRight(deviceType: string): number {
-  if (deviceType === 'desktop' || deviceType === 'tablet') {
-    return 60
-  }
-  return 0
-}
-
-const createUpgradeModalStyles = (
+const createPaywallModalStyles = (
   getResponsiveTypography: (size: any) => number,
   getLineHeight: (size: any) => number,
   deviceType: string,
@@ -312,14 +291,12 @@ const createUpgradeModalStyles = (
       maxWidth: getModalMaxWidth(deviceType),
       overflow: 'hidden',
       shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 4,
-      },
+      shadowOffset: { width: 0, height: 4 },
       shadowOpacity: 0.3,
       shadowRadius: 8,
       elevation: 8,
       margin: 20,
+      maxHeight: '90%',
     },
     closeButton: {
       position: 'absolute',
@@ -332,13 +309,13 @@ const createUpgradeModalStyles = (
     header: {
       padding: 24,
       paddingTop: 36,
-      paddingBottom: 32,
+      paddingBottom: 20,
       alignItems: 'center',
       backgroundColor: `${COLORS.primary}08`,
     },
     iconWrapper: {
       marginTop: 18,
-      marginBottom: 24,
+      marginBottom: 16,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -350,10 +327,7 @@ const createUpgradeModalStyles = (
       justifyContent: 'center',
       alignItems: 'center',
       shadowColor: COLORS.primary,
-      shadowOffset: {
-        width: 0,
-        height: 4,
-      },
+      shadowOffset: { width: 0, height: 4 },
       shadowOpacity: 0.3,
       shadowRadius: 8,
       elevation: 8,
@@ -366,28 +340,9 @@ const createUpgradeModalStyles = (
       backgroundColor: `${COLORS.primary}20`,
       transform: [{ scale: 1.2 }],
     },
-    lifetimeBadge: {
-      color: COLORS.primary,
-      backgroundColor: `${COLORS.primary}15`,
-      paddingHorizontal: 12,
-      paddingVertical: 6,
-      borderRadius: 12,
-      fontSize: 11,
-      letterSpacing: 0.75,
-      alignSelf: 'flex-end',
-      marginBottom: -2,
-      marginRight: getLifetimeBadgeMarginRight(deviceType),
-    },
-    lifetimeText: {
-      alignItems: 'center',
-      marginBottom: 16,
-      fontSize: 12,
-      color: '#666',
-      fontFamily: 'Montserrat-Light',
-    },
     modalTitle: {
       fontSize: 24,
-      marginTop: 24,
+      marginTop: 16,
       color: COLORS.textDark,
       fontFamily: 'Montserrat-Regular',
       textAlign: 'center',
@@ -404,30 +359,30 @@ const createUpgradeModalStyles = (
     },
     featureList: {
       padding: 20,
-      paddingHorizontal: 40,
+      paddingHorizontal: 32,
     },
     feature: {
       flexDirection: 'row',
       alignItems: 'center',
-      marginBottom: 16,
+      marginBottom: 12,
     },
     featureIconContainer: {
-      width: 40,
-      height: 40,
-      borderRadius: 12,
+      width: 36,
+      height: 36,
+      borderRadius: 10,
       backgroundColor: `${COLORS.primary}10`,
       justifyContent: 'center',
       alignItems: 'center',
-      marginRight: 16,
+      marginRight: 12,
     },
     featureContent: {
       flex: 1,
     },
     featureTitle: {
-      fontSize: 16,
+      fontSize: 15,
       fontWeight: '600',
       color: COLORS.textDark,
-      marginBottom: 2,
+      marginBottom: 1,
     },
     featureDescription: {
       fontSize: getResponsiveTypography('sm'),
@@ -435,19 +390,14 @@ const createUpgradeModalStyles = (
       color: '#666',
     },
     ctaContainer: {
-      padding: 24,
+      padding: 20,
       paddingTop: 0,
-      marginTop: -12,
-      alignItems: 'center',
     },
     upgradeButton: {
       backgroundColor: COLORS.primary,
       borderRadius: 16,
-      paddingHorizontal: 48,
       paddingVertical: 16,
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginBottom: 12,
+      marginTop: 16,
     },
     upgradeButtonText: {
       fontSize: getResponsiveTypography('lg'),
@@ -469,11 +419,5 @@ const createUpgradeModalStyles = (
       fontSize: getResponsiveTypography('xs'),
       lineHeight: getLineHeight('xs'),
       fontWeight: '600',
-    },
-    buttonTitleFix: {
-      textAlign: 'center',
-      textAlignVertical: 'center',
-      includeFontPadding: false,
-      padding: 0,
     },
   })

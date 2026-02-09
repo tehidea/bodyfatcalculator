@@ -90,7 +90,7 @@ const ReferencesDisplay = memo(() => {
 
 // Add Version Display component
 const VersionDisplay = memo(() => {
-  const { pro } = usePremiumStore()
+  const { isPremium } = usePremiumStore()
   const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, deviceType } =
     useResponsive()
   const styles = createStyles(
@@ -109,7 +109,7 @@ const VersionDisplay = memo(() => {
   return (
     <Text style={styles.versionText}>
       v{version}
-      {buildNumber ? ` (${buildNumber})` : ''} {pro ? 'PRO' : ''}
+      {buildNumber ? ` (${buildNumber})` : ''} {isPremium ? 'PREMIUM' : ''}
     </Text>
   )
 })

@@ -2,7 +2,7 @@ export interface Feature {
   id: string
   name: string
   description?: string
-  availability: 'free' | 'pro' | 'premium'
+  availability: 'free' | 'premium'
 }
 
 export const FEATURES: Feature[] = [
@@ -26,45 +26,25 @@ export const FEATURES: Feature[] = [
     availability: 'free',
   },
 
-  // Pro Features
+  // Premium Features
   {
     id: 'advanced_formulas',
     name: 'Advanced Formulas',
     description: 'Jackson & Pollock, Durnin & Womersley, and more',
-    availability: 'pro',
+    availability: 'premium',
   },
   {
-    id: 'unlimited_local',
-    name: 'Unlimited Local Storage',
-    description: 'Store as many measurements as you want',
-    availability: 'pro',
+    id: 'decimal_precision',
+    name: 'Decimal Precision',
+    description: 'Get exact measurements to 2 decimal places',
+    availability: 'premium',
   },
   {
-    id: 'detailed_analysis',
-    name: 'Detailed Analysis',
-    description: 'In-depth body composition insights',
-    availability: 'pro',
+    id: 'measurement_history',
+    name: 'Measurement History',
+    description: 'Track your measurements over time',
+    availability: 'premium',
   },
-  {
-    id: 'offline_access',
-    name: 'Offline Access',
-    description: 'Use all formulas without internet connection',
-    availability: 'pro',
-  },
-  {
-    id: 'basic_export',
-    name: 'Basic Export',
-    description: 'Export your measurements in simple format',
-    availability: 'pro',
-  },
-  {
-    id: 'family_sharing',
-    name: 'Family Sharing',
-    description: 'Share PRO access with up to 5 family members',
-    availability: 'pro',
-  },
-
-  // Premium Features
   {
     id: 'cloud_sync',
     name: 'Cloud Sync',
@@ -78,62 +58,53 @@ export const FEATURES: Feature[] = [
     availability: 'premium',
   },
   {
-    id: 'photos',
-    name: 'Progress Photos',
-    description: 'Track visual progress with measurements',
+    id: 'health_integration',
+    name: 'Health Integration',
+    description: 'Sync with Apple Health and Google Health Connect',
     availability: 'premium',
   },
   {
-    id: 'advanced_export',
-    name: 'Advanced Export',
-    description: 'Export detailed reports in CSV and PDF formats',
+    id: 'reminders',
+    name: 'Measurement Reminders',
+    description: 'Get reminded to measure regularly',
     availability: 'premium',
   },
   {
-    id: 'presets',
-    name: 'Custom Presets',
-    description: 'Save your frequently used measurement combinations',
-    availability: 'premium',
-  },
-  {
-    id: 'priority_support',
-    name: 'Priority Support',
-    description: 'Get help faster when you need it',
-    availability: 'premium',
-  },
-  {
-    id: 'early_access',
-    name: 'Early Access',
-    description: 'Try new features before everyone else',
+    id: 'family_sharing',
+    name: 'Family Sharing',
+    description: 'Share premium access with up to 5 family members',
     availability: 'premium',
   },
 ]
 
 export const PRICING = {
-  pro: {
-    price: '£10',
-    type: 'one-time',
+  monthly: {
+    price: '£3.99',
+    period: 'month',
   },
-  premium: {
-    monthly: {
-      price: '£3',
-      type: 'monthly',
-    },
-    annual: {
-      price: '£18',
-      type: 'annual',
-      savings: '50%',
-    },
+  yearly: {
+    price: '£19.99',
+    period: 'year',
+    savings: '58%',
   },
-  bundles: {
-    proWithPremium: {
-      price: '£25',
-      type: 'bundle',
-      savings: '£3',
-    },
-    lifetime: {
-      price: '£49',
-      type: 'lifetime',
-    },
+  lifetime: {
+    price: '£49.99',
+    period: 'forever',
+  },
+} as const
+
+export const GRANDFATHERED_PRICING = {
+  monthly: {
+    price: '£1.99',
+    period: 'month',
+  },
+  yearly: {
+    price: '£9.99',
+    period: 'year',
+    savings: '58%',
+  },
+  lifetime: {
+    price: '£24.99',
+    period: 'forever',
   },
 } as const

@@ -6,11 +6,10 @@ import type React from 'react'
 import { useEffect, useState } from 'react'
 import { type ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { COLORS } from '../../constants/theme'
-import { usePurchase } from '../../hooks/usePurchase'
 import { useCalculatorStore } from '../../store/calculatorStore'
 import { usePremiumStore } from '../../store/premiumStore'
 import { useResponsive } from '../../utils/responsiveContext'
-import { UpgradeModal } from './UpgradeModal'
+import { PaywallModal } from './PaywallModal'
 
 interface ResultsDisplayProps {
   scrollViewRef: React.RefObject<ScrollView>
@@ -18,37 +17,14 @@ interface ResultsDisplayProps {
 
 export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
   const { results, measurementSystem, isResultsStale, gender, formula } = useCalculatorStore()
-  const { pro } = usePremiumStore()
-  const [showProModal, setShowProModal] = useState(false)
+  const { isPremium } = usePremiumStore()
+  const [showPaywall, setShowPaywall] = useState(false)
   const _navigation = useNavigation()
   const { getResponsiveTypography, getLineHeight, width } = useResponsive()
   const posthog = usePostHog()
 
   // Create styles with responsive values
   const styles = createStyles(getResponsiveTypography, getLineHeight, width)
-
-  const { handlePurchase, isProcessing } = usePurchase({
-    successMessage:
-      'Thank you for upgrading! You now have access to decimal precision and PRO formulas!',
-    onSuccess: () => {
-      const timer = setTimeout(() => {
-        setShowProModal(false)
-      }, 100)
-      return () => clearTimeout(timer)
-    },
-    onCancel: () => {
-      const timer = setTimeout(() => {
-        setShowProModal(false)
-      }, 100)
-      return () => clearTimeout(timer)
-    },
-    onError: () => {
-      const timer = setTimeout(() => {
-        setShowProModal(false)
-      }, 100)
-      return () => clearTimeout(timer)
-    },
-  })
 
   useEffect(() => {
     let isMounted = true
@@ -125,10 +101,8 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
   const wholeNumber = Math.floor(results.bodyFatPercentage)
   const decimal = (results.bodyFatPercentage % 1).toFixed(2).substring(1)
 
-  const handleMaybeLater = () => {
-    setTimeout(() => {
-      setShowProModal(false)
-    }, 100)
+  const handlePaywallClose = () => {
+    setShowPaywall(false)
   }
 
   const formulaDef = FORMULA_DEFINITIONS[formula]
@@ -142,14 +116,15 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
         {/* Body Fat Percentage with Progress Bar */}
         <View style={styles.mainResult}>
           <View style={styles.mainValueContainer}>
-            <Text style={styles.mainValue}>{pro ? `${wholeNumber}` : `~${wholeNumber}%`}</Text>
-            {pro && <Text style={styles.mainValue}>{decimal}%</Text>}
+            <Text style={styles.mainValue}>
+              {isPremium ? `${wholeNumber}` : `~${wholeNumber}%`}
+            </Text>
+            {isPremium && <Text style={styles.mainValue}>{decimal}%</Text>}
           </View>
-          {!pro && (
+          {!isPremium && (
             <TouchableOpacity
               style={styles.premiumBadge}
               onPress={() => {
-                // Track results precision banner tapped
                 if (posthog) {
                   posthog.capture('results_precision_tapped', {
                     current_formula: formula,
@@ -157,15 +132,15 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
                     measurement_system: measurementSystem,
                   })
                 }
-                setShowProModal(true)
+                setShowPaywall(true)
               }}
             >
               <Icon name="lock" type="feather" color="#666" size={14} />
-              <Text style={styles.premiumBadgeText}>Get more accurate results with PRO</Text>
+              <Text style={styles.premiumBadgeText}>Get more accurate results with Premium</Text>
             </TouchableOpacity>
           )}
           <Text style={styles.mainLabel}>
-            Body Fat {pro ? `(±${marginOfError}%)` : '(estimated)'}
+            Body Fat {isPremium ? `(±${marginOfError}%)` : '(estimated)'}
           </Text>
           <LinearProgress
             style={styles.progressBar}
@@ -188,11 +163,14 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
         <View style={styles.breakdownContainer}>
           <View style={styles.breakdownItem}>
             <Text style={styles.breakdownValue}>
-              {pro ? results.fatMass.toFixed(2) : Math.round(results.fatMass)} {weightUnit}
+              {isPremium ? results.fatMass.toFixed(2) : Math.round(results.fatMass)} {weightUnit}
             </Text>
             <Text style={styles.breakdownLabel}>Fat Mass</Text>
             <Text style={styles.breakdownPercentage}>
-              {pro ? results.bodyFatPercentage.toFixed(2) : Math.round(results.bodyFatPercentage)}%
+              {isPremium
+                ? results.bodyFatPercentage.toFixed(2)
+                : Math.round(results.bodyFatPercentage)}
+              %
             </Text>
           </View>
 
@@ -200,11 +178,11 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
 
           <View style={styles.breakdownItem}>
             <Text style={styles.breakdownValue}>
-              {pro ? results.leanMass.toFixed(2) : Math.round(results.leanMass)} {weightUnit}
+              {isPremium ? results.leanMass.toFixed(2) : Math.round(results.leanMass)} {weightUnit}
             </Text>
             <Text style={styles.breakdownLabel}>Lean Mass</Text>
             <Text style={styles.breakdownPercentage}>
-              {pro ? leanMassPercentage.toFixed(2) : Math.round(leanMassPercentage)}%
+              {isPremium ? leanMassPercentage.toFixed(2) : Math.round(leanMassPercentage)}%
             </Text>
           </View>
         </View>
@@ -213,13 +191,7 @@ export const ResultsDisplay = ({ scrollViewRef }: ResultsDisplayProps) => {
         <Text style={styles.formulaName}>{formulaDef?.name || formula.toUpperCase()}</Text>
       </Card>
 
-      <UpgradeModal
-        visible={showProModal}
-        isProcessing={isProcessing}
-        variant="pro"
-        onUpgrade={handlePurchase}
-        onClose={handleMaybeLater}
-      />
+      <PaywallModal visible={showPaywall} variant="precision" onClose={handlePaywallClose} />
     </>
   )
 }

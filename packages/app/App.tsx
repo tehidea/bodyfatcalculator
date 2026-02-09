@@ -20,7 +20,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { initializeStore, setPostHogInstance } from './src/config/store'
 import { theme } from './src/constants/theme'
 import { CalculatorScreen } from './src/screens/CalculatorScreen'
-import { FeatureComparisonScreen } from './src/screens/FeatureComparisonScreen'
+import { PaywallScreen } from './src/screens/PaywallScreen'
 import { ResponsiveProvider } from './src/utils/responsiveContext'
 
 // Configure splash screen options
@@ -122,7 +122,7 @@ function AppNavigator() {
               }}
             >
               <Stack.Screen name="Calculator" component={CalculatorScreen} />
-              <Stack.Screen name="FeatureComparison" component={FeatureComparisonScreen} />
+              <Stack.Screen name="Paywall" component={PaywallScreen} />
             </Stack.Navigator>
           </ResponsiveProvider>
         </ThemeProvider>

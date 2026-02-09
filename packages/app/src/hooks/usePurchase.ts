@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Alert } from 'react-native'
+import type { PurchasesPackage } from 'react-native-purchases'
 import { usePremiumStore } from '../store/premiumStore'
 
 interface UsePurchaseOptions {
@@ -10,18 +11,17 @@ interface UsePurchaseOptions {
 }
 
 export function usePurchase(options: UsePurchaseOptions = {}) {
-  const { purchasePro } = usePremiumStore()
+  const { purchasePackage } = usePremiumStore()
   const [isProcessing, setIsProcessing] = useState(false)
 
-  const handlePurchase = async () => {
+  const handlePurchase = async (pkg: PurchasesPackage) => {
     if (isProcessing) return false
 
     try {
       setIsProcessing(true)
-      console.log('Starting PRO purchase...')
-      const success = await purchasePro()
+      console.log('Starting purchase for:', pkg.product.identifier)
+      const success = await purchasePackage(pkg)
 
-      // Handle success
       if (success) {
         if (options.onSuccess) {
           options.onSuccess()
@@ -32,14 +32,11 @@ export function usePurchase(options: UsePurchaseOptions = {}) {
         return true
       }
 
-      // purchasePro returns false for cancellation and other failures
-      // We don't need to show any alerts as they're handled in the store
       if (options.onCancel) {
         options.onCancel()
       }
       return false
     } catch (error) {
-      // This should never happen as all errors are handled in the store
       console.error('Unexpected purchase error:', error)
       if (options.onError) {
         options.onError()

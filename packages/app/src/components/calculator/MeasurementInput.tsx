@@ -11,7 +11,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 import { COLORS } from '../../constants/theme'
-import { usePurchase } from '../../hooks/usePurchase'
 import { getFormulaMetadata } from '../../schemas/calculator'
 import { useCalculatorStore } from '../../store/calculatorStore'
 import { usePremiumStore } from '../../store/premiumStore'
@@ -19,7 +18,7 @@ import { useResponsive } from '../../utils/responsiveContext'
 import { MeasurementIcon } from './FormulaSelector'
 import { MeasurementHint } from './MeasurementHint'
 import { createStyles } from './MeasurementInput.styles'
-import { UpgradeModal } from './UpgradeModal'
+import { PaywallModal } from './PaywallModal'
 
 interface MeasurementInputProps {
   field: string
@@ -37,7 +36,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
     ref,
   ) => {
     const { inputs, setInput, measurementSystem, formula, gender } = useCalculatorStore()
-    const { pro } = usePremiumStore()
+    const { isPremium } = usePremiumStore()
     const { getResponsiveSpacing, getResponsiveTypography, getLineHeight } = useResponsive()
     const posthog = usePostHog()
 
@@ -46,19 +45,11 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
 
     const [rawValue, setRawValue] = useState('')
     const [isEditing, setIsEditing] = useState(false)
-    const [isProModalVisible, setIsProModalVisible] = useState(false)
+    const [isPaywallVisible, setIsPaywallVisible] = useState(false)
     const inputRef = useRef<TextInput>(null)
     const errorAnimation = useSharedValue(0)
     const shakeAnimation = useSharedValue(0)
     const previousError = useRef<string | null>(null)
-
-    const { handlePurchase, isProcessing } = usePurchase({
-      successMessage:
-        'Thank you for upgrading! You now have access to decimal precision and all the PRO Formulas!',
-      onSuccess: () => setIsProModalVisible(false),
-      onCancel: () => setIsProModalVisible(false),
-      onError: () => setIsProModalVisible(false),
-    })
 
     // Get field metadata from Zod schema
     const fieldMetadata = useMemo(() => {
@@ -99,13 +90,13 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       if (!isEditing) {
         setRawValue(
           typeof storeValue === 'number'
-            ? pro
+            ? isPremium
               ? storeValue.toString()
               : Math.round(storeValue).toString()
             : storeValue?.toString() || '',
         )
       }
-    }, [inputs[field], isEditing, pro, field])
+    }, [inputs[field], isEditing, isPremium, field])
 
     const handleChangeText = useCallback(
       (value: string) => {
@@ -118,8 +109,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
           return
         }
 
-        if (value.includes('.') && !pro) {
-          // Track decimal input blocked
+        if (value.includes('.') && !isPremium) {
           if (posthog) {
             posthog.capture('decimal_input_blocked', {
               field_name: field,
@@ -127,7 +117,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
               measurement_system: measurementSystem,
             })
           }
-          setIsProModalVisible(true)
+          setIsPaywallVisible(true)
           return
         }
 
@@ -143,10 +133,10 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
         const numValue = parseFloat(value)
         if (!Number.isNaN(numValue)) {
           console.log(`[MeasurementInput] ${field} - Sending to store:`, numValue)
-          setInput(field, pro ? numValue : Math.round(numValue))
+          setInput(field, isPremium ? numValue : Math.round(numValue))
         }
       },
-      [pro, field, setInput, measurementSystem, posthog],
+      [isPremium, field, setInput, measurementSystem, posthog],
     )
 
     // Calculate the error container height dynamically
@@ -254,12 +244,10 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
           </Animated.View>
         </View>
 
-        <UpgradeModal
-          visible={isProModalVisible}
-          isProcessing={isProcessing}
-          variant="pro"
-          onUpgrade={handlePurchase}
-          onClose={() => setIsProModalVisible(false)}
+        <PaywallModal
+          visible={isPaywallVisible}
+          variant="precision"
+          onClose={() => setIsPaywallVisible(false)}
         />
       </>
     )

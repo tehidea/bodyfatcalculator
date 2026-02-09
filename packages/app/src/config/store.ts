@@ -70,6 +70,7 @@ if (isDevelopment) {
 // Single source of truth for entitlement IDs
 export const ENTITLEMENTS = {
   pro: 'pro_features',
+  premium: 'premium',
 } as const
 
 export type Entitlement = keyof typeof ENTITLEMENTS
@@ -79,10 +80,27 @@ export const PRODUCTS = {
   pro: {
     lifetime: 'pro_lifetime',
   },
+  premium: {
+    monthly: 'premium_monthly',
+    yearly: 'premium_yearly',
+    lifetime: 'premium_lifetime',
+  },
+  premiumLegacy: {
+    monthly: 'premium_monthly_legacy',
+    yearly: 'premium_yearly_legacy',
+    lifetime: 'premium_lifetime_legacy',
+  },
+} as const
+
+// Offering identifiers
+export const OFFERINGS = {
+  default: 'default',
+  grandfatheredPro: 'grandfathered_pro',
 } as const
 
 export interface UserEntitlements {
-  pro: boolean
+  isPremium: boolean
+  isLegacyPro: boolean
 }
 
 let isRevenueCatConfigured = false
@@ -142,34 +160,43 @@ export async function getUserEntitlements(): Promise<UserEntitlements> {
   console.log('getUserEntitlements - Checking entitlements')
   try {
     const customerInfo = await Purchases.getCustomerInfo()
-    const hasProProduct = customerInfo.allPurchasedProductIdentifiers.includes(
+
+    // Legacy PRO detection: user purchased the original pro_lifetime product
+    const hasLegacyProProduct = customerInfo.allPurchasedProductIdentifiers.includes(
       PRODUCTS.pro.lifetime,
     )
-    const hasProEntitlement = customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined
+    const hasLegacyProEntitlement = customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined
+    const isLegacyPro = hasLegacyProProduct || hasLegacyProEntitlement
 
-    // Consider user as PRO if either the product is purchased or the entitlement is active
-    const isPro = hasProProduct || hasProEntitlement
+    // Premium detection: user has the new premium entitlement
+    const hasPremiumEntitlement =
+      customerInfo.entitlements.active[ENTITLEMENTS.premium] !== undefined
 
-    const entitlements = { pro: isPro }
+    // isPremium grants full access — either legacy PRO or new premium subscription
+    const isPremium = isLegacyPro || hasPremiumEntitlement
+
+    const entitlements = { isPremium, isLegacyPro }
     console.log('getUserEntitlements - Retrieved entitlements:', entitlements)
     console.log('getUserEntitlements - Details:', {
-      hasProProduct,
-      hasProEntitlement,
+      hasLegacyProProduct,
+      hasLegacyProEntitlement,
+      hasPremiumEntitlement,
       allProducts: customerInfo.allPurchasedProductIdentifiers,
       activeEntitlements: customerInfo.entitlements.active,
-      entitlementId: ENTITLEMENTS.pro, // Log the actual entitlement ID we're checking
     })
 
     // Track premium status check
     trackPurchaseEvent('premium_status_checked', {
-      has_premium: isPro,
+      is_premium: isPremium,
+      is_legacy_pro: isLegacyPro,
       revenue_cat_user_id: customerInfo.originalAppUserId,
     })
 
     // Sync premium status to user properties
     await syncUserProperties({
-      has_premium: isPro,
-      premium_status: isPro ? 'active' : 'free',
+      is_premium: isPremium,
+      is_legacy_pro: isLegacyPro,
+      premium_status: isPremium ? 'active' : 'free',
       revenue_cat_user_id: customerInfo.originalAppUserId,
     })
 
@@ -179,18 +206,19 @@ export async function getUserEntitlements(): Promise<UserEntitlements> {
     trackPurchaseEvent('premium_status_check_failed', {
       error: error instanceof Error ? error.message : 'Unknown error',
     })
-    return { pro: false }
+    return { isPremium: false, isLegacyPro: false }
   }
 }
 
-export async function getOfferings() {
+export async function getOfferings(isLegacyPro = false) {
   try {
     const offerings = await Purchases.getOfferings()
-    return (
-      offerings.current?.availablePackages.filter(
-        (pkg) => pkg.identifier === PRODUCTS.pro.lifetime,
-      ) ?? []
-    )
+    const offeringId = isLegacyPro ? OFFERINGS.grandfatheredPro : OFFERINGS.default
+    const offering = offerings.all[offeringId] ?? offerings.current
+
+    console.log('getOfferings - Using offering:', offeringId, offering?.availablePackages.length)
+
+    return offering?.availablePackages ?? []
   } catch (error) {
     console.error('Failed to get offerings:', error)
     return []
@@ -213,68 +241,50 @@ export async function purchasePackage(package_: PurchasesPackage): Promise<UserE
     console.log('purchasePackage - Purchase transaction completed')
     console.log('purchasePackage - Customer info:', customerInfo)
 
-    // Check both product and entitlement
-    const hasProProduct = customerInfo.allPurchasedProductIdentifiers.includes(
-      PRODUCTS.pro.lifetime,
-    )
-    const hasProEntitlement = customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined
+    const entitlements = extractEntitlements(customerInfo)
 
     console.log('purchasePackage - Initial check:', {
-      hasProProduct,
-      hasProEntitlement,
-      productId: PRODUCTS.pro.lifetime,
-      entitlementId: ENTITLEMENTS.pro,
+      ...entitlements,
       allProducts: customerInfo.allPurchasedProductIdentifiers,
       activeEntitlements: customerInfo.entitlements.active,
     })
 
-    if (hasProProduct || hasProEntitlement) {
-      console.log('purchasePackage - Product/Entitlement activated immediately')
+    if (entitlements.isPremium) {
+      console.log('purchasePackage - Entitlement activated immediately')
 
-      // RevenueCat's PostHog integration will automatically send purchase events
-      // We only track activation success for internal debugging
       trackPurchaseEvent('entitlement_activated', {
         revenue_cat_user_id: customerInfo.originalAppUserId,
         activated_immediately: true,
       })
 
-      return { pro: true }
+      return entitlements
     }
 
     // If not activated immediately, try verification with retries
     for (let i = 0; i < 3; i++) {
       console.log(`purchasePackage - Verification attempt ${i + 1}`)
 
-      // Force refresh customer info
       await Purchases.syncPurchases()
       const refreshedInfo = await Purchases.getCustomerInfo()
-
-      const hasProProduct = refreshedInfo.allPurchasedProductIdentifiers.includes(
-        PRODUCTS.pro.lifetime,
-      )
-      const hasProEntitlement = refreshedInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined
+      const refreshedEntitlements = extractEntitlements(refreshedInfo)
 
       console.log(`purchasePackage - Verification attempt ${i + 1} details:`, {
-        hasProProduct,
-        hasProEntitlement,
-        productId: PRODUCTS.pro.lifetime,
-        entitlementId: ENTITLEMENTS.pro,
+        ...refreshedEntitlements,
         allProducts: refreshedInfo.allPurchasedProductIdentifiers,
         activeEntitlements: refreshedInfo.entitlements.active,
       })
 
-      if (hasProProduct || hasProEntitlement) {
-        return { pro: true }
+      if (refreshedEntitlements.isPremium) {
+        return refreshedEntitlements
       }
 
       if (i < 2) {
-        // Wait longer between retries
         await new Promise((resolve) => setTimeout(resolve, 2000))
       }
     }
 
     console.warn('purchasePackage - Purchase completed but activation not verified after retries')
-    return { pro: false }
+    return { isPremium: false, isLegacyPro: false }
   } catch (error) {
     console.error('purchasePackage - Error:', error)
     if (
@@ -282,8 +292,27 @@ export async function purchasePackage(package_: PurchasesPackage): Promise<UserE
       (error.message === 'User cancelled' || error.message === 'Purchase was cancelled')
     ) {
       console.log('purchasePackage - Purchase cancelled by user')
-      return { pro: false }
+      return { isPremium: false, isLegacyPro: false }
     }
     throw error
+  }
+}
+
+/** Extract entitlements from RevenueCat customer info */
+function extractEntitlements(customerInfo: {
+  allPurchasedProductIdentifiers: string[]
+  entitlements: { active: Record<string, unknown> }
+}): UserEntitlements {
+  const hasLegacyProProduct = customerInfo.allPurchasedProductIdentifiers.includes(
+    PRODUCTS.pro.lifetime,
+  )
+  const hasLegacyProEntitlement = customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined
+  const isLegacyPro = hasLegacyProProduct || hasLegacyProEntitlement
+
+  const hasPremiumEntitlement = customerInfo.entitlements.active[ENTITLEMENTS.premium] !== undefined
+
+  return {
+    isPremium: isLegacyPro || hasPremiumEntitlement,
+    isLegacyPro,
   }
 }

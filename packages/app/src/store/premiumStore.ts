@@ -1,20 +1,16 @@
 import { Alert } from 'react-native'
-import Purchases, { type PurchasesError } from 'react-native-purchases'
+import Purchases, { type PurchasesError, type PurchasesPackage } from 'react-native-purchases'
 import { create } from 'zustand'
-import {
-  getOfferings,
-  getUserEntitlements,
-  purchasePackage,
-  type UserEntitlements,
-} from '../config/store'
+import { getUserEntitlements, purchasePackage, type UserEntitlements } from '../config/store'
 
 interface PremiumStore {
-  pro: boolean
+  isPremium: boolean
+  isLegacyPro: boolean
   isLoading: boolean
   error: string | null
   checkEntitlements: () => Promise<void>
   setEntitlements: (entitlements: UserEntitlements) => void
-  purchasePro: () => Promise<boolean>
+  purchasePackage: (pkg: PurchasesPackage) => Promise<boolean>
   restorePurchases: () => Promise<void>
 }
 
@@ -30,7 +26,8 @@ function handleRestoreError(error: unknown) {
 }
 
 export const usePremiumStore = create<PremiumStore>((set, get) => ({
-  pro: false,
+  isPremium: false,
+  isLegacyPro: false,
   isLoading: false,
   error: null,
   checkEntitlements: async () => {
@@ -63,72 +60,52 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
     console.log('setEntitlements - Setting new entitlements:', entitlements)
     set({ ...entitlements })
   },
-  purchasePro: async () => {
-    console.log('purchasePro - Starting with current state:', { isLoading: false, error: null })
+  purchasePackage: async (pkg: PurchasesPackage) => {
+    console.log('purchasePackage - Starting purchase for:', pkg.product.identifier)
 
-    // Prevent multiple simultaneous purchase attempts
     if (get().isLoading) {
-      console.log('purchasePro - Purchase already in progress')
+      console.log('purchasePackage - Purchase already in progress')
       return false
     }
 
     set({ isLoading: true, error: null })
 
     try {
-      const offerings = await getOfferings()
-
-      // Check if the store is still in loading state (hasn't been cancelled)
       if (!get().isLoading) {
-        console.log('purchasePro - Operation cancelled')
+        console.log('purchasePackage - Operation cancelled')
         return false
       }
 
-      console.log('purchasePro - Got offerings:', offerings)
-      const proPackage = offerings[0]
+      console.log('purchasePackage - Attempting to purchase package')
+      const entitlements = await purchasePackage(pkg)
 
-      if (!proPackage) {
-        console.log('purchasePro - No PRO package available')
-        set({ isLoading: false, error: null, pro: false })
-        Alert.alert(
-          'Product Unavailable',
-          'The PRO package is currently unavailable. Please try again later.',
-          [{ text: 'OK' }],
-        )
-        return false
-      }
-
-      console.log('purchasePro - Attempting to purchase package')
-      const entitlements = await purchasePackage(proPackage)
-
-      // Check if the store is still in loading state
       if (!get().isLoading) {
-        console.log('purchasePro - Operation cancelled')
+        console.log('purchasePackage - Operation cancelled')
         return false
       }
 
-      console.log('purchasePro - Purchase successful, entitlements:', entitlements)
+      console.log('purchasePackage - Purchase result, entitlements:', entitlements)
 
-      // If purchase was successful but entitlements aren't reflected, try restoring
-      if (!entitlements.pro) {
+      if (!entitlements.isPremium) {
         console.log(
-          'purchasePro - Purchase successful but entitlements not reflected, attempting restore',
+          'purchasePackage - Purchase successful but entitlements not reflected, attempting restore',
         )
         await Purchases.syncPurchases()
         const restoredEntitlements = await getUserEntitlements()
         set({ ...restoredEntitlements, isLoading: false, error: null })
-        return restoredEntitlements.pro
+        return restoredEntitlements.isPremium
       }
 
       set({ ...entitlements, isLoading: false, error: null })
-      return entitlements.pro
+      return entitlements.isPremium
     } catch (error) {
-      console.error('purchasePro - Error:', error)
+      console.error('purchasePackage - Error:', error)
 
       if (!get().isLoading) {
         return false
       }
 
-      set({ isLoading: false, error: null, pro: false })
+      set({ isLoading: false, error: null, isPremium: false })
 
       if (error instanceof Error && 'code' in error) {
         const purchaseError = error as PurchasesError
@@ -146,7 +123,7 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
             )
             return false
           case 'PurchaseCancelledError':
-            console.log('purchasePro - User cancelled')
+            console.log('purchasePackage - User cancelled')
             return false
           case 'CustomerInfoError':
             Alert.alert(
@@ -177,24 +154,20 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
     console.log('restorePurchases - Starting restore')
     set({ isLoading: true, error: null })
     try {
-      // First check current entitlements
       const currentEntitlements = await getUserEntitlements()
 
-      // Call restore and sync
       await Purchases.restorePurchases()
       await Purchases.syncPurchases()
 
-      // Get updated entitlements
       const restoredEntitlements = await getUserEntitlements()
       console.log('restorePurchases - Retrieved entitlements:', restoredEntitlements)
       set({ ...restoredEntitlements, isLoading: false, error: null })
 
-      // Only show success message if restoration actually changed something
-      if (!currentEntitlements.pro && restoredEntitlements.pro) {
-        Alert.alert('Purchases Restored', 'Your PRO access has been successfully restored.', [
+      if (!currentEntitlements.isPremium && restoredEntitlements.isPremium) {
+        Alert.alert('Purchases Restored', 'Your premium access has been successfully restored.', [
           { text: 'OK' },
         ])
-      } else if (!restoredEntitlements.pro) {
+      } else if (!restoredEntitlements.isPremium) {
         Alert.alert('No Purchases Found', 'No previous purchases were found to restore.', [
           { text: 'OK' },
         ])
