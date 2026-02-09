@@ -4,14 +4,14 @@ import { Button, Text } from '@rneui/themed'
 import Constants from 'expo-constants'
 import { usePostHog } from 'posthog-react-native'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Keyboard, Linking, Platform, type TextInput, TouchableOpacity, View } from 'react-native'
+import { Keyboard, Platform, type TextInput, TouchableOpacity, View } from 'react-native'
 import { KeyboardAwareScrollView, KeyboardToolbar } from 'react-native-keyboard-controller'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { BrandHeader } from '../components/BrandHeader'
 import { CalculationAnimation } from '../components/calculator/CalculationAnimation'
 import { FormulaSelector } from '../components/calculator/FormulaSelector'
 import { MeasurementInput } from '../components/calculator/MeasurementInput'
 import { ResultsDisplay } from '../components/calculator/ResultsDisplay'
-import Logo from '../images/logo'
 import {
   getFormulaMetadata,
   isValidFormula,
@@ -21,37 +21,6 @@ import { useCalculatorStore } from '../store/calculatorStore'
 import { usePremiumStore } from '../store/premiumStore'
 import { useResponsive } from '../utils/responsiveContext'
 import { createStyles } from './CalculatorScreen.styles'
-
-// Extract Header into a separate component
-const Header = memo(() => {
-  const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, deviceType } =
-    useResponsive()
-  const styles = createStyles(
-    getResponsiveSpacing,
-    getResponsiveTypography,
-    getLineHeight,
-    deviceType,
-  )
-
-  return (
-    <View style={styles.header}>
-      <Logo style={styles.logo} width={62} accessibilityLabel="Calculator logo" />
-      <View style={styles.headerTextContainer}>
-        <View style={styles.titleContainer}>
-          <Text
-            style={[styles.headerTitle, { fontFamily: 'Montserrat-ExtraLight', fontWeight: 200 }]}
-          >
-            Body
-          </Text>
-          <Text style={[styles.headerTitle, { fontFamily: 'Montserrat-Light', fontWeight: 300 }]}>
-            Fat
-          </Text>
-        </View>
-        <Text style={styles.strapline}>Body Fat Calculator for skinfold calipers</Text>
-      </View>
-    </View>
-  )
-})
 
 // Add References Display component
 const ReferencesDisplay = memo(() => {
@@ -71,10 +40,6 @@ const ReferencesDisplay = memo(() => {
   const { primary } = metadata.reference
 
   if (!primary) return null
-
-  const _handleDoiPress = (doi: string) => {
-    Linking.openURL(`https://doi.org/${doi}`)
-  }
 
   return (
     <View style={styles.referencesContainer}>
@@ -238,7 +203,7 @@ export const CalculatorScreen = () => {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.innerContainer}>
-        <Header />
+        <BrandHeader subtitle="Body Fat Calculator for skinfold calipers" />
 
         <View style={styles.content}>
           <KeyboardAwareScrollView

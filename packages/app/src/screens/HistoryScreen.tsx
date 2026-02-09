@@ -3,6 +3,7 @@ import { Icon, Text } from '@rneui/themed'
 import { useState } from 'react'
 import { Alert, FlatList, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { BrandHeader } from '../components/BrandHeader'
 import { PaywallModal } from '../components/calculator/PaywallModal'
 import { COLORS } from '../constants/theme'
 import { useCloudSync } from '../hooks/useCloudSync'
@@ -119,15 +120,37 @@ export function HistoryScreen() {
 
   const measurements = getActiveMeasurements()
 
+  const headerRightElement = isPremium ? (
+    <View style={styles.headerRight}>
+      {measurements.length > 0 && (
+        <Text style={styles.count}>{measurements.length} measurements</Text>
+      )}
+      {syncEnabled && (
+        <TouchableOpacity onPress={sync} disabled={syncStatus === 'syncing'} hitSlop={8}>
+          <Icon
+            name={syncStatus === 'error' ? 'alert-circle' : 'cloud'}
+            type="feather"
+            color={
+              syncStatus === 'syncing'
+                ? '#ccc'
+                : syncStatus === 'error'
+                  ? '#FF5722'
+                  : COLORS.success
+            }
+            size={18}
+          />
+        </TouchableOpacity>
+      )}
+    </View>
+  ) : undefined
+
   if (!isPremium) {
     return (
       <SafeAreaView style={styles.container} edges={['top']}>
         <View style={styles.innerContainer}>
-          <View style={styles.header}>
-            <Text style={styles.title}>History</Text>
-          </View>
+          <BrandHeader subtitle="History" variant="compact" />
           <View style={styles.emptyState}>
-            <Icon name="lock" type="feather" color="#ccc" size={48} />
+            <Icon name="lock" type="feather" color="rgba(255,255,255,0.4)" size={48} />
             <Text style={styles.emptyTitle}>Premium Feature</Text>
             <Text style={styles.emptySubtitle}>Track your measurements over time with Premium</Text>
             <TouchableOpacity style={styles.upgradeButton} onPress={() => setShowPaywall(true)}>
@@ -147,34 +170,11 @@ export function HistoryScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.innerContainer}>
-        <View style={styles.header}>
-          <Text style={styles.title}>History</Text>
-          <View style={styles.headerRight}>
-            {measurements.length > 0 && (
-              <Text style={styles.count}>{measurements.length} measurements</Text>
-            )}
-            {syncEnabled && (
-              <TouchableOpacity onPress={sync} disabled={syncStatus === 'syncing'} hitSlop={8}>
-                <Icon
-                  name={syncStatus === 'error' ? 'alert-circle' : 'cloud'}
-                  type="feather"
-                  color={
-                    syncStatus === 'syncing'
-                      ? '#ccc'
-                      : syncStatus === 'error'
-                        ? '#FF5722'
-                        : COLORS.success
-                  }
-                  size={18}
-                />
-              </TouchableOpacity>
-            )}
-          </View>
-        </View>
+        <BrandHeader subtitle="History" variant="compact" rightElement={headerRightElement} />
 
         {measurements.length === 0 ? (
           <View style={styles.emptyState}>
-            <Icon name="clock" type="feather" color="#ccc" size={48} />
+            <Icon name="clock" type="feather" color="rgba(255,255,255,0.4)" size={48} />
             <Text style={styles.emptyTitle}>No Measurements Yet</Text>
             <Text style={styles.emptySubtitle}>Your saved measurements will appear here</Text>
           </View>
@@ -206,28 +206,12 @@ const createStyles = (
     },
     innerContainer: {
       flex: 1,
-      backgroundColor: '#f5f5f5',
-    },
-    header: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      paddingHorizontal: getResponsiveSpacing(20),
-      paddingVertical: getResponsiveSpacing(16),
-      backgroundColor: COLORS.white,
-      borderBottomWidth: 1,
-      borderBottomColor: '#e0e0e0',
+      backgroundColor: COLORS.background,
     },
     headerRight: {
       flexDirection: 'row',
       alignItems: 'center',
       gap: getResponsiveSpacing(12),
-    },
-    title: {
-      fontSize: getResponsiveTypography('2xl'),
-      lineHeight: getLineHeight('2xl'),
-      fontWeight: 'bold',
-      color: COLORS.textDark,
     },
     count: {
       fontSize: getResponsiveTypography('sm'),
@@ -249,13 +233,13 @@ const createStyles = (
       fontSize: getResponsiveTypography('lg'),
       lineHeight: getLineHeight('lg'),
       fontWeight: '600',
-      color: COLORS.textDark,
+      color: COLORS.text,
       marginTop: getResponsiveSpacing(8),
     },
     emptySubtitle: {
       fontSize: getResponsiveTypography('sm'),
       lineHeight: getLineHeight('sm'),
-      color: '#999',
+      color: 'rgba(255,255,255,0.6)',
       textAlign: 'center',
     },
     upgradeButton: {

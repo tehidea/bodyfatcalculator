@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { BrandHeader } from '../components/BrandHeader'
 import { PaywallModal } from '../components/calculator/PaywallModal'
 import FemaleIcon from '../components/icons/FemaleIcon'
 import MaleIcon from '../components/icons/MaleIcon'
@@ -171,9 +172,7 @@ export function SettingsScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.innerContainer}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Settings</Text>
-        </View>
+        <BrandHeader subtitle="Settings" variant="compact" />
 
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           {!isPremium && (
@@ -352,20 +351,7 @@ const createStyles = (
     },
     innerContainer: {
       flex: 1,
-      backgroundColor: '#f5f5f5',
-    },
-    header: {
-      paddingHorizontal: getResponsiveSpacing(20),
-      paddingVertical: getResponsiveSpacing(16),
-      backgroundColor: COLORS.white,
-      borderBottomWidth: 1,
-      borderBottomColor: '#e0e0e0',
-    },
-    title: {
-      fontSize: getResponsiveTypography('2xl'),
-      lineHeight: getLineHeight('2xl'),
-      fontWeight: 'bold',
-      color: COLORS.textDark,
+      backgroundColor: COLORS.background,
     },
     content: {
       padding: getResponsiveSpacing(16),
@@ -404,7 +390,7 @@ const createStyles = (
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: `${COLORS.success}10`,
+      backgroundColor: `${COLORS.success}20`,
       borderRadius: 12,
       padding: getResponsiveSpacing(12),
       gap: getResponsiveSpacing(8),
@@ -456,7 +442,7 @@ const createSectionStyles = (
       fontSize: getResponsiveTypography('xs'),
       lineHeight: getLineHeight('xs'),
       fontWeight: '600',
-      color: '#999',
+      color: 'rgba(255,255,255,0.5)',
       textTransform: 'uppercase',
       letterSpacing: 0.5,
       paddingHorizontal: getResponsiveSpacing(4),

@@ -20,44 +20,6 @@ export const createStyles = (
       flex: 1,
       backgroundColor: COLORS.background,
     },
-    header: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: COLORS.white,
-      padding: getResponsiveSpacing(16),
-      borderBottomWidth: 2,
-      borderBottomColor: COLORS.primary,
-    },
-    headerTextContainer: {
-      flex: 1,
-    },
-    titleContainer: {
-      flexDirection: 'row',
-    },
-    headerTitle: {
-      fontSize: getResponsiveTypography('5xl'),
-      lineHeight: getLineHeight('5xl'),
-      color: COLORS.black,
-      textTransform: 'uppercase',
-      letterSpacing: -2,
-      paddingRight: 2,
-      marginTop: -6,
-    },
-    strapline: {
-      fontSize: getResponsiveTypography('xxxs'),
-      lineHeight: getLineHeight('xxxs'),
-      color: COLORS.black,
-      marginTop: -6,
-      marginLeft: getResponsiveSpacing(4),
-      fontFamily: 'Montserrat-Light',
-      textTransform: 'uppercase',
-    },
-    logo: {
-      width: getResponsiveSpacing(60),
-      aspectRatio: 1,
-      marginRight: getResponsiveSpacing(8),
-    },
-
     scrollContent: {
       flexGrow: 1,
       padding: getResponsiveSpacing(16),
