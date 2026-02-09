@@ -1,16 +1,26 @@
 import { FORMULA_DEFINITIONS } from '@bodyfat/shared/definitions'
-import { Card, Icon, LinearProgress, Text } from '@rneui/themed'
+import { Icon } from '@rneui/themed'
 import { usePostHog } from 'posthog-react-native'
-import { useEffect, useRef, useState } from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
-import Animated, { FadeIn } from 'react-native-reanimated'
-import { COLORS } from '../../constants/theme'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { TouchableOpacity, View } from 'react-native'
+import Animated, {
+  Easing,
+  runOnJS,
+  useAnimatedReaction,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated'
 import { useHealthIntegration } from '../../hooks/useHealthIntegration'
 import { useCalculatorStore } from '../../store/calculatorStore'
 import { useHistoryStore } from '../../store/historyStore'
 import { usePremiumStore } from '../../store/premiumStore'
 import { useResponsive } from '../../utils/responsiveContext'
+import { ArcGauge } from './ArcGauge'
 import { PaywallModal } from './PaywallModal'
+import { createStyles } from './ResultsDisplay.styles'
 
 function getClassificationForGender(bodyFatPercentage: number, gender: string): string {
   if (gender === 'male') {
@@ -27,6 +37,26 @@ function getClassificationForGender(bodyFatPercentage: number, gender: string): 
   return 'Obese'
 }
 
+function getClassificationColor(bodyFatPercentage: number, gender: string): string {
+  if (gender === 'male') {
+    if (bodyFatPercentage < 6) return '#2196F3'
+    if (bodyFatPercentage < 14) return '#4CAF50'
+    if (bodyFatPercentage < 18) return '#8BC34A'
+    if (bodyFatPercentage < 25) return '#FFC107'
+    return '#FF5722'
+  }
+  if (bodyFatPercentage < 14) return '#2196F3'
+  if (bodyFatPercentage < 21) return '#4CAF50'
+  if (bodyFatPercentage < 25) return '#8BC34A'
+  if (bodyFatPercentage < 32) return '#FFC107'
+  return '#FF5722'
+}
+
+const EASING = Easing.out(Easing.cubic)
+
+// Gauge size relative to card width
+const GAUGE_SIZE_RATIO = 0.6
+
 export const ResultsDisplay = () => {
   const { results, measurementSystem, isResultsStale, gender, formula, inputs } =
     useCalculatorStore()
@@ -36,13 +66,40 @@ export const ResultsDisplay = () => {
   const [showPaywall, setShowPaywall] = useState(false)
   const [savedId, setSavedId] = useState<string | null>(null)
   const lastResultRef = useRef(results)
-  const { getResponsiveTypography, getLineHeight, width } = useResponsive()
+  const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, width } = useResponsive()
   const posthog = usePostHog()
 
-  // Create styles with responsive values
-  const styles = createStyles(getResponsiveTypography, getLineHeight, width)
+  const styles = createStyles(getResponsiveSpacing, getResponsiveTypography, getLineHeight, width)
 
-  // Reset savedId when results change (new calculation)
+  // Animated count-up display text
+  const [displayValue, setDisplayValue] = useState('0')
+  const [displayDecimal, setDisplayDecimal] = useState('.00')
+
+  // ── Shared values for staggered animation ──
+  // Phase 1: Card
+  const cardOpacity = useSharedValue(0)
+  const cardTranslateY = useSharedValue(30)
+  // Phase 2: Arc gauge
+  const gaugeOpacity = useSharedValue(0)
+  const gaugeProgress = useSharedValue(0)
+  // Phase 3: Body fat count-up (driven by gaugeProgress via reaction)
+  // Phase 4: Classification
+  const classificationOpacity = useSharedValue(0)
+  const classificationScale = useSharedValue(0.8)
+  // Phase 5: Breakdown
+  const fatColumnOpacity = useSharedValue(0)
+  const fatColumnTranslateX = useSharedValue(-30)
+  const leanColumnOpacity = useSharedValue(0)
+  const leanColumnTranslateX = useSharedValue(30)
+  // Phase 6: Footer
+  const footerOpacity = useSharedValue(0)
+
+  const updateDisplayValue = useCallback((value: number) => {
+    setDisplayValue(Math.floor(value).toString())
+    setDisplayDecimal((value % 1).toFixed(2).substring(1))
+  }, [])
+
+  // Reset savedId when results change
   useEffect(() => {
     if (results !== lastResultRef.current) {
       setSavedId(null)
@@ -50,7 +107,7 @@ export const ResultsDisplay = () => {
     }
   }, [results])
 
-  // Auto-save for premium users when results arrive
+  // Auto-save for premium users
   useEffect(() => {
     if (results && !isResultsStale && isPremium && !savedId) {
       const record = addMeasurement({
@@ -64,7 +121,6 @@ export const ResultsDisplay = () => {
         classification: getClassificationForGender(results.bodyFatPercentage, gender),
       })
       setSavedId(record.clientId)
-      // Also write to Health (Apple Health / Health Connect) if enabled
       writeBodyFat(results.bodyFatPercentage)
     }
   }, [
@@ -80,308 +136,257 @@ export const ResultsDisplay = () => {
     writeBodyFat,
   ])
 
+  // ── Run staggered animation sequence when results arrive ──
+  useEffect(() => {
+    if (!results || isResultsStale) return
+
+    const targetBf = results.bodyFatPercentage
+    const maxBf = gender === 'male' ? 35 : 45
+    const normalizedProgress = Math.min(targetBf / maxBf, 1)
+
+    // Reset all values
+    cardOpacity.value = 0
+    cardTranslateY.value = 30
+    gaugeOpacity.value = 0
+    gaugeProgress.value = 0
+    classificationOpacity.value = 0
+    classificationScale.value = 0.8
+    fatColumnOpacity.value = 0
+    fatColumnTranslateX.value = -30
+    leanColumnOpacity.value = 0
+    leanColumnTranslateX.value = 30
+    footerOpacity.value = 0
+    setDisplayValue('0')
+    setDisplayDecimal('.00')
+
+    // Phase 1: Card fade in + slide up (0ms)
+    cardOpacity.value = withTiming(1, { duration: 400, easing: EASING })
+    cardTranslateY.value = withTiming(0, { duration: 400, easing: EASING })
+
+    // Phase 2: Arc gauge (200ms delay)
+    gaugeOpacity.value = withDelay(200, withTiming(1, { duration: 400, easing: EASING }))
+    gaugeProgress.value = withDelay(
+      300,
+      withTiming(normalizedProgress, { duration: 800, easing: EASING }),
+    )
+
+    // Phase 3: Count-up is driven by countValue (separate useEffect below)
+
+    // Phase 4: Classification (600ms delay)
+    classificationOpacity.value = withDelay(600, withTiming(1, { duration: 300, easing: EASING }))
+    classificationScale.value = withDelay(600, withSpring(1, { damping: 15, stiffness: 150 }))
+
+    // Phase 5: Breakdown columns (800ms delay, 50ms stagger)
+    fatColumnOpacity.value = withDelay(800, withTiming(1, { duration: 300, easing: EASING }))
+    fatColumnTranslateX.value = withDelay(800, withTiming(0, { duration: 300, easing: EASING }))
+    leanColumnOpacity.value = withDelay(850, withTiming(1, { duration: 300, easing: EASING }))
+    leanColumnTranslateX.value = withDelay(850, withTiming(0, { duration: 300, easing: EASING }))
+
+    // Phase 6: Footer (1000ms delay)
+    footerOpacity.value = withDelay(1000, withTiming(1, { duration: 200, easing: EASING }))
+  }, [
+    results,
+    isResultsStale,
+    gender,
+    cardOpacity,
+    cardTranslateY,
+    gaugeOpacity,
+    gaugeProgress,
+    classificationOpacity,
+    classificationScale,
+    fatColumnOpacity,
+    fatColumnTranslateX,
+    leanColumnOpacity,
+    leanColumnTranslateX,
+    footerOpacity,
+  ])
+
+  // We need a separate animation for the count-up display that maps to actual BF%
+  const countValue = useSharedValue(0)
+
+  useEffect(() => {
+    if (!results || isResultsStale) return
+    countValue.value = 0
+    countValue.value = withDelay(
+      300,
+      withTiming(results.bodyFatPercentage, { duration: 800, easing: EASING }),
+    )
+  }, [results, isResultsStale, countValue])
+
+  useAnimatedReaction(
+    () => countValue.value,
+    (current) => {
+      if (current > 0) {
+        runOnJS(updateDisplayValue)(current)
+      }
+    },
+  )
+
+  // ── Animated styles ──
+  const cardStyle = useAnimatedStyle(() => ({
+    opacity: cardOpacity.value,
+    transform: [{ translateY: cardTranslateY.value }],
+  }))
+
+  const gaugeStyle = useAnimatedStyle(() => ({
+    opacity: gaugeOpacity.value,
+  }))
+
+  const classificationStyle = useAnimatedStyle(() => ({
+    opacity: classificationOpacity.value,
+    transform: [{ scale: classificationScale.value }],
+  }))
+
+  const fatColumnStyle = useAnimatedStyle(() => ({
+    opacity: fatColumnOpacity.value,
+    transform: [{ translateX: fatColumnTranslateX.value }],
+  }))
+
+  const leanColumnStyle = useAnimatedStyle(() => ({
+    opacity: leanColumnOpacity.value,
+    transform: [{ translateX: leanColumnTranslateX.value }],
+  }))
+
+  const footerStyle = useAnimatedStyle(() => ({
+    opacity: footerOpacity.value,
+  }))
+
   if (!results || isResultsStale) return null
 
   const weightUnit = measurementSystem === 'imperial' ? 'lbs' : 'kg'
-
-  // Calculate progress values
-  const maxBodyFat = gender === 'male' ? 35 : 45
-  const calculateProgress = (value: number, max: number) => {
-    // Convert to integer math (multiply by 1000 for 3 decimal precision equivalent)
-    const progress = Math.floor((value * 1000) / (max * 1000))
-    return Math.min(progress, 1)
-  }
-  const bodyFatProgress = calculateProgress(results.bodyFatPercentage, maxBodyFat)
-  const leanMassPercentage = 100 - results.bodyFatPercentage
-
-  // Get color based on body fat percentage
-  const getClassificationColor = (bodyFatPercentage: number) => {
-    if (gender === 'male') {
-      if (bodyFatPercentage < 6) return '#2196F3' // Essential fat
-      if (bodyFatPercentage < 14) return '#4CAF50' // Athletic
-      if (bodyFatPercentage < 18) return '#8BC34A' // Fitness
-      if (bodyFatPercentage < 25) return '#FFC107' // Acceptable
-      return '#FF5722' // Obese
-    } else {
-      if (bodyFatPercentage < 14) return '#2196F3' // Essential fat
-      if (bodyFatPercentage < 21) return '#4CAF50' // Athletic
-      if (bodyFatPercentage < 25) return '#8BC34A' // Fitness
-      if (bodyFatPercentage < 32) return '#FFC107' // Acceptable
-      return '#FF5722' // Obese
-    }
-  }
-
-  const classificationColor = getClassificationColor(results.bodyFatPercentage)
+  const classificationColor = getClassificationColor(results.bodyFatPercentage, gender)
   const classification = getClassificationForGender(results.bodyFatPercentage, gender)
-
-  // Split body fat into whole and decimal parts
-  const wholeNumber = Math.floor(results.bodyFatPercentage)
-  const decimal = (results.bodyFatPercentage % 1).toFixed(2).substring(1)
-
-  const handlePaywallClose = () => {
-    setShowPaywall(false)
-  }
-
+  const leanMassPercentage = 100 - results.bodyFatPercentage
   const formulaDef = FORMULA_DEFINITIONS[formula]
   const marginOfError = formulaDef ? `${formulaDef.accuracy.min}-${formulaDef.accuracy.max}` : '3-7'
 
+  // Gauge sizing
+  const gaugeSize = Math.min((width - 32) * GAUGE_SIZE_RATIO, 200)
+
+  // Breakdown bar proportions
+  const fatBarWidth = Math.min(results.bodyFatPercentage / 50, 1) // Scale to 50% max
+  const leanBarWidth = Math.min(leanMassPercentage / 100, 1)
+
   return (
     <>
-      <Animated.View entering={FadeIn.duration(400)}>
-        <Card containerStyle={styles.container}>
-          <Card.Title style={styles.title}>Your Body Composition</Card.Title>
-
-          {/* Body Fat Percentage with Progress Bar */}
-          <View style={styles.mainResult}>
+      <Animated.View style={[styles.container, cardStyle]}>
+        {/* Arc Gauge with overlaid percentage */}
+        <Animated.View style={[styles.gaugeContainer, gaugeStyle]}>
+          <ArcGauge size={gaugeSize} progress={gaugeProgress} color={classificationColor} />
+          <View style={[styles.gaugeOverlay, { height: gaugeSize }]}>
             <View style={styles.mainValueContainer}>
-              <Text style={styles.mainValue}>
-                {isPremium ? `${wholeNumber}` : `~${wholeNumber}%`}
-              </Text>
-              {isPremium && <Text style={styles.mainValue}>{decimal}%</Text>}
+              {!isPremium && <Animated.Text style={styles.mainValueDecimal}>~</Animated.Text>}
+              <Animated.Text style={styles.mainValueWhole}>{displayValue}</Animated.Text>
+              {isPremium ? (
+                <Animated.Text style={styles.mainValueDecimal}>{displayDecimal}%</Animated.Text>
+              ) : (
+                <Animated.Text style={styles.mainValuePercent}>%</Animated.Text>
+              )}
             </View>
-            {!isPremium && (
-              <TouchableOpacity
-                style={styles.premiumBadge}
-                onPress={() => {
-                  if (posthog) {
-                    posthog.capture('results_precision_tapped', {
-                      current_formula: formula,
-                      body_fat_percentage: results?.bodyFatPercentage,
-                      measurement_system: measurementSystem,
-                    })
-                  }
-                  setShowPaywall(true)
-                }}
-              >
-                <Icon name="lock" type="feather" color="#666" size={12} />
-                <Text style={styles.premiumBadgeText}>Precise results with Premium</Text>
-              </TouchableOpacity>
-            )}
-            <Text style={styles.mainLabel}>
-              Body Fat {isPremium ? `(±${marginOfError}%)` : '(estimated)'}
-            </Text>
-            <LinearProgress
-              style={styles.progressBar}
-              value={bodyFatProgress}
-              color={classificationColor}
-              variant="determinate"
-            />
-          </View>
-
-          {/* Classification */}
-          <View
-            style={[
-              styles.classificationContainer,
-              { backgroundColor: `${classificationColor}15` },
-            ]}
-          >
-            <Text style={[styles.classification, { color: classificationColor }]}>
+            <Animated.Text
+              style={[styles.classification, classificationStyle, { color: classificationColor }]}
+            >
               {classification}
-            </Text>
+            </Animated.Text>
           </View>
+        </Animated.View>
 
-          {/* Detailed Breakdown */}
-          <View style={styles.breakdownContainer}>
-            <View style={styles.breakdownItem}>
-              <Text style={styles.breakdownValue}>
-                {isPremium ? results.fatMass.toFixed(2) : Math.round(results.fatMass)} {weightUnit}
-              </Text>
-              <Text style={styles.breakdownLabel}>Fat Mass</Text>
-              <Text style={styles.breakdownPercentage}>
-                {isPremium
-                  ? results.bodyFatPercentage.toFixed(2)
-                  : Math.round(results.bodyFatPercentage)}
-                %
-              </Text>
+        {/* Precision badge or margin of error */}
+        {isPremium ? (
+          <Animated.Text style={styles.marginOfError}>
+            Margin of error ±{marginOfError}%
+          </Animated.Text>
+        ) : (
+          <TouchableOpacity
+            style={styles.premiumBadge}
+            onPress={() => {
+              if (posthog) {
+                posthog.capture('results_precision_tapped', {
+                  current_formula: formula,
+                  body_fat_percentage: results.bodyFatPercentage,
+                  measurement_system: measurementSystem,
+                })
+              }
+              setShowPaywall(true)
+            }}
+          >
+            <Icon name="lock" type="feather" color="rgba(255,255,255,0.5)" size={11} />
+            <Animated.Text style={styles.premiumBadgeText}>
+              Precise results with Premium
+            </Animated.Text>
+          </TouchableOpacity>
+        )}
+
+        {/* Breakdown: Fat Mass / Lean Mass */}
+        <View style={styles.breakdownContainer}>
+          <Animated.View style={[styles.breakdownColumn, fatColumnStyle]}>
+            <View style={[styles.breakdownBar, { backgroundColor: 'rgba(255,255,255,0.06)' }]}>
+              <View
+                style={[
+                  styles.breakdownBarFill,
+                  { width: `${fatBarWidth * 100}%`, backgroundColor: classificationColor },
+                ]}
+              />
             </View>
+            <Animated.Text style={styles.breakdownValue}>
+              {isPremium ? results.fatMass.toFixed(2) : Math.round(results.fatMass)} {weightUnit}
+            </Animated.Text>
+            <Animated.Text style={styles.breakdownLabel}>Fat Mass</Animated.Text>
+            <Animated.Text style={styles.breakdownPercentage}>
+              {isPremium
+                ? results.bodyFatPercentage.toFixed(2)
+                : Math.round(results.bodyFatPercentage)}
+              %
+            </Animated.Text>
+          </Animated.View>
 
-            <View style={styles.divider} />
+          <View style={styles.divider} />
 
-            <View style={styles.breakdownItem}>
-              <Text style={styles.breakdownValue}>
-                {isPremium ? results.leanMass.toFixed(2) : Math.round(results.leanMass)}{' '}
-                {weightUnit}
-              </Text>
-              <Text style={styles.breakdownLabel}>Lean Mass</Text>
-              <Text style={styles.breakdownPercentage}>
-                {isPremium ? leanMassPercentage.toFixed(2) : Math.round(leanMassPercentage)}%
-              </Text>
+          <Animated.View style={[styles.breakdownColumn, leanColumnStyle]}>
+            <View style={[styles.breakdownBar, { backgroundColor: 'rgba(255,255,255,0.06)' }]}>
+              <View
+                style={[
+                  styles.breakdownBarFill,
+                  { width: `${leanBarWidth * 100}%`, backgroundColor: 'rgba(255,255,255,0.25)' },
+                ]}
+              />
             </View>
-          </View>
+            <Animated.Text style={styles.breakdownValue}>
+              {isPremium ? results.leanMass.toFixed(2) : Math.round(results.leanMass)} {weightUnit}
+            </Animated.Text>
+            <Animated.Text style={styles.breakdownLabel}>Lean Mass</Animated.Text>
+            <Animated.Text style={styles.breakdownPercentage}>
+              {isPremium ? leanMassPercentage.toFixed(2) : Math.round(leanMassPercentage)}%
+            </Animated.Text>
+          </Animated.View>
+        </View>
 
-          {/* Formula Name */}
-          <Text style={styles.formulaName}>{formulaDef?.name || formula.toUpperCase()}</Text>
+        {/* Footer: formula + save status */}
+        <Animated.View style={[styles.footerContainer, footerStyle]}>
+          <Animated.Text style={styles.formulaName}>
+            {formulaDef?.name || formula.toUpperCase()}
+          </Animated.Text>
 
-          {/* Save / Saved indicator */}
           {isPremium && savedId && (
             <View style={styles.savedIndicator}>
-              <Icon name="check" type="feather" color={COLORS.success} size={14} />
-              <Text style={styles.savedText}>Saved to history</Text>
+              <Icon name="check" type="feather" color="#4CAF50" size={14} />
+              <Animated.Text style={styles.savedText}>Saved to history</Animated.Text>
             </View>
           )}
           {!isPremium && (
             <TouchableOpacity style={styles.saveButton} onPress={() => setShowPaywall(true)}>
-              <Icon name="lock" type="feather" color="#666" size={14} />
-              <Text style={styles.saveButtonText}>Save to History</Text>
+              <Icon name="lock" type="feather" color="rgba(255,255,255,0.5)" size={14} />
+              <Animated.Text style={styles.saveButtonText}>Save to History</Animated.Text>
             </TouchableOpacity>
           )}
-        </Card>
+        </Animated.View>
       </Animated.View>
 
-      <PaywallModal visible={showPaywall} variant="precision" onClose={handlePaywallClose} />
+      <PaywallModal
+        visible={showPaywall}
+        variant="precision"
+        onClose={() => setShowPaywall(false)}
+      />
     </>
   )
 }
-
-const createStyles = (
-  getResponsiveTypography: (size: any) => number,
-  getLineHeight: (size: any) => number,
-  width: number,
-) =>
-  StyleSheet.create({
-    container: {
-      marginTop: 20,
-      backgroundColor: COLORS.white,
-      borderRadius: 16,
-      padding: 20,
-      width: width - 32,
-      alignSelf: 'center',
-      elevation: 4,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
-    },
-    title: {
-      color: COLORS.textDark,
-      fontSize: getResponsiveTypography('xl'),
-      marginBottom: 16,
-      lineHeight: getLineHeight('xl'),
-    },
-    mainResult: {
-      alignItems: 'center',
-      marginBottom: 20,
-    },
-    mainValueContainer: {
-      flexDirection: 'row',
-      alignItems: 'flex-start',
-      justifyContent: 'center',
-    },
-    mainValue: {
-      fontSize: getResponsiveTypography('6xl'),
-      fontWeight: 'bold',
-      color: COLORS.textDark,
-      lineHeight: getLineHeight('6xl'),
-    },
-    premiumBadge: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: '#f0f0f0',
-      paddingHorizontal: 8,
-      paddingVertical: 4,
-      borderRadius: 12,
-      marginTop: 8,
-      marginBottom: 12,
-      gap: 4,
-    },
-    premiumBadgeText: {
-      fontSize: getResponsiveTypography('xxxs'),
-      fontWeight: '600',
-      color: '#666',
-      lineHeight: getLineHeight('xxxs'),
-    },
-    mainLabel: {
-      fontSize: getResponsiveTypography('md'),
-      color: COLORS.textLight,
-      marginBottom: 8,
-      lineHeight: getLineHeight('md'),
-    },
-    progressBar: {
-      width: '100%',
-      height: 8,
-      borderRadius: 4,
-      marginTop: 8,
-    },
-    classificationContainer: {
-      padding: 12,
-      borderRadius: 8,
-      marginBottom: 20,
-      alignItems: 'center',
-    },
-    classification: {
-      fontSize: getResponsiveTypography('md'),
-      fontWeight: '600',
-      lineHeight: getLineHeight('md'),
-    },
-    breakdownContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'stretch',
-      marginBottom: 16,
-    },
-    breakdownItem: {
-      flex: 1,
-      alignItems: 'center',
-    },
-    breakdownValue: {
-      fontSize: getResponsiveTypography('xl'),
-      fontWeight: '600',
-      color: COLORS.textDark,
-      marginBottom: 4,
-      lineHeight: getLineHeight('xl'),
-    },
-    breakdownLabel: {
-      fontSize: getResponsiveTypography('sm'),
-      color: COLORS.textLight,
-      marginBottom: 4,
-      lineHeight: getLineHeight('sm'),
-    },
-    breakdownPercentage: {
-      fontSize: getResponsiveTypography('md'),
-      color: COLORS.textDark,
-      lineHeight: getLineHeight('md'),
-    },
-    divider: {
-      width: 1,
-      backgroundColor: '#eee',
-      marginHorizontal: 16,
-    },
-    formulaName: {
-      fontSize: getResponsiveTypography('xs'),
-      color: COLORS.textLight,
-      textAlign: 'center',
-      marginTop: 8,
-      lineHeight: getLineHeight('xs'),
-    },
-    savedIndicator: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginTop: 12,
-      gap: 6,
-    },
-    savedText: {
-      fontSize: getResponsiveTypography('xs'),
-      lineHeight: getLineHeight('xs'),
-      color: COLORS.success,
-      fontWeight: '500',
-    },
-    saveButton: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginTop: 12,
-      paddingVertical: 6,
-      paddingHorizontal: 12,
-      backgroundColor: '#f0f0f0',
-      borderRadius: 12,
-      gap: 4,
-      alignSelf: 'center',
-    },
-    saveButtonText: {
-      fontSize: getResponsiveTypography('xs'),
-      lineHeight: getLineHeight('xs'),
-      color: '#666',
-      fontWeight: '600',
-    },
-  })
