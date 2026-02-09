@@ -6,6 +6,7 @@ import { COLORS } from '../../constants/theme'
 import { type Formula, getAllFormulasMetadata, getFormulaMetadata } from '../../schemas/calculator'
 import { useCalculatorStore } from '../../store/calculatorStore'
 import { usePremiumStore } from '../../store/premiumStore'
+import { hapticSelection } from '../../utils/haptics'
 import { useResponsive } from '../../utils/responsiveContext'
 import { BodyWeightScalesIcon } from '../icons/BodyWeightScalesIcon'
 import { CalendarIcon } from '../icons/CalendarIcon'
@@ -14,6 +15,7 @@ import MaleIcon from '../icons/MaleIcon'
 import { MeasurementVerticalIcon } from '../icons/MeasurementVerticalIcon'
 import { MeasuringTapeIcon } from '../icons/MeasuringTapeIcon'
 import { SkinfoldIcon } from '../icons/SkinfoldIcon'
+import { SpringPressable } from '../SpringPressable'
 import { PaywallModal } from './PaywallModal'
 
 export const MeasurementIcon = ({
@@ -181,6 +183,7 @@ export const FormulaSelector = () => {
 
   const handleFormulaSelect = (selectedKey: Formula, isPremiumFormula: boolean) => {
     if (isLoading) return
+    hapticSelection()
 
     console.log('handleFormulaSelect - Selected formula:', selectedKey)
     console.log('handleFormulaSelect - Is premium formula:', isPremiumFormula)
@@ -240,21 +243,21 @@ export const FormulaSelector = () => {
         <View style={styles.labelRow}>
           <Text style={styles.selectorHint}>Select Formula</Text>
           <View style={styles.toggleRow}>
-            <TouchableOpacity
+            <SpringPressable
               style={styles.togglePill}
               onPress={handleToggleGender}
-              activeOpacity={0.7}
+              haptic="selection"
             >
               <GenderIcon size={getResponsiveSpacing(10)} color="#fff" />
               <Text style={styles.toggleLabel}>{genderLabel}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
+            </SpringPressable>
+            <SpringPressable
               style={styles.togglePill}
               onPress={handleToggleUnits}
-              activeOpacity={0.7}
+              haptic="selection"
             >
               <Text style={styles.toggleLabel}>{unitsLabel}</Text>
-            </TouchableOpacity>
+            </SpringPressable>
           </View>
           <View style={styles.chevronContainer}>
             <Icon

@@ -19,6 +19,7 @@ import { useHealthIntegration } from '../../hooks/useHealthIntegration'
 import { useCalculatorStore } from '../../store/calculatorStore'
 import { useHistoryStore } from '../../store/historyStore'
 import { usePremiumStore } from '../../store/premiumStore'
+import { hapticSuccess } from '../../utils/haptics'
 import { useResponsive } from '../../utils/responsiveContext'
 import { ArcGauge } from './ArcGauge'
 import { PaywallModal } from './PaywallModal'
@@ -172,6 +173,7 @@ export const ResultsDisplay = () => {
   // ── Run staggered animation sequence when results arrive ──
   useEffect(() => {
     if (!results || isResultsStale) return
+    hapticSuccess()
 
     const targetBf = results.bodyFatPercentage
     const maxBf = gender === 'male' ? 35 : 45

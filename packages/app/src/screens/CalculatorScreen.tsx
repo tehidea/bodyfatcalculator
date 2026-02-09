@@ -1,11 +1,11 @@
 import { calculateResults } from '@bodyfat/shared/formulas'
 import type { CalculationResult } from '@bodyfat/shared/types'
 import { Button, Text } from '@rneui/themed'
-import Constants from 'expo-constants'
 import { usePostHog } from 'posthog-react-native'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Keyboard, Platform, type TextInput, TouchableOpacity, View } from 'react-native'
+import { Keyboard, type TextInput, TouchableOpacity, View } from 'react-native'
 import { KeyboardAwareScrollView, KeyboardToolbar } from 'react-native-keyboard-controller'
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { BrandHeader } from '../components/BrandHeader'
 import { CalculationAnimation } from '../components/calculator/CalculationAnimation'
@@ -18,7 +18,7 @@ import {
   validateFormula as validateInputs,
 } from '../schemas/calculator'
 import { useCalculatorStore } from '../store/calculatorStore'
-import { usePremiumStore } from '../store/premiumStore'
+import { hapticImpact } from '../utils/haptics'
 import { useResponsive } from '../utils/responsiveContext'
 import { createStyles } from './CalculatorScreen.styles'
 
@@ -50,32 +50,6 @@ const ReferencesDisplay = memo(() => {
         </TouchableOpacity>
       )} */}
     </View>
-  )
-})
-
-// Add Version Display component
-const VersionDisplay = memo(() => {
-  const { isPremium } = usePremiumStore()
-  const { getResponsiveSpacing, getResponsiveTypography, getLineHeight, deviceType } =
-    useResponsive()
-  const styles = createStyles(
-    getResponsiveSpacing,
-    getResponsiveTypography,
-    getLineHeight,
-    deviceType,
-  )
-
-  const version = Constants.expoConfig?.version || '?.?.?'
-  const buildNumber =
-    Platform.select({
-      ios: Constants.expoConfig?.ios?.buildNumber,
-      android: Constants.expoConfig?.android?.versionCode?.toString(),
-    }) || null
-  return (
-    <Text style={styles.versionText}>
-      v{version}
-      {buildNumber ? ` (${buildNumber})` : ''} {isPremium ? 'PREMIUM' : ''}
-    </Text>
   )
 })
 
@@ -147,7 +121,14 @@ export const CalculatorScreen = () => {
     return fieldErrors[fieldKey]
   }
 
+  const buttonScale = useSharedValue(1)
+  const buttonAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: buttonScale.value }],
+  }))
+  const springConfig = { damping: 15, stiffness: 400, mass: 0.8 }
+
   const handleCalculate = useCallback(async () => {
+    hapticImpact()
     Keyboard.dismiss()
     setError(null)
 
@@ -233,17 +214,25 @@ export const CalculatorScreen = () => {
               />
             ))}
             <View style={styles.buttonContainer}>
-              <Button
-                title={buttonTitle}
-                onPress={handleCalculate}
-                disabled={isAnimating}
-                buttonStyle={styles.primaryButton}
-                disabledStyle={styles.primaryButton}
-                containerStyle={styles.buttonWrapperFullWidth}
-                titleStyle={styles.primaryButtonText}
-                disabledTitleStyle={styles.primaryButtonText}
-                testID="calculate-button"
-              />
+              <Animated.View style={[{ width: '100%' }, buttonAnimatedStyle]}>
+                <Button
+                  title={buttonTitle}
+                  onPress={handleCalculate}
+                  onPressIn={() => {
+                    buttonScale.value = withSpring(0.97, springConfig)
+                  }}
+                  onPressOut={() => {
+                    buttonScale.value = withSpring(1, springConfig)
+                  }}
+                  disabled={isAnimating}
+                  buttonStyle={styles.primaryButton}
+                  disabledStyle={styles.primaryButton}
+                  containerStyle={styles.buttonWrapperFullWidth}
+                  titleStyle={styles.primaryButtonText}
+                  disabledTitleStyle={styles.primaryButtonText}
+                  testID="calculate-button"
+                />
+              </Animated.View>
               <TouchableOpacity
                 style={styles.resetLink}
                 onPress={handleReset}
@@ -273,7 +262,6 @@ export const CalculatorScreen = () => {
               <ResultsDisplay />
             </View>
             <ReferencesDisplay />
-            <VersionDisplay />
           </KeyboardAwareScrollView>
         </View>
       </View>

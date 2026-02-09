@@ -23,6 +23,7 @@ import type { Gender } from '../schemas/calculator'
 import { useCalculatorStore } from '../store/calculatorStore'
 import { useHistoryStore } from '../store/historyStore'
 import { usePremiumStore } from '../store/premiumStore'
+import { hapticSelection } from '../utils/haptics'
 import { useResponsive } from '../utils/responsiveContext'
 
 function SettingsRow({
@@ -110,6 +111,7 @@ export function SettingsScreen() {
   const isMetric = measurementSystem === 'metric'
 
   const handleGenderChange = (newGender: Gender) => {
+    hapticSelection()
     setGender(newGender)
     setResults(null)
   }
@@ -239,7 +241,10 @@ export function SettingsScreen() {
                 <View style={styles.segmentedControl}>
                   <TouchableOpacity
                     style={[styles.segment, isMetric && styles.segmentActive]}
-                    onPress={() => setMeasurementSystem('metric')}
+                    onPress={() => {
+                      hapticSelection()
+                      setMeasurementSystem('metric')
+                    }}
                     activeOpacity={0.7}
                   >
                     <Text style={[styles.segmentText, isMetric && styles.segmentTextActive]}>
@@ -248,7 +253,10 @@ export function SettingsScreen() {
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={[styles.segment, !isMetric && styles.segmentActive]}
-                    onPress={() => setMeasurementSystem('imperial')}
+                    onPress={() => {
+                      hapticSelection()
+                      setMeasurementSystem('imperial')
+                    }}
                     activeOpacity={0.7}
                   >
                     <Text style={[styles.segmentText, !isMetric && styles.segmentTextActive]}>

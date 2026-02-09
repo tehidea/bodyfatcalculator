@@ -97,15 +97,6 @@ export const createStyles = (
       lineHeight: getLineHeight('sm'),
       fontWeight: 'bold',
     },
-    versionText: {
-      textAlign: 'center',
-      color: 'rgba(255, 255, 255, 0.4)',
-      fontSize: getResponsiveTypography('xs'),
-      lineHeight: getLineHeight('xs'),
-      marginTop: getResponsiveSpacing(32),
-      marginBottom: getResponsiveSpacing(8),
-      fontFamily: 'Montserrat-Light',
-    },
     toolbarContainer: {
       position: 'absolute',
       bottom: 0,
