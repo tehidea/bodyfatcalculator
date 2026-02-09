@@ -226,7 +226,7 @@ export const CalculatorScreen = () => {
                 />
               </Animated.View>
             ))}
-            <View style={styles.buttonContainer}>
+            <Animated.View style={styles.buttonContainer} layout={LinearTransition.duration(250)}>
               <Animated.View style={[{ width: '100%' }, buttonAnimatedStyle]}>
                 <Button
                   title={buttonTitle}
@@ -254,7 +254,7 @@ export const CalculatorScreen = () => {
               >
                 <Text style={styles.resetLinkText}>Reset</Text>
               </TouchableOpacity>
-            </View>
+            </Animated.View>
             {pendingResults && (
               <CalculationAnimation
                 targetValue={pendingResults.bodyFatPercentage}
@@ -267,13 +267,18 @@ export const CalculatorScreen = () => {
                 <Text style={styles.errorText}>{globalError}</Text>
               </View>
             )}
-            <View
-              onLayout={(e) => {
-                resultsYRef.current = e.nativeEvent.layout.y
-              }}
-            >
-              <ResultsDisplay />
-            </View>
+            {results && !isResultsStale && (
+              <Animated.View
+                entering={FadeIn.duration(400)}
+                exiting={FadeOut.duration(250)}
+                layout={LinearTransition.duration(250)}
+                onLayout={(e) => {
+                  resultsYRef.current = e.nativeEvent.layout.y
+                }}
+              >
+                <ResultsDisplay />
+              </Animated.View>
+            )}
             <ReferencesDisplay />
           </KeyboardAwareScrollView>
         </View>
