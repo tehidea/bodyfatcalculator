@@ -1,7 +1,7 @@
 import { Icon, Text } from '@rneui/themed'
 import { usePostHog } from 'posthog-react-native'
 import { useEffect, useMemo, useState } from 'react'
-import { Alert, FlatList, Modal, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Alert, FlatList, Keyboard, Modal, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { COLORS } from '../../constants/theme'
 import { type Formula, getAllFormulasMetadata, getFormulaMetadata } from '../../schemas/calculator'
 import { useCalculatorStore } from '../../store/calculatorStore'
@@ -9,6 +9,8 @@ import { usePremiumStore } from '../../store/premiumStore'
 import { useResponsive } from '../../utils/responsiveContext'
 import { BodyWeightScalesIcon } from '../icons/BodyWeightScalesIcon'
 import { CalendarIcon } from '../icons/CalendarIcon'
+import FemaleIcon from '../icons/FemaleIcon'
+import MaleIcon from '../icons/MaleIcon'
 import { MeasurementVerticalIcon } from '../icons/MeasurementVerticalIcon'
 import { MeasuringTapeIcon } from '../icons/MeasuringTapeIcon'
 import { SkinfoldIcon } from '../icons/SkinfoldIcon'
@@ -50,7 +52,15 @@ function getUniqueMeasurementTypes(fields: Array<{ type: string }>) {
 }
 
 export const FormulaSelector = () => {
-  const { formula, setFormula, gender, measurementSystem } = useCalculatorStore()
+  const {
+    formula,
+    setFormula,
+    gender,
+    setGender,
+    measurementSystem,
+    setMeasurementSystem,
+    setResults,
+  } = useCalculatorStore()
   const { isPremium, isLoading, checkEntitlements } = usePremiumStore()
   const posthog = usePostHog()
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -194,6 +204,23 @@ export const FormulaSelector = () => {
     }
   }
 
+  const handleToggleGender = () => {
+    setGender(gender === 'male' ? 'female' : 'male')
+    setResults(null)
+  }
+
+  const handleToggleUnits = () => {
+    Keyboard.dismiss()
+    setTimeout(() => {
+      setMeasurementSystem(measurementSystem === 'metric' ? 'imperial' : 'metric')
+      setResults(null)
+    }, 50)
+  }
+
+  const GenderIcon = gender === 'male' ? MaleIcon : FemaleIcon
+  const genderLabel = gender === 'male' ? 'Male' : 'Female'
+  const unitsLabel = measurementSystem === 'metric' ? 'kg/cm' : 'lb/in'
+
   const handlePaywallClose = () => {
     setIsPaywallVisible(false)
     // If user purchased and there was a pending formula, apply it
@@ -212,6 +239,23 @@ export const FormulaSelector = () => {
       >
         <View style={styles.labelRow}>
           <Text style={styles.selectorHint}>Select Formula</Text>
+          <View style={styles.toggleRow}>
+            <TouchableOpacity
+              style={styles.togglePill}
+              onPress={handleToggleGender}
+              activeOpacity={0.7}
+            >
+              <GenderIcon size={getResponsiveSpacing(10)} color="#fff" />
+              <Text style={styles.toggleLabel}>{genderLabel}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.togglePill}
+              onPress={handleToggleUnits}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.toggleLabel}>{unitsLabel}</Text>
+            </TouchableOpacity>
+          </View>
           <View style={styles.chevronContainer}>
             <Icon
               name="chevron-down"
@@ -579,8 +623,27 @@ const createStyles = (
     },
     labelRow: {
       flexDirection: 'row',
-      justifyContent: 'space-between',
       alignItems: 'center',
+      gap: getResponsiveSpacing(8),
+    },
+    toggleRow: {
+      flexDirection: 'row',
+      gap: getResponsiveSpacing(4),
+      marginLeft: 'auto',
+    },
+    togglePill: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: 'rgba(255,255,255,0.12)',
+      borderRadius: getResponsiveSpacing(6),
+      paddingVertical: getResponsiveSpacing(3),
+      paddingHorizontal: getResponsiveSpacing(8),
+      gap: getResponsiveSpacing(4),
+    },
+    toggleLabel: {
+      color: '#fff',
+      fontSize: getResponsiveTypography('xxs'),
+      lineHeight: getLineHeight('xxs'),
     },
     modalTitle: {
       fontSize: getResponsiveTypography('sm'),

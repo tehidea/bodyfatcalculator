@@ -12,10 +12,13 @@ import {
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PaywallModal } from '../components/calculator/PaywallModal'
+import FemaleIcon from '../components/icons/FemaleIcon'
+import MaleIcon from '../components/icons/MaleIcon'
 import { ReminderSettings } from '../components/settings/ReminderSettings'
 import { COLORS } from '../constants/theme'
 import { useCloudSync } from '../hooks/useCloudSync'
 import { useHealthIntegration } from '../hooks/useHealthIntegration'
+import type { Gender } from '../schemas/calculator'
 import { useCalculatorStore } from '../store/calculatorStore'
 import { useHistoryStore } from '../store/historyStore'
 import { usePremiumStore } from '../store/premiumStore'
@@ -89,7 +92,8 @@ function formatLastSynced(isoString: string | null): string {
 
 export function SettingsScreen() {
   const { isPremium, isLegacyPro, restorePurchases, isLoading } = usePremiumStore()
-  const { measurementSystem, setMeasurementSystem } = useCalculatorStore()
+  const { gender, setGender, setResults, measurementSystem, setMeasurementSystem } =
+    useCalculatorStore()
   const { cloudSyncEnabled, setCloudSyncEnabled } = useHistoryStore()
   const { status: syncStatus, lastSyncedAt, sync, cloudAvailable } = useCloudSync()
   const {
@@ -104,8 +108,9 @@ export function SettingsScreen() {
 
   const isMetric = measurementSystem === 'metric'
 
-  const handleToggleUnits = () => {
-    setMeasurementSystem(isMetric ? 'imperial' : 'metric')
+  const handleGenderChange = (newGender: Gender) => {
+    setGender(newGender)
+    setResults(null)
   }
 
   const handleRestore = async () => {
@@ -196,15 +201,59 @@ export function SettingsScreen() {
 
         <SettingsSection title="General">
           <SettingsRow
-            icon="globe"
-            label="Metric Units"
+            icon="user"
+            label="Gender"
             rightElement={
-              <Switch
-                value={isMetric}
-                onValueChange={handleToggleUnits}
-                trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
-                thumbColor={isMetric ? COLORS.primary : '#f4f3f4'}
-              />
+              <View style={styles.segmentedControl}>
+                <TouchableOpacity
+                  style={[styles.segment, gender === 'male' && styles.segmentActive]}
+                  onPress={() => handleGenderChange('male')}
+                  activeOpacity={0.7}
+                >
+                  <MaleIcon size={12} color={gender === 'male' ? '#fff' : '#666'} />
+                  <Text style={[styles.segmentText, gender === 'male' && styles.segmentTextActive]}>
+                    Male
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.segment, gender === 'female' && styles.segmentActive]}
+                  onPress={() => handleGenderChange('female')}
+                  activeOpacity={0.7}
+                >
+                  <FemaleIcon size={12} color={gender === 'female' ? '#fff' : '#666'} />
+                  <Text
+                    style={[styles.segmentText, gender === 'female' && styles.segmentTextActive]}
+                  >
+                    Female
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            }
+          />
+          <SettingsRow
+            icon="globe"
+            label="Units"
+            rightElement={
+              <View style={styles.segmentedControl}>
+                <TouchableOpacity
+                  style={[styles.segment, isMetric && styles.segmentActive]}
+                  onPress={() => setMeasurementSystem('metric')}
+                  activeOpacity={0.7}
+                >
+                  <Text style={[styles.segmentText, isMetric && styles.segmentTextActive]}>
+                    kg / cm
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.segment, !isMetric && styles.segmentActive]}
+                  onPress={() => setMeasurementSystem('imperial')}
+                  activeOpacity={0.7}
+                >
+                  <Text style={[styles.segmentText, !isMetric && styles.segmentTextActive]}>
+                    lb / in
+                  </Text>
+                </TouchableOpacity>
+              </View>
             }
           />
         </SettingsSection>
@@ -357,6 +406,32 @@ const createStyles = (
       lineHeight: getLineHeight('sm'),
       fontWeight: '600',
       color: COLORS.success,
+    },
+    segmentedControl: {
+      flexDirection: 'row',
+      backgroundColor: '#e0e0e0',
+      borderRadius: 8,
+      padding: 2,
+    },
+    segment: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 4,
+      paddingVertical: 4,
+      paddingHorizontal: 10,
+      borderRadius: 6,
+    },
+    segmentActive: {
+      backgroundColor: COLORS.primary,
+    },
+    segmentText: {
+      fontSize: getResponsiveTypography('xs'),
+      lineHeight: getLineHeight('xs'),
+      color: '#666',
+    },
+    segmentTextActive: {
+      color: '#fff',
+      fontWeight: '600',
     },
   })
 

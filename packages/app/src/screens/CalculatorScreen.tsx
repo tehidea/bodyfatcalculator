@@ -7,9 +7,7 @@ import { Keyboard, Linking, Platform, type TextInput, View } from 'react-native'
 import { KeyboardAwareScrollView, KeyboardToolbar } from 'react-native-keyboard-controller'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { FormulaSelector } from '../components/calculator/FormulaSelector'
-import { GenderSelector } from '../components/calculator/GenderSelector'
 import { MeasurementInput } from '../components/calculator/MeasurementInput'
-import { MeasurementSelector } from '../components/calculator/MeasurementSelector'
 import { ResultsDisplay } from '../components/calculator/ResultsDisplay'
 import Logo from '../images/logo'
 import {
@@ -242,10 +240,6 @@ export const CalculatorScreen = () => {
           >
             <View style={styles.selectors}>
               <FormulaSelector />
-              <View style={styles.selectorRow}>
-                <GenderSelector />
-                <MeasurementSelector />
-              </View>
             </View>
             {formulaFields.map((field, index) => (
               <MeasurementInput

@@ -91,11 +91,6 @@ export const createStyles = (
       fontSize: getResponsiveTypography('lg'),
       lineHeight: getLineHeight('lg'),
     },
-    selectorRow: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      gap: getResponsiveSpacing(8),
-    },
     halfWidth: {
       flex: 1,
     },
