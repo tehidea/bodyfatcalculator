@@ -27,6 +27,7 @@
     "@rneui/themed": "^4.0.0-rc.8",
     "expo": "^54.0.0",
     "expo-application": "~7.0.7",
+    "expo-crypto": "~15.0.8",
     "expo-dev-client": "~6.0.12",
     "expo-device": "~8.0.7",
     "expo-file-system": "~19.0.14",
@@ -53,7 +54,6 @@
     "react-native-svg": "15.13.0",
     "react-native-view-shot": "4.0.3",
     "react-native-worklets": "^0.5.1",
-    "uuid": "^13.0.0",
     "zod": "^3.23.8",
     "zustand": "^5.0.1"
   },
@@ -64,7 +64,6 @@
     "@testing-library/react-native": "^12.8.1",
     "@types/jest": "^29.5.14",
     "@types/react": "~19.1.13",
-    "@types/uuid": "^11.0.0",
     "chalk": "^4.1.2",
     "jest": "^29.7.0",
     "jest-expo": "~54.0.11",

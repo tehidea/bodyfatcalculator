@@ -24,6 +24,7 @@ import type { Gender } from '../schemas/calculator'
 import { useCalculatorStore } from '../store/calculatorStore'
 import { useHistoryStore } from '../store/historyStore'
 import { usePremiumStore } from '../store/premiumStore'
+import { useWhatsNewStore } from '../store/whatsNewStore'
 import { hapticSelection } from '../utils/haptics'
 import { useResponsive } from '../utils/responsiveContext'
 
@@ -335,6 +336,8 @@ export function SettingsScreen() {
               icon="info"
               label="Version"
               value={`${version}${buildNumber ? ` (${buildNumber})` : ''}`}
+              onPress={() => navigation.navigate('WhatsNew')}
+              showChevron
             />
           </SettingsSection>
 
@@ -345,6 +348,37 @@ export function SettingsScreen() {
                 label="Illustration Gallery"
                 onPress={() => navigation.navigate('IllustrationGallery')}
                 showChevron
+              />
+              <SettingsRow
+                icon="gift"
+                label="Reset What's New"
+                onPress={() => {
+                  useWhatsNewStore.getState().setLastSeenVersion(null)
+                  Alert.alert('Done', "What's New modal will show on next app launch.")
+                }}
+                showChevron
+              />
+              <SettingsRow
+                icon="star"
+                label="Toggle Premium"
+                value={isPremium ? 'ON' : 'OFF'}
+                onPress={() => {
+                  const store = usePremiumStore.getState()
+                  usePremiumStore.setState({ isPremium: !store.isPremium, isLegacyPro: false })
+                }}
+              />
+              <SettingsRow
+                icon="award"
+                label="Toggle Legacy PRO"
+                value={isLegacyPro ? 'ON' : 'OFF'}
+                onPress={() => {
+                  const store = usePremiumStore.getState()
+                  const newLegacy = !store.isLegacyPro
+                  usePremiumStore.setState({
+                    isLegacyPro: newLegacy,
+                    isPremium: newLegacy || store.isPremium,
+                  })
+                }}
               />
             </SettingsSection>
           )}

@@ -83,9 +83,15 @@ export function PaywallModal({ visible, variant, onClose }: PaywallModalProps) {
   const { isRestoring, handleRestore } = usePurchaseRestore()
   const isPremium = usePremiumStore((state) => state.isPremium)
   const [isClosing, setIsClosing] = useState(false)
-  const { getResponsiveTypography, getLineHeight, getResponsiveSpacing, deviceType } = useResponsive()
+  const { getResponsiveTypography, getLineHeight, getResponsiveSpacing, deviceType } =
+    useResponsive()
 
-  const styles = createPaywallModalStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing, deviceType)
+  const styles = createPaywallModalStyles(
+    getResponsiveTypography,
+    getLineHeight,
+    getResponsiveSpacing,
+    deviceType,
+  )
   const scale = useSharedValue(0.95)
   const opacity = useSharedValue(0)
   const backdropOpacity = useSharedValue(0)

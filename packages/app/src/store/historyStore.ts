@@ -1,8 +1,8 @@
 import type { Formula, Gender, MeasurementSystem, StandardizedInputs } from '@bodyfat/shared/types'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Constants from 'expo-constants'
+import { randomUUID } from 'expo-crypto'
 import { Platform } from 'react-native'
-import { v4 as uuidv4 } from 'uuid'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
@@ -62,7 +62,7 @@ export const useHistoryStore = create<HistoryStore>()(
       addMeasurement: (params) => {
         const now = new Date().toISOString()
         const record: MeasurementRecord = {
-          clientId: uuidv4(),
+          clientId: randomUUID(),
           ...params,
           measuredAt: now,
           deletedAt: null,

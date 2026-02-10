@@ -1,12 +1,15 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Icon } from '@rneui/themed'
+import { WhatsNewModal } from '../components/WhatsNewModal'
 import { COLORS } from '../constants/theme'
+import { useWhatsNew } from '../hooks/useWhatsNew'
 import { CalculatorScreen } from '../screens/CalculatorScreen'
 import { HistoryScreen } from '../screens/HistoryScreen'
 import { IllustrationGalleryScreen } from '../screens/IllustrationGalleryScreen'
 import { PaywallScreen } from '../screens/PaywallScreen'
 import { SettingsScreen } from '../screens/SettingsScreen'
+import { WhatsNewScreen } from '../screens/WhatsNewScreen'
 
 const Tab = createBottomTabNavigator()
 const CalculatorStack = createNativeStackNavigator()
@@ -48,57 +51,67 @@ function SettingsStackScreen() {
         component={IllustrationGalleryScreen}
         options={{ animation: 'slide_from_right' }}
       />
+      <SettingsStack.Screen
+        name="WhatsNew"
+        component={WhatsNewScreen}
+        options={{ animation: 'slide_from_right' }}
+      />
     </SettingsStack.Navigator>
   )
 }
 
 export function TabNavigator() {
+  const { showWhatsNew, dismiss, latestEntry } = useWhatsNew()
+
   return (
-    <Tab.Navigator
-      screenOptions={{
-        headerShown: false,
-        tabBarActiveTintColor: COLORS.primary,
-        tabBarInactiveTintColor: '#999',
-        tabBarStyle: {
-          borderTopColor: '#e0e0e0',
-          backgroundColor: COLORS.white,
-        },
-        tabBarLabelStyle: {
-          fontSize: 11,
-          fontWeight: '600',
-        },
-      }}
-    >
-      <Tab.Screen
-        name="Calculator"
-        component={CalculatorStackScreen}
-        options={{
-          tabBarLabel: 'Calculator',
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="sliders" type="feather" color={color} size={size} />
-          ),
+    <>
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
+          tabBarActiveTintColor: COLORS.primary,
+          tabBarInactiveTintColor: '#999',
+          tabBarStyle: {
+            borderTopColor: '#e0e0e0',
+            backgroundColor: COLORS.white,
+          },
+          tabBarLabelStyle: {
+            fontSize: 11,
+            fontWeight: '600',
+          },
         }}
-      />
-      <Tab.Screen
-        name="History"
-        component={HistoryStackScreen}
-        options={{
-          tabBarLabel: 'History',
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="clock" type="feather" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Settings"
-        component={SettingsStackScreen}
-        options={{
-          tabBarLabel: 'Settings',
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="settings" type="feather" color={color} size={size} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+      >
+        <Tab.Screen
+          name="Calculator"
+          component={CalculatorStackScreen}
+          options={{
+            tabBarLabel: 'Calculator',
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="sliders" type="feather" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="History"
+          component={HistoryStackScreen}
+          options={{
+            tabBarLabel: 'History',
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="clock" type="feather" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={SettingsStackScreen}
+          options={{
+            tabBarLabel: 'Settings',
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="settings" type="feather" color={color} size={size} />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+      <WhatsNewModal visible={showWhatsNew} entry={latestEntry} onClose={dismiss} />
+    </>
   )
 }
