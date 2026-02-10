@@ -90,9 +90,18 @@ export function PlanSelector({
                 <Text style={[styles.planLabel, isSelected && styles.planLabelSelected]}>
                   {getPlanLabel(plan)}
                 </Text>
-                <Text style={styles.planDescription}>
-                  {perMonth ? `${perMonth}/mo · Billed annually` : getPlanDescription(plan)}
-                </Text>
+                <View style={styles.planDescriptionRow}>
+                  <Text style={styles.planDescription}>
+                    {perMonth ? `${perMonth}/mo` : getPlanDescription(plan)}
+                  </Text>
+                  {'savings' in planPricing && (
+                    <View style={styles.savingsBadge}>
+                      <Text style={styles.savingsText}>
+                        Save {(planPricing as { savings: string }).savings}
+                      </Text>
+                    </View>
+                  )}
+                </View>
               </View>
 
               <View style={styles.priceContainer}>
@@ -101,13 +110,6 @@ export function PlanSelector({
                 </Text>
                 {plan !== 'lifetime' && (
                   <Text style={styles.planPeriod}>/{planPricing.period}</Text>
-                )}
-                {'savings' in planPricing && (
-                  <View style={styles.savingsBadge}>
-                    <Text style={styles.savingsText}>
-                      Save {(planPricing as { savings: string }).savings}
-                    </Text>
-                  </View>
                 )}
               </View>
             </View>
@@ -211,6 +213,11 @@ const createStyles = (
     planLabelSelected: {
       color: COLORS.primary,
     },
+    planDescriptionRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: getResponsiveSpacing(6),
+    },
     planDescription: {
       fontSize: getResponsiveTypography('xs'),
       lineHeight: getLineHeight('xs'),
@@ -238,7 +245,6 @@ const createStyles = (
       paddingHorizontal: getResponsiveSpacing(6),
       paddingVertical: getResponsiveSpacing(1),
       borderRadius: 4,
-      marginTop: getResponsiveSpacing(2),
     },
     savingsText: {
       fontSize: getResponsiveTypography('xxxs'),
