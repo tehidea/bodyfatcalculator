@@ -286,7 +286,7 @@ export function SettingsScreen() {
             />
           </SettingsSection>
 
-          <SettingsSection title="Cloud Sync">
+          <SettingsSection title="PRO+">
             <SettingsRow
               icon="cloud"
               label="Enable Cloud Sync"
@@ -316,9 +316,6 @@ export function SettingsScreen() {
                 )}
               </>
             )}
-          </SettingsSection>
-
-          <SettingsSection title="Premium Features">
             <ReminderSettings isProPlus={isProPlus} onShowPaywall={() => setShowPaywall(true)} />
             {healthAvailable !== false && (
               <SettingsRow
