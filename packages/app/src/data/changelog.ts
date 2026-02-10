@@ -75,18 +75,6 @@ export const CHANGELOG: ChangelogEntry[] = [
     ],
   },
   {
-    version: '1.5.0',
-    date: '2025-03-15',
-    title: 'Deeper Insights',
-    highlights: [
-      {
-        icon: 'bar-chart-2',
-        title: 'Enhanced Analytics',
-        description: 'Unlocked deeper insights into your app experience.',
-      },
-    ],
-  },
-  {
     version: '1.4.3',
     date: '2025-02-20',
     title: 'Tablet & Foldable Support',
