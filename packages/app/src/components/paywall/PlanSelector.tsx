@@ -58,9 +58,9 @@ export function PlanSelector({
 
       {PLANS.map((plan) => {
         const isSelected = selectedPlan === plan
-        const price = pricing[plan].price
-        const period = pricing[plan].period
+        const planPricing = pricing[plan]
         const isBestValue = plan === 'yearly'
+        const perMonth = 'perMonth' in planPricing ? planPricing.perMonth : null
 
         return (
           <TouchableOpacity
@@ -90,18 +90,22 @@ export function PlanSelector({
                 <Text style={[styles.planLabel, isSelected && styles.planLabelSelected]}>
                   {getPlanLabel(plan)}
                 </Text>
-                <Text style={styles.planDescription}>{getPlanDescription(plan)}</Text>
+                <Text style={styles.planDescription}>
+                  {perMonth ? `${perMonth}/mo · Billed annually` : getPlanDescription(plan)}
+                </Text>
               </View>
 
               <View style={styles.priceContainer}>
                 <Text style={[styles.planPrice, isSelected && styles.planPriceSelected]}>
-                  {price}
+                  {planPricing.price}
                 </Text>
-                {plan !== 'lifetime' && <Text style={styles.planPeriod}>/{period}</Text>}
-                {'savings' in pricing[plan] && (
+                {plan !== 'lifetime' && (
+                  <Text style={styles.planPeriod}>/{planPricing.period}</Text>
+                )}
+                {'savings' in planPricing && (
                   <View style={styles.savingsBadge}>
                     <Text style={styles.savingsText}>
-                      Save {(pricing[plan] as { savings: string }).savings}
+                      Save {(planPricing as { savings: string }).savings}
                     </Text>
                   </View>
                 )}

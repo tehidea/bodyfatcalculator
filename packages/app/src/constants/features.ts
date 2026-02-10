@@ -88,6 +88,7 @@ export const PRICING = {
     price: '£19.99',
     period: 'year',
     savings: '58%',
+    perMonth: '£1.67',
   },
   lifetime: {
     price: '£49.99',
@@ -104,6 +105,7 @@ export const GRANDFATHERED_PRICING = {
     price: '£9.99',
     period: 'year',
     savings: '58%',
+    perMonth: '£0.83',
   },
   lifetime: {
     price: '£24.99',
