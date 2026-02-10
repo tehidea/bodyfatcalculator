@@ -133,7 +133,7 @@ export function WhatsNewModal({ visible, entry, onClose }: WhatsNewModalProps) {
                       styles.comparisonPremiumHeader,
                     ]}
                   >
-                    Premium
+                    PRO+
                   </Text>
                 </View>
                 {entry.legacyProInfo.comparison.map((row) => (

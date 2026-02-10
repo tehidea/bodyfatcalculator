@@ -27,11 +27,11 @@ const HOUR_OPTIONS = Array.from({ length: 24 }, (_, i) => {
 })
 
 interface ReminderSettingsProps {
-  isPremium: boolean
+  isProPlus: boolean
   onShowPaywall: () => void
 }
 
-export function ReminderSettings({ isPremium, onShowPaywall }: ReminderSettingsProps) {
+export function ReminderSettings({ isProPlus, onShowPaywall }: ReminderSettingsProps) {
   const { getResponsiveTypography, getLineHeight, getResponsiveSpacing } = useResponsive()
   const styles = createStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing)
   const [settings, setSettings] = useState<ReminderSettingsType | null>(null)
@@ -56,7 +56,7 @@ export function ReminderSettings({ isPremium, onShowPaywall }: ReminderSettingsP
   )
 
   const handleToggleEnabled = useCallback(async () => {
-    if (!isPremium) {
+    if (!isProPlus) {
       onShowPaywall()
       return
     }
@@ -82,7 +82,7 @@ export function ReminderSettings({ isPremium, onShowPaywall }: ReminderSettingsP
       await saveReminderSettings(updated)
       await cancelReminder()
     }
-  }, [isPremium, onShowPaywall, settings])
+  }, [isProPlus, onShowPaywall, settings])
 
   if (!settings) return null
 
@@ -97,15 +97,15 @@ export function ReminderSettings({ isPremium, onShowPaywall }: ReminderSettingsP
         <Text style={styles.label}>Reminders</Text>
         <View style={styles.rightSide}>
           <Switch
-            value={settings.enabled && isPremium}
+            value={settings.enabled && isProPlus}
             onValueChange={handleToggleEnabled}
             trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
-            thumbColor={settings.enabled && isPremium ? COLORS.primary : '#f4f3f4'}
+            thumbColor={settings.enabled && isProPlus ? COLORS.primary : '#f4f3f4'}
           />
         </View>
       </View>
 
-      {settings.enabled && isPremium && (
+      {settings.enabled && isProPlus && (
         <>
           {/* Frequency */}
           <TouchableOpacity

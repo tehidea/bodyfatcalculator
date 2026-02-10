@@ -18,6 +18,7 @@ import { PlanSelector } from '../paywall/PlanSelector'
 const FEATURE_ICONS = {
   precision: ['sliders', 'trending-up', 'activity', 'users'] as const,
   formula: ['activity', 'percent', 'sliders', 'users'] as const,
+  legacyUpgrade: ['clock', 'cloud', 'heart', 'bell'] as const,
 }
 
 const FEATURE_CONTENT = {
@@ -57,6 +58,24 @@ const FEATURE_CONTENT = {
       description: 'Visual graphs and trend analysis',
     },
   ],
+  legacyUpgrade: [
+    {
+      title: 'Measurement History',
+      description: 'Track your progress over time',
+    },
+    {
+      title: 'Cloud Sync',
+      description: 'Access your data across devices',
+    },
+    {
+      title: 'Health Integration',
+      description: 'Sync with Apple Health & Health Connect',
+    },
+    {
+      title: 'Reminders',
+      description: 'Never miss a measurement',
+    },
+  ],
 }
 
 interface PaywallModalProps {
@@ -81,7 +100,7 @@ export function PaywallModal({ visible, variant, onClose }: PaywallModalProps) {
   })
 
   const { isRestoring, handleRestore } = usePurchaseRestore()
-  const isPremium = usePremiumStore((state) => state.isPremium)
+  const isProPlus = usePremiumStore((state) => state.isProPlus)
   const [isClosing, setIsClosing] = useState(false)
   const { getResponsiveTypography, getLineHeight, getResponsiveSpacing, deviceType } =
     useResponsive()
@@ -143,8 +162,9 @@ export function PaywallModal({ visible, variant, onClose }: PaywallModalProps) {
 
   if (!visible) return null
 
-  const features = FEATURE_CONTENT[variant]
-  const icons = FEATURE_ICONS[variant]
+  const contentKey = isLegacyPro ? 'legacyUpgrade' : variant
+  const features = FEATURE_CONTENT[contentKey]
+  const icons = FEATURE_ICONS[contentKey]
 
   return (
     <Modal visible={visible} transparent={true} onRequestClose={handleClose} animationType="none">
@@ -173,7 +193,7 @@ export function PaywallModal({ visible, variant, onClose }: PaywallModalProps) {
             </View>
 
             <Text style={styles.modalTitle}>
-              <Text style={styles.highlight}>Premium</Text>{' '}
+              <Text style={styles.highlight}>PRO+</Text>{' '}
               {variant === 'precision' ? 'Precision' : 'Formulas'}
             </Text>
             <Text style={styles.titleSecondary}>
@@ -240,7 +260,7 @@ export function PaywallModal({ visible, variant, onClose }: PaywallModalProps) {
                 iconPosition="left"
               />
 
-              {!isPremium && (
+              {!isProPlus && (
                 <Button
                   title="Restore Purchases"
                   type="clear"

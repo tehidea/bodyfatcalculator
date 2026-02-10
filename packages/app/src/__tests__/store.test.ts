@@ -68,7 +68,7 @@ describe('Store Module', () => {
   })
 
   describe('getUserEntitlements', () => {
-    it('should return isPremium: true when user has legacy pro product', async () => {
+    it('should return isLegacyPro: true (not isProPlus) when user has legacy pro product', async () => {
       const mockCustomerInfo = {
         allPurchasedProductIdentifiers: [PRODUCTS.pro.lifetime],
         entitlements: { active: {} },
@@ -77,10 +77,10 @@ describe('Store Module', () => {
 
       const result = await getUserEntitlements()
 
-      expect(result).toEqual({ isPremium: true, isLegacyPro: true })
+      expect(result).toEqual({ isProPlus: false, isLegacyPro: true })
     })
 
-    it('should return isPremium: true when user has legacy pro entitlement', async () => {
+    it('should return isLegacyPro: true (not isProPlus) when user has legacy pro entitlement', async () => {
       const mockCustomerInfo = {
         allPurchasedProductIdentifiers: [],
         entitlements: { active: { [ENTITLEMENTS.pro]: {} } },
@@ -89,10 +89,22 @@ describe('Store Module', () => {
 
       const result = await getUserEntitlements()
 
-      expect(result).toEqual({ isPremium: true, isLegacyPro: true })
+      expect(result).toEqual({ isProPlus: false, isLegacyPro: true })
     })
 
-    it('should return isPremium: true when user has premium entitlement', async () => {
+    it('should return both when user has legacy pro AND premium entitlement', async () => {
+      const mockCustomerInfo = {
+        allPurchasedProductIdentifiers: [PRODUCTS.pro.lifetime],
+        entitlements: { active: { [ENTITLEMENTS.premium]: {} } },
+      }
+      ;(Purchases.getCustomerInfo as jest.Mock).mockResolvedValue(mockCustomerInfo)
+
+      const result = await getUserEntitlements()
+
+      expect(result).toEqual({ isProPlus: true, isLegacyPro: true })
+    })
+
+    it('should return isProPlus: true when user has premium entitlement', async () => {
       const mockCustomerInfo = {
         allPurchasedProductIdentifiers: [],
         entitlements: { active: { [ENTITLEMENTS.premium]: {} } },
@@ -101,10 +113,10 @@ describe('Store Module', () => {
 
       const result = await getUserEntitlements()
 
-      expect(result).toEqual({ isPremium: true, isLegacyPro: false })
+      expect(result).toEqual({ isProPlus: true, isLegacyPro: false })
     })
 
-    it('should return isPremium: false when user has neither product nor entitlement', async () => {
+    it('should return isProPlus: false when user has neither product nor entitlement', async () => {
       const mockCustomerInfo = {
         allPurchasedProductIdentifiers: [],
         entitlements: { active: {} },
@@ -113,7 +125,7 @@ describe('Store Module', () => {
 
       const result = await getUserEntitlements()
 
-      expect(result).toEqual({ isPremium: false, isLegacyPro: false })
+      expect(result).toEqual({ isProPlus: false, isLegacyPro: false })
     })
 
     it('should handle errors and return defaults', async () => {
@@ -121,7 +133,7 @@ describe('Store Module', () => {
 
       const result = await getUserEntitlements()
 
-      expect(result).toEqual({ isPremium: false, isLegacyPro: false })
+      expect(result).toEqual({ isProPlus: false, isLegacyPro: false })
     })
   })
 
@@ -193,7 +205,7 @@ describe('Store Module', () => {
 
       const result = await purchasePackage(mockPackage)
 
-      expect(result).toEqual({ isPremium: true, isLegacyPro: false })
+      expect(result).toEqual({ isProPlus: true, isLegacyPro: false })
     })
 
     it('should handle successful purchase with delayed activation', async () => {
@@ -215,7 +227,7 @@ describe('Store Module', () => {
 
       const result = await purchasePackage(mockPackage)
 
-      expect(result).toEqual({ isPremium: true, isLegacyPro: false })
+      expect(result).toEqual({ isProPlus: true, isLegacyPro: false })
       expect(Purchases.syncPurchases).toHaveBeenCalled()
     })
 
@@ -224,7 +236,7 @@ describe('Store Module', () => {
 
       const result = await purchasePackage(mockPackage)
 
-      expect(result).toEqual({ isPremium: false, isLegacyPro: false })
+      expect(result).toEqual({ isProPlus: false, isLegacyPro: false })
     })
 
     it('should throw on unexpected errors', async () => {

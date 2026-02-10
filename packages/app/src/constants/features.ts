@@ -2,7 +2,7 @@ export interface Feature {
   id: string
   name: string
   description?: string
-  availability: 'free' | 'premium'
+  availability: 'free' | 'pro' | 'pro_plus'
 }
 
 export const FEATURES: Feature[] = [
@@ -26,54 +26,56 @@ export const FEATURES: Feature[] = [
     availability: 'free',
   },
 
-  // Premium Features
+  // Pro Features (Legacy Pro + PRO+)
   {
     id: 'advanced_formulas',
     name: 'Advanced Formulas',
     description: 'Jackson & Pollock, Durnin & Womersley, and more',
-    availability: 'premium',
+    availability: 'pro',
   },
   {
     id: 'decimal_precision',
     name: 'Decimal Precision',
     description: 'Get exact measurements to 2 decimal places',
-    availability: 'premium',
+    availability: 'pro',
   },
+
+  // PRO+ Features (subscription only)
   {
     id: 'measurement_history',
     name: 'Measurement History',
     description: 'Track your measurements over time',
-    availability: 'premium',
+    availability: 'pro_plus',
   },
   {
     id: 'cloud_sync',
     name: 'Cloud Sync',
     description: 'Access your data across all your devices',
-    availability: 'premium',
+    availability: 'pro_plus',
   },
   {
     id: 'progress_tracking',
     name: 'Progress Tracking',
     description: 'Visual graphs and trend analysis',
-    availability: 'premium',
+    availability: 'pro_plus',
   },
   {
     id: 'health_integration',
     name: 'Health Integration',
     description: 'Sync with Apple Health and Google Health Connect',
-    availability: 'premium',
+    availability: 'pro_plus',
   },
   {
     id: 'reminders',
     name: 'Measurement Reminders',
     description: 'Get reminded to measure regularly',
-    availability: 'premium',
+    availability: 'pro_plus',
   },
   {
     id: 'family_sharing',
     name: 'Family Sharing',
-    description: 'Share premium access with up to 5 family members',
-    availability: 'premium',
+    description: 'Share PRO+ access with up to 5 family members',
+    availability: 'pro_plus',
   },
 ]
 

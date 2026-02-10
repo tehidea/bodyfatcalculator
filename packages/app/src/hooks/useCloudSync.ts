@@ -5,7 +5,7 @@ import { useHistoryStore } from '../store/historyStore'
 import { usePremiumStore } from '../store/premiumStore'
 
 export function useCloudSync() {
-  const { isPremium } = usePremiumStore()
+  const { isProPlus } = usePremiumStore()
   const { cloudSyncEnabled, lastSyncedAt } = useHistoryStore()
   const [status, setStatus] = useState<SyncStatus>('idle')
   const [cloudAvailable, setCloudAvailable] = useState<boolean | null>(null)
@@ -18,7 +18,7 @@ export function useCloudSync() {
   }, [])
 
   const sync = useCallback(async (): Promise<SyncResult | null> => {
-    if (!isPremium || !cloudSyncEnabled || isSyncingRef.current) {
+    if (!isProPlus || !cloudSyncEnabled || isSyncingRef.current) {
       return null
     }
 
@@ -44,11 +44,11 @@ export function useCloudSync() {
     } finally {
       isSyncingRef.current = false
     }
-  }, [isPremium, cloudSyncEnabled])
+  }, [isProPlus, cloudSyncEnabled])
 
   // Auto-sync when app comes to foreground
   useEffect(() => {
-    if (!isPremium || !cloudSyncEnabled) return
+    if (!isProPlus || !cloudSyncEnabled) return
 
     const subscription = AppState.addEventListener('change', (nextState) => {
       if (nextState === 'active') {
@@ -60,7 +60,7 @@ export function useCloudSync() {
     sync()
 
     return () => subscription.remove()
-  }, [isPremium, cloudSyncEnabled, sync])
+  }, [isProPlus, cloudSyncEnabled, sync])
 
   return {
     status,
@@ -68,6 +68,6 @@ export function useCloudSync() {
     lastSyncedAt,
     lastResult,
     sync,
-    isEnabled: cloudSyncEnabled && isPremium,
+    isEnabled: cloudSyncEnabled && isProPlus,
   }
 }

@@ -103,7 +103,7 @@ export const OFFERINGS = {
 } as const
 
 export interface UserEntitlements {
-  isPremium: boolean
+  isProPlus: boolean
   isLegacyPro: boolean
 }
 
@@ -114,7 +114,7 @@ export async function initializeStore() {
 
   if (!API_KEY) {
     console.warn('initializeStore - Skipping RevenueCat (no API key). Running in free mode.')
-    return { isPremium: false, isLegacyPro: false }
+    return { isProPlus: false, isLegacyPro: false }
   }
 
   // Set up cross-platform user identification
@@ -167,7 +167,7 @@ export async function initializeStore() {
 
 export async function getUserEntitlements(): Promise<UserEntitlements> {
   if (!isRevenueCatConfigured) {
-    return { isPremium: false, isLegacyPro: false }
+    return { isProPlus: false, isLegacyPro: false }
   }
   console.log('getUserEntitlements - Checking entitlements')
   try {
@@ -184,10 +184,10 @@ export async function getUserEntitlements(): Promise<UserEntitlements> {
     const hasPremiumEntitlement =
       customerInfo.entitlements.active[ENTITLEMENTS.premium] !== undefined
 
-    // isPremium grants full access — either legacy PRO or new premium subscription
-    const isPremium = isLegacyPro || hasPremiumEntitlement
+    // isProPlus is strictly the new subscription entitlement
+    const isProPlus = hasPremiumEntitlement
 
-    const entitlements = { isPremium, isLegacyPro }
+    const entitlements = { isProPlus, isLegacyPro }
     console.log('getUserEntitlements - Retrieved entitlements:', entitlements)
     console.log('getUserEntitlements - Details:', {
       hasLegacyProProduct,
@@ -199,16 +199,16 @@ export async function getUserEntitlements(): Promise<UserEntitlements> {
 
     // Track premium status check
     trackPurchaseEvent('premium_status_checked', {
-      is_premium: isPremium,
+      is_pro_plus: isProPlus,
       is_legacy_pro: isLegacyPro,
       revenue_cat_user_id: customerInfo.originalAppUserId,
     })
 
     // Sync premium status to user properties
     await syncUserProperties({
-      is_premium: isPremium,
+      is_pro_plus: isProPlus,
       is_legacy_pro: isLegacyPro,
-      premium_status: isPremium ? 'active' : 'free',
+      premium_status: isProPlus ? 'pro_plus' : isLegacyPro ? 'legacy_pro' : 'free',
       revenue_cat_user_id: customerInfo.originalAppUserId,
     })
 
@@ -218,7 +218,7 @@ export async function getUserEntitlements(): Promise<UserEntitlements> {
     trackPurchaseEvent('premium_status_check_failed', {
       error: error instanceof Error ? error.message : 'Unknown error',
     })
-    return { isPremium: false, isLegacyPro: false }
+    return { isProPlus: false, isLegacyPro: false }
   }
 }
 
@@ -267,7 +267,7 @@ export async function purchasePackage(package_: PurchasesPackage): Promise<UserE
       activeEntitlements: customerInfo.entitlements.active,
     })
 
-    if (entitlements.isPremium) {
+    if (entitlements.isProPlus) {
       console.log('purchasePackage - Entitlement activated immediately')
 
       trackPurchaseEvent('entitlement_activated', {
@@ -292,7 +292,7 @@ export async function purchasePackage(package_: PurchasesPackage): Promise<UserE
         activeEntitlements: refreshedInfo.entitlements.active,
       })
 
-      if (refreshedEntitlements.isPremium) {
+      if (refreshedEntitlements.isProPlus) {
         return refreshedEntitlements
       }
 
@@ -302,7 +302,7 @@ export async function purchasePackage(package_: PurchasesPackage): Promise<UserE
     }
 
     console.warn('purchasePackage - Purchase completed but activation not verified after retries')
-    return { isPremium: false, isLegacyPro: false }
+    return { isProPlus: false, isLegacyPro: entitlements.isLegacyPro }
   } catch (error) {
     console.error('purchasePackage - Error:', error)
     if (
@@ -310,7 +310,7 @@ export async function purchasePackage(package_: PurchasesPackage): Promise<UserE
       (error.message === 'User cancelled' || error.message === 'Purchase was cancelled')
     ) {
       console.log('purchasePackage - Purchase cancelled by user')
-      return { isPremium: false, isLegacyPro: false }
+      return { isProPlus: false, isLegacyPro: false }
     }
     throw error
   }
@@ -330,7 +330,7 @@ function extractEntitlements(customerInfo: {
   const hasPremiumEntitlement = customerInfo.entitlements.active[ENTITLEMENTS.premium] !== undefined
 
   return {
-    isPremium: isLegacyPro || hasPremiumEntitlement,
+    isProPlus: hasPremiumEntitlement,
     isLegacyPro,
   }
 }

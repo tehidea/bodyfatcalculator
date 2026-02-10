@@ -15,7 +15,7 @@ import { useResponsive } from '../utils/responsiveContext'
 export const PaywallScreen = () => {
   const posthog = usePostHog()
   const navigation = useNavigation()
-  const { isPremium, isLegacyPro } = usePremiumStore()
+  const { isProPlus, isLegacyPro } = usePremiumStore()
   const { isRestoring, handleRestore } = usePurchaseRestore()
   const {
     isProcessing,
@@ -44,7 +44,10 @@ export const PaywallScreen = () => {
   }
 
   const renderFeature = ({ id, name, description, availability }: (typeof FEATURES)[0]) => {
-    const isAvailable = availability === 'free' || isPremium
+    const isAvailable =
+      availability === 'free' ||
+      (availability === 'pro' && (isProPlus || isLegacyPro)) ||
+      (availability === 'pro_plus' && isProPlus)
 
     return (
       <View key={id} style={styles.featureRow}>
@@ -77,7 +80,7 @@ export const PaywallScreen = () => {
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
-          <Text style={styles.title}>Go Premium</Text>
+          <Text style={styles.title}>Go PRO+</Text>
           <Text style={styles.description}>
             Unlock advanced formulas, decimal precision, and measurement tracking
           </Text>
@@ -98,7 +101,7 @@ export const PaywallScreen = () => {
               </View>
             </View>
             <View style={[styles.accuracyColumn, styles.premiumColumn]}>
-              <Text style={styles.planLabel}>PREMIUM</Text>
+              <Text style={styles.planLabel}>PRO+</Text>
               <Text style={[styles.accuracyRange, { color: COLORS.primary }]}>±3-5%</Text>
               <Text style={styles.accuracyNote}>Research-grade formulas</Text>
               <View style={styles.methodList}>
@@ -114,7 +117,7 @@ export const PaywallScreen = () => {
         </View>
 
         {/* Plan Selector */}
-        {!isPremium && (
+        {!isProPlus && (
           <View style={styles.section}>
             <PlanSelector
               selectedPlan={selectedPlan}

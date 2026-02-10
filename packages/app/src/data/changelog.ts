@@ -7,7 +7,7 @@ export interface ChangelogHighlight {
 export interface LegacyProComparisonRow {
   feature: string
   pro: boolean
-  premium: boolean
+  proPlus: boolean
 }
 
 export interface LegacyProInfo {
@@ -35,16 +35,16 @@ export const CHANGELOG: ChangelogEntry[] = [
     title: 'A Major Update',
     legacyProInfo: {
       message:
-        'Your PRO lifetime purchase is safe — you keep all your existing features. The new features below are part of the Premium subscription, available to you at 50% off as a loyal customer.',
+        'Your PRO lifetime purchase is safe — you keep all your existing features. The new features below are part of the PRO+ subscription, available to you at 50% off as a loyal customer.',
       comparison: [
-        { feature: 'Advanced Formulas', pro: true, premium: true },
-        { feature: 'Decimal Precision', pro: true, premium: true },
-        { feature: 'Measurement History', pro: false, premium: true },
-        { feature: 'Cloud Sync', pro: false, premium: true },
-        { feature: 'Health Integration', pro: false, premium: true },
-        { feature: 'Reminders', pro: false, premium: true },
+        { feature: 'Advanced Formulas', pro: true, proPlus: true },
+        { feature: 'Decimal Precision', pro: true, proPlus: true },
+        { feature: 'Measurement History', pro: false, proPlus: true },
+        { feature: 'Cloud Sync', pro: false, proPlus: true },
+        { feature: 'Health Integration', pro: false, proPlus: true },
+        { feature: 'Reminders', pro: false, proPlus: true },
       ],
-      cta: 'Upgrade to Premium at 50% off — your loyalty discount is applied automatically.',
+      cta: 'Upgrade to PRO+ at 50% off — your loyalty discount is applied automatically.',
     },
     highlights: [
       {

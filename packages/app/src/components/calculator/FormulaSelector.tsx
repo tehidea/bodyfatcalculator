@@ -6,7 +6,7 @@ import Animated, { FadeIn } from 'react-native-reanimated'
 import { COLORS } from '../../constants/theme'
 import { type Formula, getAllFormulasMetadata, getFormulaMetadata } from '../../schemas/calculator'
 import { useCalculatorStore } from '../../store/calculatorStore'
-import { usePremiumStore } from '../../store/premiumStore'
+import { useHasProFeatures, usePremiumStore } from '../../store/premiumStore'
 import { hapticSelection } from '../../utils/haptics'
 import { useResponsive } from '../../utils/responsiveContext'
 import { BodyWeightScalesIcon } from '../icons/BodyWeightScalesIcon'
@@ -64,7 +64,8 @@ export const FormulaSelector = () => {
     setMeasurementSystem,
     setResults,
   } = useCalculatorStore()
-  const { isPremium, isLoading, checkEntitlements } = usePremiumStore()
+  const { isLoading, checkEntitlements } = usePremiumStore()
+  const hasProFeatures = useHasProFeatures()
   const posthog = usePostHog()
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [isPaywallVisible, setIsPaywallVisible] = useState(false)
@@ -133,10 +134,10 @@ export const FormulaSelector = () => {
 
   // Safeguard for premium formula without premium status
   useEffect(() => {
-    if (!isPremium && selectedFormula?.premium) {
+    if (!hasProFeatures && selectedFormula?.premium) {
       setFormula('ymca')
     }
-  }, [isPremium, setFormula, selectedFormula])
+  }, [hasProFeatures, setFormula, selectedFormula])
 
   // Update accuracy color logic to use metadata
   const getAccuracyColor = (formula: Formula) => {
@@ -188,9 +189,9 @@ export const FormulaSelector = () => {
 
     console.log('handleFormulaSelect - Selected formula:', selectedKey)
     console.log('handleFormulaSelect - Is premium formula:', isPremiumFormula)
-    console.log('handleFormulaSelect - Current premium status:', isPremium)
+    console.log('handleFormulaSelect - Has pro features:', hasProFeatures)
 
-    if (!isPremiumFormula || isPremium) {
+    if (!isPremiumFormula || hasProFeatures) {
       setFormula(selectedKey)
       setIsModalVisible(false)
     } else {
@@ -228,7 +229,8 @@ export const FormulaSelector = () => {
   const handlePaywallClose = () => {
     setIsPaywallVisible(false)
     // If user purchased and there was a pending formula, apply it
-    if (usePremiumStore.getState().isPremium && pendingFormula) {
+    const state = usePremiumStore.getState()
+    if ((state.isProPlus || state.isLegacyPro) && pendingFormula) {
       setFormula(pendingFormula)
     }
     setPendingFormula(null)
@@ -283,7 +285,7 @@ export const FormulaSelector = () => {
         </View>
         <View style={styles.selectedFormula}>
           <Text style={styles.formulaName}>{selectedFormula.name}</Text>
-          {selectedFormula.premium && !isPremium && (
+          {selectedFormula.premium && !hasProFeatures && (
             <View style={styles.premiumBadge}>
               <Icon name="lock" type="feather" color="#666" size={getResponsiveSpacing(14)} />
               <Text style={styles.premiumBadgeText}>PRO</Text>
@@ -343,7 +345,7 @@ export const FormulaSelector = () => {
                     style={[
                       styles.formulaItem,
                       item.key === formula && styles.activeFormula,
-                      item.premium && !isPremium && styles.premiumFormula,
+                      item.premium && !hasProFeatures && styles.premiumFormula,
                     ]}
                     onPress={() => handleFormulaSelect(item.key as Formula, item.premium)}
                   >
@@ -353,7 +355,7 @@ export const FormulaSelector = () => {
                           style={[
                             styles.formulaItemName,
                             item.key === formula && styles.activeFormulaText,
-                            item.premium && !isPremium && styles.premiumFormulaText,
+                            item.premium && !hasProFeatures && styles.premiumFormulaText,
                           ]}
                         >
                           {item.name}
@@ -370,7 +372,7 @@ export const FormulaSelector = () => {
                           </Text>
                         </View>
                       </View>
-                      {item.premium && !isPremium && (
+                      {item.premium && !hasProFeatures && (
                         <View style={styles.premiumBadge}>
                           <Icon
                             name="lock"
@@ -386,7 +388,7 @@ export const FormulaSelector = () => {
                       <Text
                         style={[
                           styles.formulaItemDescription,
-                          item.premium && !isPremium && styles.premiumFormulaText,
+                          item.premium && !hasProFeatures && styles.premiumFormulaText,
                         ]}
                         numberOfLines={6}
                       >

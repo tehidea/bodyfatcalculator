@@ -111,7 +111,7 @@ function MeasurementCard({
 }
 
 export function HistoryScreen() {
-  const { isPremium } = usePremiumStore()
+  const { isProPlus } = usePremiumStore()
   const { getActiveMeasurements, deleteMeasurement } = useHistoryStore()
   const { status: syncStatus, isEnabled: syncEnabled, sync } = useCloudSync()
   const { getResponsiveTypography, getLineHeight, getResponsiveSpacing } = useResponsive()
@@ -120,7 +120,7 @@ export function HistoryScreen() {
 
   const measurements = getActiveMeasurements()
 
-  const headerRightElement = isPremium ? (
+  const headerRightElement = isProPlus ? (
     <View style={styles.headerRight}>
       {measurements.length > 0 && (
         <Text style={styles.count}>{measurements.length} measurements</Text>
@@ -144,17 +144,17 @@ export function HistoryScreen() {
     </View>
   ) : undefined
 
-  if (!isPremium) {
+  if (!isProPlus) {
     return (
       <SafeAreaView style={styles.container} edges={['top']}>
         <View style={styles.innerContainer}>
           <BrandHeader subtitle="History" variant="compact" />
           <View style={styles.emptyState}>
             <Icon name="lock" type="feather" color="rgba(255,255,255,0.4)" size={48} />
-            <Text style={styles.emptyTitle}>Premium Feature</Text>
-            <Text style={styles.emptySubtitle}>Track your measurements over time with Premium</Text>
+            <Text style={styles.emptyTitle}>PRO+ Feature</Text>
+            <Text style={styles.emptySubtitle}>Upgrade to PRO+ to track your measurements</Text>
             <TouchableOpacity style={styles.upgradeButton} onPress={() => setShowPaywall(true)}>
-              <Text style={styles.upgradeButtonText}>Unlock Premium</Text>
+              <Text style={styles.upgradeButtonText}>Unlock PRO+</Text>
             </TouchableOpacity>
           </View>
           <PaywallModal

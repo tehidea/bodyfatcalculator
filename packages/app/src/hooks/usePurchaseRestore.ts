@@ -9,19 +9,21 @@ interface RestoreResult {
 export function usePurchaseRestore() {
   const [isRestoring, setIsRestoring] = useState(false)
   const restorePurchases = usePremiumStore((state) => state.restorePurchases)
-  const isPremium = usePremiumStore((state) => state.isPremium)
+  const isProPlus = usePremiumStore((state) => state.isProPlus)
+  const isLegacyPro = usePremiumStore((state) => state.isLegacyPro)
 
   const handleRestore = useCallback(async (): Promise<RestoreResult> => {
     setIsRestoring(true)
     try {
-      const wasPremium = isPremium
+      const wasProPlus = isProPlus
+      const wasLegacyPro = isLegacyPro
       await restorePurchases()
 
-      const nowPremium = usePremiumStore.getState().isPremium
+      const state = usePremiumStore.getState()
 
       return {
         success: true,
-        wasUpgraded: !wasPremium && nowPremium,
+        wasUpgraded: (!wasProPlus && state.isProPlus) || (!wasLegacyPro && state.isLegacyPro),
       }
     } catch (_error) {
       return {
@@ -31,7 +33,7 @@ export function usePurchaseRestore() {
     } finally {
       setIsRestoring(false)
     }
-  }, [isPremium, restorePurchases])
+  }, [isProPlus, isLegacyPro, restorePurchases])
 
   return {
     isRestoring,

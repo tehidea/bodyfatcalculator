@@ -19,7 +19,7 @@ import { useHealthIntegration } from '../../hooks/useHealthIntegration'
 import Logo from '../../images/logo'
 import { useCalculatorStore } from '../../store/calculatorStore'
 import { useHistoryStore } from '../../store/historyStore'
-import { usePremiumStore } from '../../store/premiumStore'
+import { useHasProFeatures, usePremiumStore } from '../../store/premiumStore'
 import { hapticSuccess } from '../../utils/haptics'
 import { useResponsive } from '../../utils/responsiveContext'
 import { ArcGauge } from './ArcGauge'
@@ -64,7 +64,8 @@ const GAUGE_SIZE_RATIO = 0.6
 export const ResultsDisplay = () => {
   const { results, measurementSystem, isResultsStale, gender, formula, inputs } =
     useCalculatorStore()
-  const { isPremium } = usePremiumStore()
+  const { isProPlus } = usePremiumStore()
+  const hasProFeatures = useHasProFeatures()
   const addMeasurement = useHistoryStore((s) => s.addMeasurement)
   const { writeBodyFat } = useHealthIntegration()
   const [showPaywall, setShowPaywall] = useState(false)
@@ -147,9 +148,9 @@ export const ResultsDisplay = () => {
     }
   }, [results])
 
-  // Auto-save for premium users
+  // Auto-save for PRO+ users
   useEffect(() => {
-    if (results && !isResultsStale && isPremium && !savedId) {
+    if (results && !isResultsStale && isProPlus && !savedId) {
       const record = addMeasurement({
         formula,
         gender,
@@ -166,7 +167,7 @@ export const ResultsDisplay = () => {
   }, [
     results,
     isResultsStale,
-    isPremium,
+    isProPlus,
     savedId,
     formula,
     gender,
@@ -319,9 +320,11 @@ export const ResultsDisplay = () => {
             <ArcGauge size={gaugeSize} progress={gaugeProgress} color={classificationColor} />
             <View style={[styles.gaugeOverlay, { height: gaugeSize }]}>
               <View style={styles.mainValueContainer}>
-                {!isPremium && <Animated.Text style={styles.mainValueDecimal}>~</Animated.Text>}
+                {!hasProFeatures && (
+                  <Animated.Text style={styles.mainValueDecimal}>~</Animated.Text>
+                )}
                 <Animated.Text style={styles.mainValueWhole}>{displayValue}</Animated.Text>
-                {isPremium ? (
+                {hasProFeatures ? (
                   <Animated.Text style={styles.mainValueDecimal}>{displayDecimal}%</Animated.Text>
                 ) : (
                   <Animated.Text style={styles.mainValuePercent}>%</Animated.Text>
@@ -335,8 +338,8 @@ export const ResultsDisplay = () => {
             </View>
           </Animated.View>
 
-          {/* Precision badge or margin of error (invisible during capture for non-premium) */}
-          {isPremium ? (
+          {/* Precision badge or margin of error (invisible during capture for non-pro) */}
+          {hasProFeatures ? (
             <Animated.Text style={styles.marginOfError}>
               Margin of error ±{marginOfError}%
             </Animated.Text>
@@ -356,7 +359,7 @@ export const ResultsDisplay = () => {
             >
               <Icon name="lock" type="feather" color="rgba(255,255,255,0.5)" size={11} />
               <Animated.Text style={styles.premiumBadgeText}>
-                Precise results with Premium
+                Precise results with PRO+
               </Animated.Text>
             </TouchableOpacity>
           )}
@@ -373,11 +376,12 @@ export const ResultsDisplay = () => {
                 />
               </View>
               <Animated.Text style={styles.breakdownValue}>
-                {isPremium ? results.fatMass.toFixed(2) : Math.round(results.fatMass)} {weightUnit}
+                {hasProFeatures ? results.fatMass.toFixed(2) : Math.round(results.fatMass)}{' '}
+                {weightUnit}
               </Animated.Text>
               <Animated.Text style={styles.breakdownLabel}>Fat Mass</Animated.Text>
               <Animated.Text style={styles.breakdownPercentage}>
-                {isPremium
+                {hasProFeatures
                   ? results.bodyFatPercentage.toFixed(2)
                   : Math.round(results.bodyFatPercentage)}
                 %
@@ -396,12 +400,12 @@ export const ResultsDisplay = () => {
                 />
               </View>
               <Animated.Text style={styles.breakdownValue}>
-                {isPremium ? results.leanMass.toFixed(2) : Math.round(results.leanMass)}{' '}
+                {hasProFeatures ? results.leanMass.toFixed(2) : Math.round(results.leanMass)}{' '}
                 {weightUnit}
               </Animated.Text>
               <Animated.Text style={styles.breakdownLabel}>Lean Mass</Animated.Text>
               <Animated.Text style={styles.breakdownPercentage}>
-                {isPremium ? leanMassPercentage.toFixed(2) : Math.round(leanMassPercentage)}%
+                {hasProFeatures ? leanMassPercentage.toFixed(2) : Math.round(leanMassPercentage)}%
               </Animated.Text>
             </Animated.View>
           </View>
@@ -413,50 +417,33 @@ export const ResultsDisplay = () => {
             </Animated.Text>
 
             {/* Action buttons (invisible during capture) */}
-            {isPremium && savedId && (
-              <View style={[styles.footerRow, isCapturing && { opacity: 0 }]}>
+            <View style={[styles.footerRow, isCapturing && { opacity: 0 }]}>
+              {isProPlus && savedId ? (
                 <View style={styles.savedIndicator}>
                   <Icon name="check" type="feather" color="#4CAF50" size={14} />
                   <Animated.Text style={styles.savedText}>Saved to history</Animated.Text>
                 </View>
-                <TouchableOpacity
-                  style={styles.shareButton}
-                  onPress={handleShare}
-                  disabled={isSharing}
-                >
-                  {isSharing ? (
-                    <ActivityIndicator size={14} color="rgba(255,255,255,0.5)" />
-                  ) : (
-                    <Icon name="share" type="feather" color="rgba(255,255,255,0.5)" size={14} />
-                  )}
-                  <Animated.Text style={styles.shareButtonText}>Share</Animated.Text>
-                </TouchableOpacity>
-              </View>
-            )}
-            {!isPremium && (
-              <View style={[styles.footerRow, isCapturing && { opacity: 0 }]}>
+              ) : !isProPlus ? (
                 <TouchableOpacity style={styles.saveButton} onPress={() => setShowPaywall(true)}>
                   <Icon name="lock" type="feather" color="rgba(255,255,255,0.5)" size={14} />
                   <Animated.Text style={styles.saveButtonText}>Save to History</Animated.Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.shareButton}
-                  onPress={() => {
-                    if (posthog) {
-                      posthog.capture('results_share_locked_tapped', {
-                        current_formula: formula,
-                        body_fat_percentage: results.bodyFatPercentage,
-                        measurement_system: measurementSystem,
-                      })
-                    }
-                    setShowPaywall(true)
-                  }}
-                >
-                  <Icon name="lock" type="feather" color="rgba(255,255,255,0.5)" size={14} />
-                  <Animated.Text style={styles.shareButtonText}>Share</Animated.Text>
-                </TouchableOpacity>
-              </View>
-            )}
+              ) : (
+                <View />
+              )}
+              <TouchableOpacity
+                style={styles.shareButton}
+                onPress={handleShare}
+                disabled={isSharing}
+              >
+                {isSharing ? (
+                  <ActivityIndicator size={14} color="rgba(255,255,255,0.5)" />
+                ) : (
+                  <Icon name="share" type="feather" color="rgba(255,255,255,0.5)" size={14} />
+                )}
+                <Animated.Text style={styles.shareButtonText}>Share</Animated.Text>
+              </TouchableOpacity>
+            </View>
           </Animated.View>
 
           {/* Branding strip for share snapshots */}

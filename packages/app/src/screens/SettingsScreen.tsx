@@ -95,7 +95,7 @@ function formatLastSynced(isoString: string | null): string {
 }
 
 export function SettingsScreen() {
-  const { isPremium, isLegacyPro, restorePurchases, isLoading } = usePremiumStore()
+  const { isProPlus, isLegacyPro, restorePurchases, isLoading } = usePremiumStore()
   const { gender, setGender, setResults, measurementSystem, setMeasurementSystem } =
     useCalculatorStore()
   const { cloudSyncEnabled, setCloudSyncEnabled } = useHistoryStore()
@@ -124,7 +124,7 @@ export function SettingsScreen() {
   }
 
   const handleToggleCloudSync = () => {
-    if (!isPremium) {
+    if (!isProPlus) {
       setShowPaywall(true)
       return
     }
@@ -136,7 +136,7 @@ export function SettingsScreen() {
   }
 
   const handleSyncNow = async () => {
-    if (!isPremium) {
+    if (!isProPlus) {
       setShowPaywall(true)
       return
     }
@@ -149,7 +149,7 @@ export function SettingsScreen() {
   }
 
   const handleToggleHealth = async () => {
-    if (!isPremium) {
+    if (!isProPlus) {
       setShowPaywall(true)
       return
     }
@@ -180,12 +180,36 @@ export function SettingsScreen() {
         <BrandHeader subtitle="Settings" variant="compact" />
 
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-          {!isPremium && (
+          {isProPlus ? (
+            <View style={styles.premiumStatus}>
+              <Icon name="check-circle" type="feather" color={COLORS.success} size={20} />
+              <Text style={styles.premiumStatusText}>PRO+ Active</Text>
+            </View>
+          ) : isLegacyPro ? (
+            <>
+              <View style={[styles.premiumStatus, { backgroundColor: '#FFC10720' }]}>
+                <Icon name="award" type="feather" color="#FFC107" size={20} />
+                <Text style={[styles.premiumStatusText, { color: '#FFC107' }]}>PRO</Text>
+              </View>
+              <TouchableOpacity style={styles.premiumBanner} onPress={() => setShowPaywall(true)}>
+                <View style={styles.premiumBannerContent}>
+                  <Icon name="star" type="feather" color={COLORS.primary} size={24} />
+                  <View style={styles.premiumBannerText}>
+                    <Text style={styles.premiumBannerTitle}>Upgrade to PRO+</Text>
+                    <Text style={styles.premiumBannerSubtitle}>
+                      Unlock history, cloud sync, and more
+                    </Text>
+                  </View>
+                </View>
+                <Icon name="chevron-right" type="feather" color={COLORS.primary} size={20} />
+              </TouchableOpacity>
+            </>
+          ) : (
             <TouchableOpacity style={styles.premiumBanner} onPress={() => setShowPaywall(true)}>
               <View style={styles.premiumBannerContent}>
                 <Icon name="star" type="feather" color={COLORS.primary} size={24} />
                 <View style={styles.premiumBannerText}>
-                  <Text style={styles.premiumBannerTitle}>Upgrade to Premium</Text>
+                  <Text style={styles.premiumBannerTitle}>Upgrade to PRO+</Text>
                   <Text style={styles.premiumBannerSubtitle}>
                     Unlock history, cloud sync, and more
                   </Text>
@@ -193,15 +217,6 @@ export function SettingsScreen() {
               </View>
               <Icon name="chevron-right" type="feather" color={COLORS.primary} size={20} />
             </TouchableOpacity>
-          )}
-
-          {isPremium && (
-            <View style={styles.premiumStatus}>
-              <Icon name="check-circle" type="feather" color={COLORS.success} size={20} />
-              <Text style={styles.premiumStatusText}>
-                {isLegacyPro ? 'Legacy Pro (Grandfathered)' : 'Premium Active'}
-              </Text>
-            </View>
           )}
 
           <SettingsSection title="General">
@@ -277,14 +292,14 @@ export function SettingsScreen() {
               label="Enable Cloud Sync"
               rightElement={
                 <Switch
-                  value={cloudSyncEnabled && isPremium}
+                  value={cloudSyncEnabled && isProPlus}
                   onValueChange={handleToggleCloudSync}
                   trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
-                  thumbColor={cloudSyncEnabled && isPremium ? COLORS.primary : '#f4f3f4'}
+                  thumbColor={cloudSyncEnabled && isProPlus ? COLORS.primary : '#f4f3f4'}
                 />
               }
             />
-            {cloudSyncEnabled && isPremium && (
+            {cloudSyncEnabled && isProPlus && (
               <>
                 <SettingsRow
                   icon="refresh-cw"
@@ -304,7 +319,7 @@ export function SettingsScreen() {
           </SettingsSection>
 
           <SettingsSection title="Premium Features">
-            <ReminderSettings isPremium={isPremium} onShowPaywall={() => setShowPaywall(true)} />
+            <ReminderSettings isProPlus={isProPlus} onShowPaywall={() => setShowPaywall(true)} />
             {healthAvailable !== false && (
               <SettingsRow
                 icon="heart"
@@ -360,11 +375,11 @@ export function SettingsScreen() {
               />
               <SettingsRow
                 icon="star"
-                label="Toggle Premium"
-                value={isPremium ? 'ON' : 'OFF'}
+                label="Toggle PRO+"
+                value={isProPlus ? 'ON' : 'OFF'}
                 onPress={() => {
                   const store = usePremiumStore.getState()
-                  usePremiumStore.setState({ isPremium: !store.isPremium, isLegacyPro: false })
+                  usePremiumStore.setState({ isProPlus: !store.isProPlus })
                 }}
               />
               <SettingsRow
@@ -373,11 +388,7 @@ export function SettingsScreen() {
                 value={isLegacyPro ? 'ON' : 'OFF'}
                 onPress={() => {
                   const store = usePremiumStore.getState()
-                  const newLegacy = !store.isLegacyPro
-                  usePremiumStore.setState({
-                    isLegacyPro: newLegacy,
-                    isPremium: newLegacy || store.isPremium,
-                  })
+                  usePremiumStore.setState({ isLegacyPro: !store.isLegacyPro })
                 }}
               />
             </SettingsSection>

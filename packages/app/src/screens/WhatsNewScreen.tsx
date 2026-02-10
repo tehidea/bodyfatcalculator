@@ -67,7 +67,7 @@ export function WhatsNewScreen({ navigation }: { navigation: any }) {
                           styles.comparisonPremiumHeader,
                         ]}
                       >
-                        Premium
+                        PRO+
                       </Text>
                     </View>
                     {entry.legacyProInfo.comparison.map((row) => (

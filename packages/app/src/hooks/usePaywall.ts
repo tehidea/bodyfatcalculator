@@ -13,7 +13,7 @@ interface UsePaywallOptions {
 }
 
 export function usePaywall(options: UsePaywallOptions = {}) {
-  const { isPremium, isLegacyPro, isLoading, purchasePackage } = usePremiumStore()
+  const { isProPlus, isLegacyPro, isLoading, purchasePackage } = usePremiumStore()
   const [packages, setPackages] = useState<PurchasesPackage[]>([])
   const [selectedPlan, setSelectedPlan] = useState<PlanType>('yearly')
   const [isFetchingOfferings, setIsFetchingOfferings] = useState(false)
@@ -89,7 +89,7 @@ export function usePaywall(options: UsePaywallOptions = {}) {
   )
 
   return {
-    isPremium,
+    isProPlus,
     isLegacyPro,
     isLoading: isLoading || isFetchingOfferings,
     isProcessing,

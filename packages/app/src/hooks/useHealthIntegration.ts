@@ -13,7 +13,7 @@ const HEALTH_ENABLED_KEY = 'health_integration_enabled'
 const HEALTH_PERMISSIONS_KEY = 'health_permissions_granted'
 
 export function useHealthIntegration() {
-  const { isPremium } = usePremiumStore()
+  const { isProPlus } = usePremiumStore()
   const [isEnabled, setIsEnabled] = useState(false)
   const [hasPermissions, setHasPermissions] = useState(false)
   const [available, setAvailable] = useState<boolean | null>(null)
@@ -37,7 +37,7 @@ export function useHealthIntegration() {
   }, [])
 
   const enable = useCallback(async (): Promise<boolean> => {
-    if (!isPremium) return false
+    if (!isProPlus) return false
 
     setIsLoading(true)
     try {
@@ -53,7 +53,7 @@ export function useHealthIntegration() {
     } finally {
       setIsLoading(false)
     }
-  }, [isPremium])
+  }, [isProPlus])
 
   const disable = useCallback(async () => {
     setIsEnabled(false)
@@ -62,15 +62,15 @@ export function useHealthIntegration() {
 
   const writeBodyFat = useCallback(
     async (percentage: number): Promise<boolean> => {
-      if (!isPremium || !isEnabled || !hasPermissions) return false
+      if (!isProPlus || !isEnabled || !hasPermissions) return false
       return writeBodyFatPercentage(percentage)
     },
-    [isPremium, isEnabled, hasPermissions],
+    [isProPlus, isEnabled, hasPermissions],
   )
 
   const loadHistory = useCallback(
     async (days = 90) => {
-      if (!isPremium || !hasPermissions) return
+      if (!isProPlus || !hasPermissions) return
       setIsLoading(true)
       try {
         const samples = await readBodyFatHistory(days)
@@ -79,11 +79,11 @@ export function useHealthIntegration() {
         setIsLoading(false)
       }
     },
-    [isPremium, hasPermissions],
+    [isProPlus, hasPermissions],
   )
 
   return {
-    isEnabled: isEnabled && isPremium,
+    isEnabled: isEnabled && isProPlus,
     hasPermissions,
     available,
     history,

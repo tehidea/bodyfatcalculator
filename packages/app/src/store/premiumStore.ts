@@ -4,7 +4,7 @@ import { create } from 'zustand'
 import { getUserEntitlements, purchasePackage, type UserEntitlements } from '../config/store'
 
 interface PremiumStore {
-  isPremium: boolean
+  isProPlus: boolean
   isLegacyPro: boolean
   isLoading: boolean
   error: string | null
@@ -26,7 +26,7 @@ function handleRestoreError(error: unknown) {
 }
 
 export const usePremiumStore = create<PremiumStore>((set, get) => ({
-  isPremium: false,
+  isProPlus: false,
   isLegacyPro: false,
   isLoading: false,
   error: null,
@@ -86,18 +86,18 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
 
       console.log('purchasePackage - Purchase result, entitlements:', entitlements)
 
-      if (!entitlements.isPremium) {
+      if (!entitlements.isProPlus) {
         console.log(
           'purchasePackage - Purchase successful but entitlements not reflected, attempting restore',
         )
         await Purchases.syncPurchases()
         const restoredEntitlements = await getUserEntitlements()
         set({ ...restoredEntitlements, isLoading: false, error: null })
-        return restoredEntitlements.isPremium
+        return restoredEntitlements.isProPlus
       }
 
       set({ ...entitlements, isLoading: false, error: null })
-      return entitlements.isPremium
+      return entitlements.isProPlus
     } catch (error) {
       console.error('purchasePackage - Error:', error)
 
@@ -105,7 +105,7 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
         return false
       }
 
-      set({ isLoading: false, error: null, isPremium: false })
+      set({ isLoading: false, error: null, isProPlus: false })
 
       if (error instanceof Error && 'code' in error) {
         const purchaseError = error as PurchasesError
@@ -163,11 +163,20 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
       console.log('restorePurchases - Retrieved entitlements:', restoredEntitlements)
       set({ ...restoredEntitlements, isLoading: false, error: null })
 
-      if (!currentEntitlements.isPremium && restoredEntitlements.isPremium) {
-        Alert.alert('Purchases Restored', 'Your premium access has been successfully restored.', [
+      const wasUpgraded = !currentEntitlements.isProPlus && restoredEntitlements.isProPlus
+      const wasLegacyRestored = !currentEntitlements.isLegacyPro && restoredEntitlements.isLegacyPro
+
+      if (wasUpgraded) {
+        Alert.alert('Purchases Restored', 'Your PRO+ access has been successfully restored.', [
           { text: 'OK' },
         ])
-      } else if (!restoredEntitlements.isPremium) {
+      } else if (wasLegacyRestored) {
+        Alert.alert(
+          'Purchases Restored',
+          'Your PRO purchase has been restored. You have access to advanced formulas and decimal precision.',
+          [{ text: 'OK' }],
+        )
+      } else if (!restoredEntitlements.isProPlus && !restoredEntitlements.isLegacyPro) {
         Alert.alert('No Purchases Found', 'No previous purchases were found to restore.', [
           { text: 'OK' },
         ])
@@ -179,3 +188,5 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
     }
   },
 }))
+
+export const useHasProFeatures = () => usePremiumStore((s) => s.isProPlus || s.isLegacyPro)

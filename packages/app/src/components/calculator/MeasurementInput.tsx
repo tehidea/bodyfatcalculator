@@ -13,7 +13,7 @@ import Animated, {
 import { COLORS } from '../../constants/theme'
 import { getFormulaMetadata } from '../../schemas/calculator'
 import { useCalculatorStore } from '../../store/calculatorStore'
-import { usePremiumStore } from '../../store/premiumStore'
+import { useHasProFeatures } from '../../store/premiumStore'
 import { useResponsive } from '../../utils/responsiveContext'
 import { MeasurementIcon } from './FormulaSelector'
 import { MeasurementHint } from './MeasurementHint'
@@ -36,7 +36,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
     ref,
   ) => {
     const { inputs, setInput, measurementSystem, formula, gender } = useCalculatorStore()
-    const { isPremium } = usePremiumStore()
+    const hasProFeatures = useHasProFeatures()
     const { getResponsiveSpacing, getResponsiveTypography, getLineHeight } = useResponsive()
     const posthog = usePostHog()
 
@@ -90,13 +90,13 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
       if (!isEditing) {
         setRawValue(
           typeof storeValue === 'number'
-            ? isPremium
+            ? hasProFeatures
               ? storeValue.toString()
               : Math.round(storeValue).toString()
             : storeValue?.toString() || '',
         )
       }
-    }, [inputs[field], isEditing, isPremium, field])
+    }, [inputs[field], isEditing, hasProFeatures, field])
 
     const handleChangeText = useCallback(
       (value: string) => {
@@ -109,7 +109,7 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
           return
         }
 
-        if (value.includes('.') && !isPremium) {
+        if (value.includes('.') && !hasProFeatures) {
           if (posthog) {
             posthog.capture('decimal_input_blocked', {
               field_name: field,
@@ -133,10 +133,10 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
         const numValue = parseFloat(value)
         if (!Number.isNaN(numValue)) {
           console.log(`[MeasurementInput] ${field} - Sending to store:`, numValue)
-          setInput(field, isPremium ? numValue : Math.round(numValue))
+          setInput(field, hasProFeatures ? numValue : Math.round(numValue))
         }
       },
-      [isPremium, field, setInput, measurementSystem, posthog],
+      [hasProFeatures, field, setInput, measurementSystem, posthog],
     )
 
     // Calculate the error container height dynamically
