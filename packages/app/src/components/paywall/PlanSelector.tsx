@@ -31,7 +31,7 @@ function getPlanDescription(plan: PlanType): string {
     case 'monthly':
       return 'Billed monthly'
     case 'yearly':
-      return 'Billed annually'
+      return 'Billed yearly'
     case 'lifetime':
       return 'One-time purchase'
   }
@@ -60,7 +60,6 @@ export function PlanSelector({
         const isSelected = selectedPlan === plan
         const planPricing = pricing[plan]
         const isBestValue = plan === 'yearly'
-        const perMonth = 'perMonth' in planPricing ? planPricing.perMonth : null
 
         return (
           <TouchableOpacity
@@ -87,12 +86,9 @@ export function PlanSelector({
               </View>
 
               <View style={styles.planInfo}>
-                <Text style={[styles.planLabel, isSelected && styles.planLabelSelected]}>
-                  {getPlanLabel(plan)}
-                </Text>
-                <View style={styles.planDescriptionRow}>
-                  <Text style={styles.planDescription}>
-                    {perMonth ? `${perMonth}/mo` : getPlanDescription(plan)}
+                <View style={styles.planLabelRow}>
+                  <Text style={[styles.planLabel, isSelected && styles.planLabelSelected]}>
+                    {getPlanLabel(plan)}
                   </Text>
                   {'savings' in planPricing && (
                     <View style={styles.savingsBadge}>
@@ -102,15 +98,13 @@ export function PlanSelector({
                     </View>
                   )}
                 </View>
+                <Text style={styles.planDescription}>{getPlanDescription(plan)}</Text>
               </View>
 
               <View style={styles.priceContainer}>
                 <Text style={[styles.planPrice, isSelected && styles.planPriceSelected]}>
                   {planPricing.price}
                 </Text>
-                {plan !== 'lifetime' && (
-                  <Text style={styles.planPeriod}>/{planPricing.period}</Text>
-                )}
               </View>
             </View>
           </TouchableOpacity>
@@ -213,7 +207,7 @@ const createStyles = (
     planLabelSelected: {
       color: COLORS.primary,
     },
-    planDescriptionRow: {
+    planLabelRow: {
       flexDirection: 'row',
       alignItems: 'center',
       gap: getResponsiveSpacing(6),
@@ -234,11 +228,6 @@ const createStyles = (
     },
     planPriceSelected: {
       color: COLORS.primary,
-    },
-    planPeriod: {
-      fontSize: getResponsiveTypography('xs'),
-      lineHeight: getLineHeight('xs'),
-      color: '#666',
     },
     savingsBadge: {
       backgroundColor: `${COLORS.success}15`,
