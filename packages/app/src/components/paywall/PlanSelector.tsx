@@ -92,9 +92,7 @@ export function PlanSelector({
                 </Text>
                 <View style={styles.planDescriptionRow}>
                   <Text style={styles.planDescription}>
-                    {perMonth
-                      ? `${getPlanDescription(plan)} · Only ${perMonth}/mo`
-                      : getPlanDescription(plan)}
+                    {perMonth ? `${perMonth}/mo` : getPlanDescription(plan)}
                   </Text>
                   {'savings' in planPricing && (
                     <View style={styles.savingsBadge}>
