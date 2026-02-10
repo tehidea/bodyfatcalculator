@@ -1,7 +1,8 @@
 import { Icon, Text } from '@rneui/themed'
+import { useMemo } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
-import type { PurchasesPackage } from 'react-native-purchases'
-import { GRANDFATHERED_PRICING, PRICING } from '../../constants/features'
+import { PACKAGE_TYPE, type PurchasesPackage } from 'react-native-purchases'
+import { LEGACY_PRICING, PRICING } from '../../constants/features'
 import { COLORS } from '../../constants/theme'
 import type { PlanType } from '../../hooks/usePaywall'
 import { useResponsive } from '../../utils/responsiveContext'
@@ -41,11 +42,28 @@ export function PlanSelector({
   selectedPlan,
   onSelectPlan,
   isLegacyPro,
-  packages: _packages,
+  packages,
 }: PlanSelectorProps) {
   const { getResponsiveTypography, getLineHeight, getResponsiveSpacing } = useResponsive()
   const styles = createStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing)
-  const pricing = isLegacyPro ? GRANDFATHERED_PRICING : PRICING
+  const pricing = isLegacyPro ? LEGACY_PRICING : PRICING
+
+  const priceMap = useMemo(() => {
+    const map: Partial<Record<PlanType, PurchasesPackage>> = {}
+    for (const pkg of packages) {
+      if (pkg.packageType === PACKAGE_TYPE.MONTHLY) map.monthly = pkg
+      else if (pkg.packageType === PACKAGE_TYPE.ANNUAL) map.yearly = pkg
+      else if (pkg.packageType === PACKAGE_TYPE.LIFETIME) map.lifetime = pkg
+    }
+    return map
+  }, [packages])
+
+  const savingsPercent = useMemo(() => {
+    const monthly = priceMap.monthly?.product.price
+    const yearly = priceMap.yearly?.product.price
+    if (!monthly || !yearly) return null
+    return Math.round((1 - yearly / (monthly * 12)) * 100)
+  }, [priceMap])
 
   return (
     <View style={styles.container}>
@@ -60,6 +78,15 @@ export function PlanSelector({
         const isSelected = selectedPlan === plan
         const planPricing = pricing[plan]
         const isBestValue = plan === 'yearly'
+        const price = priceMap[plan]?.product.priceString ?? planPricing.price
+        const savings =
+          plan === 'yearly'
+            ? savingsPercent != null
+              ? `${savingsPercent}%`
+              : 'savings' in planPricing
+                ? planPricing.savings
+                : null
+            : null
 
         return (
           <TouchableOpacity
@@ -90,11 +117,9 @@ export function PlanSelector({
                   <Text style={[styles.planLabel, isSelected && styles.planLabelSelected]}>
                     {getPlanLabel(plan)}
                   </Text>
-                  {'savings' in planPricing && (
+                  {savings && (
                     <View style={styles.savingsBadge}>
-                      <Text style={styles.savingsText}>
-                        Save {(planPricing as { savings: string }).savings}
-                      </Text>
+                      <Text style={styles.savingsText}>Save {savings}</Text>
                     </View>
                   )}
                 </View>
@@ -103,7 +128,7 @@ export function PlanSelector({
 
               <View style={styles.priceContainer}>
                 <Text style={[styles.planPrice, isSelected && styles.planPriceSelected]}>
-                  {planPricing.price}
+                  {price}
                 </Text>
               </View>
             </View>

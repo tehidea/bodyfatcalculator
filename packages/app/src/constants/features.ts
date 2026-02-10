@@ -79,6 +79,7 @@ export const FEATURES: Feature[] = [
   },
 ]
 
+// GBP fallback for loading state — real prices come from RevenueCat packages
 export const PRICING = {
   monthly: {
     price: '£3.99',
@@ -96,7 +97,8 @@ export const PRICING = {
   },
 } as const
 
-export const GRANDFATHERED_PRICING = {
+// GBP fallback for loading state — real prices come from RevenueCat packages
+export const LEGACY_PRICING = {
   monthly: {
     price: '£1.99',
     period: 'month',

@@ -84,22 +84,22 @@ export const PRODUCTS = {
   pro: {
     lifetime: 'pro_lifetime',
   },
-  premium: {
-    monthly: 'premium_monthly',
-    yearly: 'premium_yearly',
-    lifetime: 'premium_lifetime',
+  proPlus: {
+    monthly: 'pro_plus_monthly',
+    yearly: 'pro_plus_yearly',
+    lifetime: 'pro_plus_lifetime',
   },
-  premiumLegacy: {
-    monthly: 'premium_monthly_legacy',
-    yearly: 'premium_yearly_legacy',
-    lifetime: 'premium_lifetime_legacy',
+  proPlusPromo: {
+    monthly: 'pro_plus_monthly_promo',
+    yearly: 'pro_plus_yearly_promo',
+    lifetime: 'pro_plus_lifetime_promo',
   },
 } as const
 
 // Offering identifiers
 export const OFFERINGS = {
   default: 'default',
-  grandfatheredPro: 'grandfathered_pro',
+  legacyUpgrade: 'legacy_upgrade',
 } as const
 
 export interface UserEntitlements {
@@ -228,7 +228,7 @@ export async function getOfferings(isLegacyPro = false) {
   }
   try {
     const offerings = await Purchases.getOfferings()
-    const offeringId = isLegacyPro ? OFFERINGS.grandfatheredPro : OFFERINGS.default
+    const offeringId = isLegacyPro ? OFFERINGS.legacyUpgrade : OFFERINGS.default
     const offering = offerings.all[offeringId] ?? offerings.current
 
     console.log('getOfferings - Using offering:', offeringId, offering?.availablePackages.length)

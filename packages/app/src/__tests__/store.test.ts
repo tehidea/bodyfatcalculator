@@ -157,11 +157,11 @@ describe('Store Module', () => {
       expect(result).toEqual([mockPackage, { identifier: 'other_package' }])
     })
 
-    it('should return grandfathered offering for legacy pro users', async () => {
-      const mockLegacyPackage = { identifier: 'premium_monthly_legacy' }
+    it('should return legacy upgrade offering for legacy pro users', async () => {
+      const mockLegacyPackage = { identifier: 'pro_plus_monthly_promo' }
       const mockOfferings = {
         all: {
-          grandfathered_pro: {
+          legacy_upgrade: {
             availablePackages: [mockLegacyPackage],
           },
         },
