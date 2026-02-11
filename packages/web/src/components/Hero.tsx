@@ -140,10 +140,9 @@ export function Hero() {
                   <div className="text-center text-yellow-900">
                     <p className="text-xs font-bold leading-tight">
                       <span className="mb-1/2 block text-[10px]">Start for FREE</span>
-                      <span className="text-md -mb-2 block text-sm font-extrabold">ONE TIME</span>
-                      <span className="text-md -mb-2 block text-sm font-extrabold">PURCHASE</span>
-                      <span className="text-md mb-1/2 block text-sm font-extrabold">FOR PRO</span>
-                      <span className="mb-0 block text-[10px]">FOREVER Yours</span>
+                      <span className="text-md -mb-2 block text-sm font-extrabold">UPGRADE</span>
+                      <span className="text-md mb-1/2 block text-sm font-extrabold">TO PRO+</span>
+                      <span className="mb-0 block text-[10px]">From £3.99/mo</span>
                     </p>
                   </div>
                 </div>

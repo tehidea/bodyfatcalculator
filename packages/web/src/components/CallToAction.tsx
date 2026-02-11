@@ -77,11 +77,11 @@ export function CallToAction() {
       <Container className="relative">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-medium tracking-tight text-white sm:text-4xl">
-            Free or PRO - Your Choice
+            Free or PRO+ — Your Choice
           </h2>
           <p className="mt-4 text-lg text-gray-400">
-            Start with our free version or unlock all features with a one-time PRO upgrade and enjoy
-            lifetime access
+            Start free or unlock all features with PRO+ — available as a subscription or one-time
+            lifetime purchase
           </p>
         </div>
 
@@ -139,10 +139,10 @@ export function CallToAction() {
 
               <div className="flex flex-col">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xl font-semibold text-white">PRO Version</h3>
+                  <h3 className="text-xl font-semibold text-white">PRO+</h3>
                   <div className="font-large inline-flex items-center gap-1.5 rounded-full border-2 border-gray-400 px-3 py-1 text-sm text-white">
                     <Unlock size={16} />
-                    Lifetime Access
+                    One-time option available
                   </div>
                 </div>
                 <p className="mt-2 text-gray-400">For professionals and enthusiasts</p>
@@ -155,11 +155,11 @@ export function CallToAction() {
                     </div>
                     <div className="flex items-center gap-3 text-white">
                       <CheckIcon className="h-5 w-5 text-[#4CAF50]" />
-                      <span>±3-5% Accuracy</span>
+                      <span>History & Progress Tracking</span>
                     </div>
                     <div className="flex items-center gap-3 text-white">
                       <CheckIcon className="h-5 w-5 text-[#4CAF50]" />
-                      <span>Enhanced Precision</span>
+                      <span>Cloud Sync & Health Integration</span>
                     </div>
                   </div>
 
@@ -181,8 +181,8 @@ export function CallToAction() {
 
                 <div className="mt-8">
                   <div className="mt-4 flex items-center justify-between text-sm">
-                    <span className="text-gray-500">One-time purchase</span>
-                    <span className="font-medium text-white">£9.99 / $9.99 / €9.99</span>
+                    <span className="text-gray-500">From</span>
+                    <span className="font-medium text-white">£3.99/month or £49.99 lifetime</span>
                   </div>
                 </div>
               </div>

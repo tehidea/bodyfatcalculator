@@ -1,22 +1,10 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import DOMPurify from 'isomorphic-dompurify'
 import { CirclesBackground } from '@/components/CirclesBackground'
 import { Container } from '@/components/Container'
+import { FaqText } from '@/components/FaqText'
 import { Layout } from '@/components/Layout'
-
-function FaqText({ text }: { text: string }) {
-  const sanitizedHtml = DOMPurify.sanitize(text, {
-    ALLOWED_TAGS: ['a'],
-    ALLOWED_ATTR: ['href', 'target', 'rel', 'class'],
-  })
-
-  return (
-    // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is sanitized via DOMPurify with a strict allowlist (ALLOWED_TAGS: ['a'])
-    <p className="mt-4 text-gray-300" dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />
-  )
-}
 
 const faqs = [
   [
@@ -26,9 +14,9 @@ const faqs = [
         'Body fat percentage is the total mass of fat divided by total body mass. It includes both essential fat (needed for basic bodily functions) and storage fat. This measurement is more meaningful than BMI for assessing body composition.',
     },
     {
-      question: 'How accurate are the measurements?',
+      question: 'Which measurement method should I choose?',
       answer:
-        'Accuracy depends on the method and technique. Free methods typically fall around ±4-7%, while PRO skinfold methods are usually ±3-5% when performed correctly. Consistent technique and site location matter most.',
+        'Start with the method that matches your tools and comfort level. Tape-based methods are easiest. If you have calipers, the 3-site method is a good balance of accuracy and simplicity. More sites can improve accuracy with proper technique.',
     },
     {
       question: 'What equipment do I need?',
@@ -36,16 +24,9 @@ const faqs = [
         "Circumference methods only need a soft tape measure. Skinfold methods require calipers. We recommend professional-grade calipers like Harpenden or Lange for best results, though any calipers (like <a href='https://www.amazon.co.uk/CALIPER-MEASURING-Skinfold-Caliper-Measure/dp/B07B9Y5J7N?crid=2IU4GPJB8C0U0&nsdOptOutParam=true&refinements=p_85%3A20930949031&rnid=20930948031&rps=1&sprefix=body+calipers%2Caps%2C70&sr=8-5&linkCode=ll1&tag=bodyfatcalculator-21&linkId=60fe659fe6cb7399b48d403e938d77a8&language=en_GB&ref_=as_li_ss_tl' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>BOZEERA</a> etc) will work.",
     },
     {
-      question: 'Which measurement method should I choose?',
+      question: 'Can I measure myself or do I need help?',
       answer:
-        'Start with the method that matches your tools and comfort level. Tape-based methods are easiest. If you have calipers, the 3-site method is a good balance of accuracy and simplicity. More sites can improve accuracy with proper technique.',
-    },
-  ],
-  [
-    {
-      question: 'What makes the PRO version special?',
-      answer:
-        'PRO unlocks additional measurement methods including Jackson & Pollock 3,4,7-site formulas and Durnin & Womersley method. Perfect for fitness enthusiasts who want access to all validated formulas.',
+        'While some measurements can be done solo, having assistance improves accuracy, especially for hard-to-reach sites like the subscapular. If measuring alone, start with methods that use easily accessible sites.',
     },
     {
       question: 'How often should I measure?',
@@ -53,9 +34,9 @@ const faqs = [
         'Measurement frequency depends on your goals. Many people measure every few weeks to spot trends. Consistency matters most, so try to measure at the same time of day.',
     },
     {
-      question: 'Why do different methods give different results?',
+      question: 'What should I do if measurements seem inconsistent?',
       answer:
-        'Each method uses different measurements and equations optimized for specific populations. Variations can occur due to differences in body type, measurement technique, and the underlying assumptions of each method.',
+        "First, verify your technique and measurement sites. Take multiple measurements at each site and ensure you're using the same locations each time. If problems persist, our support team can help troubleshoot.",
     },
     {
       question: 'Can I use this professionally with clients?',
@@ -65,9 +46,19 @@ const faqs = [
   ],
   [
     {
-      question: 'Is there a subscription fee?',
+      question: 'How accurate are the measurements?',
       answer:
-        'No! The PRO version is a one-time purchase of £9.99 / $9.99 / €9.99. You get lifetime access to all premium measurement methods and future updates. No hidden fees or subscriptions.',
+        'Accuracy depends on the method and technique. Free methods typically fall around ±4-7%, while PRO+ skinfold methods are usually ±3-5% when performed correctly. Consistent technique and site location matter most.',
+    },
+    {
+      question: 'How accurate are the Navy and YMCA methods?',
+      answer:
+        'The Navy method typically achieves ±4-6% accuracy, while the YMCA method ranges from ±5-7%. While slightly less precise than skinfold methods, they provide reliable tracking when used consistently.',
+    },
+    {
+      question: 'Why do different methods give different results?',
+      answer:
+        'Each method uses different measurements and equations optimized for specific populations. Variations can occur due to differences in body type, measurement technique, and the underlying assumptions of each method.',
     },
     {
       question: 'What factors can affect measurement accuracy?',
@@ -75,17 +66,10 @@ const faqs = [
         'Several factors can impact accuracy: time of day, hydration status, recent exercise, measurement technique, and tool quality. Following our measurement guidelines helps minimize these variables.',
     },
     {
-      question: 'How do I know if I&apos;m measuring correctly?',
+      question: "How do I know if I'm measuring correctly?",
       answer:
-        'Look for consistent readings across repeated measurements and a stable technique at the same sites. If you&apos;re unsure, having a professional demonstrate the method can help.',
+        "Look for consistent readings across repeated measurements and a stable technique at the same sites. If you're unsure, having a professional demonstrate the method can help.",
     },
-    {
-      question: 'Do you offer support?',
-      answer:
-        'Yes! We provide support for all users. If you have questions about measurements, formulas, or technical issues, contact us at <a href="mailto:support@bodyfatcalculator.pro" class="text-[#FF0000] hover:text-[#FF0000]/90">support@bodyfatcalculator.pro</a>.',
-    },
-  ],
-  [
     {
       question: 'What are the advantages over bioelectrical impedance?',
       answer:
@@ -96,59 +80,42 @@ const faqs = [
       answer:
         'DEXA is a reference method for body composition. Field methods provide practical, lower-cost estimates that can differ from DEXA, so focus on consistent technique and trends over time.',
     },
+  ],
+  [
+    {
+      question: 'What does PRO+ include?',
+      answer:
+        'PRO+ unlocks 6 additional professional measurement methods (including Jackson & Pollock and Durnin & Womersley), decimal precision, measurement history with progress tracking, cloud sync via iCloud or Google Drive, health app integration (Apple Health and Google Health Connect), customisable reminders, and family sharing for up to 5 members.',
+    },
+    {
+      question: 'How much does PRO+ cost?',
+      answer:
+        'PRO+ is available as a monthly subscription (£3.99/mo), annual subscription (£19.99/yr — save 58%), or a one-time lifetime purchase (£49.99). All plans include the same features. A free version with 3 basic measurement methods is always available.',
+    },
+    {
+      question: 'Do I have to subscribe?',
+      answer:
+        'Not at all! While we offer monthly (£3.99) and annual (£19.99/yr) plans, we also have a one-time lifetime purchase (£49.99) for those who prefer to pay once. Whichever option you choose, you get the same full PRO+ experience.',
+    },
+    {
+      question: 'What happens to my existing PRO lifetime purchase?',
+      answer:
+        'Your PRO lifetime purchase is safe — you keep advanced formulas and decimal precision forever, at no additional cost. The new PRO+ features (measurement history, cloud sync, health integration, reminders, and family sharing) are available as an optional upgrade at 50% off as a thank-you for your early support.',
+    },
     {
       question: 'Can I track measurements over time?',
       answer:
-        'The current app focuses on single-session calculations and does not include history or export yet.',
+        'Yes! PRO+ includes full measurement history with progress tracking. Save every measurement, view trends over time, and sync your data across devices via iCloud or Google Drive.',
     },
     {
       question: 'Are the formulas scientifically validated?',
       answer:
         'Yes, the formulas are based on peer-reviewed research and standard field protocols. We provide references to the original sources, and accuracy ranges assume proper measurement technique.',
     },
-  ],
-  [
     {
-      question: 'What should I do if measurements seem inconsistent?',
+      question: 'Do you offer support?',
       answer:
-        'First, verify your technique and measurement sites. Take multiple measurements at each site and ensure you&apos;re using the same locations each time. If problems persist, our support team can help troubleshoot.',
-    },
-    {
-      question: 'How does body fat distribution affect results?',
-      answer:
-        'Fat distribution patterns vary by gender, age, and genetics. Our methods account for these differences by using multiple measurement sites and gender-specific equations. This helps ensure accurate results across different body types.',
-    },
-    {
-      question: 'What&apos;s the difference between essential and storage fat?',
-      answer:
-        'Essential fat (2-5% for men, 10-13% for women) is necessary for basic bodily functions. Storage fat is additional fat tissue that serves as energy reserve. Both are included in body fat percentage measurements.',
-    },
-    {
-      question: 'How accurate are the Navy and YMCA methods?',
-      answer:
-        'The Navy method typically achieves ±4-6% accuracy, while the YMCA method ranges from ±5-7%. While slightly less precise than skinfold methods, they provide reliable tracking when used consistently.',
-    },
-  ],
-  [
-    {
-      question: 'Can I measure myself or do I need help?',
-      answer:
-        'While some measurements can be done solo, having assistance improves accuracy, especially for hard-to-reach sites like the subscapular. If measuring alone, start with methods that use easily accessible sites.',
-    },
-    {
-      question: 'How do age and gender affect measurements?',
-      answer:
-        'Age and gender influence fat distribution and body composition. Our formulas account for these factors using age-adjusted equations and gender-specific calculation methods to maintain accuracy.',
-    },
-    {
-      question: 'What&apos;s the best time to measure?',
-      answer:
-        'Morning measurements, before eating or drinking, are often the most consistent. Avoid measuring immediately after exercise, as this can affect readings.',
-    },
-    {
-      question: 'How do I maintain my measurement tools?',
-      answer:
-        'Clean calipers with alcohol wipes after use and store in their protective case. Check calibration regularly (especially for professional models). For tape measures, ensure they remain flat and undamaged.',
+        'Yes! We provide support for all users. If you have questions about measurements, formulas, or technical issues, contact us at <a href="mailto:support@bodyfatcalculator.pro" class="text-[#FF0000] hover:text-[#FF0000]/90">support@bodyfatcalculator.pro</a>.',
     },
   ],
 ]
@@ -190,7 +157,7 @@ export default function FAQ() {
                           <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent" />
                           <div className="relative">
                             <h3 className="text-lg font-semibold text-white">{faq.question}</h3>
-                            <FaqText text={faq.answer} />
+                            <FaqText text={faq.answer} variant="dark" />
                           </div>
                         </article>
                       </li>

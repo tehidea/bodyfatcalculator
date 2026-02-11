@@ -1,18 +1,6 @@
-import DOMPurify from 'isomorphic-dompurify'
 import Link from 'next/link'
 import { Container } from '@/components/Container'
-
-function FaqText({ text }: { text: string }) {
-  const sanitizedHtml = DOMPurify.sanitize(text, {
-    ALLOWED_TAGS: ['a'],
-    ALLOWED_ATTR: ['href', 'target', 'rel', 'class'],
-  })
-
-  return (
-    // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is sanitized via DOMPurify with a strict allowlist (ALLOWED_TAGS: ['a'])
-    <p className="mt-4 text-sm text-gray-600" dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />
-  )
-}
+import { FaqText } from '@/components/FaqText'
 
 const faqs = [
   [
@@ -24,34 +12,30 @@ const faqs = [
     {
       question: 'How accurate are the measurements?',
       answer:
-        'Accuracy depends on the method and technique. Free methods typically fall around ±4-7%, while PRO skinfold methods are usually ±3-5% when performed correctly. Consistent technique and site location matter most.',
+        'Accuracy depends on the method and technique. Free methods typically fall around ±4-7%, while PRO+ skinfold methods are usually ±3-5% when performed correctly. Consistent technique and site location matter most.',
     },
   ],
   [
     {
-      question: 'What makes the PRO version special?',
+      question: 'What does PRO+ include?',
       answer:
-        'PRO unlocks professional skinfold methods, higher accuracy with 2 decimal place precision, and can be shared with up to 5 family members.',
+        'PRO+ unlocks 6 additional professional measurement methods (including Jackson & Pollock and Durnin & Womersley), decimal precision, measurement history with progress tracking, cloud sync via iCloud or Google Drive, health app integration (Apple Health and Google Health Connect), customisable reminders, and family sharing for up to 5 members.',
     },
     {
-      question: 'Is there a subscription fee?',
+      question: 'Do I have to subscribe?',
       answer:
-        'No! The PRO version is a one-time purchase of £9.99 / $9.99 / €9.99. You get lifetime access to all premium measurement methods and future updates. No hidden fees or subscriptions.',
+        'Not at all! While we offer monthly (£3.99) and annual (£19.99/yr) plans, we also have a one-time lifetime purchase (£49.99) for those who prefer to pay once. Whichever option you choose, you get the same full PRO+ experience.',
     },
+  ],
+  [
     {
       question: 'What equipment do I need?',
       answer: `Circumference methods only need a soft tape measure. Skinfold methods require calipers. We recommend professional-grade calipers like <a href='https://www.amazon.co.uk/Harpenden-Skinfold-Caliper-Calibration-Dowel/dp/B00289EHA0?crid=179GKCY0GZSID&nsdOptOutParam=true&sprefix=harpenden+calipers%2Caps%2C75&sr=8-5&linkCode=ll1&tag=bodyfatcalculator-21&linkId=2943e66b7223012cef58d3c029243c7c&language=en_GB&ref_=as_li_ss_tl' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>Harpenden</a> or <a href='https://www.amazon.co.uk/Lange-Calibration-Instruction-Percentage-Professional/dp/B00DD631G8?crid=179GKCY0GZSID&nsdOptOutParam=true&sprefix=harpenden+calipers%2Caps%2C75&sr=8-8&linkCode=ll1&tag=bodyfatcalculator-21&linkId=f30e96b3850d39000e3d1c53c74f8235&language=en_GB&ref_=as_li_ss_tl' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>Lange</a> for best results, though any calipers (like <a href='https://www.amazon.co.uk/CALIPER-MEASURING-Skinfold-Caliper-Measure/dp/B07B9Y5J7N?crid=2IU4GPJB8C0U0&nsdOptOutParam=true&refinements=p_85%3A20930949031&rnid=20930948031&rps=1&sprefix=body+calipers%2Caps%2C70&sr=8-5&linkCode=ll1&tag=bodyfatcalculator-21&linkId=60fe659fe6cb7399b48d403e938d77a8&language=en_GB&ref_=as_li_ss_tl' target='_blank' rel='noopener' class='text-[#FF0000] hover:text-[#FF0000]/90'>BOZEERA</a>) will work for getting started.`,
     },
-  ],
-  [
     {
-      question: 'Can I use this professionally with clients?',
+      question: 'What happens to my existing PRO lifetime purchase?',
       answer:
-        'Yes! The app is suitable for both personal and professional use. The multiple measurement methods and unit conversion features make it a practical tool for trainers working with clients.',
-    },
-    {
-      question: 'Do you offer support?',
-      answer: `Yes! We provide support for all users. If you have questions about measurements, formulas, or technical issues, contact us at <a href="mailto:support@bodyfatcalculator.pro" class="text-[#FF0000] hover:text-[#FF0000]/90">support@bodyfatcalculator.pro</a>.`,
+        'Your PRO lifetime purchase is safe — you keep advanced formulas and decimal precision forever, at no additional cost. The new PRO+ features (measurement history, cloud sync, health integration, reminders, and family sharing) are available as an optional upgrade at 50% off as a thank-you for your early support.',
     },
   ],
 ]
