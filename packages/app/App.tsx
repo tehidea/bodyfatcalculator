@@ -44,27 +44,20 @@ function AppNavigator() {
   }, [posthog])
 
   useEffect(() => {
-    const trackInstallAttribution = async () => {
+    const initializeIdentity = async () => {
       if (!posthog) return
 
       try {
-        // Check if this is the first app launch
-        const hasLaunchedBefore = await AsyncStorage.getItem('hasLaunchedBefore')
+        let installId = await AsyncStorage.getItem('installId')
 
-        if (!hasLaunchedBefore) {
-          // Mark that we've launched before
-          await AsyncStorage.setItem('hasLaunchedBefore', 'true')
+        if (!installId) {
+          // First launch — generate a stable install ID
+          installId = `install_${Date.now()}_${Math.random().toString(36).substring(2)}`
+          await AsyncStorage.setItem('installId', installId)
 
-          // Get initial URL (if app was opened via deep link)
+          // Get initial URL for attribution tracking
           const initialUrl = await Linking.getInitialURL()
-
-          // Parse attribution from initial URL
-          let attribution = {
-            source: 'direct_install',
-            utm_source: null,
-            utm_medium: null,
-            utm_campaign: null,
-          }
+          let attribution: Record<string, string | null> = { source: 'direct_install' }
 
           if (initialUrl) {
             const url = new URL(initialUrl)
@@ -76,34 +69,25 @@ function AppNavigator() {
             }
           }
 
-          // Track the install event with attribution data
           posthog.capture('app_installed', {
             platform: Constants.platform?.ios ? 'ios' : 'android',
             initial_url: initialUrl,
             ...attribution,
-            timestamp: new Date().toISOString(),
-          })
-
-          // Create a unique install ID for cross-platform tracking
-          const installId = `install_${Date.now()}_${Math.random().toString(36).substring(2)}`
-          await AsyncStorage.setItem('installId', installId)
-
-          // Set user properties for cross-platform identification
-          posthog.identify(installId, {
-            platform: 'mobile',
-            app_version: Constants.expoConfig?.version,
-            install_source: attribution.source,
-            user_type: 'mobile_user',
-            ...attribution,
           })
         }
+
+        // Identify on every launch — idempotent, ensures PostHog distinct_id = installId
+        posthog.identify(installId, {
+          platform: 'mobile',
+          app_version: Constants.expoConfig?.version ?? 'unknown',
+          user_type: 'mobile_user',
+        })
       } catch (error) {
-        console.warn('Error tracking install attribution:', error)
+        console.warn('Error initializing PostHog identity:', error)
       }
     }
 
-    // Delay to ensure PostHog is initialized
-    setTimeout(trackInstallAttribution, 1000)
+    initializeIdentity()
   }, [posthog])
 
   return (
@@ -149,13 +133,14 @@ function App() {
   }, [])
 
   useEffect(() => {
-    notificationResponseListener.current =
-      Notifications.addNotificationResponseReceivedListener(() => {
+    notificationResponseListener.current = Notifications.addNotificationResponseReceivedListener(
+      () => {
         // Navigate to Calculator tab when user taps a reminder notification
         if (navigationRef.isReady()) {
           navigationRef.navigate('Calculator' as never)
         }
-      })
+      },
+    )
 
     return () => {
       if (notificationResponseListener.current) {
@@ -180,19 +165,14 @@ function App() {
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <NavigationContainer ref={navigationRef}>
         <PostHogProvider
-          apiKey={Constants.expoConfig?.extra?.POSTHOG_API_KEY || 'your_fallback_posthog_api_key'}
+          apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY!}
           options={{
             host: 'https://eu.i.posthog.com',
             disabled: __DEV__,
-            // Enable cross-platform user tracking
-            bootstrap: {
-              distinctID: `mobile_${Constants.platform?.ios ? 'ios' : 'android'}_${Date.now()}`,
-            },
-            persistence: 'memory',
+            captureNativeAppLifecycleEvents: true,
           }}
           autocapture={{
-            captureScreens: false, // Disable automatic screen tracking to prevent navigation hook errors
-            captureLifecycleEvents: false, // Disable lifecycle event tracking
+            captureScreens: false,
           }}
         >
           <AppNavigator />

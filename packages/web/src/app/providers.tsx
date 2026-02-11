@@ -9,20 +9,18 @@ if (typeof window !== 'undefined') {
     person_profiles: 'always',
     cross_subdomain_cookie: true,
     persistence: 'localStorage+cookie',
+    capture_pageview: 'history_change',
+    capture_pageleave: true,
     session_recording: {
       maskAllInputs: true,
     },
-    bootstrap: {
-      distinctID: `web_${Math.random().toString(36).substring(2)}`,
-    },
-    loaded: (posthog) => {
-      // Set user properties for web users
-      posthog.identify(undefined, {
-        platform: 'web',
-        user_type: 'web_visitor',
-        source: 'website',
-      })
-    },
+  })
+
+  // Super properties — attached to every event automatically
+  posthog.register({
+    platform: 'web',
+    user_type: 'web_visitor',
+    source: 'website',
   })
 }
 
