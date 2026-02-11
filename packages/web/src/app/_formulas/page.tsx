@@ -461,7 +461,7 @@ export default function Formulas() {
                       <li>
                         Jackson, A.S., Pollock, M.L., & Ward, A. (1980). Generalized equations for
                         predicting body density of women. Medicine and Science in Sports and
-                        Exercise, 12(3), 175-181.
+                        Exercise, 12(3), 175-182.
                       </li>
                     </ul>
                   </div>

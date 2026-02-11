@@ -472,11 +472,7 @@ export const ResultsDisplay = () => {
         ) : (
           <View />
         )}
-        <TouchableOpacity
-          style={styles.shareButton}
-          onPress={handleShare}
-          disabled={isSharing}
-        >
+        <TouchableOpacity style={styles.shareButton} onPress={handleShare} disabled={isSharing}>
           {isSharing ? (
             <ActivityIndicator size={14} color="rgba(255,255,255,0.5)" />
           ) : (

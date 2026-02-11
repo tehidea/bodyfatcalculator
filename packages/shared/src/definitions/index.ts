@@ -140,6 +140,11 @@ export const FORMULA_DEFINITIONS: Record<Formula, FormulaDefinition> = {
           pages: '87-98',
           url: 'https://books.google.co.uk/books?id=rZQe0Yz_IyQC',
         },
+        {
+          citation:
+            'Harty, P.S., et al. (2022). Military Body Composition Standards and Physical Performance: Historical Perspectives and Future Directions. J Strength Cond Res, 36(12), 3551-3561.',
+          doi: '10.1519/JSC.0000000000004142',
+        },
       ],
     },
   },
@@ -233,6 +238,14 @@ export const FORMULA_DEFINITIONS: Record<Formula, FormulaDefinition> = {
         doi: '10.1079/BJN19780152',
         notes: 'Original 1978 publication, digitized by Cambridge Core in 2007',
       },
+      validations: [
+        {
+          citation:
+            'Jackson, A.S., Pollock, M.L., & Ward, A. (1980). Generalized equations for predicting body density of women. Medicine and Science in Sports and Exercise, 12(3), 175-182.',
+          doi: '10.1249/00005768-198023000-00009',
+          notes: 'Women-specific equations used for female calculations',
+        },
+      ],
     },
   },
   durnin: {
@@ -326,7 +339,7 @@ export const FORMULA_DEFINITIONS: Record<Formula, FormulaDefinition> = {
     reference: {
       primary: {
         citation:
-          'Parillo, J., & Greenwood-Robinson, M. (1993). High-Performance Body-Building. Perigee Books.',
+          'Parrillo, J., & Greenwood-Robinson, M. (1993). High-Performance Body-Building. Perigee Books.',
         isbn: '978-0399517716',
         pages: '185',
         url: 'https://books.google.co.uk/books?id=7nETOQAACAAJ',

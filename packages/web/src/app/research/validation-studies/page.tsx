@@ -382,7 +382,7 @@ export default function ValidationStudies() {
                   <li>
                     Jackson, A.S., Pollock, M.L., & Ward, A. (1980). &ldquo;Generalized equations
                     for predicting body density of women.&rdquo; Medicine and Science in Sports and
-                    Exercise, 12(3), 175-181.
+                    Exercise, 12(3), 175-182.
                   </li>
                   <li>
                     Durnin, J.V.G.A., & Womersley, J. (1974). &ldquo;Body fat assessed from total

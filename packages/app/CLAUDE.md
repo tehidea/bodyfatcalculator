@@ -95,7 +95,7 @@ The app uses **Zustand** for state management with two main stores:
 
 - **Formula implementations**: Located in `src/formulas/` directory
 - **Validation schemas**: Defined in `src/schemas/calculator.ts` using Zod
-- **Available formulas**: YMCA, Modified YMCA, US Navy, Covert Bailey, Jackson & Pollock variants, Durnin & Womersley, Parillo
+- **Available formulas**: YMCA, Modified YMCA, US Navy, Covert Bailey, Jackson & Pollock variants, Durnin & Womersley, Parrillo
 - **Free vs Premium**: Basic formulas (YMCA, Modified YMCA, US Navy) are free; advanced formulas require premium
 
 ### Unit Conversion

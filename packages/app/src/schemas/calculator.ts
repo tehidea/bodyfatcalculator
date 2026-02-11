@@ -368,6 +368,11 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
               pages: '87-98',
               url: 'https://books.google.co.uk/books?id=rZQe0Yz_IyQC',
             },
+            {
+              citation:
+                'Harty, P.S., et al. (2022). Military Body Composition Standards and Physical Performance: Historical Perspectives and Future Directions. J Strength Cond Res, 36(12), 3551-3561.',
+              doi: '10.1519/JSC.0000000000004142',
+            },
           ],
         },
       })
@@ -411,7 +416,8 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
       .required()
       .meta({
         name: 'Covert Bailey',
-        description: 'A comprehensive method using age and several body measurements for accuracy',
+        description:
+          'Uses age and several body measurements, popularized by fitness author Covert Bailey',
         premium: true,
         accuracy: {
           min: 4,
@@ -459,7 +465,7 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
             citation:
               gender === 'male'
                 ? 'Jackson, A.S., & Pollock, M.L. (1978). Generalized equations for predicting body density of men. British Journal of Nutrition, 40(3), 497-504.'
-                : 'Jackson, A.S., Pollock, M.L., & Ward, A. (1980). Generalized equations for predicting body density of women. Medicine and Science in Sports and Exercise, 12(3), 175-181.',
+                : 'Jackson, A.S., Pollock, M.L., & Ward, A. (1980). Generalized equations for predicting body density of women. Medicine and Science in Sports and Exercise, 12(3), 175-182.',
             doi: gender === 'male' ? '10.1079/BJN19780152' : '10.1249/00005768-198023000-00009',
             notes:
               gender === 'male'
@@ -576,7 +582,7 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
       })
       .required()
       .meta({
-        name: 'Parillo',
+        name: 'Parrillo',
         description:
           'A bodybuilding-focused method using weight and nine precise skinfold measurements',
         premium: true,
@@ -587,7 +593,7 @@ export const formulaSchemas: Record<Formula, SchemaDefinition> = {
         reference: {
           primary: {
             citation:
-              'Parillo, J., & Greenwood-Robinson, M. (1993). High-Performance Body-Building. Perigee Books.',
+              'Parrillo, J., & Greenwood-Robinson, M. (1993). High-Performance Body-Building. Perigee Books.',
             isbn: '978-0399517716',
             pages: '185',
             url: 'https://books.google.co.uk/books?id=7nETOQAACAAJ',

@@ -58,7 +58,7 @@ Limitations:
   - Jackson & Pollock (3-site): Quick but accurate skinfold method (±4-5% when done properly)
   - Jackson & Pollock (4-site): Balanced skinfold approach (±3.5-4.5% when done properly)
   - Jackson & Pollock (7-site): Most thorough skinfold method (±3-4% when done properly)
-  - Parillo: Bodybuilding-focused nine-site method (±3-4% estimated, not peer-reviewed)
+  - Parrillo: Bodybuilding-focused nine-site method (±3-4% estimated, not peer-reviewed)
 - [x] Enhanced Precision
   - 2 decimal places for all measurements
   - Access to research-grade formulas
@@ -119,7 +119,7 @@ Each formula has an inherent margin of error, which varies based on multiple fac
    - Accuracy improves with more measurement sites
    - Requires significant technical expertise
 
-4. Parillo (±3-4% when done properly)[6]
+4. Parrillo (±3-4% when done properly)[6]
 
    - Bodybuilding-focused nine-site method
    - Most comprehensive skinfold method
@@ -304,7 +304,7 @@ For all formulas that calculate body density, convert to body fat percentage usi
 
 $$Body Fat\% = \left(\frac{495}{Body Density} - 450\right)$$
 
-### Parillo Formula
+### Parrillo Formula
 
 Uses nine skinfold measurements (chest, abdomen, thigh, bicep, tricep, subscapular, suprailiac, lower back, calf) and body weight.
 
@@ -370,7 +370,7 @@ Note: Weight must be in pounds. The calculator automatically converts from kilog
      - **DOI:** [10.1079/BJN19780152](https://doi.org/10.1079/BJN19780152)
      - _Note: Original 1978 publication, digitized by Cambridge Core in 2007_
    - For women:
-     - Jackson, A.S., Pollock, M.L., & Ward, A. (1980). Generalized equations for predicting body density of women. Medicine and Science in Sports and Exercise, 12(3), 175-181.
+     - Jackson, A.S., Pollock, M.L., & Ward, A. (1980). Generalized equations for predicting body density of women. Medicine and Science in Sports and Exercise, 12(3), 175-182.
      - **DOI:** [10.1249/00005768-198023000-00009](https://doi.org/10.1249/00005768-198023000-00009)
    - Accuracy: 4-5%
 
@@ -390,9 +390,9 @@ Note: Weight must be in pounds. The calculator automatically converts from kilog
      - _Note: Original 1974 publication, digitized by Cambridge Core_
    - Accuracy: 3.5-5%
 
-7. **Parillo**
+7. **Parrillo**
    - Primary source:
-     - Parillo, J., & Greenwood-Robinson, M. (1993). High-Performance Body-Building. Perigee Books.
+     - Parrillo, J., & Greenwood-Robinson, M. (1993). High-Performance Body-Building. Perigee Books.
      - ISBN: 978-0399517716
      - Pages: 185 total
      - Preview: [Google Books](https://books.google.co.uk/books?id=7nETOQAACAAJ)

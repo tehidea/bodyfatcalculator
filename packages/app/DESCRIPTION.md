@@ -1,6 +1,6 @@
 # Scientific Body Fat Calculator
 
-The most comprehensive body fat calculation tool implementing research-validated formulas including Jackson & Pollock (3-site, 4-site, 7-site), Durnin & Womersley, YMCA, Modified YMCA, U.S. Navy, Parillo, and Covert Bailey methods.
+The most comprehensive body fat calculation tool implementing research-validated formulas including Jackson & Pollock (3-site, 4-site, 7-site), Durnin & Womersley, YMCA, Modified YMCA, U.S. Navy, Parrillo, and Covert Bailey methods.
 
 ## Calculation Methods & Accuracy
 
@@ -52,7 +52,7 @@ The most comprehensive body fat calculation tool implementing research-validated
 - Accuracy improves with more measurement sites
 - Requires significant technical expertise
 
-**Parillo 9-Site** (±3-4% accuracy)
+**Parrillo 9-Site** (±3-4% accuracy)
 
 - Bodybuilding-focused nine-site method
 - Most comprehensive skinfold method
