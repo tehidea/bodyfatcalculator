@@ -114,12 +114,25 @@ export async function pullFromCloud(): Promise<{ pulled: number; errors: string[
   return { pulled: newRecords.length, errors }
 }
 
+async function garbageCollect(): Promise<void> {
+  const purgedIds = useHistoryStore.getState().purgeOldDeleted()
+  for (const clientId of purgedIds) {
+    try {
+      await CloudStorage.unlink(getFilePath(clientId), SCOPE)
+    } catch {
+      // File may already be gone — ignore
+    }
+  }
+}
+
 export async function syncAll(): Promise<SyncResult> {
   const pushResult = await pushToCloud()
   const pullResult = await pullFromCloud()
 
   const now = new Date().toISOString()
   useHistoryStore.getState().setLastSyncedAt(now)
+
+  await garbageCollect()
 
   return {
     pushed: pushResult.pushed,

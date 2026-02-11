@@ -46,6 +46,7 @@ interface HistoryStore {
   getUnsyncedMeasurements: () => MeasurementRecord[]
   markSynced: (clientIds: string[]) => void
   mergeFromCloud: (records: MeasurementRecord[]) => void
+  purgeOldDeleted: () => string[]
   setCloudSyncEnabled: (enabled: boolean) => void
   setLastSyncedAt: (timestamp: string) => void
   setHasHydrated: (state: boolean) => void
@@ -129,6 +130,21 @@ export const useHistoryStore = create<HistoryStore>()(
             ),
           }
         })
+      },
+
+      purgeOldDeleted: () => {
+        const cutoff = Date.now() - 365 * 24 * 60 * 60 * 1000
+        const purgedIds: string[] = []
+        set((state) => ({
+          measurements: state.measurements.filter((m) => {
+            if (m.deletedAt && m.syncedAt && new Date(m.deletedAt).getTime() < cutoff) {
+              purgedIds.push(m.clientId)
+              return false
+            }
+            return true
+          }),
+        }))
+        return purgedIds
       },
 
       setCloudSyncEnabled: (enabled) => set({ cloudSyncEnabled: enabled }),

@@ -17,6 +17,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { captureRef } from 'react-native-view-shot'
 import { useHealthIntegration } from '../../hooks/useHealthIntegration'
+import { syncAll } from '../../services/cloudSync'
 import Logo from '../../images/logo'
 import { useCalculatorStore } from '../../store/calculatorStore'
 import { useHistoryStore } from '../../store/historyStore'
@@ -68,6 +69,7 @@ export const ResultsDisplay = () => {
   const { isProPlus } = usePremiumStore()
   const hasProFeatures = useHasProFeatures()
   const addMeasurement = useHistoryStore((s) => s.addMeasurement)
+  const cloudSyncEnabled = useHistoryStore((s) => s.cloudSyncEnabled)
   const { writeAllHealthData } = useHealthIntegration()
   const [showPaywall, setShowPaywall] = useState(false)
   const [savedId, setSavedId] = useState<string | null>(null)
@@ -195,6 +197,10 @@ export const ResultsDisplay = () => {
         bmi,
         measurementSystem,
       })
+
+      if (cloudSyncEnabled) {
+        syncAll().catch((error) => console.warn('Auto-sync after save failed:', error))
+      }
     }
   }, [
     results,
@@ -207,6 +213,7 @@ export const ResultsDisplay = () => {
     inputs,
     addMeasurement,
     writeAllHealthData,
+    cloudSyncEnabled,
   ])
 
   // ── Run staggered animation sequence when results arrive ──
