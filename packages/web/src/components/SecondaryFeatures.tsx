@@ -2,39 +2,6 @@ import { useId } from 'react'
 
 import { Container } from '@/components/Container'
 
-const _features = [
-  {
-    name: 'Multiple methods',
-    description: 'Use skinfold or circumference methods depending on your equipment.',
-    icon: DeviceArrowIcon,
-  },
-  {
-    name: 'Clear guidance',
-    description: 'Simple steps help you measure consistently and avoid common errors.',
-    icon: DeviceCardsIcon,
-  },
-  {
-    name: 'Unit conversion',
-    description: 'Switch between metric and imperial measurements at any time.',
-    icon: DeviceClockIcon,
-  },
-  {
-    name: 'Method selection',
-    description: 'Choose a protocol based on accuracy, time, and tools you have.',
-    icon: DeviceListIcon,
-  },
-  {
-    name: 'Privacy controls',
-    description: 'Consent settings let you manage advertising preferences.',
-    icon: DeviceLockIcon,
-  },
-  {
-    name: 'Results breakdown',
-    description: 'See body fat percentage alongside fat and lean mass.',
-    icon: DeviceChartIcon,
-  },
-]
-
 function DeviceArrowIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
@@ -68,7 +35,7 @@ function DeviceCardsIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
         fill={`url(#${id}-gradient)`}
       />
       <rect x={9} y={6} width={14} height={4} rx={1} fill="#171717" />
-      <circle cx={16} cy={16} r={16} fill="#A3A3A3" fillOpacity={0.2} />
+      <circle cx={16} cy={16} r={16} fill="#EF4444" fillOpacity={0.2} />
       <defs>
         <linearGradient
           id={`${id}-gradient`}
@@ -89,7 +56,7 @@ function DeviceCardsIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 function DeviceClockIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
-      <circle cx={16} cy={16} r={16} fill="#A3A3A3" fillOpacity={0.2} />
+      <circle cx={16} cy={16} r={16} fill="#F59E0B" fillOpacity={0.2} />
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -119,7 +86,7 @@ function DeviceListIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
       <circle cx={11} cy={20} r={2} fill="#171717" />
       <circle cx={11} cy={26} r={2} fill="#171717" />
       <path d="M16 14h6M16 20h6M16 26h6" stroke="#737373" strokeWidth={2} strokeLinecap="square" />
-      <circle cx={16} cy={16} r={16} fill="#A3A3A3" fillOpacity={0.2} />
+      <circle cx={16} cy={16} r={16} fill="#6366F1" fillOpacity={0.2} />
     </svg>
   )
 }
@@ -127,7 +94,7 @@ function DeviceListIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 function DeviceLockIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
-      <circle cx={16} cy={16} r={16} fill="#A3A3A3" fillOpacity={0.2} />
+      <circle cx={16} cy={16} r={16} fill="#8B5CF6" fillOpacity={0.2} />
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -160,7 +127,7 @@ function DeviceChartIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
         fill="#171717"
       />
       <path d="M10 12h12" stroke="#737373" strokeWidth={2} strokeLinecap="square" />
-      <circle cx={16} cy={16} r={16} fill="#A3A3A3" fillOpacity={0.2} />
+      <circle cx={16} cy={16} r={16} fill="#10B981" fillOpacity={0.2} />
     </svg>
   )
 }
@@ -173,34 +140,51 @@ export function SecondaryFeatures() {
       className="bg-gray-50 py-20 sm:py-32"
     >
       <Container>
-        <div className="mx-auto max-w-2xl sm:text-center">
+        <div className="mx-auto max-w-3xl sm:text-center">
           <h2 className="text-3xl font-semibold tracking-tight text-gray-900">
-            Simple and accurate body fat calculations.
+            Everything you need to track your progress.
           </h2>
           <p className="mt-2 text-lg text-gray-700">
-            Our app focuses on providing accurate body fat measurements using skinfold and
-            circumference methods.
+            Track measurements over time, sync across devices, connect to Apple Health and Google
+            Health Connect, and stay consistent with smart reminders — all in one app.
           </p>
         </div>
         <ul className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 text-sm sm:mt-20 sm:grid-cols-2 md:gap-y-10 lg:max-w-none lg:grid-cols-3">
           {[
             {
-              name: 'Multiple Measurement Methods',
+              name: 'Progress Tracking',
               description:
-                'Choose from scientifically validated formulas including Jackson & Pollock (3, 4, 7 sites) and Durnin & Womersley.',
+                'Measurement history with visual charts showing body composition changes over time.',
+              icon: DeviceChartIcon,
+            },
+            {
+              name: 'Cloud Sync',
+              description:
+                'iCloud and Google Drive sync — your data seamlessly available across all your devices.',
               icon: DeviceArrowIcon,
             },
             {
-              name: 'Easy to Use',
+              name: 'Health Integration',
               description:
-                'Simple interface that guides you through the measurement process with clear input fields and instant results.',
+                'Syncs with Apple Health and Google Health Connect for a complete picture.',
               icon: DeviceCardsIcon,
             },
             {
-              name: 'Unit Conversion',
+              name: 'Smart Reminders',
               description:
-                'Seamlessly switch between metric (millimeters) and imperial (inches) measurements for your convenience.',
-              icon: DeviceChartIcon,
+                'Configurable push notifications to keep your measurement routine consistent.',
+              icon: DeviceClockIcon,
+            },
+            {
+              name: 'Metric & Imperial',
+              description: 'Seamlessly switch between metric and imperial units at any time.',
+              icon: DeviceListIcon,
+            },
+            {
+              name: 'Privacy First',
+              description:
+                'Your measurements stay on your device — no accounts required, no data sold.',
+              icon: DeviceLockIcon,
             },
           ].map((feature) => (
             <li
