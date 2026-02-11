@@ -175,7 +175,7 @@ function App() {
         <PostHogProvider
           apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY!}
           options={{
-            host: 'https://eu.i.posthog.com',
+            host: process.env.EXPO_PUBLIC_POSTHOG_HOST ?? 'https://eu.i.posthog.com',
             disabled: __DEV__,
             captureNativeAppLifecycleEvents: true,
           }}
