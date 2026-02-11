@@ -1,3 +1,4 @@
+import { convertMeasurement } from '@bodyfat/shared/conversions'
 import { FORMULA_DEFINITIONS } from '@bodyfat/shared/definitions'
 import { Icon } from '@rneui/themed'
 import { shareAsync } from 'expo-sharing'
@@ -67,7 +68,7 @@ export const ResultsDisplay = () => {
   const { isProPlus } = usePremiumStore()
   const hasProFeatures = useHasProFeatures()
   const addMeasurement = useHistoryStore((s) => s.addMeasurement)
-  const { writeBodyFat } = useHealthIntegration()
+  const { writeAllHealthData } = useHealthIntegration()
   const [showPaywall, setShowPaywall] = useState(false)
   const [savedId, setSavedId] = useState<string | null>(null)
   const [isSharing, setIsSharing] = useState(false)
@@ -162,7 +163,38 @@ export const ResultsDisplay = () => {
         classification: getClassificationForGender(results.bodyFatPercentage, gender),
       })
       setSavedId(record.clientId)
-      writeBodyFat(results.bodyFatPercentage)
+
+      // Build health data from inputs (values are in user's measurement system)
+      const weight = typeof inputs.weight === 'number' ? inputs.weight : undefined
+      const height = typeof inputs.height === 'number' ? inputs.height : undefined
+      const waist =
+        typeof inputs.waistCircumference === 'number' ? inputs.waistCircumference : undefined
+
+      // BMI requires metric values: kg / m²
+      let bmi: number | undefined
+      if (weight != null && height != null) {
+        const weightKg =
+          measurementSystem === 'imperial'
+            ? convertMeasurement(weight, 'weight', 'imperial', 'metric')
+            : weight
+        const heightM =
+          measurementSystem === 'imperial'
+            ? convertMeasurement(height, 'length', 'imperial', 'metric') / 100
+            : height / 100
+        if (heightM > 0) {
+          bmi = weightKg / (heightM * heightM)
+        }
+      }
+
+      writeAllHealthData({
+        bodyFatPercentage: results.bodyFatPercentage,
+        weight,
+        height,
+        waist,
+        leanMass: results.leanMass,
+        bmi,
+        measurementSystem,
+      })
     }
   }, [
     results,
@@ -174,7 +206,7 @@ export const ResultsDisplay = () => {
     measurementSystem,
     inputs,
     addMeasurement,
-    writeBodyFat,
+    writeAllHealthData,
   ])
 
   // ── Run staggered animation sequence when results arrive ──

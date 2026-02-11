@@ -5,11 +5,13 @@ import { Alert, FlatList, StyleSheet, TouchableOpacity, View } from 'react-nativ
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { BrandHeader } from '../components/BrandHeader'
 import { PaywallModal } from '../components/calculator/PaywallModal'
+import { ProgressChart } from '../components/history/ProgressChart'
 import { COLORS } from '../constants/theme'
 import { useCloudSync } from '../hooks/useCloudSync'
 import type { MeasurementRecord } from '../store/historyStore'
 import { useHistoryStore } from '../store/historyStore'
 import { usePremiumStore } from '../store/premiumStore'
+import { hapticSelection } from '../utils/haptics'
 import { useResponsive } from '../utils/responsiveContext'
 
 function formatDate(isoString: string): string {
@@ -119,6 +121,9 @@ export function HistoryScreen() {
   const [showPaywall, setShowPaywall] = useState(false)
 
   const measurements = getActiveMeasurements()
+  const [viewMode, setViewMode] = useState<'chart' | 'list'>(
+    measurements.length >= 2 ? 'chart' : 'list',
+  )
 
   const headerRightElement = isProPlus ? (
     <View style={styles.headerRight}>
@@ -179,15 +184,69 @@ export function HistoryScreen() {
             <Text style={styles.emptySubtitle}>Your saved measurements will appear here</Text>
           </View>
         ) : (
-          <FlatList
-            data={measurements}
-            keyExtractor={(item) => item.clientId}
-            renderItem={({ item }) => (
-              <MeasurementCard record={item} onDelete={deleteMeasurement} />
+          <>
+            {/* View mode toggle */}
+            <View style={styles.segmentedControlWrapper}>
+              <View style={styles.segmentedControl}>
+                <TouchableOpacity
+                  style={[styles.segment, viewMode === 'chart' && styles.segmentActive]}
+                  onPress={() => {
+                    hapticSelection()
+                    setViewMode('chart')
+                  }}
+                  activeOpacity={0.7}
+                >
+                  <Icon
+                    name="trending-up"
+                    type="feather"
+                    size={14}
+                    color={viewMode === 'chart' ? '#fff' : 'rgba(255,255,255,0.5)'}
+                  />
+                  <Text
+                    style={[styles.segmentText, viewMode === 'chart' && styles.segmentTextActive]}
+                  >
+                    Chart
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.segment, viewMode === 'list' && styles.segmentActive]}
+                  onPress={() => {
+                    hapticSelection()
+                    setViewMode('list')
+                  }}
+                  activeOpacity={0.7}
+                >
+                  <Icon
+                    name="list"
+                    type="feather"
+                    size={14}
+                    color={viewMode === 'list' ? '#fff' : 'rgba(255,255,255,0.5)'}
+                  />
+                  <Text
+                    style={[styles.segmentText, viewMode === 'list' && styles.segmentTextActive]}
+                  >
+                    List
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {viewMode === 'chart' ? (
+              <View style={styles.chartContainer}>
+                <ProgressChart measurements={measurements} />
+              </View>
+            ) : (
+              <FlatList
+                data={measurements}
+                keyExtractor={(item) => item.clientId}
+                renderItem={({ item }) => (
+                  <MeasurementCard record={item} onDelete={deleteMeasurement} />
+                )}
+                contentContainerStyle={styles.list}
+                showsVerticalScrollIndicator={false}
+              />
             )}
-            contentContainerStyle={styles.list}
-            showsVerticalScrollIndicator={false}
-          />
+          </>
         )}
       </View>
     </SafeAreaView>
@@ -217,6 +276,43 @@ const createStyles = (
       fontSize: getResponsiveTypography('sm'),
       lineHeight: getLineHeight('sm'),
       color: '#999',
+    },
+    segmentedControlWrapper: {
+      paddingHorizontal: getResponsiveSpacing(16),
+      paddingTop: getResponsiveSpacing(8),
+      paddingBottom: getResponsiveSpacing(4),
+    },
+    segmentedControl: {
+      flexDirection: 'row',
+      backgroundColor: 'rgba(255,255,255,0.1)',
+      borderRadius: 10,
+      padding: 3,
+    },
+    segment: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 6,
+      paddingVertical: getResponsiveSpacing(8),
+      borderRadius: 8,
+    },
+    segmentActive: {
+      backgroundColor: COLORS.primary,
+    },
+    segmentText: {
+      fontSize: getResponsiveTypography('sm'),
+      lineHeight: getLineHeight('sm'),
+      color: 'rgba(255,255,255,0.5)',
+      fontWeight: '500',
+    },
+    segmentTextActive: {
+      color: '#fff',
+      fontWeight: '600',
+    },
+    chartContainer: {
+      flex: 1,
+      paddingHorizontal: getResponsiveSpacing(16),
     },
     list: {
       padding: getResponsiveSpacing(16),

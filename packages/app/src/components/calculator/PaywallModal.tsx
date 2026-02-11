@@ -17,7 +17,7 @@ import { PlanSelector } from '../paywall/PlanSelector'
 
 const FEATURE_ICONS = {
   precision: ['sliders', 'trending-up', 'activity', 'users'] as const,
-  formula: ['activity', 'percent', 'sliders', 'users'] as const,
+  formula: ['activity', 'percent', 'sliders', 'trending-up'] as const,
   legacyUpgrade: ['clock', 'cloud', 'heart', 'bell'] as const,
 }
 

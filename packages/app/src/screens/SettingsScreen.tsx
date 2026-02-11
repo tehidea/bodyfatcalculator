@@ -103,8 +103,10 @@ export function SettingsScreen() {
   const {
     isEnabled: healthEnabled,
     available: healthAvailable,
+    syncMetrics,
     enable: enableHealth,
     disable: disableHealth,
+    setSyncMetric,
   } = useHealthIntegration()
   const navigation = useNavigation<any>()
   const { getResponsiveTypography, getLineHeight, getResponsiveSpacing } = useResponsive()
@@ -318,18 +320,92 @@ export function SettingsScreen() {
             )}
             <ReminderSettings isProPlus={isProPlus} onShowPaywall={() => setShowPaywall(true)} />
             {healthAvailable !== false && (
-              <SettingsRow
-                icon="heart"
-                label={Platform.OS === 'ios' ? 'Apple Health' : 'Health Connect'}
-                rightElement={
-                  <Switch
-                    value={healthEnabled}
-                    onValueChange={handleToggleHealth}
-                    trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
-                    thumbColor={healthEnabled ? COLORS.primary : '#f4f3f4'}
-                  />
-                }
-              />
+              <>
+                <SettingsRow
+                  icon="heart"
+                  label={Platform.OS === 'ios' ? 'Apple Health' : 'Health Connect'}
+                  rightElement={
+                    <Switch
+                      value={healthEnabled}
+                      onValueChange={handleToggleHealth}
+                      trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
+                      thumbColor={healthEnabled ? COLORS.primary : '#f4f3f4'}
+                    />
+                  }
+                />
+                {healthEnabled && (
+                  <>
+                    <Text style={styles.healthMetricsHint}>
+                      Choose which measurements to sync to{' '}
+                      {Platform.OS === 'ios' ? 'Apple Health' : 'Health Connect'}
+                    </Text>
+                    <SettingsRow
+                      icon="activity"
+                      label="Sync Weight"
+                      rightElement={
+                        <Switch
+                          value={syncMetrics.weight}
+                          onValueChange={(v) => setSyncMetric('weight', v)}
+                          trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
+                          thumbColor={syncMetrics.weight ? COLORS.primary : '#f4f3f4'}
+                        />
+                      }
+                    />
+                    <SettingsRow
+                      icon="activity"
+                      label="Sync Height"
+                      rightElement={
+                        <Switch
+                          value={syncMetrics.height}
+                          onValueChange={(v) => setSyncMetric('height', v)}
+                          trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
+                          thumbColor={syncMetrics.height ? COLORS.primary : '#f4f3f4'}
+                        />
+                      }
+                    />
+                    {Platform.OS === 'ios' && (
+                      <SettingsRow
+                        icon="activity"
+                        label="Sync Waist Circumference"
+                        rightElement={
+                          <Switch
+                            value={syncMetrics.waist}
+                            onValueChange={(v) => setSyncMetric('waist', v)}
+                            trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
+                            thumbColor={syncMetrics.waist ? COLORS.primary : '#f4f3f4'}
+                          />
+                        }
+                      />
+                    )}
+                    <SettingsRow
+                      icon="activity"
+                      label="Sync Lean Body Mass"
+                      rightElement={
+                        <Switch
+                          value={syncMetrics.leanMass}
+                          onValueChange={(v) => setSyncMetric('leanMass', v)}
+                          trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
+                          thumbColor={syncMetrics.leanMass ? COLORS.primary : '#f4f3f4'}
+                        />
+                      }
+                    />
+                    {Platform.OS === 'ios' && (
+                      <SettingsRow
+                        icon="activity"
+                        label="Sync BMI"
+                        rightElement={
+                          <Switch
+                            value={syncMetrics.bmi}
+                            onValueChange={(v) => setSyncMetric('bmi', v)}
+                            trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
+                            thumbColor={syncMetrics.bmi ? COLORS.primary : '#f4f3f4'}
+                          />
+                        }
+                      />
+                    )}
+                  </>
+                )}
+              </>
             )}
           </SettingsSection>
 
@@ -489,6 +565,13 @@ const createStyles = (
     segmentTextActive: {
       color: '#fff',
       fontWeight: '600',
+    },
+    healthMetricsHint: {
+      fontSize: getResponsiveTypography('xs'),
+      lineHeight: getLineHeight('xs'),
+      color: '#999',
+      paddingHorizontal: getResponsiveSpacing(16),
+      paddingVertical: getResponsiveSpacing(8),
     },
   })
 
