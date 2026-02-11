@@ -28,7 +28,7 @@ export const createStyles = (
       width: '100%',
     },
     selectors: {
-      marginBottom: getResponsiveSpacing(24),
+      marginBottom: getResponsiveSpacing(16),
     },
     description: {
       marginBottom: getResponsiveSpacing(16),
@@ -38,8 +38,8 @@ export const createStyles = (
     },
     buttonContainer: {
       alignItems: 'center',
-      marginTop: getResponsiveSpacing(24),
-      marginBottom: getResponsiveSpacing(16),
+      marginTop: getResponsiveSpacing(16),
+      marginBottom: getResponsiveSpacing(8),
     },
     buttonWrapperFullWidth: {
       width: '100%',
