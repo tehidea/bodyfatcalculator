@@ -1,0 +1,216 @@
+================================================================================
+BODY FAT CALCULATOR — APP STORE LISTING COPY
+================================================================================
+Ready to paste into App Store Connect and Google Play Console.
+Last updated: 2026-02-11
+
+Character limits enforced:
+  - iOS Promotional Text: 170 chars
+  - iOS Subtitle: 30 chars
+  - iOS Keyword Field: 100 chars
+  - iOS Description: 4,000 chars
+  - Google Play Short Description: 80 chars
+  - Google Play Description: 4,000 chars
+
+
+################################################################################
+#                                                                              #
+#   iOS APP STORE (App Store Connect)                                          #
+#                                                                              #
+################################################################################
+
+
+--- PROMOTIONAL TEXT (170 chars max, updatable without app release) ------------
+
+The most comprehensive body fat calculator on the App Store. 9 scientifically-validated formulas, measurement history, and Apple Health sync. Know your real numbers.
+
+
+--- SUBTITLE (30 chars max, indexed for search) --------------------------------
+
+9 Formulas & Composition Track
+
+
+--- KEYWORD FIELD (100 chars max, comma-separated, no spaces) ------------------
+
+bodyfat,bf,percentage,skinfold,caliper,navy,composition,lean,mass,tracker,health,measure,bozeera
+
+
+--- DESCRIPTION (4,000 chars max, NOT indexed — conversion-focused) ------------
+
+Your weight doesn't tell the whole story. Body fat percentage is what actually matters for health, fitness, and performance — and most apps only give you one rough estimate.
+
+Body Fat Calculator gives you 9 different scientifically-validated formulas so you can cross-reference results and get the most accurate picture of your body composition.
+
+THREE FREE METHODS
+- YMCA — quick estimate using weight and waist
+- Modified YMCA — improved accuracy with additional measurements
+- U.S. Navy — the same formula used by the military to assess fitness
+
+SIX PRO METHODS
+- Jackson & Pollock 3-Site, 4-Site, and 7-Site — the industry standard for skinfold testing
+- Durnin & Womersley — clinical gold standard used in exercise science research
+- Covert Bailey — comprehensive method using multiple circumference sites
+- Parrillo 9-Site — the most detailed method, designed for bodybuilders and athletes
+
+Every formula is implemented directly from peer-reviewed research with documented accuracy ranges (±3–7% depending on method and technique).
+
+TRACK YOUR PROGRESS
+- Save every measurement to your history
+- See how your body composition changes over time
+- Cloud sync across all your devices with iCloud or Google Drive
+
+HEALTH APP INTEGRATION
+- Sync body fat, weight, height, and lean mass with Apple Health
+- Your data flows into your complete health picture automatically
+
+MEASUREMENT REMINDERS
+- Set weekly or monthly reminders so you never miss a check-in
+- Stay consistent and watch your progress build
+
+BUILT FOR PRIVACY
+- No account required — ever
+- Your measurements stay on your device (or your personal iCloud/Google Drive)
+- No data sold, no tracking, no ads in PRO
+
+WORKS WITH ANY TOOLS
+Compatible with all major skinfold calipers including Harpenden, Lange, Slim Guide, Accu-Measure, Bozeera, FatTrack, and Lafayette. Works with any anthropometric tape measure. Visual guides show you exactly where and how to measure.
+
+PRO is a one-time purchase. PRO+ unlocks history, cloud sync, health integration, and reminders — available as monthly, annual, or lifetime.
+
+Download now and know your real numbers in 30 seconds.
+
+
+--- PROMOTIONAL TEXT ROTATION IDEAS (swap seasonally) --------------------------
+
+[January / New Year]
+New year, real numbers. 9 formulas to track your body fat and see real progress. Start your fitness journey with science, not guesswork.
+
+[Summer]
+Summer ready? Know your real body fat percentage with 9 scientific formulas. Track your progress with measurement history and Apple Health sync.
+
+[Default — see main Promotional Text above]
+
+
+--- SCREENSHOT TEXT (indexed by Apple as of 2025) ------------------------------
+
+Each screenshot has a primary HEADLINE (conversion-focused) and a SUBTITLE
+(keyword-rich for Apple's screenshot text indexing). For Google Play, swap
+platform-specific terms as noted.
+
+1. Hero — Results Screen (arc gauge showing ~18.47%)
+   HEADLINE: "Your Body Fat, Down to the Decimal"
+   SUBTITLE: "Accurate body fat percentage calculation with fat & lean mass breakdown"
+
+2. Formula Selector (modal showing all 9 formulas with accuracy badges)
+   HEADLINE: "9 Clinically Validated Formulas"
+   SUBTITLE: "Navy, Jackson-Pollock, Durnin-Womersley & more scientific methods"
+
+3. Progress Chart (history screen with downward trend over 90 days)
+   HEADLINE: "See Your Progress, Stay Motivated"
+   SUBTITLE: "Track body fat percentage over time with measurement history"
+
+4. Health Integration (settings showing health toggles enabled)
+   HEADLINE: "Syncs with Apple Health"
+   SUBTITLE: "Body fat, weight, height & lean mass sync automatically"
+   [Google Play: swap headline to "Syncs with Google Health Connect"]
+
+5. Cloud Backup + Reminders (settings showing sync + reminder config)
+   HEADLINE: "Never Lose a Measurement"
+   SUBTITLE: "iCloud sync & weekly reminders keep your data safe"
+   [Google Play: swap "iCloud" to "Google Drive"]
+
+6. PRO+ Upgrade (paywall with accuracy comparison)
+   HEADLINE: "One Purchase. Lifetime Accuracy."
+   SUBTITLE: "Unlock all 9 formulas, history, cloud sync & health integration"
+
+OPTIONAL 7th screenshot (if space allows — strong differentiator):
+   Screen: Visual measurement guide (showing caliper/tape placement)
+   HEADLINE: "Know Exactly Where to Measure"
+   SUBTITLE: "Visual skinfold caliper & tape measure guides for every method"
+
+
+################################################################################
+#                                                                              #
+#   GOOGLE PLAY STORE (Google Play Console)                                    #
+#                                                                              #
+################################################################################
+
+
+--- SHORT DESCRIPTION (80 chars max, indexed for search) -----------------------
+
+Body fat percentage calculator with 9 scientific formulas & progress tracking
+
+
+--- DESCRIPTION (4,000 chars max, indexed for search — uses HTML formatting) ---
+
+Your weight doesn't tell the whole story. Body fat percentage is what actually matters for your health, fitness, and performance — and most body fat calculator apps only give you one rough estimate.
+
+Body Fat Calculator gives you <b>9 scientifically-validated formulas</b> to calculate body fat percentage accurately. Cross-reference results from multiple methods to get the most complete picture of your body composition.
+
+<b>THREE FREE BODY FAT METHODS</b>
+* YMCA body fat formula — quick estimate using weight and waist
+* Modified YMCA — improved body fat percentage accuracy with additional measurements
+* U.S. Navy body fat method — the same formula used by the military to assess fitness
+
+<b>SIX PRO BODY FAT FORMULAS</b>
+* Jackson & Pollock 3-Site, 4-Site, and 7-Site — the industry standard for skinfold body fat testing
+* Durnin & Womersley — clinical gold standard used in exercise science research
+* Covert Bailey — comprehensive body composition method using circumference measurements
+* Parrillo 9-Site — the most detailed skinfold method, designed for bodybuilders and athletes
+
+Every formula is implemented from peer-reviewed research with documented accuracy ranges (±3–7% depending on method and measurement technique).
+
+<b>TRACK YOUR BODY FAT OVER TIME</b>
+* Save every body fat measurement to your history
+* See how your body composition changes over time with progress tracking
+* Cloud sync your body fat data across all your devices with Google Drive
+
+<b>HEALTH CONNECT INTEGRATION</b>
+* Sync body fat percentage, weight, height, and lean body mass with Google Health Connect
+* Your body composition data flows into your complete health picture automatically
+
+<b>MEASUREMENT REMINDERS</b>
+* Set weekly or monthly body fat measurement reminders
+* Stay consistent with your body composition tracking
+
+<b>BUILT FOR PRIVACY</b>
+* No account required — your body fat measurements stay on your device
+* No data sold, no tracking, no ads in PRO
+
+<b>WORKS WITH ANY MEASUREMENT TOOLS</b>
+Compatible with all major skinfold calipers including Harpenden, Lange, Slim Guide, Accu-Measure, Bozeera, FatTrack, and Lafayette. Works with any body measurement tape measure. Visual guides show exactly where and how to measure for accurate body fat calculation.
+
+Whether you're a personal trainer, athlete, bodybuilder, or just tracking your fitness progress — Body Fat Calculator is the most comprehensive body fat percentage calculator available.
+
+PRO is a one-time purchase. PRO+ unlocks measurement history, cloud sync, health integration, and reminders.
+
+Download now and calculate your body fat percentage in 30 seconds.
+
+
+################################################################################
+#                                                                              #
+#   NOTES                                                                      #
+#                                                                              #
+################################################################################
+
+WHAT THIS DOES NOT CHANGE:
+- App name/title (already good at 19 chars: "Body Fat Calculator")
+- Any code
+- Pricing or feature gating
+- Screenshots or visual assets
+
+VERIFICATION CHECKLIST:
+[ ] iOS Promotional Text < 170 chars
+[ ] iOS Subtitle < 30 chars
+[ ] iOS Keyword Field < 100 chars
+[ ] iOS Description < 4,000 chars
+[ ] Google Play Short Description < 80 chars
+[ ] Google Play Description < 4,000 chars
+[ ] First 3 lines of iOS description are compelling before "More" fold
+[ ] Bozeera is mentioned in both descriptions (organic traffic driver)
+[ ] No keyword repetition between iOS title and keyword field
+
+POST-PUBLISH MONITORING:
+- Check App Store Connect and Google Play Console analytics weekly
+- Compare impression and conversion rates vs. baseline over 4-6 weeks
+- A/B test promotional text variants if iOS supports it in your market
