@@ -147,7 +147,7 @@ export const FORMULA_DEFINITIONS: Record<Formula, FormulaDefinition> = {
     key: 'covert',
     name: 'Covert Bailey',
     description:
-      "A circumference-based method from Bailey's 'Fit or Fat' (1991). Not independently validated in peer-reviewed research.",
+      'Uses age and several body measurements, popularized by fitness author Covert Bailey',
     premium: true,
     accuracy: { min: 4, max: 5 },
     fields: [
@@ -309,7 +309,7 @@ export const FORMULA_DEFINITIONS: Record<Formula, FormulaDefinition> = {
     key: 'parrillo',
     name: 'Parrillo',
     description:
-      'A bodybuilding-focused method from Parrillo & Greenwood-Robinson (1993), using nine skinfold sites. Not independently validated in peer-reviewed research.',
+      'A bodybuilding-focused method using weight and nine precise skinfold sites',
     premium: true,
     accuracy: { min: 3, max: 4 },
     fields: [
