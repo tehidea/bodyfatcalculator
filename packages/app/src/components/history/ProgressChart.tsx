@@ -1,7 +1,7 @@
 import type { Formula } from '@bodyfat/shared/types'
 import { Icon, Text } from '@rneui/themed'
-import { useMemo, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { useCallback, useMemo, useState } from 'react'
+import { type LayoutChangeEvent, StyleSheet, View } from 'react-native'
 import { LineChart } from 'react-native-gifted-charts'
 import { COLORS } from '../../constants/theme'
 import {
@@ -24,6 +24,9 @@ const METRIC_UNITS: Record<ChartMetric, { metric: string; imperial: string }> = 
   waistCircumference: { metric: 'cm', imperial: 'in' },
 }
 
+const Y_AXIS_WIDTH = 35
+const INIT_SPACING = 10
+
 interface ChartSectionProps {
   measurements: MeasurementRecord[]
 }
@@ -36,8 +39,17 @@ export function ChartSection({ measurements }: ChartSectionProps) {
   const [selectedMetric, setSelectedMetric] = useState<ChartMetric>('bodyFatPercentage')
   const [selectedTimeRange, setSelectedTimeRange] = useState<TimeRange>('90d')
   const [selectedFormula, setSelectedFormula] = useState<Formula | 'all'>('all')
+  const [containerWidth, setContainerWidth] = useState(0)
 
-  const effectiveFormula = selectedMetric === 'bodyFatPercentage' ? selectedFormula : 'all'
+  const handleLayout = useCallback((e: LayoutChangeEvent) => {
+    setContainerWidth(e.nativeEvent.layout.width)
+  }, [])
+
+  const isFormulaDependentMetric =
+    selectedMetric === 'bodyFatPercentage' ||
+    selectedMetric === 'fatMass' ||
+    selectedMetric === 'leanMass'
+  const effectiveFormula = isFormulaDependentMetric ? selectedFormula : 'all'
 
   const chartData = useChartData(
     measurements,
@@ -62,10 +74,11 @@ export function ChartSection({ measurements }: ChartSectionProps) {
   const chartColor = METRIC_COLORS[selectedMetric]
   const unit = METRIC_UNITS[selectedMetric][measurementSystem]
   const chartHeight = Math.min(getResponsiveSpacing(160), 180)
-  const chartWidth = width - getResponsiveSpacing(64) - 40
 
-  const showFormulaFilter =
-    selectedMetric === 'bodyFatPercentage' && chartData.availableFormulas.length > 1
+  // Fallback estimate before onLayout fires (screen width minus paddings)
+  const chartWidthEstimate = width - getResponsiveSpacing(48)
+
+  const showFormulaFilter = isFormulaDependentMetric && chartData.availableFormulas.length > 1
 
   const renderChart = (data: ChartDataPoint[], stats: ChartStats | null) => {
     if (data.length < 2) {
@@ -80,19 +93,39 @@ export function ChartSection({ measurements }: ChartSectionProps) {
       )
     }
 
-    const labelInterval = data.length > 6 ? Math.ceil(data.length / 5) : 1
+    // Use measured container width, falling back to estimate for first render
+    const effectiveWidth = containerWidth || chartWidthEstimate
+    const chartArea = effectiveWidth - Y_AXIS_WIDTH - INIT_SPACING
+
+    const isAllRange = selectedTimeRange === 'all'
+    const viewportPoints = isAllRange ? data.length : Math.max(chartData.pointsInRange, 2)
+    // "All" fills 100% (no scroll), ranges fill 85% (leaves a peek for scrollability)
+    const viewportFill = isAllRange ? 1 : 0.85
+    const spacing =
+      data.length > 1 && chartArea > 0
+        ? Math.max((chartArea * viewportFill) / (viewportPoints - 1), isAllRange ? 4 : 8)
+        : 60
+    const endPadding = isAllRange ? 0 : 10
+
+    const minLabelWidth = 45
+    const labelInterval = Math.max(
+      viewportPoints > 6 ? Math.ceil(viewportPoints / 5) : 1,
+      Math.ceil(minLabelWidth / spacing),
+    )
     const chartPoints = data.map((point, i) => ({
       value: point.value,
       label: i % labelInterval === 0 || i === data.length - 1 ? point.label : '',
     }))
-    const spacing = data.length > 1 ? Math.max(chartWidth / (data.length - 1), 30) : 60
+    const xLabelWidth = Math.max(labelInterval * spacing, minLabelWidth)
     const decimals = selectedMetric === 'bodyFatPercentage' ? 1 : 0
 
     return (
       <>
-        <View style={styles.chartWrapper}>
+        <View style={styles.chartWrapper} onLayout={handleLayout}>
           <LineChart
+            key={`${selectedTimeRange}-${effectiveFormula}`}
             data={chartPoints}
+            parentWidth={containerWidth || undefined}
             curved
             color={chartColor}
             thickness={2}
@@ -105,18 +138,24 @@ export function ChartSection({ measurements }: ChartSectionProps) {
             endOpacity={0.05}
             height={chartHeight}
             spacing={spacing}
-            initialSpacing={10}
-            endSpacing={30}
+            initialSpacing={INIT_SPACING}
+            endSpacing={endPadding}
             noOfSections={4}
             yAxisColor="transparent"
             xAxisColor="rgba(255,255,255,0.1)"
             yAxisTextStyle={styles.axisText}
-            xAxisLabelTextStyle={styles.axisText}
+            xAxisLabelTextStyle={{
+              ...styles.axisText,
+              width: xLabelWidth,
+              textAlign: 'center',
+              marginLeft: -(xLabelWidth - spacing) / 2,
+            }}
             rulesColor="rgba(255,255,255,0.06)"
             backgroundColor="transparent"
             hideRules={false}
             yAxisTextNumberOfLines={1}
             xAxisLabelsVerticalShift={2}
+            scrollToEnd={!isAllRange && data.length > viewportPoints}
           />
         </View>
         {stats && (

@@ -74,15 +74,12 @@ export function useChartData(
     const rangeDays = TIME_RANGE_DAYS[timeRange]
     const cutoff = rangeDays ? new Date(now.getTime() - rangeDays * 24 * 60 * 60 * 1000) : null
 
-    // Collect available formulas from time-range-filtered measurements (before formula filter)
-    const timeFiltered = cutoff
-      ? measurements.filter((m) => new Date(m.measuredAt) >= cutoff)
-      : measurements
-    const formulaSet = new Set(timeFiltered.map((m) => m.formula))
+    // Collect available formulas from all measurements
+    const formulaSet = new Set(measurements.map((m) => m.formula))
     const availableFormulas = [...formulaSet] as Formula[]
 
-    // Filter by time range and formula
-    const filtered = timeFiltered.filter((m) => {
+    // Filter by formula only — time range controls the viewport, not the data
+    const filtered = measurements.filter((m) => {
       if (formulaFilter !== 'all' && m.formula !== formulaFilter) return false
       return true
     })
@@ -113,10 +110,19 @@ export function useChartData(
       })
     }
 
-    // Compute stats
+    // Determine how many points fall within the selected time range
+    let rangeStartIndex = 0
+    if (cutoff) {
+      const idx = data.findIndex((d) => d.date >= cutoff)
+      rangeStartIndex = idx === -1 ? data.length : idx
+    }
+    const pointsInRange = data.length - rangeStartIndex
+
+    // Compute stats from time-range subset only
+    const rangeData = cutoff ? data.slice(rangeStartIndex) : data
     let stats: ChartStats | null = null
-    if (data.length >= 1) {
-      const values = data.map((d) => d.value)
+    if (rangeData.length >= 1) {
+      const values = rangeData.map((d) => d.value)
       const first = values[0] as number
       const last = values[values.length - 1] as number
       stats = {
@@ -127,6 +133,6 @@ export function useChartData(
       }
     }
 
-    return { data, availableFormulas, stats }
+    return { data, availableFormulas, stats, pointsInRange }
   }, [measurements, selectedMetric, timeRange, formulaFilter, currentSystem])
 }
