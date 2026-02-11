@@ -1,0 +1,22 @@
+diff --git a/ReactCommon/react/nativemodule/core/platform/ios/ReactCommon/RCTTurboModule.mm b/ReactCommon/react/nativemodule/core/platform/ios/ReactCommon/RCTTurboModule.mm
+index 2a677974ca8a929849109f294bddcb239bb202d0..51c5473acde0ed96b26b0700a42f85e5a1441163 100644
+--- a/ReactCommon/react/nativemodule/core/platform/ios/ReactCommon/RCTTurboModule.mm
++++ b/ReactCommon/react/nativemodule/core/platform/ios/ReactCommon/RCTTurboModule.mm
+@@ -435,7 +435,16 @@ void ObjCTurboModule::performVoidMethodInvocation(
+     @try {
+       [inv invokeWithTarget:strongModule];
+     } @catch (NSException *exception) {
+-      throw convertNSExceptionToJSError(runtime, exception, std::string{moduleName}, methodNameStr);
++      // TODO: Remove this patch once facebook/react-native#55390 is merged.
++      // Upstream bug: throwing a C++ JSError on a background GCD queue is
++      // uncatchable and causes SIGABRT. Log instead so the app stays alive.
++      // See: https://github.com/facebook/react-native/issues/54859
++      RCTLogError(
++          @"Exception thrown while invoking %s on target %@ with params %@: %@",
++          methodNameStr.c_str(),
++          strongModule,
++          retainedObjectsForInvocation,
++          exception);
+     } @finally {
+       [retainedObjectsForInvocation removeAllObjects];
+     }
