@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Notifications from 'expo-notifications'
 import { Platform } from 'react-native'
 
-export type ReminderFrequency = 'daily' | 'weekly' | 'biweekly' | 'monthly'
+export type ReminderFrequency = 'daily' | 'weekly' | 'monthly'
 
 export interface ReminderSettings {
   enabled: boolean
@@ -74,19 +74,10 @@ function getTrigger(settings: ReminderSettings): Notifications.NotificationTrigg
         minute,
       }
 
-    case 'biweekly':
-      // expo-notifications doesn't have a biweekly trigger,
-      // so we use a time interval of 14 days
-      return {
-        type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
-        seconds: 14 * 24 * 60 * 60,
-        repeats: true,
-      }
-
     case 'monthly':
       return {
         type: Notifications.SchedulableTriggerInputTypes.MONTHLY,
-        day: new Date().getDate(),
+        day: Math.min(new Date().getDate(), 28),
         hour,
         minute,
       }

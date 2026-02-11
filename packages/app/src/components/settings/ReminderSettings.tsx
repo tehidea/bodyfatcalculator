@@ -16,7 +16,6 @@ import { useResponsive } from '../../utils/responsiveContext'
 const FREQUENCY_OPTIONS: { value: ReminderFrequency; label: string }[] = [
   { value: 'daily', label: 'Daily' },
   { value: 'weekly', label: 'Weekly' },
-  { value: 'biweekly', label: 'Every 2 Weeks' },
   { value: 'monthly', label: 'Monthly' },
 ]
 
@@ -41,6 +40,16 @@ export function ReminderSettings({ isProPlus, onShowPaywall }: ReminderSettingsP
   useEffect(() => {
     getReminderSettings().then(setSettings)
   }, [])
+
+  // Cancel OS notification when premium expires
+  useEffect(() => {
+    if (!isProPlus && settings?.enabled) {
+      const updated = { ...settings, enabled: false }
+      setSettings(updated)
+      saveReminderSettings(updated)
+      cancelReminder()
+    }
+  }, [isProPlus, settings])
 
   const updateSettings = useCallback(
     async (updates: Partial<ReminderSettingsType>) => {

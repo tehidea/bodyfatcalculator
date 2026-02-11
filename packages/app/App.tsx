@@ -142,6 +142,14 @@ function App() {
       },
     )
 
+    // Handle cold-start: notification tap that launched the app fires before
+    // the listener is registered, so we check for it explicitly
+    Notifications.getLastNotificationResponseAsync().then((response) => {
+      if (response && navigationRef.isReady()) {
+        navigationRef.navigate('Calculator' as never)
+      }
+    })
+
     return () => {
       if (notificationResponseListener.current) {
         notificationResponseListener.current.remove()
