@@ -10,6 +10,8 @@ export type ChartMetric =
   | 'weight'
   | 'waistCircumference'
 
+export type SecondaryMetric = Exclude<ChartMetric, 'bodyFatPercentage'>
+
 export type TimeRange = '30d' | '90d' | '1y' | 'all'
 
 export interface ChartDataPoint {

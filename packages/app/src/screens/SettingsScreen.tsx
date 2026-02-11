@@ -27,6 +27,7 @@ import { usePremiumStore } from '../store/premiumStore'
 import { useWhatsNewStore } from '../store/whatsNewStore'
 import { hapticSelection } from '../utils/haptics'
 import { useResponsive } from '../utils/responsiveContext'
+import { generateSeedMeasurements } from '../utils/seedData'
 
 function SettingsRow({
   icon,
@@ -443,6 +444,34 @@ export function SettingsScreen() {
                 onPress={() => {
                   useWhatsNewStore.getState().setLastSeenVersion(null)
                   Alert.alert('Done', "What's New modal will show on next app launch.")
+                }}
+                showChevron
+              />
+              <SettingsRow
+                icon="database"
+                label="Generate Sample Data"
+                onPress={() => {
+                  const records = generateSeedMeasurements()
+                  useHistoryStore.setState({ measurements: records })
+                  Alert.alert('Done', `Generated ${records.length} sample measurements.`)
+                }}
+                showChevron
+              />
+              <SettingsRow
+                icon="trash-2"
+                label="Clear All Data"
+                onPress={() => {
+                  Alert.alert('Clear All Data', 'This will delete all measurement history.', [
+                    { text: 'Cancel', style: 'cancel' },
+                    {
+                      text: 'Clear',
+                      style: 'destructive',
+                      onPress: () => {
+                        useHistoryStore.setState({ measurements: [] })
+                        Alert.alert('Done', 'All measurements cleared.')
+                      },
+                    },
+                  ])
                 }}
                 showChevron
               />

@@ -1,14 +1,21 @@
 import type { Formula } from '@bodyfat/shared/types'
 import { Icon, Text } from '@rneui/themed'
 import { useMemo, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import { LineChart } from 'react-native-gifted-charts'
 import { COLORS } from '../../constants/theme'
-import { type ChartMetric, type TimeRange, useChartData } from '../../hooks/useChartData'
+import {
+  type ChartDataPoint,
+  type ChartMetric,
+  type ChartStats,
+  type SecondaryMetric,
+  type TimeRange,
+  useChartData,
+} from '../../hooks/useChartData'
 import { useCalculatorStore } from '../../store/calculatorStore'
 import type { MeasurementRecord } from '../../store/historyStore'
 import { useResponsive } from '../../utils/responsiveContext'
-import { ChartFilters } from './ChartFilters'
+import { ChartMetricPills, ChartTimeFilters } from './ChartFilters'
 
 const METRIC_UNITS: Record<ChartMetric, { metric: string; imperial: string }> = {
   bodyFatPercentage: { metric: '%', imperial: '%' },
@@ -27,22 +34,28 @@ export function ProgressChart({ measurements }: ProgressChartProps) {
   const { getResponsiveTypography, getLineHeight, getResponsiveSpacing, width } = useResponsive()
   const styles = createStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing)
 
-  const [selectedMetric, setSelectedMetric] = useState<ChartMetric>('bodyFatPercentage')
+  const [selectedSecondaryMetric, setSelectedSecondaryMetric] = useState<SecondaryMetric>('weight')
   const [selectedTimeRange, setSelectedTimeRange] = useState<TimeRange>('90d')
   const [selectedFormula, setSelectedFormula] = useState<Formula | 'all'>('all')
 
-  const { data, availableFormulas, stats } = useChartData(
+  const bfData = useChartData(
     measurements,
-    selectedMetric,
+    'bodyFatPercentage',
     selectedTimeRange,
     selectedFormula,
     measurementSystem,
   )
 
-  // Determine which metrics have data
-  const availableMetrics = useMemo(() => {
-    const metrics = new Set<ChartMetric>()
-    metrics.add('bodyFatPercentage')
+  const secondaryData = useChartData(
+    measurements,
+    selectedSecondaryMetric,
+    selectedTimeRange,
+    selectedFormula,
+    measurementSystem,
+  )
+
+  const availableSecondaryMetrics = useMemo(() => {
+    const metrics = new Set<SecondaryMetric>()
     metrics.add('fatMass')
     metrics.add('leanMass')
     for (const m of measurements) {
@@ -52,122 +65,153 @@ export function ProgressChart({ measurements }: ProgressChartProps) {
     return metrics
   }, [measurements])
 
-  const unit = METRIC_UNITS[selectedMetric][measurementSystem]
-  const chartHeight = Math.min(getResponsiveSpacing(220), 240)
-  const chartWidth = width - getResponsiveSpacing(32) - 40 // padding + y-axis
+  const chartHeight = Math.min(getResponsiveSpacing(160), 180)
+  const chartWidth = width - getResponsiveSpacing(32) - 40
 
-  // Prepare chart data — only show labels at intervals to avoid overcrowding
-  const labelInterval = data.length > 6 ? Math.ceil(data.length / 5) : 1
-  const chartData = data.map((point, i) => ({
-    value: point.value,
-    label: i % labelInterval === 0 || i === data.length - 1 ? point.label : '',
-  }))
+  const renderChart = (
+    metric: ChartMetric,
+    data: ChartDataPoint[],
+    stats: ChartStats | null,
+    color: string,
+    unit: string,
+    emptyMessage: string,
+    emptySubtext?: string | undefined,
+  ) => {
+    if (data.length < 2) {
+      return (
+        <View style={styles.emptyChart}>
+          <Icon name="bar-chart-2" type="feather" color="rgba(255,255,255,0.3)" size={32} />
+          <Text style={styles.emptyText}>{emptyMessage}</Text>
+          {emptySubtext && <Text style={styles.emptySubtext}>{emptySubtext}</Text>}
+        </View>
+      )
+    }
 
-  // Compute spacing between points to fill available width
-  const spacing = data.length > 1 ? Math.max(chartWidth / (data.length - 1), 30) : 60
+    const labelInterval = data.length > 6 ? Math.ceil(data.length / 5) : 1
+    const chartData = data.map((point, i) => ({
+      value: point.value,
+      label: i % labelInterval === 0 || i === data.length - 1 ? point.label : '',
+    }))
+    const spacing = data.length > 1 ? Math.max(chartWidth / (data.length - 1), 30) : 60
+    const decimals = metric === 'bodyFatPercentage' ? 1 : 0
+
+    return (
+      <>
+        <View style={styles.chartWrapper}>
+          <LineChart
+            data={chartData}
+            curved
+            color={color}
+            thickness={2}
+            dataPointsColor={color}
+            dataPointsRadius={3}
+            areaChart
+            startFillColor={`${color}30`}
+            endFillColor={`${color}05`}
+            startOpacity={0.3}
+            endOpacity={0.05}
+            height={chartHeight}
+            spacing={spacing}
+            initialSpacing={10}
+            endSpacing={30}
+            noOfSections={4}
+            yAxisColor="transparent"
+            xAxisColor="rgba(255,255,255,0.1)"
+            yAxisTextStyle={styles.axisText}
+            xAxisLabelTextStyle={styles.axisText}
+            rulesColor="rgba(255,255,255,0.06)"
+            backgroundColor="transparent"
+            hideRules={false}
+            yAxisTextNumberOfLines={1}
+            xAxisLabelsVerticalShift={2}
+          />
+        </View>
+        {stats && (
+          <View style={styles.statsRow}>
+            <View style={styles.stat}>
+              <Text style={styles.statLabel}>Latest</Text>
+              <Text style={styles.statValue}>
+                {stats.latest.toFixed(decimals)}
+                {unit}
+              </Text>
+            </View>
+            <View style={styles.stat}>
+              <Text style={styles.statLabel}>Change</Text>
+              <Text
+                style={[
+                  styles.statValue,
+                  stats.change < 0 && styles.statPositive,
+                  stats.change > 0 && metric === 'bodyFatPercentage' && styles.statNegative,
+                  stats.change < 0 &&
+                    metric !== 'bodyFatPercentage' &&
+                    metric !== 'waistCircumference' &&
+                    styles.statNegative,
+                ]}
+              >
+                {stats.change > 0 ? '+' : ''}
+                {stats.change.toFixed(decimals)}
+                {unit}
+              </Text>
+            </View>
+            <View style={styles.stat}>
+              <Text style={styles.statLabel}>Min</Text>
+              <Text style={styles.statValue}>
+                {stats.min.toFixed(decimals)}
+                {unit}
+              </Text>
+            </View>
+            <View style={styles.stat}>
+              <Text style={styles.statLabel}>Max</Text>
+              <Text style={styles.statValue}>
+                {stats.max.toFixed(decimals)}
+                {unit}
+              </Text>
+            </View>
+          </View>
+        )}
+      </>
+    )
+  }
 
   return (
-    <View style={styles.container}>
-      <ChartFilters
-        selectedMetric={selectedMetric}
-        onSelectMetric={setSelectedMetric}
+    <ScrollView
+      style={styles.scrollView}
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
+    >
+      <ChartTimeFilters
         selectedTimeRange={selectedTimeRange}
         onSelectTimeRange={setSelectedTimeRange}
         selectedFormula={selectedFormula}
         onSelectFormula={setSelectedFormula}
-        availableFormulas={availableFormulas}
-        availableMetrics={availableMetrics}
+        availableFormulas={bfData.availableFormulas}
       />
 
-      {data.length < 2 ? (
-        <View style={styles.emptyChart}>
-          <Icon name="bar-chart-2" type="feather" color="rgba(255,255,255,0.3)" size={40} />
-          <Text style={styles.emptyText}>Not enough data</Text>
-          <Text style={styles.emptySubtext}>
-            Record at least 2 measurements to see your progress
-          </Text>
-        </View>
-      ) : (
-        <>
-          <View style={styles.chartWrapper}>
-            <LineChart
-              data={chartData}
-              curved
-              color={COLORS.primary}
-              thickness={2}
-              dataPointsColor={COLORS.primary}
-              dataPointsRadius={4}
-              areaChart
-              startFillColor={`${COLORS.primary}30`}
-              endFillColor={`${COLORS.primary}05`}
-              startOpacity={0.3}
-              endOpacity={0.05}
-              height={chartHeight}
-              spacing={spacing}
-              initialSpacing={10}
-              endSpacing={10}
-              noOfSections={4}
-              yAxisColor="transparent"
-              xAxisColor="rgba(255,255,255,0.1)"
-              yAxisTextStyle={styles.axisText}
-              xAxisLabelTextStyle={styles.axisText}
-              rulesColor="rgba(255,255,255,0.06)"
-              backgroundColor="transparent"
-              hideRules={false}
-              yAxisTextNumberOfLines={1}
-              xAxisLabelsVerticalShift={2}
-            />
-          </View>
-
-          {/* Stats summary */}
-          {stats && (
-            <View style={styles.statsRow}>
-              <View style={styles.stat}>
-                <Text style={styles.statLabel}>Latest</Text>
-                <Text style={styles.statValue}>
-                  {stats.latest.toFixed(selectedMetric === 'bodyFatPercentage' ? 1 : 0)}
-                  {unit}
-                </Text>
-              </View>
-              <View style={styles.stat}>
-                <Text style={styles.statLabel}>Change</Text>
-                <Text
-                  style={[
-                    styles.statValue,
-                    stats.change < 0 && styles.statPositive,
-                    stats.change > 0 &&
-                      selectedMetric === 'bodyFatPercentage' &&
-                      styles.statNegative,
-                    stats.change < 0 &&
-                      selectedMetric !== 'bodyFatPercentage' &&
-                      selectedMetric !== 'waistCircumference' &&
-                      styles.statNegative,
-                  ]}
-                >
-                  {stats.change > 0 ? '+' : ''}
-                  {stats.change.toFixed(selectedMetric === 'bodyFatPercentage' ? 1 : 0)}
-                  {unit}
-                </Text>
-              </View>
-              <View style={styles.stat}>
-                <Text style={styles.statLabel}>Min</Text>
-                <Text style={styles.statValue}>
-                  {stats.min.toFixed(selectedMetric === 'bodyFatPercentage' ? 1 : 0)}
-                  {unit}
-                </Text>
-              </View>
-              <View style={styles.stat}>
-                <Text style={styles.statLabel}>Max</Text>
-                <Text style={styles.statValue}>
-                  {stats.max.toFixed(selectedMetric === 'bodyFatPercentage' ? 1 : 0)}
-                  {unit}
-                </Text>
-              </View>
-            </View>
-          )}
-        </>
+      <Text style={styles.sectionLabel}>Body Fat %</Text>
+      {renderChart(
+        'bodyFatPercentage',
+        bfData.data,
+        bfData.stats,
+        COLORS.primary,
+        '%',
+        'Not enough data',
+        'Record at least 2 measurements to see your progress',
       )}
-    </View>
+
+      <ChartMetricPills
+        selectedMetric={selectedSecondaryMetric}
+        onSelectMetric={setSelectedSecondaryMetric}
+        availableMetrics={availableSecondaryMetrics}
+      />
+      {renderChart(
+        selectedSecondaryMetric,
+        secondaryData.data,
+        secondaryData.stats,
+        '#4A9EFF',
+        METRIC_UNITS[selectedSecondaryMetric][measurementSystem],
+        'No data for this metric',
+      )}
+    </ScrollView>
   )
 }
 
@@ -177,9 +221,21 @@ const createStyles = (
   getResponsiveSpacing: (base: number) => number,
 ) =>
   StyleSheet.create({
+    scrollView: {
+      flex: 1,
+    },
     container: {
       gap: getResponsiveSpacing(12),
       paddingTop: getResponsiveSpacing(8),
+      paddingBottom: getResponsiveSpacing(16),
+    },
+    sectionLabel: {
+      fontSize: getResponsiveTypography('xs'),
+      lineHeight: getLineHeight('xs'),
+      fontWeight: '600',
+      color: 'rgba(255,255,255,0.5)',
+      textTransform: 'uppercase',
+      letterSpacing: 0.5,
     },
     chartWrapper: {
       marginHorizontal: -getResponsiveSpacing(8),
@@ -190,7 +246,7 @@ const createStyles = (
       fontSize: 10,
     },
     emptyChart: {
-      height: 200,
+      height: 120,
       justifyContent: 'center',
       alignItems: 'center',
       gap: getResponsiveSpacing(8),
