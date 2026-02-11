@@ -50,7 +50,7 @@ export function HistoryScreen() {
     return (
       <SafeAreaView style={styles.container} edges={['top']}>
         <View style={styles.innerContainer}>
-          <BrandHeader subtitle="History" variant="compact" />
+          <BrandHeader title="History" variant="compact" />
           <View style={styles.emptyState}>
             <Icon name="lock" type="feather" color="rgba(255,255,255,0.4)" size={48} />
             <Text style={styles.emptyTitle}>PRO+ Feature</Text>
@@ -72,7 +72,7 @@ export function HistoryScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.innerContainer}>
-        <BrandHeader subtitle="History" variant="compact" rightElement={headerRightElement} />
+        <BrandHeader title="History" variant="compact" rightElement={headerRightElement} />
 
         {measurements.length === 0 ? (
           <View style={styles.emptyState}>

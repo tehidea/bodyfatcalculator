@@ -180,7 +180,7 @@ export function SettingsScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.innerContainer}>
-        <BrandHeader subtitle="Settings" variant="compact" />
+        <BrandHeader title="Settings" variant="compact" />
 
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           {isProPlus ? (

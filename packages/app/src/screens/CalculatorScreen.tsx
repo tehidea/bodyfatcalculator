@@ -191,7 +191,7 @@ export const CalculatorScreen = () => {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.innerContainer}>
-        <BrandHeader subtitle="Body Fat Calculator for skinfold calipers" />
+        <BrandHeader title="Precision Body Composition" />
 
         <View style={styles.content}>
           <KeyboardAwareScrollView

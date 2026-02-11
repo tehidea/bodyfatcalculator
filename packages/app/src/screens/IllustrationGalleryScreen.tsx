@@ -40,7 +40,7 @@ export function IllustrationGalleryScreen({ navigation }: { navigation: any }) {
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.innerContainer}>
         <BrandHeader
-          subtitle="Illustration Gallery"
+          title="Illustration Gallery"
           variant="compact"
           leftElement={
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>

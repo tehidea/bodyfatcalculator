@@ -16,7 +16,7 @@ export function WhatsNewScreen({ navigation }: { navigation: any }) {
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.innerContainer}>
         <BrandHeader
-          subtitle="What's New"
+          title="What's New"
           variant="compact"
           leftElement={
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
