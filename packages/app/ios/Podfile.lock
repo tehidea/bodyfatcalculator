@@ -218,6 +218,8 @@ PODS:
     - ExpoModulesCore
   - ExpoKeepAwake (15.0.8):
     - ExpoModulesCore
+  - ExpoLinearGradient (15.0.8):
+    - ExpoModulesCore
   - ExpoLinking (8.0.11):
     - ExpoModulesCore
   - ExpoLocalization (17.0.8):
@@ -2351,6 +2353,7 @@ DEPENDENCIES:
   - ExpoFont (from `../../../node_modules/expo-font/ios`)
   - ExpoHaptics (from `../../../node_modules/expo-haptics/ios`)
   - ExpoKeepAwake (from `../../../node_modules/expo-keep-awake/ios`)
+  - ExpoLinearGradient (from `../../../node_modules/expo-linear-gradient/ios`)
   - ExpoLinking (from `../../../node_modules/expo-linking/ios`)
   - ExpoLocalization (from `../../../node_modules/expo-localization/ios`)
   - ExpoModulesCore (from `../../../node_modules/expo-modules-core`)
@@ -2478,6 +2481,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/expo-haptics/ios"
   ExpoKeepAwake:
     :path: "../../../node_modules/expo-keep-awake/ios"
+  ExpoLinearGradient:
+    :path: "../../../node_modules/expo-linear-gradient/ios"
   ExpoLinking:
     :path: "../../../node_modules/expo-linking/ios"
   ExpoLocalization:
@@ -2668,6 +2673,7 @@ SPEC CHECKSUMS:
   ExpoFont: f543ce20a228dd702813668b1a07b46f51878d47
   ExpoHaptics: d3a6375d8dcc3a1083d003bc2298ff654fafb536
   ExpoKeepAwake: 55f75eca6499bb9e4231ebad6f3e9cb8f99c0296
+  ExpoLinearGradient: 809102bdb979f590083af49f7fa4805cd931bd58
   ExpoLinking: 8f0aaf69aa56f832913030503b6263dc6f647f37
   ExpoLocalization: d9168d5300a5b03e5e78b986124d11fb6ec3ebbd
   ExpoModulesCore: f3da4f1ab5a8375d0beafab763739dbee8446583

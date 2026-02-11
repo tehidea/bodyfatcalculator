@@ -5,14 +5,15 @@ import {
   useFonts,
 } from '@expo-google-fonts/montserrat'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native'
 import { ThemeProvider } from '@rneui/themed'
 import { registerRootComponent } from 'expo'
 import Constants from 'expo-constants'
 import * as Linking from 'expo-linking'
+import * as Notifications from 'expo-notifications'
 import * as SplashScreen from 'expo-splash-screen'
 import { PostHogProvider, usePostHog } from 'posthog-react-native'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { KeyboardProvider } from 'react-native-keyboard-controller'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -119,6 +120,8 @@ function AppNavigator() {
 }
 
 function App() {
+  const navigationRef = useNavigationContainerRef()
+  const notificationResponseListener = useRef<Notifications.EventSubscription | null>(null)
   const [appIsReady, setAppIsReady] = useState(false)
   const [fontsLoaded, fontError] = useFonts({
     'Montserrat-ExtraLight': Montserrat_200ExtraLight,
@@ -145,6 +148,22 @@ function App() {
     prepare()
   }, [])
 
+  useEffect(() => {
+    notificationResponseListener.current =
+      Notifications.addNotificationResponseReceivedListener(() => {
+        // Navigate to Calculator tab when user taps a reminder notification
+        if (navigationRef.isReady()) {
+          navigationRef.navigate('Calculator' as never)
+        }
+      })
+
+    return () => {
+      if (notificationResponseListener.current) {
+        notificationResponseListener.current.remove()
+      }
+    }
+  }, [navigationRef])
+
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady && (fontsLoaded || fontError)) {
       // This tells the splash screen to hide immediately
@@ -159,7 +178,7 @@ function App() {
 
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
         <PostHogProvider
           apiKey={Constants.expoConfig?.extra?.POSTHOG_API_KEY || 'your_fallback_posthog_api_key'}
           options={{

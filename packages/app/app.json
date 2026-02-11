@@ -56,6 +56,12 @@
       ],
       "expo-localization",
       [
+        "expo-notifications",
+        {
+          "defaultChannel": "reminders"
+        }
+      ],
+      [
         "react-native-cloud-storage",
         {
           "iCloudContainerEnvironment": "Production",
