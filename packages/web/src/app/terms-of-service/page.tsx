@@ -87,8 +87,11 @@ const sections = [
     title: '3. The Service',
     content: (
       <p className="mt-4">
-        The App provides body fat calculation services. While we strive to provide accurate
-        calculations, the results should be considered estimates and not medical advice.
+        The App provides body fat calculation and tracking services. The App offers both free
+        features and a subscription-based premium tier (PRO+) that includes additional functionality
+        such as measurement history, cloud sync across devices, health app integration, and progress
+        tracking. While we strive to provide accurate calculations, the results should be considered
+        estimates and not medical advice.
       </p>
     ),
   },
@@ -107,7 +110,79 @@ const sections = [
     ),
   },
   {
-    title: '5. Medical Disclaimer',
+    title: '5. Subscriptions & Purchases',
+    content: (
+      <div className="mt-4 space-y-4">
+        <p>
+          The App offers optional premium features through a PRO+ subscription, available as monthly
+          or annual plans. Subscriptions are managed through Apple&apos;s App Store or Google Play
+          and are subject to their respective terms and conditions.
+        </p>
+        <ul className="list-inside list-disc space-y-2 marker:text-[#FF0000]">
+          <li>
+            Subscriptions automatically renew unless cancelled at least 24 hours before the end of
+            the current billing period
+          </li>
+          <li>
+            You can manage or cancel your subscription through your device&apos;s account settings
+            (App Store or Google Play)
+          </li>
+          <li>
+            Refunds are handled by Apple or Google in accordance with their refund policies — we
+            cannot process refunds directly
+          </li>
+          <li>
+            Users who purchased a legacy one-time PRO unlock retain access to features included in
+            that original purchase
+          </li>
+        </ul>
+      </div>
+    ),
+  },
+  {
+    title: '6. Cloud Sync',
+    content: (
+      <div className="mt-4 space-y-4">
+        <p>
+          PRO+ subscribers may enable Cloud Sync to store measurement data in their personal iCloud
+          (iOS) or Google Drive (Android) account.
+        </p>
+        <ul className="list-inside list-disc space-y-2 marker:text-[#FF0000]">
+          <li>Your synced data resides in your own cloud account, not on our servers</li>
+          <li>
+            We are not responsible for the availability, security, or data handling practices of
+            iCloud or Google Drive
+          </li>
+          <li>
+            Disabling Cloud Sync stops future syncing but does not automatically delete previously
+            synced data from your cloud account
+          </li>
+        </ul>
+      </div>
+    ),
+  },
+  {
+    title: '7. Health Integration',
+    content: (
+      <div className="mt-4 space-y-4">
+        <p>
+          The App may optionally integrate with Apple HealthKit (iOS) or Google Health Connect
+          (Android) to write body fat percentage data. This feature is entirely optional and
+          requires your explicit consent.
+        </p>
+        <ul className="list-inside list-disc space-y-2 marker:text-[#FF0000]">
+          <li>Health data is processed on your device and is not transmitted to our servers</li>
+          <li>You can revoke health data access at any time in your device&apos;s settings</li>
+          <li>
+            Body fat estimates provided by the App are not medical advice and should not be used as
+            the sole basis for health decisions
+          </li>
+        </ul>
+      </div>
+    ),
+  },
+  {
+    title: '8. Medical Disclaimer',
     content: (
       <p className="mt-4">
         The App is not a substitute for professional medical advice, diagnosis, or treatment. Always
@@ -116,7 +191,7 @@ const sections = [
     ),
   },
   {
-    title: '6. Intellectual Property',
+    title: '9. Intellectual Property',
     content: (
       <p className="mt-4">
         The App and its original content, features, and functionality are owned by Tehidea Ltd and
@@ -125,7 +200,7 @@ const sections = [
     ),
   },
   {
-    title: '7. User Data',
+    title: '10. User Data',
     content: (
       <p className="mt-4">
         Your use of the App and any data you provide is subject to our Privacy Policy, which is
@@ -134,7 +209,7 @@ const sections = [
     ),
   },
   {
-    title: '8. Disclaimer of Warranties',
+    title: '11. Disclaimer of Warranties',
     content: (
       <p className="mt-4">
         The App is provided &quot;as is&quot; and &quot;as available&quot; without any warranties of
@@ -143,7 +218,7 @@ const sections = [
     ),
   },
   {
-    title: '9. Limitation of Liability',
+    title: '12. Limitation of Liability',
     content: (
       <p className="mt-4">
         To the maximum extent permitted by law, Tehidea Ltd shall not be liable for any indirect,
@@ -152,7 +227,7 @@ const sections = [
     ),
   },
   {
-    title: '10. Changes to Terms',
+    title: '13. Changes to Terms',
     content: (
       <p className="mt-4">
         We reserve the right to modify these Terms at any time. We will notify users of any changes
@@ -161,7 +236,7 @@ const sections = [
     ),
   },
   {
-    title: '11. Termination',
+    title: '14. Termination',
     content: (
       <p className="mt-4">
         We may terminate or suspend your access to the App immediately, without prior notice, for
@@ -170,7 +245,7 @@ const sections = [
     ),
   },
   {
-    title: '12. Governing Law',
+    title: '15. Governing Law',
     content: (
       <p className="mt-4">
         These Terms shall be governed by and construed in accordance with the laws of England and
@@ -180,7 +255,7 @@ const sections = [
     ),
   },
   {
-    title: '13. Contact Information',
+    title: '16. Contact Information',
     content: (
       <>
         <p className="mt-4">For any questions about these Terms, please contact us at:</p>

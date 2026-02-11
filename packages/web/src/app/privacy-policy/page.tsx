@@ -72,6 +72,8 @@ const sections = [
             <li>Body measurements and physical characteristics</li>
             <li>Gender and age information</li>
             <li>User preferences and settings</li>
+            <li>Health data (body fat percentage via Apple HealthKit or Google Health Connect)</li>
+            <li>Purchase and subscription information (managed via RevenueCat)</li>
             <li>Any feedback or correspondence you send us</li>
           </ul>
         </div>
@@ -82,6 +84,7 @@ const sections = [
             <li>App usage statistics</li>
             <li>Error logs and performance data</li>
             <li>IP address and basic analytics</li>
+            <li>Push notification preferences</li>
           </ul>
         </div>
         <div>
@@ -95,6 +98,10 @@ const sections = [
             </li>
             <li>Umami Analytics - Privacy-focused analytics for website usage trends</li>
             <li>Google AdSense - Advertising service that may use cookies and web beacons</li>
+            <li>
+              RevenueCat - Subscription and purchase management platform that processes transaction
+              data
+            </li>
           </ul>
           <p className="mt-4">
             These services may place cookies or use similar tracking technologies on your device.
@@ -163,6 +170,47 @@ const sections = [
     ),
   },
   {
+    title: 'Health Data',
+    content: (
+      <div className="mt-4 space-y-4">
+        <p>
+          If you choose to enable health app integration (a PRO+ feature), the App can write body
+          fat percentage data to Apple HealthKit (iOS) or Google Health Connect (Android). This
+          integration is entirely optional and requires your explicit consent.
+        </p>
+        <ul className="list-inside list-disc space-y-2 marker:text-[#FF0000]">
+          <li>Health data is processed entirely on your device</li>
+          <li>We do not transmit health data to our servers or any third party</li>
+          <li>Health data is never used for advertising or analytics purposes</li>
+          <li>You can revoke health data access at any time in your device&apos;s Settings</li>
+        </ul>
+      </div>
+    ),
+  },
+  {
+    title: 'Cloud Sync',
+    content: (
+      <div className="mt-4 space-y-4">
+        <p>
+          PRO+ subscribers may optionally enable Cloud Sync, which stores measurement data in your
+          personal iCloud (iOS) or Google Drive (Android) account. This data is stored in your own
+          cloud account — not on our servers.
+        </p>
+        <ul className="list-inside list-disc space-y-2 marker:text-[#FF0000]">
+          <li>Cloud Sync is disabled by default and must be explicitly enabled by you</li>
+          <li>
+            Synced data is subject to Apple&apos;s or Google&apos;s respective privacy policies
+          </li>
+          <li>You can disable Cloud Sync at any time in the App&apos;s settings</li>
+          <li>
+            Disabling Cloud Sync does not automatically delete previously synced data from your
+            cloud account
+          </li>
+        </ul>
+      </div>
+    ),
+  },
+  {
     title: 'How We Use Your Information',
     content: (
       <>
@@ -184,9 +232,11 @@ const sections = [
     content: (
       <p className="mt-4">
         Measurement data is stored locally on your device when you use the mobile app. We do not
-        store body measurements on our servers. Analytics and advertising data may be processed by
-        our third-party providers. We implement appropriate technical and organizational measures to
-        protect your personal information.
+        store body measurements on our servers. PRO+ subscribers who enable Cloud Sync may
+        optionally store measurement data in their personal iCloud or Google Drive account — this
+        data resides in your cloud account, not ours. Analytics and advertising data may be
+        processed by our third-party providers. We implement appropriate technical and
+        organizational measures to protect your personal information.
       </p>
     ),
   },
@@ -198,7 +248,11 @@ const sections = [
           We do not sell your personal data. We may share your information with:
         </p>
         <ul className="mt-4 list-inside list-disc space-y-2 marker:text-[#FF0000]">
-          <li>Service providers who assist in our operations</li>
+          <li>
+            Service providers who assist in our operations (e.g. RevenueCat for subscription
+            management — RevenueCat processes purchase data but does not have access to your health
+            or measurement data)
+          </li>
           <li>Law enforcement when required by law</li>
           <li>Third parties with your explicit consent</li>
         </ul>
@@ -226,7 +280,7 @@ const sections = [
     content: (
       <p className="mt-4">
         Our service is not intended for users under 16 years of age. We do not knowingly collect
-        data from children under 16.
+        data from children under 16. We do not collect health data from minors.
       </p>
     ),
   },
