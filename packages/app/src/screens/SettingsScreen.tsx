@@ -341,10 +341,6 @@ export function SettingsScreen() {
               />
               {healthEnabled && (
                 <>
-                  <Text style={styles.healthMetricsHint}>
-                    Choose which measurements to sync to{' '}
-                    {Platform.OS === 'ios' ? 'Apple Health' : 'Health Connect'}
-                  </Text>
                   <SettingsRow
                     icon="activity"
                     label="Sync Weight"
@@ -598,13 +594,6 @@ const createStyles = (
     segmentTextActive: {
       color: '#fff',
       fontWeight: '600',
-    },
-    healthMetricsHint: {
-      fontSize: getResponsiveTypography('xs'),
-      lineHeight: getLineHeight('xs'),
-      color: '#999',
-      paddingHorizontal: getResponsiveSpacing(16),
-      paddingVertical: getResponsiveSpacing(8),
     },
   })
 
