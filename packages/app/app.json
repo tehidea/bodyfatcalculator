@@ -17,7 +17,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.tehidea.bodyfatcalculator",
-      "buildNumber": "13",
+      "buildNumber": "14",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -28,7 +28,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.tehidea.bodyfatcalculator",
-      "versionCode": 13,
+      "versionCode": 14,
       "permissions": [
         "android.permission.health.READ_BODY_FAT",
         "android.permission.health.WRITE_BODY_FAT",
