@@ -1,0 +1,118 @@
+import { FORMULA_DEFINITIONS } from '@bodyfat/shared/definitions'
+import { Icon, Text } from '@rneui/themed'
+import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native'
+import type { MeasurementRecord } from '../../store/historyStore'
+import { useResponsive } from '../../utils/responsiveContext'
+
+function getClassificationColor(bodyFat: number, gender: string): string {
+	if (gender === 'male') {
+		if (bodyFat < 6) return '#2196F3'
+		if (bodyFat < 14) return '#4CAF50'
+		if (bodyFat < 18) return '#8BC34A'
+		if (bodyFat < 25) return '#FFC107'
+		return '#FF5722'
+	}
+	if (bodyFat < 14) return '#2196F3'
+	if (bodyFat < 21) return '#4CAF50'
+	if (bodyFat < 25) return '#8BC34A'
+	if (bodyFat < 32) return '#FFC107'
+	return '#FF5722'
+}
+
+function formatDate(isoString: string): string {
+	const date = new Date(isoString)
+	return date.toLocaleDateString(undefined, {
+		year: 'numeric',
+		month: 'short',
+		day: 'numeric',
+	})
+}
+
+interface CompactMeasurementRowProps {
+	record: MeasurementRecord
+	onDelete: (clientId: string) => void
+	isLast: boolean
+}
+
+export function CompactMeasurementRow({ record, onDelete, isLast }: CompactMeasurementRowProps) {
+	const { getResponsiveTypography, getLineHeight, getResponsiveSpacing } = useResponsive()
+	const styles = createStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing)
+	const formulaDef = FORMULA_DEFINITIONS[record.formula]
+	const color = getClassificationColor(record.bodyFatPercentage, record.gender)
+
+	const handleDelete = () => {
+		Alert.alert('Delete Measurement', 'Are you sure you want to delete this measurement?', [
+			{ text: 'Cancel', style: 'cancel' },
+			{
+				text: 'Delete',
+				style: 'destructive',
+				onPress: () => onDelete(record.clientId),
+			},
+		])
+	}
+
+	return (
+		<View style={[styles.row, !isLast && styles.rowBorder]}>
+			<Text style={styles.date}>{formatDate(record.measuredAt)}</Text>
+			<View style={styles.rightSection}>
+				<Text style={[styles.bodyFat, { color }]}>
+					{record.bodyFatPercentage.toFixed(1)}%
+				</Text>
+				<View style={[styles.dot, { backgroundColor: color }]} />
+				<Text style={styles.formula} numberOfLines={1}>
+					{formulaDef?.name || record.formula}
+				</Text>
+				<TouchableOpacity onPress={handleDelete} hitSlop={8}>
+					<Icon name="trash-2" type="feather" color="rgba(255,255,255,0.3)" size={15} />
+				</TouchableOpacity>
+			</View>
+		</View>
+	)
+}
+
+const createStyles = (
+	getResponsiveTypography: (size: any) => number,
+	getLineHeight: (size: any) => number,
+	getResponsiveSpacing: (base: number) => number,
+) =>
+	StyleSheet.create({
+		row: {
+			flexDirection: 'row',
+			alignItems: 'center',
+			justifyContent: 'space-between',
+			paddingVertical: getResponsiveSpacing(10),
+			paddingHorizontal: getResponsiveSpacing(12),
+			minHeight: 44,
+		},
+		rowBorder: {
+			borderBottomWidth: StyleSheet.hairlineWidth,
+			borderBottomColor: 'rgba(255,255,255,0.08)',
+		},
+		date: {
+			fontSize: getResponsiveTypography('sm'),
+			lineHeight: getLineHeight('sm'),
+			color: 'rgba(255,255,255,0.7)',
+			fontWeight: '500',
+		},
+		rightSection: {
+			flexDirection: 'row',
+			alignItems: 'center',
+			gap: getResponsiveSpacing(8),
+		},
+		bodyFat: {
+			fontSize: getResponsiveTypography('sm'),
+			lineHeight: getLineHeight('sm'),
+			fontWeight: '600',
+		},
+		dot: {
+			width: 6,
+			height: 6,
+			borderRadius: 3,
+		},
+		formula: {
+			fontSize: getResponsiveTypography('xs'),
+			lineHeight: getLineHeight('xs'),
+			color: 'rgba(255,255,255,0.4)',
+			maxWidth: 100,
+		},
+	})
