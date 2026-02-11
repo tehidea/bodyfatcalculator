@@ -4,7 +4,7 @@ import type { PurchasesPackage } from 'react-native-purchases'
 import { getOfferings } from '../config/store'
 import { usePremiumStore } from '../store/premiumStore'
 
-export type PlanType = 'monthly' | 'yearly' | 'lifetime'
+export type PlanType = 'monthly' | 'annual' | 'lifetime'
 
 interface UsePaywallOptions {
   onSuccess?: () => void
@@ -15,7 +15,7 @@ interface UsePaywallOptions {
 export function usePaywall(options: UsePaywallOptions = {}) {
   const { isProPlus, isLegacyPro, isLoading, purchasePackage } = usePremiumStore()
   const [packages, setPackages] = useState<PurchasesPackage[]>([])
-  const [selectedPlan, setSelectedPlan] = useState<PlanType>('yearly')
+  const [selectedPlan, setSelectedPlan] = useState<PlanType>('annual')
   const [isFetchingOfferings, setIsFetchingOfferings] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
 
@@ -38,7 +38,7 @@ export function usePaywall(options: UsePaywallOptions = {}) {
       // RevenueCat package identifiers use $rc_ prefixed types
       const identifierMap: Record<PlanType, string> = {
         monthly: '$rc_monthly',
-        yearly: '$rc_annual',
+        annual: '$rc_annual',
         lifetime: '$rc_lifetime',
       }
       return (

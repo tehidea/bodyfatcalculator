@@ -85,7 +85,7 @@ export const PRICING = {
     price: '£3.99',
     period: 'month',
   },
-  yearly: {
+  annual: {
     price: '£19.99',
     period: 'year',
     savings: '58%',
@@ -103,7 +103,7 @@ export const LEGACY_PRICING = {
     price: '£1.99',
     period: 'month',
   },
-  yearly: {
+  annual: {
     price: '£9.99',
     period: 'year',
     savings: '58%',

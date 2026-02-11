@@ -14,13 +14,13 @@ interface PlanSelectorProps {
   packages: PurchasesPackage[]
 }
 
-const PLANS: PlanType[] = ['monthly', 'yearly', 'lifetime']
+const PLANS: PlanType[] = ['monthly', 'annual', 'lifetime']
 
 function getPlanLabel(plan: PlanType): string {
   switch (plan) {
     case 'monthly':
       return 'Monthly'
-    case 'yearly':
+    case 'annual':
       return 'Annual'
     case 'lifetime':
       return 'Lifetime'
@@ -31,8 +31,8 @@ function getPlanDescription(plan: PlanType): string {
   switch (plan) {
     case 'monthly':
       return 'Billed monthly'
-    case 'yearly':
-      return 'Billed yearly'
+    case 'annual':
+      return 'Billed annually'
     case 'lifetime':
       return 'One-time purchase'
   }
@@ -52,7 +52,7 @@ export function PlanSelector({
     const map: Partial<Record<PlanType, PurchasesPackage>> = {}
     for (const pkg of packages) {
       if (pkg.packageType === PACKAGE_TYPE.MONTHLY) map.monthly = pkg
-      else if (pkg.packageType === PACKAGE_TYPE.ANNUAL) map.yearly = pkg
+      else if (pkg.packageType === PACKAGE_TYPE.ANNUAL) map.annual = pkg
       else if (pkg.packageType === PACKAGE_TYPE.LIFETIME) map.lifetime = pkg
     }
     return map
@@ -60,9 +60,9 @@ export function PlanSelector({
 
   const savingsPercent = useMemo(() => {
     const monthly = priceMap.monthly?.product.price
-    const yearly = priceMap.yearly?.product.price
-    if (!monthly || !yearly) return null
-    return Math.round((1 - yearly / (monthly * 12)) * 100)
+    const annual = priceMap.annual?.product.price
+    if (!monthly || !annual) return null
+    return Math.round((1 - annual / (monthly * 12)) * 100)
   }, [priceMap])
 
   return (
@@ -77,10 +77,10 @@ export function PlanSelector({
       {PLANS.map((plan) => {
         const isSelected = selectedPlan === plan
         const planPricing = pricing[plan]
-        const isBestValue = plan === 'yearly'
+        const isBestValue = plan === 'annual'
         const price = priceMap[plan]?.product.priceString ?? planPricing.price
         const savings =
-          plan === 'yearly'
+          plan === 'annual'
             ? savingsPercent != null
               ? `${savingsPercent}%`
               : 'savings' in planPricing

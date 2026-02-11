@@ -74,7 +74,7 @@ if (isDevelopment) {
 // Single source of truth for entitlement IDs
 export const ENTITLEMENTS = {
   pro: 'pro_features',
-  premium: 'premium',
+  premium: 'pro_plus_features',
 } as const
 
 export type Entitlement = keyof typeof ENTITLEMENTS
@@ -86,19 +86,19 @@ export const PRODUCTS = {
   },
   proPlus: {
     monthly: 'pro_plus_monthly',
-    yearly: 'pro_plus_yearly',
+    annual: 'pro_plus_annual',
     lifetime: 'pro_plus_lifetime',
   },
-  proPlusPromo: {
-    monthly: 'pro_plus_monthly_promo',
-    yearly: 'pro_plus_yearly_promo',
-    lifetime: 'pro_plus_lifetime_promo',
+  proPlusLegacy: {
+    monthly: 'pro_plus_monthly_legacy',
+    annual: 'pro_plus_annual_legacy',
+    lifetime: 'pro_plus_lifetime_legacy',
   },
 } as const
 
 // Offering identifiers
 export const OFFERINGS = {
-  default: 'default',
+  default: 'current',
   legacyUpgrade: 'legacy_upgrade',
 } as const
 

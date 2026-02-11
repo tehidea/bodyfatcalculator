@@ -142,7 +142,7 @@ describe('Store Module', () => {
       const mockPackage = { identifier: 'premium_monthly' }
       const mockOfferings = {
         all: {
-          default: {
+          current: {
             availablePackages: [mockPackage, { identifier: 'other_package' }],
           },
         },
@@ -158,7 +158,7 @@ describe('Store Module', () => {
     })
 
     it('should return legacy upgrade offering for legacy pro users', async () => {
-      const mockLegacyPackage = { identifier: 'pro_plus_monthly_promo' }
+      const mockLegacyPackage = { identifier: 'pro_plus_monthly_legacy' }
       const mockOfferings = {
         all: {
           legacy_upgrade: {
