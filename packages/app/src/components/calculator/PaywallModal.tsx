@@ -88,6 +88,7 @@ export function PaywallModal({ visible, variant, onClose }: PaywallModalProps) {
   const {
     isLegacyPro,
     isProcessing,
+    isLoading,
     packages,
     selectedPlan,
     setSelectedPlan,
@@ -239,8 +240,8 @@ export function PaywallModal({ visible, variant, onClose }: PaywallModalProps) {
               buttonStyle={styles.upgradeButton}
               titleStyle={styles.upgradeButtonText}
               onPress={handleContinue}
-              disabled={isProcessing || isRestoring || isClosing}
-              loading={isProcessing}
+              disabled={isProcessing || isLoading || isRestoring || isClosing}
+              loading={isProcessing || isLoading}
             />
 
             <View style={styles.secondaryButtonsContainer}>

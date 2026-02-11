@@ -2,7 +2,6 @@ import { Icon, Text } from '@rneui/themed'
 import { useMemo } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { PACKAGE_TYPE, type PurchasesPackage } from 'react-native-purchases'
-import { LEGACY_PRICING, PRICING } from '../../constants/features'
 import { COLORS } from '../../constants/theme'
 import type { PlanType } from '../../hooks/usePaywall'
 import { useResponsive } from '../../utils/responsiveContext'
@@ -46,7 +45,6 @@ export function PlanSelector({
 }: PlanSelectorProps) {
   const { getResponsiveTypography, getLineHeight, getResponsiveSpacing } = useResponsive()
   const styles = createStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing)
-  const pricing = isLegacyPro ? LEGACY_PRICING : PRICING
 
   const priceMap = useMemo(() => {
     const map: Partial<Record<PlanType, PurchasesPackage>> = {}
@@ -65,6 +63,8 @@ export function PlanSelector({
     return Math.round((1 - annual / (monthly * 12)) * 100)
   }, [priceMap])
 
+  const isLoading = packages.length === 0
+
   return (
     <View style={styles.container}>
       {isLegacyPro && (
@@ -76,17 +76,10 @@ export function PlanSelector({
 
       {PLANS.map((plan) => {
         const isSelected = selectedPlan === plan
-        const planPricing = pricing[plan]
         const isBestValue = plan === 'annual'
-        const price = priceMap[plan]?.product.priceString ?? planPricing.price
+        const price = priceMap[plan]?.product.priceString
         const savings =
-          plan === 'annual'
-            ? savingsPercent != null
-              ? `${savingsPercent}%`
-              : 'savings' in planPricing
-                ? planPricing.savings
-                : null
-            : null
+          plan === 'annual' && savingsPercent != null ? `${savingsPercent}%` : null
 
         return (
           <TouchableOpacity
@@ -127,9 +120,13 @@ export function PlanSelector({
               </View>
 
               <View style={styles.priceContainer}>
-                <Text style={[styles.planPrice, isSelected && styles.planPriceSelected]}>
-                  {price}
-                </Text>
+                {isLoading ? (
+                  <View style={styles.priceSkeleton} />
+                ) : (
+                  <Text style={[styles.planPrice, isSelected && styles.planPriceSelected]}>
+                    {price}
+                  </Text>
+                )}
               </View>
             </View>
           </TouchableOpacity>
@@ -253,6 +250,12 @@ const createStyles = (
     },
     planPriceSelected: {
       color: COLORS.primary,
+    },
+    priceSkeleton: {
+      width: 60,
+      height: getLineHeight('lg'),
+      backgroundColor: '#e8e8e8',
+      borderRadius: 6,
     },
     savingsBadge: {
       backgroundColor: `${COLORS.success}15`,

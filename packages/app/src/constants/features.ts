@@ -78,39 +78,3 @@ export const FEATURES: Feature[] = [
     availability: 'pro_plus',
   },
 ]
-
-// GBP fallback for loading state — real prices come from RevenueCat packages
-export const PRICING = {
-  monthly: {
-    price: '£3.99',
-    period: 'month',
-  },
-  annual: {
-    price: '£19.99',
-    period: 'year',
-    savings: '58%',
-    perMonth: '£1.67',
-  },
-  lifetime: {
-    price: '£49.99',
-    period: 'forever',
-  },
-} as const
-
-// GBP fallback for loading state — real prices come from RevenueCat packages
-export const LEGACY_PRICING = {
-  monthly: {
-    price: '£1.99',
-    period: 'month',
-  },
-  annual: {
-    price: '£9.99',
-    period: 'year',
-    savings: '58%',
-    perMonth: '£0.83',
-  },
-  lifetime: {
-    price: '£24.99',
-    period: 'forever',
-  },
-} as const

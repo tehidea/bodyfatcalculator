@@ -100,8 +100,8 @@ export const PRODUCTS = {
 
 // Offering identifiers
 export const OFFERINGS = {
-  default: 'current',
-  legacyUpgrade: 'legacy_upgrade',
+  default: 'pro_plus',
+  legacyUpgrade: 'pro_plus_legacy',
 } as const
 
 export interface UserEntitlements {
