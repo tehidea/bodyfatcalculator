@@ -442,40 +442,11 @@ export const ResultsDisplay = () => {
             </Animated.View>
           </View>
 
-          {/* Footer: formula + save status + share */}
+          {/* Footer: formula name */}
           <Animated.View style={[styles.footerContainer, footerStyle]}>
             <Animated.Text style={styles.formulaName}>
               {formulaDef?.name || formula.toUpperCase()}
             </Animated.Text>
-
-            {/* Action buttons (invisible during capture) */}
-            <View style={[styles.footerRow, isCapturing && { opacity: 0 }]}>
-              {isProPlus && savedId ? (
-                <View style={styles.savedIndicator}>
-                  <Icon name="check" type="feather" color="#4CAF50" size={14} />
-                  <Animated.Text style={styles.savedText}>Saved to history</Animated.Text>
-                </View>
-              ) : !isProPlus ? (
-                <TouchableOpacity style={styles.saveButton} onPress={() => setShowPaywall(true)}>
-                  <Icon name="lock" type="feather" color="rgba(255,255,255,0.5)" size={14} />
-                  <Animated.Text style={styles.saveButtonText}>Save to History</Animated.Text>
-                </TouchableOpacity>
-              ) : (
-                <View />
-              )}
-              <TouchableOpacity
-                style={styles.shareButton}
-                onPress={handleShare}
-                disabled={isSharing}
-              >
-                {isSharing ? (
-                  <ActivityIndicator size={14} color="rgba(255,255,255,0.5)" />
-                ) : (
-                  <Icon name="share" type="feather" color="rgba(255,255,255,0.5)" size={14} />
-                )}
-                <Animated.Text style={styles.shareButtonText}>Share</Animated.Text>
-              </TouchableOpacity>
-            </View>
           </Animated.View>
 
           {/* Branding strip for share snapshots */}
@@ -484,6 +455,35 @@ export const ResultsDisplay = () => {
             <Animated.Text style={styles.brandingUrl}>www.bodyfatcalculator.pro</Animated.Text>
           </Animated.View>
         </View>
+      </Animated.View>
+
+      {/* Action buttons (outside capture ref) */}
+      <Animated.View style={[styles.actionRow, footerStyle]}>
+        {isProPlus && savedId ? (
+          <View style={styles.savedIndicator}>
+            <Icon name="check" type="feather" color="#4CAF50" size={14} />
+            <Animated.Text style={styles.savedText}>Saved to history</Animated.Text>
+          </View>
+        ) : !isProPlus ? (
+          <TouchableOpacity style={styles.saveButton} onPress={() => setShowPaywall(true)}>
+            <Icon name="lock" type="feather" color="rgba(255,255,255,0.5)" size={14} />
+            <Animated.Text style={styles.saveButtonText}>Save to History</Animated.Text>
+          </TouchableOpacity>
+        ) : (
+          <View />
+        )}
+        <TouchableOpacity
+          style={styles.shareButton}
+          onPress={handleShare}
+          disabled={isSharing}
+        >
+          {isSharing ? (
+            <ActivityIndicator size={14} color="rgba(255,255,255,0.5)" />
+          ) : (
+            <Icon name="share" type="feather" color="rgba(255,255,255,0.5)" size={14} />
+          )}
+          <Animated.Text style={styles.shareButtonText}>Share</Animated.Text>
+        </TouchableOpacity>
       </Animated.View>
 
       <PaywallModal

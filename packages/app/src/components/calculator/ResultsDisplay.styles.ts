@@ -203,10 +203,11 @@ export const createStyles = (
       fontFamily: 'Montserrat-Light',
       color: 'rgba(255,255,255,0.5)',
     },
-    footerRow: {
+    actionRow: {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
+      marginTop: getResponsiveSpacing(12),
       gap: getResponsiveSpacing(10),
     },
     shareButton: {
