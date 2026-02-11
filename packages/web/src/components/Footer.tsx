@@ -8,6 +8,7 @@ import { Container } from '@/components/Container'
 import { Logo } from '@/components/Logo'
 import qrCodeApple from '@/images/qr-code-apple.svg'
 import qrCodeGoogle from '@/images/qr-code-google.svg'
+import { useAnalytics } from '@/lib/analytics'
 
 function QrCodeBorder(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -24,29 +25,16 @@ function QrCodeBorder(props: React.ComponentPropsWithoutRef<'svg'>) {
 
 export function Footer() {
   const posthog = usePostHog()
+  const { trackEvent } = useAnalytics()
 
   const handleAppStoreClick = () => {
-    posthog?.capture('app_download_clicked', {
-      platform: 'ios',
-      source: 'website',
-      link_type: 'app_store',
-      location: 'footer',
-      utm_source: 'website',
-      utm_medium: 'footer_link',
-      utm_campaign: 'app_store_ios',
-    })
+    posthog?.capture('app_download_clicked', { platform: 'ios', location: 'footer' })
+    trackEvent('app_download_clicked', { platform: 'ios', location: 'footer' })
   }
 
   const handleGooglePlayClick = () => {
-    posthog?.capture('app_download_clicked', {
-      platform: 'android',
-      source: 'website',
-      link_type: 'google_play',
-      location: 'footer',
-      utm_source: 'website',
-      utm_medium: 'footer_link',
-      utm_campaign: 'google_play_android',
-    })
+    posthog?.capture('app_download_clicked', { platform: 'android', location: 'footer' })
+    trackEvent('app_download_clicked', { platform: 'android', location: 'footer' })
   }
 
   return (
@@ -94,7 +82,7 @@ export function Footer() {
                 <div className="ml-8 text-left lg:w-64">
                   <p className="text-base font-semibold text-white">
                     <Link
-                      href="https://apps.apple.com/us/app/body-fat-calculator-pro/id6738918673"
+                      href="https://apps.apple.com/us/app/body-fat-calculator-pro/id6738918673?ct=website_footer&mt=8"
                       onClick={handleAppStoreClick}
                     >
                       <span className="absolute inset-0 sm:rounded-2xl" />
@@ -110,7 +98,7 @@ export function Footer() {
                 <div className="mr-8 text-right lg:w-64">
                   <p className="text-base font-semibold text-white">
                     <Link
-                      href="https://play.google.com/store/apps/details?id=com.tehidea.bodyfatcalculator"
+                      href="https://play.google.com/store/apps/details?id=com.tehidea.bodyfatcalculator&utm_source=website&utm_medium=footer&utm_campaign=website_download"
                       onClick={handleGooglePlayClick}
                     >
                       <span className="absolute inset-0 sm:rounded-2xl" />
@@ -132,14 +120,14 @@ export function Footer() {
           {/* Mobile Download Links */}
           <div className="flex flex-col items-center gap-4 sm:hidden">
             <Link
-              href="https://apps.apple.com/us/app/body-fat-calculator-pro/id6738918673"
+              href="https://apps.apple.com/us/app/body-fat-calculator-pro/id6738918673?ct=website_footer&mt=8"
               onClick={handleAppStoreClick}
               className="text-sm text-gray-400 hover:text-white"
             >
               Download from App Store
             </Link>
             <Link
-              href="https://play.google.com/store/apps/details?id=com.tehidea.bodyfatcalculator"
+              href="https://play.google.com/store/apps/details?id=com.tehidea.bodyfatcalculator&utm_source=website&utm_medium=footer&utm_campaign=website_download"
               onClick={handleGooglePlayClick}
               className="text-sm text-gray-400 hover:text-white"
             >

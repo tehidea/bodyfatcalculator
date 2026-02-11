@@ -4,29 +4,28 @@ import clsx from 'clsx'
 import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
 
+import { useAnalytics } from '@/lib/analytics'
+
 export function AppStoreLink({
   color = 'black',
   className,
   size = 'default',
+  location = 'button',
 }: {
   color?: 'black' | 'white'
   className?: string
   size?: 'default' | 'large' | 'massive'
+  location?: string
 }) {
   const posthog = usePostHog()
+  const { trackEvent } = useAnalytics()
+
+  const href = `https://apps.apple.com/us/app/body-fat-calculator-pro/id6738918673?ct=website_${location}&mt=8`
 
   const handleClick = () => {
-    // PostHog attribution tracking
-    posthog?.capture('app_download_clicked', {
-      platform: 'ios',
-      source: 'website',
-      link_type: 'app_store',
-      utm_source: 'website',
-      utm_medium: 'download_button',
-      utm_campaign: 'app_store_ios',
-    })
+    posthog?.capture('app_download_clicked', { platform: 'ios', location })
+    trackEvent('app_download_clicked', { platform: 'ios', location })
 
-    // Event snippet for Submit lead form conversion page
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', 'conversion', {
         send_to: 'AW-17498006015/rTmzCJChy5obEP_D2ZdB',
@@ -36,7 +35,7 @@ export function AppStoreLink({
 
   return (
     <Link
-      href="https://apps.apple.com/us/app/body-fat-calculator-pro/id6738918673"
+      href={href}
       aria-label="Download on the App Store"
       onClick={handleClick}
       className={clsx(

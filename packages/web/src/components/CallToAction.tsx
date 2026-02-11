@@ -201,8 +201,14 @@ export function CallToAction() {
             <p className="mt-2 text-gray-400">Download now and start measuring</p>
           </div>
           <div className="flex flex-col items-center gap-8 sm:flex-row sm:gap-20">
-            <AppStoreLink className="scale-150 transform transition-all duration-300 hover:scale-[1.6]" />
-            <GooglePlayLink className="scale-150 transform transition-all duration-300 hover:scale-[1.6]" />
+            <AppStoreLink
+              className="scale-150 transform transition-all duration-300 hover:scale-[1.6]"
+              location="cta"
+            />
+            <GooglePlayLink
+              className="scale-150 transform transition-all duration-300 hover:scale-[1.6]"
+              location="cta"
+            />
           </div>
         </div>
       </Container>

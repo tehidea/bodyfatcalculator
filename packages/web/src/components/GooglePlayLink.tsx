@@ -4,29 +4,28 @@ import clsx from 'clsx'
 import Link from 'next/link'
 import { usePostHog } from 'posthog-js/react'
 
+import { useAnalytics } from '@/lib/analytics'
+
 export function GooglePlayLink({
   color = 'black',
   className,
   size = 'default',
+  location = 'button',
 }: {
   color?: 'black' | 'white'
   className?: string
   size?: 'default' | 'large' | 'massive'
+  location?: string
 }) {
   const posthog = usePostHog()
+  const { trackEvent } = useAnalytics()
+
+  const href = `https://play.google.com/store/apps/details?id=com.tehidea.bodyfatcalculator&utm_source=website&utm_medium=${location}&utm_campaign=website_download`
 
   const handleClick = () => {
-    // PostHog attribution tracking
-    posthog?.capture('app_download_clicked', {
-      platform: 'android',
-      source: 'website',
-      link_type: 'google_play',
-      utm_source: 'website',
-      utm_medium: 'download_button',
-      utm_campaign: 'google_play_android',
-    })
+    posthog?.capture('app_download_clicked', { platform: 'android', location })
+    trackEvent('app_download_clicked', { platform: 'android', location })
 
-    // Event snippet for Submit lead form conversion page
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', 'conversion', {
         send_to: 'AW-17498006015/rTmzCJChy5obEP_D2ZdB',
@@ -36,7 +35,7 @@ export function GooglePlayLink({
 
   return (
     <Link
-      href="https://play.google.com/store/apps/details?id=com.tehidea.bodyfatcalculator"
+      href={href}
       aria-label="Get it on Google Play"
       onClick={handleClick}
       className={clsx(

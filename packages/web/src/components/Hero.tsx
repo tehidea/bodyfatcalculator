@@ -95,8 +95,8 @@ export function Hero() {
             </p>
 
             <div className="mt-10 flex flex-wrap items-center gap-6">
-              <AppStoreLink size="large" color="white" />
-              <GooglePlayLink size="large" color="white" />
+              <AppStoreLink size="large" color="white" location="hero" />
+              <GooglePlayLink size="large" color="white" location="hero" />
             </div>
 
             <div className="mt-10 flex animate-fade-in items-center gap-4">
