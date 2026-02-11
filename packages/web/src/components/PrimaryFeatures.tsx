@@ -504,8 +504,8 @@ export function PrimaryFeatures() {
             Choose Your Perfect Method
           </h2>
           <p className="mt-6 text-xl text-gray-400">
-            From quick estimates to gold-standard measurements, we offer the most comprehensive
-            selection of scientifically validated formulas. Each method is{' '}
+            From quick estimates to detailed skinfold protocols, we offer the most comprehensive
+            selection of published formulas. Each method is{' '}
             <span className="text-white">optimized for different needs</span> and equipment
             availability.
           </p>
@@ -794,6 +794,11 @@ export function PrimaryFeatures() {
             </div>
           </div>
         </div>
+        <p className="mt-8 text-center text-xs text-gray-500">
+          * All accuracy ranges are estimates based on published Standard Error of Estimate (SEE)
+          values or comparable metrics. Real-world accuracy depends on measurement technique,
+          equipment quality, and individual factors.
+        </p>
       </Container>
     </section>
   )

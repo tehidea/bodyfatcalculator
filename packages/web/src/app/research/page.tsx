@@ -28,6 +28,7 @@ export default function Research() {
               fat measurement methods. Explore detailed analyses of accuracy, reliability, and
               practical applications.
             </p>
+            <p className="mt-2 text-sm text-gray-500">Content last reviewed: February 11, 2026</p>
           </motion.div>
 
           {/* Research Categories */}
@@ -104,7 +105,7 @@ export default function Research() {
                 {
                   name: 'Parrillo Method',
                   href: '/research/methods/parrillo',
-                  description: 'Nine-site method optimized for trained individuals',
+                  description: 'Nine-site method from bodybuilding literature (not peer-reviewed)',
                   accuracy: '±3-4%',
                 },
                 {
@@ -122,7 +123,7 @@ export default function Research() {
                 {
                   name: 'Covert Bailey',
                   href: '/research/methods/covert-bailey',
-                  description: 'Age- and gender-specific circumference method',
+                  description: 'Circumference method from fitness literature (not peer-reviewed)',
                   accuracy: '±4-5%',
                 },
                 {

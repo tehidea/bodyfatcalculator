@@ -100,7 +100,7 @@ export function CallToAction() {
                   </div>
                   <div className="flex items-center gap-3 text-white">
                     <CheckIcon className="h-5 w-5 text-[#FFC107]" />
-                    <span>±4-7% Accuracy</span>
+                    <span>±4-7% Accuracy*</span>
                   </div>
                   <div className="flex items-center gap-3 text-white">
                     <CheckIcon className="h-5 w-5 text-[#FFC107]" />
@@ -189,6 +189,10 @@ export function CallToAction() {
             </div>
           </div>
         </div>
+
+        <p className="mt-6 text-center text-xs text-gray-500">
+          * Accuracy ranges are estimates. Results depend on measurement technique.
+        </p>
 
         {/* MASSIVE Download Button */}
         <div className="mt-20 flex flex-col items-center justify-center">

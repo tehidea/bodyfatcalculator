@@ -12,7 +12,7 @@ const faqs = [
     {
       question: 'How accurate are the measurements?',
       answer:
-        'Accuracy depends on the method and technique. Free methods typically fall around ±4-7%, while PRO+ skinfold methods are usually ±3-5% when performed correctly. Consistent technique and site location matter most.',
+        'Accuracy depends on the method and your technique. Free methods typically fall around ±4-7%, while PRO+ skinfold methods are typically ±3-5%. All ranges are estimates — real-world accuracy depends heavily on correct site location, consistent technique, caliper quality, and hydration status. Track trends over time rather than treating any single reading as exact.',
     },
   ],
   [

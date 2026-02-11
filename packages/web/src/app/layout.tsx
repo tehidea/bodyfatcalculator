@@ -20,12 +20,12 @@ const montserrat = Montserrat({
 export const metadata = {
   title: 'Body Fat Calculator (PRO)',
   description:
-    'Professional-grade body fat measurement app with multiple scientifically validated methods.',
+    'Professional-grade body fat measurement app with multiple research-backed methods.',
   metadataBase: new URL('https://bodyfatcalculator.pro'),
   openGraph: {
     title: 'Body Fat Calculator (PRO)',
     description:
-      'Professional-grade body fat measurement app with multiple scientifically validated methods.',
+      'Professional-grade body fat measurement app with multiple research-backed methods.',
     url: 'https://bodyfatcalculator.pro',
     siteName: 'Body Fat Calculator (PRO)',
     images: [
@@ -43,7 +43,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Body Fat Calculator (PRO)',
     description:
-      'Professional-grade body fat measurement app with multiple scientifically validated methods.',
+      'Professional-grade body fat measurement app with multiple research-backed methods.',
     images: ['/og.png'],
     creator: '@bodyfatcalcpro',
   },

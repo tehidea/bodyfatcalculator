@@ -64,7 +64,7 @@ export default function SelectionGuide() {
                         </span>
                       </div>
                       <p className="mt-1 text-sm text-gray-400">
-                        9-site skinfold method used in bodybuilding contexts
+                        9-site skinfold method popular in bodybuilding (from fitness literature)
                       </p>
                     </div>
                     <span className="text-[#4CAF50]">±3-4%</span>

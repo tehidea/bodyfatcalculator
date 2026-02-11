@@ -40,6 +40,7 @@ export default function ParrilloMethod() {
               bodybuilding contexts. Explore its nine-site approach and its use for tracking changes
               in trained individuals.
             </p>
+            <p className="mt-2 text-sm text-gray-500">Content last reviewed: February 11, 2026</p>
           </motion.div>
 
           {/* Content */}
@@ -124,11 +125,13 @@ export default function ParrilloMethod() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-white">Statistical Validation</h3>
+                  <h3 className="text-lg font-semibold text-white">Accuracy Estimates</h3>
                   <div className="mt-4 space-y-4">
-                    <p className="text-gray-300">Reported accuracy range and practical notes:</p>
+                    <p className="text-gray-300">
+                      Estimated accuracy range (no peer-reviewed validation studies exist):
+                    </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                      <li>Typical accuracy range: ±3-4%</li>
+                      <li>Estimated accuracy range: ±3-4% (not based on published SEE)</li>
                       <li>Best for tracking changes in trained individuals</li>
                       <li>Requires consistent technique across all sites</li>
                     </ul>

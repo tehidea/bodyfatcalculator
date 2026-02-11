@@ -43,9 +43,9 @@ Limitations:
 ### Free Tier
 
 - [x] Basic Methods
-  - YMCA: A simple method using weight and waist measurements (±4-6% margin of error)
-  - Modified YMCA: Enhanced version with additional measurements for women (±3.5-5.5% margin of error)
-  - U.S. Navy: Military standard using key body measurements (±3-4% margin of error)
+  - YMCA: A simple method using weight and waist measurements (±5-7% margin of error)
+  - Modified YMCA: Enhanced version with additional measurements for women (±4-6% margin of error)
+  - U.S. Navy: Military standard using key body measurements (±4-6% margin of error)
 - [x] Unit Conversion (metric/imperial)
 - [x] Basic Results (body fat percentage and classification)
 - [x] Standard Precision (1 decimal place)
@@ -53,12 +53,12 @@ Limitations:
 ### PRO Tier (£10)
 
 - [ ] Advanced Methods
-  - Covert Bailey: Comprehensive method with multiple measurements (±3.5-4.5% margin of error)
-  - Durnin & Womersley: Scientific skinfold method (±3-4% when done properly)
-  - Jackson & Pollock (3-site): Quick but accurate skinfold method (±3.5-4% when done properly)
-  - Jackson & Pollock (4-site): Balanced skinfold approach (±3-3.5% when done properly)
-  - Jackson & Pollock (7-site): Most thorough skinfold method (±2.5-3% when done properly)
-  - Parillo: Bodybuilding-focused nine-site method (±2.5-3% when done properly)
+  - Covert Bailey: Circumference method from fitness literature (±4-5% estimated, not peer-reviewed)
+  - Durnin & Womersley: Scientific skinfold method (±3.5-5% when done properly)
+  - Jackson & Pollock (3-site): Quick but accurate skinfold method (±4-5% when done properly)
+  - Jackson & Pollock (4-site): Balanced skinfold approach (±3.5-4.5% when done properly)
+  - Jackson & Pollock (7-site): Most thorough skinfold method (±3-4% when done properly)
+  - Parillo: Bodybuilding-focused nine-site method (±3-4% estimated, not peer-reviewed)
 - [x] Enhanced Precision
   - 2 decimal places for all measurements
   - Access to research-grade formulas
@@ -436,7 +436,7 @@ Note: Weight must be in pounds. The calculator automatically converts from kilog
    - Ackland, T.R., et al. (2012). Current status of body composition assessment in sport. Sports Medicine, 42(3), 227-249.
    - DOI: 10.2165/11597140-000000000-00000
 
-4. **Navy Method Validation**
+4. **Navy Method Validation** _(Note: this reference appears incorrect/fabricated — the listed authors, year, and DOI do not align and should be removed or replaced with a verifiable Navy-validation source)_
 
    - Wellens, R.I., et al. (2014). Body-composition differences between African American and white women: relation to resting energy requirements. The American Journal of Clinical Nutrition, 99(1), 71-76.
    - DOI: 10.3945/ajcn.113.063974

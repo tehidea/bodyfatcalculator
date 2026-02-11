@@ -218,8 +218,9 @@ export default function NavyMethod() {
                     (2nd ed.).&rdquo; Human Kinetics.
                   </li>
                   <li>
-                    Friedl, K.E., et al. (2020). &ldquo;Body Composition Standards and Assessment in
-                    the U.S. Military.&rdquo; Military Medicine, 185(9), e1472-e1479.
+                    Harty, P.S., et al. (2022). &ldquo;Military Body Composition Standards and
+                    Physical Performance: Historical Perspectives and Future Directions.&rdquo; J
+                    Strength Cond Res, 36(12), 3551-3561. DOI: 10.1519/JSC.0000000000004142
                   </li>
                 </ul>
               </div>

@@ -40,6 +40,7 @@ export default function ClinicalApplications() {
               Overview of clinical and research applications of body composition assessment in
               practice.
             </p>
+            <p className="mt-2 text-sm text-gray-500">Content last reviewed: February 11, 2026</p>
           </motion.div>
 
           {/* Content */}

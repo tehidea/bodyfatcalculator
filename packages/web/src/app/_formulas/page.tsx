@@ -24,7 +24,7 @@ export default function Formulas() {
               Body Fat Calculation Formulas & Equations
             </h1>
             <p className="mt-4 text-base text-gray-400">
-              Comprehensive documentation of scientifically validated formulas and equations used in
+              Comprehensive documentation of published research-backed formulas and equations used in
               body fat calculation, including research validation, error ranges, and practical
               applications.
             </p>

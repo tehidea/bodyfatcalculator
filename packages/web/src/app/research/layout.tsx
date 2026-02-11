@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     type: 'article',
     authors: ['Body Fat Calculator (PRO) Research Team'],
     publishedTime: '2024-01-04',
-    modifiedTime: '2024-01-04',
+    modifiedTime: '2026-02-11',
   },
   twitter: {
     card: 'summary_large_image',
@@ -23,6 +23,32 @@ export const metadata: Metadata = {
   },
 }
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Body Fat Research & Scientific Validation',
+  datePublished: '2024-01-04',
+  dateModified: '2026-02-11',
+  author: {
+    '@type': 'Organization',
+    name: 'Body Fat Calculator (PRO)',
+    url: 'https://bodyfatcalculator.pro',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Body Fat Calculator (PRO)',
+    url: 'https://bodyfatcalculator.pro',
+  },
+}
+
 export default function ResearchLayout({ children }: { children: React.ReactNode }) {
-  return children
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {children}
+    </>
+  )
 }

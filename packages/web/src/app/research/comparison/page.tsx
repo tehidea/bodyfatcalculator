@@ -40,6 +40,7 @@ export default function MethodComparison() {
               Comparison of body fat measurement methods based on published research and commonly
               reported accuracy ranges.
             </p>
+            <p className="mt-2 text-sm text-gray-500">Content last reviewed: February 11, 2026</p>
           </motion.div>
 
           {/* Content */}
@@ -83,8 +84,9 @@ export default function MethodComparison() {
             >
               <h2 className="text-2xl font-semibold text-white">Validated Methods Comparison</h2>
               <p className="mb-6 mt-4 text-gray-400">
-                Comparison based on reported accuracy ranges and method requirements. Results depend
-                on measurement technique.
+                Comparison of field methods with published accuracy data. Most skinfold ranges are
+                reported as Standard Error of Estimate (SEE); some circumference ranges use reported
+                or estimated field error ranges. Results depend on measurement technique.
               </p>
               <div className="mt-6 overflow-x-auto">
                 <table className="w-full min-w-[800px] border-collapse text-left">

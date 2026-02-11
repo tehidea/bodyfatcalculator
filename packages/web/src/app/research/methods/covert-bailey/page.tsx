@@ -37,9 +37,10 @@ export default function CovertBaileyMethod() {
             </h1>
             <p className="mt-4 text-base text-gray-400">
               Comprehensive analysis of the Covert Bailey body fat assessment method, known for its
-              practical approach to fitness and body composition measurement. Explore its
-              development, validation studies, and applications in general fitness assessment.
+              practical approach to circumference-based body composition measurement. Explore its
+              development and applications in general fitness assessment.
             </p>
+            <p className="mt-2 text-sm text-gray-500">Content last reviewed: February 11, 2026</p>
           </motion.div>
 
           {/* Content */}
@@ -71,11 +72,10 @@ export default function CovertBaileyMethod() {
                 <div>
                   <h3 className="text-lg font-semibold text-white">Method Evolution</h3>
                   <div className="mt-4 space-y-4">
-                    <p className="text-gray-300">Refinement and validation over time:</p>
+                    <p className="text-gray-300">Adoption in fitness settings:</p>
                     <div className="rounded-lg bg-black/20 p-4">
                       <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-300">
                         <li>Initial fitness center implementation</li>
-                        <li>Research validation studies</li>
                         <li>Integration with fitness programs</li>
                         <li>Modern adaptations</li>
                       </ul>
@@ -123,13 +123,16 @@ export default function CovertBaileyMethod() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-white">Statistical Validation</h3>
+                  <h3 className="text-lg font-semibold text-white">Accuracy Estimates</h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
-                      Reported accuracy ranges and practical considerations:
+                      Estimated accuracy ranges (no peer-reviewed validation studies exist):
                     </p>
                     <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                      <li>Typical accuracy range: ±4-5%</li>
+                      <li>
+                        Estimated accuracy range: ±4-5% (author&apos;s claim, not independently
+                        verified)
+                      </li>
                       <li>Age- and gender-specific equations</li>
                       <li>Requires precise measurement technique</li>
                     </ul>

@@ -73,8 +73,8 @@ export function Hero() {
             </h1>
 
             <p className="mt-6 text-lg leading-8 text-gray-300">
-              Get research-backed accuracy ranges across 9 validated methods. Perfect for trainers,
-              athletes, and fitness enthusiasts who want consistent estimates.
+              Estimate body fat with 9 methods backed by published research and field protocols.
+              Perfect for trainers, athletes, and fitness enthusiasts who want consistent estimates.
             </p>
 
             <motion.div
@@ -84,12 +84,15 @@ export function Hero() {
               className="mt-8 flex flex-wrap gap-4"
             >
               <div className="inline-flex items-center rounded-full bg-white/5 px-4 py-1 text-sm font-medium text-white ring-1 ring-inset ring-white/10 transition-colors hover:bg-white/10">
-                <span className="mr-2 text-[#4CAF50]">✓</span> ±3-5% PRO Accuracy
+                <span className="mr-2 text-[#4CAF50]">✓</span> ±3-5% PRO Accuracy*
               </div>
               <div className="inline-flex items-center rounded-full bg-white/5 px-4 py-1 text-sm font-medium text-white ring-1 ring-inset ring-white/10 transition-colors hover:bg-white/10">
                 <span className="mr-2 text-[#4CAF50]">✓</span> 6 Professional Methods
               </div>
             </motion.div>
+            <p className="mt-3 text-xs text-gray-500">
+              * Accuracy ranges are estimates. Results depend on measurement technique.
+            </p>
 
             <div className="mt-10 flex flex-wrap items-center gap-6">
               <AppStoreLink size="large" color="white" />

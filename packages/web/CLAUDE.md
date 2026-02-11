@@ -31,7 +31,7 @@ This is the **Next.js website** component of the Body Fat Calculator project. Th
 
 ## Architecture Overview
 
-This is a Next.js 14 App Router application for body fat calculation using multiple scientifically validated methods.
+This is a Next.js 14 App Router application for body fat calculation using multiple research-backed methods.
 
 ### Key Architecture Elements
 
@@ -77,7 +77,7 @@ This is a Next.js 14 App Router application for body fat calculation using multi
 - Use descriptive variable names with auxiliary verbs (isLoading, hasError)
 
 ### Content Guidelines
-- All body fat calculation content must be based on scientifically validated research
+- All body fat calculation content must be based on published, verifiable research
 - Extensive list of 50+ canonical research papers specified in .cursorrules
 - Citations must be verifiable with DOIs when possible
 - No fabricated statistics or sources allowed

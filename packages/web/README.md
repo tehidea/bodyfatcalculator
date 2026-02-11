@@ -1,10 +1,10 @@
 # Body Fat Calculator (PRO)
 
-A professional-grade body fat measurement web application with multiple scientifically validated methods. This Next.js application provides accurate body fat percentage calculations using various established measurement techniques.
+A professional-grade body fat measurement web application with multiple research-backed methods. This Next.js application provides accurate body fat percentage calculations using various established measurement techniques.
 
 ## Features
 
-- Multiple scientifically validated body fat calculation methods
+- Multiple research-backed body fat calculation methods
 - Professional-grade accuracy based on peer-reviewed research
 - Modern, responsive UI built with Tailwind CSS
 - Privacy-focused with configurable consent management

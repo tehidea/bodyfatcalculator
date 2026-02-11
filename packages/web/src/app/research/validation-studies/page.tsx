@@ -41,6 +41,7 @@ export default function ValidationStudies() {
               laboratory standards, based on research by Jackson & Pollock (1978), Durnin &
               Womersley (1974), and recent systematic reviews (Wagner & Heyward, 1999).
             </p>
+            <p className="mt-2 text-sm text-gray-500">Content last reviewed: February 11, 2026</p>
           </motion.div>
 
           {/* Content */}
@@ -239,17 +240,21 @@ export default function ValidationStudies() {
                     </div>
                   </div>
 
-                  {/* Parrillo Method Studies */}
+                  {/* Parrillo Method */}
                   <div>
-                    <h3 className="text-lg font-semibold text-white">Parrillo Method Validation</h3>
+                    <h3 className="text-lg font-semibold text-white">Parrillo Method</h3>
                     <div className="mt-4 space-y-4">
                       <p className="text-gray-300">
-                        Nine-site method commonly used in bodybuilding contexts:
+                        Nine-site skinfold method from Parrillo & Greenwood-Robinson (1993). This
+                        method has not been independently validated in peer-reviewed research.
                       </p>
                       <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                        <li>Typical accuracy range: ±3-4%</li>
-                        <li>Best for tracking changes in trained individuals</li>
-                        <li>Consistency in site location is essential</li>
+                        <li>
+                          Estimated accuracy range: ±3-4% (based on number of measurement sites, not
+                          published SEE)
+                        </li>
+                        <li>Commonly used in bodybuilding for tracking changes over time</li>
+                        <li>No peer-reviewed validation studies available</li>
                       </ul>
                     </div>
                   </div>
@@ -292,8 +297,14 @@ export default function ValidationStudies() {
                         Simple circumference-based equations with two variants:
                       </p>
                       <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                        <li>YMCA: ±5-7% accuracy, best for tracking trends</li>
-                        <li>Modified YMCA: ±4-6% accuracy with added measurements for women</li>
+                        <li>
+                          YMCA: ±5-7% estimated accuracy — no published SEE, best for tracking
+                          trends
+                        </li>
+                        <li>
+                          Modified YMCA: ±4-6% estimated accuracy — no published SEE, extra
+                          measurements for women
+                        </li>
                         <li>Less accurate for athletic or non-standard body types</li>
                       </ul>
                     </div>
@@ -301,15 +312,20 @@ export default function ValidationStudies() {
 
                   {/* Covert Bailey Method */}
                   <div>
-                    <h3 className="text-lg font-semibold text-white">Covert Bailey Validation</h3>
+                    <h3 className="text-lg font-semibold text-white">Covert Bailey Method</h3>
                     <div className="mt-4 space-y-4">
                       <p className="text-gray-300">
-                        Age- and gender-specific circumference method:
+                        Circumference-based method from Bailey&apos;s &ldquo;The Ultimate Fit or
+                        Fat&rdquo; (1991/1999). No peer-reviewed validation studies have been
+                        published.
                       </p>
                       <ul className="list-inside list-disc space-y-2 text-gray-300 marker:text-[#FF0000]">
-                        <li>Typical accuracy range: ±4-5%</li>
-                        <li>More reliable across different body types</li>
-                        <li>Requires precise measurement technique</li>
+                        <li>
+                          Estimated accuracy range: ±4-5% (author&apos;s claim, not independently
+                          verified)
+                        </li>
+                        <li>Uses age- and gender-specific circumference measurements</li>
+                        <li>Useful as a no-equipment-needed estimate for trend tracking</li>
                       </ul>
                     </div>
                   </div>
@@ -387,8 +403,17 @@ export default function ValidationStudies() {
                     ed.).&rdquo; YMCA of the USA.
                   </li>
                   <li>
-                    Friedl, K.E., et al. (2020). &ldquo;Body Composition Standards and Assessment in
-                    the U.S. Military.&rdquo; Military Medicine, 185(9), e1472-e1479.
+                    Harty, P.S., et al. (2022). &ldquo;Military Body Composition Standards and
+                    Physical Performance: Historical Perspectives and Future Directions.&rdquo; J
+                    Strength Cond Res, 36(12), 3551-3561. DOI: 10.1519/JSC.0000000000004142
+                  </li>
+                  <li>
+                    Parrillo, J., & Greenwood-Robinson, M. (1993). &ldquo;High-Performance
+                    Body-Building.&rdquo; Perigee Books. ISBN: 978-0399517716
+                  </li>
+                  <li>
+                    Bailey, C. (1999). &ldquo;The Ultimate Fit or Fat.&rdquo; Houghton Mifflin
+                    Harcourt. ISBN: 978-0395959411
                   </li>
                 </ul>
               </div>

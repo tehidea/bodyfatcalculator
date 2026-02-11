@@ -48,12 +48,12 @@ const faqs = [
     {
       question: 'How accurate are the measurements?',
       answer:
-        'Accuracy depends on the method and technique. Free methods typically fall around ±4-7%, while PRO+ skinfold methods are usually ±3-5% when performed correctly. Consistent technique and site location matter most.',
+        'Accuracy depends on the method and your technique. Free methods typically fall around ±4-7%, while PRO+ skinfold methods are typically ±3-5%. All ranges are estimates — real-world accuracy depends heavily on correct site location, consistent technique, caliper quality, and hydration status. Track trends over time rather than treating any single reading as exact.',
     },
     {
       question: 'How accurate are the Navy and YMCA methods?',
       answer:
-        'The Navy method typically achieves ±4-6% accuracy, while the YMCA method ranges from ±5-7%. While slightly less precise than skinfold methods, they provide reliable tracking when used consistently.',
+        'The Navy method typically falls around ±4-6%, while the YMCA method ranges from ±5-7%. These are circumference-based estimates — less precise than skinfold methods, but useful for tracking trends when measured consistently with the same technique.',
     },
     {
       question: 'Why do different methods give different results?',
@@ -110,7 +110,7 @@ const faqs = [
     {
       question: 'Are the formulas scientifically validated?',
       answer:
-        'Yes, the formulas are based on peer-reviewed research and standard field protocols. We provide references to the original sources, and accuracy ranges assume proper measurement technique.',
+        'The Jackson & Pollock and Durnin & Womersley formulas are based on peer-reviewed research. The U.S. Navy method is based on military technical reports and field protocols. The Parrillo and Covert Bailey methods come from published fitness books rather than peer-reviewed journals. The YMCA methods are based on standard fitness testing protocols. All accuracy ranges are estimates that assume proper measurement technique — consistency matters more than any single reading.',
     },
     {
       question: 'Do you offer support?',
