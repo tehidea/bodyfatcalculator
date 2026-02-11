@@ -15,14 +15,16 @@ export function WhatsNewScreen({ navigation }: { navigation: any }) {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.innerContainer}>
-        <BrandHeader subtitle="What's New" variant="compact" />
-
-        <View style={styles.backRow}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-            <Icon name="arrow-left" type="feather" color={COLORS.text} size={20} />
-            <Text style={styles.backText}>Settings</Text>
-          </TouchableOpacity>
-        </View>
+        <BrandHeader
+          subtitle="What's New"
+          variant="compact"
+          leftElement={
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+              <Icon name="arrow-left" type="feather" color={COLORS.textDark} size={20} />
+              <Text style={styles.backText}>Settings</Text>
+            </TouchableOpacity>
+          }
+        />
 
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           {CHANGELOG.map((entry) => (
@@ -115,19 +117,13 @@ const createStyles = (
       flex: 1,
       backgroundColor: COLORS.background,
     },
-    backRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      paddingHorizontal: getResponsiveSpacing(16),
-      paddingVertical: getResponsiveSpacing(8),
-    },
     backButton: {
       flexDirection: 'row',
       alignItems: 'center',
       gap: getResponsiveSpacing(6),
     },
     backText: {
-      color: COLORS.text,
+      color: COLORS.textDark,
       fontSize: getResponsiveTypography('sm'),
       lineHeight: getLineHeight('sm'),
     },

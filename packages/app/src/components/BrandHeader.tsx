@@ -8,11 +8,12 @@ import { createBrandHeaderStyles } from './BrandHeader.styles'
 interface BrandHeaderProps {
   subtitle: string
   variant?: 'full' | 'compact'
+  leftElement?: React.ReactNode
   rightElement?: React.ReactNode
 }
 
 export const BrandHeader = memo(
-  ({ subtitle, variant = 'full', rightElement }: BrandHeaderProps) => {
+  ({ subtitle, variant = 'full', leftElement, rightElement }: BrandHeaderProps) => {
     const { getResponsiveSpacing, getResponsiveTypography, getLineHeight } = useResponsive()
     const styles = createBrandHeaderStyles(
       getResponsiveSpacing,
@@ -25,6 +26,7 @@ export const BrandHeader = memo(
 
     return (
       <View style={styles.header}>
+        {leftElement && <View style={styles.leftElement}>{leftElement}</View>}
         <Logo style={styles.logo} width={logoWidth} accessibilityLabel="Calculator logo" />
         <View style={styles.headerTextContainer}>
           <View style={styles.titleContainer}>

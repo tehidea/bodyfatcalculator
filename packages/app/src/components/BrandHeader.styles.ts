@@ -45,6 +45,9 @@ export const createBrandHeaderStyles = (
       fontFamily: 'Montserrat-Light',
       textTransform: 'uppercase',
     },
+    leftElement: {
+      marginRight: getResponsiveSpacing(8),
+    },
     rightElement: {
       marginLeft: 'auto',
     },
