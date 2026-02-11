@@ -19,6 +19,29 @@ const FREQUENCY_OPTIONS: { value: ReminderFrequency; label: string }[] = [
   { value: 'monthly', label: 'Monthly' },
 ]
 
+const WEEKDAY_OPTIONS: { value: number; label: string }[] = [
+  { value: 1, label: 'Sunday' },
+  { value: 2, label: 'Monday' },
+  { value: 3, label: 'Tuesday' },
+  { value: 4, label: 'Wednesday' },
+  { value: 5, label: 'Thursday' },
+  { value: 6, label: 'Friday' },
+  { value: 7, label: 'Saturday' },
+]
+
+const DAY_OPTIONS = Array.from({ length: 28 }, (_, i) => {
+  const day = i + 1
+  const suffix =
+    day === 1 || day === 21
+      ? 'st'
+      : day === 2 || day === 22
+        ? 'nd'
+        : day === 3 || day === 23
+          ? 'rd'
+          : 'th'
+  return { value: day, label: `${day}${suffix}` }
+})
+
 const HOUR_OPTIONS = Array.from({ length: 24 }, (_, i) => {
   const hour12 = i % 12 || 12
   const ampm = i < 12 ? 'AM' : 'PM'
@@ -35,6 +58,8 @@ export function ReminderSettings({ isProPlus, onShowPaywall }: ReminderSettingsP
   const styles = createStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing)
   const [settings, setSettings] = useState<ReminderSettingsType | null>(null)
   const [showFrequency, setShowFrequency] = useState(false)
+  const [showWeekday, setShowWeekday] = useState(false)
+  const [showDay, setShowDay] = useState(false)
   const [showTime, setShowTime] = useState(false)
 
   useEffect(() => {
@@ -63,6 +88,13 @@ export function ReminderSettings({ isProPlus, onShowPaywall }: ReminderSettingsP
     },
     [settings],
   )
+
+  const closeAllDropdowns = useCallback(() => {
+    setShowFrequency(false)
+    setShowWeekday(false)
+    setShowDay(false)
+    setShowTime(false)
+  }, [])
 
   const handleToggleEnabled = useCallback(async () => {
     if (!isProPlus) {
@@ -96,6 +128,8 @@ export function ReminderSettings({ isProPlus, onShowPaywall }: ReminderSettingsP
   if (!settings) return null
 
   const selectedFrequency = FREQUENCY_OPTIONS.find((o) => o.value === settings.frequency)
+  const selectedWeekday = WEEKDAY_OPTIONS.find((o) => o.value === settings.weekday)
+  const selectedDay = DAY_OPTIONS.find((o) => o.value === settings.day)
   const selectedTime = HOUR_OPTIONS.find((o) => o.value === settings.hour)
 
   return (
@@ -120,8 +154,9 @@ export function ReminderSettings({ isProPlus, onShowPaywall }: ReminderSettingsP
           <TouchableOpacity
             style={styles.row}
             onPress={() => {
-              setShowFrequency(!showFrequency)
-              setShowTime(false)
+              const wasOpen = showFrequency
+              closeAllDropdowns()
+              if (!wasOpen) setShowFrequency(true)
             }}
             activeOpacity={0.6}
           >
@@ -144,7 +179,7 @@ export function ReminderSettings({ isProPlus, onShowPaywall }: ReminderSettingsP
                   ]}
                   onPress={() => {
                     updateSettings({ frequency: option.value })
-                    setShowFrequency(false)
+                    closeAllDropdowns()
                   }}
                   activeOpacity={0.6}
                 >
@@ -164,12 +199,119 @@ export function ReminderSettings({ isProPlus, onShowPaywall }: ReminderSettingsP
             </View>
           )}
 
+          {/* Day of Week (weekly only) */}
+          {settings.frequency === 'weekly' && (
+            <>
+              <TouchableOpacity
+                style={styles.row}
+                onPress={() => {
+                  const wasOpen = showWeekday
+                  closeAllDropdowns()
+                  if (!wasOpen) setShowWeekday(true)
+                }}
+                activeOpacity={0.6}
+              >
+                <Icon name="calendar" type="feather" color="#666" size={20} />
+                <Text style={styles.label}>Day</Text>
+                <View style={styles.rightSide}>
+                  <Text style={styles.value}>{selectedWeekday?.label}</Text>
+                  <Icon name="chevron-right" type="feather" color="#ccc" size={20} />
+                </View>
+              </TouchableOpacity>
+
+              {showWeekday && (
+                <View style={styles.optionsContainer}>
+                  {WEEKDAY_OPTIONS.map((option) => (
+                    <TouchableOpacity
+                      key={option.value}
+                      style={[
+                        styles.optionRow,
+                        settings.weekday === option.value && styles.optionRowSelected,
+                      ]}
+                      onPress={() => {
+                        updateSettings({ weekday: option.value })
+                        setShowWeekday(false)
+                      }}
+                      activeOpacity={0.6}
+                    >
+                      <Text
+                        style={[
+                          styles.optionText,
+                          settings.weekday === option.value && styles.optionTextSelected,
+                        ]}
+                      >
+                        {option.label}
+                      </Text>
+                      {settings.weekday === option.value && (
+                        <Icon name="check" type="feather" color={COLORS.primary} size={18} />
+                      )}
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              )}
+            </>
+          )}
+
+          {/* Day of Month (monthly only) */}
+          {settings.frequency === 'monthly' && (
+            <>
+              <TouchableOpacity
+                style={styles.row}
+                onPress={() => {
+                  const wasOpen = showDay
+                  closeAllDropdowns()
+                  if (!wasOpen) setShowDay(true)
+                }}
+                activeOpacity={0.6}
+              >
+                <Icon name="calendar" type="feather" color="#666" size={20} />
+                <Text style={styles.label}>Day</Text>
+                <View style={styles.rightSide}>
+                  <Text style={styles.value}>{selectedDay?.label}</Text>
+                  <Icon name="chevron-right" type="feather" color="#ccc" size={20} />
+                </View>
+              </TouchableOpacity>
+
+              {showDay && (
+                <View style={styles.optionsContainer}>
+                  {DAY_OPTIONS.map((option) => (
+                    <TouchableOpacity
+                      key={option.value}
+                      style={[
+                        styles.optionRow,
+                        settings.day === option.value && styles.optionRowSelected,
+                      ]}
+                      onPress={() => {
+                        updateSettings({ day: option.value })
+                        setShowDay(false)
+                      }}
+                      activeOpacity={0.6}
+                    >
+                      <Text
+                        style={[
+                          styles.optionText,
+                          settings.day === option.value && styles.optionTextSelected,
+                        ]}
+                      >
+                        {option.label}
+                      </Text>
+                      {settings.day === option.value && (
+                        <Icon name="check" type="feather" color={COLORS.primary} size={18} />
+                      )}
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              )}
+            </>
+          )}
+
           {/* Time */}
           <TouchableOpacity
             style={styles.row}
             onPress={() => {
-              setShowTime(!showTime)
-              setShowFrequency(false)
+              const wasOpen = showTime
+              closeAllDropdowns()
+              if (!wasOpen) setShowTime(true)
             }}
             activeOpacity={0.6}
           >

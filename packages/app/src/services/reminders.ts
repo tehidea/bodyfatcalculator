@@ -10,6 +10,7 @@ export interface ReminderSettings {
   hour: number
   minute: number
   weekday: number // 1=Sunday, 2=Monday, ..., 7=Saturday
+  day: number // 1–28, day of month for monthly reminders
 }
 
 const REMINDER_SETTINGS_KEY = 'reminder_settings'
@@ -21,6 +22,7 @@ const DEFAULT_SETTINGS: ReminderSettings = {
   hour: 9,
   minute: 0,
   weekday: 2, // Monday
+  day: 1, // 1st of the month
 }
 
 export async function requestNotificationPermissions(): Promise<boolean> {
@@ -77,7 +79,7 @@ function getTrigger(settings: ReminderSettings): Notifications.NotificationTrigg
     case 'monthly':
       return {
         type: Notifications.SchedulableTriggerInputTypes.MONTHLY,
-        day: Math.min(new Date().getDate(), 28),
+        day: settings.day,
         hour,
         minute,
       }
