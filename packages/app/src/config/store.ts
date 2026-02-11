@@ -26,13 +26,15 @@ async function syncUserProperties(properties: any = {}) {
   try {
     const installId = await AsyncStorage.getItem('installId')
 
-    // Update PostHog user properties
+    // Update PostHog user properties via $set (RN SDK has no setPersonProperties method)
     if (posthogInstance && installId) {
-      posthogInstance.setPersonProperties({
-        ...properties,
-        platform: Platform.OS,
-        app_version: Constants.expoConfig?.version,
-        last_updated: new Date().toISOString(),
+      posthogInstance.capture('user_properties_updated', {
+        $set: {
+          ...properties,
+          platform: Platform.OS,
+          app_version: Constants.expoConfig?.version,
+          last_updated: new Date().toISOString(),
+        },
       })
     }
 
