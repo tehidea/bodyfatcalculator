@@ -28,7 +28,14 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.tehidea.bodyfatcalculator",
-      "versionCode": 12
+      "versionCode": 12,
+      "permissions": [
+        "android.permission.health.READ_BODY_FAT",
+        "android.permission.health.WRITE_BODY_FAT",
+        "android.permission.health.WRITE_WEIGHT",
+        "android.permission.health.WRITE_HEIGHT",
+        "android.permission.health.WRITE_LEAN_BODY_MASS"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -67,7 +74,16 @@
           "iCloudContainerEnvironment": "Production",
           "iCloudContainerIdentifier": "iCloud.com.tehidea.bodyfatcalculator"
         }
-      ]
+      ],
+      [
+        "react-native-health",
+        {
+          "isClinicalDataEnabled": false,
+          "healthSharePermission": "Body Fat Calculator reads your body fat data to display trends",
+          "healthUpdatePermission": "Body Fat Calculator saves your body fat, weight, height, and body composition results"
+        }
+      ],
+      "react-native-health-connect"
     ]
   }
 }

@@ -22,20 +22,20 @@ export type HealthMetric = 'weight' | 'height' | 'waist' | 'leanMass' | 'bmi'
 // ── iOS HealthKit ──────────────────────────────────────────────
 
 async function iosRequestPermissions(): Promise<boolean> {
-  const AppleHealthKit = require('react-native-health').default
-  const { HealthKitDataType } = require('react-native-health')
+  const AppleHealthKit = require('react-native-health')
+  const Permissions = AppleHealthKit.Constants.Permissions
 
   return new Promise((resolve) => {
     const permissions = {
       permissions: {
-        read: [HealthKitDataType.BodyFatPercentage],
+        read: [Permissions.BodyFatPercentage],
         write: [
-          HealthKitDataType.BodyFatPercentage,
-          HealthKitDataType.Weight,
-          HealthKitDataType.Height,
-          HealthKitDataType.WaistCircumference,
-          HealthKitDataType.LeanBodyMass,
-          HealthKitDataType.BodyMassIndex,
+          Permissions.BodyFatPercentage,
+          Permissions.Weight,
+          Permissions.Height,
+          Permissions.WaistCircumference,
+          Permissions.LeanBodyMass,
+          Permissions.BodyMassIndex,
         ],
       },
     }
@@ -52,7 +52,7 @@ async function iosRequestPermissions(): Promise<boolean> {
 }
 
 async function iosWriteBodyFat(percentage: number): Promise<boolean> {
-  const AppleHealthKit = require('react-native-health').default
+  const AppleHealthKit = require('react-native-health')
 
   return new Promise((resolve) => {
     AppleHealthKit.saveBodyFatPercentage({ value: percentage }, (error: string) => {
@@ -67,7 +67,7 @@ async function iosWriteBodyFat(percentage: number): Promise<boolean> {
 }
 
 async function iosWriteWeight(value: number, system: MeasurementSystem): Promise<boolean> {
-  const AppleHealthKit = require('react-native-health').default
+  const AppleHealthKit = require('react-native-health')
   return new Promise((resolve) => {
     const options =
       system === 'metric' ? { value: value * 1000, unit: 'gram' } : { value, unit: 'pound' }
@@ -83,7 +83,7 @@ async function iosWriteWeight(value: number, system: MeasurementSystem): Promise
 }
 
 async function iosWriteHeight(value: number, system: MeasurementSystem): Promise<boolean> {
-  const AppleHealthKit = require('react-native-health').default
+  const AppleHealthKit = require('react-native-health')
   return new Promise((resolve) => {
     const options =
       system === 'metric' ? { value: value / 100, unit: 'meter' } : { value, unit: 'inch' }
@@ -99,7 +99,7 @@ async function iosWriteHeight(value: number, system: MeasurementSystem): Promise
 }
 
 async function iosWriteWaist(value: number, system: MeasurementSystem): Promise<boolean> {
-  const AppleHealthKit = require('react-native-health').default
+  const AppleHealthKit = require('react-native-health')
   return new Promise((resolve) => {
     const options =
       system === 'metric' ? { value: value / 100, unit: 'meter' } : { value, unit: 'inch' }
@@ -115,7 +115,7 @@ async function iosWriteWaist(value: number, system: MeasurementSystem): Promise<
 }
 
 async function iosWriteLeanMass(value: number, system: MeasurementSystem): Promise<boolean> {
-  const AppleHealthKit = require('react-native-health').default
+  const AppleHealthKit = require('react-native-health')
   return new Promise((resolve) => {
     const options =
       system === 'metric' ? { value: value * 1000, unit: 'gram' } : { value, unit: 'pound' }
@@ -131,7 +131,7 @@ async function iosWriteLeanMass(value: number, system: MeasurementSystem): Promi
 }
 
 async function iosWriteBmi(value: number): Promise<boolean> {
-  const AppleHealthKit = require('react-native-health').default
+  const AppleHealthKit = require('react-native-health')
   return new Promise((resolve) => {
     AppleHealthKit.saveBmi({ value }, (error: string) => {
       if (error) {
@@ -145,7 +145,7 @@ async function iosWriteBmi(value: number): Promise<boolean> {
 }
 
 async function iosReadBodyFatHistory(days = 90): Promise<BodyFatSample[]> {
-  const AppleHealthKit = require('react-native-health').default
+  const AppleHealthKit = require('react-native-health')
 
   const startDate = new Date()
   startDate.setDate(startDate.getDate() - days)
@@ -177,7 +177,7 @@ async function iosReadBodyFatHistory(days = 90): Promise<BodyFatSample[]> {
 
 async function iosIsAvailable(): Promise<boolean> {
   try {
-    const AppleHealthKit = require('react-native-health').default
+    const AppleHealthKit = require('react-native-health')
     return new Promise((resolve) => {
       AppleHealthKit.isAvailable((error: string, available: boolean) => {
         resolve(!error && available)
