@@ -107,7 +107,7 @@ export const createStyles = (
       borderTopColor: '#d8d8d8',
     },
     referencesContainer: {
-      backgroundColor: 'rgba(255, 255, 255, 0.05)',
+      backgroundColor: 'rgba(0, 0, 0, 0.08)',
       borderRadius: 12,
       padding: getResponsiveSpacing(12),
       marginTop: getResponsiveSpacing(24),
