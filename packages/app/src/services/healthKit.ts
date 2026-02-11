@@ -1,4 +1,10 @@
 import type { MeasurementSystem } from '@bodyfat/shared/types'
+import {
+  isHealthDataAvailable,
+  queryQuantitySamples,
+  requestAuthorization,
+  saveQuantitySample,
+} from '@kingstinct/react-native-healthkit'
 import { Platform } from 'react-native'
 
 export interface BodyFatSample {
@@ -22,167 +28,116 @@ export type HealthMetric = 'weight' | 'height' | 'waist' | 'leanMass' | 'bmi'
 // ── iOS HealthKit ──────────────────────────────────────────────
 
 async function iosRequestPermissions(): Promise<boolean> {
-  const AppleHealthKit = require('react-native-health')
-  const Permissions = AppleHealthKit.Constants.Permissions
-
-  return new Promise((resolve) => {
-    const permissions = {
-      permissions: {
-        read: [Permissions.BodyFatPercentage],
-        write: [
-          Permissions.BodyFatPercentage,
-          Permissions.Weight,
-          Permissions.Height,
-          Permissions.WaistCircumference,
-          Permissions.LeanBodyMass,
-          Permissions.BodyMassIndex,
-        ],
-      },
-    }
-
-    AppleHealthKit.initHealthKit(permissions, (error: string) => {
-      if (error) {
-        console.warn('HealthKit init error:', error)
-        resolve(false)
-        return
-      }
-      resolve(true)
+  try {
+    await requestAuthorization({
+      toRead: ['HKQuantityTypeIdentifierBodyFatPercentage'],
+      toShare: [
+        'HKQuantityTypeIdentifierBodyFatPercentage',
+        'HKQuantityTypeIdentifierBodyMass',
+        'HKQuantityTypeIdentifierHeight',
+        'HKQuantityTypeIdentifierWaistCircumference',
+        'HKQuantityTypeIdentifierLeanBodyMass',
+        'HKQuantityTypeIdentifierBodyMassIndex',
+      ],
     })
-  })
+    return true
+  } catch (error) {
+    console.warn('HealthKit authorization error:', error)
+    return false
+  }
 }
 
 async function iosWriteBodyFat(percentage: number): Promise<boolean> {
-  const AppleHealthKit = require('react-native-health')
-
-  return new Promise((resolve) => {
-    AppleHealthKit.saveBodyFatPercentage({ value: percentage }, (error: string) => {
-      if (error) {
-        console.warn('HealthKit save error:', error)
-        resolve(false)
-        return
-      }
-      resolve(true)
-    })
-  })
+  try {
+    await saveQuantitySample('HKQuantityTypeIdentifierBodyFatPercentage', '%', percentage / 100)
+    return true
+  } catch (error) {
+    console.warn('HealthKit save error:', error)
+    return false
+  }
 }
 
 async function iosWriteWeight(value: number, system: MeasurementSystem): Promise<boolean> {
-  const AppleHealthKit = require('react-native-health')
-  return new Promise((resolve) => {
-    const options =
-      system === 'metric' ? { value: value * 1000, unit: 'gram' } : { value, unit: 'pound' }
-    AppleHealthKit.saveWeight(options, (error: string) => {
-      if (error) {
-        console.warn('HealthKit saveWeight error:', error)
-        resolve(false)
-        return
-      }
-      resolve(true)
-    })
-  })
+  try {
+    const unit = system === 'metric' ? 'kg' : 'lb'
+    await saveQuantitySample('HKQuantityTypeIdentifierBodyMass', unit, value)
+    return true
+  } catch (error) {
+    console.warn('HealthKit saveWeight error:', error)
+    return false
+  }
 }
 
 async function iosWriteHeight(value: number, system: MeasurementSystem): Promise<boolean> {
-  const AppleHealthKit = require('react-native-health')
-  return new Promise((resolve) => {
-    const options =
-      system === 'metric' ? { value: value / 100, unit: 'meter' } : { value, unit: 'inch' }
-    AppleHealthKit.saveHeight(options, (error: string) => {
-      if (error) {
-        console.warn('HealthKit saveHeight error:', error)
-        resolve(false)
-        return
-      }
-      resolve(true)
-    })
-  })
+  try {
+    const unit = system === 'metric' ? 'cm' : 'in'
+    await saveQuantitySample('HKQuantityTypeIdentifierHeight', unit, value)
+    return true
+  } catch (error) {
+    console.warn('HealthKit saveHeight error:', error)
+    return false
+  }
 }
 
 async function iosWriteWaist(value: number, system: MeasurementSystem): Promise<boolean> {
-  const AppleHealthKit = require('react-native-health')
-  return new Promise((resolve) => {
-    const options =
-      system === 'metric' ? { value: value / 100, unit: 'meter' } : { value, unit: 'inch' }
-    AppleHealthKit.saveWaistCircumference(options, (error: string) => {
-      if (error) {
-        console.warn('HealthKit saveWaistCircumference error:', error)
-        resolve(false)
-        return
-      }
-      resolve(true)
-    })
-  })
+  try {
+    const unit = system === 'metric' ? 'cm' : 'in'
+    await saveQuantitySample('HKQuantityTypeIdentifierWaistCircumference', unit, value)
+    return true
+  } catch (error) {
+    console.warn('HealthKit saveWaist error:', error)
+    return false
+  }
 }
 
 async function iosWriteLeanMass(value: number, system: MeasurementSystem): Promise<boolean> {
-  const AppleHealthKit = require('react-native-health')
-  return new Promise((resolve) => {
-    const options =
-      system === 'metric' ? { value: value * 1000, unit: 'gram' } : { value, unit: 'pound' }
-    AppleHealthKit.saveLeanBodyMass(options, (error: string) => {
-      if (error) {
-        console.warn('HealthKit saveLeanBodyMass error:', error)
-        resolve(false)
-        return
-      }
-      resolve(true)
-    })
-  })
+  try {
+    const unit = system === 'metric' ? 'kg' : 'lb'
+    await saveQuantitySample('HKQuantityTypeIdentifierLeanBodyMass', unit, value)
+    return true
+  } catch (error) {
+    console.warn('HealthKit saveLeanMass error:', error)
+    return false
+  }
 }
 
 async function iosWriteBmi(value: number): Promise<boolean> {
-  const AppleHealthKit = require('react-native-health')
-  return new Promise((resolve) => {
-    AppleHealthKit.saveBmi({ value }, (error: string) => {
-      if (error) {
-        console.warn('HealthKit saveBmi error:', error)
-        resolve(false)
-        return
-      }
-      resolve(true)
-    })
-  })
+  try {
+    await saveQuantitySample('HKQuantityTypeIdentifierBodyMassIndex', 'count', value)
+    return true
+  } catch (error) {
+    console.warn('HealthKit saveBmi error:', error)
+    return false
+  }
 }
 
 async function iosReadBodyFatHistory(days = 90): Promise<BodyFatSample[]> {
-  const AppleHealthKit = require('react-native-health')
+  try {
+    const startDate = new Date()
+    startDate.setDate(startDate.getDate() - days)
 
-  const startDate = new Date()
-  startDate.setDate(startDate.getDate() - days)
+    const samples = await queryQuantitySamples('HKQuantityTypeIdentifierBodyFatPercentage', {
+      ascending: false,
+      filter: {
+        startDate,
+        endDate: new Date(),
+      },
+    })
 
-  return new Promise((resolve) => {
-    AppleHealthKit.getBodyFatPercentageSamples(
-      {
-        startDate: startDate.toISOString(),
-        endDate: new Date().toISOString(),
-        ascending: false,
-      },
-      (error: string, results: Array<{ value: number; startDate: string; endDate: string }>) => {
-        if (error) {
-          console.warn('HealthKit read error:', error)
-          resolve([])
-          return
-        }
-        resolve(
-          results.map((r) => ({
-            value: r.value,
-            startDate: r.startDate,
-            endDate: r.endDate,
-          })),
-        )
-      },
-    )
-  })
+    return samples.map((s) => ({
+      value: s.quantity * 100,
+      startDate: new Date(s.startDate).toISOString(),
+      endDate: new Date(s.endDate).toISOString(),
+    }))
+  } catch (error) {
+    console.warn('HealthKit read error:', error)
+    return []
+  }
 }
 
 async function iosIsAvailable(): Promise<boolean> {
   try {
-    const AppleHealthKit = require('react-native-health')
-    return new Promise((resolve) => {
-      AppleHealthKit.isAvailable((error: string, available: boolean) => {
-        resolve(!error && available)
-      })
-    })
+    return await isHealthDataAvailable()
   } catch {
     return false
   }

@@ -76,11 +76,10 @@
         }
       ],
       [
-        "react-native-health",
+        "@kingstinct/react-native-healthkit",
         {
-          "isClinicalDataEnabled": false,
-          "healthSharePermission": "Body Fat Calculator reads your body fat data to display trends",
-          "healthUpdatePermission": "Body Fat Calculator saves your body fat, weight, height, and body composition results"
+          "NSHealthShareUsageDescription": "Body Fat Calculator reads your body fat data to display trends",
+          "NSHealthUpdateUsageDescription": "Body Fat Calculator saves your body fat, weight, height, and body composition results"
         }
       ],
       "react-native-health-connect"
