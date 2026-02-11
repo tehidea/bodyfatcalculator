@@ -3,7 +3,7 @@
   "private": true,
   "packageManager": "pnpm@10.6.2",
   "engines": {
-    "node": ">=22.11.0"
+    "node": ">=22"
   },
   "scripts": {
     "dev": "turbo dev",
@@ -23,9 +23,10 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "core-js",
-      "unrs-resolver",
+      "esbuild",
+      "protobufjs",
       "sharp",
-      "protobufjs"
+      "unrs-resolver"
     ],
     "overrides": {
       "js-yaml@>=4.0.0 <4.1.1": ">=4.1.1",
