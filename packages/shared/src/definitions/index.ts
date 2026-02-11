@@ -308,8 +308,7 @@ export const FORMULA_DEFINITIONS: Record<Formula, FormulaDefinition> = {
   parrillo: {
     key: 'parrillo',
     name: 'Parrillo',
-    description:
-      'A bodybuilding-focused method using weight and nine precise skinfold sites',
+    description: 'A bodybuilding-focused method using weight and nine precise skinfold sites',
     premium: true,
     accuracy: { min: 3, max: 4 },
     fields: [

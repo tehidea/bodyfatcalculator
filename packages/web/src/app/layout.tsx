@@ -19,8 +19,7 @@ const montserrat = Montserrat({
 
 export const metadata = {
   title: 'Body Fat Calculator (PRO)',
-  description:
-    'Professional-grade body fat measurement app with multiple research-backed methods.',
+  description: 'Professional-grade body fat measurement app with multiple research-backed methods.',
   metadataBase: new URL('https://bodyfatcalculator.pro'),
   openGraph: {
     title: 'Body Fat Calculator (PRO)',

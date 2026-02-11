@@ -55,7 +55,9 @@ export default function MetaAnalyses() {
               <h2 className="text-2xl font-semibold text-white">Recent Systematic Reviews</h2>
               <div className="mt-6 space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-white">Military Body Composition Standards</h3>
+                  <h3 className="text-lg font-semibold text-white">
+                    Military Body Composition Standards
+                  </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
                       Review by Harty et al. (2022) on military body composition standards and
@@ -81,7 +83,9 @@ export default function MetaAnalyses() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-white">Body Composition Measurement Methods</h3>
+                  <h3 className="text-lg font-semibold text-white">
+                    Body Composition Measurement Methods
+                  </h3>
                   <div className="mt-4 space-y-4">
                     <p className="text-gray-300">
                       Comprehensive review by Fosbøl & Zerahn (2015) on contemporary methods of body
@@ -137,7 +141,6 @@ export default function MetaAnalyses() {
                     </div>
                   </div>
                 </div>
-
               </div>
             </motion.section>
 
