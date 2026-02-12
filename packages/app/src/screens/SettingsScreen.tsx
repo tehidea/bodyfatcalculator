@@ -21,6 +21,7 @@ import { COLORS } from '../constants/theme'
 import { useCloudSync } from '../hooks/useCloudSync'
 import { useHealthIntegration } from '../hooks/useHealthIntegration'
 import type { Gender } from '../schemas/calculator'
+import type { WriteStatus } from '../services/healthKit'
 import { useCalculatorStore } from '../store/calculatorStore'
 import { useHistoryStore } from '../store/historyStore'
 import { usePremiumStore } from '../store/premiumStore'
@@ -82,6 +83,16 @@ function SettingsSection({ title, children }: { title: string; children: React.R
   )
 }
 
+function StatusBadge({ status }: { status: WriteStatus }) {
+  if (status === 'authorized') {
+    return <Icon name="check-circle" type="feather" color={COLORS.success} size={18} />
+  }
+  if (status === 'denied') {
+    return <Icon name="x-circle" type="feather" color="#ccc" size={18} />
+  }
+  return <Icon name="minus-circle" type="feather" color="#ccc" size={18} />
+}
+
 function formatLastSynced(isoString: string | null): string {
   if (!isoString) return 'Never'
   const date = new Date(isoString)
@@ -104,10 +115,10 @@ export function SettingsScreen() {
   const {
     isEnabled: healthEnabled,
     available: healthAvailable,
-    syncMetrics,
+    writeStatuses,
     enable: enableHealth,
     disable: disableHealth,
-    setSyncMetric,
+    refreshPermissions,
   } = useHealthIntegration()
   const navigation = useNavigation<any>()
   const { getResponsiveTypography, getLineHeight, getResponsiveSpacing } = useResponsive()
@@ -341,70 +352,58 @@ export function SettingsScreen() {
               />
               {healthEnabled && (
                 <>
+                  <View style={styles.subsectionHeader}>
+                    <Text style={styles.subsectionTitle}>
+                      Receive from {Platform.OS === 'ios' ? 'Apple Health' : 'Health Connect'}
+                    </Text>
+                  </View>
+                  <SettingsRow icon="download-cloud" label="Body Fat %" />
+
+                  <View style={styles.subsectionHeader}>
+                    <Text style={styles.subsectionTitle}>
+                      Send to {Platform.OS === 'ios' ? 'Apple Health' : 'Health Connect'}
+                    </Text>
+                  </View>
                   <SettingsRow
-                    icon="activity"
-                    label="Sync Weight"
-                    rightElement={
-                      <Switch
-                        value={syncMetrics.weight}
-                        onValueChange={(v) => setSyncMetric('weight', v)}
-                        trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
-                        thumbColor={syncMetrics.weight ? COLORS.primary : '#f4f3f4'}
-                      />
-                    }
+                    icon="upload-cloud"
+                    label="Body Fat %"
+                    rightElement={<StatusBadge status={writeStatuses.bodyFat} />}
                   />
                   <SettingsRow
-                    icon="activity"
-                    label="Sync Height"
-                    rightElement={
-                      <Switch
-                        value={syncMetrics.height}
-                        onValueChange={(v) => setSyncMetric('height', v)}
-                        trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
-                        thumbColor={syncMetrics.height ? COLORS.primary : '#f4f3f4'}
-                      />
-                    }
+                    icon="upload-cloud"
+                    label="Weight"
+                    rightElement={<StatusBadge status={writeStatuses.weight} />}
                   />
-                  {Platform.OS === 'ios' && (
-                    <SettingsRow
-                      icon="activity"
-                      label="Sync Waist Circumference"
-                      rightElement={
-                        <Switch
-                          value={syncMetrics.waist}
-                          onValueChange={(v) => setSyncMetric('waist', v)}
-                          trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
-                          thumbColor={syncMetrics.waist ? COLORS.primary : '#f4f3f4'}
-                        />
-                      }
-                    />
-                  )}
                   <SettingsRow
-                    icon="activity"
-                    label="Sync Lean Body Mass"
-                    rightElement={
-                      <Switch
-                        value={syncMetrics.leanMass}
-                        onValueChange={(v) => setSyncMetric('leanMass', v)}
-                        trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
-                        thumbColor={syncMetrics.leanMass ? COLORS.primary : '#f4f3f4'}
-                      />
-                    }
+                    icon="upload-cloud"
+                    label="Height"
+                    rightElement={<StatusBadge status={writeStatuses.height} />}
                   />
                   {Platform.OS === 'ios' && (
                     <SettingsRow
-                      icon="activity"
-                      label="Sync BMI"
-                      rightElement={
-                        <Switch
-                          value={syncMetrics.bmi}
-                          onValueChange={(v) => setSyncMetric('bmi', v)}
-                          trackColor={{ false: '#e0e0e0', true: `${COLORS.primary}80` }}
-                          thumbColor={syncMetrics.bmi ? COLORS.primary : '#f4f3f4'}
-                        />
-                      }
+                      icon="upload-cloud"
+                      label="Waist Circumference"
+                      rightElement={<StatusBadge status={writeStatuses.waist} />}
                     />
                   )}
+                  <SettingsRow
+                    icon="upload-cloud"
+                    label="Lean Body Mass"
+                    rightElement={<StatusBadge status={writeStatuses.leanMass} />}
+                  />
+                  {Platform.OS === 'ios' && (
+                    <SettingsRow
+                      icon="upload-cloud"
+                      label="BMI"
+                      rightElement={<StatusBadge status={writeStatuses.bmi} />}
+                    />
+                  )}
+                  <SettingsRow
+                    icon="settings"
+                    label="Manage Permissions"
+                    onPress={refreshPermissions}
+                    showChevron
+                  />
                 </>
               )}
             </SettingsSection>
@@ -594,6 +593,21 @@ const createStyles = (
     segmentTextActive: {
       color: '#fff',
       fontWeight: '600',
+    },
+    subsectionHeader: {
+      paddingHorizontal: getResponsiveSpacing(16),
+      paddingTop: getResponsiveSpacing(12),
+      paddingBottom: getResponsiveSpacing(4),
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: '#e0e0e0',
+    },
+    subsectionTitle: {
+      fontSize: getResponsiveTypography('xs'),
+      lineHeight: getLineHeight('xs'),
+      fontWeight: '600',
+      color: '#999',
+      textTransform: 'uppercase',
+      letterSpacing: 0.5,
     },
   })
 

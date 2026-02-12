@@ -2,11 +2,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useCallback, useEffect, useState } from 'react'
 import {
   type BodyFatSample,
-  type HealthMetric,
+  getWriteStatuses,
   type HealthWriteData,
   isHealthAvailable,
   readBodyFatHistory,
   requestPermissions,
+  type WriteStatuses,
   writeBodyFatPercentage,
   writeHealthData,
 } from '../services/healthKit'
@@ -14,16 +15,14 @@ import { usePremiumStore } from '../store/premiumStore'
 
 const HEALTH_ENABLED_KEY = 'health_integration_enabled'
 const HEALTH_PERMISSIONS_KEY = 'health_permissions_granted'
-const HEALTH_METRICS_KEY = 'health_sync_metrics'
 
-type SyncMetrics = Record<HealthMetric, boolean>
-
-const DEFAULT_SYNC_METRICS: SyncMetrics = {
-  weight: true,
-  height: true,
-  waist: true,
-  leanMass: true,
-  bmi: true,
+const DEFAULT_WRITE_STATUSES: WriteStatuses = {
+  bodyFat: 'notDetermined',
+  weight: 'notDetermined',
+  height: 'notDetermined',
+  waist: 'notDetermined',
+  leanMass: 'notDetermined',
+  bmi: 'notDetermined',
 }
 
 export function useHealthIntegration() {
@@ -33,29 +32,25 @@ export function useHealthIntegration() {
   const [available, setAvailable] = useState<boolean | null>(null)
   const [history, setHistory] = useState<BodyFatSample[]>([])
   const [isLoading, setIsLoading] = useState(false)
-  const [syncMetrics, setSyncMetrics] = useState<SyncMetrics>(DEFAULT_SYNC_METRICS)
+  const [writeStatuses, setWriteStatuses] = useState<WriteStatuses>(DEFAULT_WRITE_STATUSES)
 
-  // Load saved state on mount
+  // Load saved state and authorization statuses on mount
   useEffect(() => {
     async function load() {
-      const [enabledStr, permStr, metricsStr] = await Promise.all([
+      const [enabledStr, permStr] = await Promise.all([
         AsyncStorage.getItem(HEALTH_ENABLED_KEY),
         AsyncStorage.getItem(HEALTH_PERMISSIONS_KEY),
-        AsyncStorage.getItem(HEALTH_METRICS_KEY),
       ])
       setIsEnabled(enabledStr === 'true')
       setHasPermissions(permStr === 'true')
 
-      if (metricsStr) {
-        try {
-          setSyncMetrics({ ...DEFAULT_SYNC_METRICS, ...JSON.parse(metricsStr) })
-        } catch {
-          // Keep defaults if parsing fails
-        }
-      }
-
       const avail = await isHealthAvailable()
       setAvailable(avail)
+
+      if (permStr === 'true') {
+        const statuses = await getWriteStatuses()
+        setWriteStatuses(statuses)
+      }
     }
     load()
   }, [])
@@ -72,6 +67,8 @@ export function useHealthIntegration() {
       if (granted) {
         setIsEnabled(true)
         await AsyncStorage.setItem(HEALTH_ENABLED_KEY, 'true')
+        const statuses = await getWriteStatuses()
+        setWriteStatuses(statuses)
       }
       return granted
     } finally {
@@ -82,6 +79,12 @@ export function useHealthIntegration() {
   const disable = useCallback(async () => {
     setIsEnabled(false)
     await AsyncStorage.setItem(HEALTH_ENABLED_KEY, 'false')
+  }, [])
+
+  const refreshPermissions = useCallback(async () => {
+    await requestPermissions()
+    const statuses = await getWriteStatuses()
+    setWriteStatuses(statuses)
   }, [])
 
   const writeBodyFat = useCallback(
@@ -95,18 +98,10 @@ export function useHealthIntegration() {
   const writeAllHealthData = useCallback(
     async (data: HealthWriteData): Promise<boolean> => {
       if (!isProPlus || !isEnabled || !hasPermissions) return false
-      return writeHealthData(data, syncMetrics)
+      return writeHealthData(data)
     },
-    [isProPlus, isEnabled, hasPermissions, syncMetrics],
+    [isProPlus, isEnabled, hasPermissions],
   )
-
-  const setSyncMetric = useCallback(async (metric: HealthMetric, enabled: boolean) => {
-    setSyncMetrics((prev) => {
-      const updated = { ...prev, [metric]: enabled }
-      AsyncStorage.setItem(HEALTH_METRICS_KEY, JSON.stringify(updated))
-      return updated
-    })
-  }, [])
 
   const loadHistory = useCallback(
     async (days = 90) => {
@@ -128,12 +123,12 @@ export function useHealthIntegration() {
     available,
     history,
     isLoading,
-    syncMetrics,
+    writeStatuses,
     enable,
     disable,
+    refreshPermissions,
     writeBodyFat,
     writeAllHealthData,
-    setSyncMetric,
     loadHistory,
   }
 }

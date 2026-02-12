@@ -1,5 +1,7 @@
 import type { MeasurementSystem } from '@bodyfat/shared/types'
 import {
+  AuthorizationStatus,
+  authorizationStatusFor,
   isHealthDataAvailable,
   queryQuantitySamples,
   requestAuthorization,
@@ -23,7 +25,28 @@ export interface HealthWriteData {
   measurementSystem: MeasurementSystem
 }
 
-export type HealthMetric = 'weight' | 'height' | 'waist' | 'leanMass' | 'bmi'
+export type HealthMetric = 'bodyFat' | 'weight' | 'height' | 'waist' | 'leanMass' | 'bmi'
+
+export type WriteStatus = 'authorized' | 'denied' | 'notDetermined'
+export type WriteStatuses = Record<HealthMetric, WriteStatus>
+
+const DEFAULT_WRITE_STATUSES: WriteStatuses = {
+  bodyFat: 'notDetermined',
+  weight: 'notDetermined',
+  height: 'notDetermined',
+  waist: 'notDetermined',
+  leanMass: 'notDetermined',
+  bmi: 'notDetermined',
+}
+
+const HEALTHKIT_WRITE_IDENTIFIERS: Record<HealthMetric, string> = {
+  bodyFat: 'HKQuantityTypeIdentifierBodyFatPercentage',
+  weight: 'HKQuantityTypeIdentifierBodyMass',
+  height: 'HKQuantityTypeIdentifierHeight',
+  waist: 'HKQuantityTypeIdentifierWaistCircumference',
+  leanMass: 'HKQuantityTypeIdentifierLeanBodyMass',
+  bmi: 'HKQuantityTypeIdentifierBodyMassIndex',
+}
 
 // ── iOS HealthKit ──────────────────────────────────────────────
 
@@ -314,7 +337,52 @@ async function writeBmi(value: number): Promise<boolean> {
   return false
 }
 
+// ── Write authorization status ─────────────────────────────────
+
+function iosGetWriteStatuses(): WriteStatuses {
+  const statuses = { ...DEFAULT_WRITE_STATUSES }
+  for (const [metric, identifier] of Object.entries(HEALTHKIT_WRITE_IDENTIFIERS)) {
+    const status = authorizationStatusFor(identifier as any)
+    if (status === AuthorizationStatus.sharingAuthorized) {
+      statuses[metric as HealthMetric] = 'authorized'
+    } else if (status === AuthorizationStatus.sharingDenied) {
+      statuses[metric as HealthMetric] = 'denied'
+    }
+  }
+  return statuses
+}
+
+async function androidGetWriteStatuses(): Promise<WriteStatuses> {
+  try {
+    const { getGrantedPermissions } = require('react-native-health-connect')
+    const granted = await getGrantedPermissions()
+    const statuses = { ...DEFAULT_WRITE_STATUSES }
+    const writeMap: Partial<Record<HealthMetric, string>> = {
+      bodyFat: 'BodyFat',
+      weight: 'Weight',
+      height: 'Height',
+      leanMass: 'LeanBodyMass',
+    }
+    for (const [metric, recordType] of Object.entries(writeMap)) {
+      const isGranted = granted.some(
+        (p: { accessType: string; recordType: string }) =>
+          p.accessType === 'write' && p.recordType === recordType,
+      )
+      statuses[metric as HealthMetric] = isGranted ? 'authorized' : 'denied'
+    }
+    return statuses
+  } catch {
+    return DEFAULT_WRITE_STATUSES
+  }
+}
+
 // ── Unified platform-abstracted API ────────────────────────────
+
+export async function getWriteStatuses(): Promise<WriteStatuses> {
+  if (Platform.OS === 'ios') return iosGetWriteStatuses()
+  if (Platform.OS === 'android') return androidGetWriteStatuses()
+  return DEFAULT_WRITE_STATUSES
+}
 
 export async function requestPermissions(): Promise<boolean> {
   if (Platform.OS === 'ios') return iosRequestPermissions()
@@ -340,10 +408,7 @@ export async function isHealthAvailable(): Promise<boolean> {
   return false
 }
 
-export async function writeHealthData(
-  data: HealthWriteData,
-  enabledMetrics: Record<HealthMetric, boolean>,
-): Promise<boolean> {
+export async function writeHealthData(data: HealthWriteData): Promise<boolean> {
   const results: boolean[] = []
 
   try {
@@ -352,7 +417,7 @@ export async function writeHealthData(
     results.push(false)
   }
 
-  if (enabledMetrics.weight && data.weight != null) {
+  if (data.weight != null) {
     try {
       results.push(await writeWeight(data.weight, data.measurementSystem))
     } catch {
@@ -360,7 +425,7 @@ export async function writeHealthData(
     }
   }
 
-  if (enabledMetrics.height && data.height != null) {
+  if (data.height != null) {
     try {
       results.push(await writeHeight(data.height, data.measurementSystem))
     } catch {
@@ -368,7 +433,7 @@ export async function writeHealthData(
     }
   }
 
-  if (enabledMetrics.waist && data.waist != null) {
+  if (data.waist != null) {
     try {
       results.push(await writeWaist(data.waist, data.measurementSystem))
     } catch {
@@ -376,7 +441,7 @@ export async function writeHealthData(
     }
   }
 
-  if (enabledMetrics.leanMass && data.leanMass != null) {
+  if (data.leanMass != null) {
     try {
       results.push(await writeLeanMass(data.leanMass, data.measurementSystem))
     } catch {
@@ -384,7 +449,7 @@ export async function writeHealthData(
     }
   }
 
-  if (enabledMetrics.bmi && data.bmi != null) {
+  if (data.bmi != null) {
     try {
       results.push(await writeBmi(data.bmi))
     } catch {
