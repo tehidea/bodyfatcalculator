@@ -40,16 +40,17 @@ function daysAgo(days: number): string {
 
 describe('useChartData', () => {
   describe('time filtering', () => {
-    it('30d: only includes measurements from last 30 days', () => {
-      const recent = createRecord({ measuredAt: daysAgo(10) })
-      const old = createRecord({ measuredAt: daysAgo(60) })
+    it('30d: all data returned, stats computed from in-range only', () => {
+      const recent = createRecord({ bodyFatPercentage: 18, measuredAt: daysAgo(10) })
+      const old = createRecord({ bodyFatPercentage: 25, measuredAt: daysAgo(60) })
 
       const { result } = renderHook(() =>
         useChartData([recent, old], 'bodyFatPercentage', '30d', 'all', 'metric'),
       )
 
-      expect(result.current.data).toHaveLength(1)
-      expect(result.current.data[0]!.value).toBe(20)
+      expect(result.current.data).toHaveLength(2)
+      expect(result.current.pointsInRange).toBe(1)
+      expect(result.current.stats!.latest).toBe(18)
     })
 
     it('all: includes everything', () => {
@@ -63,15 +64,17 @@ describe('useChartData', () => {
       expect(result.current.data).toHaveLength(2)
     })
 
-    it('records outside range are excluded', () => {
-      const inRange = createRecord({ measuredAt: daysAgo(80) })
-      const outOfRange = createRecord({ measuredAt: daysAgo(100) })
+    it('90d: stats computed from in-range records only', () => {
+      const inRange = createRecord({ bodyFatPercentage: 18, measuredAt: daysAgo(80) })
+      const outOfRange = createRecord({ bodyFatPercentage: 25, measuredAt: daysAgo(100) })
 
       const { result } = renderHook(() =>
         useChartData([inRange, outOfRange], 'bodyFatPercentage', '90d', 'all', 'metric'),
       )
 
-      expect(result.current.data).toHaveLength(1)
+      expect(result.current.data).toHaveLength(2)
+      expect(result.current.pointsInRange).toBe(1)
+      expect(result.current.stats!.latest).toBe(18)
     })
   })
 

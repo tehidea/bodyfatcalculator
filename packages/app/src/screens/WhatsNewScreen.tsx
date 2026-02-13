@@ -1,7 +1,9 @@
 import { Icon, Text } from '@rneui/themed'
+import { useState } from 'react'
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { BrandHeader } from '../components/BrandHeader'
+import { PaywallModal } from '../components/calculator/PaywallModal'
 import { COLORS } from '../constants/theme'
 import { CHANGELOG } from '../data/changelog'
 import { usePremiumStore } from '../store/premiumStore'
@@ -9,6 +11,7 @@ import { useResponsive } from '../utils/responsiveContext'
 
 export function WhatsNewScreen({ navigation }: { navigation: any }) {
   const isLegacyPro = usePremiumStore((state) => state.isLegacyPro)
+  const [showPaywall, setShowPaywall] = useState(false)
   const { getResponsiveSpacing, getResponsiveTypography, getLineHeight } = useResponsive()
   const styles = createStyles(getResponsiveSpacing, getResponsiveTypography, getLineHeight)
 
@@ -92,12 +95,24 @@ export function WhatsNewScreen({ navigation }: { navigation: any }) {
                     ))}
                   </View>
 
-                  <Text style={styles.legacyProCta}>{entry.legacyProInfo.cta}</Text>
+                  <TouchableOpacity
+                    style={styles.legacyProCtaButton}
+                    onPress={() => setShowPaywall(true)}
+                    activeOpacity={0.7}
+                  >
+                    <Text style={styles.legacyProCtaText}>{entry.legacyProInfo.cta}</Text>
+                    <Icon name="chevron-right" type="feather" size={14} color={COLORS.white} />
+                  </TouchableOpacity>
                 </View>
               )}
             </View>
           ))}
         </ScrollView>
+        <PaywallModal
+          visible={showPaywall}
+          variant="precision"
+          onClose={() => setShowPaywall(false)}
+        />
       </View>
     </SafeAreaView>
   )
@@ -254,11 +269,22 @@ const createStyles = (
       lineHeight: getLineHeight('sm'),
       color: '#666',
     },
-    legacyProCta: {
+    legacyProCtaButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: COLORS.primary,
+      borderRadius: 8,
+      paddingVertical: getResponsiveSpacing(8),
+      paddingHorizontal: getResponsiveSpacing(12),
+      gap: 4,
+    },
+    legacyProCtaText: {
       fontSize: getResponsiveTypography('sm'),
       lineHeight: getLineHeight('sm'),
-      color: COLORS.primary,
+      color: COLORS.white,
       fontWeight: '600',
       textAlign: 'center',
+      flex: 1,
     },
   })
