@@ -27,6 +27,7 @@
       "core-js",
       "esbuild",
       "protobufjs",
+      "react-native-nitro-modules",
       "sharp",
       "unrs-resolver"
     ],
