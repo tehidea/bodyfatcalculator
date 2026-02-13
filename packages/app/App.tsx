@@ -91,7 +91,7 @@ function AppNavigator() {
   }, [posthog])
 
   return (
-    <KeyboardProvider statusBarTranslucent>
+    <KeyboardProvider>
       <SafeAreaProvider>
         <ThemeProvider theme={theme}>
           <ResponsiveProvider>

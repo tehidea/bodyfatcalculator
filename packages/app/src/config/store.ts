@@ -126,7 +126,9 @@ export async function initializeStore() {
   if (!isRevenueCatConfigured) {
     try {
       if (isDevelopment) {
-        Purchases.setLogLevel(Purchases.LOG_LEVEL.DEBUG)
+        Purchases.setLogHandler((_logLevel, message) => {
+          console.log(`[RevenueCat] ${message}`)
+        })
       }
 
       if (__DEV__ && installId) {
