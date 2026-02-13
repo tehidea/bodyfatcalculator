@@ -113,18 +113,20 @@ export const useCalculatorStore = create<CalculatorStore>()(
 
       setMeasurementSystem: (newSystem) => {
         const { measurementSystem: oldSystem, inputs, gender } = get()
-        console.log('[Store] Switching measurement system:', oldSystem, '->', newSystem)
-        console.log('[Store] Current inputs:', inputs)
-        console.log('[Store] Current gender:', gender)
+        if (__DEV__) {
+          console.log('[Store] Switching measurement system:', oldSystem, '->', newSystem)
+          console.log('[Store] Current inputs:', inputs)
+          console.log('[Store] Current gender:', gender)
+        }
 
         if (oldSystem === newSystem) return
 
         // Convert via metric as intermediate: old → metric → new
         const metricInputs = convertInputs(inputs, oldSystem, 'metric', gender)
-        console.log('[Store] Values in metric:', metricInputs)
+        if (__DEV__) console.log('[Store] Values in metric:', metricInputs)
 
         const displayInputs = convertInputs(metricInputs, 'metric', newSystem, gender)
-        console.log('[Store] Final values for display:', displayInputs)
+        if (__DEV__) console.log('[Store] Final values for display:', displayInputs)
 
         // Only include gender if there are other inputs
         const hasOtherInputs = Object.keys(displayInputs).length > 0
@@ -142,7 +144,7 @@ export const useCalculatorStore = create<CalculatorStore>()(
       },
 
       setInput: (key, value, options) => {
-        console.log(`[Store] Setting ${String(key)}:`, value)
+        if (__DEV__) console.log(`[Store] Setting ${String(key)}:`, value)
         const state = get()
         const currentValue = state.inputs[key]
 
@@ -183,8 +185,10 @@ export const useCalculatorStore = create<CalculatorStore>()(
 
       calculate: async () => {
         const { formula, gender, inputs, measurementSystem } = get()
-        console.log('[Store] Calculating with inputs:', inputs)
-        console.log('[Store] Current measurement system:', measurementSystem)
+        if (__DEV__) {
+          console.log('[Store] Calculating with inputs:', inputs)
+          console.log('[Store] Current measurement system:', measurementSystem)
+        }
 
         set({ isCalculating: true, error: null })
 
@@ -202,12 +206,12 @@ export const useCalculatorStore = create<CalculatorStore>()(
 
           // Always convert inputs to metric for calculation
           const metricInputs = convertInputs(inputs, measurementSystem, 'metric', gender)
-          console.log('[Store] Converted to metric for calculation:', metricInputs)
+          if (__DEV__) console.log('[Store] Converted to metric for calculation:', metricInputs)
 
           // Get formula implementation and calculate using metric inputs
           const formulaImpl = getFormula(formula)
           const results = formulaImpl.calculate(metricInputs, measurementSystem)
-          console.log('[Store] Calculation results:', results)
+          if (__DEV__) console.log('[Store] Calculation results:', results)
 
           set({
             results: { ...results, classification: 'normal' },

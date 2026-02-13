@@ -112,7 +112,7 @@ export interface UserEntitlements {
 let isRevenueCatConfigured = false
 
 export async function initializeStore() {
-  console.log('initializeStore - Starting initialization')
+  if (__DEV__) console.log('initializeStore - Starting initialization')
 
   if (!API_KEY) {
     console.warn('initializeStore - Skipping RevenueCat (no API key). Running in free mode.')
@@ -129,7 +129,7 @@ export async function initializeStore() {
         Purchases.setLogLevel(Purchases.LOG_LEVEL.DEBUG)
       }
 
-      if (installId) {
+      if (__DEV__ && installId) {
         console.log('initializeStore - Setting RevenueCat app user ID:', installId)
       }
 
@@ -139,11 +139,11 @@ export async function initializeStore() {
       })
 
       isRevenueCatConfigured = true
-      console.log('initializeStore - RevenueCat configured successfully')
+      if (__DEV__) console.log('initializeStore - RevenueCat configured successfully')
     } catch (error) {
       // If already configured, just log and continue
       if (error instanceof Error && error.message.includes('already set')) {
-        console.log('initializeStore - RevenueCat already configured, continuing...')
+        if (__DEV__) console.log('initializeStore - RevenueCat already configured, continuing...')
         isRevenueCatConfigured = true
       } else {
         console.error('initializeStore - Error configuring RevenueCat:', error)
@@ -163,7 +163,7 @@ export async function initializeStore() {
   }
 
   const entitlements = await getUserEntitlements()
-  console.log('initializeStore - Initial entitlements:', entitlements)
+  if (__DEV__) console.log('initializeStore - Initial entitlements:', entitlements)
   return entitlements
 }
 
@@ -171,7 +171,7 @@ export async function getUserEntitlements(): Promise<UserEntitlements> {
   if (!isRevenueCatConfigured) {
     return { isProPlus: false, isLegacyPro: false }
   }
-  console.log('getUserEntitlements - Checking entitlements')
+  if (__DEV__) console.log('getUserEntitlements - Checking entitlements')
   try {
     const customerInfo = await Purchases.getCustomerInfo()
 
@@ -187,13 +187,15 @@ export async function getUserEntitlements(): Promise<UserEntitlements> {
     const isProPlus = hasPremiumEntitlement
 
     const entitlements = { isProPlus, isLegacyPro }
-    console.log('getUserEntitlements - Retrieved entitlements:', entitlements)
-    console.log('getUserEntitlements - Details:', {
-      isLegacyPro,
-      hasPremiumEntitlement,
-      allProducts: customerInfo.allPurchasedProductIdentifiers,
-      activeEntitlements: customerInfo.entitlements.active,
-    })
+    if (__DEV__) {
+      console.log('getUserEntitlements - Retrieved entitlements:', entitlements)
+      console.log('getUserEntitlements - Details:', {
+        isLegacyPro,
+        hasPremiumEntitlement,
+        allProducts: customerInfo.allPurchasedProductIdentifiers,
+        activeEntitlements: customerInfo.entitlements.active,
+      })
+    }
 
     // Track premium status check
     trackPurchaseEvent('premium_status_checked', {
@@ -229,7 +231,8 @@ export async function getOfferings(isLegacyPro = false) {
     const offeringId = isLegacyPro ? OFFERINGS.legacyUpgrade : OFFERINGS.default
     const offering = offerings.all[offeringId] ?? offerings.current
 
-    console.log('getOfferings - Using offering:', offeringId, offering?.availablePackages.length)
+    if (__DEV__)
+      console.log('getOfferings - Using offering:', offeringId, offering?.availablePackages.length)
 
     return offering?.availablePackages ?? []
   } catch (error) {
@@ -242,7 +245,7 @@ export async function purchasePackage(package_: PurchasesPackage): Promise<UserE
   if (!isRevenueCatConfigured) {
     throw new Error('RevenueCat is not configured. Check your API key in .env.')
   }
-  console.log('purchasePackage - Starting purchase')
+  if (__DEV__) console.log('purchasePackage - Starting purchase')
 
   // Track purchase attempt (RevenueCat integration will handle success/completion events)
   trackPurchaseEvent('purchase_attempt', {
@@ -254,19 +257,19 @@ export async function purchasePackage(package_: PurchasesPackage): Promise<UserE
   try {
     // Make the purchase
     const { customerInfo } = await Purchases.purchasePackage(package_)
-    console.log('purchasePackage - Purchase transaction completed')
-    console.log('purchasePackage - Customer info:', customerInfo)
-
     const entitlements = extractEntitlements(customerInfo)
 
-    console.log('purchasePackage - Initial check:', {
-      ...entitlements,
-      allProducts: customerInfo.allPurchasedProductIdentifiers,
-      activeEntitlements: customerInfo.entitlements.active,
-    })
+    if (__DEV__) {
+      console.log('purchasePackage - Purchase transaction completed')
+      console.log('purchasePackage - Initial check:', {
+        ...entitlements,
+        allProducts: customerInfo.allPurchasedProductIdentifiers,
+        activeEntitlements: customerInfo.entitlements.active,
+      })
+    }
 
     if (entitlements.isProPlus) {
-      console.log('purchasePackage - Entitlement activated immediately')
+      if (__DEV__) console.log('purchasePackage - Entitlement activated immediately')
 
       trackPurchaseEvent('entitlement_activated', {
         revenue_cat_user_id: customerInfo.originalAppUserId,
@@ -278,17 +281,19 @@ export async function purchasePackage(package_: PurchasesPackage): Promise<UserE
 
     // If not activated immediately, try verification with retries
     for (let i = 0; i < 3; i++) {
-      console.log(`purchasePackage - Verification attempt ${i + 1}`)
+      if (__DEV__) console.log(`purchasePackage - Verification attempt ${i + 1}`)
 
       await Purchases.syncPurchases()
       const refreshedInfo = await Purchases.getCustomerInfo()
       const refreshedEntitlements = extractEntitlements(refreshedInfo)
 
-      console.log(`purchasePackage - Verification attempt ${i + 1} details:`, {
-        ...refreshedEntitlements,
-        allProducts: refreshedInfo.allPurchasedProductIdentifiers,
-        activeEntitlements: refreshedInfo.entitlements.active,
-      })
+      if (__DEV__) {
+        console.log(`purchasePackage - Verification attempt ${i + 1} details:`, {
+          ...refreshedEntitlements,
+          allProducts: refreshedInfo.allPurchasedProductIdentifiers,
+          activeEntitlements: refreshedInfo.entitlements.active,
+        })
+      }
 
       if (refreshedEntitlements.isProPlus) {
         return refreshedEntitlements
@@ -307,7 +312,7 @@ export async function purchasePackage(package_: PurchasesPackage): Promise<UserE
       error instanceof Error &&
       (error.message === 'User cancelled' || error.message === 'Purchase was cancelled')
     ) {
-      console.log('purchasePackage - Purchase cancelled by user')
+      if (__DEV__) console.log('purchasePackage - Purchase cancelled by user')
       return { isProPlus: false, isLegacyPro: false }
     }
     throw error

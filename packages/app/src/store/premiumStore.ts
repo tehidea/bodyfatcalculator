@@ -35,11 +35,11 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
   isLoading: false,
   error: null,
   checkEntitlements: async () => {
-    console.log('checkEntitlements - Starting check')
+    if (__DEV__) console.log('checkEntitlements - Starting check')
     set({ isLoading: true, error: null })
     try {
       const entitlements = await getUserEntitlements()
-      console.log('checkEntitlements - Retrieved entitlements:', entitlements)
+      if (__DEV__) console.log('checkEntitlements - Retrieved entitlements:', entitlements)
       set({ ...entitlements, isLoading: false, error: null })
     } catch (error) {
       console.error('checkEntitlements - Error:', error)
@@ -61,14 +61,14 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
     }
   },
   setEntitlements: (entitlements: UserEntitlements) => {
-    console.log('setEntitlements - Setting new entitlements:', entitlements)
+    if (__DEV__) console.log('setEntitlements - Setting new entitlements:', entitlements)
     set({ ...entitlements })
   },
   purchasePackage: async (pkg: PurchasesPackage) => {
-    console.log('purchasePackage - Starting purchase for:', pkg.product.identifier)
+    if (__DEV__) console.log('purchasePackage - Starting purchase for:', pkg.product.identifier)
 
     if (get().isLoading) {
-      console.log('purchasePackage - Purchase already in progress')
+      if (__DEV__) console.log('purchasePackage - Purchase already in progress')
       return false
     }
 
@@ -76,24 +76,26 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
 
     try {
       if (!get().isLoading) {
-        console.log('purchasePackage - Operation cancelled')
+        if (__DEV__) console.log('purchasePackage - Operation cancelled')
         return false
       }
 
-      console.log('purchasePackage - Attempting to purchase package')
+      if (__DEV__) console.log('purchasePackage - Attempting to purchase package')
       const entitlements = await purchasePackage(pkg)
 
       if (!get().isLoading) {
-        console.log('purchasePackage - Operation cancelled')
+        if (__DEV__) console.log('purchasePackage - Operation cancelled')
         return false
       }
 
-      console.log('purchasePackage - Purchase result, entitlements:', entitlements)
+      if (__DEV__) console.log('purchasePackage - Purchase result, entitlements:', entitlements)
 
       if (!entitlements.isProPlus) {
-        console.log(
-          'purchasePackage - Purchase successful but entitlements not reflected, attempting restore',
-        )
+        if (__DEV__) {
+          console.log(
+            'purchasePackage - Purchase successful but entitlements not reflected, attempting restore',
+          )
+        }
         await Purchases.syncPurchases()
         const restoredEntitlements = await getUserEntitlements()
         set({ ...restoredEntitlements, isLoading: false, error: null })
@@ -127,7 +129,7 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
             )
             return false
           case PURCHASES_ERROR_CODE.PURCHASE_CANCELLED_ERROR:
-            console.log('purchasePackage - User cancelled')
+            if (__DEV__) console.log('purchasePackage - User cancelled')
             return false
           case PURCHASES_ERROR_CODE.CUSTOMER_INFO_ERROR:
             Alert.alert(
@@ -155,7 +157,7 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
     }
   },
   restorePurchases: async () => {
-    console.log('restorePurchases - Starting restore')
+    if (__DEV__) console.log('restorePurchases - Starting restore')
     set({ isLoading: true, error: null })
     try {
       const currentEntitlements = await getUserEntitlements()
@@ -164,7 +166,7 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
       await Purchases.syncPurchases()
 
       const restoredEntitlements = await getUserEntitlements()
-      console.log('restorePurchases - Retrieved entitlements:', restoredEntitlements)
+      if (__DEV__) console.log('restorePurchases - Retrieved entitlements:', restoredEntitlements)
       set({ ...restoredEntitlements, isLoading: false, error: null })
 
       const wasUpgraded = !currentEntitlements.isProPlus && restoredEntitlements.isProPlus
