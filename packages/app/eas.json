@@ -31,7 +31,8 @@
     "production": {
       "android": {
         "serviceAccountKeyPath": "../Expo/Google/body-fat-calculator-445413-49ea032c4367.json",
-        "track": "internal"
+        "track": "internal",
+        "changesNotSentForReview": true
       }
     }
   }

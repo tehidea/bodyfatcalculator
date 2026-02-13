@@ -126,6 +126,10 @@ The app uses **Zustand** for state management with two main stores:
 - Environment variables stored in `.env` files
 - RevenueCat API keys configured via Expo config
 
+### EAS Submit
+
+**TODO**: `changesNotSentForReview: true` in `eas.json` is a workaround for a Google Play Publishing API bug that rejects health apps submitted via fastlane supply. Track upstream: [fastlane #27960](https://github.com/fastlane/fastlane/issues/27960), [eas-cli #3275](https://github.com/expo/eas-cli/issues/3275). Remove this flag and test automated review submission once the bug is resolved.
+
 ### Revenue & Analytics
 
 - **RevenueCat**: Handles premium subscriptions and one-time purchases
