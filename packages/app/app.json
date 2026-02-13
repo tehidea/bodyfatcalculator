@@ -82,7 +82,15 @@
           "NSHealthUpdateUsageDescription": "Body Fat Calculator saves your body fat, weight, height, and body composition results"
         }
       ],
-      "react-native-health-connect"
+      "react-native-health-connect",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 26
+          }
+        }
+      ]
     ]
   }
 }
