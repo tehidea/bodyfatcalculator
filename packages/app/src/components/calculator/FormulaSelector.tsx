@@ -288,7 +288,7 @@ export const FormulaSelector = () => {
           {selectedFormula.premium && !hasProFeatures && (
             <View style={styles.premiumBadge}>
               <Icon name="lock" type="feather" color="#666" size={getResponsiveSpacing(14)} />
-              <Text style={styles.premiumBadgeText}>PRO</Text>
+              <Text style={styles.premiumBadgeText}>PRO+</Text>
             </View>
           )}
         </View>
@@ -380,7 +380,7 @@ export const FormulaSelector = () => {
                             color="#666"
                             size={getResponsiveSpacing(14)}
                           />
-                          <Text style={styles.premiumBadgeText}>PRO</Text>
+                          <Text style={styles.premiumBadgeText}>PRO+</Text>
                         </View>
                       )}
                     </View>
