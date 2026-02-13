@@ -423,7 +423,7 @@ export function SettingsScreen() {
             <SettingsRow
               icon="info"
               label="Version"
-              value={`${version}${buildNumber ? ` (${buildNumber})` : ''}`}
+              value={`${version}${buildNumber ? ` (${buildNumber})` : ''}${isProPlus ? ' · PRO+' : isLegacyPro ? ' · PRO' : ''}`}
               onPress={() => navigation.navigate('WhatsNew')}
               showChevron
             />
