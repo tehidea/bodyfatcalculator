@@ -1,6 +1,13 @@
 import { Button, Icon, Text } from '@rneui/themed'
 import { useCallback, useEffect } from 'react'
-import { Modal, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import {
+  Modal,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
 import Animated, {
   FadeIn,
   useAnimatedStyle,
@@ -80,94 +87,96 @@ export function WhatsNewModal({ visible, entry, onClose }: WhatsNewModalProps) {
             <Icon name="x" type="feather" size={20} color="rgba(0,0,0,0.25)" />
           </TouchableOpacity>
 
-          <View style={styles.header}>
-            <View style={styles.iconWrapper}>
-              <Animated.View entering={FadeIn.duration(600)} style={styles.iconContainer}>
-                <Icon name="gift" type="feather" color={COLORS.primary} size={24} />
-              </Animated.View>
-              <View style={styles.iconGlow} />
+          <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
+            <View style={styles.header}>
+              <View style={styles.iconWrapper}>
+                <Animated.View entering={FadeIn.duration(600)} style={styles.iconContainer}>
+                  <Icon name="gift" type="feather" color={COLORS.primary} size={24} />
+                </Animated.View>
+                <View style={styles.iconGlow} />
+              </View>
+
+              <Text style={styles.modalTitle}>
+                <Text style={styles.highlight}>What's New</Text> in {entry.version}
+              </Text>
+              <Text style={styles.titleSecondary}>{entry.title}</Text>
             </View>
 
-            <Text style={styles.modalTitle}>
-              <Text style={styles.highlight}>What's New</Text> in {entry.version}
-            </Text>
-            <Text style={styles.titleSecondary}>{entry.title}</Text>
-          </View>
-
-          <View style={styles.highlightList}>
-            {entry.highlights.map((highlight, index) => (
-              <Animated.View
-                key={highlight.title}
-                entering={FadeIn.delay(300 + index * 50).duration(400)}
-                style={styles.highlightRow}
-              >
-                <View style={styles.highlightIconContainer}>
-                  <Icon name={highlight.icon} type="feather" color={COLORS.primary} size={16} />
-                </View>
-                <View style={styles.highlightContent}>
-                  <Text style={styles.highlightTitle}>{highlight.title}</Text>
-                  <Text style={styles.highlightDescription}>{highlight.description}</Text>
-                </View>
-              </Animated.View>
-            ))}
-          </View>
-
-          {isLegacyPro && entry.legacyProInfo && (
-            <Animated.View
-              entering={FadeIn.delay(300 + entry.highlights.length * 50).duration(400)}
-              style={styles.legacyProSection}
-            >
-              <View style={styles.legacyProMessage}>
-                <Icon name="award" type="feather" color={COLORS.success} size={16} />
-                <Text style={styles.legacyProMessageText}>{entry.legacyProInfo.message}</Text>
-              </View>
-
-              <View style={styles.comparisonTable}>
-                <View style={styles.comparisonHeader}>
-                  <Text style={[styles.comparisonCell, styles.comparisonFeatureCell]} />
-                  <Text style={[styles.comparisonCell, styles.comparisonHeaderText]}>PRO</Text>
-                  <Text
-                    style={[
-                      styles.comparisonCell,
-                      styles.comparisonHeaderText,
-                      styles.comparisonPremiumHeader,
-                    ]}
-                  >
-                    PRO+
-                  </Text>
-                </View>
-                {entry.legacyProInfo.comparison.map((row) => (
-                  <View key={row.feature} style={styles.comparisonRow}>
-                    <Text style={[styles.comparisonCell, styles.comparisonFeatureCell]}>
-                      {row.feature}
-                    </Text>
-                    <View style={styles.comparisonCell}>
-                      <Icon
-                        name={row.pro ? 'check' : 'minus'}
-                        type="feather"
-                        size={14}
-                        color={row.pro ? COLORS.success : '#ccc'}
-                      />
-                    </View>
-                    <View style={styles.comparisonCell}>
-                      <Icon name="check" type="feather" size={14} color={COLORS.success} />
-                    </View>
+            <View style={styles.highlightList}>
+              {entry.highlights.map((highlight, index) => (
+                <Animated.View
+                  key={highlight.title}
+                  entering={FadeIn.delay(300 + index * 50).duration(400)}
+                  style={styles.highlightRow}
+                >
+                  <View style={styles.highlightIconContainer}>
+                    <Icon name={highlight.icon} type="feather" color={COLORS.primary} size={16} />
                   </View>
-                ))}
-              </View>
+                  <View style={styles.highlightContent}>
+                    <Text style={styles.highlightTitle}>{highlight.title}</Text>
+                    <Text style={styles.highlightDescription}>{highlight.description}</Text>
+                  </View>
+                </Animated.View>
+              ))}
+            </View>
 
-              <Text style={styles.legacyProCta}>{entry.legacyProInfo.cta}</Text>
+            {isLegacyPro && entry.legacyProInfo && (
+              <Animated.View
+                entering={FadeIn.delay(300 + entry.highlights.length * 50).duration(400)}
+                style={styles.legacyProSection}
+              >
+                <View style={styles.legacyProMessage}>
+                  <Icon name="award" type="feather" color={COLORS.success} size={16} />
+                  <Text style={styles.legacyProMessageText}>{entry.legacyProInfo.message}</Text>
+                </View>
+
+                <View style={styles.comparisonTable}>
+                  <View style={styles.comparisonHeader}>
+                    <Text style={[styles.comparisonCell, styles.comparisonFeatureCell]} />
+                    <Text style={[styles.comparisonCell, styles.comparisonHeaderText]}>PRO</Text>
+                    <Text
+                      style={[
+                        styles.comparisonCell,
+                        styles.comparisonHeaderText,
+                        styles.comparisonPremiumHeader,
+                      ]}
+                    >
+                      PRO+
+                    </Text>
+                  </View>
+                  {entry.legacyProInfo.comparison.map((row) => (
+                    <View key={row.feature} style={styles.comparisonRow}>
+                      <Text style={[styles.comparisonCell, styles.comparisonFeatureCell]}>
+                        {row.feature}
+                      </Text>
+                      <View style={styles.comparisonCell}>
+                        <Icon
+                          name={row.pro ? 'check' : 'minus'}
+                          type="feather"
+                          size={14}
+                          color={row.pro ? COLORS.success : '#ccc'}
+                        />
+                      </View>
+                      <View style={styles.comparisonCell}>
+                        <Icon name="check" type="feather" size={14} color={COLORS.success} />
+                      </View>
+                    </View>
+                  ))}
+                </View>
+
+                <Text style={styles.legacyProCta}>{entry.legacyProInfo.cta}</Text>
+              </Animated.View>
+            )}
+
+            <Animated.View entering={FadeIn.delay(500).duration(400)} style={styles.ctaContainer}>
+              <Button
+                title="Got it"
+                buttonStyle={styles.gotItButton}
+                titleStyle={styles.gotItButtonText}
+                onPress={handleClose}
+              />
             </Animated.View>
-          )}
-
-          <Animated.View entering={FadeIn.delay(500).duration(400)} style={styles.ctaContainer}>
-            <Button
-              title="Got it"
-              buttonStyle={styles.gotItButton}
-              titleStyle={styles.gotItButtonText}
-              onPress={handleClose}
-            />
-          </Animated.View>
+          </ScrollView>
         </Animated.View>
       </View>
     </Modal>

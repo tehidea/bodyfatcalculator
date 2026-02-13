@@ -32,7 +32,7 @@ export const CHANGELOG: ChangelogEntry[] = [
   {
     version: '2.0.0',
     date: '2025-06-01',
-    title: 'A Major Update',
+    title: 'Introducing PRO+',
     legacyProInfo: {
       message:
         'Your PRO lifetime purchase is safe — you keep all your existing features. The new features below are part of the PRO+ subscription, available to you at 50% off as a loyal customer.',
