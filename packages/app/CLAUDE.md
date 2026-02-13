@@ -121,6 +121,7 @@ The app uses **Zustand** for state management with two main stores:
 ### Environment Setup
 
 - Node.js version: 22.11.0 (specified in package.json engines)
+- Node.js managed via **mise** — build Android from the terminal (`pnpx expo run:android`) so Gradle inherits the correct PATH and can find `node`. Android Studio launched via Finder or `open -a` does NOT inherit mise's PATH.
 - Package manager: pnpm
 - Environment variables stored in `.env` files
 - RevenueCat API keys configured via Expo config

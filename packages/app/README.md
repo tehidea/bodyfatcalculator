@@ -664,6 +664,24 @@ pnpm expo run:android
 
 Note: Use `pnpx` instead of `npx` for package execution in this project.
 
+### Android Studio & mise
+
+Node.js is managed via `mise`, which means Android Studio won't find `node` on the system PATH. Launching via Finder or `open -a` does **not** inherit the terminal environment.
+
+**Build from the terminal instead:**
+
+```bash
+pnpx expo run:android
+```
+
+If you need Android Studio for debugging/profiling, launch it directly so it inherits mise's PATH:
+
+```bash
+"/Applications/Android Studio.app/Contents/MacOS/studio" &
+```
+
+**AGP compatibility:** Expo SDK 54 uses AGP 8.11.0, which requires Android Studio **Narwhal (2025.1.1)** or newer.
+
 ## Website
 
 [Body Fat Calculator Website](https://bodyfatcalculator.pro)
