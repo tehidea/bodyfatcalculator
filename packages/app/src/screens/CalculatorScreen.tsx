@@ -1,6 +1,6 @@
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { calculateResults } from '@bodyfat/shared/formulas'
 import type { CalculationResult } from '@bodyfat/shared/types'
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { Button, Text } from '@rneui/themed'
 import { usePostHog } from 'posthog-react-native'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'

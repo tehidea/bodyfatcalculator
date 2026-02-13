@@ -25,5 +25,5 @@ export function useWhatsNew() {
     }
   }, [currentVersion, setLastSeenVersion])
 
-  return { showWhatsNew, dismiss, latestEntry, changelog: CHANGELOG }
+  return { showWhatsNew, dismiss, latestEntry }
 }
