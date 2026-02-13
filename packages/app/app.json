@@ -28,7 +28,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.tehidea.bodyfatcalculator",
-      "versionCode": 15,
+      "versionCode": 16,
       "permissions": [
         "android.permission.health.READ_BODY_FAT",
         "android.permission.health.WRITE_BODY_FAT",
@@ -87,7 +87,10 @@
         "expo-build-properties",
         {
           "android": {
-            "minSdkVersion": 26
+            "minSdkVersion": 26,
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 35,
+            "buildToolsVersion": "35.0.0"
           }
         }
       ]
