@@ -22,41 +22,12 @@ import { syncAll } from '../../services/cloudSync'
 import { useCalculatorStore } from '../../store/calculatorStore'
 import { useHistoryStore } from '../../store/historyStore'
 import { useHasProFeatures, usePremiumStore } from '../../store/premiumStore'
+import { getClassificationColor, getClassificationForGender } from '../../utils/classification'
 import { hapticSuccess } from '../../utils/haptics'
 import { useResponsive } from '../../utils/responsiveContext'
 import { ArcGauge } from './ArcGauge'
 import { PaywallModal } from './PaywallModal'
 import { createStyles } from './ResultsDisplay.styles'
-
-function getClassificationForGender(bodyFatPercentage: number, gender: string): string {
-  if (gender === 'male') {
-    if (bodyFatPercentage < 6) return 'Essential Fat'
-    if (bodyFatPercentage < 14) return 'Athletic'
-    if (bodyFatPercentage < 18) return 'Fitness'
-    if (bodyFatPercentage < 25) return 'Acceptable'
-    return 'Obese'
-  }
-  if (bodyFatPercentage < 14) return 'Essential Fat'
-  if (bodyFatPercentage < 21) return 'Athletic'
-  if (bodyFatPercentage < 25) return 'Fitness'
-  if (bodyFatPercentage < 32) return 'Acceptable'
-  return 'Obese'
-}
-
-function getClassificationColor(bodyFatPercentage: number, gender: string): string {
-  if (gender === 'male') {
-    if (bodyFatPercentage < 6) return '#2196F3'
-    if (bodyFatPercentage < 14) return '#4CAF50'
-    if (bodyFatPercentage < 18) return '#8BC34A'
-    if (bodyFatPercentage < 25) return '#FFC107'
-    return '#FF5722'
-  }
-  if (bodyFatPercentage < 14) return '#2196F3'
-  if (bodyFatPercentage < 21) return '#4CAF50'
-  if (bodyFatPercentage < 25) return '#8BC34A'
-  if (bodyFatPercentage < 32) return '#FFC107'
-  return '#FF5722'
-}
 
 const EASING = Easing.out(Easing.cubic)
 

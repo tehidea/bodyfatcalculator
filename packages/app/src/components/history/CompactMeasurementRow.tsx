@@ -2,22 +2,8 @@ import { FORMULA_DEFINITIONS } from '@bodyfat/shared/definitions'
 import { Icon, Text } from '@rneui/themed'
 import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native'
 import type { MeasurementRecord } from '../../store/historyStore'
+import { getClassificationColor } from '../../utils/classification'
 import { useResponsive } from '../../utils/responsiveContext'
-
-function getClassificationColor(bodyFat: number, gender: string): string {
-  if (gender === 'male') {
-    if (bodyFat < 6) return '#2196F3'
-    if (bodyFat < 14) return '#4CAF50'
-    if (bodyFat < 18) return '#8BC34A'
-    if (bodyFat < 25) return '#FFC107'
-    return '#FF5722'
-  }
-  if (bodyFat < 14) return '#2196F3'
-  if (bodyFat < 21) return '#4CAF50'
-  if (bodyFat < 25) return '#8BC34A'
-  if (bodyFat < 32) return '#FFC107'
-  return '#FF5722'
-}
 
 function formatDate(isoString: string): string {
   const date = new Date(isoString)
