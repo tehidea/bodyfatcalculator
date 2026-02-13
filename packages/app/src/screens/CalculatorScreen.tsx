@@ -1,3 +1,4 @@
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { calculateResults } from '@bodyfat/shared/formulas'
 import type { CalculationResult } from '@bodyfat/shared/types'
 import { Button, Text } from '@rneui/themed'
@@ -61,6 +62,7 @@ const ReferencesDisplay = memo(() => {
 })
 
 export const CalculatorScreen = () => {
+  const tabBarHeight = useBottomTabBarHeight()
   const posthog = usePostHog()
   const {
     formula,
@@ -283,7 +285,7 @@ export const CalculatorScreen = () => {
           </KeyboardAwareScrollView>
         </View>
       </View>
-      <KeyboardToolbar />
+      <KeyboardToolbar offset={{ closed: tabBarHeight, opened: tabBarHeight }} />
     </SafeAreaView>
   )
 }
