@@ -45,7 +45,6 @@ export function WhatsNewScreen({ navigation }: { navigation: any }) {
                 <View style={styles.versionBadge}>
                   <Text style={styles.versionBadgeText}>{entry.version}</Text>
                 </View>
-                <Text style={styles.versionDate}>{entry.date}</Text>
               </View>
               <Text style={styles.versionTitle}>{entry.title}</Text>
 
@@ -177,11 +176,6 @@ const createStyles = (
       fontSize: getResponsiveTypography('xs'),
       lineHeight: getLineHeight('xs'),
       fontWeight: '700',
-    },
-    versionDate: {
-      color: '#999',
-      fontSize: getResponsiveTypography('xs'),
-      lineHeight: getLineHeight('xs'),
     },
     versionTitle: {
       fontSize: getResponsiveTypography('lg'),
