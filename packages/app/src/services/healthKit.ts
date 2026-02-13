@@ -72,7 +72,8 @@ async function iosRequestPermissions(): Promise<boolean> {
 
 async function iosWriteBodyFat(percentage: number): Promise<boolean> {
   try {
-    await saveQuantitySample('HKQuantityTypeIdentifierBodyFatPercentage', '%', percentage / 100)
+    const now = new Date()
+    await saveQuantitySample('HKQuantityTypeIdentifierBodyFatPercentage', '%', percentage / 100, now, now)
     return true
   } catch (error) {
     console.warn('HealthKit save error:', error)
@@ -83,7 +84,8 @@ async function iosWriteBodyFat(percentage: number): Promise<boolean> {
 async function iosWriteWeight(value: number, system: MeasurementSystem): Promise<boolean> {
   try {
     const unit = system === 'metric' ? 'kg' : 'lb'
-    await saveQuantitySample('HKQuantityTypeIdentifierBodyMass', unit, value)
+    const now = new Date()
+    await saveQuantitySample('HKQuantityTypeIdentifierBodyMass', unit, value, now, now)
     return true
   } catch (error) {
     console.warn('HealthKit saveWeight error:', error)
@@ -94,7 +96,8 @@ async function iosWriteWeight(value: number, system: MeasurementSystem): Promise
 async function iosWriteHeight(value: number, system: MeasurementSystem): Promise<boolean> {
   try {
     const unit = system === 'metric' ? 'cm' : 'in'
-    await saveQuantitySample('HKQuantityTypeIdentifierHeight', unit, value)
+    const now = new Date()
+    await saveQuantitySample('HKQuantityTypeIdentifierHeight', unit, value, now, now)
     return true
   } catch (error) {
     console.warn('HealthKit saveHeight error:', error)
@@ -105,7 +108,8 @@ async function iosWriteHeight(value: number, system: MeasurementSystem): Promise
 async function iosWriteWaist(value: number, system: MeasurementSystem): Promise<boolean> {
   try {
     const unit = system === 'metric' ? 'cm' : 'in'
-    await saveQuantitySample('HKQuantityTypeIdentifierWaistCircumference', unit, value)
+    const now = new Date()
+    await saveQuantitySample('HKQuantityTypeIdentifierWaistCircumference', unit, value, now, now)
     return true
   } catch (error) {
     console.warn('HealthKit saveWaist error:', error)
@@ -116,7 +120,8 @@ async function iosWriteWaist(value: number, system: MeasurementSystem): Promise<
 async function iosWriteLeanMass(value: number, system: MeasurementSystem): Promise<boolean> {
   try {
     const unit = system === 'metric' ? 'kg' : 'lb'
-    await saveQuantitySample('HKQuantityTypeIdentifierLeanBodyMass', unit, value)
+    const now = new Date()
+    await saveQuantitySample('HKQuantityTypeIdentifierLeanBodyMass', unit, value, now, now)
     return true
   } catch (error) {
     console.warn('HealthKit saveLeanMass error:', error)
@@ -126,7 +131,8 @@ async function iosWriteLeanMass(value: number, system: MeasurementSystem): Promi
 
 async function iosWriteBmi(value: number): Promise<boolean> {
   try {
-    await saveQuantitySample('HKQuantityTypeIdentifierBodyMassIndex', 'count', value)
+    const now = new Date()
+    await saveQuantitySample('HKQuantityTypeIdentifierBodyMassIndex', 'count', value, now, now)
     return true
   } catch (error) {
     console.warn('HealthKit saveBmi error:', error)
@@ -141,9 +147,9 @@ async function iosReadBodyFatHistory(days = 90): Promise<BodyFatSample[]> {
 
     const samples = await queryQuantitySamples('HKQuantityTypeIdentifierBodyFatPercentage', {
       ascending: false,
+      limit: -1,
       filter: {
-        startDate,
-        endDate: new Date(),
+        date: { startDate, endDate: new Date() },
       },
     })
 

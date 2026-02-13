@@ -190,4 +190,6 @@ function App() {
   )
 }
 
+export default App
+
 registerRootComponent(App)

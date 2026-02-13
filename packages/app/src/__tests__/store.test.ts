@@ -50,8 +50,8 @@ describe('Store Module', () => {
     })
 
     it('should set debug log level in development', async () => {
-      const originalDev = global.__DEV__
-      global.__DEV__ = true
+      const originalDev = (global as any).__DEV__
+      ;(global as any).__DEV__ = true
 
       const mockCustomerInfo = {
         allPurchasedProductIdentifiers: [],
@@ -63,7 +63,7 @@ describe('Store Module', () => {
 
       expect(Purchases.setLogLevel).toHaveBeenCalledWith(Purchases.LOG_LEVEL.DEBUG)
 
-      global.__DEV__ = originalDev
+      ;(global as any).__DEV__ = originalDev
     })
   })
 

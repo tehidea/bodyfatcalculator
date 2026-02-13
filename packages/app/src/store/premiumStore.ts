@@ -1,5 +1,9 @@
 import { Alert } from 'react-native'
-import Purchases, { type PurchasesError, type PurchasesPackage } from 'react-native-purchases'
+import Purchases, {
+  PURCHASES_ERROR_CODE,
+  type PurchasesError,
+  type PurchasesPackage,
+} from 'react-native-purchases'
 import { create } from 'zustand'
 import { getUserEntitlements, purchasePackage, type UserEntitlements } from '../config/store'
 
@@ -40,12 +44,12 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
     } catch (error) {
       console.error('checkEntitlements - Error:', error)
       if (error instanceof Error && 'code' in error) {
-        const purchaseError = error as PurchasesError
+        const purchaseError = error as unknown as PurchasesError
         switch (purchaseError.code) {
-          case 'NetworkError':
+          case PURCHASES_ERROR_CODE.NETWORK_ERROR:
             set({ isLoading: false, error: 'Network connection error. Please try again.' })
             break
-          case 'PurchaseNotAllowedError':
+          case PURCHASES_ERROR_CODE.PURCHASE_NOT_ALLOWED_ERROR:
             set({ isLoading: false, error: 'Purchases are not allowed on this device.' })
             break
           default:
@@ -108,31 +112,31 @@ export const usePremiumStore = create<PremiumStore>((set, get) => ({
       set({ isLoading: false, error: null, isProPlus: false })
 
       if (error instanceof Error && 'code' in error) {
-        const purchaseError = error as PurchasesError
+        const purchaseError = error as unknown as PurchasesError
         switch (purchaseError.code) {
-          case 'NetworkError':
+          case PURCHASES_ERROR_CODE.NETWORK_ERROR:
             Alert.alert('Network Error', 'Please check your internet connection and try again.', [
               { text: 'OK' },
             ])
             return false
-          case 'StoreProblemError':
+          case PURCHASES_ERROR_CODE.STORE_PROBLEM_ERROR:
             Alert.alert(
               'Store Error',
               'There was a problem with the App Store. Please try again later.',
               [{ text: 'OK' }],
             )
             return false
-          case 'PurchaseCancelledError':
+          case PURCHASES_ERROR_CODE.PURCHASE_CANCELLED_ERROR:
             console.log('purchasePackage - User cancelled')
             return false
-          case 'CustomerInfoError':
+          case PURCHASES_ERROR_CODE.CUSTOMER_INFO_ERROR:
             Alert.alert(
               'Sign In Required',
               'Please sign in with your App Store account to make purchases.',
               [{ text: 'OK' }],
             )
             return false
-          case 'InvalidReceiptError':
+          case PURCHASES_ERROR_CODE.INVALID_RECEIPT_ERROR:
             Alert.alert(
               'Purchase Error',
               'There was a problem validating your purchase. Please try again.',

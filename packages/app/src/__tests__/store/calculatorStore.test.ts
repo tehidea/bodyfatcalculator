@@ -9,19 +9,19 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   },
 }))
 
-const mockValidateFormula = jest.fn(() => ({ success: true, errors: {} }))
+const mockValidateFormula: jest.Mock = jest.fn(() => ({ success: true, errors: {} }))
 jest.mock('../../schemas/calculator', () => ({
-  validateFormula: (...args: unknown[]) => mockValidateFormula(...args),
+  validateFormula: (...args: any[]) => mockValidateFormula(...args),
 }))
 
-const mockCalculate = jest.fn(() => ({
+const mockCalculate: jest.Mock = jest.fn(() => ({
   bodyFatPercentage: 20,
   fatMass: 16,
   leanMass: 64,
 }))
 jest.mock('@bodyfat/shared/formulas', () => ({
   getFormula: jest.fn(() => ({
-    calculate: (...args: unknown[]) => mockCalculate(...args),
+    calculate: (...args: any[]) => mockCalculate(...args),
   })),
 }))
 

@@ -125,7 +125,7 @@ export function ChartSection({ measurements }: ChartSectionProps) {
           <LineChart
             key={`${selectedTimeRange}-${effectiveFormula}`}
             data={chartPoints}
-            parentWidth={containerWidth || undefined}
+            {...(containerWidth > 0 && { parentWidth: containerWidth })}
             curved
             color={chartColor}
             thickness={2}

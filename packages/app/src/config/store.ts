@@ -135,7 +135,7 @@ export async function initializeStore() {
 
       await Purchases.configure({
         apiKey: API_KEY,
-        appUserID: installId || undefined, // Use install ID as RevenueCat user ID
+        appUserID: installId || null, // Use install ID as RevenueCat user ID
       })
 
       isRevenueCatConfigured = true
