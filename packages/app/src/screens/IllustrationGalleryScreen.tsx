@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { Platform, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { BrandHeader } from '../components/BrandHeader'
+import FemaleIcon from '../components/icons/FemaleIcon'
+import MaleIcon from '../components/icons/MaleIcon'
 import { measurementIllustrationMap } from '../components/illustrations/measurements/fieldMap'
 import { COLORS } from '../constants/theme'
 import { useResponsive } from '../utils/responsiveContext'
@@ -51,36 +53,27 @@ export function IllustrationGalleryScreen({ navigation }: { navigation: any }) {
         />
 
         <View style={styles.toolbarRow}>
-          <View style={styles.genderToggleRow}>
+          <View style={styles.segmentedControl}>
             <TouchableOpacity
+              style={[styles.segment, gender === 'male' && styles.segmentActive]}
               onPress={() => setGender('male')}
-              style={[styles.genderButton, gender === 'male' && styles.genderButtonActive]}
+              activeOpacity={0.7}
             >
-              <Text
-                style={[
-                  styles.genderButtonText,
-                  gender === 'male' && styles.genderButtonTextActive,
-                ]}
-              >
+              <MaleIcon size={12} color={gender === 'male' ? '#fff' : '#666'} />
+              <Text style={[styles.segmentText, gender === 'male' && styles.segmentTextActive]}>
                 Male
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
+              style={[styles.segment, gender === 'female' && styles.segmentActive]}
               onPress={() => setGender('female')}
-              style={[styles.genderButton, gender === 'female' && styles.genderButtonActive]}
+              activeOpacity={0.7}
             >
-              <Text
-                style={[
-                  styles.genderButtonText,
-                  gender === 'female' && styles.genderButtonTextActive,
-                ]}
-              >
+              <FemaleIcon size={12} color={gender === 'female' ? '#fff' : '#666'} />
+              <Text style={[styles.segmentText, gender === 'female' && styles.segmentTextActive]}>
                 Female
               </Text>
             </TouchableOpacity>
-          </View>
-          <View style={styles.badge}>
-            <Text style={styles.badgeText}>DEV ONLY</Text>
           </View>
         </View>
 
@@ -126,10 +119,9 @@ const createStyles = (
     toolbarRow: {
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'flex-end',
+      justifyContent: 'center',
       paddingHorizontal: getResponsiveSpacing(16),
       paddingVertical: getResponsiveSpacing(8),
-      gap: getResponsiveSpacing(8),
     },
     backButton: {
       flexDirection: 'row',
@@ -141,42 +133,31 @@ const createStyles = (
       fontSize: getResponsiveTypography('sm'),
       lineHeight: getLineHeight('sm'),
     },
-    genderToggleRow: {
+    segmentedControl: {
       flexDirection: 'row',
-      gap: getResponsiveSpacing(4),
-    },
-    genderButton: {
-      paddingHorizontal: getResponsiveSpacing(12),
-      paddingVertical: getResponsiveSpacing(4),
+      backgroundColor: '#e0e0e0',
       borderRadius: 8,
-      backgroundColor: '#f0f0f0',
+      padding: 2,
     },
-    genderButtonActive: {
+    segment: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 4,
+      paddingVertical: 4,
+      paddingHorizontal: 10,
+      borderRadius: 6,
+    },
+    segmentActive: {
       backgroundColor: COLORS.primary,
     },
-    genderButtonText: {
-      fontSize: getResponsiveTypography('sm'),
-      lineHeight: getLineHeight('sm'),
-      color: COLORS.text,
-      fontWeight: '500',
+    segmentText: {
+      fontSize: getResponsiveTypography('xs'),
+      lineHeight: getLineHeight('xs'),
+      color: '#666',
     },
-    genderButtonTextActive: {
-      color: 'white',
-    },
-    badge: {
-      backgroundColor: '#FF572220',
-      paddingHorizontal: getResponsiveSpacing(8),
-      paddingVertical: getResponsiveSpacing(3),
-      borderRadius: 6,
-      borderWidth: 1,
-      borderColor: '#FF572260',
-    },
-    badgeText: {
-      color: '#FF5722',
-      fontSize: getResponsiveTypography('xxs'),
-      lineHeight: getLineHeight('xxs'),
-      fontWeight: '700',
-      letterSpacing: 1,
+    segmentTextActive: {
+      color: '#fff',
+      fontWeight: '600',
     },
     grid: {
       flexDirection: 'row',
