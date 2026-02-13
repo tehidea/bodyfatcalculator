@@ -668,10 +668,11 @@ const createStyles = (
       lineHeight: getLineHeight('xxs'),
     },
     modalTitle: {
-      fontSize: getResponsiveTypography('sm'),
-      lineHeight: getLineHeight('sm'),
+      fontSize: getResponsiveTypography('md'),
+      lineHeight: getLineHeight('md'),
       color: COLORS.textDark,
       textTransform: 'uppercase',
       letterSpacing: 1,
+      marginTop: 2,
     },
   })
