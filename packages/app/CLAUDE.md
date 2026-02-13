@@ -128,7 +128,7 @@ The app uses **Zustand** for state management with two main stores:
 
 ### EAS Submit
 
-**TODO**: `changesNotSentForReview: true` in `eas.json` is a workaround for a Google Play Publishing API bug that rejects health apps submitted via fastlane supply. Track upstream: [fastlane #27960](https://github.com/fastlane/fastlane/issues/27960), [eas-cli #3275](https://github.com/expo/eas-cli/issues/3275). Remove this flag and test automated review submission once the bug is resolved.
+**Health Apps Declaration**: Google Play requires a completed Health Apps Declaration (Policy → App content → Health apps) before the Publishing API accepts submissions for apps with `android.permission.health.*` permissions. This was completed in Feb 2026. If submission fails with a health features error after adding new health permissions, update the declaration in Play Console.
 
 ### Revenue & Analytics
 

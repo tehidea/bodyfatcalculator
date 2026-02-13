@@ -30,9 +30,8 @@
   "submit": {
     "production": {
       "android": {
-        "serviceAccountKeyPath": "../Expo/Google/body-fat-calculator-445413-49ea032c4367.json",
-        "track": "internal",
-        "changesNotSentForReview": true
+        "serviceAccountKeyPath": "../../../Expo/Google/body-fat-calculator-445413-49ea032c4367.json",
+        "track": "internal"
       }
     }
   }
