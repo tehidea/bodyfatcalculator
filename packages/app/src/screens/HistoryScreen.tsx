@@ -1,6 +1,7 @@
 import { Icon, Text } from '@rneui/themed'
 import { useState } from 'react'
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { BrandHeader } from '../components/BrandHeader'
 import { PaywallModal } from '../components/calculator/PaywallModal'
@@ -8,6 +9,7 @@ import { MeasurementList } from '../components/history/MeasurementList'
 import { ChartSection } from '../components/history/ProgressChart'
 import { COLORS } from '../constants/theme'
 import { useCloudSync } from '../hooks/useCloudSync'
+import { useCollapsibleHeader } from '../hooks/useCollapsibleHeader'
 import { useHistoryStore } from '../store/historyStore'
 import { usePremiumStore } from '../store/premiumStore'
 import { useResponsive } from '../utils/responsiveContext'
@@ -18,6 +20,7 @@ export function HistoryScreen() {
   const { status: syncStatus, isEnabled: syncEnabled, sync } = useCloudSync()
   const { getResponsiveTypography, getLineHeight, getResponsiveSpacing } = useResponsive()
   const styles = createStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing)
+  const { scrollY, scrollHandler } = useCollapsibleHeader()
   const [showPaywall, setShowPaywall] = useState(false)
 
   const measurements = getActiveMeasurements()
@@ -47,7 +50,7 @@ export function HistoryScreen() {
     return (
       <SafeAreaView style={styles.container} edges={['top']}>
         <View style={styles.innerContainer}>
-          <BrandHeader title="History" variant="compact" />
+          <BrandHeader title="History" variant="compact" scrollY={scrollY} />
           <View style={styles.emptyState}>
             <Icon name="lock" type="feather" color="rgba(255,255,255,0.4)" size={48} />
             <Text style={styles.emptyTitle}>PRO+ Feature</Text>
@@ -69,7 +72,12 @@ export function HistoryScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.innerContainer}>
-        <BrandHeader title="History" variant="compact" rightElement={headerRightElement} />
+        <BrandHeader
+          title="History"
+          variant="compact"
+          rightElement={headerRightElement}
+          scrollY={scrollY}
+        />
 
         {measurements.length === 0 ? (
           <View style={styles.emptyState}>
@@ -78,13 +86,15 @@ export function HistoryScreen() {
             <Text style={styles.emptySubtitle}>Your saved measurements will appear here</Text>
           </View>
         ) : (
-          <ScrollView
+          <Animated.ScrollView
+            onScroll={scrollHandler}
+            scrollEventThrottle={16}
             contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={false}
           >
             <ChartSection measurements={measurements} />
             <MeasurementList measurements={measurements} onDelete={deleteMeasurement} />
-          </ScrollView>
+          </Animated.ScrollView>
         )}
       </View>
     </SafeAreaView>

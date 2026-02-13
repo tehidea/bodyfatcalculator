@@ -1,17 +1,20 @@
 import { Icon, Text } from '@rneui/themed'
 import { useState } from 'react'
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { BrandHeader } from '../components/BrandHeader'
 import { PaywallModal } from '../components/calculator/PaywallModal'
 import { COLORS } from '../constants/theme'
 import { CHANGELOG } from '../data/changelog'
+import { useCollapsibleHeader } from '../hooks/useCollapsibleHeader'
 import { usePremiumStore } from '../store/premiumStore'
 import { useResponsive } from '../utils/responsiveContext'
 
 export function WhatsNewScreen({ navigation }: { navigation: any }) {
   const isLegacyPro = usePremiumStore((state) => state.isLegacyPro)
   const [showPaywall, setShowPaywall] = useState(false)
+  const { scrollY, scrollHandler } = useCollapsibleHeader()
   const { getResponsiveSpacing, getResponsiveTypography, getLineHeight } = useResponsive()
   const styles = createStyles(getResponsiveSpacing, getResponsiveTypography, getLineHeight)
 
@@ -21,6 +24,7 @@ export function WhatsNewScreen({ navigation }: { navigation: any }) {
         <BrandHeader
           title="What's New"
           variant="compact"
+          scrollY={scrollY}
           leftElement={
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
               <Icon name="arrow-left" type="feather" color={COLORS.textDark} size={20} />
@@ -29,7 +33,12 @@ export function WhatsNewScreen({ navigation }: { navigation: any }) {
           }
         />
 
-        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <Animated.ScrollView
+          onScroll={scrollHandler}
+          scrollEventThrottle={16}
+          contentContainerStyle={styles.content}
+          showsVerticalScrollIndicator={false}
+        >
           {CHANGELOG.map((entry) => (
             <View key={entry.version} style={styles.versionSection}>
               <View style={styles.versionHeader}>
@@ -107,7 +116,7 @@ export function WhatsNewScreen({ navigation }: { navigation: any }) {
               )}
             </View>
           ))}
-        </ScrollView>
+        </Animated.ScrollView>
         <PaywallModal
           visible={showPaywall}
           variant="precision"

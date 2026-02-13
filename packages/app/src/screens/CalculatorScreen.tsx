@@ -20,6 +20,7 @@ import { CalculationAnimation } from '../components/calculator/CalculationAnimat
 import { FormulaSelector } from '../components/calculator/FormulaSelector'
 import { MeasurementInput } from '../components/calculator/MeasurementInput'
 import { ResultsDisplay } from '../components/calculator/ResultsDisplay'
+import { useCollapsibleHeader } from '../hooks/useCollapsibleHeader'
 import {
   getFormulaMetadata,
   isValidFormula,
@@ -99,6 +100,7 @@ export const CalculatorScreen = () => {
     deviceType,
   )
 
+  const { scrollY, scrollHandler } = useCollapsibleHeader()
   const scrollViewRef = useRef<any>(null)
   const [_isFocused, setIsFocused] = useState(false)
   const [_currentInputIndex, setCurrentInputIndex] = useState<number | null>(null)
@@ -193,7 +195,7 @@ export const CalculatorScreen = () => {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.innerContainer}>
-        <BrandHeader title="Precision Body Composition" />
+        <BrandHeader title="Precision Body Composition" scrollY={scrollY} />
 
         <View style={styles.content}>
           <KeyboardAwareScrollView
@@ -204,6 +206,8 @@ export const CalculatorScreen = () => {
             showsVerticalScrollIndicator={false}
             keyboardDismissMode="interactive"
             bottomOffset={60}
+            onScroll={scrollHandler}
+            scrollEventThrottle={16}
           >
             <View style={styles.selectors}>
               <FormulaSelector />

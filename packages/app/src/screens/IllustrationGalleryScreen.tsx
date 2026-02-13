@@ -1,13 +1,15 @@
 import type { Gender } from '@bodyfat/shared/types'
 import { Icon, Text } from '@rneui/themed'
 import { useState } from 'react'
-import { Platform, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native'
+import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { BrandHeader } from '../components/BrandHeader'
 import FemaleIcon from '../components/icons/FemaleIcon'
 import MaleIcon from '../components/icons/MaleIcon'
 import { measurementIllustrationMap } from '../components/illustrations/measurements/fieldMap'
 import { COLORS } from '../constants/theme'
+import { useCollapsibleHeader } from '../hooks/useCollapsibleHeader'
 import { useResponsive } from '../utils/responsiveContext'
 
 const ILLUSTRATION_LABELS: Record<string, string> = {
@@ -32,6 +34,7 @@ const ILLUSTRATION_LABELS: Record<string, string> = {
 }
 
 export function IllustrationGalleryScreen({ navigation }: { navigation: any }) {
+  const { scrollY, scrollHandler } = useCollapsibleHeader()
   const { getResponsiveSpacing, getResponsiveTypography, getLineHeight } = useResponsive()
   const styles = createStyles(getResponsiveSpacing, getResponsiveTypography, getLineHeight)
   const [gender, setGender] = useState<Gender>('male')
@@ -44,6 +47,7 @@ export function IllustrationGalleryScreen({ navigation }: { navigation: any }) {
         <BrandHeader
           title="Illustration Gallery"
           variant="compact"
+          scrollY={scrollY}
           leftElement={
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
               <Icon name="arrow-left" type="feather" color={COLORS.textDark} size={20} />
@@ -77,7 +81,12 @@ export function IllustrationGalleryScreen({ navigation }: { navigation: any }) {
           </View>
         </View>
 
-        <ScrollView contentContainerStyle={styles.grid} showsVerticalScrollIndicator={false}>
+        <Animated.ScrollView
+          onScroll={scrollHandler}
+          scrollEventThrottle={16}
+          contentContainerStyle={styles.grid}
+          showsVerticalScrollIndicator={false}
+        >
           {entries.map(([fieldKey, Illustration]) => (
             <View key={fieldKey} style={styles.card}>
               <View style={styles.illustrationWrapper}>
@@ -96,7 +105,7 @@ export function IllustrationGalleryScreen({ navigation }: { navigation: any }) {
               </Text>
             </View>
           ))}
-        </ScrollView>
+        </Animated.ScrollView>
       </View>
     </SafeAreaView>
   )

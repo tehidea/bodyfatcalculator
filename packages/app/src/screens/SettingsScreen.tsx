@@ -2,15 +2,8 @@ import { useNavigation } from '@react-navigation/native'
 import { Icon, Text } from '@rneui/themed'
 import Constants from 'expo-constants'
 import { useState } from 'react'
-import {
-  Alert,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Switch,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { Alert, Platform, StyleSheet, Switch, TouchableOpacity, View } from 'react-native'
+import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { BrandHeader } from '../components/BrandHeader'
 import { PaywallModal } from '../components/calculator/PaywallModal'
@@ -19,6 +12,7 @@ import MaleIcon from '../components/icons/MaleIcon'
 import { ReminderSettings } from '../components/settings/ReminderSettings'
 import { COLORS } from '../constants/theme'
 import { useCloudSync } from '../hooks/useCloudSync'
+import { useCollapsibleHeader } from '../hooks/useCollapsibleHeader'
 import { useHealthIntegration } from '../hooks/useHealthIntegration'
 import type { Gender } from '../schemas/calculator'
 import type { WriteStatus } from '../services/healthKit'
@@ -123,6 +117,7 @@ export function SettingsScreen() {
   const navigation = useNavigation<any>()
   const { getResponsiveTypography, getLineHeight, getResponsiveSpacing } = useResponsive()
   const styles = createStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing)
+  const { scrollY, scrollHandler } = useCollapsibleHeader()
   const [showPaywall, setShowPaywall] = useState(false)
 
   const isMetric = measurementSystem === 'metric'
@@ -191,9 +186,14 @@ export function SettingsScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.innerContainer}>
-        <BrandHeader title="Settings" variant="compact" />
+        <BrandHeader title="Settings" variant="compact" scrollY={scrollY} />
 
-        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <Animated.ScrollView
+          onScroll={scrollHandler}
+          scrollEventThrottle={16}
+          contentContainerStyle={styles.content}
+          showsVerticalScrollIndicator={false}
+        >
           {isProPlus ? (
             <View style={styles.premiumStatus}>
               <Icon name="check-circle" type="feather" color={COLORS.success} size={20} />
@@ -494,7 +494,7 @@ export function SettingsScreen() {
               />
             </SettingsSection>
           )}
-        </ScrollView>
+        </Animated.ScrollView>
 
         <PaywallModal
           visible={showPaywall}
