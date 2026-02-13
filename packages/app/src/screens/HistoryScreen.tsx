@@ -24,9 +24,6 @@ export function HistoryScreen() {
 
   const headerRightElement = isProPlus ? (
     <View style={styles.headerRight}>
-      {measurements.length > 0 && (
-        <Text style={styles.count}>{measurements.length} measurements</Text>
-      )}
       {syncEnabled && (
         <TouchableOpacity onPress={sync} disabled={syncStatus === 'syncing'} hitSlop={8}>
           <Icon
@@ -112,11 +109,6 @@ const createStyles = (
       flexDirection: 'row',
       alignItems: 'center',
       gap: getResponsiveSpacing(12),
-    },
-    count: {
-      fontSize: getResponsiveTypography('sm'),
-      lineHeight: getLineHeight('sm'),
-      color: '#999',
     },
     scrollContent: {
       padding: getResponsiveSpacing(16),
