@@ -1,6 +1,4 @@
-import type { Formula, MeasurementSystem } from '@bodyfat/shared/types'
 import { renderHook } from '@testing-library/react-native'
-import type { ChartMetric, TimeRange } from '../../hooks/useChartData'
 import { useChartData } from '../../hooks/useChartData'
 import type { MeasurementRecord } from '../../store/historyStore'
 
@@ -14,7 +12,7 @@ jest.mock('@bodyfat/shared/conversions', () => ({
 }))
 
 const createRecord = (overrides: Partial<MeasurementRecord> = {}): MeasurementRecord => ({
-  clientId: 'test-' + Math.random().toString(36).slice(2, 8),
+  clientId: `test-${Math.random().toString(36).slice(2, 8)}`,
   formula: 'ymca',
   gender: 'male',
   measurementSystem: 'metric',
