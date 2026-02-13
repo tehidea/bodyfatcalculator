@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useCallback, useEffect, useState } from 'react'
 import {
   type BodyFatSample,
+  DEFAULT_WRITE_STATUSES,
   getWriteStatuses,
   type HealthWriteData,
   isHealthAvailable,
@@ -15,15 +16,6 @@ import { usePremiumStore } from '../store/premiumStore'
 
 const HEALTH_ENABLED_KEY = 'health_integration_enabled'
 const HEALTH_PERMISSIONS_KEY = 'health_permissions_granted'
-
-const DEFAULT_WRITE_STATUSES: WriteStatuses = {
-  bodyFat: 'notDetermined',
-  weight: 'notDetermined',
-  height: 'notDetermined',
-  waist: 'notDetermined',
-  leanMass: 'notDetermined',
-  bmi: 'notDetermined',
-}
 
 export function useHealthIntegration() {
   const { isProPlus } = usePremiumStore()

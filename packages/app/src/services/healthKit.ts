@@ -30,7 +30,7 @@ export type HealthMetric = 'bodyFat' | 'weight' | 'height' | 'waist' | 'leanMass
 export type WriteStatus = 'authorized' | 'denied' | 'notDetermined'
 export type WriteStatuses = Record<HealthMetric, WriteStatus>
 
-const DEFAULT_WRITE_STATUSES: WriteStatuses = {
+export const DEFAULT_WRITE_STATUSES: WriteStatuses = {
   bodyFat: 'notDetermined',
   weight: 'notDetermined',
   height: 'notDetermined',
@@ -73,7 +73,13 @@ async function iosRequestPermissions(): Promise<boolean> {
 async function iosWriteBodyFat(percentage: number): Promise<boolean> {
   try {
     const now = new Date()
-    await saveQuantitySample('HKQuantityTypeIdentifierBodyFatPercentage', '%', percentage / 100, now, now)
+    await saveQuantitySample(
+      'HKQuantityTypeIdentifierBodyFatPercentage',
+      '%',
+      percentage / 100,
+      now,
+      now,
+    )
     return true
   } catch (error) {
     console.warn('HealthKit save error:', error)
