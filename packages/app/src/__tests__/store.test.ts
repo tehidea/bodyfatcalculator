@@ -80,7 +80,7 @@ describe('Store Module', () => {
       expect(result).toEqual({ isProPlus: false, isLegacyPro: true })
     })
 
-    it('should return isLegacyPro: true (not isProPlus) when user has legacy pro entitlement', async () => {
+    it('should return isLegacyPro: false when user only has legacy pro entitlement (no product)', async () => {
       const mockCustomerInfo = {
         allPurchasedProductIdentifiers: [],
         entitlements: { active: { [ENTITLEMENTS.pro]: {} } },
@@ -89,7 +89,7 @@ describe('Store Module', () => {
 
       const result = await getUserEntitlements()
 
-      expect(result).toEqual({ isProPlus: false, isLegacyPro: true })
+      expect(result).toEqual({ isProPlus: false, isLegacyPro: false })
     })
 
     it('should return both when user has legacy pro AND premium entitlement', async () => {

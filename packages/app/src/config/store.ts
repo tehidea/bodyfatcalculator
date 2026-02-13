@@ -175,12 +175,9 @@ export async function getUserEntitlements(): Promise<UserEntitlements> {
   try {
     const customerInfo = await Purchases.getCustomerInfo()
 
-    // Legacy PRO detection: user purchased the original pro_lifetime product
-    const hasLegacyProProduct = customerInfo.allPurchasedProductIdentifiers.includes(
-      PRODUCTS.pro.lifetime,
-    )
-    const hasLegacyProEntitlement = customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined
-    const isLegacyPro = hasLegacyProProduct || hasLegacyProEntitlement
+    // Legacy PRO detection: only trust the actual product purchase history,
+    // not entitlements (which can be granted manually or via sandbox contamination)
+    const isLegacyPro = customerInfo.allPurchasedProductIdentifiers.includes(PRODUCTS.pro.lifetime)
 
     // Premium detection: user has the new premium entitlement
     const hasPremiumEntitlement =
@@ -192,8 +189,7 @@ export async function getUserEntitlements(): Promise<UserEntitlements> {
     const entitlements = { isProPlus, isLegacyPro }
     console.log('getUserEntitlements - Retrieved entitlements:', entitlements)
     console.log('getUserEntitlements - Details:', {
-      hasLegacyProProduct,
-      hasLegacyProEntitlement,
+      isLegacyPro,
       hasPremiumEntitlement,
       allProducts: customerInfo.allPurchasedProductIdentifiers,
       activeEntitlements: customerInfo.entitlements.active,
@@ -323,11 +319,7 @@ function extractEntitlements(customerInfo: {
   allPurchasedProductIdentifiers: string[]
   entitlements: { active: Record<string, unknown> }
 }): UserEntitlements {
-  const hasLegacyProProduct = customerInfo.allPurchasedProductIdentifiers.includes(
-    PRODUCTS.pro.lifetime,
-  )
-  const hasLegacyProEntitlement = customerInfo.entitlements.active[ENTITLEMENTS.pro] !== undefined
-  const isLegacyPro = hasLegacyProProduct || hasLegacyProEntitlement
+  const isLegacyPro = customerInfo.allPurchasedProductIdentifiers.includes(PRODUCTS.pro.lifetime)
 
   const hasPremiumEntitlement = customerInfo.entitlements.active[ENTITLEMENTS.premium] !== undefined
 

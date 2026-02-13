@@ -78,8 +78,7 @@ export function PlanSelector({
         const isSelected = selectedPlan === plan
         const isBestValue = plan === 'annual'
         const price = priceMap[plan]?.product.priceString
-        const savings =
-          plan === 'annual' && savingsPercent != null ? `${savingsPercent}%` : null
+        const savings = plan === 'annual' && savingsPercent != null ? `${savingsPercent}%` : null
 
         return (
           <TouchableOpacity
