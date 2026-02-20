@@ -1,213 +1,124 @@
-# TODO - Future Improvements
+# TODO
 
-## 🎯 Missing Features (Numbered for Priority Selection)
+## High Priority (Store Approval & Revenue)
 
-### Core Features
-1. **What's New/Changelog Screen** - Show new features after app updates
-2. **User Settings/Preferences Screen** - Centralized settings management
-3. **Measurement History Tracking** - Track body fat % over time with charts
-4. **Export/Share Results** - Share calculations via image or text
-5. **User Profile Management** - Save user details (age, gender) for quick access
+### 1. Fix privacy manifest `NSPrivacyCollectedDataTypes`
 
-### User Experience
-6. **Onboarding Tutorial** - First-time user guidance
-7. **Offline Mode Handling** - Better network state management and offline messaging
-8. **Dark Mode Support** - System-wide dark theme
-9. **Haptic Feedback** - Tactile responses for interactions
-10. **Pull-to-Refresh** - Refresh data on main screen
+`ios/BodyFat/PrivacyInfo.xcprivacy:43` declares an empty `<array/>` for collected data types despite collecting data via PostHog (analytics events, device info, install IDs) and RevenueCat (purchase history, subscriber IDs). Apple rejects apps with inaccurate privacy declarations.
 
-### Technical Improvements
-11. **Error Boundary Implementation** - Graceful error handling and recovery
-12. **Deep Linking Configuration** - Handle specific app URLs and navigation
-13. **App Version Management** - Display version info and check for updates
-14. **Crash Reporting** - Integrate Sentry or similar for error tracking
-15. **Performance Monitoring** - Track app performance metrics
+### 2. Add privacy policy & terms links to paywall
 
-### Accessibility
-16. **Screen Reader Support** - Full VoiceOver/TalkBack compatibility
-17. **Dynamic Font Scaling** - Respect system font size preferences
-18. **High Contrast Mode** - Better visibility for visually impaired users
-19. **Keyboard Navigation** - Full keyboard support for all features
+`PaywallScreen.tsx` has no legal links. Apple requires privacy policy and terms of use links on subscription purchase screens.
 
-### Analytics & Engagement
-20. **In-App Feedback/Support** - Direct support contact from app
-21. **Rating Prompt System** - Smart app store rating requests
-22. **Push Notifications** - Engagement and reminder notifications
-23. **A/B Testing Framework** - Test feature variations
-24. **User Surveys** - Collect user feedback in-app
+### 3. Update App Store Connect & Google Play privacy declarations
 
-### Premium Features
-25. **Cloud Sync** - Sync data across devices
-26. **Advanced Charts & Trends** - Detailed analytics and predictions
-27. **Custom Formula Creation** - Let users create their own formulas
-28. **Photo Progress Tracking** - Visual body composition tracking
-29. **Export to Health Apps** - Apple Health/Google Fit integration
+Store-level privacy declarations need to match actual data collection. Both stores have strengthened enforcement — accurate disclosure is critical for app approval.
 
-### Content & Education
-30. **Tips & Educational Content** - Body fat percentage explanations
-31. **Video Tutorials** - How to take accurate measurements
-32. **FAQ Section** - Common questions and answers
-33. **Research Articles** - Link to scientific studies
-34. **Comparison Tool** - Compare different formula results
-
----
-
-## 🚨 URGENT: Privacy Updates Required for Store Listings
-
-### Apple App Store Connect - Privacy Labels
-
-#### Required Data Types to Declare
+#### Apple App Store Connect — Privacy Labels
 
 - [ ] **Purchase History**
   - Data Type: Purchases → Purchase History
   - Data Use: App Functionality, Analytics
-  - Linked to User: Yes (you use custom app user IDs)
+  - Linked to User: Yes (custom app user IDs)
   - Used for Tracking: No
-
 - [ ] **Identifiers**
   - Data Type: Identifiers → User ID
   - Data Use: App Functionality, Analytics, Developer Communications
   - Linked to User: Yes
   - Used for Tracking: No
-
 - [ ] **Usage Data**
   - Data Type: Usage Data → Product Interaction, Analytics Data
   - Data Use: Analytics, App Functionality
   - Linked to User: Yes (linked to install ID)
   - Used for Tracking: No
-
-#### Privacy Manifest Requirements for 2025
 - [ ] Verify privacy labels match actual data collection behavior
 - [ ] Ensure third-party SDKs (RevenueCat, PostHog) are properly disclosed
 
-### Google Play Console - Data Safety Section
-
-#### Required Disclosures
+#### Google Play Console — Data Safety Section
 
 - [ ] **Personal Info Collection**
   - User IDs: Yes (install IDs, RevenueCat user IDs)
   - Other: Yes (analytics identifiers)
-
 - [ ] **App Activity**
   - App interactions: Yes (PostHog analytics)
-  - In-app search history: No
-  - Installed apps: No
   - Other actions: Yes (purchase events, formula selections)
-
 - [ ] **App Info and Performance**
-  - Crash logs: No
+  - Crash logs: No (no crash reporting yet — see item 5)
   - Diagnostics: Yes (error tracking)
   - Other performance data: Yes (analytics)
+- [ ] Data Usage Purposes: App functionality, Analytics, Developer communications
+- [ ] Data Sharing: RevenueCat (purchase processing), PostHog (analytics processing)
 
-#### Data Usage Purposes
-- [ ] App functionality ✓
-- [ ] Analytics ✓
-- [ ] Developer communications ✓
-- [ ] Advertising or marketing ✗
-- [ ] Fraud prevention, security, and compliance ✗ (unless needed)
+#### Action Items
 
-#### Data Sharing
-- [ ] **RevenueCat**: Service provider (purchase processing)
-- [ ] **PostHog**: Service provider (analytics processing)
-
-### Critical Action Items
-
-- [ ] **Update App Store Connect immediately** - Privacy labels are checked automatically by Apple
-- [ ] **Update Google Play Console** - Required for all app updates
-- [ ] **Review your privacy policy** - Ensure it covers RevenueCat and PostHog data usage
-- [ ] **Consider implementing user consent flows** - For EU users especially
-
-### Data Collection Summary
-
-Your app currently collects:
-- [ ] Install attribution data (UTM parameters, initial URLs)
-- [ ] User interaction events (formula changes, purchases, form submissions)
-- [ ] Purchase history and premium status
-- [ ] Device information (platform, app version)
-- [ ] Custom user identifiers (install IDs)
-- [ ] Error logs and debugging information
-
-### Data Retention Configuration
-- [ ] Configure PostHog data retention according to your privacy policy
+- [ ] Update App Store Connect privacy labels
+- [ ] Update Google Play Console data safety section
+- [ ] Review privacy policy covers RevenueCat and PostHog data usage
+- [ ] Configure PostHog data retention according to privacy policy
 - [ ] Verify RevenueCat purchase data retention settings
-- [ ] Document AsyncStorage data persistence policy
 
-**Note**: This guidance is based on your current SDK versions (RevenueCat v8.9.6, PostHog v3.15.4) and 2025 privacy requirements. Both stores have strengthened enforcement, so accurate disclosure is critical for app approval.
+### 4. Add error boundary
 
----
+Zero error boundaries in the app. Any uncaught JS error results in a white screen crash. Wrap `AppNavigator` in `App.tsx` with a recovery UI that shows a friendly error message and a "Restart" button.
 
-## SDK Enhancement Opportunities
+### 5. Add crash reporting (Sentry)
 
-### File System Upgrade
-- **Consider upgrading to `expo-file-system/next`** for the new object-oriented API
-- Current: Using legacy file system API
-- Benefit: More modern, type-safe file operations
+No production error visibility. Only `console.warn/error` which is silently swallowed when `__DEV__` is false. `@sentry/react-native` has first-class Expo support. Essential for diagnosing issues users encounter in the wild.
 
-### Security Enhancement
-- **Add `expo-app-integrity` package** for enhanced security
-- Benefit: Verify app installation authenticity and detect tampering
-- Useful for protecting premium features and user data
+### 6. Add app store rating prompt
 
-### UI/UX Enhancements (SDK 54 New Features)
-- **Consider `expo-glass-effect`** for iOS Liquid Glass views
-- Benefit: Modern iOS 18+ visual effects for premium UI polish
-- **Explore enhanced `expo-maps`** with new styling options (if location features needed)
-- **Consider Expo Router v6** for link previews and native tabs (if navigation upgrade needed)
+No rating prompt exists. Use `expo-store-review` after 3rd–5th calculation or measurement save. Direct impact on App Store ranking and organic discovery.
 
-### Performance Optimizations
-- **Review React Compiler benefits** (enabled by default in SDK 54)
-- Current: Already benefiting from React 19 and precompiled frameworks
-- Monitor: Build times and runtime performance improvements
+## Medium Priority (Quality & Polish)
 
-### Localization Enhancement
-- **Consider adding `supportedLocales` configuration** in app.json
-- Current: Basic expo-localization plugin enabled
-- Benefit: Better control over app language from device settings
+### 7. Fix `userInterfaceStyle` in app.json
 
-## Deprecated Items to Monitor
+Set to `"light"` at `app.json:15` but the app uses a dark theme (`#333333` background). System status bar, keyboard, and dialogs mismatch the actual UI. Change to `"dark"`.
 
-### SDK 55 Preparation
-- **Monitor `expo-av` removal** in SDK 55 (not currently used, but good to track)
-- **Stay updated on New Architecture** requirements (already enabled: `"newArchEnabled": true`)
+### 8. Add onboarding flow
 
-### Long-term Considerations
-- **Edge-to-edge Android design** - review UI for Android edge-to-edge support (now always enabled in SDK 54)
-- **Predictive back gesture** - consider implementing Android predictive back (opt-in available)
-- **iOS build performance** - already benefiting from precompiled React Native XCFrameworks (up to 10x faster builds)
-- **Xcode 26 compatibility** - test with recommended Xcode version for SDK 54
+No first-launch detection. Users land on the calculator with no guidance. 2–3 screens explaining the app + pre-setting gender/units would improve activation and conversion to premium.
 
-## Package Updates Available
-Recent updates completed:
-- ✅ `@expo/vector-icons`: 14.1.0 → 15.0.2
-- ✅ `@react-native-async-storage/async-storage`: 2.1.2 → 2.2.0
-- ✅ All Expo packages updated to SDK 54 versions
-- ✅ React updated: 19.0.0 → 19.1.0
-- ✅ React Native updated: 0.81.0 → 0.81.4
-- ✅ TypeScript updated: ~5.8.3 → ~5.9.2
-- ✅ React Native Reanimated updated: ~3.17.4 → ~4.1.0
-- ✅ Added `react-native-worklets`: ^0.5.1 (for enhanced performance)
-- ✅ Many other packages auto-updated
+### 9. Improve accessibility
 
-Still consider updating:
-- `@expo-google-fonts/montserrat`: 0.2.3 → 0.4.2
-- `posthog-react-native`: 3.15.4 → 4.6.0 (major version jump - test carefully)
-- `react-native-purchases`: 8.9.6 → 9.4.3 (major version jump - check breaking changes)
-- `zod`: 3.23.8 → 4.1.9 (major version jump - review migration guide)
+Minimal `accessibilityLabel` usage across the app. Settings rows, history items, paywall buttons, tab bar, formula selector, and results display all lack accessibility markup. Start with the `SettingsRow` component since it renders all settings items.
 
-## Configuration Updates
+### 10. Enable React Compiler
 
-### Package.json Optimizations
-- **Review `react-native-svg` exclusion** in expo.install.exclude
-- Current: `"exclude": ["react-native-svg"]` added to package.json
-- Consider: Whether this exclusion is still needed or can be removed
+Empty `plugins` array in `babel.config.js:12`. SDK 54 + React 19.1 supports the React Compiler. Free performance improvement, especially for the calculator screen with many input re-renders.
 
-### Development Experience
-- **Enhanced Expo CLI with ESM support** - already available in SDK 54
-- **Improved import stack traces** - monitor for better debugging experience
-- **Revamped expo-dev-launcher UI** - explore new development tools
+### 11. Add in-app support/feedback
 
-## Low Priority
-- **Review React Native Elements updates** - currently using RC versions
-- **Monitor TypeScript 5.8.3+** compatibility with latest React Native
-- **Consider removing unused dependencies** identified during linting
-- **Node.js version** - consider updating from 22.11.0 to 20.19.4 (SDK 54 minimum) or newer
+No way to contact support from the app. Add a "Send Feedback" row in Settings that opens a `mailto:` link. Trivial effort, prevents negative reviews from users who can't reach you.
+
+## Low Priority (Future Ideas)
+
+### 12. Expose measurement tutorials
+
+`IllustrationGalleryScreen` with 20+ body measurement illustrations exists but is gated behind `__DEV__` in `SettingsScreen.tsx:443`. Could be surfaced as a "How to Measure" guide for all users.
+
+### 13. Localization / i18n
+
+`expo-localization` installed but unused. All strings are hardcoded English. Large effort — defer until targeting non-English markets.
+
+### 14. Android edge-to-edge
+
+No edge-to-edge config. App uses safe area insets already so it likely works, but could be polished for a more modern Android look.
+
+### 15. A/B test paywall
+
+PostHog supports feature flags. Test headline copy, feature ordering, pricing display. Needs sufficient traffic volume first to reach statistical significance.
+
+### 16. Custom formula creation
+
+Niche power-user feature. Most users want accuracy from established scientific formulas rather than building their own.
+
+## Package Updates to Evaluate
+
+| Package | Current | Target | Notes |
+|---------|---------|--------|-------|
+| `posthog-react-native` | 3.15.4 | 4.x | Major — check migration guide, test provider/hook API changes |
+| `react-native-purchases` | 8.9.6 | 9.x | Major — sensitive, affects revenue. Test purchase flows exhaustively |
+| `zod` | 3.23.8 | 4.x | Major — may break `.meta()` prototype patching in `src/schemas/calculator.ts` |
+| `@expo-google-fonts/montserrat` | 0.2.3 | 0.4.2 | Minor — likely non-breaking |
+| `@rneui/themed` | 4.0.0-rc.8 | stable | Monitor for stable 4.0.0 release |
