@@ -50,10 +50,10 @@ export function CompactMeasurementRow({
       activeOpacity={0.7}
     >
       <View style={styles.dateSection}>
+        <Text style={styles.date}>{formatDate(record.measuredAt)}</Text>
         {record.hasPhoto && (
           <Icon name="camera" type="feather" color="rgba(255,255,255,0.3)" size={12} />
         )}
-        <Text style={styles.date}>{formatDate(record.measuredAt)}</Text>
       </View>
       <View style={styles.rightSection}>
         <Text style={[styles.bodyFat, { color }]}>{record.bodyFatPercentage.toFixed(1)}%</Text>
