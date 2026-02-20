@@ -195,41 +195,43 @@ export function SettingsScreen() {
           showsVerticalScrollIndicator={false}
         >
           {isProPlus ? (
-            <View style={styles.premiumStatus}>
-              <Icon name="check-circle" type="feather" color={COLORS.success} size={20} />
-              <Text style={styles.premiumStatusText}>PRO+ Active</Text>
+            <View style={styles.premiumCard}>
+              <View style={styles.premiumCardRow}>
+                <View style={styles.statusIconContainer}>
+                  <Icon name="check-circle" type="feather" color={COLORS.success} size={18} />
+                </View>
+                <Text style={styles.premiumCardTitle}>PRO+ Active</Text>
+              </View>
             </View>
           ) : isLegacyPro ? (
-            <>
-              <View style={[styles.premiumStatus, { backgroundColor: '#FFC10720' }]}>
-                <Icon name="award" type="feather" color="#FFC107" size={20} />
-                <Text style={[styles.premiumStatusText, { color: '#FFC107' }]}>PRO</Text>
-              </View>
-              <TouchableOpacity style={styles.premiumBanner} onPress={() => setShowPaywall(true)}>
-                <View style={styles.premiumBannerContent}>
-                  <Icon name="star" type="feather" color={COLORS.primary} size={24} />
-                  <View style={styles.premiumBannerText}>
-                    <Text style={styles.premiumBannerTitle}>Upgrade to PRO+</Text>
-                    <Text style={styles.premiumBannerSubtitle}>
-                      Unlock history, cloud sync, and more
-                    </Text>
-                  </View>
+            <TouchableOpacity style={styles.premiumCard} onPress={() => setShowPaywall(true)}>
+              <View style={styles.premiumCardRow}>
+                <View style={[styles.statusIconContainer, { backgroundColor: '#FFC10712' }]}>
+                  <Icon name="award" type="feather" color="#FFC107" size={18} />
                 </View>
-                <Icon name="chevron-right" type="feather" color={COLORS.primary} size={20} />
-              </TouchableOpacity>
-            </>
+                <View style={styles.premiumCardTextGroup}>
+                  <Text style={styles.premiumCardTitle}>Upgrade to PRO+</Text>
+                  <Text style={styles.premiumCardSubtitle}>
+                    You have PRO — unlock cloud sync, health, and more
+                  </Text>
+                </View>
+              </View>
+              <Icon name="chevron-right" type="feather" color="#ccc" size={18} />
+            </TouchableOpacity>
           ) : (
-            <TouchableOpacity style={styles.premiumBanner} onPress={() => setShowPaywall(true)}>
-              <View style={styles.premiumBannerContent}>
-                <Icon name="star" type="feather" color={COLORS.primary} size={24} />
-                <View style={styles.premiumBannerText}>
-                  <Text style={styles.premiumBannerTitle}>Upgrade to PRO+</Text>
-                  <Text style={styles.premiumBannerSubtitle}>
+            <TouchableOpacity style={styles.premiumCard} onPress={() => setShowPaywall(true)}>
+              <View style={styles.premiumCardRow}>
+                <View style={[styles.statusIconContainer, { backgroundColor: `${COLORS.primary}10` }]}>
+                  <Icon name="star" type="feather" color={COLORS.primary} size={18} />
+                </View>
+                <View style={styles.premiumCardTextGroup}>
+                  <Text style={styles.premiumCardTitle}>Upgrade to PRO+</Text>
+                  <Text style={styles.premiumCardSubtitle}>
                     Unlock history, cloud sync, and more
                   </Text>
                 </View>
               </View>
-              <Icon name="chevron-right" type="feather" color={COLORS.primary} size={20} />
+              <Icon name="chevron-right" type="feather" color="#ccc" size={18} />
             </TouchableOpacity>
           )}
 
@@ -524,49 +526,42 @@ const createStyles = (
       padding: getResponsiveSpacing(16),
       gap: getResponsiveSpacing(16),
     },
-    premiumBanner: {
+    premiumCard: {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
       backgroundColor: COLORS.white,
       borderRadius: 12,
       padding: getResponsiveSpacing(16),
-      borderWidth: 2,
-      borderColor: COLORS.primary,
     },
-    premiumBannerContent: {
+    premiumCardRow: {
       flexDirection: 'row',
       alignItems: 'center',
+      flex: 1,
       gap: getResponsiveSpacing(12),
     },
-    premiumBannerText: {
+    statusIconContainer: {
+      width: 32,
+      height: 32,
+      borderRadius: 8,
+      backgroundColor: `${COLORS.success}12`,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    premiumCardTextGroup: {
+      flex: 1,
       gap: getResponsiveSpacing(2),
     },
-    premiumBannerTitle: {
+    premiumCardTitle: {
       fontSize: getResponsiveTypography('md'),
       lineHeight: getLineHeight('md'),
       fontWeight: '600',
       color: COLORS.textDark,
     },
-    premiumBannerSubtitle: {
+    premiumCardSubtitle: {
       fontSize: getResponsiveTypography('sm'),
       lineHeight: getLineHeight('sm'),
       color: '#666',
-    },
-    premiumStatus: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: `${COLORS.success}20`,
-      borderRadius: 12,
-      padding: getResponsiveSpacing(12),
-      gap: getResponsiveSpacing(8),
-    },
-    premiumStatusText: {
-      fontSize: getResponsiveTypography('sm'),
-      lineHeight: getLineHeight('sm'),
-      fontWeight: '600',
-      color: COLORS.success,
     },
     segmentedControl: {
       flexDirection: 'row',
