@@ -180,6 +180,15 @@ async function iosIsAvailable(): Promise<boolean> {
 
 // ── Android Health Connect ─────────────────────────────────────
 
+async function ensureAndroidInitialized(): Promise<boolean> {
+  try {
+    const { initialize } = require('react-native-health-connect')
+    return await initialize()
+  } catch {
+    return false
+  }
+}
+
 async function androidRequestPermissions(): Promise<boolean> {
   try {
     const { initialize, requestPermission } = require('react-native-health-connect')
@@ -204,6 +213,7 @@ async function androidRequestPermissions(): Promise<boolean> {
 
 async function androidWriteBodyFat(percentage: number): Promise<boolean> {
   try {
+    if (!(await ensureAndroidInitialized())) return false
     const { insertRecords } = require('react-native-health-connect')
 
     const now = new Date().toISOString()
@@ -223,6 +233,7 @@ async function androidWriteBodyFat(percentage: number): Promise<boolean> {
 
 async function androidWriteWeight(value: number, system: MeasurementSystem): Promise<boolean> {
   try {
+    if (!(await ensureAndroidInitialized())) return false
     const { insertRecords } = require('react-native-health-connect')
     const now = new Date().toISOString()
     await insertRecords([
@@ -241,6 +252,7 @@ async function androidWriteWeight(value: number, system: MeasurementSystem): Pro
 
 async function androidWriteHeight(value: number, system: MeasurementSystem): Promise<boolean> {
   try {
+    if (!(await ensureAndroidInitialized())) return false
     const { insertRecords } = require('react-native-health-connect')
     const now = new Date().toISOString()
     await insertRecords([
@@ -262,6 +274,7 @@ async function androidWriteHeight(value: number, system: MeasurementSystem): Pro
 
 async function androidWriteLeanMass(value: number, system: MeasurementSystem): Promise<boolean> {
   try {
+    if (!(await ensureAndroidInitialized())) return false
     const { insertRecords } = require('react-native-health-connect')
     const now = new Date().toISOString()
     await insertRecords([
@@ -280,6 +293,7 @@ async function androidWriteLeanMass(value: number, system: MeasurementSystem): P
 
 async function androidReadBodyFatHistory(days = 90): Promise<BodyFatSample[]> {
   try {
+    if (!(await ensureAndroidInitialized())) return []
     const { readRecords } = require('react-native-health-connect')
 
     const endTime = new Date().toISOString()
@@ -366,6 +380,7 @@ function iosGetWriteStatuses(): WriteStatuses {
 
 async function androidGetWriteStatuses(): Promise<WriteStatuses> {
   try {
+    if (!(await ensureAndroidInitialized())) return DEFAULT_WRITE_STATUSES
     const { getGrantedPermissions } = require('react-native-health-connect')
     const granted = await getGrantedPermissions()
     const statuses = { ...DEFAULT_WRITE_STATUSES }

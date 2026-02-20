@@ -221,7 +221,9 @@ export function SettingsScreen() {
           ) : (
             <TouchableOpacity style={styles.premiumCard} onPress={() => setShowPaywall(true)}>
               <View style={styles.premiumCardRow}>
-                <View style={[styles.statusIconContainer, { backgroundColor: `${COLORS.primary}10` }]}>
+                <View
+                  style={[styles.statusIconContainer, { backgroundColor: `${COLORS.primary}10` }]}
+                >
                   <Icon name="star" type="feather" color={COLORS.primary} size={18} />
                 </View>
                 <View style={styles.premiumCardTextGroup}>

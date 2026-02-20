@@ -1,5 +1,5 @@
 import { Directory, File, Paths } from 'expo-file-system'
-import { SaveFormat, manipulateAsync } from 'expo-image-manipulator'
+import { manipulateAsync, SaveFormat } from 'expo-image-manipulator'
 import * as ImagePicker from 'expo-image-picker'
 
 const PHOTOS_DIR = 'photos'
@@ -50,11 +50,10 @@ export async function takePhoto(): Promise<string | null> {
 export async function processAndSavePhoto(sourceUri: string, clientId: string): Promise<string> {
   ensurePhotosDir()
 
-  const result = await manipulateAsync(
-    sourceUri,
-    [{ resize: { width: MAX_WIDTH } }],
-    { format: SaveFormat.JPEG, compress: JPEG_QUALITY },
-  )
+  const result = await manipulateAsync(sourceUri, [{ resize: { width: MAX_WIDTH } }], {
+    format: SaveFormat.JPEG,
+    compress: JPEG_QUALITY,
+  })
 
   const dest = new File(Paths.document, PHOTOS_DIR, `${clientId}.jpg`)
   const source = new File(result.uri)
