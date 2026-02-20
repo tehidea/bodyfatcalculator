@@ -15,6 +15,7 @@ import { useCloudSync } from '../hooks/useCloudSync'
 import { useCollapsibleHeader } from '../hooks/useCollapsibleHeader'
 import { useHealthIntegration } from '../hooks/useHealthIntegration'
 import type { Gender } from '../schemas/calculator'
+import { openHealthSettings } from '../services/healthKit'
 import type { WriteStatus } from '../services/healthKit'
 import { useCalculatorStore } from '../store/calculatorStore'
 import { useHistoryStore } from '../store/historyStore'
@@ -167,10 +168,16 @@ export function SettingsScreen() {
     } else {
       const granted = await enableHealth()
       if (!granted) {
+        const healthName = Platform.OS === 'ios' ? 'Apple Health' : 'Health Connect'
         Alert.alert(
           'Permission Required',
-          `Please allow access to ${Platform.OS === 'ios' ? 'Apple Health' : 'Health Connect'} to enable this feature.`,
-          [{ text: 'OK' }],
+          `Please allow access to ${healthName} to enable this feature.`,
+          Platform.OS === 'android'
+            ? [
+                { text: 'Cancel', style: 'cancel' },
+                { text: 'Open Settings', onPress: openHealthSettings },
+              ]
+            : [{ text: 'OK' }],
         )
       }
     }

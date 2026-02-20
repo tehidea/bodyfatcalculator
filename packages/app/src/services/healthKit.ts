@@ -429,6 +429,13 @@ export async function readBodyFatHistory(days = 90): Promise<BodyFatSample[]> {
   return []
 }
 
+export function openHealthSettings(): void {
+  if (Platform.OS === 'android') {
+    const { openHealthConnectSettings } = require('react-native-health-connect')
+    openHealthConnectSettings()
+  }
+}
+
 export async function isHealthAvailable(): Promise<boolean> {
   if (Platform.OS === 'ios') return iosIsAvailable()
   if (Platform.OS === 'android') return androidIsAvailable()
