@@ -1,3 +1,5 @@
+import { Platform } from 'react-native'
+
 export interface Feature {
   id: string
   name: string
@@ -68,7 +70,8 @@ export const FEATURES: Feature[] = [
   {
     id: 'health_integration',
     name: 'Health Integration',
-    description: 'Sync with Apple Health and Google Health Connect',
+    description:
+      Platform.OS === 'ios' ? 'Sync with Apple Health' : 'Sync with Google Health Connect',
     availability: 'pro_plus',
   },
   {

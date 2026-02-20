@@ -1,6 +1,13 @@
 import { Button, Icon, Text } from '@rneui/themed'
 import { useCallback, useEffect, useState } from 'react'
-import { Modal, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import {
+  Modal,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
 import Animated, {
   FadeIn,
   useAnimatedStyle,
@@ -69,7 +76,8 @@ const FEATURE_CONTENT = {
     },
     {
       title: 'Health Integration',
-      description: 'Sync with Apple Health & Health Connect',
+      description:
+        Platform.OS === 'ios' ? 'Sync with Apple Health' : 'Sync with Google Health Connect',
     },
     {
       title: 'Progress Photos',
