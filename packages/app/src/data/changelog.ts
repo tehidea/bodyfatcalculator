@@ -1,3 +1,5 @@
+import { Platform } from 'react-native'
+
 export interface ChangelogHighlight {
   icon: string
   title: string
@@ -53,12 +55,18 @@ export const CHANGELOG: ChangelogEntry[] = [
       {
         icon: 'cloud',
         title: 'Cloud Sync',
-        description: 'Seamlessly sync your data across devices with iCloud or Google Drive.',
+        description: Platform.select({
+          ios: 'Seamlessly sync your data across devices with iCloud.',
+          default: 'Seamlessly sync your data across devices with Google Drive.',
+        }),
       },
       {
         icon: 'heart',
         title: 'Health Integration',
-        description: 'Send results to Apple Health or Google Health Connect automatically.',
+        description: Platform.select({
+          ios: 'Send results to Apple Health automatically.',
+          default: 'Send results to Google Health Connect automatically.',
+        }),
       },
       {
         icon: 'bell',
