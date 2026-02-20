@@ -60,6 +60,12 @@ export const FEATURES: Feature[] = [
     availability: 'pro_plus',
   },
   {
+    id: 'progress_photos',
+    name: 'Progress Photos',
+    description: 'Attach progress photos to track visual changes',
+    availability: 'pro_plus',
+  },
+  {
     id: 'health_integration',
     name: 'Health Integration',
     description: 'Sync with Apple Health and Google Health Connect',

@@ -37,6 +37,8 @@ export function generateSeedMeasurements(): MeasurementRecord[] {
       appVersion: '1.0.0',
       platform: 'ios',
       syncedAt: null,
+      photoUri: null,
+      hasPhoto: false,
     }
   }
 

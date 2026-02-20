@@ -16,9 +16,9 @@ import { useResponsive } from '../../utils/responsiveContext'
 import { PlanSelector } from '../paywall/PlanSelector'
 
 const FEATURE_ICONS = {
-  precision: ['sliders', 'trending-up', 'activity', 'users'] as const,
-  formula: ['activity', 'percent', 'sliders', 'trending-up'] as const,
-  legacyUpgrade: ['clock', 'cloud', 'heart', 'bell'] as const,
+  precision: ['sliders', 'trending-up', 'activity', 'camera'] as const,
+  formula: ['activity', 'percent', 'sliders', 'camera'] as const,
+  legacyUpgrade: ['clock', 'cloud', 'heart', 'camera'] as const,
 }
 
 const FEATURE_CONTENT = {
@@ -36,8 +36,8 @@ const FEATURE_CONTENT = {
       description: 'Track your progress over time',
     },
     {
-      title: 'Cloud Sync',
-      description: 'Access your data across devices',
+      title: 'Progress Photos',
+      description: 'Track your visual transformation',
     },
   ],
   formula: [
@@ -54,8 +54,8 @@ const FEATURE_CONTENT = {
       description: 'Results accurate to 2 decimals',
     },
     {
-      title: 'Progress Tracking',
-      description: 'Visual graphs and trend analysis',
+      title: 'Progress Photos',
+      description: 'Track your visual transformation',
     },
   ],
   legacyUpgrade: [
@@ -72,8 +72,8 @@ const FEATURE_CONTENT = {
       description: 'Sync with Apple Health & Health Connect',
     },
     {
-      title: 'Reminders',
-      description: 'Never miss a measurement',
+      title: 'Progress Photos',
+      description: 'Track your visual transformation',
     },
   ],
 }

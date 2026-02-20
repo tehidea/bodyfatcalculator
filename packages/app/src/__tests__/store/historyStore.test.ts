@@ -222,6 +222,8 @@ describe('useHistoryStore', () => {
         appVersion: '1.0.0',
         platform: 'ios',
         syncedAt: null,
+        photoUri: null,
+        hasPhoto: false,
       }
 
       useHistoryStore.getState().mergeFromCloud([cloudRecord])
@@ -267,6 +269,8 @@ describe('useHistoryStore', () => {
         appVersion: '1.0.0',
         platform: 'ios',
         syncedAt: null,
+        photoUri: null,
+        hasPhoto: false,
       }
 
       useHistoryStore.getState().mergeFromCloud([olderCloud])

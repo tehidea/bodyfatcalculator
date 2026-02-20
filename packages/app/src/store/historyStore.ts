@@ -22,6 +22,8 @@ export interface MeasurementRecord {
   appVersion: string
   platform: string
   syncedAt: string | null
+  photoUri: string | null
+  hasPhoto: boolean
 }
 
 interface HistoryStore {
@@ -46,6 +48,7 @@ interface HistoryStore {
   getUnsyncedMeasurements: () => MeasurementRecord[]
   markSynced: (clientIds: string[]) => void
   mergeFromCloud: (records: MeasurementRecord[]) => void
+  setPhotoUri: (clientId: string, photoUri: string | null) => void
   purgeOldDeleted: () => string[]
   setCloudSyncEnabled: (enabled: boolean) => void
   setLastSyncedAt: (timestamp: string) => void
@@ -71,6 +74,8 @@ export const useHistoryStore = create<HistoryStore>()(
           appVersion: Constants.expoConfig?.version || 'unknown',
           platform: Platform.OS,
           syncedAt: null,
+          photoUri: null,
+          hasPhoto: false,
         }
         set((state) => ({
           measurements: [record, ...state.measurements],
@@ -119,8 +124,18 @@ export const useHistoryStore = create<HistoryStore>()(
                 existing.deletedAt = record.deletedAt
                 existing.syncedAt = new Date().toISOString()
               }
+              // Apply photo metadata from cloud if local doesn't have a photo
+              if (existing && record.hasPhoto && !existing.hasPhoto) {
+                existing.hasPhoto = true
+                existing.photoUri = record.photoUri
+              }
             } else {
-              newRecords.push({ ...record, syncedAt: new Date().toISOString() })
+              newRecords.push({
+                ...record,
+                photoUri: record.photoUri ?? null,
+                hasPhoto: record.hasPhoto ?? false,
+                syncedAt: new Date().toISOString(),
+              })
             }
           }
 
@@ -130,6 +145,16 @@ export const useHistoryStore = create<HistoryStore>()(
             ),
           }
         })
+      },
+
+      setPhotoUri: (clientId, photoUri) => {
+        set((state) => ({
+          measurements: state.measurements.map((m) =>
+            m.clientId === clientId
+              ? { ...m, photoUri, hasPhoto: photoUri !== null, syncedAt: null }
+              : m,
+          ),
+        }))
       },
 
       purgeOldDeleted: () => {
@@ -153,8 +178,20 @@ export const useHistoryStore = create<HistoryStore>()(
     }),
     {
       name: 'history-storage',
-      version: 1,
+      version: 2,
       storage: createJSONStorage(() => AsyncStorage),
+      migrate: (persisted, version) => {
+        const state = persisted as HistoryStore
+        if (version < 2) {
+          // Add photoUri and hasPhoto to existing records
+          state.measurements = state.measurements.map((m) => ({
+            ...m,
+            photoUri: m.photoUri ?? null,
+            hasPhoto: m.hasPhoto ?? false,
+          }))
+        }
+        return state
+      },
       onRehydrateStorage: () => (state, error) => {
         if (error) {
           console.error('History hydration failed:', error)

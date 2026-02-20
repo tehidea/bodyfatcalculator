@@ -2,8 +2,10 @@ import { Platform } from 'react-native'
 import { CloudStorage, CloudStorageScope } from 'react-native-cloud-storage'
 import type { MeasurementRecord } from '../store/historyStore'
 import { useHistoryStore } from '../store/historyStore'
+import { deleteLocalPhoto, getLocalPhotoPath } from './photoService'
 
 const MEASUREMENTS_DIR = '/measurements'
+const PHOTOS_DIR = '/photos'
 const SCOPE = CloudStorageScope.AppData
 
 export type SyncStatus = 'idle' | 'syncing' | 'synced' | 'error'
@@ -23,6 +25,17 @@ async function ensureMeasurementsDir(): Promise<void> {
 
 function getFilePath(clientId: string): string {
   return `${MEASUREMENTS_DIR}/${clientId}.json`
+}
+
+function getCloudPhotoPath(clientId: string): string {
+  return `${PHOTOS_DIR}/${clientId}.jpg`
+}
+
+async function ensurePhotosDir(): Promise<void> {
+  const exists = await CloudStorage.exists(PHOTOS_DIR, SCOPE)
+  if (!exists) {
+    await CloudStorage.mkdir(PHOTOS_DIR, SCOPE)
+  }
 }
 
 export async function isCloudAvailable(): Promise<boolean> {
@@ -65,12 +78,16 @@ export async function pushToCloud(): Promise<{ pushed: number; errors: string[] 
   return { pushed: syncedIds.length, errors }
 }
 
-export async function pullFromCloud(): Promise<{ pulled: number; errors: string[] }> {
+export async function pullFromCloud(): Promise<{
+  pulled: number
+  errors: string[]
+  newRecords: MeasurementRecord[]
+}> {
   const { measurements, mergeFromCloud } = useHistoryStore.getState()
 
   const dirExists = await CloudStorage.exists(MEASUREMENTS_DIR, SCOPE)
   if (!dirExists) {
-    return { pulled: 0, errors: [] }
+    return { pulled: 0, errors: [], newRecords: [] }
   }
 
   const files = await CloudStorage.readdir(MEASUREMENTS_DIR, SCOPE)
@@ -111,7 +128,54 @@ export async function pullFromCloud(): Promise<{ pulled: number; errors: string[
     mergeFromCloud(newRecords)
   }
 
-  return { pulled: newRecords.length, errors }
+  return { pulled: newRecords.length, errors, newRecords }
+}
+
+async function pushPhotosToCloud(): Promise<void> {
+  const { measurements } = useHistoryStore.getState()
+  const withPhotos = measurements.filter(
+    (m) => m.hasPhoto && m.photoUri && m.syncedAt === null && !m.deletedAt,
+  )
+
+  if (withPhotos.length === 0) return
+
+  await ensurePhotosDir()
+
+  for (const record of withPhotos) {
+    try {
+      const localPath = getLocalPhotoPath(record.clientId)
+      const remotePath = getCloudPhotoPath(record.clientId)
+      await CloudStorage.uploadFile(remotePath, localPath, { mimeType: 'image/jpeg' }, SCOPE)
+    } catch (error) {
+      console.warn(`cloudSync photo push error for ${record.clientId}:`, error)
+    }
+  }
+}
+
+async function pullPhotosFromCloud(newRecords: MeasurementRecord[]): Promise<void> {
+  const withPhotos = newRecords.filter((r) => r.hasPhoto && !r.deletedAt)
+  if (withPhotos.length === 0) return
+
+  const { setPhotoUri } = useHistoryStore.getState()
+
+  for (const record of withPhotos) {
+    try {
+      const remotePath = getCloudPhotoPath(record.clientId)
+
+      const remoteExists = await CloudStorage.exists(remotePath, SCOPE)
+      if (!remoteExists) continue
+
+      if (Platform.OS === 'ios') {
+        await CloudStorage.triggerSync(remotePath, SCOPE)
+      }
+
+      const localPath = getLocalPhotoPath(record.clientId)
+      await CloudStorage.downloadFile(remotePath, localPath, SCOPE)
+      setPhotoUri(record.clientId, `photos/${record.clientId}.jpg`)
+    } catch (error) {
+      console.warn(`cloudSync photo pull error for ${record.clientId}:`, error)
+    }
+  }
 }
 
 async function garbageCollect(): Promise<void> {
@@ -122,12 +186,34 @@ async function garbageCollect(): Promise<void> {
     } catch {
       // File may already be gone — ignore
     }
+    try {
+      await CloudStorage.unlink(getCloudPhotoPath(clientId), SCOPE)
+    } catch {
+      // Photo may not exist — ignore
+    }
+    try {
+      deleteLocalPhoto(clientId)
+    } catch {
+      // Local photo may not exist — ignore
+    }
   }
 }
 
 export async function syncAll(): Promise<SyncResult> {
   const pushResult = await pushToCloud()
   const pullResult = await pullFromCloud()
+
+  // Photo sync is best-effort — errors don't block measurement sync
+  try {
+    await pushPhotosToCloud()
+  } catch (error) {
+    console.warn('cloudSync photo push failed:', error)
+  }
+  try {
+    await pullPhotosFromCloud(pullResult.newRecords)
+  } catch (error) {
+    console.warn('cloudSync photo pull failed:', error)
+  }
 
   const now = new Date().toISOString()
   useHistoryStore.getState().setLastSyncedAt(now)

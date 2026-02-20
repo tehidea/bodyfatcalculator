@@ -25,6 +25,7 @@ import { useHasProFeatures, usePremiumStore } from '../../store/premiumStore'
 import { getClassificationColor, getClassificationForGender } from '../../utils/classification'
 import { hapticSuccess } from '../../utils/haptics'
 import { useResponsive } from '../../utils/responsiveContext'
+import { ProgressPhotoCard } from '../history/ProgressPhotoCard'
 import { ArcGauge } from './ArcGauge'
 import { PaywallModal } from './PaywallModal'
 import { createStyles } from './ResultsDisplay.styles'
@@ -459,6 +460,12 @@ export const ResultsDisplay = () => {
           <Animated.Text style={styles.shareButtonText}>Share</Animated.Text>
         </TouchableOpacity>
       </Animated.View>
+
+      {isProPlus && savedId && (
+        <Animated.View style={[styles.actionRow, footerStyle]}>
+          <ProgressPhotoCard clientId={savedId} />
+        </Animated.View>
+      )}
 
       <PaywallModal
         visible={showPaywall}

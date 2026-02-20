@@ -7,13 +7,19 @@ import { useWhatsNew } from '../hooks/useWhatsNew'
 import { CalculatorScreen } from '../screens/CalculatorScreen'
 import { HistoryScreen } from '../screens/HistoryScreen'
 import { IllustrationGalleryScreen } from '../screens/IllustrationGalleryScreen'
+import { MeasurementDetailScreen } from '../screens/MeasurementDetailScreen'
 import { PaywallScreen } from '../screens/PaywallScreen'
 import { SettingsScreen } from '../screens/SettingsScreen'
 import { WhatsNewScreen } from '../screens/WhatsNewScreen'
 
+export type HistoryStackParamList = {
+  HistoryMain: undefined
+  MeasurementDetail: { clientId: string }
+}
+
 const Tab = createBottomTabNavigator()
 const CalculatorStack = createNativeStackNavigator()
-const HistoryStack = createNativeStackNavigator()
+const HistoryStack = createNativeStackNavigator<HistoryStackParamList>()
 const SettingsStack = createNativeStackNavigator()
 
 function CalculatorStackScreen() {
@@ -33,6 +39,11 @@ function HistoryStackScreen() {
   return (
     <HistoryStack.Navigator screenOptions={{ headerShown: false }}>
       <HistoryStack.Screen name="HistoryMain" component={HistoryScreen} />
+      <HistoryStack.Screen
+        name="MeasurementDetail"
+        component={MeasurementDetailScreen}
+        options={{ animation: 'slide_from_right' }}
+      />
     </HistoryStack.Navigator>
   )
 }

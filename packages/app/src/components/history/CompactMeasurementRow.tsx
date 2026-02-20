@@ -17,10 +17,16 @@ function formatDate(isoString: string): string {
 interface CompactMeasurementRowProps {
   record: MeasurementRecord
   onDelete: (clientId: string) => void
+  onPress: (clientId: string) => void
   isLast: boolean
 }
 
-export function CompactMeasurementRow({ record, onDelete, isLast }: CompactMeasurementRowProps) {
+export function CompactMeasurementRow({
+  record,
+  onDelete,
+  onPress,
+  isLast,
+}: CompactMeasurementRowProps) {
   const { getResponsiveTypography, getLineHeight, getResponsiveSpacing } = useResponsive()
   const styles = createStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing)
   const formulaDef = FORMULA_DEFINITIONS[record.formula]
@@ -38,8 +44,17 @@ export function CompactMeasurementRow({ record, onDelete, isLast }: CompactMeasu
   }
 
   return (
-    <View style={[styles.row, !isLast && styles.rowBorder]}>
-      <Text style={styles.date}>{formatDate(record.measuredAt)}</Text>
+    <TouchableOpacity
+      style={[styles.row, !isLast && styles.rowBorder]}
+      onPress={() => onPress(record.clientId)}
+      activeOpacity={0.7}
+    >
+      <View style={styles.dateSection}>
+        {record.hasPhoto && (
+          <Icon name="camera" type="feather" color="rgba(255,255,255,0.3)" size={12} />
+        )}
+        <Text style={styles.date}>{formatDate(record.measuredAt)}</Text>
+      </View>
       <View style={styles.rightSection}>
         <Text style={[styles.bodyFat, { color }]}>{record.bodyFatPercentage.toFixed(1)}%</Text>
         <View style={[styles.dot, { backgroundColor: color }]} />
@@ -50,7 +65,7 @@ export function CompactMeasurementRow({ record, onDelete, isLast }: CompactMeasu
           <Icon name="trash-2" type="feather" color="rgba(255,255,255,0.3)" size={15} />
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -71,6 +86,11 @@ const createStyles = (
     rowBorder: {
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: 'rgba(255,255,255,0.08)',
+    },
+    dateSection: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: getResponsiveSpacing(4),
     },
     date: {
       fontSize: getResponsiveTypography('sm'),

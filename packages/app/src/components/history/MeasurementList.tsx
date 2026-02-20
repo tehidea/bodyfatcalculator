@@ -10,9 +10,10 @@ const INITIAL_COUNT = 20
 interface MeasurementListProps {
   measurements: MeasurementRecord[]
   onDelete: (clientId: string) => void
+  onPress: (clientId: string) => void
 }
 
-export function MeasurementList({ measurements, onDelete }: MeasurementListProps) {
+export function MeasurementList({ measurements, onDelete, onPress }: MeasurementListProps) {
   const [showAll, setShowAll] = useState(false)
   const { getResponsiveTypography, getLineHeight, getResponsiveSpacing } = useResponsive()
   const styles = createStyles(getResponsiveTypography, getLineHeight, getResponsiveSpacing)
@@ -42,6 +43,7 @@ export function MeasurementList({ measurements, onDelete }: MeasurementListProps
           key={record.clientId}
           record={record}
           onDelete={onDelete}
+          onPress={onPress}
           isLast={index === displayed.length - 1}
         />
       ))}

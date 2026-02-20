@@ -61,6 +61,13 @@
           "imageResizeMode": "contain"
         }
       ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Body Fat Calculator uses your photos to attach progress images to measurements.",
+          "cameraPermission": "Body Fat Calculator uses the camera to take progress photos."
+        }
+      ],
       "expo-localization",
       [
         "expo-notifications",

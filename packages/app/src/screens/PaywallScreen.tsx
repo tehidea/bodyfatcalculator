@@ -82,7 +82,7 @@ export const PaywallScreen = () => {
         <View style={styles.header}>
           <Text style={styles.title}>Go PRO+</Text>
           <Text style={styles.description}>
-            Unlock advanced formulas, decimal precision, and measurement tracking
+            Unlock advanced formulas, progress photos, and measurement tracking
           </Text>
         </View>
 

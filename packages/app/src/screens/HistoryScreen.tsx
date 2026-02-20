@@ -1,5 +1,7 @@
+import { useNavigation } from '@react-navigation/native'
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Icon, Text } from '@rneui/themed'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -10,11 +12,13 @@ import { ChartSection } from '../components/history/ProgressChart'
 import { COLORS } from '../constants/theme'
 import { useCloudSync } from '../hooks/useCloudSync'
 import { useCollapsibleHeader } from '../hooks/useCollapsibleHeader'
+import type { HistoryStackParamList } from '../navigation/TabNavigator'
 import { useHistoryStore } from '../store/historyStore'
 import { usePremiumStore } from '../store/premiumStore'
 import { useResponsive } from '../utils/responsiveContext'
 
 export function HistoryScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<HistoryStackParamList>>()
   const { isProPlus } = usePremiumStore()
   const { getActiveMeasurements, deleteMeasurement } = useHistoryStore()
   const { status: syncStatus, isEnabled: syncEnabled, sync } = useCloudSync()
@@ -24,6 +28,13 @@ export function HistoryScreen() {
   const [showPaywall, setShowPaywall] = useState(false)
 
   const measurements = getActiveMeasurements()
+
+  const handleMeasurementPress = useCallback(
+    (clientId: string) => {
+      navigation.navigate('MeasurementDetail', { clientId })
+    },
+    [navigation],
+  )
 
   const headerRightElement = isProPlus ? (
     <View style={styles.headerRight}>
@@ -93,7 +104,11 @@ export function HistoryScreen() {
             showsVerticalScrollIndicator={false}
           >
             <ChartSection measurements={measurements} />
-            <MeasurementList measurements={measurements} onDelete={deleteMeasurement} />
+            <MeasurementList
+              measurements={measurements}
+              onDelete={deleteMeasurement}
+              onPress={handleMeasurementPress}
+            />
           </Animated.ScrollView>
         )}
       </View>
