@@ -49,16 +49,11 @@ function AppNavigator() {
   const posthog = usePostHog()
 
   useEffect(() => {
-    // Set PostHog instance for purchase tracking
-    if (posthog) {
-      setPostHogInstance(posthog)
-    }
+    setPostHogInstance(posthog)
   }, [posthog])
 
   useEffect(() => {
     const initializeIdentity = async () => {
-      if (!posthog) return
-
       try {
         let installId = await AsyncStorage.getItem('installId')
 
@@ -185,7 +180,7 @@ function App() {
             options={{
               host: process.env.EXPO_PUBLIC_POSTHOG_HOST ?? 'https://eu.i.posthog.com',
               disabled: __DEV__,
-              captureNativeAppLifecycleEvents: true,
+              captureAppLifecycleEvents: true,
             }}
             autocapture={{
               captureScreens: false,

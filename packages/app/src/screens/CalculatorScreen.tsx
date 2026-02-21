@@ -82,7 +82,7 @@ export const CalculatorScreen = () => {
   const prevMeasurementSystemRef = useRef(measurementSystem)
 
   useEffect(() => {
-    if (posthog && prevMeasurementSystemRef.current !== measurementSystem) {
+    if (prevMeasurementSystemRef.current !== measurementSystem) {
       posthog.capture('unit_system_changed', {
         unit_system: measurementSystem,
       })
@@ -150,13 +150,11 @@ export const CalculatorScreen = () => {
         return
       }
 
-      if (posthog) {
-        posthog.capture('calculator_form_submitted', {
-          formula_selected: formula,
-          gender_selected: gender,
-          measurement_system: measurementSystem,
-        })
-      }
+      posthog.capture('calculator_form_submitted', {
+        formula_selected: formula,
+        gender_selected: gender,
+        measurement_system: measurementSystem,
+      })
 
       const computed = await calculateResults(formula, gender, inputs, measurementSystem)
       setPendingResults(computed)
@@ -181,9 +179,7 @@ export const CalculatorScreen = () => {
   const handleReset = useCallback(() => {
     setError(null)
     reset()
-    if (posthog) {
-      posthog.capture('reset_form_tapped')
-    }
+    posthog.capture('reset_form_tapped')
   }, [reset, posthog, setError])
 
   const buttonTitle = useMemo(() => {

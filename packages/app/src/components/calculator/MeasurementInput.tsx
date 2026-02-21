@@ -110,13 +110,11 @@ export const MeasurementInput = forwardRef<TextInput, MeasurementInputProps>(
         }
 
         if (value.includes('.') && !hasProFeatures) {
-          if (posthog) {
-            posthog.capture('decimal_input_blocked', {
-              field_name: field,
-              attempted_value: value,
-              measurement_system: measurementSystem,
-            })
-          }
+          posthog.capture('decimal_input_blocked', {
+            field_name: field,
+            attempted_value: value,
+            measurement_system: measurementSystem,
+          })
           setIsPaywallVisible(true)
           return
         }

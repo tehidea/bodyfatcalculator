@@ -119,8 +119,8 @@ importers:
         specifier: ~9.0.9
         version: 9.0.9(expo@54.0.33(@babel/core@7.29.0)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))
       posthog-react-native:
-        specifier: ^3.15.4
-        version: 3.16.1(13bb09666c85bc9fb2a33b6501f8782d)
+        specifier: ^4.36.0
+        version: 4.36.0(13bb09666c85bc9fb2a33b6501f8782d)
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -1770,6 +1770,9 @@ packages:
 
   '@posthog/core@1.22.0':
     resolution: {integrity: sha512-WkmOnq95aAOu6yk6r5LWr5cfXsQdpVbWDCwOxQwxSne8YV6GuZET1ziO5toSQXgrgbdcjrSz2/GopAfiL6iiAA==}
+
+  '@posthog/core@1.23.1':
+    resolution: {integrity: sha512-GViD5mOv/mcbZcyzz3z9CS0R79JzxVaqEz4sP5Dsea178M/j3ZWe6gaHDZB9yuyGfcmIMQ/8K14yv+7QrK4sQQ==}
 
   '@posthog/types@1.345.3':
     resolution: {integrity: sha512-2AvGxOULSkR75HJMnOChhRtnrbeFhESu9ctlbuCNY+EebRYag7J4NC+/t/mRcqZqVdpUSqIG0JqM+0XH/GUw3Q==}
@@ -4820,8 +4823,8 @@ packages:
   posthog-js@1.345.3:
     resolution: {integrity: sha512-g0rtUfG+LaIWHFjpUMBTrYztY5gqU3yqmeweCp/Z6om1AUErapUMA4upXjKwacs+aCKet3tB87lFnWztX/b+Tg==}
 
-  posthog-react-native@3.16.1:
-    resolution: {integrity: sha512-qrsQC552nY9emZbv2HmnPfckS1waFf5kG1LLGF1noUhgXWzNfLfwK20FIypjRR50O+j/vCFIzQBmoy4Sv/U2RA==}
+  posthog-react-native@4.36.0:
+    resolution: {integrity: sha512-BiwUXNa5+y5SzZGaCeowca86b7D9MOrqdERzILTBYcF0FbiQS3XhM4AWmxuzdfpH4MPyGtuaCSRxJOmyna7NEA==}
     peerDependencies:
       '@react-native-async-storage/async-storage': '>=1.0.0'
       '@react-navigation/native': '>= 5.0.0'
@@ -4829,7 +4832,7 @@ packages:
       expo-device: '>= 4.0.0'
       expo-file-system: '>= 13.0.0'
       expo-localization: '>= 11.0.0'
-      posthog-react-native-session-replay: '>= 1.0.0'
+      posthog-react-native-session-replay: '>= 1.3.0'
       react-native-device-info: '>= 10.0.0'
       react-native-localize: '>= 3.0.0'
       react-native-navigation: '>= 6.0.0'
@@ -7784,6 +7787,10 @@ snapshots:
   '@opentelemetry/semantic-conventions@1.39.0': {}
 
   '@posthog/core@1.22.0':
+    dependencies:
+      cross-spawn: 7.0.6
+
+  '@posthog/core@1.23.1':
     dependencies:
       cross-spawn: 7.0.6
 
@@ -11514,8 +11521,9 @@ snapshots:
       query-selector-shadow-dom: 1.0.1
       web-vitals: 5.1.0
 
-  posthog-react-native@3.16.1(13bb09666c85bc9fb2a33b6501f8782d):
+  posthog-react-native@4.36.0(13bb09666c85bc9fb2a33b6501f8782d):
     dependencies:
+      '@posthog/core': 1.23.1
       react-native-svg: 15.13.0(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
     optionalDependencies:
       '@react-native-async-storage/async-storage': 2.2.0(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))

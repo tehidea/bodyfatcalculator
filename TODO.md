@@ -86,17 +86,9 @@ PostHog supports feature flags. Test headline copy, feature ordering, pricing di
 |---------|------|----|-------|
 | `@expo-google-fonts/montserrat` | 0.2.3 | 0.4.2 | Drop-in, zero API changes — just updated font files |
 | `react-native-purchases` | 8.12.0 | 9.10.3 | No JS API changes. Android now uses Play Billing Library 8 (can no longer query expired subscriptions — not an issue for this app) |
+| `posthog-react-native` | 3.16.1 | 4.36.0 | Renamed `captureNativeAppLifecycleEvents` → `captureAppLifecycleEvents`, removed null guards on `usePostHog()` |
 
 ### Remaining — each needs a spike branch
-
-#### `posthog-react-native` 3.x → 4.x (Moderate effort)
-
-- `usePostHog()` no longer returns `undefined` — null guards become unnecessary but harmless
-- `captureNativeAppLifecycleEvents` renamed to `captureAppLifecycleEvents`
-- `personProperties` / `groupProperties` removed from `capture()` — use `setPersonPropertiesForFlags()` instead
-- `capture()`, `identify()` return `void` instead of `this`
-- Package moved to `posthog-js` monorepo (old repo archived, npm package still works)
-- Touch 5+ files but no business logic rewrites
 
 #### `zod` 3.x → 4.x (Significant effort — defer)
 

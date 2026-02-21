@@ -195,12 +195,10 @@ export const FormulaSelector = () => {
       setFormula(selectedKey)
       setIsModalVisible(false)
     } else {
-      if (posthog) {
-        posthog.capture('premium_formula_blocked', {
-          formula_attempted: selectedKey,
-          current_formula: formula,
-        })
-      }
+      posthog.capture('premium_formula_blocked', {
+        formula_attempted: selectedKey,
+        current_formula: formula,
+      })
       setIsModalVisible(false)
       setTimeout(() => {
         setPendingFormula(selectedKey)

@@ -37,9 +37,7 @@ export const PaywallScreen = () => {
   }, [fetchOfferings])
 
   const handleRestorePurchases = async () => {
-    if (posthog) {
-      posthog.capture('restore_purchases_tapped')
-    }
+    posthog.capture('restore_purchases_tapped')
     await handleRestore()
   }
 

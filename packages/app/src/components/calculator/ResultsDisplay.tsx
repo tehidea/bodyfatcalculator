@@ -93,14 +93,12 @@ export const ResultsDisplay = () => {
       setIsCapturing(false)
       setIsSharing(true)
 
-      if (posthog) {
-        posthog.capture('results_shared', {
-          formula,
-          body_fat_percentage: results.bodyFatPercentage,
-          classification: getClassificationForGender(results.bodyFatPercentage, gender),
-          measurement_system: measurementSystem,
-        })
-      }
+      posthog.capture('results_shared', {
+        formula,
+        body_fat_percentage: results.bodyFatPercentage,
+        classification: getClassificationForGender(results.bodyFatPercentage, gender),
+        measurement_system: measurementSystem,
+      })
 
       await shareAsync(uri, { mimeType: 'image/png' })
     } catch (error: unknown) {
@@ -358,13 +356,11 @@ export const ResultsDisplay = () => {
             <TouchableOpacity
               style={[styles.premiumBadge, isCapturing && { opacity: 0 }]}
               onPress={() => {
-                if (posthog) {
-                  posthog.capture('results_precision_tapped', {
-                    current_formula: formula,
-                    body_fat_percentage: results.bodyFatPercentage,
-                    measurement_system: measurementSystem,
-                  })
-                }
+                posthog.capture('results_precision_tapped', {
+                  current_formula: formula,
+                  body_fat_percentage: results.bodyFatPercentage,
+                  measurement_system: measurementSystem,
+                })
                 setShowPaywall(true)
               }}
             >

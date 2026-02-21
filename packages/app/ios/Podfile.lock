@@ -303,8 +303,8 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - PurchasesHybridCommon (14.3.0):
-    - RevenueCat (= 5.32.0)
+  - PurchasesHybridCommon (17.41.0):
+    - RevenueCat (= 5.59.2)
   - RCTDeprecation (0.81.5)
   - RCTRequired (0.81.5)
   - RCTTypeSafety (0.81.5):
@@ -2116,7 +2116,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - RevenueCat (5.32.0)
+  - RevenueCat (5.59.2)
   - RNCAsyncStorage (2.2.0):
     - hermes-engine
     - RCTRequired
@@ -2139,8 +2139,8 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - RNPurchases (8.12.0):
-    - PurchasesHybridCommon (= 14.3.0)
+  - RNPurchases (9.10.3):
+    - PurchasesHybridCommon (= 17.41.0)
     - React-Core
   - RNReanimated (4.1.6):
     - hermes-engine
@@ -2809,7 +2809,7 @@ SPEC CHECKSUMS:
   hermes-engine: 9f4dfe93326146a1c99eb535b1cb0b857a3cd172
   libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
   NitroModules: 1e9ed6a8d76c72f874c0233d8256423ef5ec3c03
-  PurchasesHybridCommon: 7f0944cc5411bdcd1ea5d69affa6a6f9aaf87b13
+  PurchasesHybridCommon: 0fc10b0328a4dca5c607f845130e59f7427f4b69
   RCTDeprecation: 943572d4be82d480a48f4884f670135ae30bf990
   RCTRequired: 8f3cfc90cc25cf6e420ddb3e7caaaabc57df6043
   RCTTypeSafety: 16a4144ca3f959583ab019b57d5633df10b5e97c
@@ -2879,9 +2879,9 @@ SPEC CHECKSUMS:
   ReactCommon: 08810150b1206cc44aecf5f6ae19af32f29151a8
   ReactNativeDependencies: 71ce9c28beb282aa720ea7b46980fff9669f428a
   ReactNativeHealthkit: 3cdb65158c3ba0effe017149ee010f785c59ac40
-  RevenueCat: 7e1d0768fb287c9983173c9b28e39ccbeeb828a9
+  RevenueCat: f352b3661288080bd8bf30bbb96e331940e73c88
   RNCAsyncStorage: 3a4f5e2777dae1688b781a487923a08569e27fe4
-  RNPurchases: 6070b60f5d8f525a58905df50773f7a3252f0cfa
+  RNPurchases: 484e1cf2c0c8586028a51b14d27cbf72d52282d1
   RNReanimated: 9aa370001444fd7e301a58993067c31cefef4457
   RNScreens: d8d6f1792f6e7ac12b0190d33d8d390efc0c1845
   RNSentry: a87a1d8dcff9c660354b118760584273f0dfb033
