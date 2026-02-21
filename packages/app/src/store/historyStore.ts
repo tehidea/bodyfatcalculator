@@ -2,9 +2,12 @@ import type { Formula, Gender, MeasurementSystem, StandardizedInputs } from '@bo
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Constants from 'expo-constants'
 import { randomUUID } from 'expo-crypto'
+import * as StoreReview from 'expo-store-review'
 import { Platform } from 'react-native'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
+
+const REVIEW_PROMPT_THRESHOLD = 3
 
 export interface MeasurementRecord {
   clientId: string
@@ -77,9 +80,17 @@ export const useHistoryStore = create<HistoryStore>()(
           photoUri: null,
           hasPhoto: false,
         }
-        set((state) => ({
-          measurements: [record, ...state.measurements],
-        }))
+        set((state) => {
+          const activeCount = state.measurements.filter((m) => m.deletedAt === null).length + 1
+          if (activeCount >= REVIEW_PROMPT_THRESHOLD) {
+            StoreReview.isAvailableAsync().then((available) => {
+              if (available) {
+                StoreReview.requestReview()
+              }
+            })
+          }
+          return { measurements: [record, ...state.measurements] }
+        })
         return record
       },
 

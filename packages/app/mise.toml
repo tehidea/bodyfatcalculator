@@ -2,3 +2,6 @@
 java = "zulu-21"
 node = "22.11.0"
 ruby = "3"
+
+[env]
+_.file = ".env"

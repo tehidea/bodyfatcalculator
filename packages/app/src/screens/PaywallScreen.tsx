@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Button, Icon, Text } from '@rneui/themed'
 import { usePostHog } from 'posthog-react-native'
 import { useEffect } from 'react'
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Linking, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PlanSelector } from '../components/paywall/PlanSelector'
 import { FEATURES } from '../constants/features'
@@ -161,6 +161,21 @@ export const PaywallScreen = () => {
             iconPosition="left"
           />
         </View>
+
+        {/* Legal links */}
+        <View style={styles.legalContainer}>
+          <TouchableOpacity
+            onPress={() => Linking.openURL('https://www.bodyfatcalculator.pro/privacy-policy')}
+          >
+            <Text style={styles.legalLink}>Privacy Policy</Text>
+          </TouchableOpacity>
+          <Text style={styles.legalSeparator}>&middot;</Text>
+          <TouchableOpacity
+            onPress={() => Linking.openURL('https://www.bodyfatcalculator.pro/terms-of-service')}
+          >
+            <Text style={styles.legalLink}>Terms of Service</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   )
@@ -318,5 +333,22 @@ const createStyles = (
       fontSize: getResponsiveTypography('xs'),
       lineHeight: getLineHeight('xs'),
       marginLeft: getResponsiveSpacing(8),
+    },
+    legalContainer: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingBottom: getResponsiveSpacing(16),
+      gap: getResponsiveSpacing(8),
+    },
+    legalLink: {
+      fontSize: getResponsiveTypography('xs'),
+      lineHeight: getLineHeight('xs'),
+      color: '#999',
+      textDecorationLine: 'underline',
+    },
+    legalSeparator: {
+      fontSize: getResponsiveTypography('xs'),
+      color: '#999',
     },
   })

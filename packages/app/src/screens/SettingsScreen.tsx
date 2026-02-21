@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Icon, Text } from '@rneui/themed'
 import Constants from 'expo-constants'
 import { useState } from 'react'
-import { Alert, Platform, StyleSheet, Switch, TouchableOpacity, View } from 'react-native'
+import { Alert, Linking, Platform, StyleSheet, Switch, TouchableOpacity, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { BrandHeader } from '../components/BrandHeader'
@@ -438,16 +438,26 @@ export function SettingsScreen() {
               onPress={() => navigation.navigate('WhatsNew')}
               showChevron
             />
+            <SettingsRow
+              icon="mail"
+              label="Send Feedback"
+              onPress={() =>
+                Linking.openURL(
+                  `mailto:support@bodyfatcalculator.pro?subject=${encodeURIComponent(`Body Fat Calculator Feedback (v${version})`)}`,
+                )
+              }
+              showChevron
+            />
+            <SettingsRow
+              icon="help-circle"
+              label="How to Measure"
+              onPress={() => navigation.navigate('IllustrationGallery')}
+              showChevron
+            />
           </SettingsSection>
 
           {__DEV__ && (
             <SettingsSection title="Developer">
-              <SettingsRow
-                icon="image"
-                label="Illustration Gallery"
-                onPress={() => navigation.navigate('IllustrationGallery')}
-                showChevron
-              />
               <SettingsRow
                 icon="gift"
                 label="Reset What's New"

@@ -7,6 +7,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native'
 import { ThemeProvider } from '@rneui/themed'
+import * as Sentry from '@sentry/react-native'
 import { registerRootComponent } from 'expo'
 import Constants from 'expo-constants'
 import * as Linking from 'expo-linking'
@@ -17,10 +18,21 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { KeyboardProvider } from 'react-native-keyboard-controller'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { ErrorBoundary } from './src/components/ErrorBoundary'
 import { initializeStore, setPostHogInstance } from './src/config/store'
 import { theme } from './src/constants/theme'
 import { TabNavigator } from './src/navigation/TabNavigator'
 import { ResponsiveProvider } from './src/utils/responsiveContext'
+
+Sentry.init({
+  dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
+  enabled: !__DEV__,
+  tracesSampleRate: 0.2,
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1.0,
+  _experiments: { profilesSampleRate: 0.1 },
+  integrations: [Sentry.mobileReplayIntegration()],
+})
 
 // Configure splash screen options
 SplashScreen.setOptions({
@@ -116,15 +128,10 @@ function App() {
   useEffect(() => {
     async function prepare() {
       try {
-        // Initialize any resources, load data, etc.
         await initializeStore()
-
-        // Artificially delay for two seconds to simulate a slow loading
-        // await new Promise(resolve => setTimeout(resolve, 2000));
       } catch (e) {
         console.warn(e)
       } finally {
-        // Tell the application to render
         setAppIsReady(true)
       }
     }
@@ -172,24 +179,26 @@ function App() {
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <NavigationContainer ref={navigationRef}>
-        <PostHogProvider
-          apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY!}
-          options={{
-            host: process.env.EXPO_PUBLIC_POSTHOG_HOST ?? 'https://eu.i.posthog.com',
-            disabled: __DEV__,
-            captureNativeAppLifecycleEvents: true,
-          }}
-          autocapture={{
-            captureScreens: false,
-          }}
-        >
-          <AppNavigator />
-        </PostHogProvider>
+        <ErrorBoundary>
+          <PostHogProvider
+            apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY!}
+            options={{
+              host: process.env.EXPO_PUBLIC_POSTHOG_HOST ?? 'https://eu.i.posthog.com',
+              disabled: __DEV__,
+              captureNativeAppLifecycleEvents: true,
+            }}
+            autocapture={{
+              captureScreens: false,
+            }}
+          >
+            <AppNavigator />
+          </PostHogProvider>
+        </ErrorBoundary>
       </NavigationContainer>
     </View>
   )
 }
 
-export default App
+export default Sentry.wrap(App)
 
 registerRootComponent(App)

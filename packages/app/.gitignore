@@ -60,3 +60,4 @@ coverage/
 # Local EAS build artifacts
 build-*.ipa
 build-*.aab
+.env.local

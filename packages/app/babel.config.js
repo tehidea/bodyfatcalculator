@@ -9,6 +9,6 @@ module.exports = function (api) {
         },
       ],
     ],
-    plugins: [],
+    plugins: [['babel-plugin-react-compiler']],
   };
 };
