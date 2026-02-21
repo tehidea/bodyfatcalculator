@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@bodyfat/shared": "workspace:*",
-    "@expo-google-fonts/montserrat": "^0.2.3",
+    "@expo-google-fonts/montserrat": "^0.4.2",
     "@expo/vector-icons": "^15.0.2",
     "@kingstinct/react-native-healthkit": "^13.1.1",
     "@react-native-async-storage/async-storage": "2.2.0",
@@ -54,7 +54,7 @@
     "react-native-health-connect": "^3.5.0",
     "react-native-keyboard-controller": "^1.18.5",
     "react-native-nitro-modules": "^0.30.0",
-    "react-native-purchases": "^8.9.6",
+    "react-native-purchases": "^9.10.3",
     "react-native-reanimated": "~4.1.0",
     "react-native-safe-area-context": "5.6.1",
     "react-native-screens": "~4.16.0",

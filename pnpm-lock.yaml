@@ -32,8 +32,8 @@ importers:
         specifier: workspace:*
         version: link:../shared
       '@expo-google-fonts/montserrat':
-        specifier: ^0.2.3
-        version: 0.2.3
+        specifier: ^0.4.2
+        version: 0.4.2
       '@expo/vector-icons':
         specifier: ^15.0.2
         version: 15.0.3(expo-font@14.0.11(expo@54.0.33(@babel/core@7.29.0)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
@@ -143,8 +143,8 @@ importers:
         specifier: ^0.30.0
         version: 0.30.2(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
       react-native-purchases:
-        specifier: ^8.9.6
-        version: 8.12.0(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
+        specifier: ^9.10.3
+        version: 9.10.3(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
       react-native-reanimated:
         specifier: ~4.1.0
         version: 4.1.6(@babel/core@7.29.0)(react-native-worklets@0.5.1(@babel/core@7.29.0)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
@@ -1103,8 +1103,8 @@ packages:
       '@noble/hashes':
         optional: true
 
-  '@expo-google-fonts/montserrat@0.2.3':
-    resolution: {integrity: sha512-9imhwIs6j5uyTkTxoNplC5T8ERES1W98ZgF7kf7OaypnbcoLoIW0wKH6oudecZyiEqoSktC7epkRpj+UEUvzWg==}
+  '@expo-google-fonts/montserrat@0.4.2':
+    resolution: {integrity: sha512-Xyq7rKJhhZOE1Xk4wKSSVoUeOkFmQEMhtZ3pdFrgYckGZMs115Apmld1AI8Ju+yrl5GzDdfRCCqRr33dvEDYUA==}
 
   '@expo/cli@54.0.23':
     resolution: {integrity: sha512-km0h72SFfQCmVycH/JtPFTVy69w6Lx1cHNDmfLfQqgKFYeeHTjx7LVDP4POHCtNxFP2UeRazrygJhlh4zz498g==}
@@ -1952,8 +1952,14 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
-  '@revenuecat/purchases-typescript-internal@14.3.0':
-    resolution: {integrity: sha512-P3IhlWvH4wJAM9ypv8HamdIBMQfnLdU9PbjURw+s7NxHOL8LmPGhKuyv+gBINpka27mt1CAsDoOhNHjkexJhkg==}
+  '@revenuecat/purchases-js-hybrid-mappings@17.41.0':
+    resolution: {integrity: sha512-rjPX+k1ryiSu//hYpSPU0+M5rryVoNaMxr6raFDyc5bB1My2aCH4b7zUnVBiyGa6ZUayUMJtZxOsz/THzS4WqA==}
+
+  '@revenuecat/purchases-js@1.26.1':
+    resolution: {integrity: sha512-+RO6G/AW6/Tm7RFqz2sdkHBAAyV4T2Lj4KGQm8vVUvR8g9hxuDeenCAIKssAqAgLTyq8uqUl4dH6ncbCzHBA0g==}
+
+  '@revenuecat/purchases-typescript-internal@17.41.0':
+    resolution: {integrity: sha512-1UhQaQcHQ4TxTdMRXagWhN0ecFC61Wy6ula+aSHuUDLJwyKsMl4Dt4vocuo1Ja9o5Jc1Ty4AXx4MnqEnuLrr6A==}
 
   '@rneui/base@4.0.0-rc.8':
     resolution: {integrity: sha512-teJ6bUki+TQ+r+abefEWYb2wRUaMgRhp1oxtKa84UfDqTiCF0ItyJ0L8FhMb6AAkTOkWC34301T7j3H4df6ueA==}
@@ -5022,11 +5028,15 @@ packages:
       react: '*'
       react-native: '*'
 
-  react-native-purchases@8.12.0:
-    resolution: {integrity: sha512-0T6WtSDN96swsS6iLeTh7GEGLSedBr4FWP5JsGLnP6Ri7Rp754pf3UJ+S0+ZnT1cqUZ4W2z2oB6zTLyyfNfuKw==}
+  react-native-purchases@9.10.3:
+    resolution: {integrity: sha512-YMdueV9SNTT8bLeFN7pFe27tBMusUP6dXit7yU0opjN2XJw//bSJYrk1snBv8e33At2i6Yq1wNXyHipth8dBgg==}
     peerDependencies:
       react: '>= 16.6.3'
-      react-native: '*'
+      react-native: '>= 0.73.0'
+      react-native-web: '*'
+    peerDependenciesMeta:
+      react-native-web:
+        optional: true
 
   react-native-ratings@8.1.0:
     resolution: {integrity: sha512-+QOJ4G3NjVkI1D+tk4EGx1dCvVfbD2nQdkrj9cXrcAoEiwmbep4z4bZbCKmWMpQ5h2dqbxABU8/eBnbDmvAc3g==}
@@ -6892,7 +6902,7 @@ snapshots:
 
   '@exodus/bytes@1.12.0': {}
 
-  '@expo-google-fonts/montserrat@0.2.3': {}
+  '@expo-google-fonts/montserrat@0.4.2': {}
 
   '@expo/cli@54.0.23(expo@54.0.33(@babel/core@7.29.0)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))':
     dependencies:
@@ -8038,7 +8048,13 @@ snapshots:
     dependencies:
       react: 19.2.4
 
-  '@revenuecat/purchases-typescript-internal@14.3.0': {}
+  '@revenuecat/purchases-js-hybrid-mappings@17.41.0':
+    dependencies:
+      '@revenuecat/purchases-js': 1.26.1
+
+  '@revenuecat/purchases-js@1.26.1': {}
+
+  '@revenuecat/purchases-typescript-internal@17.41.0': {}
 
   '@rneui/base@4.0.0-rc.8(react-native-safe-area-context@5.6.1(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native-vector-icons@10.3.0)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)':
     dependencies:
@@ -11680,9 +11696,10 @@ snapshots:
       react: 19.1.0
       react-native: 0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0)
 
-  react-native-purchases@8.12.0(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0):
+  react-native-purchases@9.10.3(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0):
     dependencies:
-      '@revenuecat/purchases-typescript-internal': 14.3.0
+      '@revenuecat/purchases-js-hybrid-mappings': 17.41.0
+      '@revenuecat/purchases-typescript-internal': 17.41.0
       react: 19.1.0
       react-native: 0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0)
 

@@ -78,12 +78,38 @@ No edge-to-edge config. App uses safe area insets already so it likely works, bu
 
 PostHog supports feature flags. Test headline copy, feature ordering, pricing display. Needs sufficient traffic volume first to reach statistical significance.
 
-## Package Updates to Evaluate
+## Package Updates
 
-| Package | Current | Target | Notes |
-|---------|---------|--------|-------|
-| `posthog-react-native` | 3.15.4 | 4.x | Major — check migration guide, test provider/hook API changes |
-| `react-native-purchases` | 8.9.6 | 9.x | Major — sensitive, affects revenue. Test purchase flows exhaustively |
-| `zod` | 3.23.8 | 4.x | Major — may break `.meta()` prototype patching in `src/schemas/calculator.ts` |
-| `@expo-google-fonts/montserrat` | 0.2.3 | 0.4.2 | Minor — likely non-breaking |
-| `@rneui/themed` | 4.0.0-rc.8 | stable | Monitor for stable 4.0.0 release |
+### Done
+
+| Package | From | To | Notes |
+|---------|------|----|-------|
+| `@expo-google-fonts/montserrat` | 0.2.3 | 0.4.2 | Drop-in, zero API changes — just updated font files |
+| `react-native-purchases` | 8.12.0 | 9.10.3 | No JS API changes. Android now uses Play Billing Library 8 (can no longer query expired subscriptions — not an issue for this app) |
+
+### Remaining — each needs a spike branch
+
+#### `posthog-react-native` 3.x → 4.x (Moderate effort)
+
+- `usePostHog()` no longer returns `undefined` — null guards become unnecessary but harmless
+- `captureNativeAppLifecycleEvents` renamed to `captureAppLifecycleEvents`
+- `personProperties` / `groupProperties` removed from `capture()` — use `setPersonPropertiesForFlags()` instead
+- `capture()`, `identify()` return `void` instead of `this`
+- Package moved to `posthog-js` monorepo (old repo archived, npm package still works)
+- Touch 5+ files but no business logic rewrites
+
+#### `zod` 3.x → 4.x (Significant effort — defer)
+
+- Major API rewrite: `z.string().email()` → `z.email()`, `.strict()` → `z.strictObject()`, `ZodError.errors` removed
+- **Risk:** the `.meta()` prototype patch in `src/schemas/calculator.ts` may break under v4 internals
+- Codemod available: [nicoespeon/zod-v3-to-v4](https://github.com/nicoespeon/zod-v3-to-v4)
+- v4 ships a `zod/v4` subpath for incremental migration
+- Shared package schemas also need auditing
+
+#### `@rneui/themed` + `@rneui/base` 4.0.0-rc.8 → 5.0.0 (Significant effort — defer)
+
+- Never shipped stable 4.0.0 — jumped to 5.0.0
+- **Icon system completely changed:** monolithic `react-native-vector-icons` replaced with scoped `@react-native-vector-icons/feather` etc.
+- Unclear whether Expo's bundled `@expo/vector-icons` satisfies v5's new requirements — needs hands-on testing
+- Every `<Icon type="feather">` across 6+ screens could break silently (renders empty)
+- `Button`, `Text`, `ThemeProvider`, `createTheme` APIs appear unchanged
