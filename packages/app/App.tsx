@@ -30,8 +30,8 @@ Sentry.init({
   tracesSampleRate: 0.2,
   replaysSessionSampleRate: 0.1,
   replaysOnErrorSampleRate: 1.0,
-  _experiments: { profilesSampleRate: 0.1 },
-  integrations: [Sentry.mobileReplayIntegration()],
+  profilesSampleRate: 0.1,
+  integrations: [Sentry.mobileReplayIntegration(), Sentry.hermesProfilingIntegration()],
 })
 
 // Configure splash screen options

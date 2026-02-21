@@ -107,7 +107,8 @@
         {
           "url": "https://sentry.io/",
           "project": "bodyfatcalculator",
-          "organization": "tehidea"
+          "organization": "tehidea",
+          "useNativeInit": true
         }
       ]
     ]

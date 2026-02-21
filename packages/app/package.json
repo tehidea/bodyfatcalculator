@@ -13,7 +13,8 @@
     "test:coverage": "jest --coverage --verbose",
     "typecheck": "tsc --noEmit",
     "check-versions": "node scripts/check-versions.js",
-    "nuke": "rm -rf node_modules/ && pnpm install && cd ios && rm -rf Pods Podfile.lock && pod install && cd .."
+    "nuke": "rm -rf node_modules/ && pnpm install && cd ios && rm -rf Pods Podfile.lock && pod install && cd ..",
+    "eas-build-post-install": "node scripts/generate-sentry-config.js"
   },
   "dependencies": {
     "@bodyfat/shared": "workspace:*",

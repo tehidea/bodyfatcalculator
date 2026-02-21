@@ -39,6 +39,9 @@ yarn-error.*
 .env*
 !.env.example
 
+# Generated Sentry native init config (contains DSN)
+sentry.options.json
+
 # IDE
 .idea/
 
