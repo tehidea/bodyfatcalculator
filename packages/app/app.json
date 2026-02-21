@@ -17,7 +17,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.tehidea.bodyfatcalculator",
-      "buildNumber": "15",
+      "buildNumber": "16",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
